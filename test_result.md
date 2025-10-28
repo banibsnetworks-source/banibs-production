@@ -406,6 +406,69 @@ frontend:
         agent: "testing"
         comment: "✅ TESTED: Digest email composition and sending working correctly. Successfully sends HTML digest emails to subscribers. Email composition includes proper BANIBS branding, summary counts, and opportunities grouped by type."
 
+  # Phase 5.3 - Abuse / Safety Controls Backend
+  - task: "Rate limiting middleware"
+    implemented: true
+    working: "NA"
+    file: "backend/middleware/rate_limiter.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "In-memory rate limiter created. Max 10 actions per 5 minutes per IP hash per endpoint. Applied to POST /api/opportunities/:id/comments, POST /api/opportunities/:id/react, POST /api/newsletter/subscribe. Returns 429 when limit exceeded."
+
+  - task: "Banned sources collection and enforcement"
+    implemented: true
+    working: "NA"
+    file: "backend/db/banned_sources.py, backend/routes/reactions.py, backend/routes/newsletter.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created banned_sources collection with UUID IDs. Enforcement added to comment, reaction, and newsletter subscribe endpoints. Returns 403 'Access blocked.' when IP hash is banned."
+
+  - task: "Admin ban endpoints"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/admin_abuse.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created POST /api/admin/ban-source and GET /api/admin/banned-sources endpoints. Super admin only (RBAC enforced). Ban endpoint requires ip_hash and reason. List endpoint returns truncated IP hashes (first 6 chars) for display."
+
+  # Phase 5.4 - Opportunity Detail Endpoint Backend
+  - task: "Opportunity detail endpoint"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/opportunities.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created GET /api/opportunities/:id/full endpoint. Public endpoint that returns full opportunity details with contributor info, engagement metrics (like_count, comment_count), and sponsored status. Only returns approved opportunities."
+
+  # Phase 5.5 - Admin Revenue Overview Backend
+  - task: "Revenue overview endpoint"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/admin_revenue.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created GET /api/admin/revenue/overview endpoint. Super admin only (RBAC enforced). Returns totalSponsoredOrders, totalSponsoredRevenueUSD, recentSponsorOrders (last 10), newsletterSubscribersCount, and lastNewsletterSend details."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
