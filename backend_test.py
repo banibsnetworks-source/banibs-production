@@ -727,10 +727,7 @@ class BanibsAPITester:
         rate_limited = False
         
         for i in range(11):
-            response = self.make_request("POST", f"/opportunities/{self.approved_opportunity_id}/react", {
-                "reaction_type": "like",
-                "ip_hash": test_ip_hash
-            })
+            response = self.make_request("POST", f"/opportunities/{self.approved_opportunity_id}/react", {})
             
             if response.status_code == 200:
                 success_count += 1
