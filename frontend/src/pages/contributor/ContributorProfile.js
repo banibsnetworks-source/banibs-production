@@ -8,6 +8,15 @@ const ContributorProfile = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [isOnboarding, setIsOnboarding] = useState(false);
+
+  // Onboarding form state
+  const [formData, setFormData] = useState({
+    display_name: '',
+    bio: '',
+    website_or_social: ''
+  });
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     loadProfile();
