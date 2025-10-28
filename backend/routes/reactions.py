@@ -77,14 +77,31 @@ async def get_opportunity_reactions(
 async def post_comment(
     opportunity_id: str,
     comment_data: CommentCreate,
+    request: Request,
     db=Depends(get_db)
 ):
     """
     Post a public comment on an opportunity
     Requires display_name and body
+    
+    Phase 5.3 - Rate limited and ban checked
     """
     if not comment_data.body or not comment_data.body.strip():
         raise HTTPException(status_code=400, detail="Comment body cannot be empty")
+    
+    # Phase 5.3 - Get client IP and hash it
+    client_ip = request.client.host
+    ip_hash = hash_ip(client_ip)
+    
+    # Phase 5.3 - Check if IP is banned
+    if await is_ip_banned(ip_hash):
+        raise HTTPException(
+            status_code=403,
+            detail="Access blocked."
+        )
+    
+    # Phase 5.3 - Enforce rate limit
+    await enforce_rate_limit(request, "comment", ip_hash)
     
     # Create the comment
     comment = await create_comment(
