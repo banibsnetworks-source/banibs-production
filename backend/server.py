@@ -17,6 +17,7 @@ from routes.auth import router as auth_router
 from routes.admin_uploads import router as admin_uploads_router
 from routes.contributor_auth import router as contributor_auth_router
 from routes.contributor_profile import router as contributor_profile_router
+from routes.moderation_logs import router as moderation_logs_router
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
