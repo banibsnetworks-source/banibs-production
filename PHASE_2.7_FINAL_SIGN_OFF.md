@@ -46,8 +46,8 @@
 | `/api/opportunities/{id}/feature` | PATCH | ✅ 200 | ✅ Yes |
 
 **Total Endpoints:** 8/8 Active ✅  
-**Swagger UI:** https://banibs-edit.preview.emergentagent.com/docs ✅  
-**ReDoc:** https://banibs-edit.preview.emergentagent.com/redoc ✅
+**Swagger UI:** https://pay-to-promote.preview.emergentagent.com/docs ✅  
+**ReDoc:** https://pay-to-promote.preview.emergentagent.com/redoc ✅
 
 ---
 
@@ -84,7 +84,7 @@ def check_admin(x_api_key: str = Header(None)):
 
 **Frontend Environment:**
 ```env
-REACT_APP_BACKEND_URL=https://banibs-edit.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://pay-to-promote.preview.emergentagent.com
 ```
 
 **Status:** ✅ Frontend is pointed at the live backend
