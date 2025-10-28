@@ -625,19 +625,29 @@ class BanibsAPITester:
         
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
-        self.log("Starting BANIBS Backend API Test Suite - Phase 2.9")
+        self.log("Starting BANIBS Backend API Test Suite - Phase 5.1 & 5.2")
         self.log(f"Testing against: {API_BASE}")
         
         tests = [
+            # Authentication and basic setup
             ("Admin Login", self.test_admin_login),
             ("Contributor Register", self.test_contributor_register),
             ("Contributor Login", self.test_contributor_login),
             ("Submit Opportunity", self.test_submit_opportunity),
-            ("Analytics Endpoint", self.test_analytics_endpoint),
-            ("Pending Opportunities", self.test_pending_opportunities),
-            ("Moderation with Notes", self.test_moderation_with_notes),
-            ("Public Opportunities", self.test_public_opportunities),
-            ("Featured Opportunities", self.test_featured_opportunities),
+            ("Approve Test Opportunity", self.approve_test_opportunity),
+            
+            # Phase 5.1 - Paid Sponsored Placement Tests
+            ("Stripe Config Endpoint", self.test_stripe_config_endpoint),
+            ("Stripe Checkout Auth Scenarios", self.test_stripe_checkout_auth_scenarios),
+            ("Stripe Checkout Contributor Scenarios", self.test_stripe_checkout_contributor_scenarios),
+            ("Stripe Webhook Endpoint", self.test_stripe_webhook_endpoint),
+            
+            # Phase 5.2 - Automated Weekly Digest Tests
+            ("Newsletter Subscribe", self.test_newsletter_subscribe),
+            ("Send Digest Auth Scenarios", self.test_send_digest_auth_scenarios),
+            ("Newsletter Sends History", self.test_newsletter_sends_history),
+            
+            # Basic validation
             ("JWT Validation", self.test_jwt_validation),
         ]
         
