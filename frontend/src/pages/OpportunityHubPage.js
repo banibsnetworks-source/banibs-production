@@ -197,4 +197,4 @@ const OpportunityHubPage = () => {
   );
 };
 
-export default HomePage;
+export default OpportunityHubPage;
