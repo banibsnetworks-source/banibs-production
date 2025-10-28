@@ -10,7 +10,7 @@ from db.reactions import (
     get_comment_count
 )
 from models.reactions import ReactionCount, CommentCreate, CommentPublic
-from middleware.auth_guard import require_role
+from middleware.auth_guard import require_role, can_moderate
 
 router = APIRouter(prefix="/api/opportunities", tags=["reactions-comments"])
 
