@@ -417,13 +417,13 @@ async def feature_opportunity(
     opp_id: str,
     action: ModerationAction = Body(default=ModerationAction()),
     db=Depends(get_db),
-    user: dict = Depends(require_role("admin")),
+    user: dict = Depends(can_moderate),
 ):
     """
     Feature opportunity (admin only)
+    Phase 4.5 - Updated to use RBAC (moderator or super_admin)
     Phase 3: Now includes moderation log + email notification + contributor stats
     Auto-approves the opportunity
-    Requires JWT with role='admin'
     """
     # Fetch opportunity to get contributor email
     opportunity = await db.opportunities.find_one({"_id": ObjectId(opp_id)})
