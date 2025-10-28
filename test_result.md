@@ -487,27 +487,33 @@ frontend:
   # Dynamic News Aggregation Feed Backend
   - task: "News model and database"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/models/news.py, backend/db/news.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created NewsItemDB and NewsItemPublic models. Database helper get_latest_news() retrieves ~10 items sorted by publishedAt DESC. Uses UUID for IDs. Fields: id, title, summary, imageUrl, publishedAt, category, sourceUrl."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: News models and database operations working correctly. NewsItemDB and NewsItemPublic models properly defined with UUID-based IDs. Database helper get_latest_news() successfully retrieves items sorted by publishedAt DESC. MongoDB collection 'news_items' accessible and functioning. All field types match specification (id, title, summary, imageUrl optional, publishedAt, category, sourceUrl optional)."
 
   - task: "GET /api/news/latest endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/news.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created GET /api/news/latest endpoint. Public (no auth). Returns array of NewsItemPublic objects (up to 10 items). Converts datetime to ISO string. Returns empty array [] if no data exists. Router registered in server.py with /api/news prefix."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/news/latest endpoint working perfectly. Returns 200 status code with array of NewsItemPublic objects. Public endpoint confirmed - no authentication required. Correctly returns empty array [] when no news items exist (does NOT throw error). Response shape matches NewsItemPublic model specification with all required fields (id, title, summary, publishedAt as ISO string, category) and optional fields (imageUrl, sourceUrl). Router properly registered with /api/news prefix. Endpoint handles up to 10 items limit as specified."
 
 metadata:
   created_by: "main_agent"
