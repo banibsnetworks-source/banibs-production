@@ -1181,7 +1181,7 @@ class BanibsAPITester:
         
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
-        self.log("Starting BANIBS Backend API Test Suite - Phase 5.3, 5.4, 5.5")
+        self.log("Starting BANIBS Backend API Test Suite - News Feed + Phase 5")
         self.log(f"Testing against: {API_BASE}")
         
         tests = [
