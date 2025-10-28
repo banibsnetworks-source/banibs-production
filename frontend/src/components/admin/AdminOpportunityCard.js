@@ -4,43 +4,31 @@ import { opportunitiesAPI } from '../../services/api';
 const AdminOpportunityCard = ({ opportunity, onUpdate }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showNotesModal, setShowNotesModal] = useState(false);
+  const [action, setAction] = useState('');
+  const [notes, setNotes] = useState('');
 
-  const handleApprove = async () => {
-    setLoading(true);
-    setError('');
-    try {
-      await opportunitiesAPI.approve(opportunity.id);
-      onUpdate();
-    } catch (err) {
-      setError('Failed to approve');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+  const handleAction = async (actionType) => {
+    setAction(actionType);
+    setShowNotesModal(true);
   };
 
-  const handleReject = async () => {
+  const confirmAction = async () => {
     setLoading(true);
     setError('');
     try {
-      await opportunitiesAPI.reject(opportunity.id);
+      if (action === 'approve') {
+        await opportunitiesAPI.approve(opportunity.id, notes || null);
+      } else if (action === 'reject') {
+        await opportunitiesAPI.reject(opportunity.id, notes || null);
+      } else if (action === 'feature') {
+        await opportunitiesAPI.feature(opportunity.id, notes || null);
+      }
+      setShowNotesModal(false);
+      setNotes('');
       onUpdate();
     } catch (err) {
-      setError('Failed to reject');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleFeature = async () => {
-    setLoading(true);
-    setError('');
-    try {
-      await opportunitiesAPI.feature(opportunity.id);
-      onUpdate();
-    } catch (err) {
-      setError('Failed to feature');
+      setError(`Failed to ${action}`);
       console.error(err);
     } finally {
       setLoading(false);
