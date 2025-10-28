@@ -28,12 +28,24 @@ async def react_to_opportunity(
     Toggle a like on an opportunity
     Uses IP hash for anonymous tracking
     Returns new like count
+    
+    Phase 5.3 - Rate limited and ban checked
     """
     # Get client IP from request
     client_ip = request.client.host
     
     # Hash the IP for privacy
     ip_hash = hash_ip(client_ip)
+    
+    # Phase 5.3 - Check if IP is banned
+    if await is_ip_banned(ip_hash):
+        raise HTTPException(
+            status_code=403,
+            detail="Access blocked."
+        )
+    
+    # Phase 5.3 - Enforce rate limit
+    await enforce_rate_limit(request, "react", ip_hash)
     
     # Toggle the reaction
     action, new_count = await toggle_reaction(db, opportunity_id, ip_hash, "like")
