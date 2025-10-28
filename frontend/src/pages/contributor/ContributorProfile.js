@@ -31,9 +31,37 @@ const ContributorProfile = () => {
       setProfile(response.data);
     } catch (err) {
       console.error('Error loading profile:', err);
-      setError('Failed to load contributor profile');
+      if (err.response?.status === 404) {
+        // Profile not found - show onboarding state
+        setIsOnboarding(true);
+      } else {
+        setError('Failed to load contributor profile');
+      }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSaveProfile = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+
+    try {
+      await contributorProfileAPI.updateProfile(formData);
+      // Refresh the profile after saving
+      await loadProfile();
+      setIsOnboarding(false);
+    } catch (err) {
+      alert('Failed to save profile. Please try again.');
+    } finally {
+      setSaving(false);
     }
   };
 
