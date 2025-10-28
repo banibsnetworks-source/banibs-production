@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { opportunitiesAPI } from '../../services/api';
+import { opportunitiesAPI, moderationLogsAPI } from '../../services/api';
 import AdminOpportunityCard from '../../components/admin/AdminOpportunityCard';
 
 const AdminOpportunitiesDashboard = () => {
@@ -16,6 +16,26 @@ const AdminOpportunitiesDashboard = () => {
   const [contributorFilter, setContributorFilter] = useState('');
 
   const { user, logout } = useAuth();
+
+  // Phase 3.2 - Export moderation logs to CSV
+  const handleExportCSV = async () => {
+    try {
+      const response = await moderationLogsAPI.exportCSV();
+      
+      // Create download link
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `moderation_logs_${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Error exporting CSV:', err);
+      alert('Failed to export moderation logs');
+    }
+  };
 
   const loadAnalytics = async () => {
     setLoadingAnalytics(true);
