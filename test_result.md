@@ -103,13 +103,22 @@
 #====================================================================================================
 
 user_problem_statement: |
-  Phase 2.9 Frontend Completion - Finish the BANIBS opportunities platform with:
-  1. Add "event" type filter to public opportunities page
-  2. Add analytics panel to admin dashboard (pull from /api/opportunities/analytics)
-  3. Add filters to admin dashboard (status, type, contributor email)
-  4. Update App.js with contributor routes and ContributorAuthProvider
-  5. Create PHASE_2.9_PLAN.md documentation
-  6. Test all functionality end-to-end
+  Phase 5 Backend Implementation - Continue BANIBS Phase 5 (Monetization, Delivery, Safety):
+  
+  Phase 5.1 - Paid Sponsored Placement (Stripe):
+  1. Stripe checkout endpoint for contributors to sponsor their own approved opportunities
+  2. Stripe webhook handler to process successful payments
+  3. Update opportunities collection with sponsored status
+  4. Track sponsor orders in new collection
+  
+  Phase 5.2 - Automated Weekly Digest Delivery:
+  1. Admin endpoint to manually send weekly digest to all newsletter subscribers
+  2. Log sends to newsletter_sends collection
+  3. Track send history for admins
+  
+  RBAC rules from Phase 4 must be maintained:
+  - super_admin: full access
+  - moderator: can moderate but cannot sponsor, send newsletter, or view revenue
 
 backend:
   - task: "Contributor authentication endpoints"
