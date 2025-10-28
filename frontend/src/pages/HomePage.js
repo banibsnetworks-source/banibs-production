@@ -179,22 +179,18 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Hero/Masthead */}
-      <div className="relative bg-gradient-to-b from-black to-[#1a1a1a] py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold text-[#FFD700] mb-4 tracking-tight">
-              BANIBS
-            </h1>
-            <p className="text-xl text-white">
-              Black and Native Indigenous Business Stories
-            </p>
-            <p className="text-gray-400 mt-2">
-              News, Culture, and Community Highlights
-            </p>
-          </div>
-        </div>
-      </div>
+      {/* Hero Section */}
+      <section className="bg-gradient-to-b from-black to-gray-900 text-white py-16 text-center">
+        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
+          BANIBS
+        </h1>
+        <p className="text-lg md:text-xl text-gray-300 mt-3 max-w-2xl mx-auto">
+          Black America News Information & Business System
+        </p>
+        <p className="text-sm md:text-base text-gray-400 mt-2 max-w-3xl mx-auto">
+          Connecting our people to opportunity, resources, and each other.
+        </p>
+      </section>
 
       {/* 🗂️ Browse by Category – compact pill nav under hero */}
       <section className="max-w-7xl mx-auto px-4 mt-6">
