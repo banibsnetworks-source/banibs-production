@@ -1,8 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useContributorAuth } from '../contexts/ContributorAuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const { contributorUser } = useContributorAuth();
+  const { user: adminUser } = useAuth();
+
+  // Determine login state
+  const isLoggedIn = contributorUser || adminUser;
+  const isContributor = contributorUser && !adminUser;
+  const isAdmin = adminUser && (adminUser.role === 'super_admin' || adminUser.role === 'moderator');
+  const displayName = contributorUser?.name || adminUser?.email || 'User';
 
   return (
     <div className="min-h-screen bg-black">
@@ -19,64 +29,154 @@ const HomePage = () => {
               </h1>
             </div>
             
-            {/* Category Links */}
-            <div className="hidden lg:flex gap-6 items-center flex-1 justify-center">
-              <button
-                onClick={() => navigate('/opportunities?type=job')}
-                className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
-              >
-                Jobs
-              </button>
-              <button
-                onClick={() => navigate('/opportunities?type=grant')}
-                className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
-              >
-                Grants
-              </button>
-              <button
-                onClick={() => navigate('/opportunities?type=scholarship')}
-                className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
-              >
-                Scholarships
-              </button>
-              <button
-                onClick={() => navigate('/opportunities?type=training')}
-                className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
-              >
-                Training
-              </button>
-              <button
-                onClick={() => navigate('/opportunities?type=event')}
-                className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
-              >
-                Events
-              </button>
-            </div>
+            <div className="flex gap-8 items-center">
+              {/* Group A: Directories */}
+              <div className="hidden lg:flex gap-4 items-center border-r border-[#FFD700]/20 pr-8">
+                <button
+                  onClick={() => navigate('/opportunities?type=job')}
+                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+                >
+                  Jobs
+                </button>
+                <button
+                  onClick={() => navigate('/opportunities?type=grant')}
+                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+                >
+                  Grants
+                </button>
+                <button
+                  onClick={() => navigate('/opportunities?type=scholarship')}
+                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+                >
+                  Scholarships
+                </button>
+                <button
+                  onClick={() => navigate('/opportunities?type=training')}
+                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+                >
+                  Training
+                </button>
+                <button
+                  onClick={() => navigate('/opportunities?type=event')}
+                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+                >
+                  Events
+                </button>
+              </div>
 
-            {/* Action Buttons */}
-            <div className="flex gap-4">
-              <button
-                onClick={() => navigate('/opportunities')}
-                className="px-4 py-2 text-[#FFD700] hover:bg-[#FFD700] hover:text-black rounded transition-all text-sm"
-              >
-                View Opportunities
-              </button>
-              <button
-                onClick={() => navigate('/submit')}
-                className="px-4 py-2 bg-[#FFD700] text-black font-semibold rounded hover:bg-[#FFC700] transition-all text-sm"
-              >
-                Submit Opportunity
-              </button>
-              <button
-                onClick={() => navigate('/admin/login')}
-                className="px-4 py-2 text-gray-400 hover:text-[#FFD700] transition-all text-sm"
-              >
-                Admin Dashboard
-              </button>
+              {/* Group B: Explore */}
+              <div className="hidden lg:flex gap-4 items-center border-r border-[#FFD700]/20 pr-8">
+                <button
+                  onClick={() => navigate('/opportunities')}
+                  className="text-sm text-[#FFD700] hover:underline transition-all font-medium"
+                >
+                  View Opportunities
+                </button>
+                <button
+                  onClick={() => navigate('/opportunity-hub')}
+                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+                >
+                  Opportunity Hub
+                </button>
+              </div>
+
+              {/* Group C: Account/Power */}
+              <div className="flex gap-3 items-center">
+                <button
+                  onClick={() => navigate('/submit')}
+                  className="px-4 py-2 bg-[#FFD700] text-black font-semibold rounded hover:bg-[#FFC700] transition-all text-sm"
+                >
+                  Submit Opportunity
+                </button>
+                {isAdmin && (
+                  <button
+                    onClick={() => navigate('/admin/login')}
+                    className="px-4 py-2 text-gray-400 hover:text-[#FFD700] transition-all text-sm"
+                  >
+                    Admin Dashboard
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </nav>
+
+      {/* Membership Welcome Band */}
+      <div className="bg-[#1a1a1a] border-b border-[#FFD700]/30 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {!isLoggedIn ? (
+            // Not logged in
+            <div className="flex justify-between items-center">
+              <p className="text-gray-300 text-sm">
+                BANIBS is a network for Black and Native Indigenous businesses and opportunity.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => navigate('/contributor/login')}
+                  className="px-4 py-2 border border-[#FFD700] text-[#FFD700] rounded hover:bg-[#FFD700] hover:text-black transition-all text-sm font-medium"
+                >
+                  Sign In
+                </button>
+                <button
+                  onClick={() => navigate('/contributor/register')}
+                  className="px-4 py-2 bg-[#FFD700] text-black font-semibold rounded hover:bg-[#FFC700] transition-all text-sm"
+                >
+                  Become a Contributor
+                </button>
+                <button
+                  onClick={() => navigate('/opportunities')}
+                  className="px-4 py-2 text-[#FFD700] hover:underline transition-all text-sm font-medium"
+                >
+                  Browse Opportunities
+                </button>
+              </div>
+            </div>
+          ) : isContributor ? (
+            // Logged in as contributor
+            <div className="flex justify-between items-center">
+              <p className="text-[#FFD700] text-sm font-medium">
+                Welcome back, {displayName}.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => navigate('/submit')}
+                  className="px-4 py-2 bg-[#FFD700] text-black font-semibold rounded hover:bg-[#FFC700] transition-all text-sm"
+                >
+                  Submit Opportunity
+                </button>
+                <button
+                  onClick={() => navigate('/opportunities')}
+                  className="px-4 py-2 border border-[#FFD700] text-[#FFD700] rounded hover:bg-[#FFD700] hover:text-black transition-all text-sm font-medium"
+                >
+                  View Your Submissions
+                </button>
+              </div>
+            </div>
+          ) : (
+            // Logged in as admin
+            <div className="flex justify-between items-center">
+              <p className="text-[#FFD700] text-sm font-medium">
+                Welcome back, {displayName}.
+              </p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => navigate('/admin/opportunities')}
+                  className="px-4 py-2 bg-[#FFD700] text-black font-semibold rounded hover:bg-[#FFC700] transition-all text-sm"
+                >
+                  Admin Dashboard
+                </button>
+                <button
+                  onClick={() => navigate('/opportunities')}
+                  className="px-4 py-2 border border-[#FFD700] text-[#FFD700] rounded hover:bg-[#FFD700] hover:text-black transition-all text-sm font-medium"
+                >
+                  View Opportunities
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* Hero/Masthead */}
       <div className="relative bg-gradient-to-b from-black to-[#1a1a1a] py-16">
