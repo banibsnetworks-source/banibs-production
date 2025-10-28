@@ -58,33 +58,54 @@ async def update_contributor_profile(
     # Build update dict (only include fields that were provided)
     update_dict = {"updated_at": datetime.utcnow()}
     if profile_data.display_name is not None:
-        update_dict["display_name"] = profile_data.display_name
+        update_dict["displayName"] = profile_data.display_name
+        update_dict["display_name"] = profile_data.display_name  # Support both snake_case and camelCase
     if profile_data.bio is not None:
         update_dict["bio"] = profile_data.bio
     if profile_data.website_or_social is not None:
-        update_dict["website_or_social"] = profile_data.website_or_social
+        update_dict["websiteOrSocial"] = profile_data.website_or_social
+        update_dict["website_or_social"] = profile_data.website_or_social  # Support both
     
-    # Update contributor
+    # Update contributor - try by 'id' first, then '_id'
     result = await db.contributors.update_one(
-        {"_id": current_user["id"]},
+        {"id": current_user["id"]},
         {"$set": update_dict}
     )
+    
+    if result.matched_count == 0:
+        # Try by _id if id didn't match
+        try:
+            from bson import ObjectId
+            result = await db.contributors.update_one(
+                {"_id": ObjectId(current_user["id"])},
+                {"$set": update_dict}
+            )
+        except:
+            pass
     
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Contributor not found")
     
     # Fetch updated contributor
-    updated_contributor = await db.contributors.find_one({"_id": current_user["id"]})
+    updated_contributor = await db.contributors.find_one({"id": current_user["id"]})
+    if not updated_contributor:
+        try:
+            from bson import ObjectId
+            updated_contributor = await db.contributors.find_one({"_id": ObjectId(current_user["id"])})
+        except:
+            pass
+    
+    contributor_id_value = updated_contributor.get("id") or str(updated_contributor.get("_id"))
     
     profile = ContributorProfile(
-        id=updated_contributor["_id"],
-        display_name=updated_contributor.get("display_name") or updated_contributor.get("name", "Anonymous"),
+        id=contributor_id_value,
+        display_name=updated_contributor.get("displayName") or updated_contributor.get("display_name") or updated_contributor.get("name", "Anonymous"),
         bio=updated_contributor.get("bio"),
-        website_or_social=updated_contributor.get("website_or_social"),
+        website_or_social=updated_contributor.get("websiteOrSocial") or updated_contributor.get("website_or_social"),
         verified=updated_contributor.get("verified", False),
-        total_submissions=updated_contributor.get("total_submissions", 0),
-        approved_submissions=updated_contributor.get("approved_submissions", 0),
-        featured_submissions=updated_contributor.get("featured_submissions", 0)
+        total_submissions=updated_contributor.get("totalSubmissions") or updated_contributor.get("total_submissions", 0),
+        approved_submissions=updated_contributor.get("approvedSubmissions") or updated_contributor.get("approved_submissions", 0),
+        featured_submissions=updated_contributor.get("featuredSubmissions") or updated_contributor.get("featured_submissions", 0)
     )
     
     return profile
