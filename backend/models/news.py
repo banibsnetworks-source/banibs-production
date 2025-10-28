@@ -1,45 +1,29 @@
-from typing import Optional, Literal
+from typing import Optional
 from pydantic import BaseModel, Field
 from datetime import datetime
 import uuid
 
 # News Aggregation Models
-class NewsArticleDB(BaseModel):
-    """News article stored in MongoDB"""
+class NewsItemDB(BaseModel):
+    """News item stored in MongoDB"""
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str
-    snippet: str  # Short description/excerpt
-    content: Optional[str] = None  # Full article content
-    image_url: Optional[str] = None
-    category: Literal["top_story", "trending", "business", "video", "youth"] = "top_story"
-    source: Optional[str] = None  # Source publication or author
-    external_link: Optional[str] = None
-    view_count: int = 0
-    share_count: int = 0
-    featured: bool = False
-    published_at: datetime = Field(default_factory=datetime.utcnow)
+    summary: str  # Short text for homepage teaser
+    imageUrl: Optional[str] = None
+    publishedAt: datetime = Field(default_factory=datetime.utcnow)
+    category: str  # e.g. "Business", "Education", "Community"
+    sourceUrl: Optional[str] = None  # Optional external link
     created_at: datetime = Field(default_factory=datetime.utcnow)
     
     class Config:
         populate_by_name = True
 
-class NewsArticlePublic(BaseModel):
-    """Public news article response"""
+class NewsItemPublic(BaseModel):
+    """Public news item response for homepage"""
     id: str
     title: str
-    snippet: str
-    image_url: Optional[str]
+    summary: str
+    imageUrl: Optional[str] = None
+    publishedAt: str  # ISO timestamp string
     category: str
-    source: Optional[str]
-    external_link: Optional[str]
-    view_count: int
-    share_count: int
-    published_at: datetime
-
-class NewsLatestResponse(BaseModel):
-    """Response for /api/news/latest endpoint"""
-    top_stories: list[NewsArticlePublic]
-    trending: list[NewsArticlePublic]
-    featured_businesses: list[NewsArticlePublic]
-    watch_now: list[NewsArticlePublic]
-    youth_opportunities: list[NewsArticlePublic]
+    sourceUrl: Optional[str] = None
