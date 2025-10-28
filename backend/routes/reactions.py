@@ -117,10 +117,11 @@ async def get_opportunity_comments(
 async def hide_comment_admin(
     comment_id: str,
     db=Depends(get_db),
-    user: dict = Depends(require_role("admin"))
+    user: dict = Depends(can_moderate)  # Phase 4.5 - moderator or super_admin
 ):
     """
-    Hide a comment (admin only)
+    Hide a comment (moderator or super_admin)
+    Phase 4.5 - RBAC: Both moderators and super_admins can hide comments
     Does not delete, just sets status to hidden
     """
     success = await hide_comment(db, comment_id)
