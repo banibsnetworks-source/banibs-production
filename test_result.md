@@ -484,6 +484,31 @@ frontend:
         agent: "testing"
         comment: "✅ TESTED: GET /api/admin/revenue/overview working perfectly. Proper RBAC enforcement (401 without auth, 403 for contributors). Returns all required fields: totalSponsoredOrders (0), totalSponsoredRevenueUSD ($0.0), recentSponsorOrders (array), newsletterSubscribersCount (12), lastNewsletterSend (object/null). All data types correct and aggregation working properly."
 
+  # Dynamic News Aggregation Feed Backend
+  - task: "News model and database"
+    implemented: true
+    working: "NA"
+    file: "backend/models/news.py, backend/db/news.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created NewsItemDB and NewsItemPublic models. Database helper get_latest_news() retrieves ~10 items sorted by publishedAt DESC. Uses UUID for IDs. Fields: id, title, summary, imageUrl, publishedAt, category, sourceUrl."
+
+  - task: "GET /api/news/latest endpoint"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/news.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created GET /api/news/latest endpoint. Public (no auth). Returns array of NewsItemPublic objects (up to 10 items). Converts datetime to ISO string. Returns empty array [] if no data exists. Router registered in server.py with /api/news prefix."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
