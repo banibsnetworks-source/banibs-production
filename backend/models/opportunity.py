@@ -70,3 +70,6 @@ class OpportunityPublic(BaseModel):
     # Phase 4.1 - Engagement metrics
     like_count: int = 0
     comment_count: int = 0
+    # Phase 4.3 - Sponsored fields
+    is_sponsored: bool = False
+    sponsor_label: Optional[str] = None
