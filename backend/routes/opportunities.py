@@ -168,20 +168,36 @@ async def list_pending(
     return docs  # raw for now; admins can see unapproved stuff
 
 
+# Models for moderation actions with notes
+class ModerationAction(BaseModel):
+    notes: Optional[str] = None
+
 @router.patch("/{opp_id}/approve")
 async def approve_opportunity(
     opp_id: str,
+    action: ModerationAction = Body(default=ModerationAction()),
     db=Depends(get_db),
     user: dict = Depends(require_role("admin")),
 ):
     """
     Approve opportunity (admin only)
     Requires JWT with role='admin'
+    Accepts optional moderation notes
     """
-    await update_opportunity_status(db, opp_id, approved=True, featured=False)
+    # Update status with notes
+    await db.opportunities.update_one(
+        {"_id": ObjectId(opp_id)},
+        {"$set": {
+            "approved": True,
+            "featured": False,
+            "status": "approved",
+            "moderation_notes": action.notes,
+            "updatedAt": datetime.utcnow()
+        }}
+    )
     
-    # Log moderation action
-    await log_moderation_action(db, "APPROVE_OPPORTUNITY", opp_id, user)
+    # Log moderation action with notes
+    await log_moderation_action(db, "APPROVE_OPPORTUNITY", opp_id, user, action.notes)
     
     return {"id": opp_id, "approved": True, "featured": False}
 
@@ -189,10 +205,77 @@ async def approve_opportunity(
 @router.patch("/{opp_id}/reject")
 async def reject_opportunity(
     opp_id: str,
+    action: ModerationAction = Body(default=ModerationAction()),
     db=Depends(get_db),
     user: dict = Depends(require_role("admin")),
 ):
     """
+    Reject opportunity (admin only)
+    Requires JWT with role='admin'
+    Accepts optional moderation notes
+    """
+    # Update status with notes
+    await db.opportunities.update_one(
+        {"_id": ObjectId(opp_id)},
+        {"$set": {
+            "approved": False,
+            "featured": False,
+            "status": "rejected",
+            "moderation_notes": action.notes,
+            "updatedAt": datetime.utcnow()
+        }}
+    )
+    
+    # Log moderation action with notes
+    await log_moderation_action(db, "REJECT_OPPORTUNITY", opp_id, user, action.notes)
+    
+    return {"id": opp_id, "approved": False, "featured": False}
+
+
+@router.patch("/{opp_id}/feature")
+async def feature_opportunity(
+    opp_id: str,
+    action: ModerationAction = Body(default=ModerationAction()),
+    db=Depends(get_db),
+    user: dict = Depends(require_role("admin")),
+):
+    """
+    Feature opportunity (admin only)
+    Requires JWT with role='admin'
+    Auto-approves the opportunity
+    """
+    # Update status with notes
+    await db.opportunities.update_one(
+        {"_id": ObjectId(opp_id)},
+        {"$set": {
+            "approved": True,
+            "featured": True,
+            "status": "approved",
+            "moderation_notes": action.notes,
+            "updatedAt": datetime.utcnow()
+        }}
+    )
+    
+    # Log moderation action with notes
+    await log_moderation_action(db, "FEATURE_OPPORTUNITY", opp_id, user, action.notes)
+    
+    return {"id": opp_id, "approved": True, "featured": True}
+
+
+# Helper function to log moderation actions
+async def log_moderation_action(db, action: str, target_id: str, user: dict, notes: Optional[str] = None):
+    """Log moderation action to moderation_logs collection"""
+    
+    log_entry = {
+        "action": action,
+        "target_id": target_id,
+        "performed_by": user.get("email"),
+        "admin_id": user.get("user_id"),
+        "timestamp": datetime.utcnow(),
+        "notes": notes
+    }
+    
+    await db.moderation_logs.insert_one(log_entry)
     Reject opportunity (admin only)
     Requires JWT with role='admin'
     """
