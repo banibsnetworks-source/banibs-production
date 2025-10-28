@@ -1,6 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, Header
+from fastapi import APIRouter, Depends, HTTPException, Header, UploadFile, File
 from typing import Optional
 from bson import ObjectId
+import boto3
+import os
+from datetime import timedelta
 
 from models.opportunity import OpportunityCreate, OpportunityPublic
 from db.opportunities import (
@@ -15,6 +18,11 @@ from db.opportunities import (
 from db.connection import get_db
 
 router = APIRouter(prefix="/api/opportunities", tags=["opportunities"])
+
+# S3 Configuration (optional - will be configured when AWS credentials are provided)
+S3_BUCKET = os.environ.get("S3_BUCKET_NAME", None)
+AWS_REGION = os.environ.get("AWS_REGION", "us-east-1")
+CLOUDFRONT_URL = os.environ.get("CLOUDFRONT_URL", None)
 
 # --- PUBLIC ENDPOINTS ---
 
