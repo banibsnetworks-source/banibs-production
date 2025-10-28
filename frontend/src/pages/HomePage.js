@@ -308,78 +308,74 @@ const HomePage = () => {
       {/* News Feed - Dynamic from API */}
       <NewsFeed />
 
-      {/* Community Highlights Section */}
-      <div className="bg-[#1a1a1a] py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-[#FFD700] mb-8 text-center">Community Highlights</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            
-            {/* Highlight 1 */}
-            <div className="bg-black border-2 border-[#FFD700]/30 rounded-lg p-8 hover:border-[#FFD700] transition-all">
-              <div className="flex items-start gap-4">
-                <div className="text-4xl">🏆</div>
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    Recognition: Top Indigenous-Led Companies of 2024
-                  </h3>
-                  <p className="text-gray-400 mb-4">
-                    Celebrating businesses that are making a difference and driving economic growth.
-                  </p>
-                  <button className="text-[#FFD700] font-semibold hover:underline">
-                    See the Full List →
-                  </button>
-                </div>
-              </div>
-            </div>
+      {/* 🏆 Community Highlights Section */}
+      <section className="max-w-7xl mx-auto px-4 mt-10">
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="text-lg">🏆</span>
+          <span>Community Highlights</span>
+        </h2>
 
-            {/* Highlight 2 */}
-            <div className="bg-black border-2 border-[#FFD700]/30 rounded-lg p-8 hover:border-[#FFD700] transition-all">
-              <div className="flex items-start gap-4">
-                <div className="text-4xl">📢</div>
-                <div>
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    Voice: Op-Ed on Economic Sovereignty and Self-Determination
-                  </h3>
-                  <p className="text-gray-400 mb-4">
-                    Community leaders share perspectives on building wealth within our communities.
-                  </p>
-                  <button className="text-[#FFD700] font-semibold hover:underline">
-                    Read the Piece →
-                  </button>
-                </div>
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Highlight 1 */}
+          <div className="border border-yellow-400/60 rounded-xl p-5 bg-white/80 backdrop-blur-sm shadow-sm">
+            <div className="text-sm font-semibold text-yellow-700 mb-2">
+              Recognition
             </div>
+            <div className="text-lg font-semibold text-gray-900">
+              Top Indigenous-Led Companies of 2024
+            </div>
+            <p className="text-sm text-gray-700 mt-2">
+              Celebrating businesses that are making a difference and driving economic growth.
+            </p>
+            <a className="text-sm font-semibold text-yellow-700 mt-3 inline-block hover:underline" href="#">
+              See the Full List →
+            </a>
+          </div>
 
+          {/* Highlight 2 */}
+          <div className="border border-yellow-400/60 rounded-xl p-5 bg-white/80 backdrop-blur-sm shadow-sm">
+            <div className="text-sm font-semibold text-yellow-700 mb-2">
+              Voice
+            </div>
+            <div className="text-lg font-semibold text-gray-900">
+              Op-Ed on Economic Sovereignty and Self-Determination
+            </div>
+            <p className="text-sm text-gray-700 mt-2">
+              Community leaders share perspectives on building wealth within our communities.
+            </p>
+            <a className="text-sm font-semibold text-yellow-700 mt-3 inline-block hover:underline" href="#">
+              Read the Piece →
+            </a>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Opportunities CTA Section */}
-      <div className="py-16 bg-gradient-to-b from-black to-[#1a1a1a]">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-[#FFD700] mb-6">
-            Looking for Opportunities?
-          </h2>
-          <p className="text-xl text-gray-300 mb-10">
-            Browse curated jobs, grants, scholarships, training programs, and events 
+      <section className="mt-12 bg-gray-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 py-10 text-center">
+          <h2 className="text-2xl font-bold">Looking for Opportunities?</h2>
+          <p className="text-gray-300 max-w-2xl mx-auto mt-3 text-base">
+            Browse curated jobs, grants, scholarships, training programs, and events
             specifically for Black and Indigenous communities.
           </p>
-          <div className="flex gap-6 justify-center">
+
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
             <button
               onClick={() => navigate('/opportunities')}
-              className="px-8 py-4 bg-[#FFD700] text-black font-bold text-lg rounded-lg hover:bg-[#FFC700] transition-all shadow-[0_0_20px_rgba(255,215,0,0.5)]"
+              className="px-5 py-2.5 rounded-lg bg-white text-gray-900 font-semibold shadow hover:shadow-lg"
             >
               Browse Opportunities
             </button>
+
             <button
-              onClick={() => navigate('/opportunity-hub')}
-              className="px-8 py-4 border-2 border-[#FFD700] text-[#FFD700] font-bold text-lg rounded-lg hover:bg-[#FFD700] hover:text-black transition-all"
+              onClick={() => navigate('/submit')}
+              className="text-sm font-semibold text-white underline underline-offset-2 hover:text-gray-200"
             >
-              Learn More
+              Submit an Opportunity
             </button>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Footer */}
       <footer className="bg-black border-t-2 border-[#FFD700]/30 py-8">
