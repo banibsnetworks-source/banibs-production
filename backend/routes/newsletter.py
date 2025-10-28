@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from datetime import datetime, timedelta, timezone
 import csv
@@ -11,6 +11,9 @@ from models.newsletter import (
     NewsletterSubscriberPublic
 )
 from middleware.auth_guard import require_role, require_super_admin
+from middleware.rate_limiter import enforce_rate_limit  # Phase 5.3
+from db.reactions import hash_ip  # Phase 5.3
+from db.banned_sources import is_ip_banned  # Phase 5.3
 
 router = APIRouter(prefix="/api/newsletter", tags=["newsletter"])
 
