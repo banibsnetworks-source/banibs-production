@@ -11,6 +11,8 @@ from db.reactions import (
 )
 from models.reactions import ReactionCount, CommentCreate, CommentPublic
 from middleware.auth_guard import require_role, can_moderate
+from middleware.rate_limiter import enforce_rate_limit  # Phase 5.3
+from db.banned_sources import is_ip_banned  # Phase 5.3
 
 router = APIRouter(prefix="/api/opportunities", tags=["reactions-comments"])
 
