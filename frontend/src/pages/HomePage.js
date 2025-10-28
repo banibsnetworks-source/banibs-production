@@ -196,95 +196,113 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Browse by Category - Quick Access */}
-      <div className="bg-black py-12 border-b-2 border-[#FFD700]/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-[#FFD700] mb-6 text-center">
-            Browse by Category
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            
-            {/* Jobs */}
-            <button
-              onClick={() => navigate('/opportunities?type=job')}
-              className="bg-[#1a1a1a] border-2 border-[#FFD700]/30 rounded-lg p-6 hover:border-[#FFD700] hover:bg-[#FFD700]/10 transition-all group"
-            >
-              <div className="text-4xl mb-3">💼</div>
-              <h3 className="text-white font-bold mb-1 group-hover:text-[#FFD700]">Jobs & Careers</h3>
-              <p className="text-gray-400 text-xs">Employment opportunities</p>
-            </button>
+      {/* 🌟 Featured Story */}
+      <section className="max-w-7xl mx-auto mt-8 px-4">
+        <div className="bg-white/80 backdrop-blur-sm border border-gray-100 rounded-2xl p-6 md:p-8 shadow-md">
+          <div className="flex flex-col md:flex-row md:items-start gap-6">
 
-            {/* Grants */}
-            <button
-              onClick={() => navigate('/opportunities?type=grant')}
-              className="bg-[#1a1a1a] border-2 border-[#FFD700]/30 rounded-lg p-6 hover:border-[#FFD700] hover:bg-[#FFD700]/10 transition-all group"
-            >
-              <div className="text-4xl mb-3">💰</div>
-              <h3 className="text-white font-bold mb-1 group-hover:text-[#FFD700]">Grants & Funding</h3>
-              <p className="text-gray-400 text-xs">Financial support</p>
-            </button>
-
-            {/* Scholarships */}
-            <button
-              onClick={() => navigate('/opportunities?type=scholarship')}
-              className="bg-[#1a1a1a] border-2 border-[#FFD700]/30 rounded-lg p-6 hover:border-[#FFD700] hover:bg-[#FFD700]/10 transition-all group"
-            >
-              <div className="text-4xl mb-3">🎓</div>
-              <h3 className="text-white font-bold mb-1 group-hover:text-[#FFD700]">Scholarships</h3>
-              <p className="text-gray-400 text-xs">Education funding</p>
-            </button>
-
-            {/* Training */}
-            <button
-              onClick={() => navigate('/opportunities?type=training')}
-              className="bg-[#1a1a1a] border-2 border-[#FFD700]/30 rounded-lg p-6 hover:border-[#FFD700] hover:bg-[#FFD700]/10 transition-all group"
-            >
-              <div className="text-4xl mb-3">📚</div>
-              <h3 className="text-white font-bold mb-1 group-hover:text-[#FFD700]">Training & Education</h3>
-              <p className="text-gray-400 text-xs">Skill development</p>
-            </button>
-
-            {/* Events */}
-            <button
-              onClick={() => navigate('/opportunities?type=event')}
-              className="bg-[#1a1a1a] border-2 border-[#FFD700]/30 rounded-lg p-6 hover:border-[#FFD700] hover:bg-[#FFD700]/10 transition-all group"
-            >
-              <div className="text-4xl mb-3">📅</div>
-              <h3 className="text-white font-bold mb-1 group-hover:text-[#FFD700]">Events & Networking</h3>
-              <p className="text-gray-400 text-xs">Community connections</p>
-            </button>
-
-          </div>
-        </div>
-      </div>
-
-      {/* Featured Story / Hero Article */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-[#1a1a1a] border-2 border-[#FFD700] rounded-lg overflow-hidden">
-          <div className="grid md:grid-cols-2 gap-0">
-            {/* Image placeholder */}
-            <div className="bg-gradient-to-br from-[#FFD700]/20 to-black h-80 flex items-center justify-center">
-              <div className="text-6xl">🌟</div>
-            </div>
-            {/* Content */}
-            <div className="p-8 flex flex-col justify-center">
-              <span className="text-[#FFD700] text-sm font-semibold uppercase tracking-wide mb-2">
-                Featured Story
+            {/* Optional Image / Placeholder block */}
+            <div className="w-full md:w-1/3 rounded-xl bg-gray-200 overflow-hidden shadow-sm flex items-center justify-center text-gray-500 text-sm font-medium">
+              {/* Replace this div with an <img /> when you have a real thumbnail */}
+              <span className="p-6 text-center">
+                Featured Story Image
+                <br />
+                (optional)
               </span>
-              <h2 className="text-3xl font-bold text-white mb-4">
+            </div>
+
+            {/* Text Content */}
+            <div className="w-full md:w-2/3">
+              <div className="text-sm font-semibold text-indigo-700 tracking-wide mb-2 flex items-center gap-2">
+                <span className="text-lg">🌟</span>
+                <span>Featured Story</span>
+              </div>
+
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
                 Building the Future: Indigenous Tech Leaders Breaking Ground
               </h2>
-              <p className="text-gray-400 mb-6">
-                Meet the entrepreneurs and innovators from Black and Indigenous communities 
+
+              <p className="text-gray-700 mt-3 text-base leading-relaxed">
+                Meet the entrepreneurs and innovators from Black and Indigenous communities
                 who are shaping the next generation of technology and business leadership.
               </p>
-              <button className="self-start px-6 py-3 bg-[#FFD700] text-black font-semibold rounded hover:bg-[#FFC700] transition-all">
-                Read Full Story
-              </button>
+
+              {/* CTA Row */}
+              <div className="mt-5 flex flex-col sm:flex-row sm:items-center gap-3">
+                <a
+                  href="#"
+                  className="inline-block text-center text-white bg-gray-900 hover:bg-black rounded-lg px-4 py-2 text-sm font-semibold shadow"
+                >
+                  Read Full Story
+                </a>
+
+                <div className="text-xs text-gray-500 sm:ml-2">
+                  Editorial • Community & Innovation
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* 🗂️ Browse by Category – mobile responsive & visually balanced */}
+      <section className="max-w-7xl mx-auto mt-10 px-4">
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-5 text-center">
+          Browse by Category
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {/* Jobs & Careers */}
+          <button
+            onClick={() => navigate('/opportunities?type=job')}
+            className="flex flex-col items-center border border-gray-100 rounded-2xl p-5 bg-white/70 backdrop-blur-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-200 ease-in-out"
+          >
+            <span className="text-3xl mb-2">💼</span>
+            <h3 className="font-semibold text-gray-800">Jobs & Careers</h3>
+            <p className="text-sm text-gray-600 text-center mt-1">Employment opportunities</p>
+          </button>
+
+          {/* Grants & Funding */}
+          <button
+            onClick={() => navigate('/opportunities?type=grant')}
+            className="flex flex-col items-center border border-gray-100 rounded-2xl p-5 bg-white/70 backdrop-blur-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-200 ease-in-out"
+          >
+            <span className="text-3xl mb-2">💰</span>
+            <h3 className="font-semibold text-gray-800">Grants & Funding</h3>
+            <p className="text-sm text-gray-600 text-center mt-1">Financial support</p>
+          </button>
+
+          {/* Scholarships */}
+          <button
+            onClick={() => navigate('/opportunities?type=scholarship')}
+            className="flex flex-col items-center border border-gray-100 rounded-2xl p-5 bg-white/70 backdrop-blur-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-200 ease-in-out"
+          >
+            <span className="text-3xl mb-2">🎓</span>
+            <h3 className="font-semibold text-gray-800">Scholarships</h3>
+            <p className="text-sm text-gray-600 text-center mt-1">Education funding</p>
+          </button>
+
+          {/* Training & Education */}
+          <button
+            onClick={() => navigate('/opportunities?type=training')}
+            className="flex flex-col items-center border border-gray-100 rounded-2xl p-5 bg-white/70 backdrop-blur-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-200 ease-in-out"
+          >
+            <span className="text-3xl mb-2">📚</span>
+            <h3 className="font-semibold text-gray-800">Training & Education</h3>
+            <p className="text-sm text-gray-600 text-center mt-1">Skill development</p>
+          </button>
+
+          {/* Events & Networking */}
+          <button
+            onClick={() => navigate('/opportunities?type=event')}
+            className="flex flex-col items-center border border-gray-100 rounded-2xl p-5 bg-white/70 backdrop-blur-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-200 ease-in-out"
+          >
+            <span className="text-3xl mb-2">📅</span>
+            <h3 className="font-semibold text-gray-800">Events & Networking</h3>
+            <p className="text-sm text-gray-600 text-center mt-1">Community connections</p>
+          </button>
+        </div>
+      </section>
 
       {/* News Feed - Dynamic from API */}
       <NewsFeed />
