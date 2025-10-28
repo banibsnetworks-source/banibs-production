@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-BANIBS Backend API Test Suite - Phase 5.3, 5.4, 5.5
-Tests Phase 5.3 (Abuse/Safety Controls), Phase 5.4 (Opportunity Detail), and Phase 5.5 (Admin Revenue Overview)
+BANIBS Backend API Test Suite - News Feed + Phase 5
+Tests News Aggregation Feed and Phase 5 features (Abuse/Safety Controls, Opportunity Detail, Admin Revenue Overview)
 """
 
 import requests
