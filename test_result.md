@@ -491,12 +491,7 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "Rate limiting middleware"
-    - "Banned sources collection and enforcement"
-    - "Admin ban endpoints"
-    - "Opportunity detail endpoint"
-    - "Revenue overview endpoint"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
