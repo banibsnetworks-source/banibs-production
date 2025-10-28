@@ -324,35 +324,6 @@ async def log_moderation_action(db, action: str, target_id: str, user: dict, not
     }
     
     await db.moderation_logs.insert_one(log_entry)
-    Reject opportunity (admin only)
-    Requires JWT with role='admin'
-    """
-    await update_opportunity_status(db, opp_id, approved=False, featured=False)
-    
-    # Log moderation action
-    await log_moderation_action(db, "REJECT_OPPORTUNITY", opp_id, user)
-    
-    return {"id": opp_id, "approved": False, "featured": False}
-
-
-@router.patch("/{opp_id}/feature")
-async def feature_opportunity(
-    opp_id: str,
-    db=Depends(get_db),
-    user: dict = Depends(require_role("admin")),
-):
-    """
-    Feature opportunity (admin only)
-    Requires JWT with role='admin'
-    Auto-approves the opportunity
-    """
-    # feature also implies approved
-    await update_opportunity_status(db, opp_id, approved=True, featured=True)
-    
-    # Log moderation action
-    await log_moderation_action(db, "FEATURE_OPPORTUNITY", opp_id, user, action.notes)
-    
-    return {"id": opp_id, "approved": True, "featured": True}
 
 
 # --- IMAGE UPLOAD ENDPOINT ---
