@@ -286,70 +286,8 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* News Grid / Stories */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h2 className="text-3xl font-bold text-[#FFD700] mb-8">Latest Stories</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          
-          {/* Story Card 1 */}
-          <div className="bg-[#1a1a1a] border border-[#FFD700]/30 rounded-lg overflow-hidden hover:border-[#FFD700] transition-all">
-            <div className="bg-gradient-to-br from-[#FFD700]/20 to-black h-48 flex items-center justify-center">
-              <div className="text-4xl">💼</div>
-            </div>
-            <div className="p-6">
-              <span className="text-[#FFD700] text-xs font-semibold uppercase">Business</span>
-              <h3 className="text-xl font-bold text-white mt-2 mb-3">
-                New Grant Program Supports Native-Owned Startups
-              </h3>
-              <p className="text-gray-400 text-sm mb-4">
-                A $5M initiative aims to fund Indigenous entrepreneurs across North America.
-              </p>
-              <button className="text-[#FFD700] text-sm font-semibold hover:underline">
-                Read More →
-              </button>
-            </div>
-          </div>
-
-          {/* Story Card 2 */}
-          <div className="bg-[#1a1a1a] border border-[#FFD700]/30 rounded-lg overflow-hidden hover:border-[#FFD700] transition-all">
-            <div className="bg-gradient-to-br from-[#FFD700]/20 to-black h-48 flex items-center justify-center">
-              <div className="text-4xl">🎓</div>
-            </div>
-            <div className="p-6">
-              <span className="text-[#FFD700] text-xs font-semibold uppercase">Education</span>
-              <h3 className="text-xl font-bold text-white mt-2 mb-3">
-                Scholarship Fund Opens Applications for Fall 2025
-              </h3>
-              <p className="text-gray-400 text-sm mb-4">
-                Full-ride opportunities for Black and Indigenous students pursuing STEM degrees.
-              </p>
-              <button className="text-[#FFD700] text-sm font-semibold hover:underline">
-                Read More →
-              </button>
-            </div>
-          </div>
-
-          {/* Story Card 3 */}
-          <div className="bg-[#1a1a1a] border border-[#FFD700]/30 rounded-lg overflow-hidden hover:border-[#FFD700] transition-all">
-            <div className="bg-gradient-to-br from-[#FFD700]/20 to-black h-48 flex items-center justify-center">
-              <div className="text-4xl">🌍</div>
-            </div>
-            <div className="p-6">
-              <span className="text-[#FFD700] text-xs font-semibold uppercase">Community</span>
-              <h3 className="text-xl font-bold text-white mt-2 mb-3">
-                Annual Indigenous Business Summit Announces 2025 Dates
-              </h3>
-              <p className="text-gray-400 text-sm mb-4">
-                Connect with leaders, investors, and fellow entrepreneurs this October.
-              </p>
-              <button className="text-[#FFD700] text-sm font-semibold hover:underline">
-                Read More →
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </div>
+      {/* News Feed - Dynamic from API */}
+      <NewsFeed />
 
       {/* Community Highlights Section */}
       <div className="bg-[#1a1a1a] py-16">
