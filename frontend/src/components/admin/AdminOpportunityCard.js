@@ -236,8 +236,11 @@ const AdminOpportunityCard = ({ opportunity, onUpdate }) => {
             <h3 className="text-xl font-bold text-white mb-4 capitalize">
               {action} Opportunity
             </h3>
-            <p className="text-gray-300 text-sm mb-4">
+            <p className="text-gray-300 text-sm mb-2">
               Add optional notes for this moderation action:
+            </p>
+            <p className="text-[#FFD700] text-xs mb-4">
+              ⚠️ This action will send an email notification to the contributor.
             </p>
             <textarea
               value={notes}
@@ -263,6 +266,69 @@ const AdminOpportunityCard = ({ opportunity, onUpdate }) => {
                 className="px-4 py-2 bg-[#1a1a1a] border border-[#FFD700] text-[#FFD700] font-bold rounded-lg hover:bg-[#2a2a2a] transition-all"
               >
                 Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Phase 3.2 - Moderation Logs Modal */}
+      {showLogsModal && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+          <div className="bg-black border-2 border-[#FFD700] rounded-lg p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-white">
+                Moderation History
+              </h3>
+              <button
+                onClick={() => setShowLogsModal(false)}
+                className="text-gray-400 hover:text-white text-2xl"
+              >
+                ×
+              </button>
+            </div>
+
+            {logs.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-gray-400">No moderation history yet</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {logs.map((log) => (
+                  <div key={log.id} className="bg-[#1a1a1a] border border-[#FFD700]/30 rounded-lg p-4">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className={`px-2 py-1 text-xs font-bold rounded ${
+                          log.action_type === 'approve' ? 'bg-green-600 text-white' :
+                          log.action_type === 'reject' ? 'bg-red-600 text-white' :
+                          'bg-[#FFD700] text-black'
+                        }`}>
+                          {log.action_type.toUpperCase()}
+                        </span>
+                        <span className="text-sm text-gray-400">
+                          by {log.moderator_email || log.moderator_user_id}
+                        </span>
+                      </div>
+                      <span className="text-xs text-gray-500">
+                        {formatDate(log.timestamp)}
+                      </span>
+                    </div>
+                    {log.note && (
+                      <p className="text-sm text-gray-300 mt-2 pl-2 border-l-2 border-[#FFD700]/30">
+                        {log.note}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="mt-6 flex justify-end">
+              <button
+                onClick={() => setShowLogsModal(false)}
+                className="px-4 py-2 bg-[#FFD700] text-black font-bold rounded-lg hover:bg-[#FFC700] transition-all"
+              >
+                Close
               </button>
             </div>
           </div>
