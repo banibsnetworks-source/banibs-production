@@ -624,6 +624,64 @@ agent_communication:
       2. Test send digest endpoint with super_admin auth
       3. Test RBAC permissions (moderator should not access digest)
       4. Test graceful handling of missing Stripe configuration
+  - agent: "main"
+    message: |
+      Phase 5.3, 5.4, and 5.5 Backend Implementation Complete!
+      
+      ✅ PHASE 5.3 - ABUSE / SAFETY CONTROLS:
+      - Rate limiting middleware (in-memory, max 10 actions per 5 min per IP hash)
+        * Applied to: POST /api/opportunities/:id/comments
+        * Applied to: POST /api/opportunities/:id/react
+        * Applied to: POST /api/newsletter/subscribe
+        * Returns 429 "Rate limit exceeded" when limit hit
+      - Banned sources collection (UUID-based IDs)
+        * is_ip_banned() check in comment/reaction/subscribe endpoints
+        * Returns 403 "Access blocked." for banned IPs
+      - Admin ban endpoints (super_admin only):
+        * POST /api/admin/ban-source - Ban an IP hash with reason
+        * GET /api/admin/banned-sources - List banned sources (truncated hashes)
+        * DELETE /api/admin/unban-source/:ip_hash - Unban an IP hash
+      
+      ✅ PHASE 5.4 - OPPORTUNITY DETAIL ENDPOINT:
+      - GET /api/opportunities/:id/full (public)
+        * Returns full opportunity details
+        * Enriched with contributor info (display_name, verified)
+        * Includes engagement metrics (like_count, comment_count)
+        * Includes sponsored status (is_sponsored, sponsor_label)
+        * Only returns approved opportunities
+      
+      ✅ PHASE 5.5 - ADMIN REVENUE OVERVIEW:
+      - GET /api/admin/revenue/overview (super_admin only)
+        * totalSponsoredOrders (count of paid orders)
+        * totalSponsoredRevenueUSD (sum of paid order amounts)
+        * recentSponsorOrders (last 10 paid orders)
+        * newsletterSubscribersCount (confirmed subscribers)
+        * lastNewsletterSend (timestamp, recipientsCount)
+      
+      🔒 RBAC MAINTAINED:
+      - super_admin: Full access to all Phase 5 features
+      - moderator: Cannot ban sources, cannot view revenue
+      - contributors: Cannot access admin endpoints
+      
+      📁 NEW FILES CREATED:
+      - backend/models/banned_source.py
+      - backend/db/banned_sources.py
+      - backend/middleware/rate_limiter.py
+      - backend/routes/admin_abuse.py
+      - backend/routes/admin_revenue.py
+      
+      🗄️ NEW COLLECTIONS:
+      - banned_sources (UUID-based IDs, ip_hash, reason, created_at)
+      
+      Backend services running successfully. Ready for testing.
+      
+      TESTING PRIORITY:
+      1. Test rate limiting (10 actions per 5 min per endpoint)
+      2. Test ban enforcement (banned IP gets 403)
+      3. Test admin ban endpoints with super_admin auth
+      4. Test opportunity detail endpoint (public)
+      5. Test revenue overview endpoint with super_admin auth
+      6. Verify RBAC (moderator cannot ban or view revenue)
   - agent: "testing"
     message: |
       🎉 PHASE 5.1 & 5.2 BACKEND TESTING COMPLETE - ALL TESTS PASSED!
