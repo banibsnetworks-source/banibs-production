@@ -16,6 +16,8 @@ import ContributorProfile from "./pages/contributor/ContributorProfile";
 import ContributorProfileEdit from "./pages/contributor/ContributorProfileEdit";
 // Phase 5.4 - Opportunity Detail Page
 import OpportunityDetailPage from "./pages/OpportunityDetailPage";
+// Home/Landing Page
+import HomePage from "./pages/HomePage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
