@@ -917,10 +917,7 @@ class BanibsAPITester:
             return False
         
         # Test 2: Try to react with banned IP
-        response = self.make_request("POST", f"/opportunities/{self.approved_opportunity_id}/react", {
-            "reaction_type": "like",
-            "ip_hash": self.banned_ip_hash
-        })
+        response = self.make_request("POST", f"/opportunities/{self.approved_opportunity_id}/react", {})
         
         if response.status_code == 403:
             data = response.json()
