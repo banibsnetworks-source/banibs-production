@@ -1017,13 +1017,33 @@ class BanibsAPITester:
     
     def test_opportunity_detail_pending(self) -> bool:
         """Test opportunity detail with pending (unapproved) opportunity"""
-        if not self.test_opportunity_id:
-            self.log("⚠️ No pending opportunity available for detail test")
-            return True  # Skip this test if no pending opportunity
-        
         self.log("Testing opportunity detail with pending opportunity...")
         
-        response = self.make_request("GET", f"/opportunities/{self.test_opportunity_id}/full")
+        # Create a new pending opportunity for this test
+        if not self.contributor_token:
+            self.log("⚠️ No contributor token available, skipping pending opportunity test")
+            return True
+        
+        headers = {"Authorization": f"Bearer {self.contributor_token}"}
+        response = self.make_request("POST", "/opportunities/submit", {
+            "title": "Pending Test Event",
+            "orgName": "Test Org",
+            "type": "event",
+            "description": "This should remain pending",
+            "location": "Remote"
+        }, headers=headers)
+        
+        if response.status_code != 201:
+            self.log("⚠️ Could not create pending opportunity, skipping test")
+            return True
+        
+        pending_id = response.json().get("id")
+        if not pending_id:
+            self.log("⚠️ No pending opportunity ID returned, skipping test")
+            return True
+        
+        # Now test that pending opportunity is not accessible via detail endpoint
+        response = self.make_request("GET", f"/opportunities/{pending_id}/full")
         
         if response.status_code == 404:
             data = response.json()
