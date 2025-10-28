@@ -123,6 +123,14 @@ const AdminOpportunitiesDashboard = () => {
             </div>
             
             <div className="flex items-center gap-4">
+              {/* Phase 3.2 - Export CSV Button */}
+              <button
+                onClick={handleExportCSV}
+                className="px-4 py-2 bg-[#1a1a1a] border border-[#FFD700] text-[#FFD700] font-bold rounded-lg hover:bg-[#2a2a2a] focus:outline-none focus:ring-2 focus:ring-[#FFD700] transition-all text-sm"
+              >
+                📊 Export Logs CSV
+              </button>
+              
               <div className="text-right">
                 <p className="text-white text-sm font-medium">
                   {user?.email}
