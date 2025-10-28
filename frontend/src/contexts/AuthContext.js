@@ -75,6 +75,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('user');
+    localStorage.removeItem('adminToken');
   };
 
   const refreshAccessToken = async () => {
