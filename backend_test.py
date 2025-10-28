@@ -83,10 +83,14 @@ class BanibsAPITester:
         """Test contributor registration"""
         self.log("Testing contributor registration...")
         
+        # Use a unique email with timestamp to avoid conflicts
+        import time
+        unique_email = f"phase5test{int(time.time())}@example.com"
+        
         response = self.make_request("POST", "/auth/contributor/register", {
-            "email": "test@example.com",
+            "email": unique_email,
             "password": "test123",
-            "name": "Test User",
+            "name": "Phase 5 Test User",
             "organization": "Test Organization"
         })
         
