@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Header
 from motor.motor_asyncio import AsyncIOMotorDatabase
 import bcrypt
 from datetime import datetime
@@ -16,6 +16,7 @@ from services.jwt import (
     verify_refresh_token
 )
 from db.connection import get_db
+from middleware.auth_guard import get_current_user
 
 router = APIRouter(prefix="/api/auth", tags=["authentication"])
 
