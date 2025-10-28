@@ -51,6 +51,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('refresh_token', refresh_token);
       localStorage.setItem('user', JSON.stringify(userData));
+      
+      // Also store as adminToken for Phase 5 admin API helpers
+      localStorage.setItem('adminToken', access_token);
 
       return { success: true };
     } catch (error) {
