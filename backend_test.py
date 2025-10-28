@@ -114,8 +114,12 @@ class BanibsAPITester:
         """Test contributor login"""
         self.log("Testing contributor login...")
         
+        # Use the same unique email from registration
+        import time
+        unique_email = f"phase5test{int(time.time())}@example.com"
+        
         response = self.make_request("POST", "/auth/contributor/login", {
-            "email": "test@example.com",
+            "email": unique_email,
             "password": "test123"
         })
         
