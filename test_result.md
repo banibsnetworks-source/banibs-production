@@ -455,15 +455,18 @@ frontend:
   # Phase 5.4 - Opportunity Detail Endpoint Backend
   - task: "Opportunity detail endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/opportunities.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created GET /api/opportunities/:id/full endpoint. Public endpoint that returns full opportunity details with contributor info, engagement metrics (like_count, comment_count), and sponsored status. Only returns approved opportunities."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/opportunities/:id/full working perfectly. Returns full opportunity details including contributor_display_name, contributor_verified, like_count, comment_count, is_sponsored, sponsor_label, status, createdAt, postedAt. Correctly handles invalid IDs (400 error). Properly hides pending opportunities (404 for unapproved). Public endpoint requires no authentication."
 
   # Phase 5.5 - Admin Revenue Overview Backend
   - task: "Revenue overview endpoint"
