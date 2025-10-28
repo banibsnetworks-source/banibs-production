@@ -258,6 +258,16 @@ const AdminOpportunitiesDashboard = () => {
           </div>
         )}
 
+        {/* Phase 5.5 - Revenue Overview */}
+        <div className="mb-8">
+          <RevenueOverview />
+        </div>
+
+        {/* Phase 5.3 - Abuse Controls */}
+        <div className="mb-8">
+          <AbuseControls />
+        </div>
+
         {/* Filter Controls */}
         <div className="mb-6 bg-[#1a1a1a] border border-[#FFD700]/30 rounded-lg p-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
