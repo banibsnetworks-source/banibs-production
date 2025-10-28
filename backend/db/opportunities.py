@@ -51,3 +51,43 @@ async def update_opportunity_status(db, opp_id: str, approved: bool, featured: b
         {"$set": update_fields}
     )
     return True
+
+async def update_opportunity_sponsor_status(db, opp_id: str, is_sponsored: bool, sponsor_label: str | None = None):
+    """
+    Update opportunity sponsor status (Phase 5.1)
+    
+    Args:
+        db: Database instance
+        opp_id: Opportunity ID (ObjectId string)
+        is_sponsored: Whether opportunity is sponsored
+        sponsor_label: Optional sponsor label text
+    
+    Returns:
+        True if updated
+    """
+    update_fields = {
+        "is_sponsored": is_sponsored,
+        "updatedAt": datetime.utcnow()
+    }
+    if sponsor_label is not None:
+        update_fields["sponsor_label"] = sponsor_label
+    
+    await db.opportunities.update_one(
+        {"_id": ObjectId(opp_id)},
+        {"$set": update_fields}
+    )
+    return True
+
+async def get_opportunity_by_id(db, opp_id: str):
+    """
+    Get single opportunity by ID
+    
+    Args:
+        db: Database instance
+        opp_id: Opportunity ID (ObjectId string)
+    
+    Returns:
+        Opportunity document or None
+    """
+    doc = await db.opportunities.find_one({"_id": ObjectId(opp_id)})
+    return doc
