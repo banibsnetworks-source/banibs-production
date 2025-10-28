@@ -92,6 +92,9 @@ async def list_pending(
     _: None = Depends(check_admin),
 ):
     docs = await get_pending_opportunities(db)
+    # Convert ObjectId to string for JSON serialization
+    for doc in docs:
+        doc["id"] = str(doc.pop("_id"))
     return docs  # raw for now; admins can see unapproved stuff
 
 
