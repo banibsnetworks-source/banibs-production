@@ -16,14 +16,16 @@ BANIBS uses a clear content hierarchy that guides users from awareness → relev
 2. Compact Category Strip (utility navigation for opportunity-seekers)
 3. Featured Story (flagship editorial content)
 4. Latest Stories (dynamic news feed)
-5. Community Highlights (social proof & pride)
-6. Opportunities CTA (conversion band)
-7. Footer
+5. The BANIBS Network (ecosystem showcase)
+6. Community Highlights (social proof & pride)
+7. Opportunities CTA (conversion band)
+8. Footer
 ```
 
 **Key Principle:** This flow serves two audiences simultaneously:
 - **Opportunity seekers** get immediate category access (Jobs, Grants, etc.) without scrolling
 - **Culture/news readers** get uninterrupted editorial storytelling
+- **Ecosystem explorers** discover the broader BANIBS platform vision
 
 ---
 
