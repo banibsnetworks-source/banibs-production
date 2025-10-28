@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { opportunitiesAPI } from '../../services/api';
 import OpportunityCard from '../../components/OpportunityCard';
+import Leaderboard from '../../components/Leaderboard';
+import NewsletterSubscribe from '../../components/NewsletterSubscribe';
 
 const PublicOpportunities = () => {
   const [opportunities, setOpportunities] = useState([]);
