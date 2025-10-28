@@ -69,20 +69,20 @@ const NewsFeed = () => {
 
   if (newsItems.length === 0) {
     return (
-      <section className="max-w-7xl mx-auto px-4 mt-10">
+      <section className="max-w-7xl mx-auto px-4 mt-8 md:mt-10">
         <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
           <span className="text-lg">📰</span>
           <span>Latest Stories</span>
         </h2>
-        <div className="text-sm text-gray-500 bg-white/60 backdrop-blur-sm border border-gray-100 rounded-xl p-5 shadow-sm">
-          No news items available yet. Check back soon!
+        <div className="text-sm text-gray-700 bg-white/70 backdrop-blur-sm border border-gray-100 rounded-2xl p-5 shadow-sm">
+          We're building out community coverage right now. Fresh stories will start appearing here first.
         </div>
       </section>
     );
   }
 
   return (
-    <section className="max-w-7xl mx-auto px-4 mt-10">
+    <section className="max-w-7xl mx-auto px-4 mt-8 md:mt-10">
       <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
         <span className="text-lg">📰</span>
         <span>Latest Stories</span>
