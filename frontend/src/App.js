@@ -69,27 +69,34 @@ const Home = () => {
 function App() {
   return (
     <AuthProvider>
-      <div className="App">
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            
-            {/* Public Routes */}
-            <Route path="/opportunities" element={<PublicOpportunities />} />
-            
-            {/* Admin Routes */}
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route 
-              path="/admin/opportunities" 
-              element={
-                <ProtectedRoute requireAdmin={true}>
-                  <AdminOpportunitiesDashboard />
-                </ProtectedRoute>
-              } 
-            />
-          </Routes>
-        </BrowserRouter>
-      </div>
+      <ContributorAuthProvider>
+        <div className="App">
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              
+              {/* Public Routes */}
+              <Route path="/opportunities" element={<PublicOpportunities />} />
+              <Route path="/submit" element={<SubmitOpportunity />} />
+              
+              {/* Contributor Routes */}
+              <Route path="/contributor/register" element={<ContributorRegister />} />
+              <Route path="/contributor/login" element={<ContributorLogin />} />
+              
+              {/* Admin Routes */}
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route 
+                path="/admin/opportunities" 
+                element={
+                  <ProtectedRoute requireAdmin={true}>
+                    <AdminOpportunitiesDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </ContributorAuthProvider>
     </AuthProvider>
   );
 }
