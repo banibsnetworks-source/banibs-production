@@ -274,9 +274,15 @@ async def reject_opportunity(
 ):
     """
     Reject opportunity (admin only)
+    Phase 3: Now includes moderation log + email notification with rejection reason
     Requires JWT with role='admin'
     Accepts optional moderation notes
     """
+    # Fetch opportunity to get contributor email
+    opportunity = await db.opportunities.find_one({"_id": ObjectId(opp_id)})
+    if not opportunity:
+        raise HTTPException(status_code=404, detail="Opportunity not found")
+    
     # Update status with notes
     await db.opportunities.update_one(
         {"_id": ObjectId(opp_id)},
@@ -289,8 +295,14 @@ async def reject_opportunity(
         }}
     )
     
-    # Log moderation action with notes
+    # Log moderation action (Phase 3.2)
     await log_moderation_action(db, "REJECT_OPPORTUNITY", opp_id, user, action.notes)
+    
+    # Send email notification with rejection reason (Phase 3.3)
+    contributor_email = opportunity.get("contributor_email")
+    if contributor_email:
+        from services.email_service import send_opportunity_rejected_email
+        send_opportunity_rejected_email(contributor_email, opportunity["title"], action.notes)
     
     return {"id": opp_id, "approved": False, "featured": False}
 
