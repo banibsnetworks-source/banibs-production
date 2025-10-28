@@ -708,6 +708,9 @@ class BanibsAPITester:
             ("Send Digest Auth Scenarios", self.test_send_digest_auth_scenarios),
             ("Newsletter Sends History", self.test_newsletter_sends_history),
             
+            # RBAC verification
+            ("RBAC Verification", self.test_rbac_verification),
+            
             # Basic validation
             ("JWT Validation", self.test_jwt_validation),
         ]
