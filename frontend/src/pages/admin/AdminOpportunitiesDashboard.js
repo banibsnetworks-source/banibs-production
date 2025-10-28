@@ -124,6 +124,102 @@ const AdminOpportunitiesDashboard = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Analytics Panel */}
+        {!loadingAnalytics && analytics && (
+          <div className="mb-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+            {/* Status Counts */}
+            <div className="bg-[#1a1a1a] border-2 border-[#FFD700]/30 rounded-lg p-4">
+              <div className="text-[#FFD700] text-sm font-medium mb-1">⏳ Pending</div>
+              <div className="text-white text-3xl font-bold">{analytics.statusCounts.pending}</div>
+            </div>
+            <div className="bg-[#1a1a1a] border-2 border-green-500/30 rounded-lg p-4">
+              <div className="text-green-400 text-sm font-medium mb-1">✅ Approved</div>
+              <div className="text-white text-3xl font-bold">{analytics.statusCounts.approved}</div>
+            </div>
+            <div className="bg-[#1a1a1a] border-2 border-red-500/30 rounded-lg p-4">
+              <div className="text-red-400 text-sm font-medium mb-1">❌ Rejected</div>
+              <div className="text-white text-3xl font-bold">{analytics.statusCounts.rejected}</div>
+            </div>
+            <div className="bg-[#1a1a1a] border-2 border-[#FFD700] rounded-lg p-4 shadow-[0_0_10px_rgba(255,215,0,0.3)]">
+              <div className="text-[#FFD700] text-sm font-medium mb-1">⭐ Featured</div>
+              <div className="text-white text-3xl font-bold">{analytics.statusCounts.featured}</div>
+            </div>
+            
+            {/* Type Counts */}
+            <div className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4">
+              <div className="text-gray-400 text-sm font-medium mb-1">💼 Jobs</div>
+              <div className="text-white text-2xl font-bold">{analytics.typeCounts.job}</div>
+            </div>
+            <div className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4">
+              <div className="text-gray-400 text-sm font-medium mb-1">💰 Grants</div>
+              <div className="text-white text-2xl font-bold">{analytics.typeCounts.grant}</div>
+            </div>
+            <div className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4">
+              <div className="text-gray-400 text-sm font-medium mb-1">🎓 Scholarships</div>
+              <div className="text-white text-2xl font-bold">{analytics.typeCounts.scholarship}</div>
+            </div>
+            <div className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4">
+              <div className="text-gray-400 text-sm font-medium mb-1">📚 Training</div>
+              <div className="text-white text-2xl font-bold">{analytics.typeCounts.training}</div>
+            </div>
+            <div className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4">
+              <div className="text-gray-400 text-sm font-medium mb-1">📅 Events</div>
+              <div className="text-white text-2xl font-bold">{analytics.typeCounts.event}</div>
+            </div>
+          </div>
+        )}
+
+        {/* Filter Controls */}
+        <div className="mb-6 bg-[#1a1a1a] border border-[#FFD700]/30 rounded-lg p-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Type Filter */}
+            <div>
+              <label className="block text-sm font-medium text-[#FFD700] mb-2">
+                Filter by Type
+              </label>
+              <select
+                value={typeFilter}
+                onChange={(e) => setTypeFilter(e.target.value)}
+                className="w-full px-4 py-2 bg-black border border-[#FFD700]/30 rounded-lg text-white focus:outline-none focus:border-[#FFD700] transition-all"
+              >
+                <option value="all">All Types</option>
+                <option value="job">💼 Jobs</option>
+                <option value="grant">💰 Grants</option>
+                <option value="scholarship">🎓 Scholarships</option>
+                <option value="training">📚 Training</option>
+                <option value="event">📅 Events</option>
+              </select>
+            </div>
+
+            {/* Contributor Filter */}
+            <div>
+              <label className="block text-sm font-medium text-[#FFD700] mb-2">
+                Filter by Contributor
+              </label>
+              <input
+                type="text"
+                placeholder="Search by email..."
+                value={contributorFilter}
+                onChange={(e) => setContributorFilter(e.target.value)}
+                className="w-full px-4 py-2 bg-black border border-[#FFD700]/30 rounded-lg text-white focus:outline-none focus:border-[#FFD700] transition-all placeholder-gray-500"
+              />
+            </div>
+
+            {/* Clear Filters */}
+            <div className="flex items-end">
+              <button
+                onClick={() => {
+                  setTypeFilter('all');
+                  setContributorFilter('');
+                }}
+                className="w-full px-4 py-2 bg-[#FFD700]/10 border border-[#FFD700]/30 text-[#FFD700] font-medium rounded-lg hover:bg-[#FFD700]/20 transition-all"
+              >
+                Clear Filters
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* Tabs */}
         <div className="mb-8 flex gap-4 border-b-2 border-[#FFD700]/20">
           <button
