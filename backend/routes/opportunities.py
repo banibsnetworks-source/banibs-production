@@ -99,6 +99,8 @@ async def list_opportunities(
             contributor_verified=doc.get("contributor_verified", False),
             like_count=doc.get("like_count", 0),
             comment_count=doc.get("comment_count", 0),
+            is_sponsored=doc.get("is_sponsored", False),
+            sponsor_label=doc.get("sponsor_label"),
         )
         for doc in enriched_docs
     ]
@@ -132,6 +134,8 @@ async def list_featured(db=Depends(get_db)):
             contributor_verified=doc.get("contributor_verified", False),
             like_count=doc.get("like_count", 0),
             comment_count=doc.get("comment_count", 0),
+            is_sponsored=doc.get("is_sponsored", False),
+            sponsor_label=doc.get("sponsor_label"),
         )
         for doc in enriched_docs
     ]
