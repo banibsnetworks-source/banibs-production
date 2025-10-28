@@ -2,6 +2,10 @@ from datetime import datetime
 from bson import ObjectId
 
 async def insert_opportunity(db, data: dict):
+    # Convert HttpUrl to string for MongoDB storage
+    if "link" in data and data["link"] is not None:
+        data["link"] = str(data["link"])
+    
     data["approved"] = False
     data["featured"] = False
     data["createdAt"] = datetime.utcnow()
