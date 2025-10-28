@@ -109,9 +109,17 @@ async def list_pending(
 async def approve_opportunity(
     opp_id: str,
     db=Depends(get_db),
-    _: None = Depends(check_admin),
+    user: dict = Depends(require_role("admin")),
 ):
+    """
+    Approve opportunity (admin only)
+    Requires JWT with role='admin'
+    """
     await update_opportunity_status(db, opp_id, approved=True, featured=False)
+    
+    # Log moderation action
+    await log_moderation_action(db, "APPROVE_OPPORTUNITY", opp_id, user)
+    
     return {"id": opp_id, "approved": True, "featured": False}
 
 
@@ -119,9 +127,17 @@ async def approve_opportunity(
 async def reject_opportunity(
     opp_id: str,
     db=Depends(get_db),
-    _: None = Depends(check_admin),
+    user: dict = Depends(require_role("admin")),
 ):
+    """
+    Reject opportunity (admin only)
+    Requires JWT with role='admin'
+    """
     await update_opportunity_status(db, opp_id, approved=False, featured=False)
+    
+    # Log moderation action
+    await log_moderation_action(db, "REJECT_OPPORTUNITY", opp_id, user)
+    
     return {"id": opp_id, "approved": False, "featured": False}
 
 
@@ -129,11 +145,37 @@ async def reject_opportunity(
 async def feature_opportunity(
     opp_id: str,
     db=Depends(get_db),
-    _: None = Depends(check_admin),
+    user: dict = Depends(require_role("admin")),
 ):
+    """
+    Feature opportunity (admin only)
+    Requires JWT with role='admin'
+    Auto-approves the opportunity
+    """
     # feature also implies approved
     await update_opportunity_status(db, opp_id, approved=True, featured=True)
+    
+    # Log moderation action
+    await log_moderation_action(db, "FEATURE_OPPORTUNITY", opp_id, user)
+    
     return {"id": opp_id, "approved": True, "featured": True}
+
+
+# Helper function to log moderation actions
+async def log_moderation_action(db, action: str, target_id: str, user: dict):
+    """Log moderation action to moderation_logs collection"""
+    from datetime import datetime
+    
+    log_entry = {
+        "action": action,
+        "target_id": target_id,
+        "performed_by": user.get("email"),
+        "admin_id": user.get("user_id"),
+        "timestamp": datetime.utcnow(),
+        "notes": None
+    }
+    
+    await db.moderation_logs.insert_one(log_entry)
 
 
 # --- IMAGE UPLOAD ENDPOINT ---
