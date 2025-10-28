@@ -413,11 +413,7 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "Stripe checkout endpoint"
-    - "Stripe webhook handler"
-    - "Send weekly digest endpoint"
-    - "Newsletter sends history endpoint"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
