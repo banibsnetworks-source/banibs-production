@@ -60,11 +60,11 @@ async def get_newsletter_subscribers(
 @router.get("/admin/subscribers/export.csv")
 async def export_newsletter_subscribers_csv(
     db=Depends(get_db),
-    user: dict = Depends(require_role("admin"))
+    user: dict = Depends(require_super_admin)  # Phase 4.5 - super_admin only
 ):
     """
     Export newsletter subscribers to CSV
-    Admin only
+    Super admin only (Phase 4.5 RBAC)
     """
     subscribers = await get_all_subscribers(db)
     
