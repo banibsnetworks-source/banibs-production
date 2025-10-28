@@ -121,7 +121,43 @@ BANIBS uses a clear content hierarchy that guides users from awareness → relev
 We're building out community coverage right now. Fresh stories will start appearing here first.
 ```
 
-### 5. Community Highlights
+### 5. The BANIBS Network
+```jsx
+<section className="max-w-7xl mx-auto px-4 mt-10 md:mt-12">
+  <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+    <span className="text-lg">🌐</span>
+    <span>The BANIBS Network</span>
+  </h2>
+  
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    {/* Ecosystem product cards - Social, TV, Business, Resources */}
+  </div>
+</section>
+```
+
+**Purpose:** Showcases the broader BANIBS ecosystem beyond opportunities. Positions BANIBS as a multi-faceted platform (social network, media, business directory, resource library).
+
+**Card Pattern:**
+```jsx
+<div className="bg-white/70 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-sm p-5 flex flex-col justify-between">
+  <div>
+    <div className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
+      <span className="text-xl">{emoji}</span>
+      <span>{productName}</span>
+    </div>
+    <p className="text-sm text-gray-700 leading-relaxed">
+      {description}
+    </p>
+  </div>
+  <div className="mt-4">
+    {/* CTA or "Coming soon" label */}
+  </div>
+</div>
+```
+
+**Responsive:** 1 column mobile → 2 columns tablet → 4 columns desktop
+
+### 6. Community Highlights
 ```jsx
 <section className="max-w-7xl mx-auto px-4 mt-8 md:mt-10">
   <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
