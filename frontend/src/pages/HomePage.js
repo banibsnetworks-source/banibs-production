@@ -289,6 +289,97 @@ const HomePage = () => {
       {/* News Feed - Dynamic from API */}
       <NewsFeed />
 
+      {/* 🌐 BANIBS Network */}
+      <section className="max-w-7xl mx-auto px-4 mt-10 md:mt-12">
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="text-lg">🌐</span>
+          <span>The BANIBS Network</span>
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* BANIBS Social */}
+          <div className="bg-white/70 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-sm p-5 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
+                <span className="text-xl">💬</span>
+                <span>BANIBS Social</span>
+              </div>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                Connect with Black and Indigenous creators, founders, and community leaders. Profiles, conversation, community.
+              </p>
+            </div>
+            <div className="mt-4">
+              <span className="text-sm font-semibold text-gray-800 opacity-60">
+                Coming soon
+              </span>
+            </div>
+          </div>
+
+          {/* BANIBS TV */}
+          <div className="bg-white/70 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-sm p-5 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
+                <span className="text-xl">📺</span>
+                <span>BANIBS TV</span>
+              </div>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                Watch interviews, business spotlights, culture segments, and live community conversations.
+              </p>
+            </div>
+            <div className="mt-4">
+              <a
+                href="#"
+                className="text-sm font-semibold text-gray-800 hover:underline"
+              >
+                View Channel →
+              </a>
+            </div>
+          </div>
+
+          {/* BANIBS Business */}
+          <div className="bg-white/70 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-sm p-5 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
+                <span className="text-xl">🏢</span>
+                <span>BANIBS Business</span>
+              </div>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                Discover Black and Native Indigenous-owned businesses. Buy direct. Support local. Build wealth in the community.
+              </p>
+            </div>
+            <div className="mt-4">
+              <a
+                href="#"
+                className="text-sm font-semibold text-gray-800 hover:underline"
+              >
+                Browse Businesses →
+              </a>
+            </div>
+          </div>
+
+          {/* Resources / Funding / Support */}
+          <div className="bg-white/70 backdrop-blur-sm border border-gray-100 rounded-2xl shadow-sm p-5 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-2 text-sm font-semibold text-gray-800 mb-2">
+                <span className="text-xl">📚</span>
+                <span>Resources</span>
+              </div>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                Grants, legal help, startup guides, funding tools, and education for founders, students, and organizers.
+              </p>
+            </div>
+            <div className="mt-4">
+              <a
+                href="#"
+                className="text-sm font-semibold text-gray-800 hover:underline"
+              >
+                Explore Resources →
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 🏆 Community Highlights Section */}
       <section className="max-w-7xl mx-auto px-4 mt-8 md:mt-10">
         <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
