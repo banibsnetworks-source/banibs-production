@@ -145,4 +145,34 @@ export const uploadsAPI = {
     api.get('/admin/uploads/test-aws')
 };
 
+// Phase 3.1 - Contributor Profile API
+export const contributorProfileAPI = {
+  getProfile: (contributorId) =>
+    api.get(`/contributors/${contributorId}/profile`),
+  
+  updateProfile: (profileData) =>
+    api.patch('/contributors/profile', profileData),
+  
+  verifyContributor: (contributorId, verified) =>
+    api.patch(`/contributors/${contributorId}/verify`, { verified })
+};
+
+// Phase 3.2 - Moderation Logs API
+export const moderationLogsAPI = {
+  getLogsForOpportunity: (opportunityId) =>
+    api.get(`/admin/moderation-log/opportunities/${opportunityId}`),
+  
+  getAllLogs: (moderatorUserId = null) => {
+    const params = moderatorUserId ? { moderatorUserId } : {};
+    return api.get('/admin/moderation-log/', { params });
+  },
+  
+  exportCSV: (moderatorUserId = null) => {
+    const params = moderatorUserId ? `?moderatorUserId=${moderatorUserId}` : '';
+    return api.get(`/admin/moderation-log/export.csv${params}`, {
+      responseType: 'blob'
+    });
+  }
+};
+
 export default api;
