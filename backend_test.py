@@ -1137,7 +1137,7 @@ class BanibsAPITester:
         
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
-        self.log("Starting BANIBS Backend API Test Suite - Phase 5.1 & 5.2")
+        self.log("Starting BANIBS Backend API Test Suite - Phase 5.3, 5.4, 5.5")
         self.log(f"Testing against: {API_BASE}")
         
         tests = [
@@ -1148,19 +1148,24 @@ class BanibsAPITester:
             ("Submit Opportunity", self.test_submit_opportunity),
             ("Approve Test Opportunity", self.approve_test_opportunity),
             
-            # Phase 5.1 - Paid Sponsored Placement Tests
-            ("Stripe Config Endpoint", self.test_stripe_config_endpoint),
-            ("Stripe Checkout Auth Scenarios", self.test_stripe_checkout_auth_scenarios),
-            ("Stripe Checkout Contributor Scenarios", self.test_stripe_checkout_contributor_scenarios),
-            ("Stripe Webhook Endpoint", self.test_stripe_webhook_endpoint),
+            # Phase 5.4 - Opportunity Detail Endpoint Tests
+            ("Opportunity Detail Public", self.test_opportunity_detail_public),
+            ("Opportunity Detail Invalid ID", self.test_opportunity_detail_invalid_id),
+            ("Opportunity Detail Pending", self.test_opportunity_detail_pending),
             
-            # Phase 5.2 - Automated Weekly Digest Tests
-            ("Newsletter Subscribe", self.test_newsletter_subscribe),
-            ("Send Digest Auth Scenarios", self.test_send_digest_auth_scenarios),
-            ("Newsletter Sends History", self.test_newsletter_sends_history),
+            # Phase 5.5 - Admin Revenue Overview Tests
+            ("Revenue Overview Auth", self.test_revenue_overview_auth),
+            ("Revenue Overview Data", self.test_revenue_overview_data),
             
-            # RBAC verification
-            ("RBAC Verification", self.test_rbac_verification),
+            # Phase 5.3 - Abuse/Safety Controls Tests
+            ("Admin Ban Endpoints Auth", self.test_admin_ban_endpoints_auth),
+            ("Admin Ban Source", self.test_admin_ban_source),
+            ("Get Banned Sources", self.test_get_banned_sources),
+            ("Ban Enforcement", self.test_ban_enforcement),
+            ("Rate Limiting Comment", self.test_rate_limiting_comment),
+            ("Rate Limiting Reaction", self.test_rate_limiting_reaction),
+            ("Rate Limiting Newsletter", self.test_rate_limiting_newsletter),
+            ("Unban Source", self.test_unban_source),
             
             # Basic validation
             ("JWT Validation", self.test_jwt_validation),
