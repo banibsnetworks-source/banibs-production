@@ -471,15 +471,18 @@ frontend:
   # Phase 5.5 - Admin Revenue Overview Backend
   - task: "Revenue overview endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/admin_revenue.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created GET /api/admin/revenue/overview endpoint. Super admin only (RBAC enforced). Returns totalSponsoredOrders, totalSponsoredRevenueUSD, recentSponsorOrders (last 10), newsletterSubscribersCount, and lastNewsletterSend details."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/admin/revenue/overview working perfectly. Proper RBAC enforcement (401 without auth, 403 for contributors). Returns all required fields: totalSponsoredOrders (0), totalSponsoredRevenueUSD ($0.0), recentSponsorOrders (array), newsletterSubscribersCount (12), lastNewsletterSend (object/null). All data types correct and aggregation working properly."
 
 metadata:
   created_by: "main_agent"
