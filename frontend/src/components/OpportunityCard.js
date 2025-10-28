@@ -94,6 +94,20 @@ const OpportunityCard = ({ opportunity, showEngagement = true }) => {
         )}
       </div>
 
+      {/* Phase 4.1 - Engagement (Likes & Comments) */}
+      {showEngagement && (
+        <div className="flex items-center gap-4 mb-4 pt-4 border-t border-[#FFD700]/20">
+          <LikeButton 
+            opportunityId={opportunity.id} 
+            initialCount={opportunity.like_count || 0} 
+          />
+          <div className="flex items-center gap-2 text-gray-400">
+            <span className="text-lg">💬</span>
+            <span className="font-bold">{opportunity.comment_count || 0}</span>
+          </div>
+        </div>
+      )}
+
       {/* Apply Button */}
       {opportunity.link && (
         <a
