@@ -84,21 +84,20 @@ async def submit_opportunity(
 
 # --- ADMIN ENDPOINTS ---
 
-# We'll protect admin endpoints with a simple shared API key header.
-# This avoids full auth/JWT work right now but keeps randoms from flipping approvals.
+# Phase 2.8: JWT-based authentication
+# Admin endpoints now require JWT with 'admin' role
 
-ADMIN_KEY = "BANIBS_INTERNAL_KEY"  # TODO: move to env in production
-
-def check_admin(x_api_key: str = Header(None)):
-    if x_api_key != ADMIN_KEY:
-        raise HTTPException(status_code=403, detail="Forbidden (admin key invalid)")
-
+from middleware.auth_guard import require_role
 
 @router.get("/pending")
 async def list_pending(
     db=Depends(get_db),
-    _: None = Depends(check_admin),
+    user: dict = Depends(require_role("admin")),
 ):
+    """
+    Get pending opportunities (admin only)
+    Requires JWT with role='admin'
+    """
     docs = await get_pending_opportunities(db)
     # Convert ObjectId to string for JSON serialization
     for doc in docs:
