@@ -261,6 +261,27 @@ const AdminOpportunityCard = ({ opportunity, onUpdate }) => {
             📋 History
           </button>
 
+          {/* Phase 4.3 - Sponsor Button (super_admin only) */}
+          {isSuperAdmin() && (
+            <button
+              onClick={() => {
+                setSponsorData({
+                  is_sponsored: !opportunity.is_sponsored,
+                  sponsor_label: opportunity.sponsor_label || ''
+                });
+                setShowSponsorModal(true);
+              }}
+              disabled={loading}
+              className={`px-4 py-2 font-bold rounded-lg focus:outline-none focus:ring-2 transition-all text-sm disabled:opacity-50 ${
+                opportunity.is_sponsored
+                  ? 'bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black hover:from-[#FFC700] hover:to-[#FF8C00] focus:ring-[#FFD700] shadow-[0_0_10px_rgba(255,215,0,0.5)]'
+                  : 'bg-[#1a1a1a] border border-[#FFD700] text-[#FFD700] hover:bg-[#2a2a2a] focus:ring-[#FFD700]'
+              }`}
+            >
+              {opportunity.is_sponsored ? '⭐ Sponsored' : '💰 Set Sponsor'}
+            </button>
+          )}
+
           {opportunity.link && (
             <a
               href={opportunity.link}
