@@ -284,6 +284,104 @@ frontend:
         agent: "testing"
         comment: "✅ TESTED: Admin login working with credentials admin@banibs.com / BanibsAdmin#2025. Successfully redirects to admin dashboard. Dashboard displays pending opportunities with moderation buttons (Approve/Reject). Filters and tabs (Pending/Approved/Featured) working correctly."
 
+  # Phase 5.1 - Paid Sponsored Placement Backend
+  - task: "Stripe checkout endpoint"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/sponsor.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "POST /api/sponsor/checkout endpoint created. Validates opportunity ownership, approval status, and creates Stripe checkout session. Gracefully handles missing Stripe configuration. Requires contributor JWT authentication."
+
+  - task: "Stripe webhook handler"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/sponsor.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "POST /api/sponsor/webhook endpoint created. Verifies Stripe webhook signature, processes successful payments, updates sponsor_orders status to 'paid', and updates opportunity is_sponsored and sponsor_label fields."
+
+  - task: "Sponsor orders database operations"
+    implemented: true
+    working: "NA"
+    file: "backend/db/sponsor_orders.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Database helper created with functions: create_sponsor_order, get_sponsor_order_by_id, get_sponsor_order_by_session_id, update_sponsor_order, get_all_sponsor_orders, get_total_revenue. Uses UUID for IDs (no ObjectId)."
+
+  - task: "Opportunity sponsor status update"
+    implemented: true
+    working: "NA"
+    file: "backend/db/opportunities.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added update_opportunity_sponsor_status function to update is_sponsored and sponsor_label fields. Also added get_opportunity_by_id helper function."
+
+  # Phase 5.2 - Automated Weekly Digest Delivery Backend
+  - task: "Send weekly digest endpoint"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/newsletter.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "POST /api/newsletter/admin/send-digest endpoint created. Super admin only (RBAC). Generates weekly digest, sends to all confirmed newsletter subscribers, logs send to newsletter_sends collection. Returns sent count, status, and send_id."
+
+  - task: "Newsletter sends history endpoint"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/newsletter.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "GET /api/newsletter/admin/sends endpoint created. Super admin only (RBAC). Returns list of past newsletter sends with metadata (sent_at, total_subscribers, total_opportunities, status)."
+
+  - task: "Newsletter sends database operations"
+    implemented: true
+    working: "NA"
+    file: "backend/db/newsletter_sends.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Database helper created with functions: create_newsletter_send, get_newsletter_send_by_id, get_all_newsletter_sends, get_last_newsletter_send. Uses UUID for IDs."
+
+  - task: "Digest email composition and sending"
+    implemented: true
+    working: "NA"
+    file: "backend/services/email_service.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added send_digest_email function to compose and send HTML digest emails. Includes summary, featured opportunities, and opportunities grouped by type (jobs, grants, scholarships, training, events)."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
