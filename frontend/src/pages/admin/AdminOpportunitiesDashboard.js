@@ -17,6 +17,18 @@ const AdminOpportunitiesDashboard = () => {
 
   const { user, logout } = useAuth();
 
+  const loadAnalytics = async () => {
+    setLoadingAnalytics(true);
+    try {
+      const response = await opportunitiesAPI.getAnalytics();
+      setAnalytics(response.data);
+    } catch (err) {
+      console.error('Error loading analytics:', err);
+    } finally {
+      setLoadingAnalytics(false);
+    }
+  };
+
   const loadOpportunities = async () => {
     setLoading(true);
     setError('');
@@ -35,6 +47,18 @@ const AdminOpportunitiesDashboard = () => {
         filtered = allOpps.filter(opp => opp.featured);
       }
 
+      // Apply type filter
+      if (typeFilter !== 'all') {
+        filtered = filtered.filter(opp => opp.type === typeFilter);
+      }
+
+      // Apply contributor filter
+      if (contributorFilter.trim()) {
+        filtered = filtered.filter(opp => 
+          opp.contributorEmail?.toLowerCase().includes(contributorFilter.toLowerCase())
+        );
+      }
+
       setOpportunities(filtered);
     } catch (err) {
       console.error('Error loading opportunities:', err);
@@ -45,8 +69,12 @@ const AdminOpportunitiesDashboard = () => {
   };
 
   useEffect(() => {
+    loadAnalytics();
+  }, []);
+
+  useEffect(() => {
     loadOpportunities();
-  }, [filter]);
+  }, [filter, typeFilter, contributorFilter]);
 
   const handleUpdate = () => {
     // Reload opportunities after any action
