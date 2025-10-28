@@ -35,7 +35,7 @@ export async function fetchRevenueOverview() {
 
 // --- Banned Sources list (Phase 5.3)
 export async function fetchBannedSources() {
-  const res = await fetch(`${API_BASE}/admin/banned-sources`, {
+  const res = await fetch(`${API_BASE}/api/admin/banned-sources`, {
     headers: {
       "Content-Type": "application/json",
       ...getAuthHeader(),
