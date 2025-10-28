@@ -290,11 +290,11 @@ from middleware.auth_guard import require_role, require_super_admin, can_moderat
 @router.get("/pending")
 async def list_pending(
     db=Depends(get_db),
-    user: dict = Depends(require_role("admin")),
+    user: dict = Depends(can_moderate),
 ):
     """
     Get pending opportunities (admin only)
-    Requires JWT with role='admin'
+    Phase 4.5 - Updated to use RBAC (moderator or super_admin)
     """
     docs = await get_pending_opportunities(db)
     
