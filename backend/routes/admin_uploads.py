@@ -3,6 +3,7 @@ Admin Upload Routes for BANIBS
 Handles image uploads via S3 presigned URLs or local fallback
 """
 
+import os
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
