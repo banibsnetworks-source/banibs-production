@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { opportunitiesAPI, moderationLogsAPI } from '../../services/api';
 import AdminOpportunityCard from '../../components/admin/AdminOpportunityCard';
+import RevenueOverview from '../../components/admin/RevenueOverview';
+import AbuseControls from '../../components/admin/AbuseControls';
 
 const AdminOpportunitiesDashboard = () => {
   const [opportunities, setOpportunities] = useState([]);
