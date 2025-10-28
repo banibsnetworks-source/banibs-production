@@ -113,6 +113,12 @@ app.include_router(newsletter_router)
 # Include sponsor router (Phase 5.1)
 app.include_router(sponsor_router)
 
+# Include admin abuse router (Phase 5.3)
+app.include_router(admin_abuse_router)
+
+# Include admin revenue router (Phase 5.5)
+app.include_router(admin_revenue_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
