@@ -225,7 +225,7 @@ async def get_my_opportunities(
 # Phase 2.8: JWT-based authentication
 # Admin endpoints now require JWT with 'admin' role
 
-from middleware.auth_guard import require_role
+from middleware.auth_guard import require_role, require_super_admin, can_moderate
 
 @router.get("/pending")
 async def list_pending(
