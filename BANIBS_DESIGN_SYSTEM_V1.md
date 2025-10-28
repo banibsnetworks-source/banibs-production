@@ -171,7 +171,7 @@ We're building out community coverage right now. Fresh stories will start appear
 </section>
 ```
 
-### 6. Opportunities CTA
+### 7. Opportunities CTA
 ```jsx
 <section className="mt-12 bg-gray-900 text-white">
   <div className="max-w-7xl mx-auto px-4 py-10 text-center">
