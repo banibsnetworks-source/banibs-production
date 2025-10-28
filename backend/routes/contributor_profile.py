@@ -13,16 +13,21 @@ async def get_contributor_profile(contributor_id: str):
     Public endpoint - Get contributor profile by ID
     Handles both UUID-based 'id' field and ObjectId-based '_id' field
     """
+    from bson import ObjectId
+    from bson.errors import InvalidId
+    
     db = await get_db()
     
-    # Try to find by 'id' field first (UUID), then by '_id' (ObjectId)
+    contributor = None
+    
+    # Try UUID format first
     contributor = await db.contributors.find_one({"id": contributor_id})
-    if not contributor:
-        # Try ObjectId if it looks like one
+    
+    # If not found and looks like ObjectId (24 hex chars), try ObjectId
+    if not contributor and len(contributor_id) == 24:
         try:
-            from bson import ObjectId
             contributor = await db.contributors.find_one({"_id": ObjectId(contributor_id)})
-        except:
+        except InvalidId:
             pass
     
     if not contributor:
@@ -31,7 +36,7 @@ async def get_contributor_profile(contributor_id: str):
     # Use 'id' field if available, otherwise use '_id'
     contributor_id_value = contributor.get("id") or str(contributor.get("_id"))
     
-    # Build profile response
+    # Build profile response (handle both camelCase and snake_case field names)
     profile = ContributorProfile(
         id=contributor_id_value,
         display_name=contributor.get("displayName") or contributor.get("display_name") or contributor.get("name", "Anonymous"),
