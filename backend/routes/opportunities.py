@@ -302,26 +302,9 @@ async def feature_opportunity(
     await update_opportunity_status(db, opp_id, approved=True, featured=True)
     
     # Log moderation action
-    await log_moderation_action(db, "FEATURE_OPPORTUNITY", opp_id, user)
+    await log_moderation_action(db, "FEATURE_OPPORTUNITY", opp_id, user, action.notes)
     
     return {"id": opp_id, "approved": True, "featured": True}
-
-
-# Helper function to log moderation actions
-async def log_moderation_action(db, action: str, target_id: str, user: dict):
-    """Log moderation action to moderation_logs collection"""
-    from datetime import datetime
-    
-    log_entry = {
-        "action": action,
-        "target_id": target_id,
-        "performed_by": user.get("email"),
-        "admin_id": user.get("user_id"),
-        "timestamp": datetime.utcnow(),
-        "notes": None
-    }
-    
-    await db.moderation_logs.insert_one(log_entry)
 
 
 # --- IMAGE UPLOAD ENDPOINT ---
