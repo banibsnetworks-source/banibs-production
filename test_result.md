@@ -439,15 +439,18 @@ frontend:
 
   - task: "Admin ban endpoints"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/admin_abuse.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created POST /api/admin/ban-source and GET /api/admin/banned-sources endpoints. Super admin only (RBAC enforced). Ban endpoint requires ip_hash and reason. List endpoint returns truncated IP hashes (first 6 chars) for display."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: All admin ban endpoints working perfectly. POST /api/admin/ban-source successfully bans IP hashes with proper RBAC (401 without auth, 403 for contributors). GET /api/admin/banned-sources returns list with truncated hashes. DELETE /api/admin/unban-source successfully unbans IP hashes. All authentication and authorization checks working correctly."
 
   # Phase 5.4 - Opportunity Detail Endpoint Backend
   - task: "Opportunity detail endpoint"
