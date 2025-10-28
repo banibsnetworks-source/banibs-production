@@ -280,7 +280,8 @@ const SubmitOpportunity = () => {
               />
             </div>
 
-            {/* Image Upload */}
+            {/* Image Upload - Temporarily Disabled for Stability */}
+            {/* 
             <div>
               <label className="block text-sm font-medium text-[#FFD700] mb-2">
                 Image (optional)
@@ -305,6 +306,7 @@ const SubmitOpportunity = () => {
                 </div>
               )}
             </div>
+            */}
 
             {/* Submit Button */}
             <div className="flex gap-4">
