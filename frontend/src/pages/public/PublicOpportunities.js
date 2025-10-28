@@ -38,7 +38,8 @@ const PublicOpportunities = () => {
     { value: 'job', label: 'Jobs', icon: '💼' },
     { value: 'grant', label: 'Grants', icon: '💰' },
     { value: 'scholarship', label: 'Scholarships', icon: '🎓' },
-    { value: 'training', label: 'Training', icon: '📚' }
+    { value: 'training', label: 'Training', icon: '📚' },
+    { value: 'event', label: 'Events', icon: '📅' }
   ];
 
   return (
