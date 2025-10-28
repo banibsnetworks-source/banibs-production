@@ -39,32 +39,49 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = localStorage.getItem('refresh_token');
-        if (!refreshToken) {
-          // No refresh token, redirect to login
+        // Check if we have admin or contributor tokens
+        const adminRefreshToken = localStorage.getItem('refresh_token');
+        const contributorToken = localStorage.getItem('contributor_access_token');
+        
+        if (adminRefreshToken) {
+          // Try to refresh admin token
+          const response = await axios.post(`${BACKEND_URL}/api/auth/refresh`, {
+            refresh_token: adminRefreshToken
+          });
+
+          const { access_token } = response.data;
+          
+          // Update stored token
+          localStorage.setItem('access_token', access_token);
+
+          // Retry original request with new token
+          originalRequest.headers.Authorization = `Bearer ${access_token}`;
+          return api(originalRequest);
+        } else if (contributorToken) {
+          // Contributor token expired, redirect to contributor login
+          window.location.href = '/contributor/login';
+          return Promise.reject(error);
+        } else {
+          // No refresh token, redirect to admin login
           window.location.href = '/admin/login';
           return Promise.reject(error);
         }
-
-        // Try to refresh the token
-        const response = await axios.post(`${BACKEND_URL}/api/auth/refresh`, {
-          refresh_token: refreshToken
-        });
-
-        const { access_token } = response.data;
-        
-        // Update stored token
-        localStorage.setItem('access_token', access_token);
-
-        // Retry original request with new token
-        originalRequest.headers.Authorization = `Bearer ${access_token}`;
-        return api(originalRequest);
       } catch (refreshError) {
         // Refresh failed, clear tokens and redirect
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        localStorage.removeItem('user');
-        window.location.href = '/admin/login';
+        const contributorToken = localStorage.getItem('contributor_access_token');
+        
+        if (contributorToken) {
+          // Clear contributor auth
+          localStorage.removeItem('contributor_access_token');
+          localStorage.removeItem('contributor_user');
+          window.location.href = '/contributor/login';
+        } else {
+          // Clear admin auth
+          localStorage.removeItem('access_token');
+          localStorage.removeItem('refresh_token');
+          localStorage.removeItem('user');
+          window.location.href = '/admin/login';
+        }
         return Promise.reject(refreshError);
       }
     }
