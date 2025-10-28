@@ -32,8 +32,11 @@ const NewsFeed = () => {
   const formatDate = (isoString) => {
     if (!isoString) return '';
     const date = new Date(isoString);
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
   };
 
   if (loading) {
@@ -71,8 +74,8 @@ const NewsFeed = () => {
           <span className="text-lg">📰</span>
           <span>Latest Stories</span>
         </h2>
-        <div className="flex justify-center items-center py-20">
-          <div className="text-gray-500 text-base">No news items available yet. Check back soon!</div>
+        <div className="text-sm text-gray-500 bg-white/60 backdrop-blur-sm border border-gray-100 rounded-xl p-5 shadow-sm">
+          No news items available yet. Check back soon!
         </div>
       </section>
     );
@@ -84,44 +87,60 @@ const NewsFeed = () => {
         <span className="text-lg">📰</span>
         <span>Latest Stories</span>
       </h2>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {newsItems.map((item) => (
-          <div 
-            key={item.id} 
-            className="bg-white/70 backdrop-blur-sm border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition"
+          <article
+            key={item.id}
+            className="bg-white/70 backdrop-blur-sm border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition"
           >
-            {/* Category pill */}
-            <div className="text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wide">
-              {item.category}
+            {/* Category + Date */}
+            <div className="flex flex-wrap items-center text-xs text-gray-500 gap-2 mb-2">
+              {item.category && (
+                <span className="font-semibold text-gray-700">{item.category}</span>
+              )}
+              {item.publishedAt && (
+                <span className="text-gray-400">
+                  {formatDate(item.publishedAt)}
+                </span>
+              )}
             </div>
-            
+
             {/* Title */}
-            {item.sourceUrl ? (
-              <a 
-                href={item.sourceUrl} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="block text-lg font-bold text-gray-900 leading-tight hover:text-gray-700"
-              >
-                {item.title}
-              </a>
-            ) : (
-              <h3 className="text-lg font-bold text-gray-900 leading-tight">
-                {item.title}
-              </h3>
-            )}
-            
+            <h3 className="text-lg font-semibold text-gray-900 leading-snug">
+              {item.sourceUrl ? (
+                <a
+                  href={item.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline"
+                >
+                  {item.title}
+                </a>
+              ) : (
+                item.title
+              )}
+            </h3>
+
             {/* Summary */}
-            <p className="text-sm text-gray-700 mt-2 leading-relaxed">
-              {item.summary}
-            </p>
-            
-            {/* Date */}
-            <div className="text-xs text-gray-500 mt-3">
-              {formatDate(item.publishedAt)}
-            </div>
-          </div>
+            {item.summary && (
+              <p className="text-sm text-gray-700 mt-2 leading-relaxed">
+                {item.summary}
+              </p>
+            )}
+
+            {/* Read more link */}
+            {item.sourceUrl && (
+              <a
+                href={item.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-semibold text-gray-800 mt-3 inline-block hover:underline"
+              >
+                Read More →
+              </a>
+            )}
+          </article>
         ))}
       </div>
     </section>
