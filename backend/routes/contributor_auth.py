@@ -133,6 +133,7 @@ async def login_contributor(
         access_token=access_token,
         refresh_token=refresh_token,
         contributor=ContributorPublic(
+            id=str(contributor['_id']),
             email=contributor['email'],
             name=contributor.get('name', ''),
             organization=contributor.get('organization'),
