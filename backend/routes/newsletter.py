@@ -21,19 +21,36 @@ router = APIRouter(prefix="/api/newsletter", tags=["newsletter"])
 
 @router.post("/subscribe")
 async def subscribe_to_newsletter(
-    request: NewsletterSubscribeRequest,
+    request_data: NewsletterSubscribeRequest,
+    request: Request,
     db=Depends(get_db)
 ):
     """
     Subscribe to BANIBS newsletter
     Public endpoint - anyone can subscribe
     Idempotent: returns success even if already subscribed
+    
+    Phase 5.3 - Rate limited and ban checked
     """
-    await subscribe_email(db, request.email)
+    # Phase 5.3 - Get client IP and hash it
+    client_ip = request.client.host
+    ip_hash = hash_ip(client_ip)
+    
+    # Phase 5.3 - Check if IP is banned
+    if await is_ip_banned(ip_hash):
+        raise HTTPException(
+            status_code=403,
+            detail="Access blocked."
+        )
+    
+    # Phase 5.3 - Enforce rate limit
+    await enforce_rate_limit(request, "newsletter_subscribe", ip_hash)
+    
+    await subscribe_email(db, request_data.email)
     
     return {
         "success": True,
-        "email": request.email,
+        "email": request_data.email,
         "message": "Successfully subscribed to BANIBS newsletter"
     }
 
