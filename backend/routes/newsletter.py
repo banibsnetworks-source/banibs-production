@@ -26,7 +26,7 @@ async def subscribe_to_newsletter(
     Public endpoint - anyone can subscribe
     Idempotent: returns success even if already subscribed
     """
-    subscriber = await subscribe_email(db, request.email)
+    await subscribe_email(db, request.email)
     
     return {
         "success": True,
