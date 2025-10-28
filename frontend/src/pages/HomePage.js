@@ -286,66 +286,6 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* 🗂️ Browse by Category – mobile responsive & visually balanced */}
-      <section className="max-w-7xl mx-auto px-4 mt-10">
-        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
-          <span className="text-lg">🗂️</span>
-          <span>Browse by Category</span>
-        </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          {/* Jobs & Careers */}
-          <button
-            onClick={() => navigate('/opportunities?type=job')}
-            className="flex flex-col items-center border border-gray-100 rounded-2xl p-5 bg-white/70 backdrop-blur-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-200 ease-in-out"
-          >
-            <span className="text-3xl mb-2">💼</span>
-            <h3 className="font-semibold text-gray-800">Jobs & Careers</h3>
-            <p className="text-sm text-gray-600 text-center mt-1">Employment opportunities</p>
-          </button>
-
-          {/* Grants & Funding */}
-          <button
-            onClick={() => navigate('/opportunities?type=grant')}
-            className="flex flex-col items-center border border-gray-100 rounded-2xl p-5 bg-white/70 backdrop-blur-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-200 ease-in-out"
-          >
-            <span className="text-3xl mb-2">💰</span>
-            <h3 className="font-semibold text-gray-800">Grants & Funding</h3>
-            <p className="text-sm text-gray-600 text-center mt-1">Financial support</p>
-          </button>
-
-          {/* Scholarships */}
-          <button
-            onClick={() => navigate('/opportunities?type=scholarship')}
-            className="flex flex-col items-center border border-gray-100 rounded-2xl p-5 bg-white/70 backdrop-blur-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-200 ease-in-out"
-          >
-            <span className="text-3xl mb-2">🎓</span>
-            <h3 className="font-semibold text-gray-800">Scholarships</h3>
-            <p className="text-sm text-gray-600 text-center mt-1">Education funding</p>
-          </button>
-
-          {/* Training & Education */}
-          <button
-            onClick={() => navigate('/opportunities?type=training')}
-            className="flex flex-col items-center border border-gray-100 rounded-2xl p-5 bg-white/70 backdrop-blur-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-200 ease-in-out"
-          >
-            <span className="text-3xl mb-2">📚</span>
-            <h3 className="font-semibold text-gray-800">Training & Education</h3>
-            <p className="text-sm text-gray-600 text-center mt-1">Skill development</p>
-          </button>
-
-          {/* Events & Networking */}
-          <button
-            onClick={() => navigate('/opportunities?type=event')}
-            className="flex flex-col items-center border border-gray-100 rounded-2xl p-5 bg-white/70 backdrop-blur-sm hover:shadow-lg hover:-translate-y-1 transition-transform duration-200 ease-in-out"
-          >
-            <span className="text-3xl mb-2">📅</span>
-            <h3 className="font-semibold text-gray-800">Events & Networking</h3>
-            <p className="text-sm text-gray-600 text-center mt-1">Community connections</p>
-          </button>
-        </div>
-      </section>
-
       {/* News Feed - Dynamic from API */}
       <NewsFeed />
 
