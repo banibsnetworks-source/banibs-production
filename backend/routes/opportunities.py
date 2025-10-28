@@ -262,6 +262,54 @@ async def feature_opportunity(
     return {"id": opp_id, "approved": True, "featured": True}
 
 
+# --- ANALYTICS ENDPOINT (Phase 2.9) ---
+
+@router.get("/analytics")
+async def get_analytics(
+    db=Depends(get_db),
+    user: dict = Depends(require_role("admin")),
+):
+    """
+    Get analytics dashboard stats (admin only)
+    Returns counts of opportunities by status
+    """
+    # Count by status
+    pending_count = await db.opportunities.count_documents({"status": "pending"})
+    approved_count = await db.opportunities.count_documents({"status": "approved", "featured": False})
+    rejected_count = await db.opportunities.count_documents({"status": "rejected"})
+    featured_count = await db.opportunities.count_documents({"featured": True})
+    
+    # Count by type
+    jobs_count = await db.opportunities.count_documents({"type": "job", "approved": True})
+    grants_count = await db.opportunities.count_documents({"type": "grant", "approved": True})
+    scholarships_count = await db.opportunities.count_documents({"type": "scholarship", "approved": True})
+    training_count = await db.opportunities.count_documents({"type": "training", "approved": True})
+    events_count = await db.opportunities.count_documents({"type": "event", "approved": True})
+    
+    # Recent activity
+    recent = await db.moderation_logs.find().sort("timestamp", -1).limit(10).to_list(length=10)
+    for log in recent:
+        log["_id"] = str(log["_id"])
+    
+    return {
+        "status_counts": {
+            "pending": pending_count,
+            "approved": approved_count,
+            "rejected": rejected_count,
+            "featured": featured_count,
+            "total": pending_count + approved_count + rejected_count
+        },
+        "type_counts": {
+            "jobs": jobs_count,
+            "grants": grants_count,
+            "scholarships": scholarships_count,
+            "training": training_count,
+            "events": events_count
+        },
+        "recent_activity": recent
+    }
+
+
 # Helper function to log moderation actions
 async def log_moderation_action(db, action: str, target_id: str, user: dict, notes: Optional[str] = None):
     """Log moderation action to moderation_logs collection"""
