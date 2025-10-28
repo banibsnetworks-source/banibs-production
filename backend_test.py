@@ -7,6 +7,8 @@ Tests Phase 5.3 (Abuse/Safety Controls), Phase 5.4 (Opportunity Detail), and Pha
 import requests
 import json
 import sys
+import time
+import hashlib
 from datetime import datetime
 from typing import Optional, Dict, Any
 
