@@ -61,3 +61,6 @@ class OpportunityPublic(BaseModel):
     imageUrl: Optional[str]
     featured: bool
     createdAt: datetime
+    # Phase 3.1 - Contributor info
+    contributor_display_name: Optional[str] = None
+    contributor_verified: bool = False
