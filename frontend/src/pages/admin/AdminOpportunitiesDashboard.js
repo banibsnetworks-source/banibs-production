@@ -77,8 +77,9 @@ const AdminOpportunitiesDashboard = () => {
   }, [filter, typeFilter, contributorFilter]);
 
   const handleUpdate = () => {
-    // Reload opportunities after any action
+    // Reload opportunities and analytics after any action
     loadOpportunities();
+    loadAnalytics();
   };
 
   const handleLogout = () => {
