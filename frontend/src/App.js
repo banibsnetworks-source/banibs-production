@@ -85,6 +85,9 @@ function App() {
               {/* Contributor Routes */}
               <Route path="/contributor/register" element={<ContributorRegister />} />
               <Route path="/contributor/login" element={<ContributorLogin />} />
+              {/* Phase 3.1 - Contributor Profile Routes */}
+              <Route path="/contributor/:id" element={<ContributorProfile />} />
+              <Route path="/contributor/profile/edit" element={<ContributorProfileEdit />} />
               
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLogin />} />
