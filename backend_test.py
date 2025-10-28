@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-BANIBS Backend API Test Suite - Phase 2.9
-Tests authentication, contributor endpoints, admin endpoints, and public endpoints
+BANIBS Backend API Test Suite - Phase 5.1 & 5.2
+Tests Phase 5.1 (Paid Sponsored Placement) and Phase 5.2 (Automated Weekly Digest Delivery)
 """
 
 import requests
