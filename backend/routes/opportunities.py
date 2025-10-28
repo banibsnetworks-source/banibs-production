@@ -197,10 +197,18 @@ async def list_pending(
     Requires JWT with role='admin'
     """
     docs = await get_pending_opportunities(db)
-    # Convert ObjectId to string for JSON serialization
+    
+    # Enrich with contributor data (Phase 3.1)
+    enriched_docs = []
     for doc in docs:
+        enriched_doc = await enrich_opportunity_with_contributor(db, doc)
+        enriched_docs.append(enriched_doc)
+    
+    # Convert ObjectId to string for JSON serialization
+    for doc in enriched_docs:
         doc["id"] = str(doc.pop("_id"))
-    return docs  # raw for now; admins can see unapproved stuff
+    
+    return enriched_docs
 
 
 # Models for moderation actions with notes
