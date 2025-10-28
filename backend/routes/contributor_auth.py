@@ -72,6 +72,7 @@ async def register_contributor(
         access_token=access_token,
         refresh_token=refresh_token,
         contributor=ContributorPublic(
+            id=contributor_id,
             email=data.email,
             name=data.name,
             organization=data.organization,
