@@ -963,6 +963,130 @@ class BanibsAPITester:
             self.log(f"❌ Opportunity detail should return 404 for pending opportunity, got {response.status_code}", "ERROR")
             return False
     
+    # News Aggregation Feed Tests
+    
+    def test_news_latest_endpoint(self) -> bool:
+        """Test GET /api/news/latest endpoint"""
+        self.log("Testing news latest endpoint...")
+        
+        response = self.make_request("GET", "/news/latest")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list):
+                self.log(f"✅ News latest endpoint working - Found {len(data)} news items")
+                
+                # Test empty array case (expected since no news data exists)
+                if len(data) == 0:
+                    self.log("✅ News endpoint correctly returns empty array [] when no data exists")
+                    return True
+                
+                # If there are news items, verify the response structure
+                for item in data:
+                    required_fields = ["id", "title", "summary", "publishedAt", "category"]
+                    optional_fields = ["imageUrl", "sourceUrl"]
+                    
+                    # Check required fields
+                    missing_fields = [field for field in required_fields if field not in item]
+                    if missing_fields:
+                        self.log(f"❌ News item missing required fields: {missing_fields}", "ERROR")
+                        return False
+                    
+                    # Verify publishedAt is ISO string format
+                    try:
+                        from datetime import datetime
+                        datetime.fromisoformat(item['publishedAt'].replace('Z', '+00:00'))
+                        self.log(f"✅ News item publishedAt is valid ISO string: {item['publishedAt']}")
+                    except ValueError:
+                        self.log(f"❌ News item publishedAt is not valid ISO string: {item['publishedAt']}", "ERROR")
+                        return False
+                    
+                    # Log sample item structure
+                    self.log(f"   Sample item: {item['title']} - {item['category']}")
+                    break  # Just check first item
+                
+                return True
+            else:
+                self.log(f"❌ News latest response is not a list: {type(data)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ News latest endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_news_endpoint_public_access(self) -> bool:
+        """Test that news endpoint is public (no auth required)"""
+        self.log("Testing news endpoint public access...")
+        
+        # Test without any authentication headers
+        response = self.make_request("GET", "/news/latest")
+        
+        if response.status_code == 200:
+            self.log("✅ News endpoint is public - no authentication required")
+            return True
+        elif response.status_code == 401:
+            self.log("❌ News endpoint incorrectly requires authentication", "ERROR")
+            return False
+        else:
+            self.log(f"❌ News endpoint returned unexpected status: {response.status_code}", "ERROR")
+            return False
+    
+    def test_news_response_shape(self) -> bool:
+        """Test news response matches NewsItemPublic model specification"""
+        self.log("Testing news response shape...")
+        
+        response = self.make_request("GET", "/news/latest")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Should be an array
+            if not isinstance(data, list):
+                self.log(f"❌ News response should be array, got {type(data)}", "ERROR")
+                return False
+            
+            # If empty, that's valid
+            if len(data) == 0:
+                self.log("✅ News response is valid empty array")
+                return True
+            
+            # Check first item structure
+            item = data[0]
+            
+            # Required fields according to NewsItemPublic model
+            required_fields = {
+                "id": str,
+                "title": str, 
+                "summary": str,
+                "publishedAt": str,
+                "category": str
+            }
+            
+            # Optional fields
+            optional_fields = ["imageUrl", "sourceUrl"]
+            
+            # Verify required fields and types
+            for field, expected_type in required_fields.items():
+                if field not in item:
+                    self.log(f"❌ Missing required field: {field}", "ERROR")
+                    return False
+                
+                if not isinstance(item[field], expected_type):
+                    self.log(f"❌ Field {field} should be {expected_type.__name__}, got {type(item[field])}", "ERROR")
+                    return False
+            
+            # Verify optional fields are correct type if present
+            for field in optional_fields:
+                if field in item and item[field] is not None:
+                    if not isinstance(item[field], str):
+                        self.log(f"❌ Optional field {field} should be string or null, got {type(item[field])}", "ERROR")
+                        return False
+            
+            self.log("✅ News response shape matches NewsItemPublic model specification")
+            return True
+        else:
+            self.log(f"❌ Could not test response shape - endpoint failed: {response.status_code}", "ERROR")
+            return False
+
     # Phase 5.5 - Admin Revenue Overview Tests
     
     def test_revenue_overview_auth(self) -> bool:
