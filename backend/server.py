@@ -83,6 +83,9 @@ app.include_router(opportunities_router)
 # Include auth router (already has /api prefix)
 app.include_router(auth_router)
 
+# Include admin uploads router (already has /api prefix)
+app.include_router(admin_uploads_router)
+
 app.add_middleware(
     CORSMiddleware,
     allow_credentials=True,
