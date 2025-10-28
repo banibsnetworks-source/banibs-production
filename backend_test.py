@@ -761,8 +761,7 @@ class BanibsAPITester:
         
         for i in range(11):
             response = self.make_request("POST", "/newsletter/subscribe", {
-                "email": f"ratelimit{i}@example.com",
-                "ip_hash": test_ip_hash
+                "email": f"ratelimit{i}@example.com"
             })
             
             if response.status_code == 200:
