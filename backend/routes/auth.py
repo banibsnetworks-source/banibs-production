@@ -145,9 +145,12 @@ async def get_current_user_info(
     Requires: Authorization: Bearer <access_token>
     Returns: User profile
     """
+    from bson import ObjectId
+    
     user_id = user_payload.get("user_id")
     
-    user = await db.users.find_one({"_id": user_id})
+    # Convert string to ObjectId for MongoDB query
+    user = await db.users.find_one({"_id": ObjectId(user_id)})
     
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
