@@ -375,12 +375,12 @@ async def reject_opportunity(
     opp_id: str,
     action: ModerationAction = Body(default=ModerationAction()),
     db=Depends(get_db),
-    user: dict = Depends(require_role("admin")),
+    user: dict = Depends(can_moderate),
 ):
     """
     Reject opportunity (admin only)
+    Phase 4.5 - Updated to use RBAC (moderator or super_admin)
     Phase 3: Now includes moderation log + email notification with rejection reason
-    Requires JWT with role='admin'
     Accepts optional moderation notes
     """
     # Fetch opportunity to get contributor email
