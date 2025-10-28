@@ -78,7 +78,7 @@ export async function banSource(ip_hash, reason) {
 
 // --- Unban Source (Phase 5.3)
 export async function unbanSource(ip_hash) {
-  const res = await fetch(`${API_BASE}/admin/unban-source/${ip_hash}`, {
+  const res = await fetch(`${API_BASE}/api/admin/unban-source/${ip_hash}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
