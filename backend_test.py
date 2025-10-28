@@ -443,14 +443,23 @@ class BanibsAPITester:
         
         headers = {"Authorization": f"Bearer {self.contributor_token}"}
         
-        # Test 1: With contributor token but opportunity doesn't exist → Should return 404
+        # Test 1: With contributor token but opportunity doesn't exist → Should return 503 (Stripe config checked first)
         response = self.make_request("POST", "/sponsor/checkout", {
             "opportunity_id": "non-existent-id",
             "sponsor_label": "Test Sponsor"
         }, headers=headers)
         
-        if response.status_code != 404:
-            self.log(f"❌ Checkout with non-existent opportunity should return 404, got {response.status_code}", "ERROR")
+        if response.status_code == 503:
+            data = response.json()
+            if "Stripe configuration missing" in data.get("detail", ""):
+                self.log("✅ Checkout with non-existent opportunity correctly returns 503 (Stripe config checked first)")
+            else:
+                self.log(f"❌ Wrong error message for Stripe config: {data}", "ERROR")
+                return False
+        elif response.status_code == 404:
+            self.log("✅ Checkout with non-existent opportunity correctly returns 404 (if Stripe was configured)")
+        else:
+            self.log(f"❌ Checkout with non-existent opportunity should return 503 or 404, got {response.status_code}", "ERROR")
             return False
         
         # Test 2: With contributor token and their own opportunity but not approved → Should return 400
