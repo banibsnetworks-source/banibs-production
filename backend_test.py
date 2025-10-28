@@ -52,6 +52,8 @@ class BanibsAPITester:
                 response = self.session.post(url, json=data, headers=request_headers)
             elif method.upper() == "PATCH":
                 response = self.session.patch(url, json=data, headers=request_headers)
+            elif method.upper() == "DELETE":
+                response = self.session.delete(url, headers=request_headers)
             else:
                 raise ValueError(f"Unsupported method: {method}")
                 
