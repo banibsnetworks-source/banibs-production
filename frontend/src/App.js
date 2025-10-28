@@ -41,7 +41,7 @@ const Home = () => {
           <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" alt="Emergent" />
         </a>
         <p className="mt-5 text-2xl font-bold text-white mb-6">BANIBS Platform</p>
-        <div className="flex gap-4">
+        <div className="flex gap-4 mb-4">
           <a 
             href="/opportunities" 
             className="px-6 py-3 bg-[#FFD700] text-black font-bold rounded-lg hover:bg-[#FFC700] transition-all inline-block shadow-[0_0_15px_rgba(255,215,0,0.5)]"
@@ -49,12 +49,18 @@ const Home = () => {
             View Opportunities
           </a>
           <a 
-            href="/admin/login" 
+            href="/submit" 
             className="px-6 py-3 bg-[#1a1a1a] border-2 border-[#FFD700] text-[#FFD700] font-bold rounded-lg hover:bg-[#2a2a2a] transition-all inline-block"
           >
-            Admin Dashboard
+            Submit Opportunity
           </a>
         </div>
+        <a 
+          href="/admin/login" 
+          className="px-4 py-2 bg-gray-800 border border-gray-600 text-gray-400 text-sm rounded hover:bg-gray-700 transition-all inline-block"
+        >
+          Admin Dashboard
+        </a>
       </header>
     </div>
   );
