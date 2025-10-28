@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { opportunitiesAPI } from '../../services/api';
+import { opportunitiesAPI, moderationLogsAPI } from '../../services/api';
 
 const AdminOpportunityCard = ({ opportunity, onUpdate }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showNotesModal, setShowNotesModal] = useState(false);
+  const [showLogsModal, setShowLogsModal] = useState(false);
   const [action, setAction] = useState('');
   const [notes, setNotes] = useState('');
+  const [logs, setLogs] = useState([]);
+  const [loadingLogs, setLoadingLogs] = useState(false);
 
   const handleAction = async (actionType) => {
     setAction(actionType);
@@ -26,12 +29,31 @@ const AdminOpportunityCard = ({ opportunity, onUpdate }) => {
       }
       setShowNotesModal(false);
       setNotes('');
+      
+      // Phase 3.3 - Show toast notification about email
+      alert(`✅ ${action.charAt(0).toUpperCase() + action.slice(1)} successful! An email notification has been sent to the contributor.`);
+      
       onUpdate();
     } catch (err) {
       setError(`Failed to ${action}`);
       console.error(err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Phase 3.2 - Load moderation logs
+  const loadLogs = async () => {
+    setLoadingLogs(true);
+    try {
+      const response = await moderationLogsAPI.getLogsForOpportunity(opportunity.id);
+      setLogs(response.data);
+      setShowLogsModal(true);
+    } catch (err) {
+      console.error('Error loading logs:', err);
+      alert('Failed to load moderation logs');
+    } finally {
+      setLoadingLogs(false);
     }
   };
 
@@ -61,7 +83,9 @@ const AdminOpportunityCard = ({ opportunity, onUpdate }) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
     });
   };
 
@@ -77,10 +101,18 @@ const AdminOpportunityCard = ({ opportunity, onUpdate }) => {
             <p className="text-[#FFD700] text-sm font-medium">
               {opportunity.orgName}
             </p>
-            {opportunity.contributor_email && (
-              <p className="text-gray-400 text-xs mt-1">
-                By: {opportunity.contributor_email}
-              </p>
+            {/* Phase 3.1 - Show contributor display name and verified badge */}
+            {(opportunity.contributor_display_name || opportunity.contributor_email) && (
+              <div className="flex items-center gap-2 mt-1">
+                <p className="text-gray-400 text-xs">
+                  By: {opportunity.contributor_display_name || opportunity.contributor_email}
+                </p>
+                {opportunity.contributor_verified && (
+                  <span className="inline-flex items-center px-2 py-0.5 bg-[#FFD700] text-black text-xs font-bold rounded">
+                    ✓ Verified
+                  </span>
+                )}
+              </div>
             )}
           </div>
           {getStatusBadge()}
@@ -145,7 +177,7 @@ const AdminOpportunityCard = ({ opportunity, onUpdate }) => {
         )}
 
         {/* Action Buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-wrap">
           {!opportunity.approved && (
             <>
               <button
@@ -174,6 +206,15 @@ const AdminOpportunityCard = ({ opportunity, onUpdate }) => {
               ⭐ Feature
             </button>
           )}
+
+          {/* Phase 3.2 - View Logs Button */}
+          <button
+            onClick={loadLogs}
+            disabled={loadingLogs}
+            className="px-4 py-2 bg-[#1a1a1a] border border-[#FFD700] text-[#FFD700] font-bold rounded-lg hover:bg-[#2a2a2a] focus:outline-none focus:ring-2 focus:ring-[#FFD700] transition-all text-sm disabled:opacity-50"
+          >
+            📋 History
+          </button>
 
           {opportunity.link && (
             <a
