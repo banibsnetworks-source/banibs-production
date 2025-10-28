@@ -6,6 +6,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminOpportunitiesDashboard from "./pages/admin/AdminOpportunitiesDashboard";
+import PublicOpportunities from "./pages/public/PublicOpportunities";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
@@ -35,11 +36,17 @@ const Home = () => {
         >
           <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" alt="Emergent" />
         </a>
-        <p className="mt-5">Building something incredible ~!</p>
-        <div className="mt-4">
+        <p className="mt-5 text-2xl font-bold text-white mb-6">BANIBS Platform</p>
+        <div className="flex gap-4">
+          <a 
+            href="/opportunities" 
+            className="px-6 py-3 bg-[#FFD700] text-black font-bold rounded-lg hover:bg-[#FFC700] transition-all inline-block shadow-[0_0_15px_rgba(255,215,0,0.5)]"
+          >
+            View Opportunities
+          </a>
           <a 
             href="/admin/login" 
-            className="px-6 py-3 bg-[#FFD700] text-black font-bold rounded-lg hover:bg-[#FFC700] transition-all inline-block"
+            className="px-6 py-3 bg-[#1a1a1a] border-2 border-[#FFD700] text-[#FFD700] font-bold rounded-lg hover:bg-[#2a2a2a] transition-all inline-block"
           >
             Admin Dashboard
           </a>
@@ -56,6 +63,9 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
+            
+            {/* Public Routes */}
+            <Route path="/opportunities" element={<PublicOpportunities />} />
             
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />
