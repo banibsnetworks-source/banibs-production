@@ -510,10 +510,11 @@ async def sponsor_opportunity(
 @router.get("/analytics")
 async def get_analytics(
     db=Depends(get_db),
-    user: dict = Depends(require_role("admin")),
+    user: dict = Depends(can_moderate),
 ):
     """
     Get analytics dashboard stats (admin only)
+    Phase 4.5 - Updated to use RBAC (moderator or super_admin)
     Returns counts of opportunities by status
     """
     # Count by status
