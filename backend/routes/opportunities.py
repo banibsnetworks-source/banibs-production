@@ -135,3 +135,58 @@ async def feature_opportunity(
     # feature also implies approved
     await update_opportunity_status(db, opp_id, approved=True, featured=True)
     return {"id": opp_id, "approved": True, "featured": True}
+
+
+# --- IMAGE UPLOAD ENDPOINT ---
+
+@router.post("/upload-presigned-url")
+async def get_upload_presigned_url(filename: str):
+    """
+    Generate a presigned URL for direct S3 upload from frontend.
+    Requires AWS credentials to be configured in environment.
+    """
+    if not S3_BUCKET:
+        raise HTTPException(
+            status_code=501,
+            detail="S3 upload not configured. Set S3_BUCKET_NAME, AWS_ACCESS_KEY_ID, and AWS_SECRET_ACCESS_KEY in environment."
+        )
+    
+    try:
+        s3_client = boto3.client(
+            's3',
+            region_name=AWS_REGION,
+            aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
+            aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY")
+        )
+        
+        # Generate unique filename
+        import uuid
+        from pathlib import Path
+        ext = Path(filename).suffix
+        unique_filename = f"opportunities/{uuid.uuid4()}{ext}"
+        
+        # Generate presigned URL (valid for 15 minutes)
+        presigned_url = s3_client.generate_presigned_url(
+            'put_object',
+            Params={
+                'Bucket': S3_BUCKET,
+                'Key': unique_filename,
+                'ContentType': 'image/jpeg' if ext.lower() in ['.jpg', '.jpeg'] else 'image/png'
+            },
+            ExpiresIn=900  # 15 minutes
+        )
+        
+        # Construct the public URL
+        if CLOUDFRONT_URL:
+            public_url = f"{CLOUDFRONT_URL}/{unique_filename}"
+        else:
+            public_url = f"https://{S3_BUCKET}.s3.{AWS_REGION}.amazonaws.com/{unique_filename}"
+        
+        return {
+            "uploadUrl": presigned_url,
+            "publicUrl": public_url,
+            "filename": unique_filename
+        }
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error generating presigned URL: {str(e)}")
