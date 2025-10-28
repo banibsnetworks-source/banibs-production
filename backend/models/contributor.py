@@ -11,6 +11,14 @@ class ContributorDB(BaseModel):
     password_hash: str
     name: str
     organization: Optional[str] = None
+    # Phase 3.1 - Profile fields
+    display_name: Optional[str] = None
+    bio: Optional[str] = None
+    website_or_social: Optional[str] = None
+    verified: bool = False
+    total_submissions: int = 0
+    approved_submissions: int = 0
+    featured_submissions: int = 0
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
     
