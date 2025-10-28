@@ -120,6 +120,9 @@ app.include_router(admin_abuse_router)
 # Include admin revenue router (Phase 5.5)
 app.include_router(admin_revenue_router)
 
+# Include news router (News feed)
+app.include_router(news_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
