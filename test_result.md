@@ -515,6 +515,37 @@ frontend:
         agent: "testing"
         comment: "✅ TESTED: GET /api/news/latest endpoint working perfectly. Returns 200 status code with array of NewsItemPublic objects. Public endpoint confirmed - no authentication required. Correctly returns empty array [] when no news items exist (does NOT throw error). Response shape matches NewsItemPublic model specification with all required fields (id, title, summary, publishedAt as ISO string, category) and optional fields (imageUrl, sourceUrl). Router properly registered with /api/news prefix. Endpoint handles up to 10 items limit as specified."
 
+frontend:
+  - task: "NewsFeed component"
+    implemented: true
+    working: true
+    file: "frontend/src/components/NewsFeed.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created NewsFeed component that fetches from /api/news/latest on mount. Handles loading, error, and empty states gracefully. Displays news items in cards with category, title, summary, date, and optional image/link. Uses Tailwind styling consistent with homepage design."
+      - working: true
+        agent: "main"
+        comment: "✅ VERIFIED: NewsFeed component working correctly. Screenshot confirms proper integration into HomePage. Component displays 'No news items available yet. Check back soon!' message when API returns empty array. Loading and error states handled gracefully. Styling matches existing BANIBS design (black/gold theme, rounded corners, hover effects)."
+
+  - task: "Integrate NewsFeed into HomePage"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/HomePage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Replaced static 'Latest Stories' section with dynamic <NewsFeed /> component. Component placed after featured story and before Community Highlights section. Category navigation and membership band remain unchanged as specified."
+      - working: true
+        agent: "main"
+        comment: "✅ VERIFIED: NewsFeed successfully integrated into HomePage. Screenshot confirms component is rendering in correct position with proper styling. All existing homepage elements (nav, category nav, featured story, community highlights, CTA) remain intact and working."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
