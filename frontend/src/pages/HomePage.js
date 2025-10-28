@@ -197,7 +197,12 @@ const HomePage = () => {
       </div>
 
       {/* 🌟 Featured Story */}
-      <section className="max-w-7xl mx-auto mt-8 px-4">
+      <section className="max-w-7xl mx-auto px-4 mt-10">
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="text-lg">🌟</span>
+          <span>Featured Story</span>
+        </h2>
+        
         <div className="bg-white/80 backdrop-blur-sm border border-gray-100 rounded-2xl p-6 md:p-8 shadow-md">
           <div className="flex flex-col md:flex-row md:items-start gap-6">
 
@@ -213,14 +218,9 @@ const HomePage = () => {
 
             {/* Text Content */}
             <div className="w-full md:w-2/3">
-              <div className="text-sm font-semibold text-indigo-700 tracking-wide mb-2 flex items-center gap-2">
-                <span className="text-lg">🌟</span>
-                <span>Featured Story</span>
-              </div>
-
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
                 Building the Future: Indigenous Tech Leaders Breaking Ground
-              </h2>
+              </h3>
 
               <p className="text-gray-700 mt-3 text-base leading-relaxed">
                 Meet the entrepreneurs and innovators from Black and Indigenous communities
