@@ -402,6 +402,43 @@ async def feature_opportunity(
     
     return {"id": opp_id, "approved": True, "featured": True}
 
+# Phase 4.3 - Sponsor Endpoint
+
+@router.patch("/admin/opportunities/{opp_id}/sponsor")
+async def sponsor_opportunity(
+    opp_id: str,
+    action: SponsorAction,
+    db=Depends(get_db),
+    user: dict = Depends(require_role("admin")),
+):
+    """
+    Mark opportunity as sponsored (admin only)
+    Phase 4.3 - Monetization prep
+    Sets is_sponsored flag and optional sponsor_label
+    """
+    update_data = {
+        "is_sponsored": action.is_sponsored,
+        "updatedAt": datetime.utcnow()
+    }
+    
+    if action.sponsor_label:
+        update_data["sponsor_label"] = action.sponsor_label
+    elif not action.is_sponsored:
+        # If unmarking as sponsored, clear the label
+        update_data["sponsor_label"] = None
+    
+    await db.opportunities.update_one(
+        {"_id": ObjectId(opp_id)},
+        {"$set": update_data}
+    )
+    
+    return {
+        "id": opp_id,
+        "is_sponsored": action.is_sponsored,
+        "sponsor_label": action.sponsor_label,
+        "message": f"Opportunity {'marked' if action.is_sponsored else 'unmarked'} as sponsored"
+    }
+
 
 # --- ANALYTICS ENDPOINT (Phase 2.9) ---
 
