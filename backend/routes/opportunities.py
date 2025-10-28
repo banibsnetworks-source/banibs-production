@@ -42,6 +42,29 @@ async def enrich_opportunity_with_contributor(db, doc: dict) -> dict:
     
     return doc
 
+async def enrich_opportunity_with_engagement(db, doc: dict) -> dict:
+    """
+    Phase 4.1 - Add like_count and comment_count to opportunity
+    """
+    opportunity_id = str(doc["_id"])
+    
+    # Get like count
+    like_count = await db.reactions.count_documents({
+        "opportunity_id": opportunity_id,
+        "reaction_type": "like"
+    })
+    
+    # Get visible comment count
+    comment_count = await db.comments.count_documents({
+        "opportunity_id": opportunity_id,
+        "status": "visible"
+    })
+    
+    doc["like_count"] = like_count
+    doc["comment_count"] = comment_count
+    
+    return doc
+
 # --- PUBLIC ENDPOINTS ---
 
 @router.get("/", response_model=list[OpportunityPublic])
