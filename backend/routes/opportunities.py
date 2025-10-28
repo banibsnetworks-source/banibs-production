@@ -251,6 +251,11 @@ async def list_pending(
 class ModerationAction(BaseModel):
     notes: Optional[str] = None
 
+# Phase 4.3 - Sponsor Action
+class SponsorAction(BaseModel):
+    is_sponsored: bool
+    sponsor_label: Optional[str] = None
+
 @router.patch("/{opp_id}/approve")
 async def approve_opportunity(
     opp_id: str,
