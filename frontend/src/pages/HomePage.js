@@ -95,6 +95,68 @@ const HomePage = () => {
         </div>
       </div>
 
+      {/* Browse by Category - Quick Access */}
+      <div className="bg-black py-12 border-b-2 border-[#FFD700]/20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-[#FFD700] mb-6 text-center">
+            Browse by Category
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            
+            {/* Jobs */}
+            <button
+              onClick={() => navigate('/opportunities?type=job')}
+              className="bg-[#1a1a1a] border-2 border-[#FFD700]/30 rounded-lg p-6 hover:border-[#FFD700] hover:bg-[#FFD700]/10 transition-all group"
+            >
+              <div className="text-4xl mb-3">💼</div>
+              <h3 className="text-white font-bold mb-1 group-hover:text-[#FFD700]">Jobs & Careers</h3>
+              <p className="text-gray-400 text-xs">Employment opportunities</p>
+            </button>
+
+            {/* Grants */}
+            <button
+              onClick={() => navigate('/opportunities?type=grant')}
+              className="bg-[#1a1a1a] border-2 border-[#FFD700]/30 rounded-lg p-6 hover:border-[#FFD700] hover:bg-[#FFD700]/10 transition-all group"
+            >
+              <div className="text-4xl mb-3">💰</div>
+              <h3 className="text-white font-bold mb-1 group-hover:text-[#FFD700]">Grants & Funding</h3>
+              <p className="text-gray-400 text-xs">Financial support</p>
+            </button>
+
+            {/* Scholarships */}
+            <button
+              onClick={() => navigate('/opportunities?type=scholarship')}
+              className="bg-[#1a1a1a] border-2 border-[#FFD700]/30 rounded-lg p-6 hover:border-[#FFD700] hover:bg-[#FFD700]/10 transition-all group"
+            >
+              <div className="text-4xl mb-3">🎓</div>
+              <h3 className="text-white font-bold mb-1 group-hover:text-[#FFD700]">Scholarships</h3>
+              <p className="text-gray-400 text-xs">Education funding</p>
+            </button>
+
+            {/* Training */}
+            <button
+              onClick={() => navigate('/opportunities?type=training')}
+              className="bg-[#1a1a1a] border-2 border-[#FFD700]/30 rounded-lg p-6 hover:border-[#FFD700] hover:bg-[#FFD700]/10 transition-all group"
+            >
+              <div className="text-4xl mb-3">📚</div>
+              <h3 className="text-white font-bold mb-1 group-hover:text-[#FFD700]">Training & Education</h3>
+              <p className="text-gray-400 text-xs">Skill development</p>
+            </button>
+
+            {/* Events */}
+            <button
+              onClick={() => navigate('/opportunities?type=event')}
+              className="bg-[#1a1a1a] border-2 border-[#FFD700]/30 rounded-lg p-6 hover:border-[#FFD700] hover:bg-[#FFD700]/10 transition-all group"
+            >
+              <div className="text-4xl mb-3">📅</div>
+              <h3 className="text-white font-bold mb-1 group-hover:text-[#FFD700]">Events & Networking</h3>
+              <p className="text-gray-400 text-xs">Community connections</p>
+            </button>
+
+          </div>
+        </div>
+      </div>
+
       {/* Featured Story / Hero Article */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-[#1a1a1a] border-2 border-[#FFD700] rounded-lg overflow-hidden">
