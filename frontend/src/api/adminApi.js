@@ -3,7 +3,7 @@
 // Assumes you store the admin JWT in localStorage as "adminToken".
 // If you use a different key, update getAuthHeader().
 
-const API_BASE = process.env.REACT_APP_BACKEND_URL || "/api";
+const API_BASE = process.env.REACT_APP_BACKEND_URL || "";
 
 function getAuthHeader() {
   const token = window.localStorage.getItem("adminToken");
@@ -15,7 +15,7 @@ function getAuthHeader() {
 
 // --- Revenue Overview (Phase 5.5)
 export async function fetchRevenueOverview() {
-  const res = await fetch(`${API_BASE}/admin/revenue/overview`, {
+  const res = await fetch(`${API_BASE}/api/admin/revenue/overview`, {
     headers: {
       "Content-Type": "application/json",
       ...getAuthHeader(),
