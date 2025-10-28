@@ -1,15 +1,28 @@
 import React, { useState } from 'react';
-import { opportunitiesAPI, moderationLogsAPI } from '../../services/api';
+import { opportunitiesAPI, moderationLogsAPI, sponsoredAPI } from '../../services/api';
+import { useAuth } from '../../contexts/AuthContext';
 
 const AdminOpportunityCard = ({ opportunity, onUpdate }) => {
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showNotesModal, setShowNotesModal] = useState(false);
   const [showLogsModal, setShowLogsModal] = useState(false);
+  const [showSponsorModal, setShowSponsorModal] = useState(false); // Phase 4.3
   const [action, setAction] = useState('');
   const [notes, setNotes] = useState('');
   const [logs, setLogs] = useState([]);
   const [loadingLogs, setLoadingLogs] = useState(false);
+  const [sponsorData, setSponsorData] = useState({ // Phase 4.3
+    is_sponsored: opportunity.is_sponsored || false,
+    sponsor_label: opportunity.sponsor_label || ''
+  });
+
+  // Phase 4.5 - Check if user is super_admin
+  const isSuperAdmin = () => {
+    const role = user?.role;
+    return role === 'super_admin' || role === 'admin'; // backward compatibility
+  };
 
   const handleAction = async (actionType) => {
     setAction(actionType);
