@@ -246,9 +246,10 @@ const HomePage = () => {
       </section>
 
       {/* 🗂️ Browse by Category – mobile responsive & visually balanced */}
-      <section className="max-w-7xl mx-auto mt-10 px-4">
-        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-5 text-center">
-          Browse by Category
+      <section className="max-w-7xl mx-auto px-4 mt-10">
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="text-lg">🗂️</span>
+          <span>Browse by Category</span>
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
