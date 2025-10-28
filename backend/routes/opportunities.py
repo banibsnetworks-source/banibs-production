@@ -355,18 +355,28 @@ async def get_analytics(
 
 # Helper function to log moderation actions
 async def log_moderation_action(db, action: str, target_id: str, user: dict, notes: Optional[str] = None):
-    """Log moderation action to moderation_logs collection"""
+    """
+    Phase 3.2 - Log moderation action to moderation_logs collection
+    Now uses standardized schema for audit trail
+    """
+    from db.moderation_logs import insert_moderation_log
     
-    log_entry = {
-        "action": action,
-        "target_id": target_id,
-        "performed_by": user.get("email"),
-        "admin_id": user.get("user_id"),
-        "timestamp": datetime.utcnow(),
-        "notes": notes
+    # Map action strings to standardized types
+    action_type_map = {
+        "APPROVE_OPPORTUNITY": "approve",
+        "REJECT_OPPORTUNITY": "reject",
+        "FEATURE_OPPORTUNITY": "feature"
     }
     
-    await db.moderation_logs.insert_one(log_entry)
+    action_type = action_type_map.get(action, action.lower())
+    
+    await insert_moderation_log(
+        db=db,
+        opportunity_id=target_id,
+        moderator_user_id=user.get("user_id"),
+        action_type=action_type,
+        note=notes
+    )
 
 
 # --- IMAGE UPLOAD ENDPOINT ---
