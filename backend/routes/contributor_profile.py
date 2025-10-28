@@ -51,12 +51,14 @@ async def get_contributor_profile(contributor_id: str, db=Depends(get_db)):
 @router.patch("/profile", response_model=ContributorProfile)
 async def update_contributor_profile(
     profile_data: ContributorProfileUpdate,
+    db=Depends(get_db),
     current_user: dict = Depends(require_auth)
 ):
     """
     Contributor-only endpoint - Update own profile
     """
-    db = await get_db()
+    from bson import ObjectId
+    from bson.errors import InvalidId
     
     # Build update dict (only include fields that were provided)
     update_dict = {"updated_at": datetime.utcnow()}
@@ -78,12 +80,11 @@ async def update_contributor_profile(
     if result.matched_count == 0:
         # Try by _id if id didn't match
         try:
-            from bson import ObjectId
             result = await db.contributors.update_one(
                 {"_id": ObjectId(current_user["id"])},
                 {"$set": update_dict}
             )
-        except:
+        except (InvalidId, TypeError):
             pass
     
     if result.matched_count == 0:
@@ -93,9 +94,8 @@ async def update_contributor_profile(
     updated_contributor = await db.contributors.find_one({"id": current_user["id"]})
     if not updated_contributor:
         try:
-            from bson import ObjectId
             updated_contributor = await db.contributors.find_one({"_id": ObjectId(current_user["id"])})
-        except:
+        except (InvalidId, TypeError):
             pass
     
     contributor_id_value = updated_contributor.get("id") or str(updated_contributor.get("_id"))
