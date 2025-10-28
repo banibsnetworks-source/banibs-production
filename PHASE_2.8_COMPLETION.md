@@ -306,7 +306,7 @@ INITIAL_ADMIN_PASSWORD="BanibsAdmin#2025"
 
 ### Frontend Configuration
 ```env
-REACT_APP_BACKEND_URL="https://pay-to-promote.preview.emergentagent.com"
+REACT_APP_BACKEND_URL="https://banibs-digest.preview.emergentagent.com"
 ```
 
 ---
