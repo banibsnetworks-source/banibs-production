@@ -56,7 +56,7 @@ export async function fetchBannedSources() {
 // --- Ban Source (Phase 5.3)
 // body: { ip_hash: string, reason: string }
 export async function banSource(ip_hash, reason) {
-  const res = await fetch(`${API_BASE}/admin/ban-source`, {
+  const res = await fetch(`${API_BASE}/api/admin/ban-source`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
