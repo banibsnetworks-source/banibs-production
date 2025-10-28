@@ -8,6 +8,12 @@ const AdminOpportunitiesDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [filter, setFilter] = useState('pending'); // pending, approved, featured
+  const [analytics, setAnalytics] = useState(null);
+  const [loadingAnalytics, setLoadingAnalytics] = useState(true);
+  
+  // Advanced filters
+  const [typeFilter, setTypeFilter] = useState('all');
+  const [contributorFilter, setContributorFilter] = useState('');
 
   const { user, logout } = useAuth();
 
