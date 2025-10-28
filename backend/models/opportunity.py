@@ -29,6 +29,9 @@ class OpportunityDB(BaseModel):
     contributor_id: Optional[str] = None        # contributor who submitted
     contributor_email: Optional[str] = None     # for reference
     moderation_notes: Optional[str] = None      # admin notes on moderation
+    # Phase 4.3 - Sponsored/Monetization fields
+    is_sponsored: bool = False                  # marks opportunity as sponsored
+    sponsor_label: Optional[str] = None         # e.g. "Sponsored by Acme Corp"
     createdAt: datetime = Field(default_factory=datetime.utcnow)
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
