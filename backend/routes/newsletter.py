@@ -113,3 +113,109 @@ async def get_draft_digest(
         "message": "This is a preview. No emails have been sent.",
         "digest": digest
     }
+
+
+# Phase 5.2 - Newsletter Digest Sending
+
+@router.post("/admin/send-digest")
+async def send_weekly_digest(
+    db=Depends(get_db),
+    user: dict = Depends(require_super_admin)  # super_admin only
+):
+    """
+    Send weekly digest to all newsletter subscribers
+    
+    Phase 5.2 - Automated Weekly Digest Delivery
+    Super admin only (RBAC)
+    
+    Steps:
+    1. Generate weekly digest
+    2. Fetch all confirmed newsletter subscribers
+    3. Send digest email to each subscriber
+    4. Log send to newsletter_sends collection
+    """
+    from services.email_service import generate_weekly_digest, send_digest_email
+    from db.newsletter_sends import create_newsletter_send
+    
+    # Generate digest
+    digest = await generate_weekly_digest(db)
+    
+    if digest['total_new_opportunities'] == 0:
+        raise HTTPException(
+            status_code=400,
+            detail="No new opportunities to send in digest. Weekly digest requires at least one new opportunity."
+        )
+    
+    # Fetch all confirmed subscribers
+    subscribers = await get_all_subscribers(db)
+    confirmed_subscribers = [
+        sub for sub in subscribers 
+        if sub.get("confirmed", True)
+    ]
+    
+    if not confirmed_subscribers:
+        raise HTTPException(
+            status_code=400,
+            detail="No confirmed newsletter subscribers to send digest to."
+        )
+    
+    # Send digest to all subscribers
+    sent_count = 0
+    failed_emails = []
+    
+    for subscriber in confirmed_subscribers:
+        try:
+            send_digest_email(subscriber['email'], digest)
+            sent_count += 1
+        except Exception as e:
+            failed_emails.append(subscriber['email'])
+            print(f"Failed to send digest to {subscriber['email']}: {str(e)}")
+    
+    # Determine status
+    if sent_count == 0:
+        status = "failed"
+    elif failed_emails:
+        status = "partial"
+    else:
+        status = "completed"
+    
+    # Log send to newsletter_sends collection
+    send_log = await create_newsletter_send({
+        'total_subscribers': sent_count,
+        'total_opportunities': digest['total_new_opportunities'],
+        'sent_by': user.get('id'),
+        'status': status,
+        'error_message': f"Failed to send to: {', '.join(failed_emails)}" if failed_emails else None
+    })
+    
+    return {
+        "success": True,
+        "sent_to": sent_count,
+        "total_opportunities": digest['total_new_opportunities'],
+        "failed": len(failed_emails),
+        "send_id": send_log['id'],
+        "status": status,
+        "message": f"Weekly digest sent to {sent_count} subscribers"
+    }
+
+@router.get("/admin/sends")
+async def get_newsletter_sends(
+    db=Depends(get_db),
+    user: dict = Depends(require_super_admin)  # super_admin only
+):
+    """
+    Get newsletter send history
+    
+    Phase 5.2 - View past digest sends
+    Super admin only (RBAC)
+    
+    Returns list of past newsletter sends with metadata
+    """
+    from db.newsletter_sends import get_all_newsletter_sends
+    
+    sends = await get_all_newsletter_sends(limit=50)
+    
+    return {
+        "sends": sends,
+        "total": len(sends)
+    }
