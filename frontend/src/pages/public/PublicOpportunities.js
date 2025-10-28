@@ -180,7 +180,20 @@ const PublicOpportunities = () => {
             </div>
           </>
         )}
+          </div>
+          
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-8 space-y-6">
+              {/* Phase 4.4 - Leaderboard */}
+              <Leaderboard limit={5} />
+            </div>
+          </div>
+        </div>
       </main>
+
+      {/* Phase 4.2 - Newsletter Subscribe */}
+      <NewsletterSubscribe />
 
       {/* Footer */}
       <footer className="bg-black border-t-2 border-[#FFD700] mt-12">
