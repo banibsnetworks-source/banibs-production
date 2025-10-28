@@ -35,7 +35,6 @@ export default function AbuseControls() {
 
   useEffect(() => {
     loadList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function handleBanSubmit(e) {
