@@ -1,4 +1,5 @@
 from fastapi import FastAPI, APIRouter
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -26,8 +27,8 @@ db = client[os.environ['DB_NAME']]
 # Create the main app without a prefix
 app = FastAPI(
     title="BANIBS API",
-    description="Backend API for BANIBS Opportunities Platform",
-    version="2.7.0"
+    description="Backend API for BANIBS Opportunities Platform - Phase 2.8",
+    version="2.8.0"
 )
 
 # Create a router with the /api prefix
