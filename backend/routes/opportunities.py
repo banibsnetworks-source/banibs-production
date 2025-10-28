@@ -135,6 +135,7 @@ async def submit_opportunity_authenticated(
     """
     Submit opportunity as authenticated contributor
     Stores contributor info with submission
+    Phase 3.1: Now increments contributor's total_submissions count
     """
     # Add contributor info to submission
     data = payload.dict()
@@ -153,6 +154,12 @@ async def submit_opportunity_authenticated(
     
     result = await db.opportunities.insert_one(data)
     new_id = str(result.inserted_id)
+    
+    # Increment contributor's total_submissions count (Phase 3.1)
+    await db.contributors.update_one(
+        {"_id": user.get("user_id")},
+        {"$inc": {"total_submissions": 1}}
+    )
     
     return {
         "id": new_id,
