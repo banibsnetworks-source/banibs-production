@@ -265,7 +265,7 @@ async def approve_opportunity(
     opp_id: str,
     action: ModerationAction = Body(default=ModerationAction()),
     db=Depends(get_db),
-    user: dict = Depends(require_role("admin")),
+    user: dict = Depends(can_moderate),
 ):
     """
     Approve opportunity (admin only)
