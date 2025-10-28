@@ -50,6 +50,13 @@ async def list_opportunities(
     db=Depends(get_db),
 ):
     docs = await get_public_opportunities(db, type)
+    
+    # Enrich with contributor data (Phase 3.1)
+    enriched_docs = []
+    for doc in docs:
+        enriched_doc = await enrich_opportunity_with_contributor(db, doc)
+        enriched_docs.append(enriched_doc)
+    
     # map DB docs to public model
     return [
         OpportunityPublic(
@@ -64,8 +71,10 @@ async def list_opportunities(
             imageUrl=doc.get("imageUrl"),
             featured=doc.get("featured", False),
             createdAt=doc["createdAt"],
+            contributor_display_name=doc.get("contributor_display_name"),
+            contributor_verified=doc.get("contributor_verified", False),
         )
-        for doc in docs
+        for doc in enriched_docs
     ]
 
 
