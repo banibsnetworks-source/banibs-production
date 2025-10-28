@@ -110,7 +110,7 @@ const HomePage = () => {
             // Not logged in
             <div className="flex justify-between items-center">
               <p className="text-gray-300 text-sm">
-                BANIBS is a network for Black and Native Indigenous businesses and opportunity.
+                Connecting Black America to news, information, opportunity, and business growth.
               </p>
               <div className="flex gap-3">
                 <button
