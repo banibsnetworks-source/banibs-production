@@ -41,7 +41,7 @@ class OpportunityDB(BaseModel):
 class OpportunityCreate(BaseModel):
     title: str
     orgName: str
-    type: Literal["job", "grant", "scholarship", "training"]
+    type: Literal["job", "grant", "scholarship", "training", "event"]
     location: Optional[str] = None
     deadline: Optional[datetime] = None
     description: str
