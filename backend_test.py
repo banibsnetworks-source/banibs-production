@@ -62,7 +62,7 @@ class BanibsAPITester:
         
         response = self.make_request("POST", "/auth/login", {
             "email": "admin@banibs.com",
-            "password": "admin123"
+            "password": "BanibsAdmin#2025"
         })
         
         if response.status_code == 200:
