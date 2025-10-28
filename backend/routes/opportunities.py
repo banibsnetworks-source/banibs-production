@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException, Header, UploadFile, File
+from fastapi import APIRouter, Depends, HTTPException, Header, UploadFile, File, Body
 from typing import Optional
 from bson import ObjectId
 import boto3
 import os
-from datetime import timedelta
+from datetime import timedelta, datetime
+from pydantic import BaseModel
 
 from models.opportunity import OpportunityCreate, OpportunityPublic
 from db.opportunities import (
