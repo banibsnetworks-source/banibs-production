@@ -10,8 +10,9 @@ from typing import List
 import uuid
 from datetime import datetime, timezone
 
-# Import opportunities router
+# Import routers
 from routes.opportunities import router as opportunities_router
+from routes.auth import router as auth_router
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
