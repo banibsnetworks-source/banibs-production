@@ -64,3 +64,6 @@ class OpportunityPublic(BaseModel):
     # Phase 3.1 - Contributor info
     contributor_display_name: Optional[str] = None
     contributor_verified: bool = False
+    # Phase 4.1 - Engagement metrics
+    like_count: int = 0
+    comment_count: int = 0
