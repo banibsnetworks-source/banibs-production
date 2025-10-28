@@ -282,15 +282,10 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "Analytics endpoint"
-    - "Submit opportunity endpoint"
-    - "Admin dashboard analytics panel"
-    - "Admin dashboard filters"
-    - "Contributor authentication flow"
+  current_focus: []
   stuck_tasks: []
-  test_all: false
-  test_priority: "high_first"
+  test_all: true
+  test_priority: "completed"
 
 agent_communication:
   - agent: "main"
