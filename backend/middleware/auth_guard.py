@@ -74,6 +74,10 @@ def require_role(*allowed_roles: str):
     def role_checker(user: dict = Depends(get_current_user)):
         user_role = user.get("role")
         
+        # Phase 4.5 - Map "admin" to "super_admin" for backward compatibility
+        if user_role == "admin":
+            user_role = "super_admin"
+        
         if user_role not in allowed_roles:
             raise HTTPException(
                 status_code=403,
@@ -83,3 +87,43 @@ def require_role(*allowed_roles: str):
         return user
     
     return role_checker
+
+# Phase 4.5 - RBAC Permission Helpers
+
+def require_super_admin(user: dict = Depends(get_current_user)):
+    """
+    Requires super_admin role
+    Super admins have full access to all features
+    """
+    user_role = user.get("role")
+    
+    # Backward compatibility
+    if user_role == "admin":
+        user_role = "super_admin"
+    
+    if user_role != "super_admin":
+        raise HTTPException(
+            status_code=403,
+            detail="Super admin access required"
+        )
+    
+    return user
+
+def can_moderate(user: dict = Depends(get_current_user)):
+    """
+    Allows super_admin or moderator
+    Can approve/reject/feature opportunities and hide comments
+    """
+    user_role = user.get("role")
+    
+    # Backward compatibility
+    if user_role == "admin":
+        user_role = "super_admin"
+    
+    if user_role not in ["super_admin", "moderator"]:
+        raise HTTPException(
+            status_code=403,
+            detail="Moderation permissions required"
+        )
+    
+    return user
