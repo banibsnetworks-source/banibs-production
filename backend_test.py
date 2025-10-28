@@ -932,8 +932,7 @@ class BanibsAPITester:
         
         # Test 3: Try to subscribe to newsletter with banned IP
         response = self.make_request("POST", "/newsletter/subscribe", {
-            "email": "banned@example.com",
-            "ip_hash": self.banned_ip_hash
+            "email": "banned@example.com"
         })
         
         if response.status_code == 403:
