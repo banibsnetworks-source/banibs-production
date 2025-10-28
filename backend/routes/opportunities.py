@@ -25,6 +25,23 @@ S3_BUCKET = os.environ.get("S3_BUCKET_NAME", None)
 AWS_REGION = os.environ.get("AWS_REGION", "us-east-1")
 CLOUDFRONT_URL = os.environ.get("CLOUDFRONT_URL", None)
 
+# --- HELPER FUNCTIONS ---
+
+async def enrich_opportunity_with_contributor(db, doc: dict) -> dict:
+    """
+    Phase 3.1 - Fetch contributor info and add to opportunity document
+    """
+    contributor_id = doc.get("contributor_id")
+    if not contributor_id:
+        return doc
+    
+    contributor = await db.contributors.find_one({"_id": contributor_id})
+    if contributor:
+        doc["contributor_display_name"] = contributor.get("display_name") or contributor.get("name", "Anonymous")
+        doc["contributor_verified"] = contributor.get("verified", False)
+    
+    return doc
+
 # --- PUBLIC ENDPOINTS ---
 
 @router.get("/", response_model=list[OpportunityPublic])
