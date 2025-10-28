@@ -1185,6 +1185,11 @@ class BanibsAPITester:
         self.log(f"Testing against: {API_BASE}")
         
         tests = [
+            # News Aggregation Feed Tests (Priority - Current Focus)
+            ("News Latest Endpoint", self.test_news_latest_endpoint),
+            ("News Public Access", self.test_news_endpoint_public_access),
+            ("News Response Shape", self.test_news_response_shape),
+            
             # Authentication and basic setup
             ("Admin Login", self.test_admin_login),
             ("Contributor Register", self.test_contributor_register),
