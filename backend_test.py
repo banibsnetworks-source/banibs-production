@@ -901,8 +901,8 @@ class BanibsAPITester:
         
         # Test 1: Try to comment with banned IP
         response = self.make_request("POST", f"/opportunities/{self.approved_opportunity_id}/comments", {
-            "content": "This should be blocked",
-            "ip_hash": self.banned_ip_hash
+            "display_name": "Banned User",
+            "body": "This should be blocked"
         })
         
         if response.status_code == 403:
