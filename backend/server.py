@@ -21,6 +21,8 @@ from routes.moderation_logs import router as moderation_logs_router
 from routes.reactions import router as reactions_router  # Phase 4.1
 from routes.newsletter import router as newsletter_router  # Phase 4.2
 from routes.sponsor import router as sponsor_router  # Phase 5.1
+from routes.admin_abuse import router as admin_abuse_router  # Phase 5.3
+from routes.admin_revenue import router as admin_revenue_router  # Phase 5.5
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
