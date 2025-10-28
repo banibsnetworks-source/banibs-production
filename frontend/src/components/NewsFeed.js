@@ -38,102 +38,93 @@ const NewsFeed = () => {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h2 className="text-3xl font-bold text-[#FFD700] mb-8">Latest Stories</h2>
+      <section className="max-w-7xl mx-auto px-4 mt-10">
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="text-lg">📰</span>
+          <span>Latest Stories</span>
+        </h2>
         <div className="flex justify-center items-center py-20">
-          <div className="text-gray-400 text-lg">Loading news...</div>
+          <div className="text-gray-500 text-base">Loading news...</div>
         </div>
-      </div>
+      </section>
     );
   }
 
   if (error) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h2 className="text-3xl font-bold text-[#FFD700] mb-8">Latest Stories</h2>
+      <section className="max-w-7xl mx-auto px-4 mt-10">
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="text-lg">📰</span>
+          <span>Latest Stories</span>
+        </h2>
         <div className="flex justify-center items-center py-20">
-          <div className="text-red-400 text-lg">Error loading news: {error}</div>
+          <div className="text-red-500 text-base">Error loading news: {error}</div>
         </div>
-      </div>
+      </section>
     );
   }
 
   if (newsItems.length === 0) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h2 className="text-3xl font-bold text-[#FFD700] mb-8">Latest Stories</h2>
+      <section className="max-w-7xl mx-auto px-4 mt-10">
+        <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+          <span className="text-lg">📰</span>
+          <span>Latest Stories</span>
+        </h2>
         <div className="flex justify-center items-center py-20">
-          <div className="text-gray-400 text-lg">No news items available yet. Check back soon!</div>
+          <div className="text-gray-500 text-base">No news items available yet. Check back soon!</div>
         </div>
-      </div>
+      </section>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <h2 className="text-3xl font-bold text-[#FFD700] mb-8">Latest Stories</h2>
-      <div className="grid md:grid-cols-3 gap-8">
-        
+    <section className="max-w-7xl mx-auto px-4 mt-10">
+      <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+        <span className="text-lg">📰</span>
+        <span>Latest Stories</span>
+      </h2>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {newsItems.map((item) => (
           <div 
             key={item.id} 
-            className="bg-[#1a1a1a] border border-[#FFD700]/30 rounded-lg overflow-hidden hover:border-[#FFD700] transition-all"
+            className="bg-white/70 backdrop-blur-sm border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition"
           >
-            {/* Image or placeholder */}
-            {item.imageUrl ? (
-              <div 
-                className="h-48 bg-cover bg-center"
-                style={{ backgroundImage: `url(${item.imageUrl})` }}
-              />
-            ) : (
-              <div className="bg-gradient-to-br from-[#FFD700]/20 to-black h-48 flex items-center justify-center">
-                <div className="text-4xl">📰</div>
-              </div>
-            )}
+            {/* Category pill */}
+            <div className="text-xs font-semibold text-gray-600 mb-2 uppercase tracking-wide">
+              {item.category}
+            </div>
             
-            {/* Content */}
-            <div className="p-6">
-              {/* Category */}
-              <span className="text-[#FFD700] text-xs font-semibold uppercase">
-                {item.category}
-              </span>
-              
-              {/* Title */}
-              <h3 className="text-xl font-bold text-white mt-2 mb-3">
+            {/* Title */}
+            {item.sourceUrl ? (
+              <a 
+                href={item.sourceUrl} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block text-lg font-bold text-gray-900 leading-tight hover:text-gray-700"
+              >
+                {item.title}
+              </a>
+            ) : (
+              <h3 className="text-lg font-bold text-gray-900 leading-tight">
                 {item.title}
               </h3>
-              
-              {/* Summary */}
-              <p className="text-gray-400 text-sm mb-4">
-                {item.summary}
-              </p>
-              
-              {/* Date and Link */}
-              <div className="flex justify-between items-center">
-                <span className="text-gray-500 text-xs">
-                  {formatDate(item.publishedAt)}
-                </span>
-                {item.sourceUrl ? (
-                  <a 
-                    href={item.sourceUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-[#FFD700] text-sm font-semibold hover:underline"
-                  >
-                    Read More →
-                  </a>
-                ) : (
-                  <button className="text-[#FFD700] text-sm font-semibold hover:underline">
-                    Read More →
-                  </button>
-                )}
-              </div>
+            )}
+            
+            {/* Summary */}
+            <p className="text-sm text-gray-700 mt-2 leading-relaxed">
+              {item.summary}
+            </p>
+            
+            {/* Date */}
+            <div className="text-xs text-gray-500 mt-3">
+              {formatDate(item.publishedAt)}
             </div>
           </div>
         ))}
-
       </div>
-    </div>
+    </section>
   );
 };
 
