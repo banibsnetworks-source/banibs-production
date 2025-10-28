@@ -84,6 +84,15 @@ export const authAPI = {
     api.post('/auth/refresh', { refresh_token: refreshToken })
 };
 
+// Contributor auth (Phase 2.9)
+export const contributorAPI = {
+  register: (email, password, name, organization) =>
+    api.post('/auth/contributor/register', { email, password, name, organization }),
+  
+  login: (email, password) =>
+    api.post('/auth/contributor/login', { email, password })
+};
+
 export const opportunitiesAPI = {
   getAll: (type) => 
     api.get('/opportunities/', { params: { type } }),
@@ -94,18 +103,28 @@ export const opportunitiesAPI = {
   create: (data) => 
     api.post('/opportunities/', data),
   
+  // Contributor endpoints (Phase 2.9)
+  submit: (data) =>
+    api.post('/opportunities/submit', data),
+  
+  getMine: () =>
+    api.get('/opportunities/mine'),
+  
   // Admin endpoints
   getPending: () => 
     api.get('/opportunities/pending'),
   
-  approve: (id) => 
-    api.patch(`/opportunities/${id}/approve`),
+  approve: (id, notes) => 
+    api.patch(`/opportunities/${id}/approve`, { notes }),
   
-  reject: (id) => 
-    api.patch(`/opportunities/${id}/reject`),
+  reject: (id, notes) => 
+    api.patch(`/opportunities/${id}/reject`, { notes }),
   
-  feature: (id) => 
-    api.patch(`/opportunities/${id}/feature`)
+  feature: (id, notes) => 
+    api.patch(`/opportunities/${id}/feature`, { notes }),
+  
+  getAnalytics: () =>
+    api.get('/opportunities/analytics')
 };
 
 export const uploadsAPI = {
