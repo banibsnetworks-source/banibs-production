@@ -17,7 +17,7 @@ class OpportunityDB(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     title: str
     orgName: str
-    type: Literal["job", "grant", "scholarship", "training"]
+    type: Literal["job", "grant", "scholarship", "training", "event"]
     location: Optional[str] = None              # "Remote", "Atlanta, GA", etc.
     deadline: Optional[datetime] = None
     description: str
@@ -25,6 +25,10 @@ class OpportunityDB(BaseModel):
     imageUrl: Optional[str] = None              # CloudFront URL or fallback
     featured: bool = False                      # shows in Featured section
     approved: bool = False                      # moderation gate
+    status: str = "pending"                     # pending, approved, rejected
+    contributor_id: Optional[str] = None        # contributor who submitted
+    contributor_email: Optional[str] = None     # for reference
+    moderation_notes: Optional[str] = None      # admin notes on moderation
     createdAt: datetime = Field(default_factory=datetime.utcnow)
     updatedAt: datetime = Field(default_factory=datetime.utcnow)
 
