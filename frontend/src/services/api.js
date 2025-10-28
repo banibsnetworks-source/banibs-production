@@ -175,4 +175,54 @@ export const moderationLogsAPI = {
   }
 };
 
+// Phase 4.1 - Reactions & Comments API
+export const reactionsAPI = {
+  toggleLike: (opportunityId) =>
+    api.post(`/opportunities/${opportunityId}/react`),
+  
+  getLikeCount: (opportunityId) =>
+    api.get(`/opportunities/${opportunityId}/reactions`),
+  
+  postComment: (opportunityId, commentData) =>
+    api.post(`/opportunities/${opportunityId}/comments`, commentData),
+  
+  getComments: (opportunityId) =>
+    api.get(`/opportunities/${opportunityId}/comments`),
+  
+  hideComment: (commentId) =>
+    api.patch(`/opportunities/admin/comments/${commentId}/hide`)
+};
+
+// Phase 4.2 - Newsletter API
+export const newsletterAPI = {
+  subscribe: (email) =>
+    api.post('/newsletter/subscribe', { email }),
+  
+  getSubscribers: () =>
+    api.get('/newsletter/admin/subscribers'),
+  
+  exportSubscribersCSV: () =>
+    api.get('/newsletter/admin/subscribers/export.csv', {
+      responseType: 'blob'
+    }),
+  
+  getDraftDigest: () =>
+    api.get('/newsletter/admin/draft-digest')
+};
+
+// Phase 4.3 - Sponsored API
+export const sponsoredAPI = {
+  setSponsor: (opportunityId, isSponsored, sponsorLabel) =>
+    api.patch(`/admin/opportunities/${opportunityId}/sponsor`, {
+      is_sponsored: isSponsored,
+      sponsor_label: sponsorLabel
+    })
+};
+
+// Phase 4.4 - Leaderboard API
+export const leaderboardAPI = {
+  getTopContributors: (limit = 10) =>
+    api.get(`/contributors/leaderboard?limit=${limit}`)
+};
+
 export default api;
