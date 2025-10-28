@@ -141,6 +141,66 @@ async def list_featured(db=Depends(get_db)):
     ]
 
 
+# Phase 5.4 - Opportunity Detail Endpoint
+
+@router.get("/{opportunity_id}/full")
+async def get_opportunity_detail(
+    opportunity_id: str,
+    db=Depends(get_db)
+):
+    """
+    Get full opportunity details for detail page
+    
+    Phase 5.4 - Public endpoint
+    Returns enriched opportunity data including:
+    - Full opportunity details
+    - Contributor info (display_name, verified)
+    - Engagement metrics (like_count, comment_count)
+    - Sponsored status
+    """
+    from db.opportunities import get_opportunity_by_id
+    
+    # Fetch opportunity
+    try:
+        doc = await get_opportunity_by_id(db, opportunity_id)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Invalid opportunity ID")
+    
+    if not doc:
+        raise HTTPException(status_code=404, detail="Opportunity not found")
+    
+    # Only return approved opportunities to public
+    if not doc.get("approved"):
+        raise HTTPException(status_code=404, detail="Opportunity not found")
+    
+    # Enrich with contributor data and engagement metrics
+    doc = await enrich_opportunity_with_contributor(db, doc)
+    doc = await enrich_opportunity_with_engagement(db, doc)
+    
+    # Build response
+    return {
+        "id": str(doc["_id"]),
+        "title": doc["title"],
+        "orgName": doc["orgName"],
+        "type": doc["type"],
+        "location": doc.get("location"),
+        "deadline": doc.get("deadline"),
+        "description": doc["description"],
+        "link": doc.get("link"),
+        "imageUrl": doc.get("imageUrl"),
+        "featured": doc.get("featured", False),
+        "status": doc.get("status", "approved"),
+        "is_sponsored": doc.get("is_sponsored", False),
+        "sponsor_label": doc.get("sponsor_label"),
+        "contributor_display_name": doc.get("contributor_display_name", "Anonymous"),
+        "contributor_verified": doc.get("contributor_verified", False),
+        "like_count": doc.get("like_count", 0),
+        "comment_count": doc.get("comment_count", 0),
+        "createdAt": doc.get("createdAt"),
+        "postedAt": doc.get("createdAt")  # Alias for consistency
+    }
+
+
 @router.post("/", status_code=201)
 async def submit_opportunity(
     payload: OpportunityCreate,
