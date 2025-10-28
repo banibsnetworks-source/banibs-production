@@ -83,6 +83,8 @@ function App() {
               {/* Public Routes */}
               <Route path="/opportunities" element={<PublicOpportunities />} />
               <Route path="/submit" element={<SubmitOpportunity />} />
+              {/* Phase 5.4 - Opportunity Detail Page */}
+              <Route path="/opportunity/:id" element={<OpportunityDetailPage />} />
               
               {/* Contributor Routes */}
               <Route path="/contributor/register" element={<ContributorRegister />} />
