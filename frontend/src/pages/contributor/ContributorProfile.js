@@ -76,14 +76,97 @@ const ContributorProfile = () => {
     );
   }
 
-  if (error || !profile) {
+  // Onboarding state - profile not found
+  if (isOnboarding) {
+    return (
+      <div className="min-h-screen bg-black p-8">
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-[#1a1a1a] border-2 border-[#FFD700] rounded-lg p-8">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-[#FFD700] mb-2">Welcome to BANIBS!</h1>
+              <p className="text-white text-lg">Let's finish setting up your profile</p>
+              <p className="text-gray-400 text-sm mt-2">
+                Your profile helps us credit you as the source of opportunities
+              </p>
+            </div>
+
+            <form onSubmit={handleSaveProfile} className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-[#FFD700] mb-2">
+                  Display Name *
+                </label>
+                <input
+                  type="text"
+                  name="display_name"
+                  required
+                  value={formData.display_name}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-black border border-[#FFD700]/30 rounded-lg text-white focus:outline-none focus:border-[#FFD700] transition-all"
+                  placeholder="How should we credit you?"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-[#FFD700] mb-2">
+                  Organization (optional)
+                </label>
+                <input
+                  type="text"
+                  name="website_or_social"
+                  value={formData.website_or_social}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-black border border-[#FFD700]/30 rounded-lg text-white focus:outline-none focus:border-[#FFD700] transition-all"
+                  placeholder="Your organization or website"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-[#FFD700] mb-2">
+                  Bio (optional)
+                </label>
+                <textarea
+                  name="bio"
+                  value={formData.bio}
+                  onChange={handleInputChange}
+                  rows="4"
+                  className="w-full px-4 py-3 bg-black border border-[#FFD700]/30 rounded-lg text-white focus:outline-none focus:border-[#FFD700] transition-all"
+                  placeholder="Tell us a bit about yourself..."
+                />
+              </div>
+
+              <div className="flex gap-4">
+                <button
+                  type="submit"
+                  disabled={saving || !formData.display_name}
+                  className="flex-1 py-3 bg-[#FFD700] text-black font-bold rounded-lg hover:bg-[#FFC700] focus:outline-none focus:ring-2 focus:ring-[#FFD700] transition-all disabled:opacity-50"
+                >
+                  {saving ? 'Saving...' : 'Save Profile'}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => navigate('/submit')}
+                  className="flex-1 py-3 border-2 border-[#FFD700] text-[#FFD700] font-bold rounded-lg hover:bg-[#FFD700] hover:text-black transition-all"
+                >
+                  Skip for Now
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state (not 404)
+  if (error) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center p-4">
         <div className="max-w-md w-full">
           <div className="bg-black border-2 border-red-500 rounded-lg p-8 text-center">
             <div className="text-6xl mb-4">❌</div>
-            <h2 className="text-2xl font-bold text-white mb-2">Profile Not Found</h2>
-            <p className="text-gray-400 mb-6">{error || 'This contributor profile does not exist.'}</p>
+            <h2 className="text-2xl font-bold text-red-400 mb-2">Error</h2>
+            <p className="text-gray-400 mb-6">{error}</p>
             <button
               onClick={() => navigate('/opportunities')}
               className="px-6 py-3 bg-[#FFD700] text-black font-bold rounded-lg hover:bg-[#FFC700] transition-all"
@@ -91,6 +174,18 @@ const ContributorProfile = () => {
               View Opportunities
             </button>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Profile not loaded yet (but no error)
+  if (!profile) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-[#FFD700] border-t-transparent"></div>
+          <p className="text-[#FFD700] text-xl mt-4">Loading profile...</p>
         </div>
       </div>
     );
