@@ -40,10 +40,35 @@ class ContributorLogin(BaseModel):
 
 class ContributorPublic(BaseModel):
     """Public contributor information (no password)"""
+    id: str
     email: EmailStr
     name: str
     organization: Optional[str]
+    display_name: Optional[str] = None
+    bio: Optional[str] = None
+    website_or_social: Optional[str] = None
+    verified: bool = False
+    total_submissions: int = 0
+    approved_submissions: int = 0
+    featured_submissions: int = 0
     created_at: datetime
+
+class ContributorProfile(BaseModel):
+    """Public profile view of contributor"""
+    id: str
+    display_name: str
+    bio: Optional[str] = None
+    website_or_social: Optional[str] = None
+    verified: bool = False
+    total_submissions: int = 0
+    approved_submissions: int = 0
+    featured_submissions: int = 0
+
+class ContributorProfileUpdate(BaseModel):
+    """Request body for updating contributor profile"""
+    display_name: Optional[str] = None
+    bio: Optional[str] = None
+    website_or_social: Optional[str] = None
 
 class ContributorTokenResponse(BaseModel):
     """Response containing JWT tokens for contributor"""
