@@ -33,8 +33,43 @@ const AdminOpportunitiesDashboard = () => {
       window.URL.revokeObjectURL(url);
     } catch (err) {
       console.error('Error exporting CSV:', err);
-      alert('Failed to export moderation logs');
+      if (err.response?.status === 403) {
+        alert('You don\'t have permission to export moderation logs');
+      } else {
+        alert('Failed to export moderation logs');
+      }
     }
+  };
+
+  // Phase 4.2 - Newsletter export (super_admin only)
+  const handleExportNewsletterCSV = async () => {
+    try {
+      const { newsletterAPI } = await import('../../services/api');
+      const response = await newsletterAPI.exportSubscribersCSV();
+      
+      // Create download link
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `newsletter_subscribers_${new Date().toISOString().split('T')[0]}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Error exporting newsletter CSV:', err);
+      if (err.response?.status === 403) {
+        alert('You don\'t have permission to export newsletter subscribers (super_admin only)');
+      } else {
+        alert('Failed to export newsletter subscribers');
+      }
+    }
+  };
+
+  // Phase 4.5 - Check if user is super_admin
+  const isSuperAdmin = () => {
+    const role = user?.role;
+    return role === 'super_admin' || role === 'admin'; // backward compatibility
   };
 
   const loadAnalytics = async () => {
