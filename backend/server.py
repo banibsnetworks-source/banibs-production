@@ -104,6 +104,9 @@ app.include_router(moderation_logs_router)
 # Include reactions router (Phase 4.1)
 app.include_router(reactions_router)
 
+# Include newsletter router (Phase 4.2)
+app.include_router(newsletter_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
