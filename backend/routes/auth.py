@@ -136,8 +136,8 @@ async def logout(request: RefreshTokenRequest):
 
 @router.get("/me", response_model=UserPublic)
 async def get_current_user_info(
-    authorization: str = Depends(lambda auth=Header(None): auth),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    user_payload: dict = Depends(get_current_user)
 ):
     """
     Get current user information from JWT
@@ -145,9 +145,6 @@ async def get_current_user_info(
     Requires: Authorization: Bearer <access_token>
     Returns: User profile
     """
-    from middleware.auth_guard import get_current_user
-    
-    user_payload = await get_current_user(authorization)
     user_id = user_payload.get("user_id")
     
     user = await db.users.find_one({"_id": user_id})
