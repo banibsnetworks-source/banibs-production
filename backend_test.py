@@ -688,8 +688,8 @@ class BanibsAPITester:
         
         for i in range(11):
             response = self.make_request("POST", f"/opportunities/{self.approved_opportunity_id}/comments", {
-                "content": f"Test comment {i+1} for rate limiting",
-                "ip_hash": test_ip_hash
+                "display_name": f"Test User {i+1}",
+                "body": f"Test comment {i+1} for rate limiting"
             })
             
             if response.status_code == 201:
