@@ -3,6 +3,19 @@
 **Date Established:** October 28, 2025  
 **Status:** ✅ Locked for Production
 
+---
+
+## 🏛️ BANIBS Brand Lock
+
+**BANIBS — Black America News Information & Business System**
+
+BANIBS is a digital infrastructure that informs, empowers, and connects the Black community through news, opportunity, and enterprise.  
+It unites four pillars — **News, Business, Resources, and Social Connectivity** — within one cohesive ecosystem designed to expand access and strengthen collaboration across Black America.
+
+**Tagline:** Connecting our people to opportunity, resources, and each other.
+
+---
+
 This document defines the visual language, component tokens, and layout patterns for the BANIBS platform. All future pages and components should inherit this design DNA to maintain consistency.
 
 ---
