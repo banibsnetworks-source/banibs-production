@@ -3,10 +3,14 @@ import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ContributorAuthProvider } from "./contexts/ContributorAuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminOpportunitiesDashboard from "./pages/admin/AdminOpportunitiesDashboard";
 import PublicOpportunities from "./pages/public/PublicOpportunities";
+import SubmitOpportunity from "./pages/public/SubmitOpportunity";
+import ContributorRegister from "./pages/contributor/ContributorRegister";
+import ContributorLogin from "./pages/contributor/ContributorLogin";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
