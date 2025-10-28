@@ -83,6 +83,7 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/opportunity-hub" element={<OpportunityHubPage />} />
               
               {/* Public Routes */}
               <Route path="/opportunities" element={<PublicOpportunities />} />
