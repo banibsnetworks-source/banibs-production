@@ -92,6 +92,9 @@ app.include_router(admin_uploads_router)
 # Include contributor auth router (already has /api prefix)
 app.include_router(contributor_auth_router)
 
+# Include contributor profile router (Phase 3.1)
+app.include_router(contributor_profile_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
