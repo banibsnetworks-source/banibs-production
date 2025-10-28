@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const HomePage = () => {
+const OpportunityHubPage = () => {
   const navigate = useNavigate();
 
   return (
