@@ -249,6 +249,31 @@ When building new sections/pages, apply these patterns:
 - **Contributor Profile:** Follow Community Highlights style (gold accents for achievements)
 - **Search Results:** Use Latest Stories card pattern (2-column grid)
 
+### BANIBS Network Products (Roadmap)
+
+The ecosystem cards in "The BANIBS Network" section represent future platform expansions:
+
+1. **BANIBS Social** (Coming Soon)
+   - Social network for Black and Indigenous creators, founders, and community leaders
+   - Features: Profiles, conversations, community building
+   - Use glass card design system throughout
+
+2. **BANIBS TV**
+   - Video platform for interviews, business spotlights, culture segments
+   - Live community conversations and recorded content
+   - Potential integration: YouTube/Vimeo embed or custom player
+
+3. **BANIBS Business**
+   - Business directory for Black and Native Indigenous-owned businesses
+   - "Buy direct, support local" marketplace features
+   - Search, filtering, business profiles with glass card UI
+
+4. **Resources**
+   - Evergreen content library: grants guidance, scholarship how-tos, legal support
+   - Startup guides, funding playbooks, education resources
+   - Organized by topic (founders, students, organizers)
+   - Use same card patterns as Latest Stories for resource listings
+
 ---
 
 ## Version History
