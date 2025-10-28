@@ -238,7 +238,7 @@ const HomePage = () => {
       </section>
 
       {/* 🌟 Featured Story */}
-      <section className="max-w-7xl mx-auto px-4 mt-10">
+      <section className="max-w-7xl mx-auto px-4 mt-8 md:mt-10">
         <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
           <span className="text-lg">🌟</span>
           <span>Featured Story</span>
