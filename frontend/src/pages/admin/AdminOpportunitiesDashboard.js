@@ -125,47 +125,61 @@ const AdminOpportunitiesDashboard = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Analytics Panel */}
-        {!loadingAnalytics && analytics && (
+        {!loadingAnalytics && analytics && analytics.statusCounts && analytics.typeCounts && (
           <div className="mb-8 grid grid-cols-2 md:grid-cols-4 gap-4">
             {/* Status Counts */}
             <div className="bg-[#1a1a1a] border-2 border-[#FFD700]/30 rounded-lg p-4">
               <div className="text-[#FFD700] text-sm font-medium mb-1">⏳ Pending</div>
-              <div className="text-white text-3xl font-bold">{analytics.statusCounts.pending}</div>
+              <div className="text-white text-3xl font-bold">{analytics.statusCounts.pending || 0}</div>
             </div>
             <div className="bg-[#1a1a1a] border-2 border-green-500/30 rounded-lg p-4">
               <div className="text-green-400 text-sm font-medium mb-1">✅ Approved</div>
-              <div className="text-white text-3xl font-bold">{analytics.statusCounts.approved}</div>
+              <div className="text-white text-3xl font-bold">{analytics.statusCounts.approved || 0}</div>
             </div>
             <div className="bg-[#1a1a1a] border-2 border-red-500/30 rounded-lg p-4">
               <div className="text-red-400 text-sm font-medium mb-1">❌ Rejected</div>
-              <div className="text-white text-3xl font-bold">{analytics.statusCounts.rejected}</div>
+              <div className="text-white text-3xl font-bold">{analytics.statusCounts.rejected || 0}</div>
             </div>
             <div className="bg-[#1a1a1a] border-2 border-[#FFD700] rounded-lg p-4 shadow-[0_0_10px_rgba(255,215,0,0.3)]">
               <div className="text-[#FFD700] text-sm font-medium mb-1">⭐ Featured</div>
-              <div className="text-white text-3xl font-bold">{analytics.statusCounts.featured}</div>
+              <div className="text-white text-3xl font-bold">{analytics.statusCounts.featured || 0}</div>
             </div>
             
             {/* Type Counts */}
             <div className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4">
               <div className="text-gray-400 text-sm font-medium mb-1">💼 Jobs</div>
-              <div className="text-white text-2xl font-bold">{analytics.typeCounts.job}</div>
+              <div className="text-white text-2xl font-bold">{analytics.typeCounts.job || 0}</div>
             </div>
             <div className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4">
               <div className="text-gray-400 text-sm font-medium mb-1">💰 Grants</div>
-              <div className="text-white text-2xl font-bold">{analytics.typeCounts.grant}</div>
+              <div className="text-white text-2xl font-bold">{analytics.typeCounts.grant || 0}</div>
             </div>
             <div className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4">
               <div className="text-gray-400 text-sm font-medium mb-1">🎓 Scholarships</div>
-              <div className="text-white text-2xl font-bold">{analytics.typeCounts.scholarship}</div>
+              <div className="text-white text-2xl font-bold">{analytics.typeCounts.scholarship || 0}</div>
             </div>
             <div className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4">
               <div className="text-gray-400 text-sm font-medium mb-1">📚 Training</div>
-              <div className="text-white text-2xl font-bold">{analytics.typeCounts.training}</div>
+              <div className="text-white text-2xl font-bold">{analytics.typeCounts.training || 0}</div>
             </div>
             <div className="bg-[#1a1a1a] border border-gray-700 rounded-lg p-4">
               <div className="text-gray-400 text-sm font-medium mb-1">📅 Events</div>
-              <div className="text-white text-2xl font-bold">{analytics.typeCounts.event}</div>
+              <div className="text-white text-2xl font-bold">{analytics.typeCounts.event || 0}</div>
             </div>
+          </div>
+        )}
+        
+        {/* Analytics Loading State */}
+        {loadingAnalytics && (
+          <div className="mb-8 text-center py-4">
+            <div className="text-[#FFD700] text-lg">Loading analytics...</div>
+          </div>
+        )}
+        
+        {/* Analytics Error State */}
+        {!loadingAnalytics && !analytics && (
+          <div className="mb-8 p-4 bg-red-900/50 border-2 border-red-500 rounded-lg text-red-200">
+            Failed to load analytics data. Please refresh the page.
           </div>
         )}
 
