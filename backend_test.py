@@ -19,6 +19,7 @@ class BanibsAPITester:
         self.admin_token = None
         self.contributor_token = None
         self.test_opportunity_id = None
+        self.approved_opportunity_id = None
         self.session = requests.Session()
         self.session.headers.update({
             'Content-Type': 'application/json',
