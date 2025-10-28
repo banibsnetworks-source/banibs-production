@@ -77,9 +77,71 @@ async def submit_opportunity(
     payload: OpportunityCreate,
     db=Depends(get_db),
 ):
+    """
+    Submit new opportunity (public - no auth required)
+    DEPRECATED in Phase 2.9 - use /submit instead
+    """
     # Store submission; approved defaults to False
     new_id = await insert_opportunity(db, payload.dict())
     return {"id": new_id, "status": "received", "approved": False}
+
+
+# --- CONTRIBUTOR ENDPOINTS (Phase 2.9) ---
+
+from middleware.auth_guard import get_current_user
+
+@router.post("/submit", status_code=201)
+async def submit_opportunity_authenticated(
+    payload: OpportunityCreate,
+    db=Depends(get_db),
+    user: dict = Depends(get_current_user)
+):
+    """
+    Submit opportunity as authenticated contributor
+    Stores contributor info with submission
+    """
+    # Add contributor info to submission
+    data = payload.dict()
+    
+    # Convert HttpUrl to string for MongoDB
+    if "link" in data and data["link"] is not None:
+        data["link"] = str(data["link"])
+    
+    data["approved"] = False
+    data["featured"] = False
+    data["status"] = "pending"
+    data["contributor_id"] = user.get("user_id")
+    data["contributor_email"] = user.get("email")
+    data["createdAt"] = datetime.utcnow()
+    data["updatedAt"] = datetime.utcnow()
+    
+    result = await db.opportunities.insert_one(data)
+    new_id = str(result.inserted_id)
+    
+    return {
+        "id": new_id,
+        "status": "pending",
+        "message": "Submission received and pending review"
+    }
+
+@router.get("/mine")
+async def get_my_opportunities(
+    db=Depends(get_db),
+    user: dict = Depends(get_current_user)
+):
+    """
+    Get opportunities submitted by current contributor
+    Requires contributor JWT
+    """
+    contributor_id = user.get("user_id")
+    
+    cursor = db.opportunities.find({"contributor_id": contributor_id}).sort("createdAt", -1)
+    docs = []
+    async for doc in cursor:
+        doc["id"] = str(doc.pop("_id"))
+        docs.append(doc)
+    
+    return docs
     
 
 # --- ADMIN ENDPOINTS ---
