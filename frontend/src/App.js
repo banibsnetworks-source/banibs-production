@@ -11,6 +11,9 @@ import PublicOpportunities from "./pages/public/PublicOpportunities";
 import SubmitOpportunity from "./pages/public/SubmitOpportunity";
 import ContributorRegister from "./pages/contributor/ContributorRegister";
 import ContributorLogin from "./pages/contributor/ContributorLogin";
+// Phase 3.1 - Contributor Profile Pages
+import ContributorProfile from "./pages/contributor/ContributorProfile";
+import ContributorProfileEdit from "./pages/contributor/ContributorProfileEdit";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
