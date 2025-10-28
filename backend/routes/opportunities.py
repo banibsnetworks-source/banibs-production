@@ -316,9 +316,15 @@ async def feature_opportunity(
 ):
     """
     Feature opportunity (admin only)
-    Requires JWT with role='admin'
+    Phase 3: Now includes moderation log + email notification + contributor stats
     Auto-approves the opportunity
+    Requires JWT with role='admin'
     """
+    # Fetch opportunity to get contributor email
+    opportunity = await db.opportunities.find_one({"_id": ObjectId(opp_id)})
+    if not opportunity:
+        raise HTTPException(status_code=404, detail="Opportunity not found")
+    
     # Update status with notes
     await db.opportunities.update_one(
         {"_id": ObjectId(opp_id)},
@@ -331,8 +337,27 @@ async def feature_opportunity(
         }}
     )
     
-    # Log moderation action with notes
+    # Update contributor stats (Phase 3.1)
+    contributor_id = opportunity.get("contributor_id")
+    if contributor_id:
+        await db.contributors.update_one(
+            {"_id": contributor_id},
+            {
+                "$inc": {
+                    "approved_submissions": 1,
+                    "featured_submissions": 1
+                }
+            }
+        )
+    
+    # Log moderation action (Phase 3.2)
     await log_moderation_action(db, "FEATURE_OPPORTUNITY", opp_id, user, action.notes)
+    
+    # Send email notification (Phase 3.3)
+    contributor_email = opportunity.get("contributor_email")
+    if contributor_email:
+        from services.email_service import send_opportunity_featured_email
+        send_opportunity_featured_email(contributor_email, opportunity["title"])
     
     return {"id": opp_id, "approved": True, "featured": True}
 
