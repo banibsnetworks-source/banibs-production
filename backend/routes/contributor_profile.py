@@ -8,15 +8,13 @@ from datetime import datetime
 router = APIRouter(prefix="/contributors", tags=["contributor-profile"])
 
 @router.get("/{contributor_id}/profile", response_model=ContributorProfile)
-async def get_contributor_profile(contributor_id: str):
+async def get_contributor_profile(contributor_id: str, db=Depends(get_db)):
     """
     Public endpoint - Get contributor profile by ID
     Handles both UUID-based 'id' field and ObjectId-based '_id' field
     """
     from bson import ObjectId
     from bson.errors import InvalidId
-    
-    db = await get_db()
     
     contributor = None
     
