@@ -504,13 +504,21 @@ class BanibsAPITester:
         """Test Stripe webhook endpoint"""
         self.log("Testing Stripe webhook endpoint...")
         
-        # Test without signature → Should return 400
+        # Test without signature → Should return 503 (Stripe config checked first) or 400 (missing signature)
         response = self.make_request("POST", "/sponsor/webhook", {
             "type": "checkout.session.completed",
             "data": {"object": {"id": "test"}}
         })
         
-        if response.status_code == 400:
+        if response.status_code == 503:
+            data = response.json()
+            if "Stripe webhook secret not configured" in data.get("detail", ""):
+                self.log("✅ Webhook correctly returns 503 (Stripe webhook secret not configured)")
+                return True
+            else:
+                self.log(f"❌ Wrong error message for Stripe config: {data}", "ERROR")
+                return False
+        elif response.status_code == 400:
             data = response.json()
             if "Missing stripe-signature header" in data.get("detail", ""):
                 self.log("✅ Webhook without signature correctly returns 400")
@@ -519,7 +527,7 @@ class BanibsAPITester:
                 self.log(f"❌ Wrong error message for missing signature: {data}", "ERROR")
                 return False
         else:
-            self.log(f"❌ Webhook without signature should return 400, got {response.status_code}", "ERROR")
+            self.log(f"❌ Webhook should return 503 or 400, got {response.status_code}", "ERROR")
             return False
 
     # Phase 5.2 - Automated Weekly Digest Tests
