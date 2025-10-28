@@ -633,6 +633,31 @@ class BanibsAPITester:
             self.log(f"❌ Newsletter sends history failed: {response.status_code} - {response.text}", "ERROR")
             return False
 
+    def test_rbac_verification(self) -> bool:
+        """Test RBAC - verify contributor cannot access admin endpoints"""
+        self.log("Testing RBAC verification...")
+        
+        if not self.contributor_token:
+            self.log("❌ No contributor token available for RBAC test", "ERROR")
+            return False
+            
+        headers = {"Authorization": f"Bearer {self.contributor_token}"}
+        
+        # Test 1: Contributor should NOT be able to send digest
+        response = self.make_request("POST", "/newsletter/admin/send-digest", headers=headers)
+        if response.status_code != 403:
+            self.log(f"❌ Contributor should not access send digest, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 2: Contributor should NOT be able to view newsletter sends
+        response = self.make_request("GET", "/newsletter/admin/sends", headers=headers)
+        if response.status_code != 403:
+            self.log(f"❌ Contributor should not access newsletter sends, got {response.status_code}", "ERROR")
+            return False
+        
+        self.log("✅ RBAC verification passed - contributor properly restricted from admin endpoints")
+        return True
+
     def approve_test_opportunity(self) -> bool:
         """Approve the test opportunity for sponsor testing"""
         if not self.admin_token or not self.test_opportunity_id:
