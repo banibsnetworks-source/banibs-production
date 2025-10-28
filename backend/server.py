@@ -96,6 +96,9 @@ app.include_router(contributor_auth_router)
 # Include contributor profile router (Phase 3.1)
 app.include_router(contributor_profile_router)
 
+# Include moderation logs router (Phase 3.2)
+app.include_router(moderation_logs_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
