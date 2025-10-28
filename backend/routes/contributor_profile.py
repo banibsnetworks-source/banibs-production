@@ -11,23 +11,36 @@ router = APIRouter(prefix="/contributors", tags=["contributor-profile"])
 async def get_contributor_profile(contributor_id: str):
     """
     Public endpoint - Get contributor profile by ID
+    Handles both UUID-based 'id' field and ObjectId-based '_id' field
     """
     db = await get_db()
     
-    contributor = await db.contributors.find_one({"_id": contributor_id})
+    # Try to find by 'id' field first (UUID), then by '_id' (ObjectId)
+    contributor = await db.contributors.find_one({"id": contributor_id})
+    if not contributor:
+        # Try ObjectId if it looks like one
+        try:
+            from bson import ObjectId
+            contributor = await db.contributors.find_one({"_id": ObjectId(contributor_id)})
+        except:
+            pass
+    
     if not contributor:
         raise HTTPException(status_code=404, detail="Contributor not found")
     
+    # Use 'id' field if available, otherwise use '_id'
+    contributor_id_value = contributor.get("id") or str(contributor.get("_id"))
+    
     # Build profile response
     profile = ContributorProfile(
-        id=contributor["_id"],
-        display_name=contributor.get("display_name") or contributor.get("name", "Anonymous"),
+        id=contributor_id_value,
+        display_name=contributor.get("displayName") or contributor.get("display_name") or contributor.get("name", "Anonymous"),
         bio=contributor.get("bio"),
-        website_or_social=contributor.get("website_or_social"),
+        website_or_social=contributor.get("websiteOrSocial") or contributor.get("website_or_social"),
         verified=contributor.get("verified", False),
-        total_submissions=contributor.get("total_submissions", 0),
-        approved_submissions=contributor.get("approved_submissions", 0),
-        featured_submissions=contributor.get("featured_submissions", 0)
+        total_submissions=contributor.get("totalSubmissions") or contributor.get("total_submissions", 0),
+        approved_submissions=contributor.get("approvedSubmissions") or contributor.get("approved_submissions", 0),
+        featured_submissions=contributor.get("featuredSubmissions") or contributor.get("featured_submissions", 0)
     )
     
     return profile
