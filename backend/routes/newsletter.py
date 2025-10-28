@@ -10,7 +10,7 @@ from models.newsletter import (
     NewsletterSubscribeRequest,
     NewsletterSubscriberPublic
 )
-from middleware.auth_guard import require_role
+from middleware.auth_guard import require_role, require_super_admin
 
 router = APIRouter(prefix="/api/newsletter", tags=["newsletter"])
 
