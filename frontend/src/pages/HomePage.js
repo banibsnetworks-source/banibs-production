@@ -18,22 +18,58 @@ const HomePage = () => {
                 BANIBS
               </h1>
             </div>
+            
+            {/* Category Links */}
+            <div className="hidden lg:flex gap-6 items-center flex-1 justify-center">
+              <button
+                onClick={() => navigate('/opportunities?type=job')}
+                className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+              >
+                Jobs
+              </button>
+              <button
+                onClick={() => navigate('/opportunities?type=grant')}
+                className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+              >
+                Grants
+              </button>
+              <button
+                onClick={() => navigate('/opportunities?type=scholarship')}
+                className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+              >
+                Scholarships
+              </button>
+              <button
+                onClick={() => navigate('/opportunities?type=training')}
+                className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+              >
+                Training
+              </button>
+              <button
+                onClick={() => navigate('/opportunities?type=event')}
+                className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+              >
+                Events
+              </button>
+            </div>
+
+            {/* Action Buttons */}
             <div className="flex gap-4">
               <button
                 onClick={() => navigate('/opportunities')}
-                className="px-4 py-2 text-[#FFD700] hover:bg-[#FFD700] hover:text-black rounded transition-all"
+                className="px-4 py-2 text-[#FFD700] hover:bg-[#FFD700] hover:text-black rounded transition-all text-sm"
               >
                 View Opportunities
               </button>
               <button
                 onClick={() => navigate('/submit')}
-                className="px-4 py-2 bg-[#FFD700] text-black font-semibold rounded hover:bg-[#FFC700] transition-all"
+                className="px-4 py-2 bg-[#FFD700] text-black font-semibold rounded hover:bg-[#FFC700] transition-all text-sm"
               >
                 Submit Opportunity
               </button>
               <button
                 onClick={() => navigate('/admin/login')}
-                className="px-4 py-2 text-gray-400 hover:text-[#FFD700] transition-all"
+                className="px-4 py-2 text-gray-400 hover:text-[#FFD700] transition-all text-sm"
               >
                 Admin Dashboard
               </button>
