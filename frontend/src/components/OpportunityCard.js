@@ -1,6 +1,7 @@
 import React from 'react';
+import LikeButton from './LikeButton';
 
-const OpportunityCard = ({ opportunity }) => {
+const OpportunityCard = ({ opportunity, showEngagement = true }) => {
   const formatDate = (dateString) => {
     if (!dateString) return null;
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -23,11 +24,18 @@ const OpportunityCard = ({ opportunity }) => {
 
   return (
     <div className="bg-black border-2 border-[#FFD700] rounded-lg p-6 hover:shadow-[0_0_20px_rgba(255,215,0,0.5)] transition-all h-full flex flex-col">
-      {/* Type Badge */}
-      <div className="mb-3">
+      {/* Type Badge & Sponsored Badge */}
+      <div className="flex gap-2 mb-3 flex-wrap">
         <span className={`inline-block px-3 py-1 ${getTypeColor(opportunity.type)} text-white text-xs font-bold rounded-full uppercase`}>
           {opportunity.type}
         </span>
+        
+        {/* Phase 4.3 - Sponsored Badge */}
+        {opportunity.is_sponsored && (
+          <span className="inline-block px-3 py-1 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black text-xs font-bold rounded-full uppercase shadow-[0_0_10px_rgba(255,215,0,0.5)]">
+            ⭐ {opportunity.sponsor_label || 'Sponsored'}
+          </span>
+        )}
       </div>
 
       {/* Image */}
