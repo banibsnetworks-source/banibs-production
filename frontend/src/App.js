@@ -80,7 +80,7 @@ function App() {
         <div className="App">
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<HomePage />} />
               
               {/* Public Routes */}
               <Route path="/opportunities" element={<PublicOpportunities />} />
