@@ -400,6 +400,64 @@ const AdminOpportunityCard = ({ opportunity, onUpdate }) => {
           </div>
         </div>
       )}
+
+      {/* Phase 4.3 - Sponsor Modal */}
+      {showSponsorModal && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+          <div className="bg-black border-2 border-[#FFD700] rounded-lg p-6 max-w-md w-full">
+            <h3 className="text-xl font-bold text-white mb-4">
+              {sponsorData.is_sponsored ? 'Mark as Sponsored' : 'Remove Sponsorship'}
+            </h3>
+            
+            {sponsorData.is_sponsored && (
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-[#FFD700] mb-2">
+                  Sponsor Label (optional)
+                </label>
+                <input
+                  type="text"
+                  value={sponsorData.sponsor_label}
+                  onChange={(e) => setSponsorData({...sponsorData, sponsor_label: e.target.value})}
+                  placeholder="e.g., Sponsored by Acme Corp"
+                  className="w-full px-4 py-3 bg-[#1a1a1a] border border-[#FFD700]/30 rounded-lg text-white focus:outline-none focus:border-[#FFD700] transition-all"
+                />
+                <p className="text-xs text-gray-400 mt-1">
+                  Leave blank to show "Sponsored" only
+                </p>
+              </div>
+            )}
+            
+            <p className="text-gray-300 text-sm mb-4">
+              {sponsorData.is_sponsored 
+                ? 'This will mark the opportunity as sponsored and display it prominently to users.'
+                : 'This will remove the sponsored status from this opportunity.'}
+            </p>
+            
+            <div className="flex gap-3">
+              <button
+                onClick={handleSponsorToggle}
+                disabled={loading}
+                className="flex-1 px-4 py-2 bg-[#FFD700] text-black font-bold rounded-lg hover:bg-[#FFC700] transition-all disabled:opacity-50"
+              >
+                {loading ? 'Processing...' : 'Confirm'}
+              </button>
+              <button
+                onClick={() => {
+                  setShowSponsorModal(false);
+                  setSponsorData({
+                    is_sponsored: opportunity.is_sponsored || false,
+                    sponsor_label: opportunity.sponsor_label || ''
+                  });
+                }}
+                disabled={loading}
+                className="px-4 py-2 bg-[#1a1a1a] border border-[#FFD700] text-[#FFD700] font-bold rounded-lg hover:bg-[#2a2a2a] transition-all"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
