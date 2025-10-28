@@ -106,3 +106,40 @@ async def toggle_contributor_verification(
         "verified": verified,
         "message": f"Contributor verification set to {verified}"
     }
+
+# Phase 4.4 - Contributor Leaderboard
+
+@router.get("/leaderboard", response_model=list[ContributorProfile])
+async def get_contributor_leaderboard(limit: int = 10):
+    """
+    Public endpoint - Get top contributors leaderboard
+    Sorted by approved_submissions + featured_submissions
+    """
+    db = await get_db()
+    
+    # Find contributors with at least 1 approved submission
+    # Sort by approved_submissions (descending), then featured_submissions (descending)
+    cursor = db.contributors.find({
+        "approved_submissions": {"$gt": 0}
+    }).sort([
+        ("approved_submissions", -1),
+        ("featured_submissions", -1)
+    ]).limit(limit)
+    
+    contributors = await cursor.to_list(length=limit)
+    
+    # Build leaderboard response
+    leaderboard = []
+    for contributor in contributors:
+        leaderboard.append(ContributorProfile(
+            id=contributor["_id"],
+            display_name=contributor.get("display_name") or contributor.get("name", "Anonymous"),
+            bio=contributor.get("bio"),
+            website_or_social=contributor.get("website_or_social"),
+            verified=contributor.get("verified", False),
+            total_submissions=contributor.get("total_submissions", 0),
+            approved_submissions=contributor.get("approved_submissions", 0),
+            featured_submissions=contributor.get("featured_submissions", 0)
+        ))
+    
+    return leaderboard
