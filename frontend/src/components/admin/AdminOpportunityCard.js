@@ -55,6 +55,38 @@ const AdminOpportunityCard = ({ opportunity, onUpdate }) => {
     }
   };
 
+  // Phase 4.3 - Sponsor Handler Function
+  const handleSponsorToggle = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      await sponsoredAPI.setSponsor(
+        opportunity.id,
+        sponsorData.is_sponsored,
+        sponsorData.sponsor_label
+      );
+      
+      setShowSponsorModal(false);
+      
+      alert(
+        sponsorData.is_sponsored
+          ? `✅ Opportunity marked as sponsored${sponsorData.sponsor_label ? ` (${sponsorData.sponsor_label})` : ''}.`
+          : '✅ Sponsorship removed successfully.'
+      );
+      
+      onUpdate();
+    } catch (err) {
+      if (err.response?.status === 403) {
+        alert("⚠️ You don't have permission to modify sponsorships (super_admin only).");
+      } else {
+        alert('❌ Failed to update sponsorship status.');
+        console.error('Sponsor toggle error:', err);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Phase 3.2 - Load moderation logs
   const loadLogs = async () => {
     setLoadingLogs(true);
