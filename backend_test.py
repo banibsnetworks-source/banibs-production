@@ -662,6 +662,453 @@ class BanibsAPITester:
         self.log("✅ RBAC verification passed - contributor properly restricted from admin endpoints")
         return True
 
+    # Phase 5.3 - Abuse/Safety Controls Tests
+    
+    def generate_test_ip_hash(self) -> str:
+        """Generate a test IP hash for testing"""
+        test_ip = f"192.168.1.{int(time.time()) % 255}"
+        return hashlib.sha256(test_ip.encode()).hexdigest()
+    
+    def test_rate_limiting_comment(self) -> bool:
+        """Test rate limiting on comment endpoint"""
+        self.log("Testing rate limiting on comment endpoint...")
+        
+        if not self.approved_opportunity_id:
+            self.log("❌ No approved opportunity available for rate limit testing", "ERROR")
+            return False
+        
+        # Generate a unique IP hash for this test
+        test_ip_hash = self.generate_test_ip_hash()
+        
+        # Make 11 rapid requests to trigger rate limit
+        success_count = 0
+        rate_limited = False
+        
+        for i in range(11):
+            response = self.make_request("POST", f"/opportunities/{self.approved_opportunity_id}/comments", {
+                "content": f"Test comment {i+1} for rate limiting",
+                "ip_hash": test_ip_hash
+            })
+            
+            if response.status_code == 201:
+                success_count += 1
+            elif response.status_code == 429:
+                data = response.json()
+                if "Rate limit exceeded" in data.get("detail", ""):
+                    rate_limited = True
+                    self.log(f"✅ Rate limit triggered after {success_count} requests")
+                    break
+            else:
+                self.log(f"❌ Unexpected response: {response.status_code} - {response.text}", "ERROR")
+                return False
+        
+        if rate_limited and success_count >= 10:
+            self.log("✅ Rate limiting working correctly - 10 requests allowed, 11th blocked")
+            return True
+        else:
+            self.log(f"❌ Rate limiting not working - {success_count} successful, rate_limited: {rate_limited}", "ERROR")
+            return False
+    
+    def test_rate_limiting_reaction(self) -> bool:
+        """Test rate limiting on reaction endpoint"""
+        self.log("Testing rate limiting on reaction endpoint...")
+        
+        if not self.approved_opportunity_id:
+            self.log("❌ No approved opportunity available for rate limit testing", "ERROR")
+            return False
+        
+        # Generate a unique IP hash for this test
+        test_ip_hash = self.generate_test_ip_hash()
+        
+        # Make 11 rapid requests to trigger rate limit
+        success_count = 0
+        rate_limited = False
+        
+        for i in range(11):
+            response = self.make_request("POST", f"/opportunities/{self.approved_opportunity_id}/react", {
+                "reaction_type": "like",
+                "ip_hash": test_ip_hash
+            })
+            
+            if response.status_code == 200:
+                success_count += 1
+            elif response.status_code == 429:
+                data = response.json()
+                if "Rate limit exceeded" in data.get("detail", ""):
+                    rate_limited = True
+                    self.log(f"✅ Rate limit triggered after {success_count} requests")
+                    break
+            else:
+                self.log(f"❌ Unexpected response: {response.status_code} - {response.text}", "ERROR")
+                return False
+        
+        if rate_limited and success_count >= 10:
+            self.log("✅ Rate limiting working correctly on reactions")
+            return True
+        else:
+            self.log(f"❌ Rate limiting not working on reactions - {success_count} successful, rate_limited: {rate_limited}", "ERROR")
+            return False
+    
+    def test_rate_limiting_newsletter(self) -> bool:
+        """Test rate limiting on newsletter subscribe endpoint"""
+        self.log("Testing rate limiting on newsletter subscribe endpoint...")
+        
+        # Generate a unique IP hash for this test
+        test_ip_hash = self.generate_test_ip_hash()
+        
+        # Make 11 rapid requests to trigger rate limit
+        success_count = 0
+        rate_limited = False
+        
+        for i in range(11):
+            response = self.make_request("POST", "/newsletter/subscribe", {
+                "email": f"ratelimit{i}@example.com",
+                "ip_hash": test_ip_hash
+            })
+            
+            if response.status_code == 200:
+                success_count += 1
+            elif response.status_code == 429:
+                data = response.json()
+                if "Rate limit exceeded" in data.get("detail", ""):
+                    rate_limited = True
+                    self.log(f"✅ Rate limit triggered after {success_count} requests")
+                    break
+            else:
+                self.log(f"❌ Unexpected response: {response.status_code} - {response.text}", "ERROR")
+                return False
+        
+        if rate_limited and success_count >= 10:
+            self.log("✅ Rate limiting working correctly on newsletter subscribe")
+            return True
+        else:
+            self.log(f"❌ Rate limiting not working on newsletter - {success_count} successful, rate_limited: {rate_limited}", "ERROR")
+            return False
+    
+    def test_admin_ban_endpoints_auth(self) -> bool:
+        """Test admin ban endpoints authentication"""
+        self.log("Testing admin ban endpoints authentication...")
+        
+        # Test 1: Without auth → Should return 401
+        response = self.make_request("POST", "/admin/ban-source", {
+            "ip_hash": "test_hash",
+            "reason": "Test ban"
+        })
+        
+        if response.status_code != 401:
+            self.log(f"❌ Ban source without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 2: With contributor token → Should return 403
+        if self.contributor_token:
+            headers = {"Authorization": f"Bearer {self.contributor_token}"}
+            response = self.make_request("POST", "/admin/ban-source", {
+                "ip_hash": "test_hash",
+                "reason": "Test ban"
+            }, headers=headers)
+            
+            if response.status_code != 403:
+                self.log(f"❌ Ban source with contributor token should return 403, got {response.status_code}", "ERROR")
+                return False
+        
+        # Test 3: GET banned sources without auth → Should return 401
+        response = self.make_request("GET", "/admin/banned-sources")
+        
+        if response.status_code != 401:
+            self.log(f"❌ Get banned sources without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        self.log("✅ Admin ban endpoints authentication working correctly")
+        return True
+    
+    def test_admin_ban_source(self) -> bool:
+        """Test banning an IP hash"""
+        if not self.admin_token:
+            self.log("❌ No admin token available for ban source test", "ERROR")
+            return False
+        
+        self.log("Testing admin ban source endpoint...")
+        
+        # Generate a test IP hash
+        self.test_ip_hash = self.generate_test_ip_hash()
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("POST", "/admin/ban-source", {
+            "ip_hash": self.test_ip_hash,
+            "reason": "Spam testing"
+        }, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["success", "id", "ip_hash", "ip_hash_display", "reason", "message"]
+            
+            if all(field in data for field in required_fields):
+                if data["success"] and data["ip_hash"] == self.test_ip_hash:
+                    self.banned_ip_hash = self.test_ip_hash
+                    self.log(f"✅ IP hash banned successfully: {data['ip_hash_display']}")
+                    return True
+                else:
+                    self.log(f"❌ Ban response invalid: {data}", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Ban response missing required fields: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Ban source failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_get_banned_sources(self) -> bool:
+        """Test getting list of banned sources"""
+        if not self.admin_token:
+            self.log("❌ No admin token available for get banned sources test", "ERROR")
+            return False
+        
+        self.log("Testing get banned sources endpoint...")
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("GET", "/admin/banned-sources", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list):
+                self.log(f"✅ Get banned sources working - Found {len(data)} banned sources")
+                
+                # Check if our banned IP is in the list
+                if self.banned_ip_hash:
+                    found_ban = False
+                    for ban in data:
+                        if ban.get("ip_hash_display", "").startswith(self.banned_ip_hash[:6]):
+                            found_ban = True
+                            self.log(f"✅ Found our banned IP in list: {ban['ip_hash_display']}")
+                            break
+                    
+                    if not found_ban:
+                        self.log("⚠️ Our banned IP not found in list (might be expected)")
+                
+                return True
+            else:
+                self.log(f"❌ Get banned sources response is not a list: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Get banned sources failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_ban_enforcement(self) -> bool:
+        """Test that banned IP hash is blocked from actions"""
+        if not self.banned_ip_hash or not self.approved_opportunity_id:
+            self.log("❌ No banned IP hash or approved opportunity for enforcement test", "ERROR")
+            return False
+        
+        self.log("Testing ban enforcement...")
+        
+        # Test 1: Try to comment with banned IP
+        response = self.make_request("POST", f"/opportunities/{self.approved_opportunity_id}/comments", {
+            "content": "This should be blocked",
+            "ip_hash": self.banned_ip_hash
+        })
+        
+        if response.status_code == 403:
+            data = response.json()
+            if "Access blocked" in data.get("detail", ""):
+                self.log("✅ Banned IP correctly blocked from commenting")
+            else:
+                self.log(f"❌ Wrong error message for banned IP: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Banned IP should be blocked (403), got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 2: Try to react with banned IP
+        response = self.make_request("POST", f"/opportunities/{self.approved_opportunity_id}/react", {
+            "reaction_type": "like",
+            "ip_hash": self.banned_ip_hash
+        })
+        
+        if response.status_code == 403:
+            data = response.json()
+            if "Access blocked" in data.get("detail", ""):
+                self.log("✅ Banned IP correctly blocked from reacting")
+            else:
+                self.log(f"❌ Wrong error message for banned IP: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Banned IP should be blocked (403), got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 3: Try to subscribe to newsletter with banned IP
+        response = self.make_request("POST", "/newsletter/subscribe", {
+            "email": "banned@example.com",
+            "ip_hash": self.banned_ip_hash
+        })
+        
+        if response.status_code == 403:
+            data = response.json()
+            if "Access blocked" in data.get("detail", ""):
+                self.log("✅ Banned IP correctly blocked from newsletter subscription")
+                return True
+            else:
+                self.log(f"❌ Wrong error message for banned IP: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Banned IP should be blocked (403), got {response.status_code}", "ERROR")
+            return False
+    
+    def test_unban_source(self) -> bool:
+        """Test unbanning an IP hash"""
+        if not self.admin_token or not self.banned_ip_hash:
+            self.log("❌ No admin token or banned IP hash for unban test", "ERROR")
+            return False
+        
+        self.log("Testing unban source endpoint...")
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("DELETE", f"/admin/unban-source/{self.banned_ip_hash}", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success") and "unbanned" in data.get("message", ""):
+                self.log("✅ IP hash unbanned successfully")
+                return True
+            else:
+                self.log(f"❌ Unban response invalid: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Unban source failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    # Phase 5.4 - Opportunity Detail Endpoint Tests
+    
+    def test_opportunity_detail_public(self) -> bool:
+        """Test opportunity detail endpoint (public)"""
+        if not self.approved_opportunity_id:
+            self.log("❌ No approved opportunity available for detail test", "ERROR")
+            return False
+        
+        self.log("Testing opportunity detail endpoint...")
+        
+        response = self.make_request("GET", f"/opportunities/{self.approved_opportunity_id}/full")
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = [
+                "id", "title", "orgName", "type", "description",
+                "contributor_display_name", "contributor_verified",
+                "like_count", "comment_count", "is_sponsored", "status"
+            ]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ Opportunity detail endpoint working - Title: {data['title']}")
+                self.log(f"   Contributor: {data['contributor_display_name']}, Likes: {data['like_count']}, Comments: {data['comment_count']}")
+                return True
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Opportunity detail missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Opportunity detail failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_opportunity_detail_invalid_id(self) -> bool:
+        """Test opportunity detail with invalid ID"""
+        self.log("Testing opportunity detail with invalid ID...")
+        
+        response = self.make_request("GET", "/opportunities/invalid-id/full")
+        
+        if response.status_code in [400, 404]:
+            self.log("✅ Opportunity detail correctly handles invalid ID")
+            return True
+        else:
+            self.log(f"❌ Opportunity detail should return 400/404 for invalid ID, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_opportunity_detail_pending(self) -> bool:
+        """Test opportunity detail with pending (unapproved) opportunity"""
+        if not self.test_opportunity_id:
+            self.log("⚠️ No pending opportunity available for detail test")
+            return True  # Skip this test if no pending opportunity
+        
+        self.log("Testing opportunity detail with pending opportunity...")
+        
+        response = self.make_request("GET", f"/opportunities/{self.test_opportunity_id}/full")
+        
+        if response.status_code == 404:
+            data = response.json()
+            if "not found" in data.get("detail", "").lower():
+                self.log("✅ Opportunity detail correctly hides pending opportunities")
+                return True
+            else:
+                self.log(f"❌ Wrong error message for pending opportunity: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Opportunity detail should return 404 for pending opportunity, got {response.status_code}", "ERROR")
+            return False
+    
+    # Phase 5.5 - Admin Revenue Overview Tests
+    
+    def test_revenue_overview_auth(self) -> bool:
+        """Test revenue overview endpoint authentication"""
+        self.log("Testing revenue overview authentication...")
+        
+        # Test 1: Without auth → Should return 401
+        response = self.make_request("GET", "/admin/revenue/overview")
+        
+        if response.status_code != 401:
+            self.log(f"❌ Revenue overview without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 2: With contributor token → Should return 403
+        if self.contributor_token:
+            headers = {"Authorization": f"Bearer {self.contributor_token}"}
+            response = self.make_request("GET", "/admin/revenue/overview", headers=headers)
+            
+            if response.status_code != 403:
+                self.log(f"❌ Revenue overview with contributor token should return 403, got {response.status_code}", "ERROR")
+                return False
+        
+        self.log("✅ Revenue overview authentication working correctly")
+        return True
+    
+    def test_revenue_overview_data(self) -> bool:
+        """Test revenue overview endpoint data"""
+        if not self.admin_token:
+            self.log("❌ No admin token available for revenue overview test", "ERROR")
+            return False
+        
+        self.log("Testing revenue overview data...")
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("GET", "/admin/revenue/overview", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = [
+                "totalSponsoredOrders", "totalSponsoredRevenueUSD",
+                "recentSponsorOrders", "newsletterSubscribersCount",
+                "lastNewsletterSend"
+            ]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ Revenue overview working - Orders: {data['totalSponsoredOrders']}, Revenue: ${data['totalSponsoredRevenueUSD']}")
+                self.log(f"   Newsletter subscribers: {data['newsletterSubscribersCount']}")
+                
+                # Verify data types
+                if (isinstance(data["totalSponsoredOrders"], int) and
+                    isinstance(data["totalSponsoredRevenueUSD"], (int, float)) and
+                    isinstance(data["recentSponsorOrders"], list) and
+                    isinstance(data["newsletterSubscribersCount"], int)):
+                    self.log("✅ Revenue overview data types correct")
+                    return True
+                else:
+                    self.log("❌ Revenue overview data types incorrect", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Revenue overview missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Revenue overview failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+
     def approve_test_opportunity(self) -> bool:
         """Approve the test opportunity for sponsor testing"""
         if not self.admin_token or not self.test_opportunity_id:
