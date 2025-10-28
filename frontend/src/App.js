@@ -18,6 +18,8 @@ import ContributorProfileEdit from "./pages/contributor/ContributorProfileEdit";
 import OpportunityDetailPage from "./pages/OpportunityDetailPage";
 // Home/Landing Page
 import HomePage from "./pages/HomePage";
+// Opportunity Hub (marketing/info page)
+import OpportunityHubPage from "./pages/OpportunityHubPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
