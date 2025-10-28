@@ -9,7 +9,8 @@ class UserDB(BaseModel):
     id: str = Field(default_factory=lambda: str(ObjectId()), alias="_id")
     email: EmailStr
     password_hash: str
-    role: Literal["admin", "moderator", "editor"] = "editor"
+    # Phase 4.5 - RBAC roles
+    role: Literal["super_admin", "moderator"] = "moderator"
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
     
@@ -21,7 +22,8 @@ class UserCreate(BaseModel):
     """Request body for user creation"""
     email: EmailStr
     password: str
-    role: Literal["admin", "moderator", "editor"] = "editor"
+    # Phase 4.5 - RBAC roles
+    role: Literal["super_admin", "moderator"] = "moderator"
 
 class UserLogin(BaseModel):
     """Request body for login"""
