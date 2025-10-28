@@ -413,11 +413,12 @@ async def sponsor_opportunity(
     opp_id: str,
     action: SponsorAction,
     db=Depends(get_db),
-    user: dict = Depends(require_role("admin")),
+    user: dict = Depends(require_super_admin),  # Phase 4.5 - super_admin only
 ):
     """
-    Mark opportunity as sponsored (admin only)
+    Mark opportunity as sponsored (super admin only)
     Phase 4.3 - Monetization prep
+    Phase 4.5 - Restricted to super_admin role
     Sets is_sponsored flag and optional sponsor_label
     """
     update_data = {
