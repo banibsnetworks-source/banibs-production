@@ -19,6 +19,7 @@ from routes.contributor_auth import router as contributor_auth_router
 from routes.contributor_profile import router as contributor_profile_router
 from routes.moderation_logs import router as moderation_logs_router
 from routes.reactions import router as reactions_router  # Phase 4.1
+from routes.newsletter import router as newsletter_router  # Phase 4.2
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
