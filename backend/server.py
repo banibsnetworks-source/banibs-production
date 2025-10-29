@@ -142,6 +142,11 @@ cdn_news_dir = Path("/var/www/cdn.banibs.com/news")
 cdn_news_dir.mkdir(parents=True, exist_ok=True)
 app.mount("/cdn/news", StaticFiles(directory=str(cdn_news_dir)), name="cdn-news")
 
+# Mount CDN fallback images
+cdn_fallback_dir = Path("/var/www/cdn.banibs.com/fallback") 
+cdn_fallback_dir.mkdir(parents=True, exist_ok=True)
+app.mount("/cdn/fallback", StaticFiles(directory=str(cdn_fallback_dir)), name="cdn-fallback")
+
 # Phase 3.5 - Request logging middleware
 import time
 from starlette.middleware.base import BaseHTTPMiddleware
