@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 /**
  * QuickLinks Component
@@ -11,42 +11,65 @@ import React from 'react';
  * See: /docs/BANIBS_NARRATIVE_GUIDE.md for reasoning.
  */
 
-const QuickLinks = () => {
+export default function QuickLinks() {
   const links = [
-    { label: 'Social', href: '#social', icon: '💬', coming: true },
-    { label: 'Business', href: '#business', icon: '🏢', coming: true },
-    { label: 'Information', href: '/opportunities', icon: '📰', coming: false },
-    { label: 'Education', href: '#education', icon: '🎓', coming: true },
-    { label: 'Youth', href: '#youth', icon: '👥', coming: true },
-    { label: 'Opportunities', href: '/opportunities', icon: '💼', coming: false },
-    { label: 'Resources', href: '#resources', icon: '📚', coming: true }
+    { label: "Social", href: "/social" },
+    { label: "Business", href: "/business" },
+    { label: "Information", href: "/information" },
+    { label: "Education", href: "/education" },
+    { label: "Youth", href: "/youth" },
+    { label: "Opportunities", href: "/opportunities" },
+    { label: "Resources", href: "/resources" },
   ];
 
   return (
-    <section className="max-w-7xl mx-auto px-4 mt-6" data-testid="banibs-quick-links">
-      <h2 className="text-base font-semibold text-gray-700 mb-3 flex items-center gap-2">
-        <span className="text-lg">🌐</span>
-        <span>Explore BANIBS</span>
-      </h2>
-
-      <div className="flex flex-wrap gap-2">
+    <nav
+      aria-label="BANIBS Core Navigation"
+      data-testid="banibs-quick-links"
+      className="
+        w-full
+        flex
+        justify-center
+        border-b border-yellow-400/20
+        bg-[rgba(0,0,0,0.6)]
+        backdrop-blur-md
+        text-[0.8rem]
+        md:text-sm
+        text-gray-200
+        py-3
+        px-4
+        mb-6
+      "
+    >
+      <ul
+        className="
+          flex flex-wrap justify-center gap-2 md:gap-3 lg:gap-4
+          max-w-[1100px] w-full
+        "
+      >
         {links.map((link) => (
-          <a
-            key={link.label}
-            href={link.href}
-            className="px-3 py-1.5 text-sm font-medium text-gray-800 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-full shadow-sm hover:shadow-md hover:-translate-y-0.5 transition flex items-center gap-1.5"
-            title={link.coming ? `${link.label} - Coming Soon` : link.label}
-          >
-            <span>{link.icon}</span>
-            <span>{link.label}</span>
-            {link.coming && (
-              <span className="text-xs text-gray-500">(Soon)</span>
-            )}
-          </a>
+          <li key={link.label}>
+            <a
+              href={link.href}
+              className="
+                flex items-center
+                px-3 py-1.5
+                rounded-full
+                border border-yellow-400/30
+                bg-[rgba(17,17,17,0.6)]
+                hover:border-yellow-400/80
+                hover:text-yellow-300
+                hover:bg-[rgba(30,30,30,0.6)]
+                transition-colors
+                whitespace-nowrap
+                shadow-[0_0_10px_rgba(255,215,0,0.15)]
+              "
+            >
+              {link.label}
+            </a>
+          </li>
         ))}
-      </div>
-    </section>
+      </ul>
+    </nav>
   );
-};
-
-export default QuickLinks;
+}
