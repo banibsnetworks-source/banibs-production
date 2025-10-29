@@ -63,11 +63,10 @@ def _get_file_size_mb_from_local_path(image_url: str) -> float | None:
 async def generate_health_report():
     # Connect to MongoDB
     mongo_url = os.environ.get('MONGO_URL')
-    db_name = os.environ.get('DB_NAME')
+    db_name = os.environ.get('DB_NAME', 'banibs_platform')
     
-    client = AsyncIOMotorClient(mongo_url)
-    db = client[db_name]
-    news_collection = db.news_items
+    if not mongo_url or not db_name:
+        return "❌ Error: MONGO_URL or DB_NAME not found in environment"
 
     try:
         # Get all news items sorted by publishedAt descending
