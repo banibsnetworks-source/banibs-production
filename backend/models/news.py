@@ -17,7 +17,7 @@ class NewsItemDB(BaseModel):
     isFeatured: bool = False  # True for hero/featured story
     external: bool = False  # True for RSS/external content, False for BANIBS editorial
     fingerprint: Optional[str] = None  # SHA256 hash for deduplication (sourceName::title)
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    createdAt: datetime = Field(default_factory=datetime.utcnow)
     
     class Config:
         populate_by_name = True
