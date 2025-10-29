@@ -27,6 +27,7 @@ FALLBACK_IMAGES = {
     "Education": "https://cdn.banibs.com/fallback/education.jpg",
     "Community": "https://cdn.banibs.com/fallback/community.jpg",
     "Opportunities": "https://cdn.banibs.com/fallback/opportunities.jpg",
+    "World News": "https://cdn.banibs.com/fallback/world_news.jpg",
 }
 
 router = APIRouter(prefix="/api/news", tags=["rss-sync"])
