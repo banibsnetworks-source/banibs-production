@@ -5,6 +5,7 @@ Fetches, parses, and stores RSS feed items with deduplication
 
 import feedparser
 import hashlib
+import requests
 from datetime import datetime
 from typing import Dict, List, Optional
 from models.news import NewsItemDB
