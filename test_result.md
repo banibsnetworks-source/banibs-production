@@ -1014,15 +1014,18 @@ agent_communication:
 
   - task: "APScheduler for automated RSS sync"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/scheduler.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created scheduler.py with init_scheduler() function. Uses AsyncIOScheduler to schedule run_sync_job every 6 hours. Job runs immediately on startup (next_run_time=datetime.now()). Registered in server.py @app.on_event('startup'). APScheduler 3.11.0 added to requirements.txt. Backend logs show 'BANIBS RSS scheduler initialized' and 'Job executed successfully' on startup."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: APScheduler working correctly. Backend logs confirm: 'BANIBS RSS scheduler initialized' and 'Job executed successfully'. Scheduler starts on server startup and runs RSS sync immediately. Next run scheduled for 6 hours later (07:32:08 UTC). AsyncIOScheduler properly integrated with FastAPI startup event. RSS sync job function executes without errors and processes all 15 sources."
 
   - task: "NewsItem model enhanced for RSS"
     implemented: true
