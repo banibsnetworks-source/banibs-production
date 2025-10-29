@@ -51,32 +51,51 @@ def make_dedupe_key(item):
 @router.get("/latest", response_model=List[NewsItemPublic])
 async def get_latest_news_feed():
     """
-    Get latest news items for homepage feed
+    Get latest news items for homepage feed with deduplication
     
-    Returns array of news items with:
-    - id: UUID string
-    - title: News headline
-    - summary: Short teaser text
-    - imageUrl: Optional image URL
-    - publishedAt: ISO timestamp string
-    - category: Category string (e.g., "Business", "Education", "Community")
-    - sourceUrl: Optional external link
-    - isFeatured: Boolean for featured story
+    We intentionally over-fetch (LIMIT 50) and then collapse duplicates
+    in Python, because during ingestion we may occasionally store the
+    same story twice if the sync ran at the same time from two places.
+
+    Deduplication key priority:
+    1. fingerprint (stable SHA256(sourceName + "::" + title))
+    2. fallback: sourceName + "::" + title
     
-    This is a public endpoint - no authentication required.
+    This endpoint feeds the 'Latest Stories' section on the homepage.
     Returns empty array [] if no news items exist.
     """
-    items = await get_latest_news(limit=10)
+    # Pull buffer of recent stories (newest first) to dedupe
+    items = await news_collection.find(
+        {},
+        {"_id": 0}
+    ).sort("publishedAt", -1).limit(50).to_list(length=None)
     
-    # Convert datetime to ISO string for each item
-    result = []
+    if not items:
+        return []
+    
+    # Deduplicate by fingerprint/sourceName+title
+    seen_keys = set()
+    unique_items = []
+    
     for item in items:
-        # Convert publishedAt to ISO string if it's a datetime object
+        dedupe_key = make_dedupe_key(item)
+        
+        # Skip if we've already added this story
+        if dedupe_key in seen_keys:
+            continue
+        seen_keys.add(dedupe_key)
+        
+        # Convert datetime to ISO string if needed
         if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
             item['publishedAt'] = item['publishedAt'].isoformat()
-        result.append(NewsItemPublic(**item))
+            
+        unique_items.append(NewsItemPublic(**item))
+        
+        # Stop once we have enough to render the homepage
+        if len(unique_items) >= 10:
+            break
     
-    return result
+    return unique_items
 
 @router.get("/featured")
 async def get_featured_news():
