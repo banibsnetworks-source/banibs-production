@@ -34,19 +34,22 @@ router = APIRouter(prefix="/api/news", tags=["rss-sync"])
 @router.post("/rss-sync")
 async def sync_rss_feeds():
     """
-    Fetch and store latest items from all registered RSS feeds
-    
-    This endpoint:
-    - Fetches latest articles from all configured RSS sources
-    - Stores new items in the database (skips duplicates via fingerprint)
-    - Returns summary of items fetched per source
-    
-    Can be called manually or scheduled via APScheduler.
-    Should be protected with admin auth in production.
+    Manually trigger the full BANIBS news pipeline:
+    1. Pull latest RSS content from all sources
+    2. Mirror/optimize images to CDN
+    3. Generate + log health report
+
+    This endpoint does the same workflow as the automated scheduler.
+    NOTE: In production this route MUST be admin/JWT-protected.
     """
+    # Import here to avoid circular imports
+    from utils.cdn_mirror import mirror_all_images
+    from scripts.rss_health_report import generate_health_report, write_report_to_log
+    
     results = []
     total_new_items = 0
     
+    # Step 1: RSS ingestion
     for source in RSS_SOURCES:
         try:
             # Get fallback image for this category
@@ -74,12 +77,28 @@ async def sync_rss_feeds():
                 "status": "failed"
             })
     
+    # Step 2: Mirror/optimize images
+    try:
+        mirror_result = await mirror_all_images()
+    except Exception as e:
+        mirror_result = {"error": str(e), "total_processed": 0}
+    
+    # Step 3: Generate and log health report
+    try:
+        health_report = await generate_health_report()
+        write_report_to_log(health_report)
+    except Exception as e:
+        health_report = f"Health report error: {str(e)}"
+    
     return {
         "success": True,
+        "ranAt": datetime.utcnow().isoformat() + "Z",
         "total_sources": len(RSS_SOURCES),
         "total_new_items": total_new_items,
-        "results": results,
-        "message": f"RSS sync complete. Added {total_new_items} new items."
+        "ingestResults": results,
+        "mirrorResult": mirror_result,
+        "healthReport": health_report,
+        "message": f"Full pipeline complete. Added {total_new_items} new items."
     }
 
 
