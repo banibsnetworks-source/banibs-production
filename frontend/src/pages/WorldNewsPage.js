@@ -25,6 +25,12 @@ const normalizeImageUrl = (url) => {
     return `/cdn/news/${filename}`;
   }
   
+  // Convert fallback URLs
+  if (url.startsWith('https://cdn.banibs.com/fallback/')) {
+    const filename = url.split('/').pop();
+    return `/cdn/fallback/${filename}`;
+  }
+  
   return url;
 };
 
@@ -44,12 +50,13 @@ const ImageWithFallback = ({ src, alt, className, region }) => {
     setImageError(true);
   };
   
+  // Enhanced fallback UI - always show this if no image or error
   if (!normalizedSrc || imageError) {
     return (
       <div className="w-full h-full bg-gradient-to-br from-black/60 to-gray-900/80 flex items-center justify-center">
         <div className="text-center p-4">
-          <div className="text-yellow-400 text-2xl mb-2">🌍</div>
-          <div className="text-yellow-300/70 italic text-sm">
+          <div className="text-yellow-400 text-3xl mb-2">🌍</div>
+          <div className="text-yellow-300/80 italic text-sm font-medium tracking-wide">
             BANIBS • {region || "World News"}
           </div>
         </div>
@@ -60,18 +67,20 @@ const ImageWithFallback = ({ src, alt, className, region }) => {
   return (
     <div className="relative w-full h-full">
       {isLoading && (
-        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-          <div className="text-yellow-300/70 text-sm">Loading...</div>
+        <div className="absolute inset-0 bg-gradient-to-br from-black/60 to-gray-900/80 flex items-center justify-center z-10">
+          <div className="text-center">
+            <div className="text-yellow-400 text-xl mb-1">🌍</div>
+            <div className="text-yellow-300/70 text-xs">Loading...</div>
+          </div>
         </div>
       )}
       <img
         src={normalizedSrc}
         alt={alt}
-        className={className}
+        className={`${className} ${imageError ? 'hidden' : 'block'}`}
         loading="lazy"
         onLoad={handleImageLoad}
         onError={handleImageError}
-        style={{ display: imageError ? 'none' : 'block' }}
       />
     </div>
   );
