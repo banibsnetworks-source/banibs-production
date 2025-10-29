@@ -902,3 +902,64 @@ agent_communication:
       - ✅ Limit to ~10 items (implemented in get_latest_news function)
       
       All Dynamic News Aggregation Feed backend requirements successfully implemented and tested. The API is production-ready and working correctly.
+
+  # RSS Aggregation System Backend
+  - task: "RSS Parser utility"
+    implemented: true
+    working: "NA"
+    file: "backend/utils/rss_parser.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created RSS parser utility with feedparser. Functions: make_fingerprint (SHA256 of sourceName::title for dedupe), extract_image_from_entry (tries media_content, media_thumbnail, enclosures, links), extract_published_date (tries published_parsed, updated_parsed, string dates, falls back to now), clean_html (strips tags and entities), fetch_and_store_feed (main function that fetches RSS, parses entries, checks fingerprint, stores new items). Returns count of new items stored. Uses requests with custom User-Agent for better compatibility."
+
+  - task: "RSS Sync orchestration task"
+    implemented: true
+    working: "NA"
+    file: "backend/tasks/rss_sync.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created RSS sync task with authoritative documentation header (Rules: sources from rss_sources.py only, no field renaming, fingerprint-based dedupe, /api/news/rss-sync must remain stable). Implements POST /api/news/rss-sync endpoint that loops through all RSS_SOURCES, calls fetch_and_store_feed for each, returns per-source statistics (inserted, status, errors). Also includes run_sync_job() function for APScheduler to call. Router registered with /api/news prefix."
+
+  - task: "RSS Sources configuration"
+    implemented: true
+    working: "NA"
+    file: "backend/config/rss_sources.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "RSS_SOURCES array defined with 15 feeds: Black-Owned Media (Black Enterprise, The Root, Essence), Indigenous News (Indian Country Today, Native News Online), Education (Education Week, UNCF), Business (Forbes Entrepreneurs, MBDA), Community/Policy (NAACP, NPR Code Switch), Grants/Opportunities (Grants.gov, USA.gov), Technology (AfroTech, TechCrunch Startups). Each source has category, name, and url. Single source of truth for all RSS ingestion."
+
+  - task: "APScheduler for automated RSS sync"
+    implemented: true
+    working: "NA"
+    file: "backend/scheduler.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created scheduler.py with init_scheduler() function. Uses AsyncIOScheduler to schedule run_sync_job every 6 hours. Job runs immediately on startup (next_run_time=datetime.now()). Registered in server.py @app.on_event('startup'). APScheduler 3.11.0 added to requirements.txt. Backend logs show 'BANIBS RSS scheduler initialized' and 'Job executed successfully' on startup."
+
+  - task: "NewsItem model enhanced for RSS"
+    implemented: true
+    working: "NA"
+    file: "backend/models/news.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Enhanced NewsItemDB model with additional fields for RSS aggregation: sourceName (name of RSS source like 'Black Enterprise'), external (boolean flag for RSS content), fingerprint (SHA256 hash for deduplication), createdAt (when BANIBS stored it vs publishedAt from source). Field naming standardized: createdAt (not created_at), sourceName (not source_name), fingerprint (not content_hash). All fields match authoritative spec from user."
