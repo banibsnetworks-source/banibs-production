@@ -387,3 +387,98 @@ async def delete_news_item(
         "message": f"News item {news_id} deleted successfully",
         "deletedId": news_id
     }
+
+# ==========================================
+# PHASE 6.2 - ENGAGEMENT ANALYTICS ENDPOINTS
+# ==========================================
+
+@router.get("/trending")
+async def get_trending_news(region: str = "Global", limit: int = 5):
+    """
+    Get trending (most-clicked) news stories by region.
+    
+    Args:
+        region: Geographic region ("Global", "Americas", "Middle East", etc.)
+        limit: Number of stories to return (default 5, max 10)
+    
+    Returns:
+        Object with region and array of trending stories with click counts
+    
+    Examples:
+        GET /api/news/trending?region=Americas&limit=3
+        GET /api/news/trending (defaults to Global, limit 5)
+    """
+    from db.news_analytics import get_trending_stories
+    
+    # Validate limit
+    if limit > 10:
+        limit = 10
+    elif limit < 1:
+        limit = 5
+    
+    try:
+        trending_data = await get_trending_stories(region, limit)
+        
+        # Format response
+        stories = []
+        for item in trending_data:
+            # Convert datetime to ISO string if needed
+            last_clicked = item.get('lastClickedAt')
+            if hasattr(last_clicked, 'isoformat'):
+                last_clicked = last_clicked.isoformat() + 'Z'
+            elif isinstance(last_clicked, str):
+                last_clicked = last_clicked
+            else:
+                last_clicked = datetime.utcnow().isoformat() + 'Z'
+            
+            stories.append({
+                "storyId": item.get('storyId'),
+                "title": item.get('title', 'Unknown Title'),
+                "sourceName": item.get('sourceName', 'Unknown Source'),
+                "region": item.get('region', region),
+                "imageUrl": item.get('imageUrl'),
+                "sourceUrl": item.get('sourceUrl', '#'),
+                "clicks": item.get('clicks', 0),
+                "lastClickedAt": last_clicked
+            })
+        
+        return {
+            "region": region,
+            "stories": stories
+        }
+        
+    except Exception as e:
+        # Return empty but valid response on error
+        return {
+            "region": region,
+            "stories": []
+        }
+
+@router.get("/admin/engagement-summary")
+async def get_admin_engagement_summary(
+    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+):
+    """
+    ADMIN ONLY: Get engagement summary across all regions.
+    
+    Returns click statistics and top stories per region for internal analysis.
+    Used for understanding which regions and stories drive most engagement.
+    """
+    from db.news_analytics import get_engagement_summary
+    
+    try:
+        summary = await get_engagement_summary()
+        
+        # Format timestamps for JSON serialization
+        for region in summary.get("regions", []):
+            for story in region.get("topStories", []):
+                if hasattr(story.get("lastClickedAt"), 'isoformat'):
+                    story["lastClickedAt"] = story["lastClickedAt"].isoformat() + 'Z'
+        
+        return summary
+        
+    except Exception as e:
+        return {
+            "regions": [],
+            "error": "Unable to fetch engagement data"
+        }
