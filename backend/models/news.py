@@ -13,9 +13,10 @@ class NewsItemDB(BaseModel):
     publishedAt: datetime = Field(default_factory=datetime.utcnow)
     category: str  # e.g. "Business", "Education", "Community"
     sourceUrl: Optional[str] = None  # Optional external link
+    sourceName: Optional[str] = None  # Name of RSS source (e.g., "Black Enterprise")
     isFeatured: bool = False  # True for hero/featured story
-    content_hash: Optional[str] = None  # For deduplication
-    source_name: Optional[str] = None  # Name of RSS source (e.g., "Black Enterprise")
+    external: bool = False  # True for RSS/external content, False for BANIBS editorial
+    fingerprint: Optional[str] = None  # SHA256 hash for deduplication (sourceName::title)
     created_at: datetime = Field(default_factory=datetime.utcnow)
     
     class Config:
@@ -30,4 +31,6 @@ class NewsItemPublic(BaseModel):
     publishedAt: str  # ISO timestamp string
     category: str
     sourceUrl: Optional[str] = None
+    sourceName: Optional[str] = None
     isFeatured: bool = False
+    external: bool = False
