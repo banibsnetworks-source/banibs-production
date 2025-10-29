@@ -57,7 +57,8 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "craco test"
+    "test": "craco test",
+    "verify:identity": "node ../scripts/check_identity_layer.js"
   },
   "browserslist": {
     "production": [
