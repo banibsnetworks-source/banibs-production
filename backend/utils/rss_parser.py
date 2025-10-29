@@ -123,7 +123,7 @@ def clean_html(text: str) -> str:
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 
-async def fetch_and_store_feed(url: str, category: str, source_name: str, limit: int = 5, fallback_image: Optional[str] = None) -> int:
+async def fetch_and_store_feed(url: str, category: str, source_name: str, limit: int = 5, fallback_image: Optional[str] = None, region: Optional[str] = None) -> int:
     """
     Fetch RSS feed and store items in database with deduplication
     
