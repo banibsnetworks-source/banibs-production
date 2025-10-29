@@ -4,6 +4,7 @@ import { useContributorAuth } from '../contexts/ContributorAuthContext';
 import { useAuth } from '../contexts/AuthContext';
 import NewsFeed from '../components/NewsFeed';
 import FeaturedStory from '../components/FeaturedStory';
+import QuickLinks from '../components/QuickLinks';
 
 const HomePage = () => {
   const navigate = useNavigate();
