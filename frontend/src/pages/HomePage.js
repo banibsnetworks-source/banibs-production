@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useContributorAuth } from '../contexts/ContributorAuthContext';
 import { useAuth } from '../contexts/AuthContext';
 import NewsFeed from '../components/NewsFeed';
+import FeaturedStory from '../components/FeaturedStory';
 
 const HomePage = () => {
   const navigate = useNavigate();
