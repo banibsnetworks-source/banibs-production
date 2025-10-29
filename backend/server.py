@@ -125,6 +125,9 @@ app.include_router(admin_revenue_router)
 # Include news router (News feed)
 app.include_router(news_router)
 
+# Include RSS sync router (automated aggregation)
+app.include_router(rss_sync_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
