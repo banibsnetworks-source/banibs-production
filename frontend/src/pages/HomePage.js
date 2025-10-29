@@ -194,46 +194,8 @@ const HomePage = () => {
         </p>
       </section>
 
-      {/* 🗂️ Browse by Category – compact pill nav under hero */}
-      <section className="max-w-7xl mx-auto px-4 mt-6">
-        <h2 className="text-base font-semibold text-gray-700 mb-3 flex items-center gap-2">
-          <span className="text-lg">🗂️</span>
-          <span>Browse by category</span>
-        </h2>
-
-        <div className="flex flex-wrap gap-2">
-          <button
-            onClick={() => navigate('/opportunities?type=job')}
-            className="px-3 py-1.5 text-sm font-medium text-gray-800 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-full shadow-sm hover:shadow-md hover:-translate-y-0.5 transition"
-          >
-            💼 Jobs & Careers
-          </button>
-          <button
-            onClick={() => navigate('/opportunities?type=grant')}
-            className="px-3 py-1.5 text-sm font-medium text-gray-800 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-full shadow-sm hover:shadow-md hover:-translate-y-0.5 transition"
-          >
-            💰 Grants & Funding
-          </button>
-          <button
-            onClick={() => navigate('/opportunities?type=scholarship')}
-            className="px-3 py-1.5 text-sm font-medium text-gray-800 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-full shadow-sm hover:shadow-md hover:-translate-y-0.5 transition"
-          >
-            🎓 Scholarships
-          </button>
-          <button
-            onClick={() => navigate('/opportunities?type=training')}
-            className="px-3 py-1.5 text-sm font-medium text-gray-800 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-full shadow-sm hover:shadow-md hover:-translate-y-0.5 transition"
-          >
-            📚 Training & Education
-          </button>
-          <button
-            onClick={() => navigate('/opportunities?type=event')}
-            className="px-3 py-1.5 text-sm font-medium text-gray-800 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-full shadow-sm hover:shadow-md hover:-translate-y-0.5 transition"
-          >
-            📅 Events & Networking
-          </button>
-        </div>
-      </section>
+      {/* 🌐 BANIBS Core Quick Links - MANDATORY */}
+      <QuickLinks />
 
       {/* 🌟 Featured Story - Dynamic from API */}
       <FeaturedStory />
