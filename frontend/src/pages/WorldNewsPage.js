@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { formatDate } from '../utils/dateUtils';
+import { trackNewsClick } from '../utils/analytics';
+import TrendingWidget from '../components/TrendingWidget';
 
 const REGIONS = [
   "Global",
