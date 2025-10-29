@@ -1017,12 +1017,15 @@ agent_communication:
 
   - task: "NewsItem model enhanced for RSS"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/models/news.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Enhanced NewsItemDB model with additional fields for RSS aggregation: sourceName (name of RSS source like 'Black Enterprise'), external (boolean flag for RSS content), fingerprint (SHA256 hash for deduplication), createdAt (when BANIBS stored it vs publishedAt from source). Field naming standardized: createdAt (not created_at), sourceName (not source_name), fingerprint (not content_hash). All fields match authoritative spec from user."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: NewsItem model working correctly. Enhanced model includes all required RSS fields: sourceName, external, fingerprint, createdAt. Field naming consistency verified - uses camelCase (sourceName, createdAt) not snake_case. RSS items properly stored with external=true, isFeatured=false. Model supports both editorial content (external=false) and RSS content (external=true)."
