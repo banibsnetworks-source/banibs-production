@@ -150,3 +150,89 @@ async def seed_dev_news():
         "ids": [str(id) for id in result.inserted_ids],
         "message": "Sample news items created successfully"
     }
+
+# ==========================================
+# ADMIN ENDPOINTS (Protected by JWT + Role)
+# ==========================================
+
+@router.get("/admin/all", response_model=List[NewsItemPublic])
+async def get_all_news_admin(current_user: dict = Depends(require_role(["super_admin", "moderator"]))):
+    """
+    ADMIN ONLY: Get all news items sorted by published date
+    
+    Requires JWT token with super_admin or moderator role.
+    Used for admin dashboard news management.
+    """
+    items = await news_collection.find(
+        {},
+        {"_id": 0}
+    ).sort("publishedAt", -1).to_list(length=None)
+    
+    # Convert datetime to ISO string for each item
+    result = []
+    for item in items:
+        if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
+            item['publishedAt'] = item['publishedAt'].isoformat()
+        result.append(NewsItemPublic(**item))
+    
+    return result
+
+@router.patch("/admin/{news_id}/feature")
+async def feature_news_item(
+    news_id: str,
+    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+):
+    """
+    ADMIN ONLY: Set a news item as featured
+    
+    Sets isFeatured=true for specified item and false for all others.
+    This ensures only one story is featured at a time.
+    
+    Requires JWT token with super_admin or moderator role.
+    """
+    # Check if item exists
+    item = await news_collection.find_one({"id": news_id}, {"_id": 0})
+    if not item:
+        raise HTTPException(status_code=404, detail="News item not found")
+    
+    # Unfeature all items
+    await news_collection.update_many(
+        {},
+        {"$set": {"isFeatured": False}}
+    )
+    
+    # Feature the specified item
+    await news_collection.update_one(
+        {"id": news_id},
+        {"$set": {"isFeatured": True}}
+    )
+    
+    return {
+        "success": True,
+        "message": f"News item {news_id} is now featured",
+        "featuredId": news_id
+    }
+
+@router.delete("/admin/{news_id}")
+async def delete_news_item(
+    news_id: str,
+    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+):
+    """
+    ADMIN ONLY: Delete a news item
+    
+    Permanently removes the news item from the database.
+    Use this for legally risky content, mistakes, or expired stories.
+    
+    Requires JWT token with super_admin or moderator role.
+    """
+    result = await news_collection.delete_one({"id": news_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="News item not found")
+    
+    return {
+        "success": True,
+        "message": f"News item {news_id} deleted successfully",
+        "deletedId": news_id
+    }
