@@ -20,6 +20,8 @@ import OpportunityDetailPage from "./pages/OpportunityDetailPage";
 import HomePage from "./pages/HomePage";
 // Opportunity Hub (marketing/info page)
 import OpportunityHubPage from "./pages/OpportunityHubPage";
+// Phase 6.0 - World News Page
+import WorldNewsPage from "./pages/WorldNewsPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
