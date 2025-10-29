@@ -76,7 +76,7 @@ async def seed_dev_news():
     """
     DEV ONLY: Insert sample news items for testing
     
-    This endpoint creates 3 sample news stories to test the homepage feed.
+    This endpoint creates sample news stories with real external source links.
     Protected by environment check - only works in development.
     
     Usage: POST http://localhost:8001/api/news/seed-dev
@@ -95,7 +95,7 @@ async def seed_dev_news():
             "summary": "A $5M initiative aims to fund Black entrepreneurs across North America, focusing on early-stage product development and community hiring.",
             "category": "Business",
             "imageUrl": "https://images.unsplash.com/photo-1556155092-490a1ba16284?w=800&q=80",
-            "sourceUrl": "/news/black-owned-startup-grants",
+            "sourceUrl": "https://www.blackenterprise.com/black-owned-startups-grant-program/",
             "publishedAt": datetime(2025, 10, 27, 15, 0, 0),
             "isFeatured": True
         },
@@ -104,7 +104,7 @@ async def seed_dev_news():
             "summary": "Full-ride STEM scholarships for Black and Indigenous students. Covers tuition, housing, and mentorship programs.",
             "category": "Education",
             "imageUrl": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
-            "sourceUrl": "/news/stem-scholarship-fund-fall-2025",
+            "sourceUrl": "https://www.scholarships.com/financial-aid/college-scholarships/scholarships-by-type/minority-scholarships/",
             "publishedAt": datetime(2025, 10, 28, 13, 30, 0),
             "isFeatured": False
         },
@@ -113,7 +113,7 @@ async def seed_dev_news():
             "summary": "Connect with investors, suppliers, and fellow founders this October. Vendor tables and pitch slots are limited.",
             "category": "Community",
             "imageUrl": "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80",
-            "sourceUrl": "/news/black-business-summit-2025",
+            "sourceUrl": "https://www.blackwallstreet.org/events",
             "publishedAt": datetime(2025, 10, 26, 20, 45, 0),
             "isFeatured": False
         },
@@ -122,7 +122,7 @@ async def seed_dev_news():
             "summary": "Free coding bootcamp with guaranteed job placement for Black youth. 12-week intensive program covers web development, data science, and cybersecurity.",
             "category": "Education",
             "imageUrl": "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80",
-            "sourceUrl": "/news/tech-apprenticeship-program-2025",
+            "sourceUrl": "https://www.techcrunch.com/diversity-in-tech/",
             "publishedAt": datetime(2025, 10, 25, 10, 0, 0),
             "isFeatured": False
         },
@@ -131,7 +131,7 @@ async def seed_dev_news():
             "summary": "Community-driven coffee brand opens 15 new locations this quarter, creating 300 jobs and supporting local artists.",
             "category": "Business",
             "imageUrl": "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&q=80",
-            "sourceUrl": "/news/coffee-shop-expansion-2025",
+            "sourceUrl": "https://www.forbes.com/sites/forbescontentmarketing/black-owned-businesses/",
             "publishedAt": datetime(2025, 10, 24, 14, 20, 0),
             "isFeatured": False
         },
@@ -140,7 +140,7 @@ async def seed_dev_news():
             "summary": "New initiative will create 200 affordable homes in historically Black neighborhoods, preventing displacement and building generational wealth.",
             "category": "Community",
             "imageUrl": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80",
-            "sourceUrl": "/news/community-land-trust-affordable-housing",
+            "sourceUrl": "https://www.urban.org/policy-centers/housing-finance-policy-center",
             "publishedAt": datetime(2025, 10, 23, 9, 15, 0),
             "isFeatured": False
         }
