@@ -304,12 +304,13 @@ async def clear_dev_news():
 # ==========================================
 
 @router.get("/category/{category_slug}", response_model=List[NewsItemPublic])
-async def get_news_by_category(category_slug: str):
+async def get_news_by_category(category_slug: str, region: Optional[str] = Query(None)):
     """
-    Get news items by category for specialized pages (e.g., World News)
+    Get news items by category with optional region filtering
     
     Args:
         category_slug: URL-friendly category name (e.g., "world-news", "business", "technology")
+        region: Optional geographic region filter (e.g., "Africa", "Europe", "Global")
     
     Returns:
         Array of news items from the specified category, newest first.
@@ -317,15 +318,22 @@ async def get_news_by_category(category_slug: str):
     
     Examples:
         GET /api/news/category/world-news -> All world news articles
+        GET /api/news/category/world-news?region=Africa -> Africa-focused stories only
+        GET /api/news/category/world-news?region=Europe -> European coverage
         GET /api/news/category/business -> All business articles
-        GET /api/news/category/technology -> All technology articles
     """
     # Convert slug to category name (world-news -> World News)
     category = category_slug.replace("-", " ").title()
     
+    # Build MongoDB query with optional region filter
+    query = {"category": {"$regex": f"^{category}$", "$options": "i"}}
+    
+    if region:
+        query["region"] = {"$regex": f"^{region}$", "$options": "i"}
+    
     # Fetch items from this category (more items for dedicated pages)
     items = await news_collection.find(
-        {"category": {"$regex": f"^{category}$", "$options": "i"}},
+        query,
         {"_id": 0}
     ).sort("publishedAt", -1).limit(60).to_list(length=None)
     
