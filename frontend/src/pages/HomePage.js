@@ -1,3 +1,18 @@
+/**
+ * BANIBS Homepage Layout Contract
+ *
+ * The BANIBS homepage must always include:
+ *  - Brand identity headline ("BANIBS — Black America News, Information & Business System")
+ *  - <QuickLinks /> identity nav (Social, Business, Information, Education, Youth, Opportunities, Resources)
+ *  - FeaturedStory
+ *  - NewsFeed / Latest Stories
+ *  - The BANIBS Network section
+ *  - Footer ecosystem line
+ *
+ * Removing <QuickLinks /> or moving it below content is a brand violation.
+ * See /docs/BANIBS_IDENTITY_CONTRACT.md for details.
+ */
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useContributorAuth } from '../contexts/ContributorAuthContext';
