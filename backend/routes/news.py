@@ -77,10 +77,18 @@ async def seed_dev_news():
     DEV ONLY: Insert sample news items for testing
     
     This endpoint creates 3 sample news stories to test the homepage feed.
-    DO NOT expose in production - remove or protect before deployment.
+    Protected by environment check - only works in development.
     
     Usage: POST http://localhost:8001/api/news/seed-dev
     """
+    # ENV protection - only allow in development
+    app_env = os.getenv("APP_ENV", "development")
+    if app_env not in ["development", "dev", "local"]:
+        raise HTTPException(
+            status_code=403,
+            detail="Seed endpoint not allowed in this environment"
+        )
+    
     sample_items = [
         {
             "title": "New Grant Program Supports Black-Owned Startups",
