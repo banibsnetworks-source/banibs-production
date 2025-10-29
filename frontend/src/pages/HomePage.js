@@ -366,9 +366,16 @@ const HomePage = () => {
       {/* Footer */}
       <footer className="bg-black border-t-2 border-[#FFD700]/30 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center">
+          {/* Ecosystem Reinforcement Line */}
+          <div className="text-center mb-6">
+            <p className="text-gray-400 text-sm">
+              Part of the BANIBS Ecosystem — Social • Business • Information • Education • Youth • Opportunities
+            </p>
+          </div>
+          
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-500 text-sm">
-              © 2025 BANIBS. Celebrating Black and Native Indigenous businesses.
+              © 2025 BANIBS. Connecting Black America through news, business, and opportunity.
             </p>
             <div className="flex gap-6">
               <button
