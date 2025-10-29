@@ -126,6 +126,9 @@ app.include_router(admin_revenue_router)
 # Include news router (News feed)
 app.include_router(news_router)
 
+# Include media router (BANIBS TV Featured Video)
+app.include_router(media_router)
+
 # Include RSS sync router (automated aggregation)
 app.include_router(rss_sync_router)
 
