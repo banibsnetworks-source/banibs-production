@@ -49,11 +49,15 @@ async def sync_rss_feeds():
     
     for source in RSS_SOURCES:
         try:
+            # Get fallback image for this category
+            fallback_image = FALLBACK_IMAGES.get(source["category"])
+            
             count = await fetch_and_store_feed(
                 url=source["url"],
                 category=source["category"],
                 source_name=source["name"],
-                limit=5  # Fetch 5 most recent items per source
+                limit=5,  # Fetch 5 most recent items per source
+                fallback_image=fallback_image
             )
             results.append({
                 "source": source["name"],
