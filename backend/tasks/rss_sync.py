@@ -62,11 +62,13 @@ async def sync_rss_feeds():
                 category=source["category"],
                 source_name=source["name"],
                 limit=5,  # Fetch 5 most recent items per source
-                fallback_image=fallback_image
+                fallback_image=fallback_image,
+                region=source.get("region")  # Pass region from RSS source config
             )
             results.append({
                 "source": source["name"],
                 "category": source["category"],
+                "region": source.get("region", "Unknown"),
                 "items_added": count,
                 "status": "success"
             })
@@ -75,6 +77,7 @@ async def sync_rss_feeds():
             results.append({
                 "source": source["name"],
                 "category": source["category"],
+                "region": source.get("region", "Unknown"),
                 "error": str(e),
                 "status": "failed"
             })
