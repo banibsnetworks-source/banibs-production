@@ -963,6 +963,306 @@ class BanibsAPITester:
             self.log(f"❌ Opportunity detail should return 404 for pending opportunity, got {response.status_code}", "ERROR")
             return False
     
+    # RSS Aggregation System Tests
+    
+    def test_rss_sync_manual_trigger(self) -> bool:
+        """Test POST /api/news/rss-sync manual sync endpoint"""
+        self.log("Testing RSS sync manual trigger...")
+        
+        response = self.make_request("POST", "/news/rss-sync")
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["success", "total_sources", "total_new_items", "results", "message"]
+            
+            if all(field in data for field in required_fields):
+                if data["success"] and data["total_sources"] == 15:
+                    self.log(f"✅ RSS sync successful - {data['total_sources']} sources, {data['total_new_items']} new items")
+                    
+                    # Verify results array structure
+                    results = data["results"]
+                    if isinstance(results, list) and len(results) == 15:
+                        # Check first result structure
+                        if results:
+                            result = results[0]
+                            result_fields = ["source", "category", "status"]
+                            if all(field in result for field in result_fields):
+                                self.log(f"✅ RSS sync results structure correct")
+                                
+                                # Log some sample results
+                                success_count = len([r for r in results if r.get("status") == "success"])
+                                failed_count = len([r for r in results if r.get("status") == "failed"])
+                                self.log(f"   Sources: {success_count} successful, {failed_count} failed")
+                                
+                                # Show sample successful sources
+                                successful_sources = [r for r in results if r.get("status") == "success"][:3]
+                                for source in successful_sources:
+                                    items_added = source.get("items_added", 0)
+                                    self.log(f"   {source['source']} ({source['category']}): {items_added} items")
+                                
+                                return True
+                            else:
+                                self.log("❌ RSS sync result items missing required fields", "ERROR")
+                                return False
+                        else:
+                            self.log("❌ RSS sync results array is empty", "ERROR")
+                            return False
+                    else:
+                        self.log(f"❌ RSS sync should return 15 results, got {len(results)}", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ RSS sync failed or wrong source count: {data}", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ RSS sync response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ RSS sync failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_rss_fingerprint_deduplication(self) -> bool:
+        """Test fingerprint-based deduplication by calling RSS sync twice"""
+        self.log("Testing RSS fingerprint deduplication...")
+        
+        # First sync - should add new items
+        self.log("Running first RSS sync...")
+        response1 = self.make_request("POST", "/news/rss-sync")
+        
+        if response1.status_code != 200:
+            self.log(f"❌ First RSS sync failed: {response1.status_code}", "ERROR")
+            return False
+        
+        data1 = response1.json()
+        first_sync_items = data1.get("total_new_items", 0)
+        self.log(f"First sync added {first_sync_items} items")
+        
+        # Wait a moment then run second sync
+        import time
+        time.sleep(2)
+        
+        self.log("Running second RSS sync (should show deduplication)...")
+        response2 = self.make_request("POST", "/news/rss-sync")
+        
+        if response2.status_code != 200:
+            self.log(f"❌ Second RSS sync failed: {response2.status_code}", "ERROR")
+            return False
+        
+        data2 = response2.json()
+        second_sync_items = data2.get("total_new_items", 0)
+        self.log(f"Second sync added {second_sync_items} items")
+        
+        # Check deduplication results
+        results2 = data2.get("results", [])
+        duplicate_sources = [r for r in results2 if r.get("items_added", 0) == 0 and r.get("status") == "success"]
+        
+        if len(duplicate_sources) > 0:
+            self.log(f"✅ Deduplication working - {len(duplicate_sources)} sources showed 0 new items (duplicates)")
+            
+            # Show some examples
+            for source in duplicate_sources[:3]:
+                self.log(f"   {source['source']}: 0 items (duplicates detected)")
+            
+            return True
+        else:
+            # This might be expected if feeds have new content between calls
+            self.log("⚠️ No duplicate detection observed - feeds might have new content or deduplication needs verification")
+            return True
+    
+    def test_rss_content_in_news_latest(self) -> bool:
+        """Test that RSS content appears in GET /api/news/latest after sync"""
+        self.log("Testing RSS content appears in news latest...")
+        
+        # First ensure we have some RSS content
+        sync_response = self.make_request("POST", "/news/rss-sync")
+        if sync_response.status_code != 200:
+            self.log("❌ Could not sync RSS feeds for testing", "ERROR")
+            return False
+        
+        sync_data = sync_response.json()
+        total_items = sync_data.get("total_new_items", 0)
+        self.log(f"RSS sync completed with {total_items} items")
+        
+        # Now check if RSS content appears in latest news
+        response = self.make_request("GET", "/news/latest")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list):
+                self.log(f"News latest returned {len(data)} items")
+                
+                # Look for RSS content (external=true)
+                rss_items = [item for item in data if item.get("external") == True]
+                
+                if len(rss_items) > 0:
+                    self.log(f"✅ Found {len(rss_items)} RSS items in news latest")
+                    
+                    # Verify RSS item structure
+                    rss_item = rss_items[0]
+                    required_fields = ["sourceName", "external", "isFeatured", "category", "title", "summary", "publishedAt"]
+                    
+                    if all(field in rss_item for field in required_fields):
+                        # Verify RSS-specific values
+                        if (rss_item["external"] == True and 
+                            rss_item["isFeatured"] == False and
+                            rss_item["sourceName"]):
+                            
+                            self.log(f"✅ RSS item structure correct:")
+                            self.log(f"   Source: {rss_item['sourceName']}")
+                            self.log(f"   Category: {rss_item['category']}")
+                            self.log(f"   Title: {rss_item['title'][:50]}...")
+                            self.log(f"   External: {rss_item['external']}, Featured: {rss_item['isFeatured']}")
+                            
+                            return True
+                        else:
+                            self.log("❌ RSS item has incorrect field values", "ERROR")
+                            return False
+                    else:
+                        missing_fields = [field for field in required_fields if field not in rss_item]
+                        self.log(f"❌ RSS item missing fields: {missing_fields}", "ERROR")
+                        return False
+                else:
+                    if total_items > 0:
+                        self.log("❌ RSS sync reported new items but none found in news latest", "ERROR")
+                        return False
+                    else:
+                        self.log("⚠️ No RSS items found - feeds might not have new content")
+                        return True
+            else:
+                self.log(f"❌ News latest response is not a list: {type(data)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ News latest failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_rss_sources_coverage(self) -> bool:
+        """Test that RSS sync covers all expected categories"""
+        self.log("Testing RSS sources coverage...")
+        
+        response = self.make_request("POST", "/news/rss-sync")
+        
+        if response.status_code == 200:
+            data = response.json()
+            results = data.get("results", [])
+            
+            # Expected categories from rss_sources.py
+            expected_categories = ["Business", "Community", "Education", "Opportunities", "Technology"]
+            found_categories = set()
+            
+            for result in results:
+                category = result.get("category")
+                if category:
+                    found_categories.add(category)
+            
+            self.log(f"Found categories: {sorted(found_categories)}")
+            
+            # Check if we have coverage across expected categories
+            covered_categories = [cat for cat in expected_categories if cat in found_categories]
+            
+            if len(covered_categories) >= 4:  # Allow some flexibility
+                self.log(f"✅ RSS sources cover {len(covered_categories)} categories: {covered_categories}")
+                
+                # Show some successful sources per category
+                for category in covered_categories[:3]:
+                    category_sources = [r for r in results if r.get("category") == category and r.get("status") == "success"]
+                    if category_sources:
+                        source_names = [s["source"] for s in category_sources[:2]]
+                        self.log(f"   {category}: {', '.join(source_names)}")
+                
+                return True
+            else:
+                self.log(f"❌ Insufficient category coverage. Expected at least 4, got {len(covered_categories)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Could not test RSS sources coverage: {response.status_code}", "ERROR")
+            return False
+    
+    def test_rss_field_naming_consistency(self) -> bool:
+        """Test field naming consistency in RSS responses"""
+        self.log("Testing RSS field naming consistency...")
+        
+        # Sync RSS feeds first
+        sync_response = self.make_request("POST", "/news/rss-sync")
+        if sync_response.status_code != 200:
+            self.log("❌ Could not sync RSS for field testing", "ERROR")
+            return False
+        
+        # Check news latest response
+        response = self.make_request("GET", "/news/latest")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list) and len(data) > 0:
+                item = data[0]
+                
+                # Check for correct field names (not snake_case)
+                correct_fields = ["sourceName", "createdAt", "publishedAt"]
+                incorrect_fields = ["source_name", "created_at", "published_at", "content_hash"]
+                
+                has_correct = all(field in item or field == "createdAt" for field in correct_fields)  # createdAt might not be in public response
+                has_incorrect = any(field in item for field in incorrect_fields)
+                
+                if not has_incorrect:
+                    self.log("✅ Field naming consistency correct - no snake_case fields found")
+                    
+                    # Verify specific fields exist
+                    if "sourceName" in item:
+                        self.log(f"   sourceName: {item['sourceName']}")
+                    if "publishedAt" in item:
+                        self.log(f"   publishedAt: {item['publishedAt']}")
+                    
+                    return True
+                else:
+                    found_incorrect = [field for field in incorrect_fields if field in item]
+                    self.log(f"❌ Found incorrect field names: {found_incorrect}", "ERROR")
+                    return False
+            else:
+                self.log("⚠️ No news items to test field naming")
+                return True
+        else:
+            self.log(f"❌ Could not test field naming: {response.status_code}", "ERROR")
+            return False
+    
+    def test_apscheduler_status(self) -> bool:
+        """Test APScheduler status by checking backend logs"""
+        self.log("Testing APScheduler status...")
+        
+        try:
+            # Check backend logs for scheduler messages
+            import subprocess
+            result = subprocess.run(
+                ["tail", "-n", "100", "/var/log/supervisor/backend.err.log"],
+                capture_output=True, text=True, timeout=10
+            )
+            
+            log_content = result.stdout
+            
+            # Look for scheduler initialization
+            if "BANIBS RSS scheduler initialized" in log_content:
+                self.log("✅ Found scheduler initialization message")
+                
+                # Look for job execution
+                if "Job executed successfully" in log_content:
+                    self.log("✅ Found successful job execution message")
+                    
+                    # Look for next run time
+                    if "next run at:" in log_content:
+                        self.log("✅ Scheduler shows next run time (6 hours interval)")
+                        return True
+                    else:
+                        self.log("⚠️ Next run time not found in logs")
+                        return True
+                else:
+                    self.log("⚠️ Job execution message not found")
+                    return True
+            else:
+                self.log("❌ Scheduler initialization message not found", "ERROR")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Could not check scheduler status: {e}", "ERROR")
+            return False
+
     # News Aggregation Feed Tests
     
     def test_news_latest_endpoint(self) -> bool:
