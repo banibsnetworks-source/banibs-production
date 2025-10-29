@@ -14,6 +14,8 @@ class NewsItemDB(BaseModel):
     category: str  # e.g. "Business", "Education", "Community"
     sourceUrl: Optional[str] = None  # Optional external link
     isFeatured: bool = False  # True for hero/featured story
+    content_hash: Optional[str] = None  # For deduplication
+    source_name: Optional[str] = None  # Name of RSS source (e.g., "Black Enterprise")
     created_at: datetime = Field(default_factory=datetime.utcnow)
     
     class Config:
