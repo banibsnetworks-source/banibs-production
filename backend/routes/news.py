@@ -252,6 +252,8 @@ async def clear_dev_news():
         "deleted": result.deleted_count,
         "message": f"Cleared {result.deleted_count} news items"
     }
+
+@router.delete("/admin/{news_id}")
 async def delete_news_item(
     news_id: str,
     current_user: dict = Depends(require_role(["super_admin", "moderator"]))
@@ -273,4 +275,55 @@ async def delete_news_item(
         "success": True,
         "message": f"News item {news_id} deleted successfully",
         "deletedId": news_id
+    }
+
+# ==========================================
+# RSS FEED SYNC ENDPOINT
+# ==========================================
+
+@router.post("/rss-sync")
+async def sync_rss_feeds():
+    """
+    Fetch and store latest items from all registered RSS feeds
+    
+    This endpoint:
+    - Fetches latest articles from all configured RSS sources
+    - Stores new items in the database (skips duplicates)
+    - Returns summary of items fetched per source
+    
+    Can be called manually or scheduled via CRON/Celery.
+    No authentication required (can be changed if needed).
+    """
+    results = []
+    total_new_items = 0
+    
+    for source in RSS_SOURCES:
+        try:
+            count = await fetch_and_store_feed(
+                url=source["url"],
+                category=source["category"],
+                source_name=source["name"],
+                limit=5  # Fetch 5 most recent items per source
+            )
+            results.append({
+                "source": source["name"],
+                "category": source["category"],
+                "items_added": count,
+                "status": "success"
+            })
+            total_new_items += count
+        except Exception as e:
+            results.append({
+                "source": source["name"],
+                "category": source["category"],
+                "error": str(e),
+                "status": "failed"
+            })
+    
+    return {
+        "success": True,
+        "total_sources": len(RSS_SOURCES),
+        "total_new_items": total_new_items,
+        "results": results,
+        "message": f"RSS sync complete. Added {total_new_items} new items."
     }
