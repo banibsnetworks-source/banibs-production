@@ -9,9 +9,29 @@ from models.news import NewsItemPublic, NewsItemDB
 from middleware.auth_guard import get_current_user, require_role
 from motor.motor_asyncio import AsyncIOMotorClient
 
-router = APIRouter(prefix="/api/news", tags=["news"])
-
-# Database connection for seed route
+# -------------------------------------------------
+# BANIBS NEWS CONTRACT (DO NOT REMOVE)
+#
+# This file defines:
+# - Public news APIs consumed by the homepage
+# - Editorial controls for featured story
+#
+# Rules:
+# 1. /api/news/latest MUST return de-duplicated stories.
+#    We absolutely do not show the same TechCrunch or Essence
+#    headline twice in Latest Stories. That looks amateur.
+#
+# 2. Each unique story is defined by its fingerprint.
+#    If fingerprint is missing, we fall back to sourceName + title.
+#
+# 3. /api/news/featured MUST return exactly one "hero" story
+#    where isFeatured == True, OR {} if none is set.
+#
+# 4. RSS sync logic lives in tasks/rss_sync.py (not here).
+#
+# If you change these endpoints, you are changing public homepage
+# behavior. Treat that as a product decision, not "cleanup."
+# -------------------------------------------------
 client = AsyncIOMotorClient(os.environ['MONGO_URL'])
 db = client[os.environ['DB_NAME']]
 news_collection = db.news_items
