@@ -86,6 +86,8 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/opportunity-hub" element={<OpportunityHubPage />} />
+              {/* Phase 6.0 - World News Page */}
+              <Route path="/world-news" element={<WorldNewsPage />} />
               
               {/* Public Routes */}
               <Route path="/opportunities" element={<PublicOpportunities />} />
