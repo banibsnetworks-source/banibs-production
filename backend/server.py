@@ -24,6 +24,7 @@ from routes.sponsor import router as sponsor_router  # Phase 5.1
 from routes.admin_abuse import router as admin_abuse_router  # Phase 5.3
 from routes.admin_revenue import router as admin_revenue_router  # Phase 5.5
 from routes.news import router as news_router  # News aggregation feed
+from routes.media import router as media_router  # BANIBS TV Featured Video
 from tasks.rss_sync import router as rss_sync_router  # RSS sync endpoint
 from scheduler import init_scheduler  # APScheduler for automated RSS sync
 
