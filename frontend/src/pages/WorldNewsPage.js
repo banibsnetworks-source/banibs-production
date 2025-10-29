@@ -206,8 +206,11 @@ const WorldNewsPage = () => {
             </p>
           </div>
         ) : (
-          /* Articles Grid */
-          <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          /* Main Content Area with Sidebar */
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Left Column - Articles Grid */}
+            <div className="flex-1">
+              <section className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
             {articles.map((article, index) => (
               <a
                 key={article.id}
