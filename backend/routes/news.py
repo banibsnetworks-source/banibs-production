@@ -32,9 +32,21 @@ from motor.motor_asyncio import AsyncIOMotorClient
 # If you change these endpoints, you are changing public homepage
 # behavior. Treat that as a product decision, not "cleanup."
 # -------------------------------------------------
+router = APIRouter(prefix="/api/news", tags=["news"])
+
+# Database connection for routes
 client = AsyncIOMotorClient(os.environ['MONGO_URL'])
 db = client[os.environ['DB_NAME']]
 news_collection = db.news_items
+
+def make_dedupe_key(item):
+    """Create deduplication key - fingerprint preferred, fallback to sourceName::title"""
+    if item.get('fingerprint'):
+        return item['fingerprint']
+    # Fallback for older items without fingerprint
+    source = item.get('sourceName', 'unknown')
+    title = item.get('title', 'untitled')
+    return f"{source}::{title}"
 
 @router.get("/latest", response_model=List[NewsItemPublic])
 async def get_latest_news_feed():
