@@ -221,7 +221,31 @@ async def feature_news_item(
         "featuredId": news_id
     }
 
-@router.delete("/admin/{news_id}")
+@router.delete("/admin/clear-dev")
+async def clear_dev_news():
+    """
+    DEV ONLY: Clear all news items
+    
+    Removes all news from the database for reseeding.
+    Protected by environment check - only works in development.
+    
+    Usage: DELETE http://localhost:8001/api/news/admin/clear-dev
+    """
+    # ENV protection - only allow in development
+    app_env = os.getenv("APP_ENV", "development")
+    if app_env not in ["development", "dev", "local"]:
+        raise HTTPException(
+            status_code=403,
+            detail="Clear endpoint not allowed in this environment"
+        )
+    
+    result = await news_collection.delete_many({})
+    
+    return {
+        "success": True,
+        "deleted": result.deleted_count,
+        "message": f"Cleared {result.deleted_count} news items"
+    }
 async def delete_news_item(
     news_id: str,
     current_user: dict = Depends(require_role(["super_admin", "moderator"]))
