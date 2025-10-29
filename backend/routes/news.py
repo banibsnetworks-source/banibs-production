@@ -8,6 +8,12 @@ from models.news import NewsItemPublic, NewsItemDB
 from middleware.auth_guard import get_current_user, require_role
 from motor.motor_asyncio import AsyncIOMotorClient
 
+# Import RSS utilities
+import sys
+sys.path.append('/app/backend')
+from config.rss_sources import RSS_SOURCES
+from utils.rss import fetch_and_store_feed
+
 router = APIRouter(prefix="/api/news", tags=["news"])
 
 # Database connection for seed route
