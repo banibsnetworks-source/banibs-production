@@ -1,15 +1,27 @@
-import React from "react";
-
 /**
- * QuickLinks Component
- * 
- * CRITICAL: This component is MANDATORY on the BANIBS homepage.
- * It communicates the full ecosystem (Social, Business, Information, Education, Youth, Opportunities, Resources).
- * 
- * DO NOT REMOVE from HomePage.js without team approval.
- * 
- * See: /docs/BANIBS_NARRATIVE_GUIDE.md for reasoning.
+ * BANIBS Identity Layer Navigation
+ *
+ * This nav bar is REQUIRED on all public BANIBS homepages.
+ * Do not remove, hide, or collapse these links on desktop.
+ *
+ * Why:
+ * BANIBS is not just news. BANIBS is Social, Business,
+ * Information, Education, Youth, Opportunities, and Resources.
+ * That system MUST be visible above the fold at all times.
+ *
+ * If you modify or restyle this component, you MUST still:
+ *  - Keep all core links visible
+ *  - Keep the dark glass / gold accent visual identity
+ *  - Keep this rendered before core content on HomePage
+ *
+ * Enforcement:
+ * `yarn verify:identity` will fail the build if HomePage
+ * does not include <QuickLinks />.
+ *
+ * See: /docs/BANIBS_IDENTITY_CONTRACT.md for full requirements.
  */
+
+import React from "react";
 
 export default function QuickLinks() {
   const links = [
