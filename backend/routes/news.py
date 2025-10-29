@@ -1,10 +1,11 @@
-from fastapi import APIRouter
-from typing import List
+from fastapi import APIRouter, HTTPException, Depends
+from typing import List, Optional
 from datetime import datetime
+import os
 
 from db.news import get_latest_news
 from models.news import NewsItemPublic, NewsItemDB
-import os
+from middleware.auth_guard import get_current_user, require_role
 from motor.motor_asyncio import AsyncIOMotorClient
 
 router = APIRouter(prefix="/api/news", tags=["news"])
