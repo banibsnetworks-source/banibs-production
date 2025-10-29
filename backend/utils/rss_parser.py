@@ -211,6 +211,10 @@ async def fetch_and_store_feed(url: str, category: str, source_name: str, limit:
             # Extract image
             image_url = extract_image_from_entry(entry)
             
+            # Apply fallback image if no image found
+            if not image_url and fallback_image:
+                image_url = fallback_image
+            
             # Parse date
             published_at = extract_published_date(entry)
             
