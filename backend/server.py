@@ -24,6 +24,8 @@ from routes.sponsor import router as sponsor_router  # Phase 5.1
 from routes.admin_abuse import router as admin_abuse_router  # Phase 5.3
 from routes.admin_revenue import router as admin_revenue_router  # Phase 5.5
 from routes.news import router as news_router  # News aggregation feed
+from tasks.rss_sync import router as rss_sync_router  # RSS sync endpoint
+from scheduler import init_scheduler  # APScheduler for automated RSS sync
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
