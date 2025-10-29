@@ -269,7 +269,16 @@ const WorldNewsPage = () => {
                 </div>
               </a>
             ))}
-          </section>
+              </section>
+            </div>
+
+            {/* Right Column - Trending Widget */}
+            <div className="lg:w-80 flex-shrink-0">
+              <div className="sticky top-4">
+                <TrendingWidget activeRegion={region} />
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Footer Note */}
