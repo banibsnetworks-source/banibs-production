@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { formatDate } from '../utils/dateUtils';
 
 const NewsFeed = () => {
   const [newsItems, setNewsItems] = useState([]);
@@ -27,16 +28,6 @@ const NewsFeed = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const formatDate = (isoString) => {
-    if (!isoString) return '';
-    const date = new Date(isoString);
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
   };
 
   if (loading) {
