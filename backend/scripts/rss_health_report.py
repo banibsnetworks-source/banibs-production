@@ -67,6 +67,10 @@ async def generate_health_report():
     
     if not mongo_url or not db_name:
         return "❌ Error: MONGO_URL or DB_NAME not found in environment"
+    
+    client = AsyncIOMotorClient(mongo_url)
+    db = client[db_name]
+    news_collection = db.news_items
 
     try:
         # Get all news items sorted by publishedAt descending
