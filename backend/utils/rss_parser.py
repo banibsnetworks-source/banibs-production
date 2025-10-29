@@ -71,30 +71,42 @@ def _extract_image(entry):
     # 5. No image found
     return None
 
-def extract_published_date(entry) -> datetime:
-    """Parse published date from RSS entry"""
-    
-    # Try published_parsed first (most reliable)
-    if hasattr(entry, 'published_parsed') and entry.published_parsed:
-        import time
-        return datetime.fromtimestamp(time.mktime(entry.published_parsed))
-    
-    # Try updated_parsed
-    if hasattr(entry, 'updated_parsed') and entry.updated_parsed:
-        import time
-        return datetime.fromtimestamp(time.mktime(entry.updated_parsed))
-    
-    # Try parsing string dates
-    for field in ['published', 'pubDate', 'updated']:
-        date_str = entry.get(field)
-        if date_str:
+def _extract_published(entry):
+    for key in ["published", "pubDate", "updated"]:
+        if entry.get(key):
             try:
-                return parsedate_to_datetime(date_str)
+                return parsedate_to_datetime(entry[key])
             except Exception:
                 pass
-    
-    # Fallback to now
     return datetime.utcnow()
+
+
+def parse_rss_feed(url: str):
+    """
+    Fetch and normalize RSS/Atom feed at `url`.
+    Returns list of dictionaries compatible with NewsItem schema.
+    """
+    resp = requests.get(url, headers={"User-Agent": "BANIBSFeedAgent/1.0"}, timeout=20)
+    resp.raise_for_status()
+    feed = feedparser.parse(resp.content)
+
+    items = []
+    for entry in feed.entries:
+        title = entry.get("title", "").strip()
+        summary = entry.get("summary", "") or entry.get("description", "")
+        image = _extract_image(entry)
+        published = _extract_published(entry)
+        link = entry.get("link", "")
+
+        items.append({
+            "title": title,
+            "summary": summary.strip()[:500],
+            "imageUrl": image,
+            "publishedAt": published,
+            "sourceUrl": link,
+        })
+
+    return items
 
 def clean_html(text: str) -> str:
     """Strip HTML tags and clean text"""
