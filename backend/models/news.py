@@ -13,6 +13,7 @@ class NewsItemDB(BaseModel):
     publishedAt: datetime = Field(default_factory=datetime.utcnow)
     category: str  # e.g. "Business", "Education", "Community"
     sourceUrl: Optional[str] = None  # Optional external link
+    isFeatured: bool = False  # True for hero/featured story
     created_at: datetime = Field(default_factory=datetime.utcnow)
     
     class Config:
@@ -27,3 +28,4 @@ class NewsItemPublic(BaseModel):
     publishedAt: str  # ISO timestamp string
     category: str
     sourceUrl: Optional[str] = None
+    isFeatured: bool = False
