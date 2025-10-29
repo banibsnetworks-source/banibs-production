@@ -32,6 +32,7 @@ export default function QuickLinks() {
     { label: "Youth", href: "/youth" },
     { label: "Opportunities", href: "/opportunities" },
     { label: "Resources", href: "/resources" },
+    { label: "World News", href: "/world-news" },
   ];
 
   return (
