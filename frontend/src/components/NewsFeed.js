@@ -85,6 +85,22 @@ const NewsFeed = () => {
             key={item.id}
             className="bg-white/70 backdrop-blur-sm border border-gray-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition"
           >
+            {/* Image Area */}
+            <div className="w-full h-40 rounded-lg overflow-hidden bg-black/40 border border-yellow-400/20 flex items-center justify-center mb-4">
+              {item.imageUrl ? (
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              ) : (
+                <div className="text-[0.7rem] text-yellow-300/70 italic px-4 text-center">
+                  BANIBS / {item.category}
+                </div>
+              )}
+            </div>
+
             {/* Category + Date */}
             <div className="flex flex-wrap items-center text-xs text-gray-500 gap-2 mb-2">
               {item.category && (
