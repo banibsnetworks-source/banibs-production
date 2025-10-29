@@ -11,7 +11,8 @@ class NewsItemDB(BaseModel):
     summary: str  # Short text for homepage teaser
     imageUrl: Optional[str] = None
     publishedAt: datetime = Field(default_factory=datetime.utcnow)
-    category: str  # e.g. "Business", "Education", "Community"
+    category: str  # e.g. "Business", "Education", "Community", "World News"
+    region: Optional[str] = None  # Geographic region: "Global", "Africa", "Americas", "Europe", "Asia", "Middle East"
     sourceUrl: Optional[str] = None  # Optional external link
     sourceName: Optional[str] = None  # Name of RSS source (e.g., "Black Enterprise")
     isFeatured: bool = False  # True for hero/featured story
