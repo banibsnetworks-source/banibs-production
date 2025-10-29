@@ -35,16 +35,56 @@ RSS_SOURCES = [
 ]
 
 # Phase 6.0: Global News Expansion
-# Credible international outlets for comprehensive world coverage
+# Credible international outlets for comprehensive world coverage with regional tagging
 GLOBAL_RSS_SOURCES = [
-    {"category": "World News", "name": "CNN World", "url": "http://rss.cnn.com/rss/edition_world.rss"},
-    {"category": "World News", "name": "BBC World", "url": "http://feeds.bbci.co.uk/news/world/rss.xml"},
-    {"category": "World News", "name": "Reuters World", "url": "http://feeds.reuters.com/reuters/worldNews"},
-    {"category": "World News", "name": "Al Jazeera English", "url": "https://www.aljazeera.com/xml/rss/all.xml"},
-    {"category": "World News", "name": "Associated Press World", "url": "https://rsshub.app/ap/topics/apf-topnews"},
-    {"category": "World News", "name": "The Guardian World", "url": "https://www.theguardian.com/world/rss"},
-    {"category": "World News", "name": "Euronews International", "url": "https://feeds.euronews.com/euronews/en/news/international"},
-    {"category": "World News", "name": "Bloomberg World", "url": "https://feeds.bloomberg.com/politics/news.rss"},
+    {
+        "category": "World News", 
+        "name": "CNN World", 
+        "url": "http://rss.cnn.com/rss/edition_world.rss",
+        "region": "Global"
+    },
+    {
+        "category": "World News", 
+        "name": "BBC World", 
+        "url": "http://feeds.bbci.co.uk/news/world/rss.xml",
+        "region": "Global"
+    },
+    {
+        "category": "World News", 
+        "name": "Reuters World", 
+        "url": "http://feeds.reuters.com/reuters/worldNews",
+        "region": "Global"
+    },
+    {
+        "category": "World News", 
+        "name": "Al Jazeera English", 
+        "url": "https://www.aljazeera.com/xml/rss/all.xml",
+        "region": "Middle East"
+    },
+    {
+        "category": "World News", 
+        "name": "Associated Press World", 
+        "url": "https://rsshub.app/ap/topics/apf-topnews",
+        "region": "Global"
+    },
+    {
+        "category": "World News", 
+        "name": "The Guardian World", 
+        "url": "https://www.theguardian.com/world/rss",
+        "region": "Global"
+    },
+    {
+        "category": "World News", 
+        "name": "Euronews International", 
+        "url": "https://feeds.euronews.com/euronews/en/news/international",
+        "region": "Europe"
+    },
+    {
+        "category": "World News", 
+        "name": "Bloomberg World", 
+        "url": "https://feeds.bloomberg.com/politics/news.rss",
+        "region": "Americas"
+    },
 ]
 
 # Combine all sources for the RSS sync system
