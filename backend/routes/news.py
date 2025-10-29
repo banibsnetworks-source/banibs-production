@@ -2,13 +2,12 @@ from fastapi import APIRouter, HTTPException, Depends
 from typing import List, Optional
 from datetime import datetime
 import os
+import hashlib
 
 from db.news import get_latest_news
 from models.news import NewsItemPublic, NewsItemDB
 from middleware.auth_guard import get_current_user, require_role
 from motor.motor_asyncio import AsyncIOMotorClient
-
-# Note: RSS sync logic moved to tasks/rss_sync.py
 
 router = APIRouter(prefix="/api/news", tags=["news"])
 
