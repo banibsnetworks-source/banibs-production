@@ -131,30 +131,21 @@ async def fetch_and_store_feed(url: str, category: str, source_name: str, limit:
         category: Category for the items (Business, Education, Community, etc.)
         source_name: Name of the source (e.g., "Black Enterprise")
         limit: Maximum number of items to fetch per source
+        fallback_image: Fallback image URL for items without images
     
     Returns:
         Number of new items stored
     """
     try:
-        # Parse RSS feed with custom user agent
-        import requests
-        headers = {"User-Agent": "BANIBSFeedAgent/1.0"}
-        response = requests.get(url, headers=headers, timeout=30)
-        response.raise_for_status()
-        
-        feed = feedparser.parse(response.content)
-        
-        if feed.bozo:
-            # Feed has parsing errors but might still have usable data
-            print(f"Warning: Feed {source_name} has parsing issues: {feed.bozo_exception}")
+        # Use the new parse_rss_feed function
+        feed_items = parse_rss_feed(url)
         
         stored_count = 0
         
         # Process entries (limit to most recent)
-        for entry in feed.entries[:limit]:
-            # Extract data
-            title = entry.get('title', 'Untitled').strip()
-            if not title or title == 'Untitled':
+        for item in feed_items[:limit]:
+            title = item.get('title', '').strip()
+            if not title:
                 continue  # Skip entries without titles
             
             # Generate fingerprint for deduplication
@@ -165,25 +156,15 @@ async def fetch_and_store_feed(url: str, category: str, source_name: str, limit:
             if existing:
                 continue  # Skip duplicates
             
-            # Extract and clean summary
-            summary = entry.get('summary', entry.get('description', ''))
-            summary = clean_html(summary)
-            if not summary:
-                summary = f"Read more on {source_name}"
-            summary = summary[:500]  # Limit to 500 chars
-            
-            # Extract image
-            image_url = extract_image_from_entry(entry)
-            
-            # Apply fallback image if no image found
+            # Get image URL or use fallback
+            image_url = item.get("imageUrl")
             if not image_url and fallback_image:
                 image_url = fallback_image
             
-            # Parse date
-            published_at = extract_published_date(entry)
-            
-            # Get source URL
-            source_url = entry.get('link', url)
+            # Clean and limit summary
+            summary = item.get('summary', '')
+            summary = clean_html(summary) if summary else f"Read more on {source_name}"
+            summary = summary[:500]  # Limit to 500 chars
             
             # Create news item
             news_item = NewsItemDB(
@@ -191,8 +172,8 @@ async def fetch_and_store_feed(url: str, category: str, source_name: str, limit:
                 summary=summary,
                 category=category,
                 imageUrl=image_url,
-                publishedAt=published_at,
-                sourceUrl=source_url,
+                publishedAt=item.get('publishedAt') or datetime.utcnow(),
+                sourceUrl=item.get('sourceUrl', url),
                 sourceName=source_name,
                 isFeatured=False,
                 external=True,  # RSS content is external
