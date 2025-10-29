@@ -296,3 +296,35 @@ Removing or bypassing any step (ingest, mirror, optimize, report) is considered 
 **Verification Scripts:**
 - Image coverage: `python backend/scripts/test_images.py`
 - Health monitoring: `python backend/scripts/rss_health_report.py`
+
+---
+
+## 15. BANIBS TV / Featured Video Contract
+
+The homepage MUST include a BANIBS TV / Featured Video section that:
+
+1. **Surfaces a manually featured video** (FeaturedMedia.isFeatured = true), OR
+2. **Falls back to the latest video with a thumbnail**, OR  
+3. **Falls back to a branded BANIBS TV block** with static thumbnail and internal CTA
+
+**Requirements:**
+- The `/api/media/featured` endpoint MUST always return a usable object (title, description, thumbnailUrl, videoUrl)
+- The Featured Video component MUST always display a thumbnail area, either real or branded
+- All thumbnails MUST be mirrored and optimized to `cdn.banibs.com` via the same pipeline as news images
+- The homepage MUST render this block under the Featured Story section
+
+**Fallback Thumbnails by Category:**
+- Youth: `https://cdn.banibs.com/fallback/youth_video.jpg`
+- Grants/Opportunities: `https://cdn.banibs.com/fallback/opportunities_video.jpg`  
+- Business: `https://cdn.banibs.com/fallback/business_video.jpg`
+- Education: `https://cdn.banibs.com/fallback/education_video.jpg`
+- Community: `https://cdn.banibs.com/fallback/community_video.jpg`
+- Default: `https://cdn.banibs.com/fallback/video_default.jpg`
+
+**Admin Endpoints:**
+- `GET /api/media/admin/all` - View all video content
+- `POST /api/media/admin/create` - Create new video feature
+- `PATCH /api/media/admin/{id}/feature` - Set as featured
+- `DELETE /api/media/admin/{id}` - Remove video content
+
+This block is **not cosmetic**. It is part of BANIBS' voice layer and identity as a network, not just a feed.
