@@ -1,10 +1,18 @@
 from fastapi import APIRouter
 from typing import List
+from datetime import datetime
 
 from db.news import get_latest_news
-from models.news import NewsItemPublic
+from models.news import NewsItemPublic, NewsItemDB
+import os
+from motor.motor_asyncio import AsyncIOMotorClient
 
 router = APIRouter(prefix="/api/news", tags=["news"])
+
+# Database connection for seed route
+client = AsyncIOMotorClient(os.environ['MONGO_URL'])
+db = client[os.environ['DB_NAME']]
+news_collection = db.news_items
 
 @router.get("/latest", response_model=List[NewsItemPublic])
 async def get_latest_news_feed():
@@ -19,6 +27,7 @@ async def get_latest_news_feed():
     - publishedAt: ISO timestamp string
     - category: Category string (e.g., "Business", "Education", "Community")
     - sourceUrl: Optional external link
+    - isFeatured: Boolean for featured story
     
     This is a public endpoint - no authentication required.
     Returns empty array [] if no news items exist.
@@ -34,3 +43,83 @@ async def get_latest_news_feed():
         result.append(NewsItemPublic(**item))
     
     return result
+
+@router.post("/seed-dev")
+async def seed_dev_news():
+    """
+    DEV ONLY: Insert sample news items for testing
+    
+    This endpoint creates 3 sample news stories to test the homepage feed.
+    DO NOT expose in production - remove or protect before deployment.
+    
+    Usage: POST http://localhost:8001/api/news/seed-dev
+    """
+    sample_items = [
+        {
+            "title": "New Grant Program Supports Black-Owned Startups",
+            "summary": "A $5M initiative aims to fund Black entrepreneurs across North America, focusing on early-stage product development and community hiring.",
+            "category": "Business",
+            "imageUrl": "https://images.unsplash.com/photo-1556155092-490a1ba16284?w=800&q=80",
+            "sourceUrl": "/news/black-owned-startup-grants",
+            "publishedAt": datetime(2025, 10, 27, 15, 0, 0),
+            "isFeatured": True
+        },
+        {
+            "title": "Scholarship Fund Opens Applications for Fall 2025",
+            "summary": "Full-ride STEM scholarships for Black and Indigenous students. Covers tuition, housing, and mentorship programs.",
+            "category": "Education",
+            "imageUrl": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
+            "sourceUrl": "/news/stem-scholarship-fund-fall-2025",
+            "publishedAt": datetime(2025, 10, 28, 13, 30, 0),
+            "isFeatured": False
+        },
+        {
+            "title": "Annual Black Business Summit Announces 2025 Dates",
+            "summary": "Connect with investors, suppliers, and fellow founders this October. Vendor tables and pitch slots are limited.",
+            "category": "Community",
+            "imageUrl": "https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80",
+            "sourceUrl": "/news/black-business-summit-2025",
+            "publishedAt": datetime(2025, 10, 26, 20, 45, 0),
+            "isFeatured": False
+        },
+        {
+            "title": "Tech Apprenticeship Program Launches in Major Cities",
+            "summary": "Free coding bootcamp with guaranteed job placement for Black youth. 12-week intensive program covers web development, data science, and cybersecurity.",
+            "category": "Education",
+            "imageUrl": "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80",
+            "sourceUrl": "/news/tech-apprenticeship-program-2025",
+            "publishedAt": datetime(2025, 10, 25, 10, 0, 0),
+            "isFeatured": False
+        },
+        {
+            "title": "Black-Owned Coffee Shop Chain Expands to 50 Cities",
+            "summary": "Community-driven coffee brand opens 15 new locations this quarter, creating 300 jobs and supporting local artists.",
+            "category": "Business",
+            "imageUrl": "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&q=80",
+            "sourceUrl": "/news/coffee-shop-expansion-2025",
+            "publishedAt": datetime(2025, 10, 24, 14, 20, 0),
+            "isFeatured": False
+        },
+        {
+            "title": "Community Land Trust Secures $10M for Affordable Housing",
+            "summary": "New initiative will create 200 affordable homes in historically Black neighborhoods, preventing displacement and building generational wealth.",
+            "category": "Community",
+            "imageUrl": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80",
+            "sourceUrl": "/news/community-land-trust-affordable-housing",
+            "publishedAt": datetime(2025, 10, 23, 9, 15, 0),
+            "isFeatured": False
+        }
+    ]
+    
+    # Convert to NewsItemDB models
+    news_items = [NewsItemDB(**item) for item in sample_items]
+    
+    # Insert into MongoDB
+    items_dict = [item.dict() for item in news_items]
+    result = await news_collection.insert_many(items_dict)
+    
+    return {
+        "inserted": len(result.inserted_ids),
+        "ids": [str(id) for id in result.inserted_ids],
+        "message": "Sample news items created successfully"
+    }
