@@ -2,22 +2,89 @@
 BANIBS Automated RSS Sync Scheduler
 
 Uses APScheduler to automatically sync RSS feeds every 6 hours.
-Ensures the homepage "Latest Stories" section stays fresh.
+Full pipeline: RSS sync → Image mirror/optimize → Health report
 """
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from datetime import datetime
 import asyncio
+import sys
+sys.path.append('/app/backend')
 
-# Lazy import to avoid circular dependencies
+from config.rss_sources import RSS_SOURCES
+from utils.rss_parser import fetch_and_store_feed
+from utils.cdn_mirror import mirror_all_images
+from scripts.rss_health_report import generate_health_report, write_report_to_log
+
+# Global scheduler instance
 scheduler = None
+
+# BANIBS Branded Fallback Images by Category  
+FALLBACK_IMAGES = {
+    "Business": "https://cdn.banibs.com/fallback/business.jpg",
+    "Technology": "https://cdn.banibs.com/fallback/tech.jpg", 
+    "Education": "https://cdn.banibs.com/fallback/education.jpg",
+    "Community": "https://cdn.banibs.com/fallback/community.jpg",
+    "Opportunities": "https://cdn.banibs.com/fallback/opportunities.jpg",
+}
+
+
+async def run_all_feeds_job():
+    """
+    This is the full BANIBS news refresh pipeline.
+
+    Steps:
+    1. Pull latest RSS stories from all configured feeds.
+    2. Mirror & optimize all story images into cdn.banibs.com/news.
+    3. Generate and log a health report (coverage/CDN/size).
+    """
+    print(f"[BANIBS RSS Sync] Starting full pipeline at {datetime.utcnow().isoformat()}Z")
+    
+    try:
+        # Step 1: Ingest fresh stories from all RSS sources
+        total_new_items = 0
+        for source in RSS_SOURCES:
+            try:
+                # Get fallback image for this category
+                fallback_image = FALLBACK_IMAGES.get(source["category"])
+                
+                count = await fetch_and_store_feed(
+                    url=source["url"],
+                    category=source["category"],
+                    source_name=source["name"],
+                    limit=5,
+                    fallback_image=fallback_image
+                )
+                total_new_items += count
+                print(f"[RSS] {source['name']}: {count} new items")
+            except Exception as e:
+                print(f"[RSS] {source['name']}: Error - {str(e)}")
+        
+        print(f"[BANIBS RSS Sync] Ingested {total_new_items} new stories")
+
+        # Step 2: Mirror & optimize thumbnails to CDN
+        mirror_result = await mirror_all_images()
+        print(f"[BANIBS RSS Sync] CDN mirror completed: {mirror_result}")
+
+    except Exception as e:
+        print(f"[BANIBS RSS Sync] Pipeline error: {e}")
+
+    # Step 3: Generate and log health snapshot
+    try:
+        report = await generate_health_report()
+        write_report_to_log(report)
+        print("[BANIBS RSS Sync] Health report written to log")
+    except Exception as e:
+        print(f"[BANIBS RSS Sync] Health report error: {e}")
+    
+    print(f"[BANIBS RSS Sync] Full pipeline completed at {datetime.utcnow().isoformat()}Z")
 
 
 def init_scheduler():
     """
     Initialize APScheduler and register the RSS sync job
     
-    Runs every 6 hours to pull fresh news from all configured sources.
+    Runs full pipeline (RSS + CDN mirror + health report) every 6 hours.
     Called from FastAPI startup event in server.py.
     """
     global scheduler
@@ -28,22 +95,19 @@ def init_scheduler():
     
     scheduler = AsyncIOScheduler()
     
-    # Import the sync job function
-    from tasks.rss_sync import run_sync_job
-    
     # Schedule job to run every 6 hours
     scheduler.add_job(
-        run_sync_job,
+        run_all_feeds_job,
         trigger="interval",
         hours=6,
         id="rss_sync_job",
-        name="BANIBS RSS Feed Sync",
+        name="BANIBS Full RSS Pipeline",
         replace_existing=True,
         next_run_time=datetime.now()  # Run immediately on startup
     )
     
     scheduler.start()
-    print("[BANIBS Scheduler] Started. RSS sync will run every 6 hours.")
+    print("[BANIBS Scheduler] Started. Full RSS pipeline will run every 6 hours.")
 
 
 def shutdown_scheduler():
