@@ -137,6 +137,11 @@ uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=str(uploads_dir)), name="uploads")
 
+# Mount CDN news images for development
+cdn_news_dir = Path("/var/www/cdn.banibs.com/news")
+cdn_news_dir.mkdir(parents=True, exist_ok=True)
+app.mount("/cdn/news", StaticFiles(directory=str(cdn_news_dir)), name="cdn-news")
+
 # Phase 3.5 - Request logging middleware
 import time
 from starlette.middleware.base import BaseHTTPMiddleware
