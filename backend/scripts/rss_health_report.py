@@ -19,6 +19,10 @@ from datetime import datetime
 from urllib.parse import urlparse
 from motor.motor_asyncio import AsyncIOMotorClient
 import asyncio
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 CDN_BASE = "https://cdn.banibs.com/news"
 LOG_PATH = "/var/log/banibs_rss_health.log"
