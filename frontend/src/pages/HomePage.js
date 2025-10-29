@@ -216,6 +216,9 @@ const HomePage = () => {
       {/* 🌟 Featured Story - Dynamic from API */}
       <FeaturedStory />
 
+      {/* 📺 BANIBS TV Featured Video - Dynamic from API */}
+      <FeaturedVideo />
+
       {/* News Feed - Dynamic from API */}
       <NewsFeed />
 
