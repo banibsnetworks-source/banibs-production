@@ -299,6 +299,63 @@ async def clear_dev_news():
         "message": f"Cleared {result.deleted_count} news items"
     }
 
+# ==========================================
+# CATEGORY-BASED NEWS ENDPOINTS
+# ==========================================
+
+@router.get("/category/{category_slug}", response_model=List[NewsItemPublic])
+async def get_news_by_category(category_slug: str):
+    """
+    Get news items by category for specialized pages (e.g., World News)
+    
+    Args:
+        category_slug: URL-friendly category name (e.g., "world-news", "business", "technology")
+    
+    Returns:
+        Array of news items from the specified category, newest first.
+        Uses deduplication like /latest endpoint.
+    
+    Examples:
+        GET /api/news/category/world-news -> All world news articles
+        GET /api/news/category/business -> All business articles
+        GET /api/news/category/technology -> All technology articles
+    """
+    # Convert slug to category name (world-news -> World News)
+    category = category_slug.replace("-", " ").title()
+    
+    # Fetch items from this category (more items for dedicated pages)
+    items = await news_collection.find(
+        {"category": {"$regex": f"^{category}$", "$options": "i"}},
+        {"_id": 0}
+    ).sort("publishedAt", -1).limit(60).to_list(length=None)
+    
+    if not items:
+        return []
+    
+    # Apply same deduplication logic as /latest
+    seen_keys = set()
+    unique_items = []
+    
+    for item in items:
+        dedupe_key = make_dedupe_key(item)
+        
+        # Skip if we've already added this story
+        if dedupe_key in seen_keys:
+            continue
+        seen_keys.add(dedupe_key)
+        
+        # Convert datetime to ISO string if needed
+        if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
+            item['publishedAt'] = item['publishedAt'].isoformat()
+            
+        unique_items.append(NewsItemPublic(**item))
+        
+        # Limit to 50 unique items for category pages
+        if len(unique_items) >= 50:
+            break
+    
+    return unique_items
+
 @router.delete("/admin/{news_id}")
 async def delete_news_item(
     news_id: str,
