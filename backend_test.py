@@ -1485,7 +1485,15 @@ class BanibsAPITester:
         self.log(f"Testing against: {API_BASE}")
         
         tests = [
-            # News Aggregation Feed Tests (Priority - Current Focus)
+            # RSS Aggregation System Tests (Priority - Current Focus)
+            ("RSS Sync Manual Trigger", self.test_rss_sync_manual_trigger),
+            ("RSS Fingerprint Deduplication", self.test_rss_fingerprint_deduplication),
+            ("RSS Content in News Latest", self.test_rss_content_in_news_latest),
+            ("RSS Sources Coverage", self.test_rss_sources_coverage),
+            ("RSS Field Naming Consistency", self.test_rss_field_naming_consistency),
+            ("APScheduler Status", self.test_apscheduler_status),
+            
+            # News Aggregation Feed Tests
             ("News Latest Endpoint", self.test_news_latest_endpoint),
             ("News Public Access", self.test_news_endpoint_public_access),
             ("News Response Shape", self.test_news_response_shape),
