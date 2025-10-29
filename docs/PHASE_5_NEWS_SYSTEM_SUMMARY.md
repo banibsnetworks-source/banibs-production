@@ -328,3 +328,47 @@ The homepage MUST include a BANIBS TV / Featured Video section that:
 - `DELETE /api/media/admin/{id}` - Remove video content
 
 This block is **not cosmetic**. It is part of BANIBS' voice layer and identity as a network, not just a feed.
+
+---
+
+## 16. World News + Regional Filtering Contract
+
+As of Phase 6.0, BANIBS ingests global news from CNN, BBC, Reuters, Al Jazeera, The Guardian, Bloomberg, Euronews, AP, and others with **advanced regional filtering**.
+
+**Rules:**
+
+1. **All global sources are tagged with:**
+   - category: "World News"  
+   - region: one of ["Global", "Africa", "Americas", "Europe", "Asia", "Middle East"]
+
+2. **The NewsItem model MUST include a `region` field.**
+
+3. **The RSS ingest job MUST write `region` for every story** based on `rss_sources.py` metadata.
+
+4. **The API endpoint** `/api/news/category/{category_slug}` MUST support optional `?region=` filtering and return only matching rows.
+
+5. **The front-end `/world-news` page MUST:**
+   - Render stories from "World News" 
+   - Allow region filtering through UI pills (🌐 Global, 🌍 Africa, 🌎 Americas, 🌍 Europe, 🌏 Asia, 🕌 Middle East)
+   - Show both sourceName (credibility) and region (geopolitical framing) 
+   - Always display an image panel, using mirrored thumbnails or BANIBS-branded fallback
+   - Update header dynamically based on selected region
+
+6. **World News MUST appear in the main homepage navigation / identity layer.**
+
+**Current Regional Coverage:**
+- **Global**: CNN, BBC, Reuters, Guardian, AP (15+ sources)
+- **Middle East**: Al Jazeera English (5+ sources) 
+- **Americas**: Bloomberg World (5+ sources)
+- **Europe**: Euronews International
+- **Africa**: Future expansion planned
+- **Asia**: Future expansion planned
+
+**API Examples:**
+- `GET /api/news/category/world-news` → All world news
+- `GET /api/news/category/world-news?region=Africa` → Africa-focused stories only
+- `GET /api/news/category/world-news?region=Global` → CNN, BBC, Reuters content
+
+Removing World News, removing region filters, or removing source attribution is considered a **regression of Phase 6.0 functionality**.
+
+**BANIBS now operates with the same regional filtering sophistication as major news networks - users can explore Africa, Europe, Middle East, Americas coverage with one click.**
