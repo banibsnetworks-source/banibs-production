@@ -137,10 +137,32 @@ uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=str(uploads_dir)), name="uploads")
 
-# Mount CDN news images for development
-cdn_news_dir = Path("/var/www/cdn.banibs.com/news")
-cdn_news_dir.mkdir(parents=True, exist_ok=True)
-app.mount("/cdn/news", StaticFiles(directory=str(cdn_news_dir)), name="cdn-news")
+from fastapi.responses import FileResponse
+import mimetypes
+from pathlib import Path
+
+# Custom image serving endpoint with proper content-type
+@app.get("/cdn/news/{filename}")
+async def serve_news_image(filename: str):
+    """Serve news images with proper content-type headers"""
+    file_path = Path("/var/www/cdn.banibs.com/news") / filename
+    
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail="Image not found")
+    
+    # Determine content type
+    content_type, _ = mimetypes.guess_type(str(file_path))
+    if not content_type:
+        content_type = "image/jpeg"  # Default for news images
+    
+    return FileResponse(
+        path=str(file_path),
+        media_type=content_type,
+        headers={
+            "Cache-Control": "public, max-age=3600",
+            "Access-Control-Allow-Origin": "*"
+        }
+    )
 
 # Mount CDN fallback images
 cdn_fallback_dir = Path("/var/www/cdn.banibs.com/fallback") 
