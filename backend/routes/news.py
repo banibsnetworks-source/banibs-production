@@ -44,6 +44,32 @@ async def get_latest_news_feed():
     
     return result
 
+@router.get("/featured")
+async def get_featured_news():
+    """
+    Get the most recent featured news item for homepage hero
+    
+    Returns exactly one featured story or empty object if none exists.
+    This is a public endpoint - no authentication required.
+    
+    Used by: Homepage "Featured Story" hero section
+    """
+    # Find most recent featured item
+    item = await news_collection.find_one(
+        {"isFeatured": True},
+        {"_id": 0}
+    )
+    
+    if not item:
+        # Return empty object if no featured story exists
+        return {}
+    
+    # Convert datetime to ISO string
+    if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
+        item['publishedAt'] = item['publishedAt'].isoformat()
+    
+    return NewsItemPublic(**item)
+
 @router.post("/seed-dev")
 async def seed_dev_news():
     """
