@@ -31,6 +31,7 @@ class NewsItemPublic(BaseModel):
     imageUrl: Optional[str] = None
     publishedAt: str  # ISO timestamp string
     category: str
+    region: Optional[str] = None  # Geographic region for filtering
     sourceUrl: Optional[str] = None
     sourceName: Optional[str] = None
     isFeatured: bool = False
