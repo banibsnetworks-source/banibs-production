@@ -106,8 +106,8 @@ def _download_and_mirror_image(image_url: str) -> str | None:
 
 async def mirror_all_images():
     """
-    Find all NewsItems with external imageUrls, mirror them to CDN,
-    and update the database with new CDN URLs.
+    Find all NewsItems with external imageUrls and FeaturedMedia with external thumbnailUrls,
+    mirror them to CDN, and update the database with new CDN URLs.
     """
     mongo_url = os.environ.get('MONGO_URL')
     db_name = os.environ.get('DB_NAME')
@@ -115,9 +115,14 @@ async def mirror_all_images():
     client = AsyncIOMotorClient(mongo_url)
     db = client[db_name]
     news_collection = db.news_items
+    media_collection = db.featured_media
     
     try:
-        # Find items with external images (not already CDN-hosted)
+        total_processed = 0
+        mirrored_count = 0
+        failed_count = 0
+        
+        # 1. Mirror NewsItem images
         query = {
             "imageUrl": {"$exists": True, "$ne": None},
             "$nor": [
@@ -126,15 +131,14 @@ async def mirror_all_images():
             ]
         }
         
-        items = await news_collection.find(query, {"_id": 0}).to_list(length=None)
+        news_items = await news_collection.find(query, {"_id": 0}).to_list(length=None)
         
-        mirrored_count = 0
-        failed_count = 0
-        
-        for item in items:
+        for item in news_items:
             original_url = item.get("imageUrl")
             if not original_url:
                 continue
+                
+            total_processed += 1
             
             # Mirror the image
             cdn_url = _download_and_mirror_image(original_url)
@@ -149,8 +153,39 @@ async def mirror_all_images():
             else:
                 failed_count += 1
         
+        # 2. Mirror FeaturedMedia thumbnails  
+        media_query = {
+            "thumbnailUrl": {"$exists": True, "$ne": None},
+            "$nor": [
+                {"thumbnailUrl": {"$regex": f"^{CDN_BASE_URL}"}},
+                {"thumbnailUrl": {"$regex": "^https://cdn.banibs.com/fallback/"}}
+            ]
+        }
+        
+        media_items = await media_collection.find(media_query, {"_id": 0}).to_list(length=None)
+        
+        for item in media_items:
+            original_url = item.get("thumbnailUrl")
+            if not original_url:
+                continue
+                
+            total_processed += 1
+            
+            # Mirror the thumbnail
+            cdn_url = _download_and_mirror_image(original_url)
+            
+            if cdn_url and cdn_url != original_url:
+                # Update database with new CDN URL
+                await media_collection.update_one(
+                    {"id": item["id"]},
+                    {"$set": {"thumbnailUrl": cdn_url, "updatedAt": datetime.utcnow()}}
+                )
+                mirrored_count += 1
+            else:
+                failed_count += 1
+        
         return {
-            "total_processed": len(items),
+            "total_processed": total_processed,
             "mirrored_successfully": mirrored_count,
             "failed_or_skipped": failed_count,
             "timestamp": datetime.utcnow().isoformat() + "Z"
