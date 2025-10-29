@@ -264,3 +264,35 @@ RSS Feeds → Parser → DB → API Endpoints → Frontend Cards
 The BANIBS front page now feels **alive** — a constant, trustworthy reflection of business, community, and innovation across Black and Indigenous voices.
 
 **Status:** ✅ Phase 5 Complete — Ready for Phase 6 Integration
+
+---
+
+## 14. Image Pipeline Contract (CDN + Health Logging)
+
+As of 2025-10-29, BANIBS is required to:
+
+1. **Ingest RSS content every 6 hours** via automated scheduler
+2. **Mirror and optimize all story images** to `cdn.banibs.com/news` (max width 1280px, ~85% JPEG/WebP quality)
+3. **Replace all story `imageUrl` values** with CDN-hosted versions for faster, reliable loading
+4. **Generate a health report after each sync** with:
+   - Total stories and image coverage percentages
+   - CDN compliance (% of images served from `cdn.banibs.com/news`)
+   - Average file size per source
+   - Oversized asset alerts (>2MB after optimization)
+   - Missing image detection (MUST be 0)
+
+**Pipeline Workflow:**
+```
+RSS Sync → Image Mirror/Optimize → Health Report → Log
+```
+
+**Health Report Location:** `/var/log/banibs_rss_health.log`
+
+**Manual Pipeline Trigger:** `POST /api/news/rss-sync`
+
+This pipeline is **not cosmetic**. It is part of BANIBS uptime and brand integrity.
+Removing or bypassing any step (ingest, mirror, optimize, report) is considered a production regression.
+
+**Verification Scripts:**
+- Image coverage: `python backend/scripts/test_images.py`
+- Health monitoring: `python backend/scripts/rss_health_report.py`
