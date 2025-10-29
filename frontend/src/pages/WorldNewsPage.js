@@ -10,6 +10,73 @@ const REGIONS = [
   "Middle East",
 ];
 
+// Image utility functions
+const normalizeImageUrl = (url) => {
+  if (!url) return null;
+  
+  // Ensure HTTPS
+  if (url.startsWith('http://')) {
+    url = url.replace('http://', 'https://');
+  }
+  
+  // Convert CDN URLs to direct file access in development
+  if (url.startsWith('https://cdn.banibs.com/news/')) {
+    const filename = url.split('/').pop();
+    return `/cdn/news/${filename}`;
+  }
+  
+  return url;
+};
+
+const ImageWithFallback = ({ src, alt, className, region }) => {
+  const [imageError, setImageError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  const normalizedSrc = normalizeImageUrl(src);
+  
+  const handleImageLoad = () => {
+    setIsLoading(false);
+    setImageError(false);
+  };
+  
+  const handleImageError = () => {
+    setIsLoading(false);
+    setImageError(true);
+  };
+  
+  if (!normalizedSrc || imageError) {
+    return (
+      <div className="w-full h-full bg-gradient-to-br from-black/60 to-gray-900/80 flex items-center justify-center">
+        <div className="text-center p-4">
+          <div className="text-yellow-400 text-2xl mb-2">🌍</div>
+          <div className="text-yellow-300/70 italic text-sm">
+            BANIBS • {region || "World News"}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  return (
+    <div className="relative w-full h-full">
+      {isLoading && (
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+          <div className="text-yellow-300/70 text-sm">Loading...</div>
+        </div>
+      )}
+      <img
+        src={normalizedSrc}
+        alt={alt}
+        className={className}
+        loading="lazy"
+        onLoad={handleImageLoad}
+        onError={handleImageError}
+        style={{ display: imageError ? 'none' : 'block' }}
+      />
+    </div>
+  );
+};
+
 const WorldNewsPage = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
