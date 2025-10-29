@@ -206,19 +206,13 @@ const WorldNewsPage = () => {
                 className="group bg-black/50 border border-yellow-400/20 rounded-xl overflow-hidden hover:border-yellow-400/40 hover:bg-black/70 transition-all duration-300 shadow-lg hover:shadow-xl flex flex-col"
               >
                 {/* Article Image */}
-                <div className="w-full h-48 bg-black/40 border-b border-yellow-400/20 flex items-center justify-center overflow-hidden">
-                  {article.imageUrl ? (
-                    <img
-                      src={article.imageUrl}
-                      alt={article.title}
-                      className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-300"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="text-yellow-300/70 italic text-sm text-center px-4">
-                      BANIBS • {article.region || "World News"}
-                    </div>
-                  )}
+                <div className="relative w-full h-48 bg-black/40 border-b border-yellow-400/20 overflow-hidden">
+                  <ImageWithFallback
+                    src={article.imageUrl}
+                    alt={article.title}
+                    region={article.region}
+                    className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-300"
+                  />
                 </div>
 
                 {/* Article Content */}
