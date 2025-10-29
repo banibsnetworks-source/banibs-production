@@ -132,6 +132,9 @@ app.include_router(news_router)
 # Include media router (BANIBS TV Featured Video)
 app.include_router(media_router)
 
+# Include analytics router (Phase 6.2 Engagement Analytics)
+app.include_router(analytics_router)
+
 # Include RSS sync router (automated aggregation)
 app.include_router(rss_sync_router)
 
