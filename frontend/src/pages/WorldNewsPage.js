@@ -214,6 +214,7 @@ const WorldNewsPage = () => {
                 href={article.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackNewsClick(article.id, article.region || region)}
                 className="group bg-black/50 border border-yellow-400/20 rounded-xl overflow-hidden hover:border-yellow-400/40 hover:bg-black/70 transition-all duration-300 shadow-lg hover:shadow-xl flex flex-col"
               >
                 {/* Article Image */}
