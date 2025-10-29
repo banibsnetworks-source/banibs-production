@@ -26,98 +26,50 @@ def make_fingerprint(source_name: str, title: str) -> str:
     raw = f"{source_name}::{title}".encode("utf-8")
     return hashlib.sha256(raw).hexdigest()
 
-def extract_image_from_entry(entry) -> Optional[str]:
-    """
-    Extract image URL from RSS entry - tries multiple common patterns
-    Enhanced to search HTML content for <img> tags
-    """
-    import re
-    
-    # 1. Try media:content
-    if hasattr(entry, 'media_content') and len(entry.media_content) > 0:
-        for m in entry.media_content:
-            url = m.get('url')
-            if url and _is_valid_image_url(url):
-                return url
-    
-    # 2. Try media:thumbnail
-    if hasattr(entry, 'media_thumbnail') and len(entry.media_thumbnail) > 0:
-        for t in entry.media_thumbnail:
-            url = t.get('url')
-            if url and _is_valid_image_url(url):
-                return url
-    
-    # 3. Try enclosures
-    if hasattr(entry, 'enclosures') and len(entry.enclosures) > 0:
-        for e in entry.enclosures:
-            if e.get('type', '').startswith('image/') and e.get('href'):
-                url = e['href']
-                if _is_valid_image_url(url):
-                    return url
-    
-    # 4. Try links
-    if hasattr(entry, 'links'):
-        for link in entry.links:
-            if link.get('type', '').startswith('image/') and link.get('href'):
-                url = link['href']
-                if _is_valid_image_url(url):
-                    return url
-    
-    # 5. NEW: Search HTML content for <img> tags
-    html_fields = [
-        entry.get('content', [{}])[0].get('value', '') if entry.get('content') else '',
-        entry.get('summary', ''),
-        entry.get('description', '')
-    ]
-    
-    for html_content in html_fields:
-        if html_content:
-            # Find <img src="..."> tags
-            img_matches = re.findall(r'<img[^>]+src=["\']([^"\']+)["\']', html_content, re.IGNORECASE)
-            for img_url in img_matches:
-                if _is_valid_image_url(img_url):
-                    return img_url
-    
-    return None
+import re
 
-def _is_valid_image_url(url: str) -> bool:
-    """Check if URL looks like a valid image"""
-    if not url or len(url) < 10:
-        return False
-    
-    # Must be HTTP/HTTPS
-    if not url.startswith(('http://', 'https://')):
-        return False
-    
-    # Avoid common non-image patterns
-    avoid_patterns = [
-        'favicon.ico',
-        'logo.png',
-        'avatar.',
-        'profile.',
-        '1x1.',
-        'tracking.',
-        'pixel.',
-        'spacer.'
-    ]
-    
-    url_lower = url.lower()
-    for pattern in avoid_patterns:
-        if pattern in url_lower:
-            return False
-    
-    # Prefer common image extensions or large images
-    good_patterns = [
-        '.jpg', '.jpeg', '.png', '.webp', '.gif',
-        'width=', 'w=', 'h=', 'resize=', 'crop='
-    ]
-    
-    for pattern in good_patterns:
-        if pattern in url_lower:
-            return True
-    
-    # If no extension found, accept if URL is reasonably long (likely has parameters)
-    return len(url) > 50
+IMG_TAG_REGEX = re.compile(r'<img[^>]+src="([^">]+)"', re.IGNORECASE)
+
+def _extract_image(entry):
+    """
+    Extract the best possible image URL from an RSS entry.
+    Checks media, thumbnail, enclosure, and inline <img> tags.
+    """
+    # 1. media:content (WordPress, TechCrunch, AfroTech)
+    media = entry.get("media_content")
+    if media and isinstance(media, list):
+        for m in media:
+            url = m.get("url")
+            if url:
+                return url
+
+    # 2. media:thumbnail
+    thumbs = entry.get("media_thumbnail")
+    if thumbs and isinstance(thumbs, list):
+        for t in thumbs:
+            url = t.get("url")
+            if url:
+                return url
+
+    # 3. enclosure or link of type image/*
+    enclosures = entry.get("enclosures") or entry.get("links")
+    if enclosures and isinstance(enclosures, list):
+        for enc in enclosures:
+            if enc.get("type", "").startswith("image/") and enc.get("href"):
+                return enc["href"]
+
+    # 4. First <img> tag inside summary/content HTML
+    for field in ["summary", "summary_detail", "content", "description"]:
+        html_block = entry.get(field)
+        if isinstance(html_block, dict):
+            html_block = html_block.get("value")
+        if isinstance(html_block, str):
+            m = IMG_TAG_REGEX.search(html_block)
+            if m:
+                return m.group(1)
+
+    # 5. No image found
+    return None
 
 def extract_published_date(entry) -> datetime:
     """Parse published date from RSS entry"""
