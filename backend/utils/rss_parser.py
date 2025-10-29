@@ -172,6 +172,7 @@ async def fetch_and_store_feed(url: str, category: str, source_name: str, limit:
                 title=title[:200],  # Limit title length
                 summary=summary,
                 category=category,
+                region=region,  # Geographic region from RSS source config
                 imageUrl=image_url,
                 publishedAt=item.get('publishedAt') or datetime.utcnow(),
                 sourceUrl=item.get('sourceUrl', url),
