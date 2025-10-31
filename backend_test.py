@@ -1698,6 +1698,13 @@ class BanibsAPITester:
             ("Revenue Overview Auth", self.test_revenue_overview_auth),
             ("Revenue Overview Data", self.test_revenue_overview_data),
             
+            # Phase 6.3 - Cross-Regional Insights & AI Sentiment Analysis Tests
+            ("Regional Insights Public", self.test_regional_insights_public),
+            ("Regional Insights Public Filtered", self.test_regional_insights_public_filtered),
+            ("Regional Insights Admin", self.test_regional_insights_admin),
+            ("Regional Insights Generate", self.test_regional_insights_generate),
+            ("Sentiment Analysis RBAC", self.test_sentiment_analysis_rbac),
+            
             # Phase 5.3 - Abuse/Safety Controls Tests
             ("Admin Ban Endpoints Auth", self.test_admin_ban_endpoints_auth),
             ("Admin Ban Source", self.test_admin_ban_source),
