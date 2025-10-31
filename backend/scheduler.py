@@ -15,6 +15,7 @@ from config.rss_sources import RSS_SOURCES
 from utils.rss_parser import fetch_and_store_feed
 from utils.cdn_mirror import mirror_all_images
 from scripts.rss_health_report import generate_health_report, write_report_to_log
+from tasks.sentiment_sweep import run_sentiment_sweep
 
 # Global scheduler instance
 scheduler = None
