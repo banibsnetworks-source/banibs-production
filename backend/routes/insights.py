@@ -19,7 +19,7 @@ from db.news import get_news_by_id
 from services.ai_sentiment import analyze_sentiment
 from middleware.auth_guard import require_role
 
-router = APIRouter()
+router = APIRouter(prefix="/api/insights")
 
 
 @router.get("/regional")
