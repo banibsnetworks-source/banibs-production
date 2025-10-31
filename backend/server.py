@@ -136,6 +136,9 @@ app.include_router(media_router)
 # Include analytics router (Phase 6.2 Engagement Analytics)
 app.include_router(analytics_router)
 
+# Include insights router (Phase 6.3 Sentiment & Insights)
+app.include_router(insights_router)
+
 # Include RSS sync router (automated aggregation)
 app.include_router(rss_sync_router)
 
