@@ -1143,15 +1143,18 @@ agent_communication:
 
   - task: "Sentiment sweep scheduled task"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/tasks/sentiment_sweep.py, backend/scheduler.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created sentiment sweep task (run_sentiment_sweep) that finds unsentimented stories, analyzes them with AI, and stores results. Also performs 90-day cleanup. Added to scheduler.py to run every 3 hours (separate from RSS sync which runs every 6 hours). Both jobs run immediately on startup."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Sentiment sweep scheduled task working correctly. Backend logs confirm scheduler initialization and job execution. Manual generation endpoint successfully triggers the same sentiment analysis logic used by the scheduled task. Task properly integrated with AI sentiment service and database operations. Scheduler runs every 3 hours as configured, separate from RSS sync (6 hours). Evidence of successful sentiment analysis visible in regional aggregates with 21 total sentiment records across regions."
 
 frontend:
   # Phase 6.3 - Regional Sentiment Insights Frontend
