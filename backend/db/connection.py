@@ -14,3 +14,7 @@ db = client[os.environ['DB_NAME']]
 async def get_db():
     """Dependency to get database instance"""
     return db
+
+def get_db_client():
+    """Get database client directly (non-async)"""
+    return db
