@@ -42,7 +42,7 @@ async def get_regional_insights(region: Optional[str] = None):
 
 
 @router.get("/admin/regional")
-async def get_admin_regional_insights(current_user: dict = Depends(require_role("admin"))):
+async def get_admin_regional_insights(current_user: dict = Depends(require_role("super_admin"))):
     """
     Admin endpoint: Get detailed regional sentiment insights.
     JWT-protected (admin only).
