@@ -269,6 +269,11 @@ const AdminOpportunitiesDashboard = () => {
           <AbuseControls />
         </div>
 
+        {/* Phase 6.3 - Regional Sentiment Insights */}
+        <div className="mb-8">
+          <RegionalInsightsPanel />
+        </div>
+
         {/* Filter Controls */}
         <div className="mb-6 bg-[#1a1a1a] border border-[#FFD700]/30 rounded-lg p-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
