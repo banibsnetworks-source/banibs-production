@@ -83,9 +83,10 @@ async def run_all_feeds_job():
 
 def init_scheduler():
     """
-    Initialize APScheduler and register the RSS sync job
+    Initialize APScheduler and register jobs:
+    1. RSS sync job - runs every 6 hours (RSS + CDN mirror + health report)
+    2. Sentiment sweep job - runs every 3 hours (AI sentiment analysis + cleanup)
     
-    Runs full pipeline (RSS + CDN mirror + health report) every 6 hours.
     Called from FastAPI startup event in server.py.
     """
     global scheduler
@@ -96,7 +97,7 @@ def init_scheduler():
     
     scheduler = AsyncIOScheduler()
     
-    # Schedule job to run every 6 hours
+    # Job 1: Full RSS pipeline (every 6 hours)
     scheduler.add_job(
         run_all_feeds_job,
         trigger="interval",
@@ -107,8 +108,21 @@ def init_scheduler():
         next_run_time=datetime.now()  # Run immediately on startup
     )
     
+    # Job 2: Sentiment sweep (every 3 hours)
+    scheduler.add_job(
+        run_sentiment_sweep,
+        trigger="interval",
+        hours=3,
+        id="sentiment_sweep_job",
+        name="BANIBS Sentiment Sweep",
+        replace_existing=True,
+        next_run_time=datetime.now()  # Run immediately on startup
+    )
+    
     scheduler.start()
-    print("[BANIBS Scheduler] Started. Full RSS pipeline will run every 6 hours.")
+    print("[BANIBS Scheduler] Started.")
+    print("  - RSS pipeline: every 6 hours")
+    print("  - Sentiment sweep: every 3 hours")
 
 
 def shutdown_scheduler():
