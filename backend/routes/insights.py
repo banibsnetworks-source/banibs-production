@@ -59,7 +59,7 @@ async def get_admin_regional_insights(current_user: dict = Depends(require_role(
 
 
 @router.post("/admin/regional/generate")
-async def generate_regional_insights(current_user: dict = Depends(require_role("admin"))):
+async def generate_regional_insights(current_user: dict = Depends(require_role("super_admin"))):
     """
     Admin endpoint: Manually trigger sentiment analysis for unsentimented stories.
     JWT-protected (admin only).
