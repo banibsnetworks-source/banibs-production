@@ -889,7 +889,7 @@ agent_communication:
       ✅ TECHNICAL VERIFICATION:
       - Backend logs show successful GET /api/news/latest - Status: 200
       - No errors or warnings in backend service logs
-      - Endpoint accessible via public URL: https://newsaggregate-1.preview.emergentagent.com/api/news/latest
+      - Endpoint accessible via public URL: https://news-analytics.preview.emergentagent.com/api/news/latest
       - Response format: [] (valid empty JSON array)
       
       ✅ REQUIREMENTS COMPLIANCE:
