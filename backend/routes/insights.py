@@ -15,7 +15,6 @@ from db.news_sentiment import (
     get_unsentimented_stories,
     create_sentiment_record
 )
-from db.news import get_news_by_id
 from services.ai_sentiment import analyze_sentiment
 from middleware.auth_guard import require_role
 
