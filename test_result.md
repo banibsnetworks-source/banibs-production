@@ -1098,15 +1098,18 @@ agent_communication:
   # Phase 6.3 - Cross-Regional Insights & AI Sentiment Analysis Backend
   - task: "News sentiment model and database"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/models/news_sentiment.py, backend/db/news_sentiment.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created NewsSentimentDB model with fields: id (UUID), storyId, region, sentimentScore (-1 to 1), sentimentLabel (positive/neutral/negative), headline, summary, analyzedAt, createdAt. Created database operations: create_sentiment_record, get_sentiment_by_story_and_region, get_regional_sentiment_aggregate, get_all_regional_aggregates, get_unsentimented_stories, cleanup_old_sentiment_records (90-day retention). Uses get_db_client() for sync access to MongoDB."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: News sentiment model and database operations working correctly. Database operations successfully integrated with regional insights endpoints. Regional aggregates properly calculated and returned with all required fields (region, avgSentiment, totalRecords, positive, neutral, negative, lastAnalyzed). Found 6 regions with sentiment data: Global (-0.517 avg, 15 records), Americas (-0.112 avg, 5 records), Middle East (-0.563 avg, 6 records), and empty regions (Africa, Europe, Asia). UUID-based IDs confirmed working."
 
   - task: "AI sentiment analysis service"
     implemented: true
