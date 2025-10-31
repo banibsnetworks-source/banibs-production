@@ -4,6 +4,7 @@ import { opportunitiesAPI, moderationLogsAPI } from '../../services/api';
 import AdminOpportunityCard from '../../components/admin/AdminOpportunityCard';
 import RevenueOverview from '../../components/admin/RevenueOverview';
 import AbuseControls from '../../components/admin/AbuseControls';
+import RegionalInsightsPanel from '../../components/admin/RegionalInsightsPanel';
 
 const AdminOpportunitiesDashboard = () => {
   const [opportunities, setOpportunities] = useState([]);
