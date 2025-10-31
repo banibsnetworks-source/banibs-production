@@ -1177,11 +1177,7 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "AI sentiment analysis service with OpenAI GPT-5"
-    - "Regional insights API endpoints"
-    - "Sentiment sweep scheduled task"
-    - "Regional insights admin panel"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
