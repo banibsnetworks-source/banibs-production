@@ -8,7 +8,7 @@ Retention policy: 90 days (older records should be pruned).
 import uuid
 from datetime import datetime, timezone, timedelta
 from typing import List, Optional
-from db.connection import get_db
+from db.connection import get_db_client
 from models.news_sentiment import NewsSentimentDB, NewsSentimentPublic
 
 
@@ -24,7 +24,7 @@ async def create_sentiment_record(
     Create a new sentiment record.
     Returns the new record ID.
     """
-    db = get_db()
+    db = get_db_client()
     now = datetime.now(timezone.utc)
     
     record = {
@@ -48,7 +48,7 @@ async def get_sentiment_by_story_and_region(story_id: str, region: str) -> Optio
     Get existing sentiment record for a story + region combination.
     Returns None if not found.
     """
-    db = get_db()
+    db = get_db_client()
     return await db.news_sentiment.find_one({"storyId": story_id, "region": region})
 
 
@@ -56,7 +56,7 @@ async def get_recent_sentiment_by_region(region: str, limit: int = 100) -> List[
     """
     Get recent sentiment records for a region, sorted by analyzedAt DESC.
     """
-    db = get_db()
+    db = get_db_client()
     cursor = db.news_sentiment.find({"region": region})
     cursor.sort("analyzedAt", -1).limit(limit)
     return await cursor.to_list(length=limit)
@@ -75,7 +75,7 @@ async def get_regional_sentiment_aggregate(region: str) -> dict:
         "lastAnalyzed": str (ISO) or None
     }
     """
-    db = get_db()
+    db = get_db_client()
     records = await db.news_sentiment.find({"region": region}).to_list(length=None)
     
     if not records:
@@ -128,7 +128,7 @@ async def get_unsentimented_stories(limit: int = 50) -> List[dict]:
     Find news stories that don't have sentiment analysis yet.
     Returns up to `limit` stories per region that need analysis.
     """
-    db = get_db()
+    db = get_db_client()
     
     # Get all news items
     news_items = await db.news_items.find({}).to_list(length=None)
@@ -164,7 +164,7 @@ async def cleanup_old_sentiment_records(days: int = 90) -> int:
     Delete sentiment records older than `days`.
     Returns count of deleted records.
     """
-    db = get_db()
+    db = get_db_client()
     cutoff_date = datetime.now(timezone.utc) - timedelta(days=days)
     cutoff_iso = cutoff_date.isoformat()
     
