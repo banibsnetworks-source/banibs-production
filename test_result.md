@@ -1094,3 +1094,149 @@ agent_communication:
       - working: true
         agent: "testing"
         comment: "✅ TESTED: NewsItem model working correctly. Enhanced model includes all required RSS fields: sourceName, external, fingerprint, createdAt. Field naming consistency verified - uses camelCase (sourceName, createdAt) not snake_case. RSS items properly stored with external=true, isFeatured=false. Model supports both editorial content (external=false) and RSS content (external=true)."
+
+  # Phase 6.3 - Cross-Regional Insights & AI Sentiment Analysis Backend
+  - task: "News sentiment model and database"
+    implemented: true
+    working: "NA"
+    file: "backend/models/news_sentiment.py, backend/db/news_sentiment.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created NewsSentimentDB model with fields: id (UUID), storyId, region, sentimentScore (-1 to 1), sentimentLabel (positive/neutral/negative), headline, summary, analyzedAt, createdAt. Created database operations: create_sentiment_record, get_sentiment_by_story_and_region, get_regional_sentiment_aggregate, get_all_regional_aggregates, get_unsentimented_stories, cleanup_old_sentiment_records (90-day retention). Uses get_db_client() for sync access to MongoDB."
+
+  - task: "AI sentiment analysis service"
+    implemented: true
+    working: "NA"
+    file: "backend/services/ai_sentiment.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created sentiment analysis service using OpenAI GPT-5 via Emergent LLM key (emergentintegrations library). analyze_sentiment() function takes headline + summary, returns (score, label). Primary: OpenAI GPT-5, Fallback: rule-based keyword matching. EMERGENT_LLM_KEY added to .env. emergentintegrations installed and added to requirements.txt."
+
+  - task: "Regional insights API endpoints"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/insights.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created insights router with /api/insights prefix. GET /api/insights/regional (public, returns aggregated sentiment by region), GET /api/insights/admin/regional (JWT-protected, detailed admin view), POST /api/insights/admin/regional/generate (JWT-protected, manual sentiment generation for up to 50 unsentimented stories). Router registered in server.py."
+
+  - task: "Sentiment sweep scheduled task"
+    implemented: true
+    working: "NA"
+    file: "backend/tasks/sentiment_sweep.py, backend/scheduler.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created sentiment sweep task (run_sentiment_sweep) that finds unsentimented stories, analyzes them with AI, and stores results. Also performs 90-day cleanup. Added to scheduler.py to run every 3 hours (separate from RSS sync which runs every 6 hours). Both jobs run immediately on startup."
+
+frontend:
+  # Phase 6.3 - Regional Sentiment Insights Frontend
+  - task: "Regional insights admin panel"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/admin/RegionalInsightsPanel.js, frontend/src/pages/admin/AdminOpportunitiesDashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created RegionalInsightsPanel component displaying sentiment insights table (region, avg sentiment, total stories, distribution, last updated). Includes 'Generate Now' button for manual sentiment analysis trigger. Integrated into AdminOpportunitiesDashboard. Features: sentiment color coding (green/red/gray), emoji indicators, JWT authentication, loading/error states."
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "AI sentiment analysis service with OpenAI GPT-5"
+    - "Regional insights API endpoints"
+    - "Sentiment sweep scheduled task"
+    - "Regional insights admin panel"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: |
+      Phase 6.3 Backend Implementation Complete - Cross-Regional Insights & AI Sentiment Analysis!
+      
+      ✅ SENTIMENT ANALYSIS SYSTEM:
+      - OpenAI GPT-5 via Emergent LLM key (emergentintegrations)
+      - Fallback to rule-based sentiment when OpenAI unavailable
+      - analyze_sentiment(headline, summary) → (score, label)
+      - Score: -1.0 (negative) to 1.0 (positive)
+      - Labels: positive, neutral, negative
+      
+      ✅ DATA LAYER (Phase 6.3):
+      - news_sentiment collection (UUID-based IDs)
+      - Fields: storyId, region, sentimentScore, sentimentLabel, headline, summary, analyzedAt, createdAt
+      - Operations: create, get by story+region, regional aggregates, unsentimented stories, 90-day cleanup
+      
+      ✅ API ENDPOINTS:
+      - GET /api/insights/regional (public, aggregated sentiment by region)
+      - GET /api/insights/admin/regional (JWT-protected, detailed admin view)
+      - POST /api/insights/admin/regional/generate (JWT-protected, manual trigger)
+      
+      ✅ SCHEDULED TASKS:
+      - Sentiment sweep: every 3 hours (separate from RSS sync)
+      - Analyzes up to 50 unsentimented stories per run
+      - Performs 90-day cleanup of old sentiment records
+      - Both RSS sync (6h) and sentiment sweep (3h) run on startup
+      
+      ✅ FRONTEND (Phase 6.3):
+      - RegionalInsightsPanel component in admin dashboard
+      - Table view: region, avg sentiment, distribution, last updated
+      - "Generate Now" button for manual analysis
+      - Sentiment color coding and emoji indicators
+      - JWT authentication, loading/error states
+      
+      📁 NEW FILES:
+      - backend/models/news_sentiment.py
+      - backend/db/news_sentiment.py
+      - backend/services/ai_sentiment.py
+      - backend/routes/insights.py
+      - backend/tasks/sentiment_sweep.py
+      - frontend/src/components/admin/RegionalInsightsPanel.js
+      
+      🔄 MODIFIED FILES:
+      - backend/scheduler.py (added sentiment sweep job)
+      - backend/server.py (registered insights router)
+      - backend/db/connection.py (added get_db_client())
+      - backend/.env (added EMERGENT_LLM_KEY)
+      - backend/requirements.txt (added emergentintegrations, openai, litellm)
+      - frontend/src/pages/admin/AdminOpportunitiesDashboard.js (integrated panel)
+      
+      🔑 PRIVACY & RETENTION:
+      - Aggregate-only data (no user tracking)
+      - 90-day retention with automatic cleanup
+      - Sentiment per story + region
+      
+      Backend and frontend services running successfully. Ready for testing.
+      
+      TESTING PRIORITY:
+      1. Test AI sentiment service (OpenAI GPT-5 via Emergent LLM key)
+      2. Test GET /api/insights/regional (public endpoint)
+      3. Test GET /api/insights/admin/regional (JWT-protected)
+      4. Test POST /api/insights/admin/regional/generate (manual trigger)
+      5. Verify sentiment sweep scheduled task runs without errors
+      6. Test RegionalInsightsPanel in admin dashboard
+      7. Verify 90-day cleanup functionality
