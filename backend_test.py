@@ -1269,6 +1269,58 @@ class BanibsAPITester:
             self.log(f"❌ Could not check scheduler status: {e}", "ERROR")
             return False
 
+    # Phase 6.2.3 - Resources & Events API Tests
+    
+    def test_resources_list_public(self) -> bool:
+        """Test GET /api/resources - List resources (PUBLIC)"""
+        self.log("Testing GET /api/resources (public endpoint)...")
+        
+        # Test basic list
+        response = self.make_request("GET", "/resources")
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["resources", "total", "page", "pages"]
+            
+            if all(field in data for field in required_fields):
+                resources = data["resources"]
+                total = data["total"]
+                self.log(f"✅ Resources list working - Found {total} resources, {len(resources)} on page 1")
+                
+                # Test pagination
+                if total > 0:
+                    response_page2 = self.make_request("GET", "/resources", params={"limit": 5, "skip": 5})
+                    if response_page2.status_code == 200:
+                        page2_data = response_page2.json()
+                        self.log(f"✅ Pagination working - Page 2 has {len(page2_data['resources'])} resources")
+                    
+                    # Test category filter
+                    response_category = self.make_request("GET", "/resources", params={"category": "Business Support"})
+                    if response_category.status_code == 200:
+                        cat_data = response_category.json()
+                        self.log(f"✅ Category filter working - Found {cat_data['total']} Business Support resources")
+                    
+                    # Test featured filter
+                    response_featured = self.make_request("GET", "/resources", params={"featured": "true"})
+                    if response_featured.status_code == 200:
+                        feat_data = response_featured.json()
+                        self.log(f"✅ Featured filter working - Found {feat_data['total']} featured resources")
+                    
+                    # Test search
+                    response_search = self.make_request("GET", "/resources", params={"search": "business"})
+                    if response_search.status_code == 200:
+                        search_data = response_search.json()
+                        self.log(f"✅ Search working - Found {search_data['total']} resources matching 'business'")
+                
+                return True
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Resources list response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Resources list failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+
     # Phase 6.0 - Unified Authentication Tests
     
     def decode_jwt_token(self, token: str) -> Optional[Dict]:
