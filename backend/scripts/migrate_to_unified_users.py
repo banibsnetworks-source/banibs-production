@@ -303,7 +303,7 @@ class UserMigration:
             print("="*60)
         
         except Exception as e:
-            print(f"\\n❌ MIGRATION FAILED: {e}")
+            print(f"\n❌ MIGRATION FAILED: {e}")
             print("   No changes were made to the database")
             raise
 
