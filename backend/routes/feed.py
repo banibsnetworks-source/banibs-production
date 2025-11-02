@@ -108,7 +108,7 @@ async def fetch_opportunity_items(date_cutoff: Optional[datetime], limit: int) -
 
 async def fetch_resource_items(date_cutoff: Optional[datetime], limit: int) -> List[FeedItem]:
     """Fetch resources for feed"""
-    db = await db_connection()
+    db = await get_db()
     collection = db["banibs_resources"]
     
     query = {}
