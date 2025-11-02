@@ -36,6 +36,13 @@ import EventsPage from "./pages/Events/EventsPage";
 import EventDetailPage from "./pages/Events/EventDetailPage";
 // Phase 6.2.4 - Unified Search
 import SearchPage from "./pages/Search/SearchPage";
+// Stub pages for navigation
+import SocialPage from "./pages/Stubs/SocialPage";
+import BusinessPage from "./pages/Stubs/BusinessPage";
+import InformationPage from "./pages/Stubs/InformationPage";
+import EducationPage from "./pages/Stubs/EducationPage";
+import YouthPage from "./pages/Stubs/YouthPage";
+import OpportunitiesPage from "./pages/Stubs/OpportunitiesPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
