@@ -2084,15 +2084,18 @@ update_log:
 backend:
   - task: "GET /api/resources endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/resources.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Public endpoint to list resources with pagination (default 20, max 100), category filter, search by title/description, featured flag filter. Returns ResourceListResponse with resources array, total, page, pages. Manually tested - returns 20 resources correctly."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/resources working perfectly. Found 21 resources with proper pagination (page 2 has 5 resources). Category filter working (5 Business Support resources). Featured filter working (7 featured resources). Search working (12 resources matching 'business'). Response structure matches ResourceListResponse with resources array, total, page, pages."
 
   - task: "GET /api/resources/{id} endpoint"
     implemented: true
