@@ -148,6 +148,7 @@ async def update_resource_endpoint(
     Update resource (admin/moderator only)
     
     Requires JWT with role: super_admin or moderator
+    Phase 6.3: Re-analyzes sentiment if title/description changed
     """
     # Build update dict (only include provided fields)
     update_dict = resource_data.dict(exclude_unset=True)
@@ -159,6 +160,25 @@ async def update_resource_endpoint(
         update_dict["thumbnail_url"] = str(update_dict["thumbnail_url"])
     if "video_url" in update_dict and update_dict["video_url"]:
         update_dict["video_url"] = str(update_dict["video_url"])
+    
+    # Phase 6.3: Re-analyze sentiment if title or description changed
+    if "title" in update_dict or "description" in update_dict:
+        from services.sentiment_service import analyze_text_sentiment
+        from db.connection import get_db
+        
+        # Get current resource for missing fields
+        db = await get_db()
+        current_resource = await db["banibs_resources"].find_one({"id": resource_id})
+        
+        if current_resource:
+            title = update_dict.get("title", current_resource.get("title", ""))
+            description = update_dict.get("description", current_resource.get("description", ""))
+            text_for_sentiment = f"{title} {description}"
+            
+            sentiment = analyze_text_sentiment(text_for_sentiment)
+            update_dict["sentiment_score"] = sentiment["score"]
+            update_dict["sentiment_label"] = sentiment["label"]
+            update_dict["sentiment_at"] = sentiment["analyzed_at"]
     
     updated = await update_resource(resource_id, update_dict)
     
