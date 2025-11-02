@@ -2159,15 +2159,18 @@ backend:
 
   - task: "GET /api/resources/featured endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/resources.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Public endpoint to get featured resources (limit 10). Returns array of ResourcePublic. Used for Hub tiles and homepage highlights."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/resources?featured=true working correctly. Returns only featured resources (8 found). All returned resources have featured=true. Respects limit of 10 or fewer items. Public endpoint requires no authentication."
 
   - task: "GET /api/events endpoint"
     implemented: true
