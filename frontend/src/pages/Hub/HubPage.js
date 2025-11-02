@@ -100,10 +100,7 @@ const HubPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
           {/* Left Column - Activity Feed (70%) */}
           <div className="lg:col-span-8">
-            <ActivityFeed 
-              news={dashboardData.news}
-              opportunities={dashboardData.opportunities}
-            />
+            <ActivityFeed />
           </div>
           
           {/* Right Column - Quick Destinations (30%) */}
