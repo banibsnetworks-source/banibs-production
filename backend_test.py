@@ -1674,7 +1674,7 @@ class BanibsAPITester:
         response = self.make_request("POST", "/events", {
             "title": "Test Event",
             "description": "Test description",
-            "category": "Business",
+            "category": "Workshop",
             "start_date": "2025-12-01T10:00:00",
             "end_date": "2025-12-01T12:00:00",
             "timezone": "America/New_York",
