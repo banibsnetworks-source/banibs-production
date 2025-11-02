@@ -178,6 +178,10 @@ app.include_router(feed_router)
 from routes.search import router as search_router
 app.include_router(search_router)
 
+# Include sentiment router (Phase 6.3 - Sentiment Analysis)
+from routes.sentiment import router as sentiment_router
+app.include_router(sentiment_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
