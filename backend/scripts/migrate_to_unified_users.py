@@ -207,10 +207,10 @@ class UserMigration:
                 print(f"   ❌ {error_msg}")
     
     async def verify_migration(self):
-        \"\"\"
+        """
         Verify migration integrity
-        \"\"\"
-        print("\\n🔍 Verifying migration...")
+        """
+        print("\n🔍 Verifying migration...")
         
         # Count original records
         users_count = await self.db.users.count_documents({})
