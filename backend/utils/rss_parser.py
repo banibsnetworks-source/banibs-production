@@ -167,6 +167,21 @@ async def fetch_and_store_feed(url: str, category: str, source_name: str, limit:
             summary = clean_html(summary) if summary else f"Read more on {source_name}"
             summary = summary[:500]  # Limit to 500 chars
             
+            # Phase 6.3: Analyze sentiment (fail gracefully if error)
+            sentiment_score = 0.0
+            sentiment_label = "neutral"
+            sentiment_at = None
+            try:
+                from services.sentiment_service import analyze_text_sentiment
+                text_for_sentiment = f"{title} {summary}"
+                sentiment_result = analyze_text_sentiment(text_for_sentiment)
+                sentiment_score = sentiment_result["score"]
+                sentiment_label = sentiment_result["label"]
+                sentiment_at = sentiment_result["analyzed_at"]
+            except Exception as sentiment_error:
+                print(f"Sentiment analysis failed for {title[:50]}: {sentiment_error}")
+                # Continue without sentiment - don't break RSS sync
+            
             # Create news item
             news_item = NewsItemDB(
                 title=title[:200],  # Limit title length
@@ -182,8 +197,14 @@ async def fetch_and_store_feed(url: str, category: str, source_name: str, limit:
                 fingerprint=fingerprint
             )
             
+            # Convert to dict and add sentiment fields
+            news_dict = news_item.dict()
+            news_dict["sentiment_score"] = sentiment_score
+            news_dict["sentiment_label"] = sentiment_label
+            news_dict["sentiment_at"] = sentiment_at
+            
             # Store in database
-            await news_collection.insert_one(news_item.dict())
+            await news_collection.insert_one(news_dict)
             stored_count += 1
         
         return stored_count
