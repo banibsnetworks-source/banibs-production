@@ -213,25 +213,34 @@ async def seed_events():
                 category=event["category"],
                 start_date=event["start_date"],
                 end_date=event["end_date"],
-                timezone_str="America/Chicago",
+                timezone_str="America/New_York",
                 event_type=event["event_type"],
                 organizer_id=admin_id,
                 organizer_name=admin_name,
                 organizer_email=event["organizer_email"],
                 location_name=event.get("location_name"),
                 location_address=event.get("location_address"),
+                location_url=event.get("location_url"),
                 virtual_url=event.get("virtual_url"),
                 rsvp_limit=event.get("rsvp_limit"),
                 tags=event.get("tags", []),
                 featured=event.get("featured", False)
             )
             created_count += 1
-            status = "UPCOMING" if event["start_date"] > now else "PAST" if event["end_date"] < now else "ONGOING"
-            print(f"   ✅ [{status}] {event['category']}: {event['title']}")
+            status = "🔥 FEATURED" if event.get("featured") else "  "
+            event_type_icon = "🌐" if event["event_type"] == "Virtual" else "📍" if event["event_type"] == "In-Person" else "🔀"
+            is_past = "⏰ PAST" if event["end_date"] < now else ""
+            print(f"   {status} {event_type_icon} {is_past} {event['category']}: {event['title']}")
         except Exception as e:
             print(f"   ❌ Failed: {event['title']} - {e}")
     
     print(f"\n✅ Created {created_count}/{len(events_data)} events")
+    print("\n📊 Event Breakdown:")
+    print(f"   🌐 Virtual: {sum(1 for e in events_data if e['event_type'] == 'Virtual')}")
+    print(f"   📍 In-Person: {sum(1 for e in events_data if e['event_type'] == 'In-Person')}")
+    print(f"   🔀 Hybrid: {sum(1 for e in events_data if e['event_type'] == 'Hybrid')}")
+    print(f"   🔥 Featured: {sum(1 for e in events_data if e.get('featured'))}")
+    print(f"   ⏰ Past: 1 (Juneteenth Festival - for filter testing)")
     print("=" * 60)
 
 
