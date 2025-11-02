@@ -148,8 +148,8 @@ class UserMigration:
         - All contributors → roles: ['user', 'contributor']
         - Preserve: email, password, name, organization, created_at
         - Store organization in metadata
-        \"\"\"
-        print("\\n🔄 Migrating contributors table...")
+        """
+        print("\n🔄 Migrating contributors table...")
         
         # Get all contributors
         contributors = await self.db.contributors.find({}).to_list(length=None)
