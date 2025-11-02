@@ -1454,7 +1454,7 @@ class BanibsAPITester:
         """Test refresh with invalid token"""
         self.log("Testing invalid refresh token...")
         
-        response = self.make_request("POST", "/auth/refresh", params={
+        response = self.make_request("POST", "/auth/refresh", {
             "refresh_token": "invalid.token.here"
         })
         
