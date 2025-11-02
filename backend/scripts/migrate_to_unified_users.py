@@ -236,10 +236,10 @@ class UserMigration:
             print("   🔄 [DRY RUN] Verification skipped")
     
     async def generate_report(self):
-        \"\"\"
+        """
         Generate and save migration report
-        \"\"\"
-        print("\\n📊 Migration Report:")
+        """
+        print("\n📊 Migration Report:")
         print(f"   Timestamp: {self.migration_report['timestamp']}")
         print(f"   Mode: {'DRY RUN' if self.dry_run else 'LIVE MIGRATION'}")
         print(f"   Users migrated: {self.migration_report['users_migrated']}")
