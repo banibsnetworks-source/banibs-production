@@ -162,6 +162,14 @@ app.include_router(notifications_router)
 from routes.messages import router as messages_router
 app.include_router(messages_router)
 
+# Include resources router (Phase 6.2.3 - Resources Module)
+from routes.resources import router as resources_router
+app.include_router(resources_router)
+
+# Include events router (Phase 6.2.3 - Events Module)
+from routes.events import router as events_router
+app.include_router(events_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
