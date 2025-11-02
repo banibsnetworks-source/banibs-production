@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-BANIBS Backend API Test Suite - News Feed + Phase 5
-Tests News Aggregation Feed and Phase 5 features (Abuse/Safety Controls, Opportunity Detail, Admin Revenue Overview)
+BANIBS Backend API Test Suite - Phase 6.0 Unified Authentication
+Tests all 9 unified authentication endpoints with JWT_SECRET configuration
 """
 
 import requests
@@ -9,6 +9,8 @@ import json
 import sys
 import time
 import hashlib
+import jwt
+import base64
 from datetime import datetime
 from typing import Optional, Dict, Any
 
