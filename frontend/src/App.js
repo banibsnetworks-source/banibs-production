@@ -114,6 +114,8 @@ function App() {
               <Route path="/resources/:id" element={<ResourceDetailPage />} />
               <Route path="/events" element={<EventsPage />} />
               <Route path="/events/:id" element={<EventDetailPage />} />
+              {/* Phase 6.2.4 - Unified Search */}
+              <Route path="/search" element={<SearchPage />} />
               
               {/* Public Routes */}
               <Route path="/opportunities" element={<PublicOpportunities />} />
