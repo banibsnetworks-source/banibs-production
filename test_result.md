@@ -546,6 +546,18 @@ frontend:
         agent: "main"
         comment: "✅ VERIFIED: NewsFeed successfully integrated into HomePage. Screenshot confirms component is rendering in correct position with proper styling. All existing homepage elements (nav, category nav, featured story, community highlights, CTA) remain intact and working."
 
+  - task: "Phase 6.2.4 Frontend E2E Testing"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/HomePage.js, frontend/src/pages/Hub/HubPage.js, frontend/src/pages/Search/SearchPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Starting comprehensive E2E testing for Phase 6.2.4. Testing flow: Homepage → Hub → Search → Stub Pages. Will verify Featured Story shows images, Latest Stories section shows news cards, BANIBS Network dropdown functionality, filter bar operations, search functionality, and stub page navigation."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
