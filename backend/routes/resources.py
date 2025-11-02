@@ -90,7 +90,7 @@ async def get_resource(resource_id: str):
 @router.post("", response_model=ResourcePublic, status_code=201)
 async def create_resource_endpoint(
     resource_data: ResourceCreate,
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     Create new resource (admin/moderator only)
