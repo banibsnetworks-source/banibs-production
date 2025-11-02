@@ -1550,6 +1550,341 @@ class BanibsAPITester:
         else:
             self.log(f"❌ Featured resources failed: {response.status_code} - {response.text}", "ERROR")
             return False
+    
+    def test_events_list_public(self) -> bool:
+        """Test GET /api/events - List events (PUBLIC)"""
+        self.log("Testing GET /api/events (public endpoint)...")
+        
+        # Test basic list
+        response = self.make_request("GET", "/events")
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["events", "total", "page", "pages"]
+            
+            if all(field in data for field in required_fields):
+                events = data["events"]
+                total = data["total"]
+                self.log(f"✅ Events list working - Found {total} events, {len(events)} on page 1")
+                
+                # Test pagination
+                if total > 0:
+                    response_page2 = self.make_request("GET", "/events", params={"limit": 5, "skip": 5})
+                    if response_page2.status_code == 200:
+                        page2_data = response_page2.json()
+                        self.log(f"✅ Pagination working - Page 2 has {len(page2_data['events'])} events")
+                    
+                    # Test category filter
+                    response_category = self.make_request("GET", "/events", params={"category": "Business"})
+                    if response_category.status_code == 200:
+                        cat_data = response_category.json()
+                        self.log(f"✅ Category filter working - Found {cat_data['total']} Business events")
+                    
+                    # Test event_type filter
+                    response_type = self.make_request("GET", "/events", params={"event_type": "Virtual"})
+                    if response_type.status_code == 200:
+                        type_data = response_type.json()
+                        self.log(f"✅ Event type filter working - Found {type_data['total']} Virtual events")
+                    
+                    # Test status filter (upcoming vs completed)
+                    response_upcoming = self.make_request("GET", "/events", params={"status": "upcoming"})
+                    if response_upcoming.status_code == 200:
+                        upcoming_data = response_upcoming.json()
+                        self.log(f"✅ Status filter working - Found {upcoming_data['total']} upcoming events")
+                    
+                    response_completed = self.make_request("GET", "/events", params={"status": "completed"})
+                    if response_completed.status_code == 200:
+                        completed_data = response_completed.json()
+                        self.log(f"✅ Status filter working - Found {completed_data['total']} completed events")
+                        
+                        # Verify Juneteenth event is in completed
+                        juneteenth_events = [e for e in completed_data["events"] if "Juneteenth" in e.get("title", "")]
+                        if juneteenth_events:
+                            self.log("✅ Juneteenth event correctly shows as completed")
+                    
+                    # Test featured filter
+                    response_featured = self.make_request("GET", "/events", params={"featured": "true"})
+                    if response_featured.status_code == 200:
+                        feat_data = response_featured.json()
+                        self.log(f"✅ Featured filter working - Found {feat_data['total']} featured events")
+                
+                return True
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Events list response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Events list failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_events_get_single(self) -> bool:
+        """Test GET /api/events/{id} - Get single event (PUBLIC)"""
+        self.log("Testing GET /api/events/{id} (public endpoint)...")
+        
+        # First get an event ID from the list
+        list_response = self.make_request("GET", "/events", params={"limit": 1})
+        if list_response.status_code != 200:
+            self.log("❌ Could not get event list for single event test", "ERROR")
+            return False
+        
+        list_data = list_response.json()
+        if not list_data.get("events"):
+            self.log("⚠️ No events available for single event test")
+            return True
+        
+        event_id = list_data["events"][0]["id"]
+        
+        # Test valid event ID
+        response = self.make_request("GET", f"/events/{event_id}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["id", "title", "description", "category", "start_date", "end_date", "status", "rsvp_count", "rsvp_users"]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ Single event working - Title: {data['title']}, Status: {data['status']}")
+                self.log(f"   RSVP Count: {data['rsvp_count']}, RSVP Users: {len(data['rsvp_users'])}")
+                return True
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Single event response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Single event failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_events_get_invalid_id(self) -> bool:
+        """Test GET /api/events/{id} with invalid ID"""
+        self.log("Testing GET /api/events/{id} with invalid ID...")
+        
+        response = self.make_request("GET", "/events/invalid-event-id")
+        
+        if response.status_code == 404:
+            self.log("✅ Invalid event ID correctly returns 404")
+            return True
+        else:
+            self.log(f"❌ Invalid event ID should return 404, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_events_create_admin_only(self) -> bool:
+        """Test POST /api/events - Create event (ADMIN ONLY)"""
+        self.log("Testing POST /api/events (admin only)...")
+        
+        # Test without auth - should return 401
+        response = self.make_request("POST", "/events", {
+            "title": "Test Event",
+            "description": "Test description",
+            "category": "Business",
+            "start_date": "2025-12-01T10:00:00",
+            "end_date": "2025-12-01T12:00:00",
+            "timezone": "America/New_York",
+            "event_type": "Virtual"
+        })
+        
+        if response.status_code != 401:
+            self.log(f"❌ Create event without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test with admin token
+        if not self.admin_token:
+            self.log("❌ No admin token available for event creation test", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("POST", "/events", {
+            "title": "Test Admin Event",
+            "description": "Test event created by admin",
+            "category": "Business",
+            "start_date": "2025-12-01T10:00:00",
+            "end_date": "2025-12-01T12:00:00",
+            "timezone": "America/New_York",
+            "event_type": "Virtual",
+            "organizer_email": "admin@banibs.com",
+            "location_name": "Virtual Meeting",
+            "rsvp_limit": 50,
+            "featured": True,
+            "tags": ["test", "admin"]
+        }, headers=headers)
+        
+        if response.status_code == 201:
+            data = response.json()
+            if "id" in data and data["title"] == "Test Admin Event":
+                self.log(f"✅ Event created successfully - ID: {data['id']}")
+                return True
+            else:
+                self.log(f"❌ Event creation response invalid: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Event creation failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_events_update_admin_only(self) -> bool:
+        """Test PATCH /api/events/{id} - Update event (ADMIN ONLY)"""
+        self.log("Testing PATCH /api/events/{id} (admin only)...")
+        
+        # First get an event to update
+        list_response = self.make_request("GET", "/events", params={"limit": 1})
+        if list_response.status_code != 200 or not list_response.json().get("events"):
+            self.log("⚠️ No events available for update test")
+            return True
+        
+        event_id = list_response.json()["events"][0]["id"]
+        
+        # Test without auth - should return 401
+        response = self.make_request("PATCH", f"/events/{event_id}", {
+            "title": "Updated Title"
+        })
+        
+        if response.status_code != 401:
+            self.log(f"❌ Update event without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test with admin token
+        if not self.admin_token:
+            self.log("❌ No admin token available for event update test", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("PATCH", f"/events/{event_id}", {
+            "title": "Updated Event Title",
+            "featured": True
+        }, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data["title"] == "Updated Event Title":
+                self.log("✅ Event updated successfully")
+                return True
+            else:
+                self.log(f"❌ Event update did not apply: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Event update failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_events_rsvp_authenticated(self) -> bool:
+        """Test POST /api/events/{id}/rsvp - RSVP to event (AUTHENTICATED USER)"""
+        self.log("Testing POST /api/events/{id}/rsvp (authenticated user)...")
+        
+        # Get a regular user token (test@example.com)
+        login_response = self.make_request("POST", "/auth/login", {
+            "email": "test@example.com",
+            "password": "test123"
+        })
+        
+        if login_response.status_code != 200:
+            self.log("❌ Could not login regular user for RSVP test", "ERROR")
+            return False
+        
+        user_token = login_response.json()["access_token"]
+        
+        # Get an upcoming event to RSVP to
+        events_response = self.make_request("GET", "/events", params={"status": "upcoming", "limit": 1})
+        if events_response.status_code != 200 or not events_response.json().get("events"):
+            self.log("⚠️ No upcoming events available for RSVP test")
+            return True
+        
+        event_id = events_response.json()["events"][0]["id"]
+        original_rsvp_count = events_response.json()["events"][0]["rsvp_count"]
+        
+        # Test without auth - should return 401
+        response = self.make_request("POST", f"/events/{event_id}/rsvp")
+        
+        if response.status_code != 401:
+            self.log(f"❌ RSVP without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test with user token
+        headers = {"Authorization": f"Bearer {user_token}"}
+        response = self.make_request("POST", f"/events/{event_id}/rsvp", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["rsvp_status", "event_id", "user_id", "rsvp_count"]
+            
+            if all(field in data for field in required_fields):
+                if data["rsvp_status"] == "confirmed" and data["rsvp_count"] >= original_rsvp_count:
+                    self.log(f"✅ RSVP successful - Status: {data['rsvp_status']}, Count: {data['rsvp_count']}")
+                    
+                    # Test duplicate RSVP (should handle gracefully)
+                    response2 = self.make_request("POST", f"/events/{event_id}/rsvp", headers=headers)
+                    if response2.status_code == 200:
+                        self.log("✅ Duplicate RSVP handled gracefully")
+                    
+                    return True
+                else:
+                    self.log(f"❌ RSVP response invalid: {data}", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ RSVP response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ RSVP failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_events_cancel_rsvp_authenticated(self) -> bool:
+        """Test DELETE /api/events/{id}/rsvp - Cancel RSVP (AUTHENTICATED USER)"""
+        self.log("Testing DELETE /api/events/{id}/rsvp (authenticated user)...")
+        
+        # Get a regular user token (test@example.com)
+        login_response = self.make_request("POST", "/auth/login", {
+            "email": "test@example.com",
+            "password": "test123"
+        })
+        
+        if login_response.status_code != 200:
+            self.log("❌ Could not login regular user for cancel RSVP test", "ERROR")
+            return False
+        
+        user_token = login_response.json()["access_token"]
+        
+        # Get an upcoming event
+        events_response = self.make_request("GET", "/events", params={"status": "upcoming", "limit": 1})
+        if events_response.status_code != 200 or not events_response.json().get("events"):
+            self.log("⚠️ No upcoming events available for cancel RSVP test")
+            return True
+        
+        event_id = events_response.json()["events"][0]["id"]
+        
+        # First RSVP to the event
+        headers = {"Authorization": f"Bearer {user_token}"}
+        rsvp_response = self.make_request("POST", f"/events/{event_id}/rsvp", headers=headers)
+        
+        if rsvp_response.status_code != 200:
+            self.log("❌ Could not RSVP to event for cancel test", "ERROR")
+            return False
+        
+        original_rsvp_count = rsvp_response.json()["rsvp_count"]
+        
+        # Test without auth - should return 401
+        response = self.make_request("DELETE", f"/events/{event_id}/rsvp")
+        
+        if response.status_code != 401:
+            self.log(f"❌ Cancel RSVP without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test cancel RSVP with user token
+        response = self.make_request("DELETE", f"/events/{event_id}/rsvp", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["rsvp_status", "event_id", "user_id", "rsvp_count"]
+            
+            if all(field in data for field in required_fields):
+                if data["rsvp_status"] == "cancelled" and data["rsvp_count"] < original_rsvp_count:
+                    self.log(f"✅ Cancel RSVP successful - Status: {data['rsvp_status']}, Count: {data['rsvp_count']}")
+                    return True
+                else:
+                    self.log(f"❌ Cancel RSVP response invalid: {data}", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Cancel RSVP response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Cancel RSVP failed: {response.status_code} - {response.text}", "ERROR")
+            return False
 
     # Phase 6.0 - Unified Authentication Tests
     
