@@ -159,6 +159,11 @@ uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=str(uploads_dir)), name="uploads")
 
+# Mount static files for fallback images and assets
+static_dir = Path("/app/backend/static")
+static_dir.mkdir(exist_ok=True)
+app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
+
 from fastapi.responses import FileResponse
 import mimetypes
 from pathlib import Path
