@@ -336,6 +336,9 @@ async def get_news_by_category(category_slug: str, region: Optional[str] = Query
         GET /api/news/category/world-news?region=Europe -> European coverage
         GET /api/news/category/business -> All business articles
     """
+    # Fallback image URL for items without images
+    FALLBACK_IMAGE = "/static/img/fallbacks/news_default.jpg"
+    
     # Convert slug to category name (world-news -> World News)
     category = category_slug.replace("-", " ").title()
     
@@ -365,6 +368,10 @@ async def get_news_by_category(category_slug: str, region: Optional[str] = Query
         if dedupe_key in seen_keys:
             continue
         seen_keys.add(dedupe_key)
+        
+        # Ensure every item has an imageUrl (use fallback if missing)
+        if not item.get('imageUrl'):
+            item['imageUrl'] = FALLBACK_IMAGE
         
         # Convert datetime to ISO string if needed
         if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
