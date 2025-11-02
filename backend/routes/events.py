@@ -137,7 +137,7 @@ async def create_event_endpoint(
 async def update_event_endpoint(
     event_id: str,
     event_data: EventUpdate,
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     Update event (admin/moderator only)
