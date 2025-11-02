@@ -2144,15 +2144,18 @@ backend:
 
   - task: "DELETE /api/resources/{id} endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/resources.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Admin-only endpoint to delete resource. Requires JWT auth and admin role. Returns success message on deletion."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: DELETE /api/resources/{id} working correctly. Authentication verified: returns 401 without auth token. Admin JWT authentication working - successfully deletes resources. Returns {deleted: true} on success. Deleted resource becomes inaccessible (404) confirming proper deletion."
 
   - task: "GET /api/resources/featured endpoint"
     implemented: true
