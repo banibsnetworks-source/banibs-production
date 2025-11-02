@@ -27,6 +27,8 @@ import HubPage from "./pages/Hub/HubPage";
 // Phase 6.0 - Unified Auth Pages
 import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
+// Phase 6.2.1 - Notifications
+import NotificationsPage from "./pages/Notifications/NotificationsPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
