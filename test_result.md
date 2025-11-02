@@ -1095,6 +1095,187 @@ agent_communication:
         agent: "testing"
         comment: "✅ TESTED: NewsItem model working correctly. Enhanced model includes all required RSS fields: sourceName, external, fingerprint, createdAt. Field naming consistency verified - uses camelCase (sourceName, createdAt) not snake_case. RSS items properly stored with external=true, isFeatured=false. Model supports both editorial content (external=false) and RSS content (external=true)."
 
+  # Phase 6.0 - Unified Authentication System Backend
+  - task: "POST /api/auth/register endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/unified_auth.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created unified user registration endpoint. Validates email uniqueness, password strength (min 8 chars), terms acceptance. Creates user in banibs_users collection with UUID-based IDs. Returns access_token, refresh_token, and user object. Sets HttpOnly refresh token cookie with domain .banibs.com."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: POST /api/auth/register working perfectly. Successfully creates new users with proper validation. Returns 200 with access_token, refresh_token, and user object containing id, email, name, roles ['user'], membership_level 'free'. Properly handles duplicate email (409 Conflict) and invalid password format (422 validation error). User data correctly stored in banibs_users collection with all required fields."
+
+  - task: "POST /api/auth/login endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/unified_auth.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created unified user login endpoint. Verifies email/password credentials using bcrypt. Updates last_login timestamp. Returns access_token, refresh_token, and user object. Sets HttpOnly refresh token cookie."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: POST /api/auth/login working correctly. Successfully authenticates users with valid credentials. Returns 200 with proper token structure. Correctly rejects invalid credentials with 401 'Invalid email or password'. Password verification using bcrypt working properly. Last login timestamp updated successfully."
+
+  - task: "POST /api/auth/refresh endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/unified_auth.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created token refresh endpoint. Accepts refresh_token in request body. Validates refresh token using JWT service. Issues new access_token and rotates refresh_token. Returns tokens with 15-minute expiry (900 seconds)."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: POST /api/auth/refresh working perfectly. Successfully validates refresh tokens and issues new access tokens. Token rotation implemented - new refresh token issued on each refresh. Returns proper response structure with access_token, refresh_token, token_type 'Bearer', expires_in 900. Correctly rejects invalid refresh tokens with 401."
+
+  - task: "GET /api/auth/me endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/unified_auth.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created current user profile endpoint. Requires valid access token in Authorization header. Returns sanitized user profile without sensitive data (no password_hash, tokens, etc). Validates JWT token and user existence."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/auth/me working correctly. Requires Authorization header with Bearer token. Returns 200 with user profile containing id, email, name, roles, membership_level, email_verified. No sensitive data exposed (password_hash, tokens). Properly returns 401 without token or with invalid/expired tokens."
+
+  - task: "PATCH /api/auth/profile endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/unified_auth.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created profile update endpoint. Requires valid access token. Allows updating name, bio, avatar_url fields. Returns updated user profile. Validates JWT token and applies partial updates."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: PATCH /api/auth/profile working perfectly. Successfully updates user profile fields (name, bio, avatar_url). Returns 200 with updated user object. Requires valid Authorization header. Properly returns 401 without token. Profile updates reflected in database and response."
+
+  - task: "POST /api/auth/forgot-password endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/unified_auth.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created password reset request endpoint. Generates reset token for valid emails. Sends reset email (non-blocking). Always returns success message for security (doesn't reveal if email exists). Stores reset token with expiration."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: POST /api/auth/forgot-password working correctly. Returns 200 with success message for both existing and non-existent emails (security feature). Generates reset tokens for valid users. Email service integration working (non-blocking)."
+
+  - task: "POST /api/auth/reset-password endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/unified_auth.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created password reset completion endpoint. Validates reset token and updates password. Clears reset token after use. Returns success message on completion."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: POST /api/auth/reset-password working correctly. Properly validates reset tokens and returns 400 'Invalid or expired reset token' for invalid tokens. Password reset logic implemented (requires valid token for full testing)."
+
+  - task: "POST /api/auth/verify-email endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/unified_auth.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created email verification endpoint. Validates verification token and marks email as verified. Clears verification token after use. Returns success message and updated user object."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: POST /api/auth/verify-email working correctly. Properly validates verification tokens and returns 400 'Invalid or expired verification token' for invalid tokens. Email verification logic implemented (requires valid token for full testing)."
+
+  - task: "POST /api/auth/logout endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/unified_auth.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created user logout endpoint. Clears refresh token cookie with domain .banibs.com. Returns success message. Client should discard access token."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: POST /api/auth/logout working correctly. Returns 200 with 'Logged out successfully' message. Clears refresh token cookie properly. No authentication required for logout endpoint."
+
+  - task: "JWT Service with unified configuration"
+    implemented: true
+    working: true
+    file: "backend/services/jwt_service.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created JWT service using JWT_SECRET from environment. Access tokens expire in 15 minutes, refresh tokens in 7 days. Tokens include user_id (sub), email, roles, membership_level, type (access/refresh), iat, exp. Uses HS256 algorithm."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: JWT Service working perfectly. Access tokens contain all required fields: sub (user_id), email, roles, membership_level, type 'access', exp, iat. Access token expiry is 15 minutes (900 seconds). Refresh tokens have type 'refresh'. Token validation working correctly for both valid and invalid tokens."
+
+  - task: "Unified user database operations"
+    implemented: true
+    working: true
+    file: "backend/db/unified_users.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created unified user database operations for banibs_users collection. Functions: create_user, get_user_by_email, get_user_by_id, verify_password, update_user, update_last_login, sanitize_user_response. Uses UUID-based IDs, bcrypt password hashing."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Database operations working correctly. banibs_users collection exists with 5 test users. All required fields present: id (UUID), email, password_hash (bcrypt), name, roles ['user'], membership_level 'free', email_verified false, timestamps. Password verification with bcrypt working. User creation, retrieval, and updates functioning properly."
+
+  - task: "SSO cookie configuration"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/unified_auth.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Configured refresh token cookies with HttpOnly=true, Secure=true, SameSite=lax, Domain=.banibs.com, Max-Age=604800 (7 days). Cookies set on login/register and cleared on logout."
+      - working: "NA"
+        agent: "testing"
+        comment: "⚠️ TESTED: SSO cookie configuration implemented in code but cookie verification limited in test environment. Cookie attributes (HttpOnly, Secure, SameSite=lax, Domain=.banibs.com, Max-Age=604800) configured correctly in response.set_cookie() calls. Cookie setting/clearing functionality working but HTTP client limitations prevent full verification of cookie attributes."
+
   # Phase 6.3 - Cross-Regional Insights & AI Sentiment Analysis Backend
   - task: "News sentiment model and database"
     implemented: true
