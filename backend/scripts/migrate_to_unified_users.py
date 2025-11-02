@@ -264,7 +264,7 @@ class UserMigration:
         with open(report_filename, 'w') as f:
             json.dump(self.migration_report, f, indent=2)
         
-        print(f"\\n📄 Report saved to: {report_filename}")
+        print(f"\n📄 Report saved to: {report_filename}")
     
     async def run(self):
         """
