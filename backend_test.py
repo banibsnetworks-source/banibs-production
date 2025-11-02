@@ -2285,58 +2285,36 @@ class BanibsAPITester:
         
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
-        self.log("Starting BANIBS Backend API Test Suite - Phase 6.3 Cross-Regional Insights & AI Sentiment Analysis")
+        self.log("Starting BANIBS Backend API Test Suite - Phase 6.0 Unified Authentication")
         self.log(f"Testing against: {API_BASE}")
+        self.log("Testing all 9 unified authentication endpoints with JWT_SECRET configuration")
         
         tests = [
-            # RSS Aggregation System Tests (Priority - Current Focus)
-            ("RSS Sync Manual Trigger", self.test_rss_sync_manual_trigger),
-            ("RSS Fingerprint Deduplication", self.test_rss_fingerprint_deduplication),
-            ("RSS Content in News Latest", self.test_rss_content_in_news_latest),
-            ("RSS Sources Coverage", self.test_rss_sources_coverage),
-            ("RSS Field Naming Consistency", self.test_rss_field_naming_consistency),
-            ("APScheduler Status", self.test_apscheduler_status),
+            # Phase 6.0 - Unified Authentication Tests (Core Flow)
+            ("1. POST /api/auth/register", self.test_unified_register),
+            ("2. POST /api/auth/login", self.test_unified_login),
+            ("3. POST /api/auth/refresh", self.test_refresh_token),
+            ("4. GET /api/auth/me", self.test_get_current_user),
+            ("5. PATCH /api/auth/profile", self.test_update_profile),
+            ("6. POST /api/auth/forgot-password", self.test_forgot_password),
+            ("7. POST /api/auth/reset-password (invalid token)", self.test_reset_password_invalid_token),
+            ("8. POST /api/auth/verify-email (invalid token)", self.test_verify_email_invalid_token),
+            ("9. POST /api/auth/logout", self.test_logout),
             
-            # News Aggregation Feed Tests
-            ("News Latest Endpoint", self.test_news_latest_endpoint),
-            ("News Public Access", self.test_news_endpoint_public_access),
-            ("News Response Shape", self.test_news_response_shape),
+            # JWT Token Validation Tests
+            ("JWT Token Structure", self.test_jwt_token_structure),
+            ("SSO Cookie Verification", self.test_sso_cookie_verification),
             
-            # Authentication and basic setup
-            ("Admin Login", self.test_admin_login),
-            ("Contributor Register", self.test_contributor_register),
-            ("Contributor Login", self.test_contributor_login),
-            ("Submit Opportunity", self.test_submit_opportunity),
-            ("Approve Test Opportunity", self.approve_test_opportunity),
-            
-            # Phase 5.4 - Opportunity Detail Endpoint Tests
-            ("Opportunity Detail Public", self.test_opportunity_detail_public),
-            ("Opportunity Detail Invalid ID", self.test_opportunity_detail_invalid_id),
-            ("Opportunity Detail Pending", self.test_opportunity_detail_pending),
-            
-            # Phase 5.5 - Admin Revenue Overview Tests
-            ("Revenue Overview Auth", self.test_revenue_overview_auth),
-            ("Revenue Overview Data", self.test_revenue_overview_data),
-            
-            # Phase 6.3 - Cross-Regional Insights & AI Sentiment Analysis Tests
-            ("Regional Insights Public", self.test_regional_insights_public),
-            ("Regional Insights Public Filtered", self.test_regional_insights_public_filtered),
-            ("Regional Insights Admin", self.test_regional_insights_admin),
-            ("Regional Insights Generate", self.test_regional_insights_generate),
-            ("Sentiment Analysis RBAC", self.test_sentiment_analysis_rbac),
-            
-            # Phase 5.3 - Abuse/Safety Controls Tests
-            ("Admin Ban Endpoints Auth", self.test_admin_ban_endpoints_auth),
-            ("Admin Ban Source", self.test_admin_ban_source),
-            ("Get Banned Sources", self.test_get_banned_sources),
-            ("Ban Enforcement", self.test_ban_enforcement),
-            ("Rate Limiting Comment", self.test_rate_limiting_comment),
-            ("Rate Limiting Reaction", self.test_rate_limiting_reaction),
-            ("Rate Limiting Newsletter", self.test_rate_limiting_newsletter),
-            ("Unban Source", self.test_unban_source),
-            
-            # Basic validation
-            ("JWT Validation", self.test_jwt_validation),
+            # Error Handling Tests
+            ("Invalid Login Credentials", self.test_invalid_login),
+            ("Invalid Refresh Token", self.test_invalid_refresh_token),
+            ("Get User Without Token", self.test_get_user_without_token),
+            ("Expired Token Handling", self.test_expired_token),
+            ("Update Profile Without Token", self.test_update_profile_without_token),
+            ("Duplicate Email Registration", self.test_duplicate_email_registration),
+            ("Invalid Password Format", self.test_invalid_password_format),
+            ("Missing Authorization Header", self.test_missing_authorization_header),
+            ("Invalid Token Format", self.test_invalid_token_format),
         ]
         
         passed = 0
