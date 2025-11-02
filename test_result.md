@@ -2114,15 +2114,18 @@ backend:
 
   - task: "POST /api/resources endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/resources.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Admin-only endpoint to create new resource. Requires JWT authentication and admin role. Accepts ResourceCreate schema with title, description, category, type, content/external_url, tags, featured. Returns created ResourcePublic."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: POST /api/resources working correctly. Authentication verified: returns 401 without auth token. Admin JWT authentication working - successfully creates resources with proper data validation. Returns 201 status with created resource including generated ID. Fixed require_role usage from list to individual arguments."
 
   - task: "PATCH /api/resources/{id} endpoint"
     implemented: true
