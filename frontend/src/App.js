@@ -100,6 +100,8 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               {/* Phase 6.1 - Hub v1 Dashboard (Auth Required) */}
               <Route path="/hub" element={<HubPage />} />
+              {/* Phase 6.2.1 - Notifications (Auth Required) */}
+              <Route path="/notifications" element={<NotificationsPage />} />
               
               {/* Public Routes */}
               <Route path="/opportunities" element={<PublicOpportunities />} />
