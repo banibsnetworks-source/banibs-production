@@ -489,7 +489,7 @@ if (response.status === 401) {
 - **Length Limits**: Message content max 5000 characters (Pydantic validation)
 - **Query Parameter Validation**: FastAPI validates limit/skip ranges
 
-### 4.4 Privacy
+### 4.5 Privacy
 - **Self-Messaging Blocked**: Cannot start conversation with yourself (400 error)
 - **User Existence Check**: Validates recipient exists before creating conversation
 - **No Message Enumeration**: Cannot access messages without conversation membership
