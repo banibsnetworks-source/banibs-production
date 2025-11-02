@@ -461,7 +461,25 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 - **Token Validation**: Tokens are verified using `JWTService.verify_token()`
 - **User Context**: User ID extracted from token payload (`current_user["id"]`)
 
-### 4.2 Authorization
+### 4.2 Auth & Expired Token Behavior
+- **Expired Token**: All messaging endpoints return `401 Unauthorized` when JWT token expires (15-minute lifespan)
+- **Frontend Redirect**: On 401 response, frontend should redirect to `/login?return=/messages` or `/login?return=/hub`
+  - Preserves user context: After re-authentication, user lands back in the messaging interface
+  - Example: User viewing `/messages/conv-123` → token expires → redirect to `/login?return=/messages/conv-123`
+- **Token Refresh**: Frontend can attempt to refresh token using `/api/auth/refresh` before redirecting to login
+- **Graceful UX**: Display "Session expired, please login again" message before redirect
+
+**Implementation Example** (Frontend):
+```javascript
+// In API error handler
+if (response.status === 401) {
+  const returnUrl = window.location.pathname;
+  localStorage.removeItem('accessToken');
+  navigate(`/login?return=${encodeURIComponent(returnUrl)}`);
+}
+```
+
+### 4.3 Authorization
 - **Participant Validation**: Users can only access conversations they're part of
 - **Automatic Filtering**: DB queries filter by `participants` array
 - **404 on Unauthorized**: Returns "Not found" instead of "Forbidden" to prevent conversation enumeration
