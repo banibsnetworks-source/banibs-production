@@ -1269,6 +1269,620 @@ class BanibsAPITester:
             self.log(f"❌ Could not check scheduler status: {e}", "ERROR")
             return False
 
+    # Phase 6.0 - Unified Authentication Tests
+    
+    def decode_jwt_token(self, token: str) -> Optional[Dict]:
+        """Decode JWT token without verification for testing"""
+        try:
+            # Split token and decode payload
+            parts = token.split('.')
+            if len(parts) != 3:
+                return None
+            
+            # Add padding if needed
+            payload = parts[1]
+            payload += '=' * (4 - len(payload) % 4)
+            
+            # Decode base64
+            decoded = base64.urlsafe_b64decode(payload)
+            return json.loads(decoded)
+        except Exception as e:
+            self.log(f"Failed to decode JWT: {e}", "ERROR")
+            return None
+    
+    def test_unified_register(self) -> bool:
+        """Test POST /api/auth/register"""
+        self.log("Testing unified user registration...")
+        
+        # Generate unique email
+        timestamp = int(time.time())
+        self.test_user_email = f"phase6test{timestamp}@example.com"
+        
+        response = self.make_request("POST", "/auth/register", {
+            "email": self.test_user_email,
+            "password": "TestPass123!",
+            "name": "Phase 6 Test User",
+            "accepted_terms": True
+        })
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["access_token", "refresh_token", "user"]
+            
+            if all(field in data for field in required_fields):
+                self.unified_access_token = data["access_token"]
+                self.unified_refresh_token = data["refresh_token"]
+                
+                # Verify user object structure
+                user = data["user"]
+                user_fields = ["id", "email", "name", "roles", "membership_level", "email_verified"]
+                
+                if all(field in user for field in user_fields):
+                    self.test_user_id = user["id"]
+                    self.log(f"✅ Registration successful - User ID: {self.test_user_id}")
+                    self.log(f"   Email: {user['email']}, Name: {user['name']}")
+                    self.log(f"   Roles: {user['roles']}, Membership: {user['membership_level']}")
+                    
+                    # Verify refresh token cookie is set
+                    cookies = response.cookies
+                    if 'refresh_token' in cookies:
+                        cookie = cookies['refresh_token']
+                        self.log(f"✅ Refresh token cookie set with domain: {cookie.get('domain', 'not set')}")
+                    else:
+                        self.log("⚠️ Refresh token cookie not found in response")
+                    
+                    return True
+                else:
+                    missing_fields = [field for field in user_fields if field not in user]
+                    self.log(f"❌ User object missing fields: {missing_fields}", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Registration response missing fields: {missing_fields}", "ERROR")
+                return False
+        elif response.status_code == 409:
+            self.log("User already exists, will test login instead")
+            return True
+        else:
+            self.log(f"❌ Registration failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_unified_login(self) -> bool:
+        """Test POST /api/auth/login"""
+        self.log("Testing unified user login...")
+        
+        if not self.test_user_email:
+            self.log("❌ No test user email available", "ERROR")
+            return False
+        
+        response = self.make_request("POST", "/auth/login", {
+            "email": self.test_user_email,
+            "password": "TestPass123!"
+        })
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["access_token", "refresh_token", "user"]
+            
+            if all(field in data for field in required_fields):
+                self.unified_access_token = data["access_token"]
+                self.unified_refresh_token = data["refresh_token"]
+                
+                user = data["user"]
+                self.log(f"✅ Login successful - User: {user['name']}")
+                self.log(f"   Last login should be updated")
+                
+                # Verify refresh token cookie
+                cookies = response.cookies
+                if 'refresh_token' in cookies:
+                    self.log("✅ Refresh token cookie set on login")
+                
+                return True
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Login response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Login failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_invalid_login(self) -> bool:
+        """Test login with invalid credentials"""
+        self.log("Testing invalid login credentials...")
+        
+        response = self.make_request("POST", "/auth/login", {
+            "email": "nonexistent@example.com",
+            "password": "wrongpassword"
+        })
+        
+        if response.status_code == 401:
+            data = response.json()
+            if "Invalid email or password" in data.get("detail", ""):
+                self.log("✅ Invalid credentials correctly return 401")
+                return True
+            else:
+                self.log(f"❌ Wrong error message: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Invalid login should return 401, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_refresh_token(self) -> bool:
+        """Test POST /api/auth/refresh"""
+        self.log("Testing token refresh...")
+        
+        if not self.unified_refresh_token:
+            self.log("❌ No refresh token available", "ERROR")
+            return False
+        
+        response = self.make_request("POST", "/auth/refresh", {
+            "refresh_token": self.unified_refresh_token
+        })
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["access_token", "refresh_token", "token_type", "expires_in"]
+            
+            if all(field in data for field in required_fields):
+                # Verify token rotation (new refresh token issued)
+                new_refresh_token = data["refresh_token"]
+                if new_refresh_token != self.unified_refresh_token:
+                    self.log("✅ Token rotation working - new refresh token issued")
+                    self.unified_refresh_token = new_refresh_token
+                else:
+                    self.log("⚠️ Token rotation not implemented")
+                
+                # Update access token
+                self.unified_access_token = data["access_token"]
+                
+                # Verify expires_in is 900 seconds (15 minutes)
+                if data["expires_in"] == 900:
+                    self.log("✅ Access token expiry is 15 minutes (900 seconds)")
+                else:
+                    self.log(f"⚠️ Access token expiry is {data['expires_in']} seconds, expected 900")
+                
+                return True
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Refresh response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Token refresh failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_invalid_refresh_token(self) -> bool:
+        """Test refresh with invalid token"""
+        self.log("Testing invalid refresh token...")
+        
+        response = self.make_request("POST", "/auth/refresh", {
+            "refresh_token": "invalid.token.here"
+        })
+        
+        if response.status_code == 401:
+            self.log("✅ Invalid refresh token correctly returns 401")
+            return True
+        else:
+            self.log(f"❌ Invalid refresh token should return 401, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_get_current_user(self) -> bool:
+        """Test GET /api/auth/me"""
+        self.log("Testing get current user profile...")
+        
+        if not self.unified_access_token:
+            self.log("❌ No access token available", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.unified_access_token}"}
+        response = self.make_request("GET", "/auth/me", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["id", "email", "name", "roles", "membership_level", "email_verified"]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ User profile retrieved successfully")
+                self.log(f"   ID: {data['id']}, Email: {data['email']}")
+                self.log(f"   Name: {data['name']}, Verified: {data['email_verified']}")
+                
+                # Verify no sensitive data is exposed
+                sensitive_fields = ["password_hash", "password_reset_token", "email_verification_token"]
+                exposed_sensitive = [field for field in sensitive_fields if field in data]
+                
+                if not exposed_sensitive:
+                    self.log("✅ No sensitive data exposed in profile")
+                    return True
+                else:
+                    self.log(f"❌ Sensitive data exposed: {exposed_sensitive}", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Profile missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Get profile failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_get_user_without_token(self) -> bool:
+        """Test /me endpoint without token"""
+        self.log("Testing /me endpoint without token...")
+        
+        response = self.make_request("GET", "/auth/me")
+        
+        if response.status_code == 401:
+            self.log("✅ /me endpoint correctly requires authentication")
+            return True
+        else:
+            self.log(f"❌ /me endpoint should return 401 without token, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_expired_token(self) -> bool:
+        """Test with expired token (simulated)"""
+        self.log("Testing expired token handling...")
+        
+        # Create a token with past expiration
+        expired_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNjAwMDAwMDAwfQ.invalid"
+        
+        headers = {"Authorization": f"Bearer {expired_token}"}
+        response = self.make_request("GET", "/auth/me", headers=headers)
+        
+        if response.status_code == 401:
+            self.log("✅ Expired token correctly returns 401")
+            return True
+        else:
+            self.log(f"❌ Expired token should return 401, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_update_profile(self) -> bool:
+        """Test PATCH /api/auth/profile"""
+        self.log("Testing profile update...")
+        
+        if not self.unified_access_token:
+            self.log("❌ No access token available", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.unified_access_token}"}
+        update_data = {
+            "name": "Updated Test User",
+            "bio": "This is my updated bio for testing",
+            "avatar_url": "https://example.com/avatar.jpg"
+        }
+        
+        response = self.make_request("PATCH", "/auth/profile", update_data, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Verify updates were applied
+            if (data.get("name") == update_data["name"] and 
+                data.get("bio") == update_data["bio"] and
+                data.get("avatar_url") == update_data["avatar_url"]):
+                
+                self.log("✅ Profile updated successfully")
+                self.log(f"   Name: {data['name']}")
+                self.log(f"   Bio: {data['bio']}")
+                return True
+            else:
+                self.log("❌ Profile updates not reflected in response", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Profile update failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_update_profile_without_token(self) -> bool:
+        """Test profile update without token"""
+        self.log("Testing profile update without token...")
+        
+        response = self.make_request("PATCH", "/auth/profile", {
+            "name": "Should Fail"
+        })
+        
+        if response.status_code == 401:
+            self.log("✅ Profile update correctly requires authentication")
+            return True
+        else:
+            self.log(f"❌ Profile update should return 401 without token, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_forgot_password(self) -> bool:
+        """Test POST /api/auth/forgot-password"""
+        self.log("Testing forgot password...")
+        
+        if not self.test_user_email:
+            self.log("❌ No test user email available", "ERROR")
+            return False
+        
+        response = self.make_request("POST", "/auth/forgot-password", {
+            "email": self.test_user_email
+        })
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "will receive a password reset link" in data.get("message", ""):
+                self.log("✅ Forgot password returns success message")
+                
+                # Test with non-existent email (should also return success for security)
+                response2 = self.make_request("POST", "/auth/forgot-password", {
+                    "email": "nonexistent@example.com"
+                })
+                
+                if response2.status_code == 200:
+                    self.log("✅ Forgot password returns success even for non-existent email (security)")
+                    return True
+                else:
+                    self.log("❌ Forgot password should return success for non-existent email", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Wrong forgot password message: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Forgot password failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_reset_password_invalid_token(self) -> bool:
+        """Test POST /api/auth/reset-password with invalid token"""
+        self.log("Testing password reset with invalid token...")
+        
+        response = self.make_request("POST", "/auth/reset-password", {
+            "token": "invalid-token",
+            "new_password": "NewPassword123!"
+        })
+        
+        if response.status_code == 400:
+            data = response.json()
+            if "Invalid or expired reset token" in data.get("detail", ""):
+                self.log("✅ Invalid reset token correctly returns 400")
+                return True
+            else:
+                self.log(f"❌ Wrong error message for invalid reset token: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Invalid reset token should return 400, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_verify_email_invalid_token(self) -> bool:
+        """Test POST /api/auth/verify-email with invalid token"""
+        self.log("Testing email verification with invalid token...")
+        
+        response = self.make_request("POST", "/auth/verify-email", {
+            "token": "invalid-verification-token"
+        })
+        
+        if response.status_code == 400:
+            data = response.json()
+            if "Invalid or expired verification token" in data.get("detail", ""):
+                self.log("✅ Invalid verification token correctly returns 400")
+                return True
+            else:
+                self.log(f"❌ Wrong error message for invalid verification token: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Invalid verification token should return 400, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_logout(self) -> bool:
+        """Test POST /api/auth/logout"""
+        self.log("Testing user logout...")
+        
+        response = self.make_request("POST", "/auth/logout")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "Logged out successfully" in data.get("message", ""):
+                self.log("✅ Logout successful")
+                
+                # Verify refresh token cookie is cleared
+                cookies = response.cookies
+                if 'refresh_token' in cookies:
+                    cookie = cookies['refresh_token']
+                    # Check if cookie is being deleted (empty value or expires in past)
+                    if not cookie or cookie == '':
+                        self.log("✅ Refresh token cookie cleared")
+                    else:
+                        self.log("⚠️ Refresh token cookie may not be properly cleared")
+                else:
+                    self.log("✅ No refresh token cookie in logout response (expected)")
+                
+                return True
+            else:
+                self.log(f"❌ Wrong logout message: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Logout failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_jwt_token_structure(self) -> bool:
+        """Test JWT token structure and validation"""
+        self.log("Testing JWT token structure...")
+        
+        if not self.unified_access_token:
+            self.log("❌ No access token available for structure test", "ERROR")
+            return False
+        
+        # Decode access token
+        payload = self.decode_jwt_token(self.unified_access_token)
+        
+        if not payload:
+            self.log("❌ Could not decode access token", "ERROR")
+            return False
+        
+        # Verify required fields
+        required_fields = ["sub", "email", "roles", "membership_level", "type", "exp", "iat"]
+        missing_fields = [field for field in required_fields if field not in payload]
+        
+        if missing_fields:
+            self.log(f"❌ Access token missing fields: {missing_fields}", "ERROR")
+            return False
+        
+        # Verify token type
+        if payload.get("type") != "access":
+            self.log(f"❌ Access token type should be 'access', got '{payload.get('type')}'", "ERROR")
+            return False
+        
+        # Verify expiry (should be ~15 minutes from iat)
+        iat = payload.get("iat", 0)
+        exp = payload.get("exp", 0)
+        duration = exp - iat
+        
+        if 800 <= duration <= 1000:  # Allow some variance around 900 seconds
+            self.log(f"✅ Access token expiry is ~15 minutes ({duration} seconds)")
+        else:
+            self.log(f"⚠️ Access token expiry is {duration} seconds, expected ~900")
+        
+        self.log(f"✅ Access token structure valid:")
+        self.log(f"   Subject: {payload['sub']}")
+        self.log(f"   Email: {payload['email']}")
+        self.log(f"   Roles: {payload['roles']}")
+        self.log(f"   Membership: {payload['membership_level']}")
+        self.log(f"   Type: {payload['type']}")
+        
+        # Test refresh token structure
+        if self.unified_refresh_token:
+            refresh_payload = self.decode_jwt_token(self.unified_refresh_token)
+            if refresh_payload:
+                if refresh_payload.get("type") == "refresh":
+                    self.log("✅ Refresh token type is 'refresh'")
+                    return True
+                else:
+                    self.log(f"❌ Refresh token type should be 'refresh', got '{refresh_payload.get('type')}'", "ERROR")
+                    return False
+            else:
+                self.log("❌ Could not decode refresh token", "ERROR")
+                return False
+        
+        return True
+    
+    def test_sso_cookie_verification(self) -> bool:
+        """Test SSO cookie configuration"""
+        self.log("Testing SSO cookie configuration...")
+        
+        # Make a login request to check cookie settings
+        if not self.test_user_email:
+            self.log("❌ No test user email for cookie test", "ERROR")
+            return False
+        
+        response = self.make_request("POST", "/auth/login", {
+            "email": self.test_user_email,
+            "password": "TestPass123!"
+        })
+        
+        if response.status_code == 200:
+            cookies = response.cookies
+            
+            if 'refresh_token' in cookies:
+                cookie = cookies['refresh_token']
+                
+                # Check cookie attributes
+                cookie_checks = {
+                    "HttpOnly": True,  # Should be HttpOnly
+                    "Secure": True,    # Should be Secure
+                    "SameSite": "lax", # Should be lax
+                    "Domain": ".banibs.com",  # Should be .banibs.com
+                    "Max-Age": 604800  # Should be 7 days (604800 seconds)
+                }
+                
+                self.log("✅ Refresh token cookie found, checking attributes:")
+                
+                # Note: In testing environment, we may not be able to verify all cookie attributes
+                # as they depend on the HTTP client implementation
+                self.log(f"   Cookie value length: {len(cookie) if cookie else 0}")
+                self.log("   Expected attributes: HttpOnly=true, Secure=true, SameSite=lax, Domain=.banibs.com, Max-Age=604800")
+                self.log("   ⚠️ Cookie attribute verification limited in test environment")
+                
+                return True
+            else:
+                self.log("❌ Refresh token cookie not found", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Could not test cookie configuration: {response.status_code}", "ERROR")
+            return False
+    
+    def test_duplicate_email_registration(self) -> bool:
+        """Test duplicate email registration"""
+        self.log("Testing duplicate email registration...")
+        
+        if not self.test_user_email:
+            self.log("❌ No test user email available", "ERROR")
+            return False
+        
+        response = self.make_request("POST", "/auth/register", {
+            "email": self.test_user_email,  # Same email as before
+            "password": "AnotherPass123!",
+            "name": "Duplicate User",
+            "accepted_terms": True
+        })
+        
+        if response.status_code == 409:
+            data = response.json()
+            if "Email already registered" in data.get("detail", ""):
+                self.log("✅ Duplicate email registration correctly returns 409 Conflict")
+                return True
+            else:
+                self.log(f"❌ Wrong error message for duplicate email: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Duplicate email should return 409, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_invalid_password_format(self) -> bool:
+        """Test registration with invalid password format"""
+        self.log("Testing invalid password format...")
+        
+        response = self.make_request("POST", "/auth/register", {
+            "email": "shortpass@example.com",
+            "password": "short",  # Less than 8 characters
+            "name": "Short Pass User",
+            "accepted_terms": True
+        })
+        
+        if response.status_code == 422:  # Pydantic validation error
+            self.log("✅ Short password correctly returns 422 validation error")
+            return True
+        elif response.status_code == 400:
+            self.log("✅ Short password correctly returns 400 bad request")
+            return True
+        else:
+            self.log(f"❌ Short password should return 400/422, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_missing_authorization_header(self) -> bool:
+        """Test endpoints with missing Authorization header"""
+        self.log("Testing missing Authorization header...")
+        
+        # Test /me endpoint
+        response = self.make_request("GET", "/auth/me")
+        
+        if response.status_code == 401:
+            data = response.json()
+            if "Missing or invalid authorization header" in data.get("detail", ""):
+                self.log("✅ Missing Authorization header correctly returns 401")
+                return True
+            else:
+                self.log(f"❌ Wrong error message for missing auth: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Missing auth header should return 401, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_invalid_token_format(self) -> bool:
+        """Test with invalid token format"""
+        self.log("Testing invalid token format...")
+        
+        headers = {"Authorization": "Bearer invalid-token-format"}
+        response = self.make_request("GET", "/auth/me", headers=headers)
+        
+        if response.status_code == 401:
+            data = response.json()
+            if "Invalid or expired access token" in data.get("detail", ""):
+                self.log("✅ Invalid token format correctly returns 401")
+                return True
+            else:
+                self.log(f"❌ Wrong error message for invalid token: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Invalid token format should return 401, got {response.status_code}", "ERROR")
+            return False
+
     # News Aggregation Feed Tests
     
     def test_news_latest_endpoint(self) -> bool:
