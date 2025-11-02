@@ -164,8 +164,13 @@ async def rsvp_to_event(event_id: str, user_id: str) -> Optional[Dict[str, Any]]
         return {"event_full": True, **event}
     
     # Check if event has ended
-    if event.get("end_date") and event["end_date"] < datetime.now(timezone.utc):
-        return {"event_ended": True, **event}
+    if event.get("end_date"):
+        end_date = event["end_date"]
+        # Ensure timezone awareness for comparison
+        if end_date.tzinfo is None:
+            end_date = end_date.replace(tzinfo=timezone.utc)
+        if end_date < datetime.now(timezone.utc):
+            return {"event_ended": True, **event}
     
     # Add RSVP
     result = await events_collection.update_one(
