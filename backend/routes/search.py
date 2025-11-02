@@ -10,7 +10,7 @@ import re
 
 from db.connection import get_db
 
-router = APIRouter(prefix="/search", tags=["search"])
+router = APIRouter(prefix="/api/search", tags=["search"])
 
 
 class SearchResultItem(BaseModel):
