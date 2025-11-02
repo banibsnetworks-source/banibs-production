@@ -98,7 +98,7 @@ async def get_event(event_id: str):
 @router.post("", response_model=EventPublic, status_code=201)
 async def create_event_endpoint(
     event_data: EventCreate,
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     Create new event (admin/moderator only)
