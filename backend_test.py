@@ -2783,9 +2783,72 @@ class BanibsAPITester:
             self.log(f"💥 {failed} migration test(s) failed")
             return False
 
+    def run_phase_6_2_3_tests(self) -> bool:
+        """Run Phase 6.2.3 Resources & Events API Tests"""
+        self.log("=" * 80)
+        self.log("🔧 PHASE 6.2.3 RESOURCES & EVENTS API TESTS")
+        self.log("=" * 80)
+        
+        # First login as admin and regular user
+        self.log("Setting up authentication...")
+        admin_login_success = self.test_migrated_admin_login()
+        if not admin_login_success:
+            self.log("❌ Could not login admin user - aborting tests", "ERROR")
+            return False
+        
+        tests = [
+            # Resources Module Tests (6 endpoints)
+            ("1. GET /api/resources - List resources (PUBLIC)", self.test_resources_list_public),
+            ("2. GET /api/resources/{id} - Get single resource (PUBLIC)", self.test_resources_get_single),
+            ("3. GET /api/resources/{id} - Invalid ID test", self.test_resources_get_invalid_id),
+            ("4. POST /api/resources - Create resource (ADMIN ONLY)", self.test_resources_create_admin_only),
+            ("5. PATCH /api/resources/{id} - Update resource (ADMIN ONLY)", self.test_resources_update_admin_only),
+            ("6. DELETE /api/resources/{id} - Delete resource (ADMIN ONLY)", self.test_resources_delete_admin_only),
+            ("7. GET /api/resources?featured=true - Featured filter", self.test_resources_featured_filter),
+            
+            # Events Module Tests (6 endpoints)
+            ("8. GET /api/events - List events (PUBLIC)", self.test_events_list_public),
+            ("9. GET /api/events/{id} - Get single event (PUBLIC)", self.test_events_get_single),
+            ("10. GET /api/events/{id} - Invalid ID test", self.test_events_get_invalid_id),
+            ("11. POST /api/events - Create event (ADMIN ONLY)", self.test_events_create_admin_only),
+            ("12. PATCH /api/events/{id} - Update event (ADMIN ONLY)", self.test_events_update_admin_only),
+            ("13. POST /api/events/{id}/rsvp - RSVP to event (AUTHENTICATED)", self.test_events_rsvp_authenticated),
+            ("14. DELETE /api/events/{id}/rsvp - Cancel RSVP (AUTHENTICATED)", self.test_events_cancel_rsvp_authenticated),
+        ]
+        
+        passed = 0
+        failed = 0
+        
+        for test_name, test_func in tests:
+            self.log(f"\n🧪 Running: {test_name}")
+            try:
+                if test_func():
+                    passed += 1
+                    self.log(f"✅ {test_name} PASSED")
+                else:
+                    failed += 1
+                    self.log(f"❌ {test_name} FAILED")
+            except Exception as e:
+                failed += 1
+                self.log(f"💥 {test_name} ERROR: {e}")
+        
+        self.log("\n" + "=" * 80)
+        self.log("📊 PHASE 6.2.3 TEST RESULTS")
+        self.log("=" * 80)
+        self.log(f"✅ Passed: {passed}")
+        self.log(f"❌ Failed: {failed}")
+        self.log(f"Total: {passed + failed}")
+        
+        if failed == 0:
+            self.log("🎉 All Phase 6.2.3 tests passed!")
+            return True
+        else:
+            self.log(f"💥 {failed} test(s) failed")
+            return False
+
 if __name__ == "__main__":
     tester = BanibsAPITester()
     
-    # Run migration-specific tests for Phase 6.0
-    success = tester.run_migration_tests()
+    # Run Phase 6.2.3 Resources & Events API tests
+    success = tester.run_phase_6_2_3_tests()
     sys.exit(0 if success else 1)
