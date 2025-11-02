@@ -46,7 +46,7 @@ def create_search_regex(query: str) -> str:
 
 async def search_news(query: str, limit: int = 5) -> SearchCategoryResults:
     """Search news articles"""
-    db = await db_connection()
+    db = await get_db()
     collection = db["news_items"]
     
     regex_pattern = create_search_regex(query)
@@ -89,7 +89,7 @@ async def search_news(query: str, limit: int = 5) -> SearchCategoryResults:
 
 async def search_opportunities(query: str, limit: int = 5) -> SearchCategoryResults:
     """Search opportunities"""
-    db = await db_connection()
+    db = await get_db()
     collection = db["opportunities"]
     
     regex_pattern = create_search_regex(query)
@@ -131,7 +131,7 @@ async def search_opportunities(query: str, limit: int = 5) -> SearchCategoryResu
 
 async def search_resources(query: str, limit: int = 5) -> SearchCategoryResults:
     """Search resources"""
-    db = await db_connection()
+    db = await get_db()
     collection = db["banibs_resources"]
     
     regex_pattern = create_search_regex(query)
@@ -172,7 +172,7 @@ async def search_resources(query: str, limit: int = 5) -> SearchCategoryResults:
 
 async def search_events(query: str, limit: int = 5) -> SearchCategoryResults:
     """Search events"""
-    db = await db_connection()
+    db = await get_db()
     collection = db["banibs_events"]
     
     regex_pattern = create_search_regex(query)
@@ -220,7 +220,7 @@ async def search_events(query: str, limit: int = 5) -> SearchCategoryResults:
 
 async def search_businesses(query: str, limit: int = 5) -> SearchCategoryResults:
     """Search businesses"""
-    db = await db_connection()
+    db = await get_db()
     collection = db["business_listings"]
     
     regex_pattern = create_search_regex(query)
