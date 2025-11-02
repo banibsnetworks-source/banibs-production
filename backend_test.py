@@ -1442,6 +1442,10 @@ class BanibsAPITester:
         
         self.log("Testing refresh token flow with migrated user...")
         
+        # Wait a moment to ensure different timestamps
+        import time
+        time.sleep(1)
+        
         response = self.make_request("POST", "/auth/refresh", {
             "refresh_token": self.unified_refresh_token
         })
@@ -1454,27 +1458,36 @@ class BanibsAPITester:
                 new_access_token = data["access_token"]
                 new_refresh_token = data["refresh_token"]
                 
-                # Verify new access token is different (token rotation)
-                if new_access_token != self.unified_access_token:
-                    self.log("✅ New access token issued (token rotation working)")
+                # Decode both tokens to compare their issued times
+                old_payload = self.decode_jwt_token(self.unified_access_token)
+                new_payload = self.decode_jwt_token(new_access_token)
+                
+                if old_payload and new_payload:
+                    old_iat = old_payload.get("iat", 0)
+                    new_iat = new_payload.get("iat", 0)
                     
-                    # Verify new refresh token is different (token rotation)
-                    if new_refresh_token != self.unified_refresh_token:
-                        self.log("✅ New refresh token issued (token rotation working)")
+                    # New token should have a later issued time
+                    if new_iat > old_iat:
+                        self.log("✅ New access token issued with later timestamp")
                         
-                        # Decode new access token to verify structure
-                        token_payload = self.decode_jwt_token(new_access_token)
-                        if token_payload and "roles" in token_payload:
-                            self.log(f"✅ New access token valid - Roles: {token_payload['roles']}")
+                        # Verify new refresh token is different (token rotation)
+                        if new_refresh_token != self.unified_refresh_token:
+                            self.log("✅ New refresh token issued (token rotation working)")
+                        else:
+                            self.log("⚠️ Refresh token not rotated (same token returned)")
+                        
+                        # Verify token structure
+                        if "roles" in new_payload:
+                            self.log(f"✅ New access token valid - Roles: {new_payload['roles']}")
                             return True
                         else:
-                            self.log("❌ New access token invalid or missing roles", "ERROR")
+                            self.log("❌ New access token missing roles", "ERROR")
                             return False
                     else:
-                        self.log("⚠️ Refresh token not rotated (same token returned)")
-                        return True  # Still valid, just no rotation
+                        self.log(f"❌ New token has same or older timestamp: old={old_iat}, new={new_iat}", "ERROR")
+                        return False
                 else:
-                    self.log("❌ Same access token returned (no refresh occurred)", "ERROR")
+                    self.log("❌ Failed to decode tokens for comparison", "ERROR")
                     return False
             else:
                 missing_fields = [field for field in required_fields if field not in data]
