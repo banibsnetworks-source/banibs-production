@@ -20,15 +20,8 @@ sys.path.append('/app/backend')
 from config.rss_sources import RSS_SOURCES
 from utils.rss_parser import fetch_and_store_feed
 
-# BANIBS Branded Fallback Images by Category
-FALLBACK_IMAGES = {
-    "Business": "https://cdn.banibs.com/fallback/business.jpg",
-    "Technology": "https://cdn.banibs.com/fallback/tech.jpg", 
-    "Education": "https://cdn.banibs.com/fallback/education.jpg",
-    "Community": "https://cdn.banibs.com/fallback/community.jpg",
-    "Opportunities": "https://cdn.banibs.com/fallback/opportunities.jpg",
-    "World News": "https://cdn.banibs.com/fallback/world_news.jpg",
-}
+# BANIBS Branded Fallback Image (used for all news items without images)
+FALLBACK_IMAGE = "/static/img/fallbacks/news_default.jpg"
 
 router = APIRouter(prefix="/api/news", tags=["rss-sync"])
 
