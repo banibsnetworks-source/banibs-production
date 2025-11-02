@@ -170,6 +170,14 @@ app.include_router(resources_router)
 from routes.events import router as events_router
 app.include_router(events_router)
 
+# Include feed router (Phase 6.2.4 - Feed Filtering)
+from routes.feed import router as feed_router
+app.include_router(feed_router)
+
+# Include search router (Phase 6.2.4 - Unified Search)
+from routes.search import router as search_router
+app.include_router(search_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
