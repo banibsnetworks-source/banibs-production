@@ -1518,6 +1518,68 @@ agent_communication:
       - Manual generation uses same logic as scheduled task
       
       All Phase 6.3 backend APIs are production-ready with proper authentication, RBAC enforcement, and AI integration working correctly.
+  - agent: "testing"
+    message: |
+      🎉 PHASE 6.0 UNIFIED AUTHENTICATION MIGRATION TESTING COMPLETE - ALL TESTS PASSED!
+      
+      Comprehensive testing completed for Phase 6.0 Unified Authentication with migrated users from old users/contributors tables:
+      
+      ✅ MIGRATED ADMIN USER LOGIN:
+      - Email: admin@banibs.com / Password: BanibsAdmin#2025 ✅ Working
+      - Successfully authenticates with ORIGINAL password from old users table
+      - Roles correctly mapped: ['user', 'super_admin'] (admin → super_admin)
+      - JWT access token contains all required fields: sub, email, roles, membership_level, type, exp, iat
+      - Access token expiry: 15 minutes (900 seconds) ✅
+      - Password hash preservation from migration confirmed working
+      
+      ✅ MIGRATED CONTRIBUTOR USER LOGIN:
+      - Email: test@example.com / Password: test123 ✅ Working
+      - Successfully authenticates with ORIGINAL password from old contributors table
+      - Roles correctly mapped: ['user', 'contributor'] (contributors → contributor)
+      - Organization metadata preserved in user profile
+      - JWT tokens contain correct roles and user information
+      
+      ✅ JWT TOKEN VALIDATION:
+      - GET /api/auth/me working with migrated admin access token ✅
+      - Returns correct user profile with roles ['user', 'super_admin'] and membership_level
+      - Token structure validation: all required fields present (sub, email, roles, membership_level, type, exp, iat)
+      - JWT_SECRET configuration working with HS256 algorithm ✅
+      
+      ✅ REFRESH TOKEN FLOW:
+      - POST /api/auth/refresh working seamlessly with migrated users ✅
+      - New access tokens issued with later timestamps (token rotation working)
+      - New refresh tokens issued on each refresh (security best practice)
+      - Refresh token validation and user lookup functioning properly
+      
+      ✅ SSO COOKIE BEHAVIOR:
+      - Refresh token cookies set with correct attributes: HttpOnly, Secure, Domain=.banibs.com, SameSite=lax ✅
+      - Cookie setting and clearing functionality verified
+      - Refresh tokens properly returned in response body and set as HttpOnly cookies
+      
+      ✅ MIGRATION VERIFICATION:
+      - Database shows migrated users exist in banibs_users collection:
+        * admin@banibs.com with roles ['user', 'super_admin']
+        * test@example.com with roles ['user', 'contributor']
+      - Password hashes preserved correctly from old tables (bcrypt verification working)
+      - Role mapping successful: admin → super_admin, contributors → contributor
+      - Zero password-related errors during authentication
+      
+      📊 TEST RESULTS: 6/6 PASSED (100% SUCCESS RATE)
+      1. ✅ Migrated Admin User Login
+      2. ✅ Migrated Contributor User Login  
+      3. ✅ JWT Token Validation
+      4. ✅ Refresh Token Flow
+      5. ✅ SSO Cookie Behavior
+      6. ✅ Access Token Expiry (15 minutes)
+      
+      🔒 SECURITY FEATURES VERIFIED:
+      - Original passwords from old tables work seamlessly (migration preserved hashes)
+      - JWT tokens contain all required fields with correct roles
+      - Token rotation working (new tokens issued on refresh)
+      - SSO cookie configuration working for *.banibs.com domains
+      - Access token expiry correctly set to 15 minutes
+      
+      Phase 6.0 Unified Authentication migration is production-ready and fully functional! All migrated users can authenticate successfully with their original passwords.
       
       ✅ SENTIMENT ANALYSIS SYSTEM:
       - OpenAI GPT-5 via Emergent LLM key (emergentintegrations)
