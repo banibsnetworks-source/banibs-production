@@ -494,7 +494,7 @@ if (response.status === 401) {
 - **User Existence Check**: Validates recipient exists before creating conversation
 - **No Message Enumeration**: Cannot access messages without conversation membership
 
-### 4.5 Error Handling
+### 4.6 Error Handling
 - **Generic 404**: "Not found" for both non-existent and unauthorized resources
 - **No User Details Leaked**: Error messages don't reveal other users' existence
 - **Safe Error Responses**: No stack traces or internal details exposed
