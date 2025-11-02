@@ -2189,15 +2189,18 @@ backend:
 
   - task: "GET /api/events/{id} endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/events.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Public endpoint to get single event by ID. Returns EventPublic with full details including organizer_name, rsvp_count, rsvp_users array, status (upcoming/ongoing/completed/cancelled)."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/events/{id} working correctly. Returns full event details with all required fields (id, title, description, category, start_date, end_date, status, rsvp_count, rsvp_users). Invalid event ID correctly returns 404. Public endpoint requires no authentication."
 
   - task: "POST /api/events endpoint"
     implemented: true
