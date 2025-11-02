@@ -36,3 +36,7 @@ class NewsItemPublic(BaseModel):
     sourceName: Optional[str] = None
     isFeatured: bool = False
     external: bool = False
+    # Phase 6.3 - Sentiment Analysis
+    sentiment_score: Optional[float] = None  # -1.0 to 1.0
+    sentiment_label: Optional[str] = None  # positive, neutral, negative
+    sentiment_at: Optional[str] = None  # ISO timestamp when analyzed
