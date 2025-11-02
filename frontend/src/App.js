@@ -93,6 +93,9 @@ function App() {
               <Route path="/opportunity-hub" element={<OpportunityHubPage />} />
               {/* Phase 6.0 - World News Page */}
               <Route path="/world-news" element={<WorldNewsPage />} />
+              {/* Phase 6.0 - Unified Auth Pages */}
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
               {/* Phase 6.1 - Hub v1 Dashboard (Auth Required) */}
               <Route path="/hub" element={<HubPage />} />
               
