@@ -58,23 +58,17 @@ const FeaturedStory = () => {
         <div className="flex flex-col md:flex-row md:items-start gap-6">
 
           {/* Image Block */}
-          {story.imageUrl ? (
-            <div className="w-full md:w-1/3 rounded-xl overflow-hidden shadow-sm">
-              <img
-                src={story.imageUrl}
-                alt={story.title}
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ) : (
-            <div className="w-full md:w-1/3 rounded-xl bg-gray-200 overflow-hidden shadow-sm flex items-center justify-center text-gray-500 text-sm font-medium">
-              <span className="p-6 text-center">
-                Featured Story Image
-                <br />
-                (optional)
-              </span>
-            </div>
-          )}
+          <div className="w-full md:w-1/3 rounded-xl overflow-hidden shadow-sm bg-black/40 border border-yellow-400/20">
+            <img
+              src={story.imageUrl || `${process.env.REACT_APP_BACKEND_URL}/static/img/fallbacks/news_default.jpg`}
+              alt={story.title}
+              className="w-full h-full object-cover"
+              loading="lazy"
+              onError={(e) => {
+                e.target.src = `${process.env.REACT_APP_BACKEND_URL}/static/img/fallbacks/news_default.jpg`;
+              }}
+            />
+          </div>
 
           {/* Text Content */}
           <div className="w-full md:w-2/3">
