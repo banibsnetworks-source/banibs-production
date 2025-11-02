@@ -75,8 +75,8 @@ class UserMigration:
         - role: 'admin' → roles: ['user', 'super_admin']
         - role: 'moderator' → roles: ['user', 'moderator']
         - Preserve: email, password, name, created_at
-        \"\"\"
-        print("\\n🔄 Migrating users table...")
+        """
+        print("\n🔄 Migrating users table...")
         
         # Get all users
         users = await self.db.users.find({}).to_list(length=None)
