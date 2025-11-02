@@ -34,6 +34,8 @@ import ResourcesPage from "./pages/Resources/ResourcesPage";
 import ResourceDetailPage from "./pages/Resources/ResourceDetailPage";
 import EventsPage from "./pages/Events/EventsPage";
 import EventDetailPage from "./pages/Events/EventDetailPage";
+// Phase 6.2.4 - Unified Search
+import SearchPage from "./pages/Search/SearchPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
