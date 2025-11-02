@@ -29,6 +29,11 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 // Phase 6.2.1 - Notifications
 import NotificationsPage from "./pages/Notifications/NotificationsPage";
+// Phase 6.2.3 - Resources & Events
+import ResourcesPage from "./pages/Resources/ResourcesPage";
+import ResourceDetailPage from "./pages/Resources/ResourceDetailPage";
+import EventsPage from "./pages/Events/EventsPage";
+import EventDetailPage from "./pages/Events/EventDetailPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
