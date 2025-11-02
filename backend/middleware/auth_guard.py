@@ -98,20 +98,14 @@ def require_role(*allowed_roles: str):
     
     return role_checker
 
-# Phase 4.5 - RBAC Permission Helpers
+# Phase 6.0 - RBAC Permission Helpers (Unified Identity)
 
-def require_super_admin(user: dict = Depends(get_current_user)):
+async def require_super_admin(user: dict = Depends(get_current_user)):
     """
     Requires super_admin role
     Super admins have full access to all features
     """
-    user_role = user.get("role")
-    
-    # Backward compatibility
-    if user_role == "admin":
-        user_role = "super_admin"
-    
-    if user_role != "super_admin":
+    if "super_admin" not in user.get("roles", []):
         raise HTTPException(
             status_code=403,
             detail="Super admin access required"
@@ -119,21 +113,59 @@ def require_super_admin(user: dict = Depends(get_current_user)):
     
     return user
 
-def can_moderate(user: dict = Depends(get_current_user)):
+async def can_moderate(user: dict = Depends(get_current_user)):
     """
     Allows super_admin or moderator
     Can approve/reject/feature opportunities and hide comments
     """
-    user_role = user.get("role")
+    user_roles = user.get("roles", [])
     
-    # Backward compatibility
-    if user_role == "admin":
-        user_role = "super_admin"
-    
-    if user_role not in ["super_admin", "moderator"]:
+    if "super_admin" not in user_roles and "moderator" not in user_roles:
         raise HTTPException(
             status_code=403,
             detail="Moderation permissions required"
         )
     
     return user
+
+
+# Phase 6.2 - Membership Tier Helpers (Future)
+
+def require_membership(*allowed_tiers: str):
+    """
+    Dependency factory that requires minimum membership tier
+    
+    Tier hierarchy: free < basic < pro < enterprise
+    
+    Usage:
+        @router.post("/social/posts")
+        async def create_post(user: dict = Depends(require_membership("basic", "pro", "enterprise"))):
+            # Only paid members can post
+            pass
+    """
+    async def tier_checker(user: dict = Depends(get_current_user)):
+        tier_hierarchy = {
+            "free": 0,
+            "basic": 1,
+            "pro": 2,
+            "enterprise": 3
+        }
+        
+        user_tier = user.get("membership_level", "free")
+        user_tier_level = tier_hierarchy.get(user_tier, 0)
+        
+        # Check if user tier meets any of the allowed tiers
+        has_access = any(
+            user_tier_level >= tier_hierarchy.get(tier, 999)
+            for tier in allowed_tiers
+        )
+        
+        if not has_access:
+            raise HTTPException(
+                status_code=403,
+                detail=f"Membership upgrade required. Allowed tiers: {', '.join(allowed_tiers)}"
+            )
+        
+        return user
+    
+    return tier_checker
