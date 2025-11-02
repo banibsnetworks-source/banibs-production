@@ -29,6 +29,7 @@ from routes.news import router as news_router  # News aggregation feed
 from routes.media import router as media_router  # BANIBS TV Featured Video
 from routes.analytics import router as analytics_router  # Phase 6.2 Engagement Analytics
 from routes.insights import router as insights_router  # Phase 6.3 Sentiment & Insights
+from routes.phase6_stubs import router as phase6_stubs_router  # Phase 6 Stub Endpoints (v1.3.2)
 from tasks.rss_sync import router as rss_sync_router  # RSS sync endpoint
 from scheduler import init_scheduler  # APScheduler for automated RSS sync
 
