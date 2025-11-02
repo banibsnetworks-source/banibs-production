@@ -87,18 +87,16 @@ const NewsFeed = () => {
           >
             {/* Image Area */}
             <div className="w-full h-40 rounded-lg overflow-hidden bg-black/40 border border-yellow-400/20 flex items-center justify-center mb-4">
-              {item.imageUrl ? (
-                <img
-                  src={item.imageUrl}
-                  alt={item.title}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              ) : (
-                <div className="text-[0.7rem] text-yellow-300/70 italic px-4 text-center">
-                  BANIBS / {item.category}
-                </div>
-              )}
+              <img
+                src={item.imageUrl || `${process.env.REACT_APP_BACKEND_URL}/static/img/fallbacks/news_default.jpg`}
+                alt={item.title}
+                className="w-full h-full object-cover"
+                loading="lazy"
+                onError={(e) => {
+                  // If image fails to load, use fallback
+                  e.target.src = `${process.env.REACT_APP_BACKEND_URL}/static/img/fallbacks/news_default.jpg`;
+                }}
+              />
             </div>
 
             {/* Category + Date */}
