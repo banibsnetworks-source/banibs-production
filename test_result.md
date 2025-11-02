@@ -2261,15 +2261,18 @@ backend:
 
   - task: "DELETE /api/events/{id}/rsvp endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/events.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Authenticated user endpoint to cancel RSVP. Requires JWT authentication. Removes user_id from rsvp_users array, decrements rsvp_count. Returns RSVPResponse with cancellation confirmation."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: DELETE /api/events/{id}/rsvp working perfectly. Authentication verified: returns 401 without auth token. Regular user JWT authentication working - successfully cancels RSVPs. RSVP count decrements correctly. Returns proper RSVPResponse with rsvp_status='cancelled', event_id, user_id, rsvp_count."
 
 test_plan:
   current_focus:
