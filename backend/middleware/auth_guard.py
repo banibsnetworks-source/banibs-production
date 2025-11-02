@@ -1,16 +1,17 @@
 from fastapi import Header, HTTPException, Depends
 from typing import Optional, List
-from services.jwt import verify_access_token
+from services.jwt_service import JWTService  # Phase 6.0 - Unified JWT
+from db.unified_users import get_user_by_id
 
 async def get_current_user(authorization: Optional[str] = Header(None)):
     """
-    Extract and verify JWT from Authorization header
+    Phase 6.0 - Extract and verify JWT from Authorization header (Unified Identity)
     
     Args:
         authorization: Authorization header value (Bearer <token>)
     
     Returns:
-        Decoded user payload from JWT
+        User data from banibs_users collection
     
     Raises:
         HTTPException 401 if token missing or invalid
@@ -33,8 +34,8 @@ async def get_current_user(authorization: Optional[str] = Header(None)):
     
     token = parts[1]
     
-    # Verify token
-    payload = verify_access_token(token)
+    # Verify token using new JWT service
+    payload = JWTService.verify_token(token, token_type="access")
     if not payload:
         raise HTTPException(
             status_code=401,
@@ -42,7 +43,15 @@ async def get_current_user(authorization: Optional[str] = Header(None)):
             headers={"WWW-Authenticate": "Bearer"}
         )
     
-    return payload
+    # Get full user from database
+    user = await get_user_by_id(payload["sub"])
+    if not user:
+        raise HTTPException(
+            status_code=401,
+            detail="User not found"
+        )
+    
+    return user
 
 def require_auth(user: dict = Depends(get_current_user)):
     """
