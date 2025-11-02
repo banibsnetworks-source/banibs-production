@@ -95,9 +95,10 @@ class UserMigration:
                 
                 # Map old role to new roles
                 roles = ["user"]
-                if user.get("role") == "admin":
+                old_role = user.get("role", "user")
+                if old_role == "super_admin" or old_role == "admin":
                     roles.append("super_admin")
-                elif user.get("role") == "moderator":
+                elif old_role == "moderator":
                     roles.append("moderator")
                 
                 # Create unified user document
