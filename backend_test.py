@@ -22,6 +22,10 @@ class BanibsAPITester:
     def __init__(self):
         self.admin_token = None
         self.contributor_token = None
+        self.unified_access_token = None
+        self.unified_refresh_token = None
+        self.test_user_email = None
+        self.test_user_id = None
         self.test_opportunity_id = None
         self.approved_opportunity_id = None
         self.test_contributor_email = None
