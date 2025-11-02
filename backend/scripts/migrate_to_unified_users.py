@@ -184,9 +184,9 @@ class UserMigration:
                     "email_verification_expires": None,
                     "password_reset_token": None,
                     "password_reset_expires": None,
-                    "created_at": contributor.get("created_at", datetime.now(timezone.utc).isoformat()),
+                    "created_at": contributor.get("created_at", datetime.now(timezone.utc)),
                     "last_login": None,
-                    "updated_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(timezone.utc),
                     "metadata": {
                         "migrated_from": "contributors",
                         "organization": contributor.get("organization")
