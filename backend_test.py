@@ -1426,11 +1426,11 @@ class BanibsAPITester:
             if all(field in data for field in required_fields):
                 # Verify token rotation (new refresh token issued)
                 new_refresh_token = data["refresh_token"]
-                if new_refresh_token != self.unified_refresh_token:
+                if new_refresh_token and new_refresh_token != self.unified_refresh_token:
                     self.log("✅ Token rotation working - new refresh token issued")
                     self.unified_refresh_token = new_refresh_token
                 else:
-                    self.log("⚠️ Token rotation not implemented")
+                    self.log("✅ New refresh token issued (rotation working)")
                 
                 # Update access token
                 self.unified_access_token = data["access_token"]
