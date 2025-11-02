@@ -172,7 +172,7 @@ async def fetch_event_items(date_cutoff: Optional[datetime], limit: int) -> List
 
 async def fetch_business_items(date_cutoff: Optional[datetime], limit: int) -> List[FeedItem]:
     """Fetch businesses for feed"""
-    db = await db_connection()
+    db = await get_db()
     collection = db["business_listings"]
     
     query = {"status": "approved"}
