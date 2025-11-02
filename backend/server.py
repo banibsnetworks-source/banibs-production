@@ -158,6 +158,10 @@ app.include_router(rss_sync_router)
 from routes.notifications import router as notifications_router
 app.include_router(notifications_router)
 
+# Include messages router (Phase 6.2.2 - Messaging System)
+from routes.messages import router as messages_router
+app.include_router(messages_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
