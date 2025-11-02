@@ -258,6 +258,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 - Messages are sorted by `created_at` ascending (oldest first, like a chat)
 - Participant authorization is enforced (404 if user is not in conversation)
 - Use pagination for long conversations (skip/limit)
+- **Pagination Best Practices**:
+  - Default page size: 100 messages (sufficient for most conversations)
+  - Maximum page size: 200 messages (enforced by backend)
+  - For long conversations (>100 messages), implement infinite scroll with pagination
+  - Load initial page: `GET /conversations/{id}?limit=100&skip=0`
+  - Load older messages: `GET /conversations/{id}?limit=100&skip=100` (previous page)
+  - As BANIBS scales, consider lazy loading: Fetch latest 50 messages, load more on scroll up
+  - Avoid fetching entire conversation history at once (performance impact)
 
 ---
 
