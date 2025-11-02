@@ -267,9 +267,9 @@ class UserMigration:
         print(f"\\n📄 Report saved to: {report_filename}")
     
     async def run(self):
-        \"\"\"
+        """
         Execute migration
-        \"\"\"
+        """
         print("="*60)
         print("BANIBS User Migration to Unified Identity (Phase 6.0)")
         print("="*60)
