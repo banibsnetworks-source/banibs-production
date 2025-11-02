@@ -114,6 +114,9 @@ async def get_featured_news():
     
     Used by: Homepage "Featured Story" hero section
     """
+    # Fallback image URL for items without images
+    FALLBACK_IMAGE = "/static/img/fallbacks/news_default.jpg"
+    
     # Find most recent featured item
     item = await news_collection.find_one(
         {"isFeatured": True},
@@ -123,6 +126,10 @@ async def get_featured_news():
     if not item:
         # Return empty object if no featured story exists
         return {}
+    
+    # Ensure item has an imageUrl
+    if not item.get('imageUrl'):
+        item['imageUrl'] = FALLBACK_IMAGE
     
     # Convert datetime to ISO string
     if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
