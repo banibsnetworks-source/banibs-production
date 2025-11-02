@@ -309,9 +309,9 @@ class UserMigration:
 
 
 async def main():
-    \"\"\"
+    """
     Run migration script
-    \"\"\"
+    """
     import sys
     
     # Check command line arguments
