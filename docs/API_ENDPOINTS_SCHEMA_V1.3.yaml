@@ -1,0 +1,978 @@
+# BANIBS API Endpoints Schema v1.3.2
+# Complete API surface for Phase 6.0-6.6
+# Generated: 2025-11-01
+
+version: "1.3.2"
+baseUrl: "https://banibs.com/api"
+authentication: "JWT Bearer Token"
+
+endpoints:
+  # ============================================
+  # Phase 6.0 - Unified Identity & SSO
+  # ============================================
+  identity:
+    - method: POST
+      path: /auth/register
+      description: Create new BANIBS account
+      auth: none
+      body:
+        email: string (required)
+        password: string (required, min 8 chars)
+        name: string (required)
+        acceptedTerms: boolean (required)
+      response:
+        user: object
+        accessToken: string
+        refreshToken: string
+      errors:
+        - 400: Invalid email or password
+        - 409: Email already exists
+
+    - method: POST
+      path: /auth/login
+      description: Authenticate user and return tokens
+      auth: none
+      body:
+        email: string (required)
+        password: string (required)
+      response:
+        user: object
+        accessToken: string
+        refreshToken: string
+      errors:
+        - 401: Invalid credentials
+        - 403: Account not verified
+
+    - method: POST
+      path: /auth/refresh
+      description: Refresh access token using refresh token
+      auth: refresh_token (cookie)
+      response:
+        accessToken: string
+      errors:
+        - 401: Invalid or expired refresh token
+
+    - method: POST
+      path: /auth/logout
+      description: Invalidate tokens and end session
+      auth: bearer
+      response:
+        success: boolean
+
+    - method: POST
+      path: /auth/forgot-password
+      description: Request password reset email
+      auth: none
+      body:
+        email: string (required)
+      response:
+        message: string
+      errors:
+        - 404: Email not found
+
+    - method: POST
+      path: /auth/reset-password
+      description: Complete password reset with token
+      auth: none
+      body:
+        token: string (required)
+        newPassword: string (required)
+      response:
+        message: string
+      errors:
+        - 400: Invalid or expired token
+
+    - method: POST
+      path: /auth/verify-email
+      description: Verify email address with token
+      auth: none
+      body:
+        token: string (required)
+      response:
+        message: string
+      errors:
+        - 400: Invalid or expired token
+
+    - method: GET
+      path: /auth/me
+      description: Get current user profile
+      auth: bearer (required)
+      response:
+        id: string
+        email: string
+        name: string
+        avatarUrl: string
+        membershipLevel: string
+        roles: array
+      errors:
+        - 401: Unauthorized
+
+    - method: PATCH
+      path: /auth/profile
+      description: Update user profile
+      auth: bearer (required)
+      body:
+        name: string (optional)
+        bio: string (optional)
+        avatarUrl: string (optional)
+      response:
+        user: object
+      errors:
+        - 401: Unauthorized
+
+  # ============================================
+  # Phase 6.2 - Membership Tiers
+  # ============================================
+  membership:
+    - method: GET
+      path: /membership/plans
+      description: List all membership tiers
+      auth: none
+      response:
+        plans:
+          - tier: string
+            price: number
+            features: array
+      
+    - method: POST
+      path: /membership/checkout
+      description: Create subscription checkout session
+      auth: bearer (required)
+      body:
+        tier: string (required, enum: basic, pro, enterprise)
+      response:
+        checkoutUrl: string (Stripe checkout URL)
+        sessionId: string
+      errors:
+        - 400: Invalid tier
+        - 401: Unauthorized
+
+    - method: POST
+      path: /membership/cancel
+      description: Cancel subscription (end of billing period)
+      auth: bearer (required)
+      response:
+        message: string
+        cancelAt: string (ISO date)
+      errors:
+        - 401: Unauthorized
+        - 404: No active subscription
+
+    - method: POST
+      path: /membership/upgrade
+      description: Change to higher tier
+      auth: bearer (required)
+      body:
+        newTier: string (required)
+      response:
+        message: string
+        effectiveDate: string
+      errors:
+        - 400: Cannot downgrade via upgrade endpoint
+        - 401: Unauthorized
+
+    - method: POST
+      path: /membership/downgrade
+      description: Change to lower tier
+      auth: bearer (required)
+      body:
+        newTier: string (required)
+      response:
+        message: string
+        effectiveDate: string (end of current period)
+      errors:
+        - 401: Unauthorized
+
+    - method: GET
+      path: /membership/status
+      description: Get current membership details
+      auth: bearer (required)
+      response:
+        tier: string
+        status: string
+        currentPeriodEnd: string
+        cancelAtPeriodEnd: boolean
+      errors:
+        - 401: Unauthorized
+
+    - method: GET
+      path: /membership/invoices
+      description: Get billing history
+      auth: bearer (required)
+      query:
+        limit: number (default 10)
+      response:
+        invoices: array
+      errors:
+        - 401: Unauthorized
+
+    - method: POST
+      path: /membership/webhook
+      description: Stripe webhook handler (internal)
+      auth: webhook_signature
+      body:
+        type: string
+        data: object
+      response:
+        received: boolean
+
+  # ============================================
+  # Phase 6.1 - Social Media MVP
+  # ============================================
+  social:
+    # Profiles
+    - method: GET
+      path: /social/profile/{userId}
+      description: Get user's social profile
+      auth: none (public profiles)
+      response:
+        id: string
+        displayName: string
+        bio: string
+        avatarUrl: string
+        followerCount: number
+        followingCount: number
+        postCount: number
+      errors:
+        - 404: Profile not found
+
+    - method: PATCH
+      path: /social/profile
+      description: Update own social profile
+      auth: bearer (required)
+      body:
+        displayName: string (optional)
+        bio: string (optional)
+        location: string (optional)
+        website: string (optional)
+      response:
+        profile: object
+      errors:
+        - 401: Unauthorized
+
+    - method: POST
+      path: /social/profile/avatar
+      description: Upload profile avatar
+      auth: bearer (required)
+      body:
+        file: multipart/form-data (image, max size tier-based)
+      response:
+        avatarUrl: string
+      errors:
+        - 400: Invalid file type or size
+        - 401: Unauthorized
+
+    - method: POST
+      path: /social/profile/banner
+      description: Upload profile banner
+      auth: bearer (required)
+      body:
+        file: multipart/form-data (image, max 10MB)
+      response:
+        bannerUrl: string
+      errors:
+        - 400: Invalid file type or size
+        - 401: Unauthorized
+
+    # Posts
+    - method: GET
+      path: /social/feed
+      description: Get personalized feed (following + boards)
+      auth: bearer (required)
+      query:
+        page: number (default 1)
+        limit: number (default 20)
+      response:
+        posts: array
+        nextPage: number
+      errors:
+        - 401: Unauthorized
+
+    - method: GET
+      path: /social/posts/{postId}
+      description: Get single post with comments
+      auth: none (public posts)
+      response:
+        post: object
+        comments: array
+      errors:
+        - 404: Post not found
+
+    - method: POST
+      path: /social/posts
+      description: Create new post
+      auth: bearer (required)
+      body:
+        content: string (required, max 5000 chars)
+        mediaUrls: array (optional)
+        boardId: string (optional)
+        visibility: string (default 'public')
+      response:
+        post: object
+      errors:
+        - 400: Content too long or invalid media
+        - 401: Unauthorized
+        - 429: Rate limit exceeded
+
+    - method: PATCH
+      path: /social/posts/{postId}
+      description: Edit own post (content only, within 24h)
+      auth: bearer (required)
+      body:
+        content: string (required)
+      response:
+        post: object
+      errors:
+        - 403: Not post owner or edit window expired
+        - 404: Post not found
+
+    - method: DELETE
+      path: /social/posts/{postId}
+      description: Delete own post (soft delete)
+      auth: bearer (required)
+      response:
+        success: boolean
+      errors:
+        - 403: Not post owner
+        - 404: Post not found
+
+    - method: POST
+      path: /social/posts/{postId}/like
+      description: Like a post
+      auth: bearer (required)
+      response:
+        liked: boolean
+        likeCount: number
+      errors:
+        - 401: Unauthorized
+        - 404: Post not found
+
+    - method: DELETE
+      path: /social/posts/{postId}/like
+      description: Unlike a post
+      auth: bearer (required)
+      response:
+        liked: boolean
+        likeCount: number
+      errors:
+        - 401: Unauthorized
+
+    # Comments
+    - method: GET
+      path: /social/posts/{postId}/comments
+      description: Get post comments (paginated)
+      auth: none
+      query:
+        page: number (default 1)
+        limit: number (default 50)
+      response:
+        comments: array
+        nextPage: number
+
+    - method: POST
+      path: /social/posts/{postId}/comments
+      description: Add comment to post
+      auth: bearer (required)
+      body:
+        content: string (required, max 1000 chars)
+        parentCommentId: string (optional, for replies)
+      response:
+        comment: object
+      errors:
+        - 400: Content too long
+        - 401: Unauthorized
+        - 404: Post not found
+
+    - method: PATCH
+      path: /social/comments/{commentId}
+      description: Edit own comment (within 24h)
+      auth: bearer (required)
+      body:
+        content: string (required)
+      response:
+        comment: object
+      errors:
+        - 403: Not comment owner or edit window expired
+
+    - method: DELETE
+      path: /social/comments/{commentId}
+      description: Delete own comment
+      auth: bearer (required)
+      response:
+        success: boolean
+      errors:
+        - 403: Not comment owner
+
+    # Messages
+    - method: GET
+      path: /social/messages
+      description: Get all conversations (list of users)
+      auth: bearer (required, Basic+ tier)
+      response:
+        conversations: array
+      errors:
+        - 401: Unauthorized
+        - 403: Tier upgrade required
+
+    - method: GET
+      path: /social/messages/{userId}
+      description: Get conversation with specific user
+      auth: bearer (required, Basic+ tier)
+      query:
+        page: number (default 1)
+        limit: number (default 50)
+      response:
+        messages: array
+        nextPage: number
+      errors:
+        - 401: Unauthorized
+        - 403: Tier upgrade required
+
+    - method: POST
+      path: /social/messages
+      description: Send direct message
+      auth: bearer (required, Basic+ tier)
+      body:
+        recipientId: string (required)
+        content: string (required, max 2000 chars)
+        attachments: array (optional)
+      response:
+        message: object
+      errors:
+        - 400: Recipient not found or content too long
+        - 401: Unauthorized
+        - 403: Tier upgrade required
+        - 429: Daily message limit exceeded (Free tier)
+
+    - method: PATCH
+      path: /social/messages/{messageId}/read
+      description: Mark message as read
+      auth: bearer (required)
+      response:
+        success: boolean
+
+    # Boards (Community Forums)
+    - method: GET
+      path: /social/boards
+      description: List all community boards
+      auth: none
+      query:
+        region: string (optional)
+        category: string (optional)
+      response:
+        boards: array
+
+    - method: GET
+      path: /social/boards/{slug}
+      description: Get board details
+      auth: none
+      response:
+        board: object
+        recentPosts: array
+
+    - method: GET
+      path: /social/boards/{slug}/posts
+      description: Get posts in board
+      auth: none
+      query:
+        page: number (default 1)
+        limit: number (default 20)
+        sort: string (default 'recent')
+      response:
+        posts: array
+        nextPage: number
+
+    - method: POST
+      path: /social/boards/{slug}/join
+      description: Join/follow a board
+      auth: bearer (required)
+      response:
+        joined: boolean
+      errors:
+        - 401: Unauthorized
+        - 404: Board not found
+
+    - method: POST
+      path: /social/boards/{slug}/posts
+      description: Create post in board
+      auth: bearer (required, Basic+ tier)
+      body:
+        content: string (required)
+        mediaUrls: array (optional)
+      response:
+        post: object
+      errors:
+        - 401: Unauthorized
+        - 403: Tier upgrade required or banned from board
+        - 404: Board not found
+
+    # Follow System
+    - method: POST
+      path: /social/follow/{userId}
+      description: Follow a user
+      auth: bearer (required)
+      response:
+        following: boolean
+      errors:
+        - 401: Unauthorized
+        - 404: User not found
+
+    - method: DELETE
+      path: /social/follow/{userId}
+      description: Unfollow a user
+      auth: bearer (required)
+      response:
+        following: boolean
+
+    - method: GET
+      path: /social/followers/{userId}
+      description: Get user's followers
+      auth: none
+      query:
+        page: number (default 1)
+        limit: number (default 50)
+      response:
+        followers: array
+        nextPage: number
+
+    - method: GET
+      path: /social/following/{userId}
+      description: Get users being followed
+      auth: none
+      query:
+        page: number (default 1)
+        limit: number (default 50)
+      response:
+        following: array
+        nextPage: number
+
+  # ============================================
+  # Phase 6.4 - Marketplace & Crowdfunding
+  # ============================================
+  marketplace:
+    # Listings
+    - method: GET
+      path: /marketplace/listings
+      description: Browse marketplace listings
+      auth: none
+      query:
+        category: string (optional)
+        location: string (optional)
+        priceMin: number (optional)
+        priceMax: number (optional)
+        verified: boolean (optional)
+        page: number (default 1)
+        limit: number (default 20)
+      response:
+        listings: array
+        nextPage: number
+        total: number
+
+    - method: GET
+      path: /marketplace/listings/{listingId}
+      description: Get listing details
+      auth: none
+      response:
+        listing: object
+        seller: object
+      errors:
+        - 404: Listing not found
+
+    - method: POST
+      path: /marketplace/listings
+      description: Create marketplace listing
+      auth: bearer (required, Pro+ tier)
+      body:
+        title: string (required)
+        description: string (required)
+        category: string (required)
+        priceType: string (required)
+        priceAmount: number (optional)
+        images: array (required, min 1)
+        location: string (required)
+        deliveryMethod: string (required)
+        tags: array (optional)
+      response:
+        listing: object
+      errors:
+        - 400: Invalid listing data
+        - 401: Unauthorized
+        - 403: Tier upgrade required
+
+    - method: PATCH
+      path: /marketplace/listings/{listingId}
+      description: Update own listing
+      auth: bearer (required)
+      body:
+        title: string (optional)
+        description: string (optional)
+        priceAmount: number (optional)
+        status: string (optional)
+      response:
+        listing: object
+      errors:
+        - 403: Not listing owner
+        - 404: Listing not found
+
+    - method: DELETE
+      path: /marketplace/listings/{listingId}
+      description: Delete own listing
+      auth: bearer (required)
+      response:
+        success: boolean
+      errors:
+        - 403: Not listing owner
+
+    - method: POST
+      path: /marketplace/listings/{listingId}/inquiry
+      description: Send inquiry to seller
+      auth: bearer (required)
+      body:
+        message: string (required)
+      response:
+        inquiry: object
+      errors:
+        - 401: Unauthorized
+        - 404: Listing not found
+
+    - method: GET
+      path: /marketplace/my-listings
+      description: Get own listings
+      auth: bearer (required)
+      query:
+        status: string (optional)
+        page: number (default 1)
+      response:
+        listings: array
+        nextPage: number
+
+    - method: GET
+      path: /marketplace/my-inquiries
+      description: Get inquiries on own listings
+      auth: bearer (required)
+      query:
+        status: string (optional)
+        page: number (default 1)
+      response:
+        inquiries: array
+        nextPage: number
+
+    # Crowdfunding
+    - method: GET
+      path: /crowdfunding/campaigns
+      description: Browse crowdfunding campaigns
+      auth: none
+      query:
+        category: string (optional)
+        status: string (optional)
+        page: number (default 1)
+        limit: number (default 20)
+      response:
+        campaigns: array
+        nextPage: number
+
+    - method: GET
+      path: /crowdfunding/campaigns/{campaignId}
+      description: Get campaign details
+      auth: none
+      response:
+        campaign: object
+        creator: object
+        recentBackers: array
+      errors:
+        - 404: Campaign not found
+
+    - method: POST
+      path: /crowdfunding/campaigns
+      description: Create crowdfunding campaign
+      auth: bearer (required, Pro+ tier)
+      body:
+        title: string (required)
+        description: string (required)
+        story: string (required)
+        category: string (required)
+        goalAmount: number (required)
+        endDate: string (required, ISO date)
+        images: array (required)
+        rewards: array (optional)
+      response:
+        campaign: object
+      errors:
+        - 400: Invalid campaign data
+        - 401: Unauthorized
+        - 403: Tier upgrade required
+
+    - method: PATCH
+      path: /crowdfunding/campaigns/{campaignId}
+      description: Update own campaign (before active)
+      auth: bearer (required)
+      body:
+        title: string (optional)
+        description: string (optional)
+        goalAmount: number (optional)
+      response:
+        campaign: object
+      errors:
+        - 403: Not campaign creator or campaign already active
+
+    - method: DELETE
+      path: /crowdfunding/campaigns/{campaignId}
+      description: Cancel own campaign
+      auth: bearer (required)
+      response:
+        success: boolean
+      errors:
+        - 403: Not campaign creator or cannot cancel
+
+    - method: POST
+      path: /crowdfunding/campaigns/{campaignId}/back
+      description: Back a crowdfunding campaign
+      auth: bearer (required)
+      body:
+        amount: number (required, min $1)
+        rewardTierId: string (optional)
+        anonymous: boolean (default false)
+        message: string (optional)
+      response:
+        contribution: object
+        paymentUrl: string (Stripe checkout)
+      errors:
+        - 400: Invalid amount
+        - 401: Unauthorized
+        - 404: Campaign not found or expired
+
+    - method: GET
+      path: /crowdfunding/my-campaigns
+      description: Get own campaigns
+      auth: bearer (required)
+      response:
+        campaigns: array
+
+    - method: GET
+      path: /crowdfunding/my-contributions
+      description: Get own contributions
+      auth: bearer (required)
+      response:
+        contributions: array
+
+  # ============================================
+  # Phase 6.5 - Education & Language Tools
+  # ============================================
+  education:
+    # Translation
+    - method: POST
+      path: /translate
+      description: Translate text (DeepL + GPT-5 fallback)
+      auth: bearer (required)
+      body:
+        text: string (required, max 5000 chars)
+        targetLang: string (required, ISO code)
+        sourceLang: string (optional, auto-detect)
+      response:
+        translatedText: string
+        sourceLang: string (detected)
+        targetLang: string
+        provider: string (deepl or gpt5)
+      errors:
+        - 400: Invalid language code or text too long
+        - 401: Unauthorized
+        - 429: Daily translation limit exceeded (Free tier)
+
+    - method: GET
+      path: /translate/languages
+      description: Get supported translation languages
+      auth: none
+      response:
+        languages: array
+
+    - method: GET
+      path: /translate/history
+      description: Get user's translation history
+      auth: bearer (required)
+      query:
+        limit: number (default 50)
+      response:
+        translations: array
+
+    # Language Learning
+    - method: GET
+      path: /education/languages
+      description: List available language learning modules
+      auth: none
+      response:
+        languages: array
+
+    - method: GET
+      path: /education/languages/{lang}
+      description: Get language learning module
+      auth: none
+      response:
+        language: object
+        categories: array
+        phrases: array
+
+    - method: GET
+      path: /education/phrases
+      description: Get phrases by category
+      auth: none
+      query:
+        language: string (required)
+        category: string (optional)
+        difficulty: string (optional)
+      response:
+        phrases: array
+
+    - method: POST
+      path: /education/progress
+      description: Track learning progress
+      auth: bearer (required)
+      body:
+        language: string (required)
+        phraseId: string (required)
+        mastered: boolean (required)
+      response:
+        progress: object
+
+    # Cultural Guides
+    - method: GET
+      path: /education/cultures
+      description: Browse cultural guides
+      auth: none
+      query:
+        region: string (optional)
+        topic: string (optional)
+      response:
+        guides: array
+
+    - method: GET
+      path: /education/cultures/{region}
+      description: Get regional cultural guide
+      auth: none
+      response:
+        guide: object
+        topics: array
+
+    - method: GET
+      path: /education/etiquette/{topic}
+      description: Get etiquette guide by topic
+      auth: none
+      response:
+        guide: object
+        doList: array
+        dontList: array
+
+    # Religion & Spirituality
+    - method: GET
+      path: /education/religion
+      description: Browse religion/spirituality resources
+      auth: none
+      query:
+        tradition: string (optional)
+      response:
+        resources: array
+
+    - method: GET
+      path: /education/religion/{tradition}
+      description: Get tradition-specific resources
+      auth: none
+      response:
+        tradition: object
+        topics: array
+        resources: array
+
+  # ============================================
+  # Phase 6.6 - Cross-App Navigation
+  # ============================================
+  navigation:
+    - method: GET
+      path: /search
+      description: Unified search across all BANIBS properties
+      auth: optional (better results when authenticated)
+      query:
+        q: string (required)
+        filter: string (optional, enum: news, social, users, businesses, marketplace, campaigns, education)
+        page: number (default 1)
+        limit: number (default 20)
+      response:
+        results: array
+        filters: object (result counts per type)
+        nextPage: number
+
+    - method: GET
+      path: /notifications
+      description: Get user notifications from all properties
+      auth: bearer (required)
+      query:
+        unreadOnly: boolean (default false)
+        page: number (default 1)
+        limit: number (default 50)
+      response:
+        notifications: array
+        unreadCount: number
+        nextPage: number
+
+    - method: PATCH
+      path: /notifications/{notificationId}/read
+      description: Mark notification as read
+      auth: bearer (required)
+      response:
+        success: boolean
+
+    - method: PATCH
+      path: /notifications/read-all
+      description: Mark all notifications as read
+      auth: bearer (required)
+      response:
+        success: boolean
+        markedCount: number
+
+# Rate Limits (per tier)
+rateLimits:
+  free:
+    api: 100 requests/hour
+    posts: 20/day
+    messages: 10/day
+    translations: 50/day
+    fileUploads: 100MB/day
+  
+  basic:
+    api: 500 requests/hour
+    posts: 100/day
+    messages: unlimited
+    translations: 500/day
+    fileUploads: 1GB/day
+  
+  pro:
+    api: 2000 requests/hour
+    posts: unlimited
+    messages: unlimited
+    translations: 2000/day
+    fileUploads: 10GB/day
+  
+  enterprise:
+    api: custom
+    posts: unlimited
+    messages: unlimited
+    translations: custom
+    fileUploads: custom
+
+# Error Response Format
+errorResponse:
+  error:
+    code: string
+    message: string
+    details: object (optional)
+  
+  example:
+    error:
+      code: "TIER_UPGRADE_REQUIRED"
+      message: "This feature requires Pro membership"
+      details:
+        requiredTier: "pro"
+        currentTier: "free"
+        upgradeUrl: "/membership/plans"
+
+# Authentication Header Format
+authenticationHeader:
+  format: "Authorization: Bearer {accessToken}"
+  example: "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
