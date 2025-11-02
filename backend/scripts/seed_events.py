@@ -1,13 +1,16 @@
 """
 Seed Events - Phase 6.2.3
-Populates 10 events (upcoming, past, in-person, virtual)
+Populates 10 events across categories for Events & Networking module
+Includes virtual, in-person, and past events for comprehensive testing
+Priority events: BANIBS Small Business Meetup, Black Tech Founders Call,
+Grant Application Workshop, Community Wealth Roundtable, Juneteenth, Kwanzaa
 """
 
 import asyncio
 import sys
 from pathlib import Path
-from dotenv import load_dotenv
 from datetime import datetime, timedelta, timezone
+from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).parent.parent / '.env')
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -30,150 +33,171 @@ async def seed_events():
     admin_id = admin["id"]
     admin_name = admin["name"]
     
+    # Calculate dates
     now = datetime.now(timezone.utc)
+    tomorrow = now + timedelta(days=1)
+    next_week = now + timedelta(days=7)
+    two_weeks = now + timedelta(days=14)
+    three_weeks = now + timedelta(days=21)
+    one_month = now + timedelta(days=30)
+    past_date = now - timedelta(days=5)  # Past event for testing filters
     
     events_data = [
-        # Upcoming events (7)
+        # 1. BANIBS Small Business Meetup (In-Person, Upcoming)
         {
-            "title": "Black Business Networking Mixer",
-            "description": "Connect with local Black business owners and entrepreneurs. Enjoy refreshments, exchange ideas, and build lasting partnerships.",
-            "category": "Networking",
-            "start_date": now + timedelta(days=13),
-            "end_date": now + timedelta(days=13, hours=3),
-            "event_type": "In-Person",
-            "location_name": "Chicago Convention Center",
-            "location_address": "2301 S King Dr, Chicago, IL 60616",
-            "organizer_email": "events@banibs.com",
-            "rsvp_limit": 100,
-            "tags": ["networking", "business", "chicago"],
-            "featured": True
-        },
-        {
-            "title": "Tech Workshop: AI for Small Business",
-            "description": "Learn how to leverage AI tools to grow your small business. Hands-on workshop with industry experts.",
-            "category": "Workshop",
-            "start_date": now + timedelta(days=18, hours=14),
-            "end_date": now + timedelta(days=18, hours=16),
-            "event_type": "Virtual",
-            "virtual_url": "https://zoom.us/j/123456789",
-            "organizer_email": "workshops@banibs.com",
-            "rsvp_limit": 50,
-            "tags": ["tech", "ai", "workshop"],
-            "featured": True
-        },
-        {
-            "title": "Indigenous Entrepreneurs Webinar",
-            "description": "Celebrating Indigenous entrepreneurship and exploring funding opportunities for Indigenous-owned businesses.",
-            "category": "Webinar",
-            "start_date": now + timedelta(days=20, hours=11),
-            "end_date": now + timedelta(days=20, hours=12),
-            "event_type": "Virtual",
-            "virtual_url": "https://zoom.us/j/987654321",
-            "organizer_email": "webinars@banibs.com",
-            "rsvp_limit": 200,
-            "tags": ["indigenous", "funding", "webinar"],
-            "featured": False
-        },
-        {
-            "title": "Small Business Conference 2025",
-            "description": "Three-day conference featuring keynote speakers, workshops, and networking. Both in-person and virtual attendance options.",
-            "category": "Conference",
-            "start_date": now + timedelta(days=29),
-            "end_date": now + timedelta(days=31),
-            "event_type": "Hybrid",
-            "location_name": "Atlanta Convention Center",
-            "location_address": "285 Andrew Young International Blvd NW, Atlanta, GA 30313",
-            "virtual_url": "https://zoom.us/j/conference2025",
-            "organizer_email": "conference@banibs.com",
-            "rsvp_limit": 500,
-            "tags": ["conference", "business", "atlanta"],
-            "featured": True
-        },
-        {
-            "title": "Community Meetup: Chicago",
-            "description": "Casual meetup for local BANIBS community members. Share experiences, ask questions, and make friends!",
+            "title": "BANIBS Small Business Meetup - New York",
+            "description": "Join fellow Black and Indigenous entrepreneurs for an evening of networking, knowledge sharing, and community building. Connect with local business owners, discuss challenges, and explore collaboration opportunities. Light refreshments provided.",
             "category": "Meetup",
-            "start_date": now + timedelta(days=16, hours=19),
-            "end_date": now + timedelta(days=16, hours=21),
+            "start_date": two_weeks,
+            "end_date": two_weeks + timedelta(hours=3),
             "event_type": "In-Person",
-            "location_name": "The Coffee Lab",
-            "location_address": "1256 S Wabash Ave, Chicago, IL 60605",
-            "organizer_email": "meetups@banibs.com",
-            "rsvp_limit": 30,
-            "tags": ["meetup", "community", "chicago"],
-            "featured": False
-        },
-        {
-            "title": "Grant Writing Workshop",
-            "description": "Master the art of grant writing with expert guidance. Learn tips and tricks for successful applications.",
-            "category": "Workshop",
-            "start_date": now + timedelta(days=25, hours=13),
-            "end_date": now + timedelta(days=25, hours=15),
-            "event_type": "Virtual",
-            "virtual_url": "https://zoom.us/j/grantwriting",
-            "organizer_email": "workshops@banibs.com",
-            "rsvp_limit": 75,
-            "tags": ["grant", "funding", "workshop"],
-            "featured": False
-        },
-        {
-            "title": "Holiday Social Gathering",
-            "description": "Join us for a festive celebration! Food, music, and community spirit.",
-            "category": "Social Gathering",
-            "start_date": now + timedelta(days=50, hours=18),
-            "end_date": now + timedelta(days=50, hours=22),
-            "event_type": "In-Person",
-            "location_name": "Community Center",
-            "location_address": "100 Main St, Chicago, IL 60601",
-            "organizer_email": "events@banibs.com",
-            "rsvp_limit": 150,
-            "tags": ["social", "community", "celebration"],
-            "featured": False
-        },
-        
-        # Past events (2)
-        {
-            "title": "October Networking Event",
-            "description": "Monthly networking event for business owners (PAST EVENT)",
-            "category": "Networking",
-            "start_date": now - timedelta(days=10),
-            "end_date": now - timedelta(days=10, hours=-3),
-            "event_type": "In-Person",
-            "location_name": "Business Hub",
-            "location_address": "456 Oak St, Chicago, IL 60602",
+            "location_name": "BANIBS Community Hub",
+            "location_address": "123 Malcolm X Blvd, New York, NY 10027",
+            "location_url": "https://goo.gl/maps/example",
             "organizer_email": "events@banibs.com",
             "rsvp_limit": 50,
-            "tags": ["networking", "past"],
-            "featured": False
+            "tags": ["networking", "small-business", "community", "nyc"],
+            "featured": True
         },
+        
+        # 2. Black Tech Founders Call (Virtual, Upcoming)
         {
-            "title": "Intro to Digital Marketing Webinar",
-            "description": "Beginner-friendly webinar on digital marketing basics (PAST EVENT)",
+            "title": "Black Tech Founders Monthly Call",
+            "description": "Monthly virtual meetup for Black tech founders and aspiring entrepreneurs. Discuss fundraising strategies, product development, team building, and the unique challenges facing Black founders in tech. Guest speaker: TBD. Open to founders at all stages.",
             "category": "Webinar",
-            "start_date": now - timedelta(days=5),
-            "end_date": now - timedelta(days=5, hours=-2),
+            "start_date": next_week,
+            "end_date": next_week + timedelta(hours=1.5),
             "event_type": "Virtual",
-            "virtual_url": "https://zoom.us/j/pastwebinar",
-            "organizer_email": "webinars@banibs.com",
+            "virtual_url": "https://zoom.us/j/banibs-tech-founders",
+            "organizer_email": "tech@banibs.com",
             "rsvp_limit": 100,
-            "tags": ["marketing", "webinar", "past"],
+            "tags": ["tech", "founders", "virtual", "startup", "fundraising"],
+            "featured": True
+        },
+        
+        # 3. Grant Application Workshop (Virtual, Upcoming)
+        {
+            "title": "Grant Application Workshop: Winning Strategies",
+            "description": "Learn how to write compelling grant applications that get funded. This hands-on workshop covers: identifying the right grants, crafting strong narratives, building realistic budgets, and common pitfalls to avoid. Includes Q&A session with grant reviewers.",
+            "category": "Workshop",
+            "start_date": three_weeks,
+            "end_date": three_weeks + timedelta(hours=2),
+            "event_type": "Virtual",
+            "virtual_url": "https://zoom.us/j/banibs-grant-workshop",
+            "organizer_email": "grants@banibs.com",
+            "rsvp_limit": 75,
+            "tags": ["grants", "funding", "workshop", "business", "nonprofit"],
+            "featured": True
+        },
+        
+        # 4. Community Wealth Roundtable (Hybrid, Upcoming)
+        {
+            "title": "Community Wealth Roundtable: Building Economic Power",
+            "description": "Facilitated discussion on building wealth within Black and Indigenous communities. Topics include: cooperative economics, collective buying power, land ownership, financial literacy, and intergenerational wealth transfer. Featuring community leaders and financial experts.",
+            "category": "Conference",
+            "start_date": one_month,
+            "end_date": one_month + timedelta(hours=4),
+            "event_type": "Hybrid",
+            "location_name": "The Schomburg Center",
+            "location_address": "515 Malcolm X Blvd, New York, NY 10037",
+            "location_url": "https://goo.gl/maps/schomburg",
+            "virtual_url": "https://zoom.us/j/banibs-wealth-roundtable",
+            "organizer_email": "wealth@banibs.com",
+            "rsvp_limit": 150,
+            "tags": ["wealth", "economics", "community", "financial-literacy"],
+            "featured": True
+        },
+        
+        # 5. Juneteenth Business & Culture Festival (Past Event - for filter testing)
+        {
+            "title": "Juneteenth Business & Culture Festival",
+            "description": "A celebration of freedom, entrepreneurship, and Black culture. Featured: Black-owned business marketplace, live performances, keynote speakers, youth programs, and community awards. A day of education, empowerment, and celebration.",
+            "category": "Social Gathering",
+            "start_date": past_date,
+            "end_date": past_date + timedelta(hours=8),
+            "event_type": "In-Person",
+            "location_name": "Central Park - Great Lawn",
+            "location_address": "Central Park, New York, NY 10024",
+            "location_url": "https://goo.gl/maps/centralpark",
+            "organizer_email": "events@banibs.com",
+            "rsvp_limit": 500,
+            "tags": ["juneteenth", "culture", "festival", "black-owned", "celebration"],
             "featured": False
         },
         
-        # Ongoing event (1)
+        # 6. Indigenous Heritage & Business Symposium (Upcoming, In-Person)
         {
-            "title": "Week-Long Business Bootcamp",
-            "description": "Intensive 7-day bootcamp for aspiring entrepreneurs (CURRENTLY ONGOING)",
+            "title": "Indigenous Heritage & Business Symposium",
+            "description": "Two-day symposium celebrating Indigenous entrepreneurship, cultural heritage, and economic sovereignty. Panel discussions on: Indigenous business practices, cultural preservation through commerce, tribal economic development, and modern Indigenous entrepreneurship.",
+            "category": "Conference",
+            "start_date": now + timedelta(days=45),
+            "end_date": now + timedelta(days=46),
+            "event_type": "In-Person",
+            "location_name": "Native American Cultural Center",
+            "location_address": "Denver, CO",
+            "organizer_email": "indigenous@banibs.com",
+            "rsvp_limit": 200,
+            "tags": ["indigenous", "heritage", "symposium", "cultural", "sovereignty"],
+            "featured": True
+        },
+        
+        # 7. Digital Marketing for Small Businesses (Virtual, Upcoming)
+        {
+            "title": "Digital Marketing 101 for Small Businesses",
+            "description": "Master the essentials of digital marketing. Topics: social media strategy, email marketing, SEO basics, content creation, and analytics. Perfect for small business owners ready to grow their online presence. Includes actionable templates and tools.",
             "category": "Workshop",
-            "start_date": now - timedelta(days=2),
-            "end_date": now + timedelta(days=5),
-            "event_type": "Hybrid",
-            "location_name": "Innovation Hub",
-            "location_address": "789 Tech Blvd, Chicago, IL 60603",
-            "virtual_url": "https://zoom.us/j/bootcamp",
-            "organizer_email": "bootcamp@banibs.com",
-            "rsvp_limit": 40,
-            "tags": ["bootcamp", "intensive", "ongoing"],
+            "start_date": now + timedelta(days=10),
+            "end_date": now + timedelta(days=10, hours=2),
+            "event_type": "Virtual",
+            "virtual_url": "https://zoom.us/j/banibs-digital-marketing",
+            "organizer_email": "marketing@banibs.com",
+            "rsvp_limit": 60,
+            "tags": ["marketing", "digital", "social-media", "workshop", "seo"],
+            "featured": False
+        },
+        
+        # 8. Supplier Diversity Networking Night (In-Person, Upcoming)
+        {
+            "title": "Supplier Diversity Networking Night",
+            "description": "Connect with corporate procurement officers and supplier diversity managers. Learn about certification programs, bidding processes, and relationship building. Ideal for businesses seeking to become corporate suppliers. Business casual attire.",
+            "category": "Networking",
+            "start_date": now + timedelta(days=18),
+            "end_date": now + timedelta(days=18, hours=3),
+            "event_type": "In-Person",
+            "location_name": "Chicago Business Center",
+            "location_address": "Chicago, IL",
+            "organizer_email": "networking@banibs.com",
+            "rsvp_limit": 80,
+            "tags": ["supplier-diversity", "networking", "corporate", "procurement"],
+            "featured": False
+        },
+        
+        # 9. Kwanzaa Business Preview & Planning Session (Upcoming, Virtual)
+        {
+            "title": "Kwanzaa Business Preview & Planning Session",
+            "description": "Get ahead of the holiday season! Plan your Kwanzaa business strategy with fellow entrepreneurs. Discuss: product planning, marketing campaigns, community partnerships, and cultural authenticity. Share ideas and build collaborations for the season of Ujamaa (cooperative economics).",
+            "category": "Meetup",
+            "start_date": now + timedelta(days=35),
+            "end_date": now + timedelta(days=35, hours=1.5),
+            "event_type": "Virtual",
+            "virtual_url": "https://zoom.us/j/banibs-kwanzaa-planning",
+            "organizer_email": "culture@banibs.com",
+            "tags": ["kwanzaa", "cultural", "holiday", "planning", "ujamaa"],
+            "featured": False
+        },
+        
+        # 10. AI & Automation for Entrepreneurs (Virtual, Upcoming)
+        {
+            "title": "AI & Automation for Entrepreneurs",
+            "description": "Explore how AI and automation can transform your business operations. Learn about: AI tools for marketing, customer service automation, workflow optimization, and emerging AI opportunities for small businesses. No technical background required.",
+            "category": "Webinar",
+            "start_date": now + timedelta(days=12),
+            "end_date": now + timedelta(days=12, hours=1.5),
+            "event_type": "Virtual",
+            "virtual_url": "https://zoom.us/j/banibs-ai-automation",
+            "organizer_email": "tech@banibs.com",
+            "rsvp_limit": 120,
+            "tags": ["ai", "automation", "technology", "innovation", "efficiency"],
             "featured": False
         }
     ]
