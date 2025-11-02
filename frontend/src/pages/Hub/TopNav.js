@@ -6,6 +6,7 @@ const TopNav = ({ user, onLogout }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMessages, setShowMessages] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showNetworkDropdown, setShowNetworkDropdown] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
