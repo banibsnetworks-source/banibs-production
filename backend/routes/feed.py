@@ -139,7 +139,7 @@ async def fetch_resource_items(date_cutoff: Optional[datetime], limit: int) -> L
 
 async def fetch_event_items(date_cutoff: Optional[datetime], limit: int) -> List[FeedItem]:
     """Fetch events for feed (upcoming only by default)"""
-    db = await db_connection()
+    db = await get_db()
     collection = db["banibs_events"]
     
     now = datetime.now(timezone.utc)
