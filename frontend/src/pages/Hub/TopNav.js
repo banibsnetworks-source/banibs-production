@@ -167,15 +167,79 @@ const TopNav = ({ user, onLogout }) => {
                 className="relative p-2 text-gray-300 hover:text-yellow-400 transition"
               >
                 <span className="text-xl">🔔</span>
-                {/* Badge for unread count - stub for now */}
+                {/* Badge for unread count */}
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
+                )}
               </button>
               
               {showNotifications && (
-                <div className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 p-4">
-                  <div className="text-gray-800 font-semibold mb-2">Notifications</div>
-                  <div className="text-gray-500 text-sm text-center py-4">
-                    Notifications will appear here (Phase 6.2+)
+                <div className="absolute right-0 mt-2 w-96 bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-h-[500px] overflow-y-auto">
+                  <div className="sticky top-0 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+                    <div className="text-gray-800 font-semibold">Notifications</div>
+                    <button
+                      onClick={() => setShowNotifications(false)}
+                      className="text-gray-400 hover:text-gray-600"
+                    >
+                      ✕
+                    </button>
                   </div>
+
+                  {loadingNotifications ? (
+                    <div className="p-8 text-center text-gray-500">
+                      Loading...
+                    </div>
+                  ) : notifications.length === 0 ? (
+                    <div className="p-8 text-center text-gray-500 text-sm">
+                      No notifications yet
+                    </div>
+                  ) : (
+                    <div className="divide-y divide-gray-100">
+                      {notifications.map((notif) => (
+                        <button
+                          key={notif.id}
+                          onClick={() => handleNotificationClick(notif)}
+                          className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition ${
+                            !notif.read ? 'bg-blue-50' : ''
+                          }`}
+                        >
+                          <div className="flex items-start gap-3">
+                            <div className="text-2xl flex-shrink-0">
+                              {getNotificationIcon(notif.type)}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-1">
+                                <div className="text-sm font-semibold text-gray-900">
+                                  {notif.title}
+                                </div>
+                                {!notif.read && (
+                                  <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
+                                )}
+                              </div>
+                              <div className="text-xs text-gray-600 mb-1 line-clamp-2">
+                                {notif.message}
+                              </div>
+                              <div className="text-xs text-gray-400">
+                                {formatTimeAgo(notif.created_at)}
+                              </div>
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {notifications.length > 0 && (
+                    <Link
+                      to="/notifications"
+                      onClick={() => setShowNotifications(false)}
+                      className="block px-4 py-3 text-center text-sm font-semibold text-gray-700 hover:bg-gray-50 border-t border-gray-200"
+                    >
+                      View All Notifications
+                    </Link>
+                  )}
                 </div>
               )}
             </div>
