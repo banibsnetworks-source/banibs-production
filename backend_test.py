@@ -2537,6 +2537,73 @@ class BanibsAPITester:
             self.log(f"💥 {failed} test(s) failed")
             return False
 
+    def test_sso_cookie_behavior(self) -> bool:
+        """Test SSO cookie behavior for migrated users"""
+        self.log("Testing SSO cookie behavior...")
+        
+        response = self.make_request("POST", "/auth/login", {
+            "email": "admin@banibs.com",
+            "password": "BanibsAdmin#2025"
+        })
+        
+        if response.status_code == 200:
+            # Check if refresh token cookie is set
+            cookies = response.cookies
+            if 'refresh_token' in cookies:
+                cookie = cookies['refresh_token']
+                self.log("✅ Refresh token cookie set")
+                
+                # Check cookie attributes (limited by test environment)
+                cookie_attrs = []
+                if hasattr(cookie, 'domain') and cookie.domain:
+                    cookie_attrs.append(f"Domain: {cookie.domain}")
+                if hasattr(cookie, 'secure') and cookie.secure:
+                    cookie_attrs.append("Secure: True")
+                if hasattr(cookie, 'httponly') and cookie.httponly:
+                    cookie_attrs.append("HttpOnly: True")
+                
+                if cookie_attrs:
+                    self.log(f"✅ Cookie attributes: {', '.join(cookie_attrs)}")
+                else:
+                    self.log("⚠️ Cookie attributes not fully verifiable in test environment")
+                
+                return True
+            else:
+                self.log("❌ Refresh token cookie not set", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Login failed for SSO cookie test: {response.status_code}", "ERROR")
+            return False
+    
+    def test_access_token_expiry(self) -> bool:
+        """Test access token expiry time (should be 15 minutes)"""
+        self.log("Testing access token expiry...")
+        
+        if not self.unified_access_token:
+            self.log("❌ No access token available for expiry test", "ERROR")
+            return False
+        
+        payload = self.decode_jwt_token(self.unified_access_token)
+        if not payload:
+            self.log("❌ Could not decode access token", "ERROR")
+            return False
+        
+        if "exp" in payload and "iat" in payload:
+            exp_time = payload["exp"]
+            iat_time = payload["iat"]
+            duration = exp_time - iat_time
+            
+            # Should be 15 minutes (900 seconds)
+            if duration == 900:
+                self.log(f"✅ Access token expiry correct: {duration} seconds (15 minutes)")
+                return True
+            else:
+                self.log(f"❌ Access token expiry incorrect: {duration} seconds, expected 900", "ERROR")
+                return False
+        else:
+            self.log("❌ Access token missing exp or iat fields", "ERROR")
+            return False
+
     def run_migration_tests(self) -> bool:
         """Run Phase 6.0 Unified Authentication Migration Tests"""
         self.log("=" * 80)
@@ -2548,6 +2615,8 @@ class BanibsAPITester:
             ("Migrated Contributor User Login", self.test_migrated_contributor_login),
             ("JWT Token Validation", self.test_migrated_jwt_validation),
             ("Refresh Token Flow", self.test_migrated_refresh_token_flow),
+            ("SSO Cookie Behavior", self.test_sso_cookie_behavior),
+            ("Access Token Expiry", self.test_access_token_expiry),
         ]
         
         passed = 0
