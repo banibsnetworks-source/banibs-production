@@ -95,6 +95,10 @@ async def get_latest_news_feed():
         # Convert datetime to ISO string if needed
         if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
             item['publishedAt'] = item['publishedAt'].isoformat()
+        
+        # Convert sentiment_at to ISO string if needed (Phase 6.3)
+        if 'sentiment_at' in item and hasattr(item['sentiment_at'], 'isoformat'):
+            item['sentiment_at'] = item['sentiment_at'].isoformat()
             
         unique_items.append(NewsItemPublic(**item))
         
