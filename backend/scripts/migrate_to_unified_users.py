@@ -170,7 +170,7 @@ class UserMigration:
                 unified_user = {
                     "id": str(uuid.uuid4()),
                     "email": contributor["email"].lower(),
-                    "password_hash": contributor["password"],  # Already bcrypt hashed
+                    "password_hash": contributor["password_hash"],  # Already bcrypt hashed
                     "name": contributor.get("name", contributor["email"].split("@")[0]),
                     "avatar_url": None,
                     "bio": None,
