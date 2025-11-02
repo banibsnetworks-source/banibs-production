@@ -1,0 +1,603 @@
+# BANIBS Phase 6 Implementation Roadmap v1.3.2
+# Generated: 2025-11-01
+# Owner: BANIBS Core Team
+
+version: "1.3.2"
+status: "Architecture Complete → Implementation Ready"
+architecture: "Modular Monolith"
+timeline: "22-31 weeks (5.5-7.5 months)"
+
+# ============================================
+# PHASE OVERVIEW
+# ============================================
+
+phases:
+  - id: "6.0"
+    name: "Unified Identity & SSO"
+    status: "not_started"
+    priority: "critical"
+    duration: "2-3 weeks"
+    prerequisites: []
+    deliverables:
+      - "JWT authentication service"
+      - "User migration from existing tables"
+      - "Token refresh mechanism"
+      - "Email verification flow"
+      - "Password reset flow"
+      - "Unified user profile API"
+    
+  - id: "6.2"
+    name: "Membership Tiers"
+    status: "not_started"
+    priority: "high"
+    duration: "2-3 weeks"
+    prerequisites: ["6.0"]
+    deliverables:
+      - "Stripe subscription products"
+      - "Subscription checkout flow"
+      - "Feature gating middleware"
+      - "Membership dashboard"
+      - "Webhook handler"
+      - "Billing history API"
+  
+  - id: "6.1"
+    name: "Social Media MVP"
+    status: "not_started"
+    priority: "high"
+    duration: "6-8 weeks"
+    prerequisites: ["6.0", "6.2"]
+    deliverables:
+      - "User profiles (avatar, banner, bio)"
+      - "Post creation (text, image, video)"
+      - "Comment system (nested)"
+      - "Direct messaging"
+      - "Follow/unfollow system"
+      - "Community boards"
+      - "Cloudflare R2 file uploads"
+      - "Feed algorithm (chronological)"
+  
+  - id: "6.4"
+    name: "Marketplace & Crowdfunding"
+    status: "not_started"
+    priority: "medium"
+    duration: "6-8 weeks"
+    prerequisites: ["6.0", "6.2"]
+    deliverables:
+      - "Marketplace listings (create, edit, browse)"
+      - "Inquiry system (buyer → seller)"
+      - "Crowdfunding campaigns"
+      - "Contribution/backing system"
+      - "Stripe Connect integration"
+      - "Payment flow (10% platform fee)"
+      - "Verified business badges"
+  
+  - id: "6.5"
+    name: "Education & Language Tools"
+    status: "not_started"
+    priority: "medium"
+    duration: "4-6 weeks"
+    prerequisites: ["6.0"]
+    deliverables:
+      - "Translation API (DeepL + GPT-5)"
+      - "Language learning modules"
+      - "Cultural etiquette guides"
+      - "Religion/spirituality resources"
+      - "Translation history"
+      - "Progress tracking"
+  
+  - id: "6.6"
+    name: "Cross-App Navigation"
+    status: "not_started"
+    priority: "low"
+    duration: "2-3 weeks"
+    prerequisites: ["6.0", "6.1", "6.2", "6.4", "6.5"]
+    deliverables:
+      - "Global navigation component"
+      - "Unified search API"
+      - "Deep linking system"
+      - "Notification aggregation"
+      - "Activity feed"
+
+# ============================================
+# TECHNICAL STACK
+# ============================================
+
+tech_stack:
+  backend:
+    framework: "FastAPI (Python 3.11+)"
+    database: "MongoDB (Motor async driver)"
+    auth: "JWT (access + refresh tokens)"
+    file_storage: "Cloudflare R2 (S3-compatible)"
+    payments: "Stripe Connect + Webhooks"
+    translation: "DeepL API (primary) + GPT-5 (fallback)"
+    email: "Existing email service (Phase 4.2)"
+    scheduler: "APScheduler (existing)"
+  
+  frontend:
+    framework: "React 18+"
+    styling: "Tailwind CSS (BANIBS Design System v1)"
+    state: "React Context + localStorage"
+    routing: "React Router"
+    http: "Axios with interceptors"
+    realtime: "Future WebSocket integration"
+  
+  infrastructure:
+    architecture: "Modular Monolith"
+    deployment: "Kubernetes (existing)"
+    cdn: "Cloudflare (R2 + CDN)"
+    monitoring: "Backend logs + health checks"
+
+# ============================================
+# DATABASE COLLECTIONS (NEW)
+# ============================================
+
+database_collections:
+  # Phase 6.0 - Identity
+  - name: "banibs_users"
+    description: "Unified user accounts"
+    indexes: ["email", "membership_level", "roles"]
+    retention: "Permanent (GDPR-compliant deletion on request)"
+  
+  # Phase 6.2 - Membership
+  - name: "subscriptions"
+    description: "User subscription records"
+    indexes: ["user_id", "status", "stripe_subscription_id"]
+    retention: "7 years (financial records)"
+  
+  # Phase 6.1 - Social
+  - name: "social_profiles"
+    description: "Social network profiles"
+    indexes: ["user_id", "display_name"]
+    retention: "Permanent (deleted with account)"
+  
+  - name: "social_posts"
+    description: "User posts/content"
+    indexes: ["user_id", "board_id", "created_at"]
+    retention: "Permanent (soft delete, 30-day recovery)"
+  
+  - name: "social_comments"
+    description: "Post comments"
+    indexes: ["post_id", "user_id", "parent_comment_id"]
+    retention: "Permanent (deleted with parent post)"
+  
+  - name: "social_reactions"
+    description: "Likes/reactions"
+    indexes: ["target_id", "user_id"]
+    retention: "Permanent"
+  
+  - name: "social_follows"
+    description: "Follow relationships"
+    indexes: ["follower_id", "following_id"]
+    retention: "Permanent"
+  
+  - name: "social_messages"
+    description: "Direct messages"
+    indexes: ["sender_id", "recipient_id", "conversation_id"]
+    retention: "Permanent (user-controlled deletion)"
+  
+  - name: "social_boards"
+    description: "Community forums/boards"
+    indexes: ["slug", "region", "category"]
+    retention: "Permanent"
+  
+  # Phase 6.4 - Marketplace
+  - name: "marketplace_listings"
+    description: "Product/service listings"
+    indexes: ["seller_id", "category", "status"]
+    retention: "Permanent (archived after expiry)"
+  
+  - name: "marketplace_inquiries"
+    description: "Buyer inquiries"
+    indexes: ["listing_id", "buyer_id", "status"]
+    retention: "1 year"
+  
+  - name: "crowdfunding_campaigns"
+    description: "Crowdfunding campaigns"
+    indexes: ["creator_id", "status", "end_date"]
+    retention: "Permanent"
+  
+  - name: "crowdfunding_contributions"
+    description: "Campaign contributions"
+    indexes: ["campaign_id", "backer_id", "payment_status"]
+    retention: "7 years (financial records)"
+  
+  # Phase 6.5 - Education
+  - name: "translations_cache"
+    description: "Cached translations"
+    indexes: ["source_text", "source_lang", "target_lang"]
+    retention: "30 days (LRU cache)"
+  
+  - name: "language_modules"
+    description: "Language learning content"
+    indexes: ["language", "category"]
+    retention: "Permanent"
+  
+  - name: "cultural_guides"
+    description: "Cultural etiquette guides"
+    indexes: ["region", "country", "topic"]
+    retention: "Permanent"
+  
+  - name: "religion_resources"
+    description: "Religion/spirituality education"
+    indexes: ["tradition", "topic"]
+    retention: "Permanent"
+  
+  # Phase 6.6 - Navigation
+  - name: "notifications"
+    description: "User notifications"
+    indexes: ["user_id", "read", "created_at"]
+    retention: "90 days (auto-cleanup)"
+
+# ============================================
+# IMPLEMENTATION MILESTONES
+# ============================================
+
+milestones:
+  week_1_3:
+    phase: "6.0"
+    goals:
+      - "Complete JWT authentication service"
+      - "Migrate existing users to banibs_users"
+      - "Implement email verification"
+      - "Build password reset flow"
+      - "Frontend AuthProvider integration"
+    testing:
+      - "User registration flow"
+      - "Login/logout flow"
+      - "Token refresh mechanism"
+      - "Email verification"
+      - "Password reset"
+  
+  week_4_6:
+    phase: "6.2"
+    goals:
+      - "Create Stripe subscription products"
+      - "Build subscription checkout flow"
+      - "Implement feature gating middleware"
+      - "Create membership dashboard UI"
+      - "Set up webhook handler"
+    testing:
+      - "Subscription creation"
+      - "Payment processing"
+      - "Tier upgrades/downgrades"
+      - "Webhook events"
+      - "Feature gating"
+  
+  week_7_14:
+    phase: "6.1"
+    goals:
+      - "Build social profiles (avatar, banner)"
+      - "Implement post creation (text, image, video)"
+      - "Build comment system"
+      - "Create direct messaging"
+      - "Implement follow system"
+      - "Build community boards"
+      - "Set up Cloudflare R2"
+      - "Build feed algorithm"
+    testing:
+      - "Profile creation/editing"
+      - "Post CRUD operations"
+      - "File uploads (tier-based limits)"
+      - "Comments (nested)"
+      - "Messaging (tier-based limits)"
+      - "Follow/unfollow"
+      - "Board posts"
+      - "Feed generation"
+  
+  week_15_22:
+    phase: "6.4"
+    goals:
+      - "Build marketplace listings"
+      - "Implement inquiry system"
+      - "Create crowdfunding campaigns"
+      - "Build contribution system"
+      - "Integrate Stripe Connect"
+      - "Implement payment flows"
+      - "Add business verification"
+    testing:
+      - "Listing creation/editing"
+      - "Inquiry messaging"
+      - "Campaign creation"
+      - "Contribution processing"
+      - "Payment escrow"
+      - "Platform fee calculation"
+  
+  week_23_28:
+    phase: "6.5"
+    goals:
+      - "Integrate DeepL + GPT-5 translation"
+      - "Build language learning modules"
+      - "Create cultural guides"
+      - "Add religion resources"
+      - "Implement translation history"
+      - "Build progress tracking"
+    testing:
+      - "Translation accuracy"
+      - "Fallback mechanism"
+      - "Translation caching"
+      - "Language module delivery"
+      - "Progress tracking"
+  
+  week_29_31:
+    phase: "6.6"
+    goals:
+      - "Build global navigation component"
+      - "Implement unified search"
+      - "Create deep linking system"
+      - "Aggregate notifications"
+      - "Build activity feed"
+    testing:
+      - "Cross-property navigation"
+      - "Search accuracy"
+      - "Deep link resolution"
+      - "Notification delivery"
+      - "Activity feed generation"
+
+# ============================================
+# SUCCESS METRICS
+# ============================================
+
+success_metrics:
+  phase_6_0:
+    - metric: "User migration success rate"
+      target: "100% (zero data loss)"
+    - metric: "SSO authentication time"
+      target: "< 200ms"
+    - metric: "Token refresh success rate"
+      target: "> 99.9%"
+  
+  phase_6_2:
+    - metric: "Free to paid conversion"
+      target: "5% within 3 months"
+    - metric: "Monthly recurring revenue (MRR)"
+      target: "$10K within 3 months"
+    - metric: "Churn rate"
+      target: "< 5% monthly"
+  
+  phase_6_1:
+    - metric: "Profile creation"
+      target: "1,000 profiles (month 1)"
+    - metric: "Post creation"
+      target: "10,000 posts (month 1)"
+    - metric: "Daily/monthly active ratio (DAU/MAU)"
+      target: "50%"
+  
+  phase_6_4:
+    - metric: "Active marketplace listings"
+      target: "100 listings (month 1)"
+    - metric: "Successful transactions"
+      target: "10 transactions (month 1)"
+    - metric: "Gross merchandise value (GMV)"
+      target: "$1K (month 1)"
+  
+  phase_6_5:
+    - metric: "Translation requests"
+      target: "1,000 requests (month 1)"
+    - metric: "Language modules created"
+      target: "50 modules"
+    - metric: "Cultural guides published"
+      target: "10 guides"
+  
+  phase_6_6:
+    - metric: "Cross-property navigation time"
+      target: "< 1s"
+    - metric: "Global nav usage rate"
+      target: "80% of navigation events"
+    - metric: "Unified search queries"
+      target: "500+ queries/day"
+
+# ============================================
+# RISK MITIGATION
+# ============================================
+
+risks:
+  technical:
+    - risk: "SSO implementation complexity"
+      impact: "high"
+      mitigation: "Use proven JWT pattern, extensive testing"
+    
+    - risk: "File upload abuse"
+      impact: "medium"
+      mitigation: "Tier-based limits, malware scanning"
+    
+    - risk: "Payment fraud"
+      impact: "high"
+      mitigation: "Stripe's built-in fraud detection"
+    
+    - risk: "Translation API costs"
+      impact: "medium"
+      mitigation: "Cache translations, use GPT-5 fallback"
+    
+    - risk: "Database performance at scale"
+      impact: "medium"
+      mitigation: "Proper indexing, query optimization"
+  
+  business:
+    - risk: "Low paid conversion rate"
+      impact: "high"
+      mitigation: "Compelling free features, clear value proposition"
+    
+    - risk: "Marketplace low liquidity"
+      impact: "medium"
+      mitigation: "Seed with quality listings, heavy promotion"
+    
+    - risk: "Social network adoption lag"
+      impact: "high"
+      mitigation: "Invite-only launch, community building"
+    
+    - risk: "Content moderation load"
+      impact: "medium"
+      mitigation: "AI filtering, clear community guidelines"
+
+# ============================================
+# THIRD-PARTY INTEGRATIONS
+# ============================================
+
+integrations:
+  - service: "Cloudflare R2"
+    purpose: "File storage (images, videos, documents)"
+    setup_required:
+      - "Create R2 bucket"
+      - "Generate access keys"
+      - "Configure S3-compatible client"
+      - "Set up CDN distribution"
+    cost: "~$0.015/GB storage + $0.01/GB egress (after 10GB free)"
+  
+  - service: "Stripe Connect"
+    purpose: "Marketplace payments + subscriptions"
+    setup_required:
+      - "Create connected account flow"
+      - "Configure application fees (10%)"
+      - "Set up webhook endpoints"
+      - "Test payment flows"
+    cost: "2.9% + $0.30 per transaction + application fee"
+  
+  - service: "DeepL API"
+    purpose: "Primary translation service"
+    setup_required:
+      - "Create DeepL account"
+      - "Generate API key"
+      - "Configure supported languages"
+      - "Implement caching strategy"
+    cost: "$5.49 per 1M characters (Free plan: 500K chars/month)"
+  
+  - service: "Emergent LLM Key (GPT-5)"
+    purpose: "Translation fallback + AI features"
+    setup_required:
+      - "Already integrated (Phase 6.3)"
+      - "Configure as secondary translator"
+      - "Set up fallback logic"
+    cost: "Existing Emergent LLM key budget"
+
+# ============================================
+# DEPLOYMENT CHECKLIST
+# ============================================
+
+deployment_checklist:
+  pre_deployment:
+    - "✅ All Phase 6 architecture documents reviewed"
+    - "⬜ Database schemas created and indexed"
+    - "⬜ Third-party services configured"
+    - "⬜ Environment variables set"
+    - "⬜ API endpoints tested (stub → real)"
+    - "⬜ Frontend components built"
+    - "⬜ User migration script tested"
+    - "⬜ Payment flows tested (sandbox)"
+    - "⬜ File uploads tested (R2)"
+    - "⬜ Translation API tested"
+  
+  deployment:
+    - "⬜ Database backups created"
+    - "⬜ Feature flags enabled (gradual rollout)"
+    - "⬜ Monitoring dashboards configured"
+    - "⬜ Error tracking enabled"
+    - "⬜ Load testing completed"
+    - "⬜ Security audit passed"
+    - "⬜ Documentation updated"
+  
+  post_deployment:
+    - "⬜ User migration completed"
+    - "⬜ Health checks passing"
+    - "⬜ Webhook events processed"
+    - "⬜ CDN cache warmed"
+    - "⬜ Success metrics baseline captured"
+    - "⬜ User feedback collected"
+
+# ============================================
+# COMMUNICATION PLAN
+# ============================================
+
+communication_plan:
+  internal:
+    - frequency: "Weekly status updates"
+    - channel: "BANIBS Core Team meetings"
+    - format: "Phase progress, blockers, decisions needed"
+  
+  external:
+    - phase_6_0_launch: "SSO announcement (\"One account, entire ecosystem\")"
+    - phase_6_2_launch: "Membership tiers announcement (\"Join BANIBS Pro for $5/month\")"
+    - phase_6_1_launch: "Social network beta (invite-only)"
+    - phase_6_4_launch: "Marketplace & crowdfunding open"
+    - phase_6_5_launch: "Education tools announcement"
+    - phase_6_6_complete: "Full ecosystem launch announcement"
+
+# ============================================
+# MAINTENANCE PLAN
+# ============================================
+
+maintenance:
+  daily:
+    - "Monitor error rates"
+    - "Check payment webhook processing"
+    - "Review content moderation queue"
+  
+  weekly:
+    - "Database performance analysis"
+    - "CDN cache review"
+    - "User feedback review"
+    - "Financial metrics (MRR, GMV)"
+  
+  monthly:
+    - "Security audit"
+    - "Database cleanup (old translations, notifications)"
+    - "User growth analysis"
+    - "Feature usage metrics"
+  
+  quarterly:
+    - "Platform roadmap review"
+    - "Tech stack upgrades"
+    - "Cost optimization analysis"
+    - "User satisfaction survey"
+
+# ============================================
+# NEXT STEPS
+# ============================================
+
+immediate_actions:
+  this_week:
+    - "✅ Architecture documentation complete"
+    - "✅ API endpoint schemas generated"
+    - "⬜ Create stub endpoints for all phases"
+    - "⬜ Set up Cloudflare R2 bucket"
+    - "⬜ Configure DeepL API account"
+    - "⬜ Create Stripe Connect test account"
+  
+  next_week:
+    - "⬜ Begin Phase 6.0 implementation (SSO)"
+    - "⬜ Build JWT authentication service"
+    - "⬜ Create user migration script"
+    - "⬜ Build frontend AuthProvider"
+    - "⬜ Write Phase 6.0 test suite"
+
+# ============================================
+# DOCUMENT UPDATES
+# ============================================
+
+updated_documents:
+  - "✅ PHASE_6_ARCHITECTURE_V1.3.md - Complete technical architecture"
+  - "✅ API_ENDPOINTS_SCHEMA_V1.3.yaml - Full API surface definition"
+  - "✅ BANIBS_EXPANSION_ROADMAP.md - Updated with v1.3.2 scope"
+  - "✅ IMPLEMENTATION_ROADMAP_V1.3.yaml - This file"
+  - "⬜ test_result.md - Log Phase 6 v1.3.2 directive"
+
+# ============================================
+# APPROVAL & SIGN-OFF
+# ============================================
+
+approval:
+  prepared_by: "Neo (Emergent AI Engineer)"
+  prepared_date: "2025-11-01"
+  reviewed_by: "Pending"
+  approved_by: "Pending"
+  approval_date: "Pending"
+  
+  sign_off_required:
+    - "Raymond Neely (CEO) - Strategic direction"
+    - "BANIBS Core Team - Technical feasibility"
+    - "Finance Team - Budget approval"
+
+status_log:
+  - date: "2025-11-01"
+    event: "Phase 6 v1.3.2 directive received"
+    action: "Architecture documentation created"
+    next_step: "Await approval to begin Phase 6.0 implementation"
