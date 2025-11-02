@@ -30,7 +30,7 @@ class UserMigration:
         self.dry_run = dry_run
         self.db = get_db_client()
         self.migration_report = {
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(timezone.utc),
             "dry_run": dry_run,
             "users_migrated": 0,
             "contributors_migrated": 0,
