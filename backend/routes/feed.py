@@ -10,7 +10,7 @@ from pydantic import BaseModel
 
 from db.connection import get_db
 
-router = APIRouter(prefix="/feed", tags=["feed"])
+router = APIRouter(prefix="/api/feed", tags=["feed"])
 
 
 class FeedItem(BaseModel):
