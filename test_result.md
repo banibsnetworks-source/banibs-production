@@ -2174,15 +2174,18 @@ backend:
 
   - task: "GET /api/events endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/events.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Public endpoint to list events with pagination (default 20, max 100), category filter, search by title/description, featured flag, event_type filter (Virtual/In-Person/Hybrid), status filter (upcoming/completed/cancelled). Returns EventListResponse. Manually tested - returns 10 events correctly."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/events working perfectly. Found 10 events with proper pagination. Event type filter working (5 Virtual events). Status filter working (9 upcoming, 1 completed). Featured filter working (6 featured events). Juneteenth event correctly shows as completed. Response structure matches EventListResponse with events array, total, page, pages."
 
   - task: "GET /api/events/{id} endpoint"
     implemented: true
