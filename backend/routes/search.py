@@ -8,7 +8,7 @@ from typing import Optional, List, Dict, Any
 from pydantic import BaseModel
 import re
 
-from db.connection import db_connection
+from db.connection import get_db
 
 router = APIRouter(prefix="/search", tags=["search"])
 
