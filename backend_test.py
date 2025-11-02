@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-BANIBS Backend API Test Suite - Phase 6.0 Unified Authentication
-Tests all 9 unified authentication endpoints with JWT_SECRET configuration
+BANIBS Backend API Test Suite - Phase 6.2.3 Resources & Events APIs
+Tests all 12 newly implemented API endpoints for Resources and Events modules
 """
 
 import requests
