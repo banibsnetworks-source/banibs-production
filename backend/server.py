@@ -154,6 +154,10 @@ app.include_router(phase6_stubs_router)
 # Include RSS sync router (automated aggregation)
 app.include_router(rss_sync_router)
 
+# Include notifications router (Phase 6.2.1 - Notifications System)
+from routes.notifications import router as notifications_router
+app.include_router(notifications_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
