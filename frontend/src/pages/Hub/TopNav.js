@@ -127,7 +127,9 @@ const TopNav = ({ user, onLogout }) => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    alert('Unified search will be enabled in Phase 6.3.');
+    if (searchQuery.trim().length >= 2) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
   };
 
   return (
