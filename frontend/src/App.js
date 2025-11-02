@@ -123,6 +123,13 @@ function App() {
               <Route path="/events/:id" element={<EventDetailPage />} />
               {/* Phase 6.2.4 - Unified Search */}
               <Route path="/search" element={<SearchPage />} />
+              {/* Stub Pages */}
+              <Route path="/social" element={<SocialPage />} />
+              <Route path="/business" element={<BusinessPage />} />
+              <Route path="/information" element={<InformationPage />} />
+              <Route path="/education" element={<EducationPage />} />
+              <Route path="/youth" element={<YouthPage />} />
+              <Route path="/opportunities" element={<OpportunitiesPage />} />
               
               {/* Public Routes */}
               <Route path="/opportunities" element={<PublicOpportunities />} />
