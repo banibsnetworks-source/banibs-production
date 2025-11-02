@@ -2537,7 +2537,52 @@ class BanibsAPITester:
             self.log(f"💥 {failed} test(s) failed")
             return False
 
+    def run_migration_tests(self) -> bool:
+        """Run Phase 6.0 Unified Authentication Migration Tests"""
+        self.log("=" * 80)
+        self.log("🔄 PHASE 6.0 UNIFIED AUTHENTICATION MIGRATION TESTS")
+        self.log("=" * 80)
+        
+        tests = [
+            ("Migrated Admin User Login", self.test_migrated_admin_login),
+            ("Migrated Contributor User Login", self.test_migrated_contributor_login),
+            ("JWT Token Validation", self.test_migrated_jwt_validation),
+            ("Refresh Token Flow", self.test_migrated_refresh_token_flow),
+        ]
+        
+        passed = 0
+        failed = 0
+        
+        for test_name, test_func in tests:
+            self.log(f"\n🧪 Running: {test_name}")
+            try:
+                if test_func():
+                    passed += 1
+                    self.log(f"✅ {test_name} PASSED")
+                else:
+                    failed += 1
+                    self.log(f"❌ {test_name} FAILED")
+            except Exception as e:
+                failed += 1
+                self.log(f"💥 {test_name} ERROR: {e}")
+        
+        self.log("\n" + "=" * 80)
+        self.log("📊 MIGRATION TEST RESULTS")
+        self.log("=" * 80)
+        self.log(f"✅ Passed: {passed}")
+        self.log(f"❌ Failed: {failed}")
+        self.log(f"Total: {passed + failed}")
+        
+        if failed == 0:
+            self.log("🎉 All migration tests passed!")
+            return True
+        else:
+            self.log(f"💥 {failed} migration test(s) failed")
+            return False
+
 if __name__ == "__main__":
     tester = BanibsAPITester()
-    success = tester.run_all_tests()
+    
+    # Run migration-specific tests for Phase 6.0
+    success = tester.run_migration_tests()
     sys.exit(0 if success else 1)
