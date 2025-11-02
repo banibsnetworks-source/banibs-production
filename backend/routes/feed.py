@@ -8,7 +8,7 @@ from typing import Optional, List, Dict, Any
 from datetime import datetime, timedelta, timezone
 from pydantic import BaseModel
 
-from db.connection import db_connection
+from db.connection import get_db
 from db.news import get_news_items
 
 router = APIRouter(prefix="/feed", tags=["feed"])
