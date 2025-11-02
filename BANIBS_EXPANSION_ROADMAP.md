@@ -20,38 +20,68 @@ Transform BANIBS from a news + opportunities platform into a **comprehensive dig
 
 ---
 
-## 🔐 Phase 6.0: Platform-Wide Identity (SSO)
+## 📋 Phase 6 Implementation Summary (v1.3.2)
+
+### **Current Status:**
+- ✅ **Phase 6.3 Complete:** AI Sentiment Analysis, Regional Engagement Analytics, Trending Widget
+- ✅ **Phase 5 Foundation:** News system, RSS aggregation (23 sources), Opportunities platform, Stripe integration
+- 🔄 **Phase 6.0-6.6 Architecture:** Complete specs, API schemas, database designs ready for implementation
+
+### **Implementation Order (Confirmed):**
+1. **Phase 6.0** - Unified Identity & SSO (2-3 weeks)
+2. **Phase 6.2** - Membership Tiers ($5/$25/Custom) (2-3 weeks)
+3. **Phase 6.1** - Social Media MVP (6-8 weeks)
+4. **Phase 6.4** - Marketplace & Crowdfunding (6-8 weeks)
+5. **Phase 6.5** - Education & Language Tools (4-6 weeks)
+6. **Phase 6.6** - Cross-App Navigation (2-3 weeks)
+
+**Total Timeline:** 22-31 weeks (5.5-7.5 months) for full Phase 6 completion
+
+---
+
+## 🔐 Phase 6.0: Unified Identity & SSO (Foundation)
+**Timeline:** 2-3 weeks | **Status:** 🔴 Not Started | **Priority:** Critical Foundation
 
 ### Goal
 One BANIBS account for all properties (News, Social, Business, TV, Resources).
 
-### Core Concept
-- **BANIBS Identity Service** handles all authentication
-- Users sign in once, access everything
-- Secure token-based authentication (JWT/OAuth2)
-- Seamless navigation between sub-apps
+### Core Components
+- BANIBS Identity Service (centralized auth)
+- JWT token-based authentication (access + refresh)
+- Secure token sharing across subdomains (`*.banibs.com`)
+- User profile service (unified user data)
+- Email verification and password reset flows
 
 ### Technical Implementation
 
-**Backend Architecture:**
+**Database Schema:**
 ```
-/auth                → BANIBS Identity Service
-  ├── /register      → User registration
-  ├── /login         → Authentication
-  ├── /refresh       → Token refresh
-  ├── /reset         → Password reset
-  └── /verify        → Email/phone verification
+banibs_users
+  ├── id (UUID)
+  ├── email (unique, indexed)
+  ├── password_hash (bcrypt)
+  ├── name, avatar_url, bio
+  ├── roles (array: ['user', 'contributor', 'creator', 'admin'])
+  ├── membership_level ('free', 'basic', 'pro', 'enterprise')
+  ├── membership_status ('active', 'cancelled', 'past_due')
+  ├── subscription_id (Stripe)
+  ├── email_verified (boolean)
+  ├── created_at, last_login
+  └── metadata (preferences, settings)
 ```
 
-**Database:**
-- Single `users` collection with:
-  - `id` (UUID)
-  - `email`, `password_hash`
-  - `name`, `avatar_url`, `bio`
-  - `roles` (array: `user`, `contributor`, `creator`, `admin`)
-  - `permissions` (object with scope: `news`, `social`, `tv`, `business`)
-  - `membership_level` (`free`, `pro`, `enterprise`)
-  - `created_at`, `last_login`
+**API Endpoints:**
+```
+POST /api/auth/register           → Create account
+POST /api/auth/login              → Authenticate
+POST /api/auth/refresh            → Refresh token
+POST /api/auth/logout             → Invalidate tokens
+POST /api/auth/forgot-password    → Request reset
+POST /api/auth/reset-password     → Complete reset
+POST /api/auth/verify-email       → Verify email
+GET  /api/auth/me                 → Get profile
+PATCH /api/auth/profile           → Update profile
+```
 
 **JWT Token Structure:**
 ```json
@@ -59,48 +89,94 @@ One BANIBS account for all properties (News, Social, Business, TV, Resources).
   "user_id": "uuid",
   "email": "user@example.com",
   "roles": ["user", "contributor"],
-  "scopes": ["news", "social", "business"],
   "membership_level": "free",
+  "scopes": ["news", "social", "business"],
   "exp": 1234567890
 }
 ```
 
-**Frontend Integration:**
-```jsx
-// Central AuthProvider wraps all sub-apps
-<BanibsAuthProvider>
-  <NewsApp />
-  <SocialApp />
-  <BusinessApp />
-  <TVApp />
-</BanibsAuthProvider>
-```
-
 **Token Storage:**
-- `localStorage` for access token
-- HttpOnly cookie for refresh token (secure)
-- Shared across subdomains (`*.banibs.com`)
+- Access token: `localStorage` (15 min expiry)
+- Refresh token: HttpOnly cookie (7 days, shared via `.banibs.com`)
 
-**API Interceptor:**
-```javascript
-// Automatically attach token to all requests
-axios.interceptors.request.use((config) => {
-  const token = localStorage.getItem('banibs_token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-```
-
-**Future Expansion:**
-- OAuth2 integration (Google, Apple, LinkedIn)
-- Social login (Sign in with BANIBS)
-- Multi-factor authentication (2FA)
+### Migration Strategy
+1. Create unified `banibs_users` collection
+2. Migrate existing users from `users` table
+3. Migrate contributors from `contributors` table
+4. Merge admin users (preserve roles)
+5. Generate JWT for all existing sessions
 
 ---
 
-## 💬 Phase 6.1: BANIBS Social MVP
+## 💎 Phase 6.2: Membership Tiers (Monetization)
+**Timeline:** 2-3 weeks | **Status:** 🔴 Not Started | **Prerequisite:** Phase 6.0
+
+### Goal
+Monetize premium features while keeping core access free. Affordable entry at $5/month.
+
+### Tier Structure
+
+| Tier | Price | Features | Target Audience |
+|------|-------|----------|-----------------|
+| **Free** | $0/month | • Read news<br>• Basic profile<br>• Comment & like<br>• Message (10/day) | General users |
+| **Basic** | $5/month | • Everything in Free<br>• Unlimited messaging<br>• Business listing (basic)<br>• Upload photos/docs<br>• Translation (500/day) | Content consumers |
+| **Pro** | $25/month | • Everything in Basic<br>• Video uploads<br>• Analytics dashboard<br>• Featured business listing<br>• Marketplace seller<br>• Priority support<br>• Translation (2000/day) | Creators, entrepreneurs |
+| **Enterprise** | Custom | • Everything in Pro<br>• Team accounts (5-50)<br>• Ad placements<br>• White-label options<br>• Dedicated support<br>• Custom integrations | Organizations, brands |
+
+### Implementation
+
+**Database Schema:**
+```
+subscriptions
+  ├── id (UUID)
+  ├── user_id (ref: banibs_users)
+  ├── tier ('free', 'basic', 'pro', 'enterprise')
+  ├── status ('active', 'cancelled', 'past_due', 'trialing')
+  ├── stripe_subscription_id
+  ├── stripe_customer_id
+  ├── current_period_start, current_period_end
+  ├── cancel_at_period_end (boolean)
+  └── created_at, updated_at
+```
+
+**API Endpoints:**
+```
+GET  /api/membership/plans          → List tiers
+POST /api/membership/checkout       → Create subscription
+POST /api/membership/cancel         → Cancel subscription
+POST /api/membership/upgrade        → Change tier (up)
+POST /api/membership/downgrade      → Change tier (down)
+GET  /api/membership/status         → Current membership
+GET  /api/membership/invoices       → Billing history
+POST /api/membership/webhook        → Stripe webhook
+```
+
+**Feature Gating Middleware:**
+```python
+def require_membership(min_tier: str):
+    async def decorator(user: User):
+        tier_hierarchy = {'free': 0, 'basic': 1, 'pro': 2, 'enterprise': 3}
+        if tier_hierarchy[user.membership_level] < tier_hierarchy[min_tier]:
+            raise HTTPException(403, "Upgrade required")
+        return user
+    return decorator
+```
+
+**Stripe Integration:**
+- Use existing Stripe SDK (Phase 5.1 foundation)
+- Create subscription products in Stripe Dashboard
+- Webhook handler for subscription lifecycle events
+- Automatic tier updates on payment success/failure
+
+**Revenue Model:**
+- Subscription: $5/month × 5% conversion = $0.25 ARPU
+- Marketplace: 10% platform fee on transactions
+- Crowdfunding: 5% + $0.30 per contribution
+- Featured listings: $50/month
+
+---
+
+## 💬 Phase 6.1: Social Media MVP (Community Layer)
 
 ### Goal
 Private, community-driven social network with multimedia exchange.
