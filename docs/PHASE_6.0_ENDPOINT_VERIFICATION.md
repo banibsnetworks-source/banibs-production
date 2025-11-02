@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://news-analytics.preview.emergentagent.com/api/auth
+https://unified-login-5.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
