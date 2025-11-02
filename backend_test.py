@@ -1665,7 +1665,7 @@ class BanibsAPITester:
         """Test POST /api/auth/logout"""
         self.log("Testing user logout...")
         
-        response = self.make_request("POST", "/auth/logout")
+        response = self.make_request("POST", "/auth/logout", {})
         
         if response.status_code == 200:
             data = response.json()
