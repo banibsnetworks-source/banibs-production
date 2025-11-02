@@ -67,27 +67,28 @@ def require_auth(user: dict = Depends(get_current_user)):
 
 def require_role(*allowed_roles: str):
     """
-    Dependency factory that requires specific role(s)
+    Phase 6.0 - Dependency factory that requires specific role(s) (Unified Identity)
+    
+    Now checks against user's roles array instead of single role field.
     
     Usage:
         @router.get("/admin-only")
-        async def admin_route(user: dict = Depends(require_role("admin"))):
-            # Only admins can access
+        async def admin_route(user: dict = Depends(require_role("super_admin"))):
+            # Only super admins can access
             pass
         
         @router.get("/admin-or-moderator")
-        async def mod_route(user: dict = Depends(require_role("admin", "moderator"))):
-            # Admins or moderators can access
+        async def mod_route(user: dict = Depends(require_role("super_admin", "moderator"))):
+            # Super admins or moderators can access
             pass
     """
-    def role_checker(user: dict = Depends(get_current_user)):
-        user_role = user.get("role")
+    async def role_checker(user: dict = Depends(get_current_user)):
+        user_roles = user.get("roles", [])
         
-        # Phase 4.5 - Map "admin" to "super_admin" for backward compatibility
-        if user_role == "admin":
-            user_role = "super_admin"
+        # Check if user has any of the allowed roles
+        has_permission = any(role in user_roles for role in allowed_roles)
         
-        if user_role not in allowed_roles:
+        if not has_permission:
             raise HTTPException(
                 status_code=403,
                 detail=f"Access denied. Required role: {', '.join(allowed_roles)}"
