@@ -36,7 +36,7 @@ from db.unified_users import (
 )
 from services.jwt_service import JWTService
 from services.email_service import send_email
-from middleware.rate_limiter import rate_limit
+from middleware.rate_limiter import enforce_rate_limit
 
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 
