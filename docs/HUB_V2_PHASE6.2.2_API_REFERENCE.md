@@ -162,6 +162,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
 - Conversations are sorted by `last_message_at` descending (most recent first)
 - `unread_count` is computed per request for the current user
 - Empty array `[]` returned if user has no conversations
+- **Pagination Best Practices**:
+  - Default page size: 50 conversations (reasonable for most users)
+  - Maximum page size: 100 conversations (enforced by backend)
+  - For users with many conversations, use `skip` parameter to paginate (e.g., `skip=50` for page 2)
+  - Frontend should implement "Load More" or infinite scroll rather than fetching all conversations at once
+  - As BANIBS scales, consider client-side caching to avoid repeated API calls
 
 ---
 
