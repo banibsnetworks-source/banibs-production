@@ -96,7 +96,13 @@ async def create_resource_endpoint(
     Create new resource (admin/moderator only)
     
     Requires JWT with role: super_admin or moderator
+    Phase 6.3: Automatically analyzes sentiment on creation
     """
+    # Phase 6.3: Analyze sentiment on creation
+    from services.sentiment_service import analyze_text_sentiment
+    text_for_sentiment = f"{resource_data.title} {resource_data.description}"
+    sentiment = analyze_text_sentiment(text_for_sentiment)
+    
     created = await create_resource(
         title=resource_data.title,
         description=resource_data.description,
@@ -110,6 +116,23 @@ async def create_resource_endpoint(
         video_url=str(resource_data.video_url) if resource_data.video_url else None,
         tags=resource_data.tags,
         featured=resource_data.featured
+    )
+    
+    # Add sentiment to created resource
+    created["sentiment_score"] = sentiment["score"]
+    created["sentiment_label"] = sentiment["label"]
+    created["sentiment_at"] = sentiment["analyzed_at"]
+    
+    # Update DB with sentiment
+    from db.connection import get_db
+    db = await get_db()
+    await db["banibs_resources"].update_one(
+        {"id": created["id"]},
+        {"$set": {
+            "sentiment_score": sentiment["score"],
+            "sentiment_label": sentiment["label"],
+            "sentiment_at": sentiment["analyzed_at"]
+        }}
     )
     
     return ResourcePublic(**created)
