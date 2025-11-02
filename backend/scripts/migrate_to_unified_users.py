@@ -68,7 +68,7 @@ class UserMigration:
             raise
     
     async def migrate_users_table(self):
-        \"\"\"
+        """
         Migrate users table (admins, moderators) to banibs_users
         
         Mapping:
