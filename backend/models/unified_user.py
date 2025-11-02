@@ -148,6 +148,13 @@ class EmailVerification(BaseModel):
     token: str
 
 
+class RefreshTokenRequest(BaseModel):
+    """
+    Refresh token request
+    """
+    refresh_token: str
+
+
 class TokenResponse(BaseModel):
     """
     Authentication token response
