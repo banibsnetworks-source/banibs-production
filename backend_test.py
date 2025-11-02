@@ -1320,6 +1320,64 @@ class BanibsAPITester:
         else:
             self.log(f"❌ Resources list failed: {response.status_code} - {response.text}", "ERROR")
             return False
+    
+    def test_resources_get_single(self) -> bool:
+        """Test GET /api/resources/{id} - Get single resource (PUBLIC)"""
+        self.log("Testing GET /api/resources/{id} (public endpoint)...")
+        
+        # First get a resource ID from the list
+        list_response = self.make_request("GET", "/resources", params={"limit": 1})
+        if list_response.status_code != 200:
+            self.log("❌ Could not get resource list for single resource test", "ERROR")
+            return False
+        
+        list_data = list_response.json()
+        if not list_data.get("resources"):
+            self.log("⚠️ No resources available for single resource test")
+            return True
+        
+        resource_id = list_data["resources"][0]["id"]
+        
+        # Test valid resource ID
+        response = self.make_request("GET", f"/resources/{resource_id}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["id", "title", "description", "category", "type", "view_count"]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ Single resource working - Title: {data['title']}, Views: {data['view_count']}")
+                
+                # Test that view count increments
+                response2 = self.make_request("GET", f"/resources/{resource_id}")
+                if response2.status_code == 200:
+                    data2 = response2.json()
+                    if data2["view_count"] > data["view_count"]:
+                        self.log("✅ View count increments correctly")
+                    else:
+                        self.log("⚠️ View count did not increment (might be cached)")
+                
+                return True
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Single resource response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Single resource failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_resources_get_invalid_id(self) -> bool:
+        """Test GET /api/resources/{id} with invalid ID"""
+        self.log("Testing GET /api/resources/{id} with invalid ID...")
+        
+        response = self.make_request("GET", "/resources/invalid-resource-id")
+        
+        if response.status_code == 404:
+            self.log("✅ Invalid resource ID correctly returns 404")
+            return True
+        else:
+            self.log(f"❌ Invalid resource ID should return 404, got {response.status_code}", "ERROR")
+            return False
 
     # Phase 6.0 - Unified Authentication Tests
     
