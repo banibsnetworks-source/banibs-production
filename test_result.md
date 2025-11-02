@@ -2099,15 +2099,18 @@ backend:
 
   - task: "GET /api/resources/{id} endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/resources.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Public endpoint to get single resource by ID. Returns ResourcePublic with full details including author_name, view_count, created_at. Increments view_count on each access."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/resources/{id} working correctly. Returns full resource details with all required fields (id, title, description, category, type, view_count). View count increments properly on each access. Invalid resource ID correctly returns 404. Public endpoint requires no authentication."
 
   - task: "POST /api/resources endpoint"
     implemented: true
