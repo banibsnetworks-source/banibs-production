@@ -119,7 +119,7 @@ async def create_resource_endpoint(
 async def update_resource_endpoint(
     resource_id: str,
     resource_data: ResourceUpdate,
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     Update resource (admin/moderator only)
