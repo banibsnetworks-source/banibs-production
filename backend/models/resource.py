@@ -70,6 +70,10 @@ class ResourcePublic(ResourceBase):
     created_at: datetime
     updated_at: datetime
     published_at: Optional[datetime] = None
+    # Phase 6.3 - Sentiment Analysis
+    sentiment_score: Optional[float] = None  # -1.0 to 1.0
+    sentiment_label: Optional[str] = None  # positive, neutral, negative
+    sentiment_at: Optional[datetime] = None  # When analyzed
     
     class Config:
         from_attributes = True
