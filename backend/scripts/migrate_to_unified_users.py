@@ -261,8 +261,14 @@ class UserMigration:
         # Save report to file
         report_filename = f"/tmp/banibs_migration_report_{'dry_run' if self.dry_run else 'live'}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         
+        # Convert datetime to string for JSON serialization
+        report_for_json = {
+            **self.migration_report,
+            "timestamp": self.migration_report["timestamp"].isoformat()
+        }
+        
         with open(report_filename, 'w') as f:
-            json.dump(self.migration_report, f, indent=2)
+            json.dump(report_for_json, f, indent=2)
         
         print(f"\n📄 Report saved to: {report_filename}")
     
