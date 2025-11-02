@@ -168,7 +168,7 @@ async def login(credentials: UserLogin, response: Response):
 
 
 @router.post("/refresh")
-async def refresh_token(response: Response, refresh_token: Optional[str] = None):
+async def refresh_token(request: RefreshTokenRequest, response: Response):
     """
     Refresh access token using refresh token
     
@@ -177,6 +177,8 @@ async def refresh_token(response: Response, refresh_token: Optional[str] = None)
     - Issues new access token
     - Optionally rotates refresh token
     """
+    refresh_token = request.refresh_token
+    
     if not refresh_token:
         raise HTTPException(
             status_code=401,
