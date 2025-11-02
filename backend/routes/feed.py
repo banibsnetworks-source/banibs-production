@@ -48,7 +48,7 @@ def get_date_filter(date_range: str) -> Optional[datetime]:
 
 async def fetch_news_items(date_cutoff: Optional[datetime], limit: int) -> List[FeedItem]:
     """Fetch news items for feed"""
-    db = await db_connection()
+    db = await get_db()
     collection = db["news_items"]
     
     query = {}
