@@ -141,7 +141,7 @@ class UserMigration:
                 print(f"   ❌ {error_msg}")
     
     async def migrate_contributors_table(self):
-        \"\"\"
+        """
         Migrate contributors table to banibs_users
         
         Mapping:
