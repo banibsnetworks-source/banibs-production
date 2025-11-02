@@ -69,7 +69,7 @@ async def search_news(query: str, limit: int = 5) -> SearchCategoryResults:
     
     async for item in cursor:
         items.append(SearchResultItem(
-            id=item["id"],
+            id=item.get("id", str(item["_id"])),
             type="news",
             title=item["title"],
             summary=item.get("summary", "")[:150],
@@ -111,14 +111,14 @@ async def search_opportunities(query: str, limit: int = 5) -> SearchCategoryResu
     
     async for item in cursor:
         items.append(SearchResultItem(
-            id=item["id"],
+            id=item.get("id", str(item["_id"])),
             type="opportunity",
             title=item["title"],
             summary=item.get("description", "")[:150],
             thumbnail=item.get("thumbnail") or "/static/img/fallbacks/news_default.jpg",
             category=item.get("type", "Opportunity"),
             published_at=item.get("created_at").isoformat() if item.get("created_at") else None,
-            link=f"/opportunities/{item['id']}",
+            link=f"/opportunities/{item.get('id', str(item['_id']))}",
             metadata={"deadline": item.get("deadline")}
         ))
     
@@ -152,7 +152,7 @@ async def search_resources(query: str, limit: int = 5) -> SearchCategoryResults:
     
     async for item in cursor:
         items.append(SearchResultItem(
-            id=item["id"],
+            id=item.get("id", str(item["_id"])),
             type="resource",
             title=item["title"],
             summary=item.get("description", "")[:150],
@@ -196,7 +196,7 @@ async def search_events(query: str, limit: int = 5) -> SearchCategoryResults:
         location = item.get("location_name") or ("Virtual" if item.get("event_type") == "Virtual" else "TBA")
         
         items.append(SearchResultItem(
-            id=item["id"],
+            id=item.get("id", str(item["_id"])),
             type="event",
             title=item["title"],
             summary=item.get("description", "")[:150],
@@ -251,14 +251,14 @@ async def search_businesses(query: str, limit: int = 5) -> SearchCategoryResults
         location = ", ".join(location_parts) if location_parts else "Location TBA"
         
         items.append(SearchResultItem(
-            id=item["id"],
+            id=item.get("id", str(item["_id"])),
             type="business",
             title=item["name"],
             summary=item.get("description", "")[:150],
             thumbnail=item.get("logo_url") or "/static/img/fallbacks/news_default.jpg",
             category=item.get("category", "Business"),
             published_at=item.get("created_at").isoformat() if item.get("created_at") else None,
-            link=f"/business/directory/{item['id']}",
+            link=f"/business/directory/{item.get('id', str(item['_id']))}",
             metadata={"location": location}
         ))
     
