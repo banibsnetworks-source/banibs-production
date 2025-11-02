@@ -107,6 +107,11 @@ function App() {
               <Route path="/hub" element={<HubPage />} />
               {/* Phase 6.2.1 - Notifications (Auth Required) */}
               <Route path="/notifications" element={<NotificationsPage />} />
+              {/* Phase 6.2.3 - Resources & Events */}
+              <Route path="/resources" element={<ResourcesPage />} />
+              <Route path="/resources/:id" element={<ResourceDetailPage />} />
+              <Route path="/events" element={<EventsPage />} />
+              <Route path="/events/:id" element={<EventDetailPage />} />
               
               {/* Public Routes */}
               <Route path="/opportunities" element={<PublicOpportunities />} />
