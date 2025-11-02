@@ -2219,15 +2219,18 @@ backend:
 
   - task: "PATCH /api/events/{id} endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/events.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Admin-only endpoint to update event. Requires JWT auth and admin role. Accepts EventUpdate schema for partial updates. Returns updated EventPublic."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: PATCH /api/events/{id} working correctly. Authentication verified: returns 401 without auth token. Admin JWT authentication working - successfully updates events with partial data. Returns updated event with applied changes. Supports partial updates (title, featured flag, etc.)."
 
   - task: "DELETE /api/events/{id} endpoint"
     implemented: true
