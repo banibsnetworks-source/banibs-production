@@ -2129,15 +2129,18 @@ backend:
 
   - task: "PATCH /api/resources/{id} endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/resources.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Admin-only endpoint to update resource. Requires JWT auth and admin role. Accepts ResourceUpdate schema for partial updates. Returns updated ResourcePublic."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: PATCH /api/resources/{id} working correctly. Authentication verified: returns 401 without auth token. Admin JWT authentication working - successfully updates resources with partial data. Returns updated resource with applied changes. Supports partial updates (title, featured flag, etc.)."
 
   - task: "DELETE /api/resources/{id} endpoint"
     implemented: true
