@@ -42,7 +42,7 @@ async def get_notifications(
     Returns:
         List of notifications sorted by created_at descending
     """
-    user_id = current_user["sub"]
+    user_id = current_user["id"]  # Fixed: use "id" from user object
     notifications = await get_user_notifications(
         user_id=user_id,
         limit=limit,
@@ -65,7 +65,7 @@ async def get_unread_notifications_count(
     Returns:
         { "unread_count": 5 }
     """
-    user_id = current_user["sub"]
+    user_id = current_user["id"]  # Fixed: use "id" from user object
     count = await get_unread_count(user_id)
     
     return NotificationUnreadCount(unread_count=count)
@@ -82,7 +82,7 @@ async def get_notification(
     Returns:
         Notification details
     """
-    user_id = current_user["sub"]
+    user_id = current_user["id"]  # Fixed: use "id" from user object
     notification = await get_notification_by_id(notification_id, user_id)
     
     if not notification:
@@ -102,7 +102,7 @@ async def mark_as_read(
     Returns:
         Updated notification
     """
-    user_id = current_user["sub"]
+    user_id = current_user["id"]  # Fixed: use "id" from user object
     
     # Mark as read
     success = await mark_notification_as_read(notification_id, user_id)
@@ -128,7 +128,7 @@ async def mark_all_notifications_as_read(
     Returns:
         { "marked_read": 5 }
     """
-    user_id = current_user["sub"]
+    user_id = current_user["id"]  # Fixed: use "id" from user object
     count = await mark_all_as_read(user_id)
     
     return {"marked_read": count}
@@ -145,7 +145,7 @@ async def delete_notification_endpoint(
     Returns:
         { "deleted": true }
     """
-    user_id = current_user["sub"]
+    user_id = current_user["id"]  # Fixed: use "id" from user object
     success = await delete_notification(notification_id, user_id)
     
     if not success:
