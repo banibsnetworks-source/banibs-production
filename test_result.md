@@ -2204,15 +2204,18 @@ backend:
 
   - task: "POST /api/events endpoint"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/events.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Admin-only endpoint to create new event. Requires JWT authentication and admin role. Accepts EventCreate schema with title, description, category, start_date, end_date, timezone, event_type, location details, virtual_url, rsvp_limit, tags, featured. Returns created EventPublic."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: POST /api/events working correctly. Authentication verified: returns 401 without auth token. Admin JWT authentication working - successfully creates events with proper data validation. Returns 201 status with created event including generated ID. Fixed require_role usage and datetime timezone handling."
 
   - task: "PATCH /api/events/{id} endpoint"
     implemented: true
