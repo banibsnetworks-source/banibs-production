@@ -1415,7 +1415,8 @@ class BanibsAPITester:
             self.log("❌ No refresh token available", "ERROR")
             return False
         
-        response = self.make_request("POST", "/auth/refresh", {
+        # Send refresh token as query parameter
+        response = self.make_request("POST", "/auth/refresh", params={
             "refresh_token": self.unified_refresh_token
         })
         
