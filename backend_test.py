@@ -1378,6 +1378,178 @@ class BanibsAPITester:
         else:
             self.log(f"❌ Invalid resource ID should return 404, got {response.status_code}", "ERROR")
             return False
+    
+    def test_resources_create_admin_only(self) -> bool:
+        """Test POST /api/resources - Create resource (ADMIN ONLY)"""
+        self.log("Testing POST /api/resources (admin only)...")
+        
+        # Test without auth - should return 401
+        response = self.make_request("POST", "/resources", {
+            "title": "Test Resource",
+            "description": "Test description",
+            "category": "Business Support",
+            "type": "Guide",
+            "content": "Test content"
+        })
+        
+        if response.status_code != 401:
+            self.log(f"❌ Create resource without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test with admin token
+        if not self.admin_token:
+            self.log("❌ No admin token available for resource creation test", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("POST", "/resources", {
+            "title": "Test Admin Resource",
+            "description": "Test resource created by admin",
+            "category": "Business Support",
+            "type": "Guide",
+            "content": "This is test content for the resource",
+            "featured": True,
+            "tags": ["test", "admin"]
+        }, headers=headers)
+        
+        if response.status_code == 201:
+            data = response.json()
+            if "id" in data and data["title"] == "Test Admin Resource":
+                self.log(f"✅ Resource created successfully - ID: {data['id']}")
+                return True
+            else:
+                self.log(f"❌ Resource creation response invalid: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Resource creation failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_resources_update_admin_only(self) -> bool:
+        """Test PATCH /api/resources/{id} - Update resource (ADMIN ONLY)"""
+        self.log("Testing PATCH /api/resources/{id} (admin only)...")
+        
+        # First get a resource to update
+        list_response = self.make_request("GET", "/resources", params={"limit": 1})
+        if list_response.status_code != 200 or not list_response.json().get("resources"):
+            self.log("⚠️ No resources available for update test")
+            return True
+        
+        resource_id = list_response.json()["resources"][0]["id"]
+        
+        # Test without auth - should return 401
+        response = self.make_request("PATCH", f"/resources/{resource_id}", {
+            "title": "Updated Title"
+        })
+        
+        if response.status_code != 401:
+            self.log(f"❌ Update resource without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test with admin token
+        if not self.admin_token:
+            self.log("❌ No admin token available for resource update test", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("PATCH", f"/resources/{resource_id}", {
+            "title": "Updated Resource Title",
+            "featured": True
+        }, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data["title"] == "Updated Resource Title":
+                self.log("✅ Resource updated successfully")
+                return True
+            else:
+                self.log(f"❌ Resource update did not apply: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Resource update failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_resources_delete_admin_only(self) -> bool:
+        """Test DELETE /api/resources/{id} - Delete resource (ADMIN ONLY)"""
+        self.log("Testing DELETE /api/resources/{id} (admin only)...")
+        
+        # First create a resource to delete
+        if not self.admin_token:
+            self.log("❌ No admin token available for resource deletion test", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # Create a test resource
+        create_response = self.make_request("POST", "/resources", {
+            "title": "Resource to Delete",
+            "description": "This resource will be deleted",
+            "category": "Technology",
+            "type": "Tool",
+            "content": "Test content"
+        }, headers=headers)
+        
+        if create_response.status_code != 201:
+            self.log("❌ Could not create resource for deletion test", "ERROR")
+            return False
+        
+        resource_id = create_response.json()["id"]
+        
+        # Test without auth - should return 401
+        response = self.make_request("DELETE", f"/resources/{resource_id}")
+        
+        if response.status_code != 401:
+            self.log(f"❌ Delete resource without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test with admin token
+        response = self.make_request("DELETE", f"/resources/{resource_id}", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("deleted"):
+                self.log("✅ Resource deleted successfully")
+                
+                # Verify resource is gone
+                get_response = self.make_request("GET", f"/resources/{resource_id}")
+                if get_response.status_code == 404:
+                    self.log("✅ Deleted resource no longer accessible")
+                    return True
+                else:
+                    self.log("❌ Deleted resource still accessible", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Resource deletion response invalid: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Resource deletion failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_resources_featured_filter(self) -> bool:
+        """Test GET /api/resources with featured filter"""
+        self.log("Testing GET /api/resources with featured filter...")
+        
+        response = self.make_request("GET", "/resources", params={"featured": "true", "limit": 10})
+        
+        if response.status_code == 200:
+            data = response.json()
+            resources = data.get("resources", [])
+            
+            # Verify all returned resources are featured
+            non_featured = [r for r in resources if not r.get("featured", False)]
+            if non_featured:
+                self.log(f"❌ Found {len(non_featured)} non-featured resources in featured filter", "ERROR")
+                return False
+            
+            # Verify limit of 10 or less
+            if len(resources) <= 10:
+                self.log(f"✅ Featured resources filter working - Found {len(resources)} featured resources")
+                return True
+            else:
+                self.log(f"❌ Featured resources returned {len(resources)} items, should be ≤10", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Featured resources failed: {response.status_code} - {response.text}", "ERROR")
+            return False
 
     # Phase 6.0 - Unified Authentication Tests
     
