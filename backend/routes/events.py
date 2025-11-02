@@ -163,7 +163,7 @@ async def update_event_endpoint(
 @router.delete("/{event_id}")
 async def delete_event_endpoint(
     event_id: str,
-    current_user: dict = Depends(require_role(["super_admin"]))
+    current_user: dict = Depends(require_role("super_admin"))
 ):
     """
     Delete event (admin only)
