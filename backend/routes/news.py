@@ -476,7 +476,7 @@ async def get_trending_news(region: str = "Global", limit: int = 5):
             "stories": stories
         }
         
-    except Exception as e:
+    except Exception:
         # Return empty but valid response on error
         return {
             "region": region,
@@ -506,7 +506,7 @@ async def get_admin_engagement_summary(
         
         return summary
         
-    except Exception as e:
+    except Exception:
         return {
             "regions": [],
             "error": "Unable to fetch engagement data"
