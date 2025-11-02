@@ -89,11 +89,11 @@ async def fetch_opportunity_items(date_cutoff: Optional[datetime], limit: int) -
     
     async for item in cursor:
         items.append(FeedItem(
-            id=item["id"],
+            id=item.get("id", str(item["_id"])),  # Use id if exists, else _id
             type="opportunity",
             title=item["title"],
             summary=item.get("description", "")[:200],
-            link=f"/opportunities/{item['id']}",
+            link=f"/opportunities/{item.get('id', str(item['_id']))}",
             thumbnail=item.get("thumbnail") or "/static/img/fallbacks/news_default.jpg",
             created_at=item.get("created_at", datetime.now(timezone.utc)).isoformat(),
             metadata={
