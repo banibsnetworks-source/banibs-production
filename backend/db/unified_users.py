@@ -291,6 +291,11 @@ def sanitize_user_response(user: dict) -> UserPublic:
     """
     Convert database user to public API response (remove sensitive fields)
     """
+    # Handle datetime conversion for created_at field
+    created_at = user["created_at"]
+    if isinstance(created_at, datetime):
+        created_at = created_at.isoformat()
+    
     return UserPublic(
         id=user["id"],
         email=user["email"],
@@ -300,5 +305,5 @@ def sanitize_user_response(user: dict) -> UserPublic:
         roles=user["roles"],
         membership_level=user["membership_level"],
         email_verified=user["email_verified"],
-        created_at=user["created_at"]
+        created_at=created_at
     )
