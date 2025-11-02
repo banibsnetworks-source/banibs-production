@@ -78,7 +78,7 @@ async def fetch_news_items(date_cutoff: Optional[datetime], limit: int) -> List[
 
 async def fetch_opportunity_items(date_cutoff: Optional[datetime], limit: int) -> List[FeedItem]:
     """Fetch opportunities for feed"""
-    db = await db_connection()
+    db = await get_db()
     collection = db["opportunities"]
     
     query = {"status": "approved"}
