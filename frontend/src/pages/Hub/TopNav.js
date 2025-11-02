@@ -142,6 +142,65 @@ const TopNav = ({ user, onLogout }) => {
             <span className="text-2xl font-bold text-yellow-400">BANIBS</span>
           </Link>
 
+          {/* BANIBS Network Dropdown */}
+          <div 
+            className="relative hidden md:block"
+            onMouseEnter={() => setShowNetworkDropdown(true)}
+            onMouseLeave={() => setShowNetworkDropdown(false)}
+          >
+            <button className="flex items-center gap-1 px-4 py-2 text-gray-300 hover:text-yellow-400 transition font-semibold">
+              BANIBS Network
+              <span className="text-sm">▾</span>
+            </button>
+            
+            {showNetworkDropdown && (
+              <div className="absolute top-full left-0 mt-1 w-56 bg-gray-900 border border-yellow-400/20 rounded-lg shadow-xl overflow-hidden">
+                <Link
+                  to="/social"
+                  className="block px-4 py-3 text-gray-300 hover:bg-yellow-400 hover:text-black transition"
+                >
+                  <span className="text-sm">👥</span> BANIBS Social
+                </Link>
+                <Link
+                  to="/business"
+                  className="block px-4 py-3 text-gray-300 hover:bg-yellow-400 hover:text-black transition"
+                >
+                  <span className="text-sm">🏢</span> BANIBS Business
+                </Link>
+                <Link
+                  to="/information"
+                  className="block px-4 py-3 text-gray-300 hover:bg-yellow-400 hover:text-black transition"
+                >
+                  <span className="text-sm">ℹ️</span> Information
+                </Link>
+                <Link
+                  to="/education"
+                  className="block px-4 py-3 text-gray-300 hover:bg-yellow-400 hover:text-black transition"
+                >
+                  <span className="text-sm">🎓</span> Education
+                </Link>
+                <Link
+                  to="/youth"
+                  className="block px-4 py-3 text-gray-300 hover:bg-yellow-400 hover:text-black transition"
+                >
+                  <span className="text-sm">🌟</span> Youth
+                </Link>
+                <Link
+                  to="/opportunities"
+                  className="block px-4 py-3 text-gray-300 hover:bg-yellow-400 hover:text-black transition"
+                >
+                  <span className="text-sm">💼</span> Opportunities
+                </Link>
+                <Link
+                  to="/resources"
+                  className="block px-4 py-3 text-gray-300 hover:bg-yellow-400 hover:text-black transition"
+                >
+                  <span className="text-sm">📚</span> Resources
+                </Link>
+              </div>
+            )}
+          </div>
+
           {/* Search Bar (Center-Left) */}
           <form onSubmit={handleSearchSubmit} className="hidden md:flex flex-1 max-w-md mx-8">
             <div className="relative w-full">
