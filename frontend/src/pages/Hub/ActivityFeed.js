@@ -236,6 +236,7 @@ const ActivityFeed = () => {
         </>
       )}
     </div>
+  );
 };
 
 export default ActivityFeed;
