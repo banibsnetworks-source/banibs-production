@@ -484,7 +484,7 @@ if (response.status === 401) {
 - **Automatic Filtering**: DB queries filter by `participants` array
 - **404 on Unauthorized**: Returns "Not found" instead of "Forbidden" to prevent conversation enumeration
 
-### 4.3 Input Sanitization
+### 4.4 Input Sanitization
 - **XSS Prevention**: Message content sanitized via `html.escape()` before storage
 - **Length Limits**: Message content max 5000 characters (Pydantic validation)
 - **Query Parameter Validation**: FastAPI validates limit/skip ranges
