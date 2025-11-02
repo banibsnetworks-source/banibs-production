@@ -190,11 +190,11 @@ async def fetch_business_items(date_cutoff: Optional[datetime], limit: int) -> L
         location_str = ", ".join(location) if location else "Location TBA"
         
         items.append(FeedItem(
-            id=item["id"],
+            id=item.get("id", str(item["_id"])),  # Use id if exists, else _id
             type="business",
             title=item["name"],
             summary=item.get("description", "")[:200],
-            link=f"/business/directory/{item['id']}",
+            link=f"/business/directory/{item.get('id', str(item['_id']))}",
             thumbnail=item.get("logo_url") or "/static/img/fallbacks/news_default.jpg",
             created_at=item.get("created_at", datetime.now(timezone.utc)).isoformat(),
             metadata={
