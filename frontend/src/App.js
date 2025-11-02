@@ -22,6 +22,8 @@ import HomePage from "./pages/HomePage";
 import OpportunityHubPage from "./pages/OpportunityHubPage";
 // Phase 6.0 - World News Page
 import WorldNewsPage from "./pages/WorldNewsPage";
+// Phase 6.1 - Hub v1 Dashboard
+import HubPage from "./pages/Hub/HubPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
