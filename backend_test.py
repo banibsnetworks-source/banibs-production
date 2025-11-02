@@ -1290,6 +1290,200 @@ class BanibsAPITester:
             self.log(f"Failed to decode JWT: {e}", "ERROR")
             return None
     
+    def test_migrated_admin_login(self) -> bool:
+        """Test migrated admin user login with original password"""
+        self.log("Testing migrated admin user login...")
+        
+        response = self.make_request("POST", "/auth/login", {
+            "email": "admin@banibs.com",
+            "password": "BanibsAdmin#2025"
+        })
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["access_token", "refresh_token", "user"]
+            
+            if all(field in data for field in required_fields):
+                access_token = data["access_token"]
+                user = data["user"]
+                
+                # Verify user roles
+                expected_roles = ['user', 'super_admin']
+                if set(expected_roles).issubset(set(user.get("roles", []))):
+                    self.log(f"✅ Migrated admin login successful - Roles: {user['roles']}")
+                    
+                    # Decode and verify JWT token
+                    token_payload = self.decode_jwt_token(access_token)
+                    if token_payload:
+                        jwt_roles = token_payload.get("roles", [])
+                        if set(expected_roles).issubset(set(jwt_roles)):
+                            self.log(f"✅ JWT token contains correct roles: {jwt_roles}")
+                            
+                            # Verify other JWT fields
+                            required_jwt_fields = ["sub", "email", "roles", "membership_level", "type", "exp", "iat"]
+                            if all(field in token_payload for field in required_jwt_fields):
+                                self.log(f"✅ JWT token structure valid - Type: {token_payload.get('type')}")
+                                self.log(f"   Subject: {token_payload.get('sub')}, Email: {token_payload.get('email')}")
+                                self.log(f"   Membership: {token_payload.get('membership_level')}")
+                                
+                                # Store for further tests
+                                self.admin_token = access_token
+                                self.unified_access_token = access_token
+                                self.unified_refresh_token = data["refresh_token"]
+                                
+                                return True
+                            else:
+                                missing_jwt_fields = [f for f in required_jwt_fields if f not in token_payload]
+                                self.log(f"❌ JWT token missing fields: {missing_jwt_fields}", "ERROR")
+                                return False
+                        else:
+                            self.log(f"❌ JWT token has incorrect roles: {jwt_roles}, expected: {expected_roles}", "ERROR")
+                            return False
+                    else:
+                        self.log("❌ Failed to decode JWT token", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Admin user has incorrect roles: {user.get('roles')}, expected: {expected_roles}", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Login response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Migrated admin login failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_migrated_contributor_login(self) -> bool:
+        """Test migrated contributor user login with original password"""
+        self.log("Testing migrated contributor user login...")
+        
+        response = self.make_request("POST", "/auth/login", {
+            "email": "test@example.com",
+            "password": "test123"
+        })
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["access_token", "refresh_token", "user"]
+            
+            if all(field in data for field in required_fields):
+                access_token = data["access_token"]
+                user = data["user"]
+                
+                # Verify user roles
+                expected_roles = ['user', 'contributor']
+                if set(expected_roles).issubset(set(user.get("roles", []))):
+                    self.log(f"✅ Migrated contributor login successful - Roles: {user['roles']}")
+                    
+                    # Decode and verify JWT token
+                    token_payload = self.decode_jwt_token(access_token)
+                    if token_payload:
+                        jwt_roles = token_payload.get("roles", [])
+                        if set(expected_roles).issubset(set(jwt_roles)):
+                            self.log(f"✅ JWT token contains correct roles: {jwt_roles}")
+                            
+                            # Verify organization metadata preserved
+                            if "organization" in user.get("metadata", {}):
+                                self.log(f"✅ Organization metadata preserved: {user['metadata']['organization']}")
+                            
+                            # Store for further tests
+                            self.contributor_token = access_token
+                            
+                            return True
+                        else:
+                            self.log(f"❌ JWT token has incorrect roles: {jwt_roles}, expected: {expected_roles}", "ERROR")
+                            return False
+                    else:
+                        self.log("❌ Failed to decode JWT token", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Contributor user has incorrect roles: {user.get('roles')}, expected: {expected_roles}", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Login response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Migrated contributor login failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_migrated_jwt_validation(self) -> bool:
+        """Test JWT token validation with migrated admin access token"""
+        if not self.unified_access_token:
+            self.log("❌ No unified access token available for validation", "ERROR")
+            return False
+        
+        self.log("Testing JWT token validation with migrated user...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_access_token}"}
+        response = self.make_request("GET", "/auth/me", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["id", "email", "name", "roles", "membership_level"]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ JWT validation successful - User: {data['name']}")
+                self.log(f"   Roles: {data['roles']}, Membership: {data['membership_level']}")
+                return True
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ User profile missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ JWT validation failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_migrated_refresh_token_flow(self) -> bool:
+        """Test refresh token flow with migrated user"""
+        if not self.unified_refresh_token:
+            self.log("❌ No unified refresh token available", "ERROR")
+            return False
+        
+        self.log("Testing refresh token flow with migrated user...")
+        
+        response = self.make_request("POST", "/auth/refresh", {
+            "refresh_token": self.unified_refresh_token
+        })
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["access_token", "refresh_token"]
+            
+            if all(field in data for field in required_fields):
+                new_access_token = data["access_token"]
+                new_refresh_token = data["refresh_token"]
+                
+                # Verify new access token is different (token rotation)
+                if new_access_token != self.unified_access_token:
+                    self.log("✅ New access token issued (token rotation working)")
+                    
+                    # Verify new refresh token is different (token rotation)
+                    if new_refresh_token != self.unified_refresh_token:
+                        self.log("✅ New refresh token issued (token rotation working)")
+                        
+                        # Decode new access token to verify structure
+                        token_payload = self.decode_jwt_token(new_access_token)
+                        if token_payload and "roles" in token_payload:
+                            self.log(f"✅ New access token valid - Roles: {token_payload['roles']}")
+                            return True
+                        else:
+                            self.log("❌ New access token invalid or missing roles", "ERROR")
+                            return False
+                    else:
+                        self.log("⚠️ Refresh token not rotated (same token returned)")
+                        return True  # Still valid, just no rotation
+                else:
+                    self.log("❌ Same access token returned (no refresh occurred)", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Refresh response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Refresh token flow failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
     def test_unified_register(self) -> bool:
         """Test POST /api/auth/register"""
         self.log("Testing unified user registration...")
