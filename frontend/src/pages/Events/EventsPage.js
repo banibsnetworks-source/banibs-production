@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthContext } from '../../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
@@ -17,7 +17,7 @@ const CATEGORIES = [
 const EVENT_TYPES = ['All', 'Virtual', 'In-Person', 'Hybrid'];
 
 function EventsPage() {
-  const { user, accessToken } = useContext(AuthContext);
+  const { user, accessToken } = useAuth();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
