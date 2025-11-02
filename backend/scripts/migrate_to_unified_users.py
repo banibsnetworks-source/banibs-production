@@ -249,12 +249,12 @@ class UserMigration:
         print(f"   Warnings: {len(self.migration_report['warnings'])}")
         
         if self.migration_report['errors']:
-            print("\\n❌ Errors:")
+            print("\n❌ Errors:")
             for error in self.migration_report['errors']:
                 print(f"   - {error}")
         
         if self.migration_report['warnings']:
-            print("\\n⚠️  Warnings:")
+            print("\n⚠️  Warnings:")
             for warning in self.migration_report['warnings']:
                 print(f"   - {warning}")
         
