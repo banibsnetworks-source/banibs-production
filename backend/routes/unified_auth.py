@@ -25,7 +25,7 @@ from datetime import datetime, timezone
 from models.unified_user import (
     UserCreate, UserLogin, UserUpdate, 
     PasswordResetRequest, PasswordReset, EmailVerification,
-    TokenResponse, UserPublic
+    RefreshTokenRequest, TokenResponse, UserPublic
 )
 from db.unified_users import (
     create_user, get_user_by_email, get_user_by_id,
