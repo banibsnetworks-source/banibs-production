@@ -37,6 +37,13 @@ async def create_event(
     """Create a new event"""
     # Determine status based on dates
     now = datetime.now(timezone.utc)
+    
+    # Ensure timezone awareness for comparison
+    if start_date.tzinfo is None:
+        start_date = start_date.replace(tzinfo=timezone.utc)
+    if end_date.tzinfo is None:
+        end_date = end_date.replace(tzinfo=timezone.utc)
+    
     if start_date > now:
         status = "upcoming"
     elif start_date <= now < end_date:
