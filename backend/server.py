@@ -145,6 +145,9 @@ app.include_router(analytics_router)
 # Include insights router (Phase 6.3 Sentiment & Insights)
 app.include_router(insights_router)
 
+# Include business directory router (Business Directory v2)
+app.include_router(business_directory_router)
+
 # Include Phase 6 stub endpoints (v1.3.2 - for frontend integration)
 app.include_router(phase6_stubs_router)
 
