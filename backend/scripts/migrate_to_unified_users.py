@@ -292,7 +292,7 @@ class UserMigration:
             # Step 5: Generate report
             await self.generate_report()
             
-            print("\\n" + "="*60)
+            print("\n" + "="*60)
             if self.dry_run:
                 print("✅ DRY RUN COMPLETE - No changes were made")
                 print("   Review the report, then run with dry_run=False")
