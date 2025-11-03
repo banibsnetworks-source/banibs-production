@@ -41,11 +41,11 @@ function SentimentBadge({ score, label, size = 'sm', showLabel = false }) {
       case 'neutral':
       default:
         return {
-          bg: 'bg-yellow-500/20',
-          border: 'border-yellow-500/40',
-          text: 'text-yellow-600',
-          dot: 'bg-yellow-500',
-          emoji: '🟡',
+          bg: 'bg-gray-500/20',
+          border: 'border-gray-500/40',
+          text: 'text-gray-600',
+          dot: 'bg-gray-500',
+          emoji: '⚪',
           displayLabel: 'Neutral'
         };
     }
