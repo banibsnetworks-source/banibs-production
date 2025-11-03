@@ -135,6 +135,20 @@ async def create_resource_endpoint(
         }}
     )
     
+    # Phase 6.4: Route to moderation if needed
+    try:
+        from services.moderation_service import handle_content_moderation
+        await handle_content_moderation(
+            content_id=created["id"],
+            content_type="resource",
+            title=resource_data.title,
+            sentiment_label=sentiment["label"],
+            sentiment_score=sentiment["score"]
+        )
+    except Exception as mod_error:
+        print(f"Moderation routing failed for resource {created['id']}: {mod_error}")
+        # Continue - don't break resource creation
+    
     return ResourcePublic(**created)
 
 
