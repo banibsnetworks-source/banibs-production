@@ -1781,6 +1781,21 @@ class BanibsAPITester:
                 return False
         
         self.log("✅ RBAC verification passed - contributor properly restricted from all moderation endpoints")
+        
+        # Test with unified auth user (should return 403)
+        if self.unified_user_token:
+            self.log("Testing unified auth user RBAC...")
+            unified_headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+            
+            # Test one endpoint with unified user token (should return 403)
+            response = self.make_request("GET", "/admin/moderation/stats", headers=unified_headers)
+            
+            if response.status_code == 403:
+                self.log("✅ Unified auth user properly returns 403 (forbidden)")
+            else:
+                self.log(f"❌ Unified auth user should return 403, got {response.status_code}", "ERROR")
+                return False
+        
         return True
     # Phase 6.3 Day 2 - Sentiment Data Integration Tests
     
