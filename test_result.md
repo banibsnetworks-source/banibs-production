@@ -2803,11 +2803,11 @@ agent_communication:
   # Phase 6.4 - Sentiment-Driven Moderation Routing Backend
   - task: "Feature flags configuration"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/config/features.json, backend/utils/features.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
