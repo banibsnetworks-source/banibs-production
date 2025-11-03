@@ -1526,6 +1526,31 @@ agent_communication:
         agent: "testing"
         comment: "✅ TESTED: Sentiment sweep scheduled task working correctly. Backend logs confirm scheduler initialization and job execution. Manual generation endpoint successfully triggers the same sentiment analysis logic used by the scheduled task. Task properly integrated with AI sentiment service and database operations. Scheduler runs every 3 hours as configured, separate from RSS sync (6 hours). Evidence of successful sentiment analysis visible in regional aggregates with 21 total sentiment records across regions."
 
+  # Phase 6.3 Day 2 - Sentiment UI Integration Backend
+  - task: "Feed API sentiment data integration"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/feed.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated fetch_news_items() and fetch_resource_items() in feed.py to include sentiment_label and sentiment_score in metadata. Feed items now return sentiment data for News and Resources types. No breaking changes to existing API structure."
+
+  - task: "Search API sentiment data integration"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/search.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated search_news() and search_resources() in search.py to include sentiment_label and sentiment_score in metadata. Search results now return sentiment data for News and Resources. Business listings do not include sentiment as requested by user."
+
 frontend:
   # Phase 6.3 - Regional Sentiment Insights Frontend
   - task: "Regional insights admin panel"
