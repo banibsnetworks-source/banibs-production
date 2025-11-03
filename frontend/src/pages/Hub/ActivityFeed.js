@@ -122,6 +122,29 @@ const ActivityFeed = () => {
           </div>
         </div>
 
+        {/* Sentiment Filter */}
+        <div className="mt-3 pt-3 border-t border-gray-200">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-xs font-semibold text-gray-600">Filter by Sentiment:</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {SENTIMENT_FILTERS.map((filter) => (
+              <button
+                key={filter.value}
+                onClick={() => setSentimentFilter(filter.value)}
+                className={`px-3 py-1.5 rounded-lg font-medium transition-all text-sm ${
+                  sentimentFilter === filter.value
+                    ? 'bg-gray-900 text-white shadow-sm'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                <span className="mr-1">{filter.icon}</span>
+                <span>{filter.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Date Range Filter */}
         <div className="flex gap-2 text-sm">
           <button
