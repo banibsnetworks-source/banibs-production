@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SentimentBadge from '../../components/SentimentBadge';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
@@ -12,6 +13,13 @@ const CONTENT_TYPES = [
   { value: 'business', label: 'Business', icon: '🏢' }
 ];
 
+const SENTIMENT_FILTERS = [
+  { value: 'all', label: 'All', icon: '🌐' },
+  { value: 'positive', label: 'Positive', icon: '🟢' },
+  { value: 'neutral', label: 'Neutral', icon: '⚪' },
+  { value: 'negative', label: 'Critical', icon: '🔴' }
+];
+
 const ActivityFeed = () => {
   const navigate = useNavigate();
   const [feedItems, setFeedItems] = useState([]);
@@ -19,6 +27,7 @@ const ActivityFeed = () => {
   const [error, setError] = useState(null);
   const [selectedType, setSelectedType] = useState('all');
   const [dateRange, setDateRange] = useState('all');
+  const [sentimentFilter, setSentimentFilter] = useState('all');
 
   useEffect(() => {
     fetchFeed();
