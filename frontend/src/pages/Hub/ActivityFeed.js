@@ -200,13 +200,17 @@ const ActivityFeed = () => {
       {/* Feed Items */}
       {!loading && !error && (
         <>
-          {feedItems.length === 0 ? (
+          {filteredFeedItems.length === 0 ? (
             <div className="bg-white/70 backdrop-blur-sm border border-gray-100 rounded-2xl p-8 text-center">
-              <p className="text-gray-500">No items found for this filter.</p>
+              <p className="text-gray-500">
+                {feedItems.length === 0 
+                  ? 'No items found for this filter.' 
+                  : 'No items found with this sentiment. Try a different filter.'}
+              </p>
             </div>
           ) : (
             <div className="space-y-4">
-              {feedItems.map((item) => {
+              {filteredFeedItems.map((item) => {
                 const imgSrc = item.thumbnail || `${BACKEND_URL}/static/img/fallbacks/news_default.jpg`;
                 
                 return (
