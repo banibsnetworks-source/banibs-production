@@ -55,6 +55,20 @@ const ActivityFeed = () => {
     }
   };
 
+  // Client-side sentiment filtering (as requested by Raymond)
+  const filteredFeedItems = useMemo(() => {
+    if (sentimentFilter === 'all') {
+      return feedItems;
+    }
+    return feedItems.filter(item => {
+      // Only filter items that have sentiment data
+      if (item.metadata?.sentiment_label) {
+        return item.metadata.sentiment_label.toLowerCase() === sentimentFilter;
+      }
+      return true; // Include items without sentiment when filtering
+    });
+  }, [feedItems, sentimentFilter]);
+
   const getTypeIcon = (type) => {
     const icons = {
       news: '📰',
