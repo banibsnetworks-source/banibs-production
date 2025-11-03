@@ -568,7 +568,13 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Feed API sentiment data integration"
+    - "Search API sentiment data integration"
+    - "SentimentBadge component"
+    - "Hub Activity Feed sentiment integration"
+    - "Search results sentiment integration"
+    - "Resource detail page sentiment integration"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -1621,7 +1627,13 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Feed API sentiment data integration"
+    - "Search API sentiment data integration"
+    - "SentimentBadge component"
+    - "Hub Activity Feed sentiment integration"
+    - "Search results sentiment integration"
+    - "Resource detail page sentiment integration"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
