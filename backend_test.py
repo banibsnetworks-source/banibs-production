@@ -1269,6 +1269,289 @@ class BanibsAPITester:
             self.log(f"❌ Could not check scheduler status: {e}", "ERROR")
             return False
 
+    # Phase 6.3 Day 2 - Sentiment Data Integration Tests
+    
+    def test_feed_api_sentiment_news(self) -> bool:
+        """Test Feed API sentiment integration for news items"""
+        self.log("Testing Feed API sentiment integration for news...")
+        
+        response = self.make_request("GET", "/feed", params={"type": "news", "limit": 5})
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "items" in data and isinstance(data["items"], list):
+                news_items = data["items"]
+                self.log(f"✅ Feed API returned {len(news_items)} news items")
+                
+                if len(news_items) > 0:
+                    # Check sentiment data in news items
+                    sentiment_items = []
+                    for item in news_items:
+                        if item.get("type") == "news":
+                            metadata = item.get("metadata", {})
+                            if "sentiment_label" in metadata and "sentiment_score" in metadata:
+                                sentiment_items.append(item)
+                                
+                                # Validate sentiment values
+                                label = metadata["sentiment_label"]
+                                score = metadata["sentiment_score"]
+                                
+                                if label not in ["positive", "neutral", "negative"]:
+                                    self.log(f"❌ Invalid sentiment_label: {label}", "ERROR")
+                                    return False
+                                
+                                if not isinstance(score, (int, float)) or score < -1.0 or score > 1.0:
+                                    self.log(f"❌ Invalid sentiment_score: {score}", "ERROR")
+                                    return False
+                    
+                    if len(sentiment_items) > 0:
+                        self.log(f"✅ Found {len(sentiment_items)} news items with sentiment data")
+                        sample_item = sentiment_items[0]
+                        sample_metadata = sample_item["metadata"]
+                        self.log(f"   Sample: {sample_item['title'][:50]}...")
+                        self.log(f"   Sentiment: {sample_metadata['sentiment_label']} ({sample_metadata['sentiment_score']})")
+                        return True
+                    else:
+                        self.log("⚠️ No news items found with sentiment data")
+                        return True
+                else:
+                    self.log("⚠️ No news items returned from feed API")
+                    return True
+            else:
+                self.log("❌ Feed API response missing items array", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Feed API failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_feed_api_sentiment_resources(self) -> bool:
+        """Test Feed API sentiment integration for resources"""
+        self.log("Testing Feed API sentiment integration for resources...")
+        
+        response = self.make_request("GET", "/feed", params={"type": "resource", "limit": 5})
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "items" in data and isinstance(data["items"], list):
+                resource_items = data["items"]
+                self.log(f"✅ Feed API returned {len(resource_items)} resource items")
+                
+                if len(resource_items) > 0:
+                    # Check sentiment data in resource items
+                    sentiment_items = []
+                    for item in resource_items:
+                        if item.get("type") == "resource":
+                            metadata = item.get("metadata", {})
+                            if "sentiment_label" in metadata and "sentiment_score" in metadata:
+                                sentiment_items.append(item)
+                                
+                                # Validate sentiment values
+                                label = metadata["sentiment_label"]
+                                score = metadata["sentiment_score"]
+                                
+                                if label not in ["positive", "neutral", "negative"]:
+                                    self.log(f"❌ Invalid sentiment_label: {label}", "ERROR")
+                                    return False
+                                
+                                if not isinstance(score, (int, float)) or score < -1.0 or score > 1.0:
+                                    self.log(f"❌ Invalid sentiment_score: {score}", "ERROR")
+                                    return False
+                    
+                    if len(sentiment_items) > 0:
+                        self.log(f"✅ Found {len(sentiment_items)} resource items with sentiment data")
+                        sample_item = sentiment_items[0]
+                        sample_metadata = sample_item["metadata"]
+                        self.log(f"   Sample: {sample_item['title'][:50]}...")
+                        self.log(f"   Sentiment: {sample_metadata['sentiment_label']} ({sample_metadata['sentiment_score']})")
+                        return True
+                    else:
+                        self.log("⚠️ No resource items found with sentiment data")
+                        return True
+                else:
+                    self.log("⚠️ No resource items returned from feed API")
+                    return True
+            else:
+                self.log("❌ Feed API response missing items array", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Feed API failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_feed_api_business_no_sentiment(self) -> bool:
+        """Test Feed API - business items should NOT have sentiment data"""
+        self.log("Testing Feed API - business items should NOT have sentiment...")
+        
+        response = self.make_request("GET", "/feed", params={"type": "business", "limit": 5})
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "items" in data and isinstance(data["items"], list):
+                business_items = data["items"]
+                self.log(f"✅ Feed API returned {len(business_items)} business items")
+                
+                if len(business_items) > 0:
+                    # Verify business items do NOT have sentiment data
+                    for item in business_items:
+                        if item.get("type") == "business":
+                            metadata = item.get("metadata", {})
+                            if "sentiment_label" in metadata or "sentiment_score" in metadata:
+                                self.log(f"❌ Business item should not have sentiment data: {item['title']}", "ERROR")
+                                return False
+                    
+                    self.log("✅ Business items correctly do NOT have sentiment data")
+                    return True
+                else:
+                    self.log("⚠️ No business items returned from feed API")
+                    return True
+            else:
+                self.log("❌ Feed API response missing items array", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Feed API failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_search_api_sentiment_news(self) -> bool:
+        """Test Search API sentiment integration for news"""
+        self.log("Testing Search API sentiment integration for news...")
+        
+        response = self.make_request("GET", "/search", params={"q": "business", "limit": 5})
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "categories" in data and "news" in data["categories"]:
+                news_results = data["categories"]["news"]
+                news_items = news_results.get("items", [])
+                self.log(f"✅ Search API returned {len(news_items)} news results")
+                
+                if len(news_items) > 0:
+                    # Check sentiment data in news search results
+                    sentiment_items = []
+                    for item in news_items:
+                        if item.get("type") == "news":
+                            metadata = item.get("metadata", {})
+                            if "sentiment_label" in metadata and "sentiment_score" in metadata:
+                                sentiment_items.append(item)
+                                
+                                # Validate sentiment values
+                                label = metadata["sentiment_label"]
+                                score = metadata["sentiment_score"]
+                                
+                                if label not in ["positive", "neutral", "negative"]:
+                                    self.log(f"❌ Invalid sentiment_label: {label}", "ERROR")
+                                    return False
+                                
+                                if not isinstance(score, (int, float)) or score < -1.0 or score > 1.0:
+                                    self.log(f"❌ Invalid sentiment_score: {score}", "ERROR")
+                                    return False
+                    
+                    if len(sentiment_items) > 0:
+                        self.log(f"✅ Found {len(sentiment_items)} news search results with sentiment data")
+                        sample_item = sentiment_items[0]
+                        sample_metadata = sample_item["metadata"]
+                        self.log(f"   Sample: {sample_item['title'][:50]}...")
+                        self.log(f"   Sentiment: {sample_metadata['sentiment_label']} ({sample_metadata['sentiment_score']})")
+                        return True
+                    else:
+                        self.log("⚠️ No news search results found with sentiment data")
+                        return True
+                else:
+                    self.log("⚠️ No news results returned from search API")
+                    return True
+            else:
+                self.log("❌ Search API response missing news category", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Search API failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_search_api_sentiment_resources(self) -> bool:
+        """Test Search API sentiment integration for resources"""
+        self.log("Testing Search API sentiment integration for resources...")
+        
+        response = self.make_request("GET", "/search", params={"q": "grant", "limit": 5})
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "categories" in data and "resources" in data["categories"]:
+                resource_results = data["categories"]["resources"]
+                resource_items = resource_results.get("items", [])
+                self.log(f"✅ Search API returned {len(resource_items)} resource results")
+                
+                if len(resource_items) > 0:
+                    # Check sentiment data in resource search results
+                    sentiment_items = []
+                    for item in resource_items:
+                        if item.get("type") == "resource":
+                            metadata = item.get("metadata", {})
+                            if "sentiment_label" in metadata and "sentiment_score" in metadata:
+                                sentiment_items.append(item)
+                                
+                                # Validate sentiment values
+                                label = metadata["sentiment_label"]
+                                score = metadata["sentiment_score"]
+                                
+                                if label not in ["positive", "neutral", "negative"]:
+                                    self.log(f"❌ Invalid sentiment_label: {label}", "ERROR")
+                                    return False
+                                
+                                if not isinstance(score, (int, float)) or score < -1.0 or score > 1.0:
+                                    self.log(f"❌ Invalid sentiment_score: {score}", "ERROR")
+                                    return False
+                    
+                    if len(sentiment_items) > 0:
+                        self.log(f"✅ Found {len(sentiment_items)} resource search results with sentiment data")
+                        sample_item = sentiment_items[0]
+                        sample_metadata = sample_item["metadata"]
+                        self.log(f"   Sample: {sample_item['title'][:50]}...")
+                        self.log(f"   Sentiment: {sample_metadata['sentiment_label']} ({sample_metadata['sentiment_score']})")
+                        return True
+                    else:
+                        self.log("⚠️ No resource search results found with sentiment data")
+                        return True
+                else:
+                    self.log("⚠️ No resource results returned from search API")
+                    return True
+            else:
+                self.log("❌ Search API response missing resources category", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Search API failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_search_api_business_no_sentiment(self) -> bool:
+        """Test Search API - business results should NOT have sentiment data"""
+        self.log("Testing Search API - business results should NOT have sentiment...")
+        
+        response = self.make_request("GET", "/search", params={"q": "business", "limit": 5})
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "categories" in data and "businesses" in data["categories"]:
+                business_results = data["categories"]["businesses"]
+                business_items = business_results.get("items", [])
+                self.log(f"✅ Search API returned {len(business_items)} business results")
+                
+                if len(business_items) > 0:
+                    # Verify business search results do NOT have sentiment data
+                    for item in business_items:
+                        if item.get("type") == "business":
+                            metadata = item.get("metadata", {})
+                            if "sentiment_label" in metadata or "sentiment_score" in metadata:
+                                self.log(f"❌ Business search result should not have sentiment data: {item['title']}", "ERROR")
+                                return False
+                    
+                    self.log("✅ Business search results correctly do NOT have sentiment data")
+                    return True
+                else:
+                    self.log("⚠️ No business results returned from search API")
+                    return True
+            else:
+                self.log("❌ Search API response missing businesses category", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Search API failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+
     # Phase 6.2.3 - Resources & Events API Tests
     
     def test_resources_list_public(self) -> bool:
