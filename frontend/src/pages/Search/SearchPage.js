@@ -180,11 +180,23 @@ function SearchPage() {
 
                               {/* Content */}
                               <div className="flex-1 min-w-0">
-                                {/* Category Badge */}
-                                <div className="flex items-center gap-2 mb-2">
+                                {/* Category Badge + Sentiment */}
+                                <div className="flex items-center gap-2 mb-2 flex-wrap">
                                   <span className="text-xs font-semibold text-gray-400 bg-gray-800 px-2 py-1 rounded">
                                     {item.category || item.type}
                                   </span>
+                                  
+                                  {/* Sentiment Badge - only for News and Resources */}
+                                  {(key === 'news' || key === 'resources') && 
+                                   item.metadata?.sentiment_label && (
+                                    <SentimentBadge
+                                      label={item.metadata.sentiment_label}
+                                      score={item.metadata.sentiment_score}
+                                      size="sm"
+                                      showLabel={false}
+                                    />
+                                  )}
+                                  
                                   {item.published_at && (
                                     <span className="text-xs text-gray-500">
                                       {new Date(item.published_at).toLocaleDateString()}
