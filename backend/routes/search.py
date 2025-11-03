@@ -164,7 +164,11 @@ async def search_resources(query: str, limit: int = 5) -> SearchCategoryResults:
             category=item.get("category", "Resource"),
             published_at=item.get("created_at").isoformat() if item.get("created_at") else None,
             link=f"/resources/{item['id']}",
-            metadata={"resource_type": item.get("type", "Article")}
+            metadata={
+                "resource_type": item.get("type", "Article"),
+                "sentiment_label": item.get("sentiment_label"),
+                "sentiment_score": item.get("sentiment_score")
+            }
         ))
     
     return SearchCategoryResults(
