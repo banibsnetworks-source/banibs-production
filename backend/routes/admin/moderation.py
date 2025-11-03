@@ -27,7 +27,7 @@ async def list_moderation_items(
     status: Optional[str] = "PENDING",
     content_type: Optional[str] = None,
     limit: int = 100,
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     List moderation queue items
@@ -49,7 +49,7 @@ async def list_moderation_items(
 
 @router.get("/stats", response_model=ModerationStats)
 async def get_moderation_statistics(
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     Get moderation queue statistics
@@ -65,7 +65,7 @@ async def get_moderation_statistics(
 @router.get("/{mod_id}", response_model=ModerationQueueItem)
 async def get_moderation_item(
     mod_id: str,
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     Get a single moderation item by ID
@@ -83,7 +83,7 @@ async def get_moderation_item(
 @router.post("/{mod_id}/approve")
 async def approve_moderation_item(
     mod_id: str,
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     Approve a moderation item
@@ -117,7 +117,7 @@ async def approve_moderation_item(
 @router.post("/{mod_id}/reject")
 async def reject_moderation_item(
     mod_id: str,
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     Reject a moderation item
