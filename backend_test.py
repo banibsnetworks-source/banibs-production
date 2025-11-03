@@ -3681,6 +3681,6 @@ class BanibsAPITester:
 if __name__ == "__main__":
     tester = BanibsAPITester()
     
-    # Run Phase 6.2.3 Resources & Events API tests
-    success = tester.run_phase_6_2_3_tests()
+    # Run Phase 6.3 Day 2 - Sentiment Data Integration tests
+    success = tester.run_phase_6_3_day_2_tests()
     sys.exit(0 if success else 1)
