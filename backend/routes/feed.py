@@ -131,7 +131,9 @@ async def fetch_resource_items(date_cutoff: Optional[datetime], limit: int) -> L
             created_at=item.get("created_at", datetime.now(timezone.utc)).isoformat(),
             metadata={
                 "category": item.get("category", "General"),
-                "type": item.get("type", "Article")
+                "type": item.get("type", "Article"),
+                "sentiment_label": item.get("sentiment_label"),
+                "sentiment_score": item.get("sentiment_score")
             }
         ))
     
