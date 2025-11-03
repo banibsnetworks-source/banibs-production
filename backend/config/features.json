@@ -1,0 +1,10 @@
+{
+  "ui": {
+    "sentimentBadges": true
+  },
+  "moderation": {
+    "auto_from_sentiment": true,
+    "block_negative": false,
+    "threshold": -0.5
+  }
+}
