@@ -1754,42 +1754,6 @@ class BanibsAPITester:
         else:
             self.log(f"❌ Unified user registration failed: {response.status_code} - {response.text}", "ERROR")
             return False
-                            low_sentiment_items.append(item)
-                    
-                    # Verify content type is news or resource
-                    if content_type not in ["news", "resource"]:
-                        self.log(f"❌ Invalid content_type: {content_type}", "ERROR")
-                        return False
-                    
-                    # Verify reason is LOW_SENTIMENT
-                    if reason != "LOW_SENTIMENT":
-                        self.log(f"❌ Unexpected reason: {reason}", "ERROR")
-                        return False
-                
-                if threshold_violations:
-                    self.log(f"⚠️ Found {len(threshold_violations)} items with sentiment > -0.5 threshold")
-                    for item in threshold_violations[:3]:  # Show first 3
-                        self.log(f"   {item['content_type']}/{item['content_id']}: {item['sentiment_score']}")
-                
-                if low_sentiment_items:
-                    self.log(f"✅ Found {len(low_sentiment_items)} items correctly routed (sentiment <= -0.5)")
-                    
-                    # Show sample sentiment distribution
-                    sentiment_labels = {}
-                    for item in low_sentiment_items:
-                        label = item.get("sentiment_label", "unknown")
-                        sentiment_labels[label] = sentiment_labels.get(label, 0) + 1
-                    
-                    self.log(f"   Sentiment distribution: {sentiment_labels}")
-                
-                self.log("✅ Moderation integration verification completed")
-                return True
-            else:
-                self.log("⚠️ No moderation items found for verification")
-                return True
-        else:
-            self.log(f"❌ Could not get moderation items for verification: {response.status_code}", "ERROR")
-            return False
     
     def test_rbac_moderation_endpoints(self) -> bool:
         """Test RBAC for all moderation endpoints"""
