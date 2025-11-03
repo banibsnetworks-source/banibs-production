@@ -3498,6 +3498,7 @@ class BanibsAPITester:
             ("Search API - News Sentiment Integration", self.test_search_api_sentiment_news),
             ("Search API - Resources Sentiment Integration", self.test_search_api_sentiment_resources),
             ("Search API - Business No Sentiment (Expected)", self.test_search_api_business_no_sentiment),
+            ("Comprehensive Sentiment Values Validation", self.test_sentiment_values_comprehensive),
         ]
         
         passed = 0
