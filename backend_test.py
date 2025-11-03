@@ -1669,6 +1669,34 @@ class BanibsAPITester:
         
         # Get all moderation items
         response = self.make_request("GET", "/admin/moderation", headers=headers)
+    
+    def test_unified_user_register(self) -> bool:
+        """Test unified auth user registration for RBAC testing"""
+        self.log("Testing unified auth user registration...")
+        
+        # Use a unique email with timestamp to avoid conflicts
+        import time
+        test_email = f"unifieduser{int(time.time())}@example.com"
+        
+        response = self.make_request("POST", "/auth/register", {
+            "email": test_email,
+            "password": "test12345",
+            "name": "Test User",
+            "accepted_terms": True
+        })
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "access_token" in data:
+                self.unified_user_token = data["access_token"]
+                self.log("✅ Unified user registration successful")
+                return True
+            else:
+                self.log("❌ Unified user registration response missing access_token", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Unified user registration failed: {response.status_code} - {response.text}", "ERROR")
+            return False
         
         if response.status_code == 200:
             items = response.json()
