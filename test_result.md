@@ -1565,6 +1565,55 @@ frontend:
         agent: "main"
         comment: "Created RegionalInsightsPanel component displaying sentiment insights table (region, avg sentiment, total stories, distribution, last updated). Includes 'Generate Now' button for manual sentiment analysis trigger. Integrated into AdminOpportunitiesDashboard. Features: sentiment color coding (green/red/gray), emoji indicators, JWT authentication, loading/error states."
 
+  # Phase 6.3 Day 2 - Sentiment UI Integration Frontend
+  - task: "SentimentBadge component"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/SentimentBadge.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Updated SentimentBadge component with correct colors: Positive (green), Neutral (gray), Negative/Critical (red). Component includes emoji indicators, hover tooltips with sentiment scores, size variants (sm/md/lg), and optional label display. Returns null if no sentiment data."
+
+  - task: "Hub Activity Feed sentiment integration"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/Hub/ActivityFeed.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added sentiment badges to Hub Activity Feed items (News and Resources only). Implemented client-side sentiment filter with 4 options: All, Positive, Neutral, Critical. Filter uses useMemo for efficient rendering. Sentiment badges appear next to type badge with emoji indicators. Empty state messages updated for sentiment filtering."
+
+  - task: "Search results sentiment integration"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/Search/SearchPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added sentiment badges to Search results for News and Resources (not Business listings as requested). Badges appear next to category badge. Uses size='sm' with emoji only (no label text)."
+
+  - task: "Resource detail page sentiment integration"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/Resources/ResourceDetailPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added sentiment badge to Resource detail page, positioned below title and above description. Uses size='md' with label text shown. Hover tooltip displays sentiment score. Only shown if sentiment data exists."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
