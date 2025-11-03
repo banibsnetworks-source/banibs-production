@@ -4066,6 +4066,7 @@ class BanibsAPITester:
             ("Admin Login", self.test_admin_login),
             ("Contributor Registration", self.test_contributor_register),
             ("Contributor Login", self.test_contributor_login),
+            ("Unified User Registration", self.test_unified_user_register),
             
             # Phase 6.4 - Sentiment-Driven Moderation Routing Tests
             ("Feature Flags Loading", self.test_features_json_loading),
