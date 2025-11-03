@@ -32,6 +32,7 @@ class BanibsAPITester:
         self.test_ip_hash = None
         self.banned_ip_hash = None
         self.test_moderation_item_id = None
+        self.unified_user_token = None
         self.session = requests.Session()
         self.session.headers.update({
             'Content-Type': 'application/json',
