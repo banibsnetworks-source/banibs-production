@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://blacknative-hub.preview.emergentagent.com/api/auth
+https://black-indigenous.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
