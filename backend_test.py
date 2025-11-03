@@ -4012,36 +4012,27 @@ class BanibsAPITester:
 
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
-        self.log("Starting BANIBS Backend API Test Suite - Phase 6.0 Unified Authentication")
+        self.log("Starting BANIBS Backend API Test Suite - Phase 6.4 Sentiment-Driven Moderation Routing")
         self.log(f"Testing against: {API_BASE}")
-        self.log("Testing all 9 unified authentication endpoints with JWT_SECRET configuration")
+        self.log("Testing moderation queue system with feature flags and admin endpoints")
         
         tests = [
-            # Phase 6.0 - Unified Authentication Tests (Core Flow)
-            ("1. POST /api/auth/register", self.test_unified_register),
-            ("2. POST /api/auth/login", self.test_unified_login),
-            ("3. POST /api/auth/refresh", self.test_refresh_token),
-            ("4. GET /api/auth/me", self.test_get_current_user),
-            ("5. PATCH /api/auth/profile", self.test_update_profile),
-            ("6. POST /api/auth/forgot-password", self.test_forgot_password),
-            ("7. POST /api/auth/reset-password (invalid token)", self.test_reset_password_invalid_token),
-            ("8. POST /api/auth/verify-email (invalid token)", self.test_verify_email_invalid_token),
-            ("9. POST /api/auth/logout", self.test_logout),
+            # Authentication Setup
+            ("Admin Login", self.test_admin_login),
+            ("Contributor Registration", self.test_contributor_register),
+            ("Contributor Login", self.test_contributor_login),
             
-            # JWT Token Validation Tests
-            ("JWT Token Structure", self.test_jwt_token_structure),
-            ("SSO Cookie Verification", self.test_sso_cookie_verification),
-            
-            # Error Handling Tests
-            ("Invalid Login Credentials", self.test_invalid_login),
-            ("Invalid Refresh Token", self.test_invalid_refresh_token),
-            ("Get User Without Token", self.test_get_user_without_token),
-            ("Expired Token Handling", self.test_expired_token),
-            ("Update Profile Without Token", self.test_update_profile_without_token),
-            ("Duplicate Email Registration", self.test_duplicate_email_registration),
-            ("Invalid Password Format", self.test_invalid_password_format),
-            ("Missing Authorization Header", self.test_missing_authorization_header),
-            ("Invalid Token Format", self.test_invalid_token_format),
+            # Phase 6.4 - Sentiment-Driven Moderation Routing Tests
+            ("Feature Flags Loading", self.test_features_json_loading),
+            ("Admin Moderation Stats Auth", self.test_admin_moderation_stats_auth),
+            ("Admin Moderation Stats", self.test_admin_moderation_stats),
+            ("Admin Moderation List Auth", self.test_admin_moderation_list_auth),
+            ("Admin Moderation List", self.test_admin_moderation_list),
+            ("Admin Moderation Filters", self.test_admin_moderation_filters),
+            ("Moderation Approve Workflow", self.test_moderation_approve_workflow),
+            ("Moderation Reject Workflow", self.test_moderation_reject_workflow),
+            ("Moderation Integration Verification", self.test_moderation_integration_verification),
+            ("RBAC Moderation Endpoints", self.test_rbac_moderation_endpoints),
         ]
         
         passed = 0
