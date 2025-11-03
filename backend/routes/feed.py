@@ -68,7 +68,9 @@ async def fetch_news_items(date_cutoff: Optional[datetime], limit: int) -> List[
             created_at=item.get("published_at", item.get("created_at", datetime.now(timezone.utc))).isoformat(),
             metadata={
                 "category": item.get("category", "General"),
-                "region": item.get("region")
+                "region": item.get("region"),
+                "sentiment_label": item.get("sentiment_label"),
+                "sentiment_score": item.get("sentiment_score")
             }
         ))
     
