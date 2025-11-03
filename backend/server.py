@@ -180,6 +180,7 @@ app.include_router(search_router)
 
 # Include sentiment router (Phase 6.3 - Sentiment Analysis)
 from routes.sentiment import router as sentiment_router
+from routes.admin.moderation import router as admin_moderation_router  # Phase 6.4 - Moderation Queue
 app.include_router(sentiment_router)
 
 # Mount static files for local uploads
