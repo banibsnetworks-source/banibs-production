@@ -130,6 +130,18 @@ function ResourceDetailPage() {
               {resource.title}
             </h1>
 
+            {/* Sentiment Badge */}
+            {resource.sentiment_label && (
+              <div className="mb-4">
+                <SentimentBadge
+                  label={resource.sentiment_label}
+                  score={resource.sentiment_score}
+                  size="md"
+                  showLabel={true}
+                />
+              </div>
+            )}
+
             {/* Description */}
             <p className="text-xl text-gray-300 leading-relaxed mb-6">
               {resource.description}
