@@ -1269,6 +1269,489 @@ class BanibsAPITester:
             self.log(f"❌ Could not check scheduler status: {e}", "ERROR")
             return False
 
+    # Phase 6.4 - Sentiment-Driven Moderation Routing Tests
+    
+    def test_features_json_loading(self) -> bool:
+        """Test feature flags loading from config/features.json"""
+        self.log("Testing feature flags loading...")
+        
+        try:
+            # Import features utility
+            import sys
+            sys.path.append('/app/backend')
+            from utils.features import load_features, get_feature, is_feature_enabled
+            
+            # Test loading features
+            features = load_features()
+            
+            # Verify structure
+            if "moderation" in features and "ui" in features:
+                moderation_config = features["moderation"]
+                
+                # Check required moderation settings
+                required_keys = ["auto_from_sentiment", "block_negative", "threshold"]
+                if all(key in moderation_config for key in required_keys):
+                    threshold = moderation_config["threshold"]
+                    auto_enabled = moderation_config["auto_from_sentiment"]
+                    
+                    self.log(f"✅ Features loaded successfully:")
+                    self.log(f"   Moderation threshold: {threshold}")
+                    self.log(f"   Auto from sentiment: {auto_enabled}")
+                    self.log(f"   Block negative: {moderation_config['block_negative']}")
+                    
+                    # Test utility functions
+                    if (get_feature("moderation.threshold", -0.5) == threshold and
+                        is_feature_enabled("moderation.auto_from_sentiment") == auto_enabled):
+                        self.log("✅ Feature utility functions working correctly")
+                        return True
+                    else:
+                        self.log("❌ Feature utility functions not working correctly", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Missing required moderation keys: {required_keys}", "ERROR")
+                    return False
+            else:
+                self.log("❌ Features missing required sections (moderation, ui)", "ERROR")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Failed to load features: {e}", "ERROR")
+            return False
+    
+    def test_admin_moderation_stats_auth(self) -> bool:
+        """Test GET /api/admin/moderation/stats authentication"""
+        self.log("Testing admin moderation stats authentication...")
+        
+        # Test 1: Without auth → Should return 401
+        response = self.make_request("GET", "/admin/moderation/stats")
+        
+        if response.status_code != 401:
+            self.log(f"❌ Moderation stats without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 2: With contributor token → Should return 403
+        if self.contributor_token:
+            headers = {"Authorization": f"Bearer {self.contributor_token}"}
+            response = self.make_request("GET", "/admin/moderation/stats", headers=headers)
+            
+            if response.status_code != 403:
+                self.log(f"❌ Moderation stats with contributor token should return 403, got {response.status_code}", "ERROR")
+                return False
+        
+        self.log("✅ Admin moderation stats authentication working correctly")
+        return True
+    
+    def test_admin_moderation_stats(self) -> bool:
+        """Test GET /api/admin/moderation/stats with admin JWT"""
+        if not self.admin_token:
+            self.log("❌ No admin token available for moderation stats test", "ERROR")
+            return False
+        
+        self.log("Testing admin moderation stats endpoint...")
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("GET", "/admin/moderation/stats", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["pending", "approved", "rejected", "total"]
+            
+            if all(field in data for field in required_fields):
+                # Verify all values are integers
+                if all(isinstance(data[field], int) for field in required_fields):
+                    self.log(f"✅ Moderation stats working:")
+                    self.log(f"   Pending: {data['pending']}")
+                    self.log(f"   Approved: {data['approved']}")
+                    self.log(f"   Rejected: {data['rejected']}")
+                    self.log(f"   Total: {data['total']}")
+                    
+                    # Verify total equals sum of others
+                    calculated_total = data['pending'] + data['approved'] + data['rejected']
+                    if data['total'] == calculated_total:
+                        self.log("✅ Stats totals are consistent")
+                        return True
+                    else:
+                        self.log(f"❌ Total ({data['total']}) doesn't match sum ({calculated_total})", "ERROR")
+                        return False
+                else:
+                    self.log("❌ Stats values are not integers", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Moderation stats missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Moderation stats failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_admin_moderation_list_auth(self) -> bool:
+        """Test GET /api/admin/moderation authentication"""
+        self.log("Testing admin moderation list authentication...")
+        
+        # Test 1: Without auth → Should return 401
+        response = self.make_request("GET", "/admin/moderation")
+        
+        if response.status_code != 401:
+            self.log(f"❌ Moderation list without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 2: With contributor token → Should return 403
+        if self.contributor_token:
+            headers = {"Authorization": f"Bearer {self.contributor_token}"}
+            response = self.make_request("GET", "/admin/moderation", headers=headers)
+            
+            if response.status_code != 403:
+                self.log(f"❌ Moderation list with contributor token should return 403, got {response.status_code}", "ERROR")
+                return False
+        
+        self.log("✅ Admin moderation list authentication working correctly")
+        return True
+    
+    def test_admin_moderation_list(self) -> bool:
+        """Test GET /api/admin/moderation with admin JWT"""
+        if not self.admin_token:
+            self.log("❌ No admin token available for moderation list test", "ERROR")
+            return False
+        
+        self.log("Testing admin moderation list endpoint...")
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("GET", "/admin/moderation", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list):
+                self.log(f"✅ Moderation list working - Found {len(data)} items")
+                
+                # If we have items, verify structure
+                if len(data) > 0:
+                    item = data[0]
+                    required_fields = [
+                        "id", "content_id", "content_type", "title", 
+                        "sentiment_label", "sentiment_score", "reason", 
+                        "status", "created_at"
+                    ]
+                    
+                    if all(field in item for field in required_fields):
+                        self.log(f"✅ Moderation item structure correct:")
+                        self.log(f"   ID: {item['id']}")
+                        self.log(f"   Content: {item['content_type']}/{item['content_id']}")
+                        self.log(f"   Title: {item['title'][:50]}...")
+                        self.log(f"   Sentiment: {item['sentiment_label']} ({item['sentiment_score']})")
+                        self.log(f"   Status: {item['status']}")
+                        self.log(f"   Reason: {item['reason']}")
+                        
+                        # Store first item for workflow tests
+                        if item['status'] == 'PENDING':
+                            self.test_moderation_item_id = item['id']
+                        
+                        return True
+                    else:
+                        missing_fields = [field for field in required_fields if field not in item]
+                        self.log(f"❌ Moderation item missing fields: {missing_fields}", "ERROR")
+                        return False
+                else:
+                    self.log("⚠️ No moderation items found (queue is empty)")
+                    return True
+            else:
+                self.log(f"❌ Moderation list response is not a list: {type(data)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Moderation list failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_admin_moderation_filters(self) -> bool:
+        """Test GET /api/admin/moderation with filters"""
+        if not self.admin_token:
+            self.log("❌ No admin token available for moderation filters test", "ERROR")
+            return False
+        
+        self.log("Testing admin moderation list filters...")
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # Test 1: Filter by status=PENDING
+        response = self.make_request("GET", "/admin/moderation", headers=headers, params={"status": "PENDING"})
+        
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list):
+                pending_count = len(data)
+                self.log(f"✅ PENDING filter working - Found {pending_count} pending items")
+                
+                # Verify all items are PENDING
+                if all(item.get("status") == "PENDING" for item in data):
+                    self.log("✅ All filtered items have PENDING status")
+                else:
+                    non_pending = [item for item in data if item.get("status") != "PENDING"]
+                    self.log(f"❌ Found {len(non_pending)} non-pending items in PENDING filter", "ERROR")
+                    return False
+            else:
+                self.log("❌ PENDING filter response is not a list", "ERROR")
+                return False
+        else:
+            self.log(f"❌ PENDING filter failed: {response.status_code}", "ERROR")
+            return False
+        
+        # Test 2: Filter by content_type=news
+        response = self.make_request("GET", "/admin/moderation", headers=headers, params={"content_type": "news"})
+        
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list):
+                news_count = len(data)
+                self.log(f"✅ News filter working - Found {news_count} news items")
+                
+                # Verify all items are news
+                if all(item.get("content_type") == "news" for item in data):
+                    self.log("✅ All filtered items have news content_type")
+                else:
+                    non_news = [item for item in data if item.get("content_type") != "news"]
+                    self.log(f"❌ Found {len(non_news)} non-news items in news filter", "ERROR")
+                    return False
+            else:
+                self.log("❌ News filter response is not a list", "ERROR")
+                return False
+        else:
+            self.log(f"❌ News filter failed: {response.status_code}", "ERROR")
+            return False
+        
+        self.log("✅ Moderation list filters working correctly")
+        return True
+    
+    def test_moderation_approve_workflow(self) -> bool:
+        """Test moderation approve workflow"""
+        if not self.admin_token:
+            self.log("❌ No admin token available for approve workflow test", "ERROR")
+            return False
+        
+        self.log("Testing moderation approve workflow...")
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # First, get a PENDING item
+        response = self.make_request("GET", "/admin/moderation", headers=headers, params={"status": "PENDING"})
+        
+        if response.status_code != 200:
+            self.log("❌ Could not get pending items for approve test", "ERROR")
+            return False
+        
+        pending_items = response.json()
+        if not pending_items:
+            self.log("⚠️ No pending items available for approve workflow test")
+            return True
+        
+        item_to_approve = pending_items[0]
+        mod_id = item_to_approve["id"]
+        
+        self.log(f"Testing approve for item: {mod_id}")
+        
+        # Test approve endpoint
+        response = self.make_request("POST", f"/admin/moderation/{mod_id}/approve", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["success", "message", "mod_id", "reviewed_by"]
+            
+            if all(field in data for field in required_fields):
+                if data["success"] and data["mod_id"] == mod_id:
+                    self.log(f"✅ Item approved successfully:")
+                    self.log(f"   Mod ID: {data['mod_id']}")
+                    self.log(f"   Reviewed by: {data['reviewed_by']}")
+                    self.log(f"   Message: {data['message']}")
+                    
+                    # Verify the item status changed
+                    response = self.make_request("GET", f"/admin/moderation/{mod_id}", headers=headers)
+                    
+                    if response.status_code == 200:
+                        updated_item = response.json()
+                        if (updated_item["status"] == "APPROVED" and 
+                            updated_item["reviewed_by"] is not None and
+                            updated_item["reviewed_at"] is not None):
+                            self.log("✅ Item status updated correctly to APPROVED")
+                            return True
+                        else:
+                            self.log("❌ Item status not updated correctly", "ERROR")
+                            return False
+                    else:
+                        self.log("❌ Could not verify item status update", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Approve response invalid: {data}", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Approve response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Approve failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_moderation_reject_workflow(self) -> bool:
+        """Test moderation reject workflow"""
+        if not self.admin_token:
+            self.log("❌ No admin token available for reject workflow test", "ERROR")
+            return False
+        
+        self.log("Testing moderation reject workflow...")
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # First, get a PENDING item
+        response = self.make_request("GET", "/admin/moderation", headers=headers, params={"status": "PENDING"})
+        
+        if response.status_code != 200:
+            self.log("❌ Could not get pending items for reject test", "ERROR")
+            return False
+        
+        pending_items = response.json()
+        if not pending_items:
+            self.log("⚠️ No pending items available for reject workflow test")
+            return True
+        
+        item_to_reject = pending_items[0]
+        mod_id = item_to_reject["id"]
+        
+        self.log(f"Testing reject for item: {mod_id}")
+        
+        # Test reject endpoint
+        response = self.make_request("POST", f"/admin/moderation/{mod_id}/reject", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["success", "message", "mod_id", "reviewed_by"]
+            
+            if all(field in data for field in required_fields):
+                if data["success"] and data["mod_id"] == mod_id:
+                    self.log(f"✅ Item rejected successfully:")
+                    self.log(f"   Mod ID: {data['mod_id']}")
+                    self.log(f"   Reviewed by: {data['reviewed_by']}")
+                    self.log(f"   Message: {data['message']}")
+                    
+                    # Verify the item status changed
+                    response = self.make_request("GET", f"/admin/moderation/{mod_id}", headers=headers)
+                    
+                    if response.status_code == 200:
+                        updated_item = response.json()
+                        if (updated_item["status"] == "REJECTED" and 
+                            updated_item["reviewed_by"] is not None and
+                            updated_item["reviewed_at"] is not None):
+                            self.log("✅ Item status updated correctly to REJECTED")
+                            return True
+                        else:
+                            self.log("❌ Item status not updated correctly", "ERROR")
+                            return False
+                    else:
+                        self.log("❌ Could not verify item status update", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Reject response invalid: {data}", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Reject response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Reject failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_moderation_integration_verification(self) -> bool:
+        """Test that moderation items have correct sentiment thresholds"""
+        if not self.admin_token:
+            self.log("❌ No admin token available for integration verification", "ERROR")
+            return False
+        
+        self.log("Testing moderation integration verification...")
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # Get all moderation items
+        response = self.make_request("GET", "/admin/moderation", headers=headers)
+        
+        if response.status_code == 200:
+            items = response.json()
+            if isinstance(items, list) and len(items) > 0:
+                self.log(f"✅ Found {len(items)} moderation items for verification")
+                
+                # Verify sentiment thresholds
+                threshold_violations = []
+                low_sentiment_items = []
+                
+                for item in items:
+                    sentiment_score = item.get("sentiment_score")
+                    sentiment_label = item.get("sentiment_label")
+                    reason = item.get("reason")
+                    content_type = item.get("content_type")
+                    
+                    # Check if sentiment score is <= -0.5 (threshold)
+                    if sentiment_score is not None:
+                        if sentiment_score > -0.5:
+                            threshold_violations.append(item)
+                        else:
+                            low_sentiment_items.append(item)
+                    
+                    # Verify content type is news or resource
+                    if content_type not in ["news", "resource"]:
+                        self.log(f"❌ Invalid content_type: {content_type}", "ERROR")
+                        return False
+                    
+                    # Verify reason is LOW_SENTIMENT
+                    if reason != "LOW_SENTIMENT":
+                        self.log(f"❌ Unexpected reason: {reason}", "ERROR")
+                        return False
+                
+                if threshold_violations:
+                    self.log(f"⚠️ Found {len(threshold_violations)} items with sentiment > -0.5 threshold")
+                    for item in threshold_violations[:3]:  # Show first 3
+                        self.log(f"   {item['content_type']}/{item['content_id']}: {item['sentiment_score']}")
+                
+                if low_sentiment_items:
+                    self.log(f"✅ Found {len(low_sentiment_items)} items correctly routed (sentiment <= -0.5)")
+                    
+                    # Show sample sentiment distribution
+                    sentiment_labels = {}
+                    for item in low_sentiment_items:
+                        label = item.get("sentiment_label", "unknown")
+                        sentiment_labels[label] = sentiment_labels.get(label, 0) + 1
+                    
+                    self.log(f"   Sentiment distribution: {sentiment_labels}")
+                
+                self.log("✅ Moderation integration verification completed")
+                return True
+            else:
+                self.log("⚠️ No moderation items found for verification")
+                return True
+        else:
+            self.log(f"❌ Could not get moderation items for verification: {response.status_code}", "ERROR")
+            return False
+    
+    def test_rbac_moderation_endpoints(self) -> bool:
+        """Test RBAC for all moderation endpoints"""
+        self.log("Testing RBAC for moderation endpoints...")
+        
+        if not self.contributor_token:
+            self.log("⚠️ No contributor token available for RBAC test")
+            return True
+        
+        headers = {"Authorization": f"Bearer {self.contributor_token}"}
+        
+        # Test all endpoints with contributor token (should return 403)
+        endpoints_to_test = [
+            ("GET", "/admin/moderation/stats"),
+            ("GET", "/admin/moderation"),
+            ("POST", "/admin/moderation/test-id/approve"),
+            ("POST", "/admin/moderation/test-id/reject")
+        ]
+        
+        for method, endpoint in endpoints_to_test:
+            response = self.make_request(method, endpoint, headers=headers)
+            
+            if response.status_code != 403:
+                self.log(f"❌ {method} {endpoint} with contributor token should return 403, got {response.status_code}", "ERROR")
+                return False
+        
+        self.log("✅ RBAC verification passed - contributor properly restricted from all moderation endpoints")
+        return True
     # Phase 6.3 Day 2 - Sentiment Data Integration Tests
     
     def test_feed_api_sentiment_news(self) -> bool:
