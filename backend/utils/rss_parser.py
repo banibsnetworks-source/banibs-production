@@ -206,6 +206,20 @@ async def fetch_and_store_feed(url: str, category: str, source_name: str, limit:
             # Store in database
             await news_collection.insert_one(news_dict)
             stored_count += 1
+            
+            # Phase 6.4: Route to moderation if needed (fail gracefully if error)
+            try:
+                from services.moderation_service import handle_content_moderation
+                await handle_content_moderation(
+                    content_id=news_dict["id"],
+                    content_type="news",
+                    title=title[:200],
+                    sentiment_label=sentiment_label,
+                    sentiment_score=sentiment_score
+                )
+            except Exception as mod_error:
+                print(f"Moderation routing failed for {title[:50]}: {mod_error}")
+                # Continue without moderation - don't break RSS sync
         
         return stored_count
     
