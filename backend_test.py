@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-BANIBS Backend API Test Suite - Phase 6.2.3 Resources & Events APIs
-Tests all 12 newly implemented API endpoints for Resources and Events modules
+BANIBS Backend API Test Suite - Phase 6.4 Sentiment-Driven Moderation Routing
+Tests moderation queue system with feature flags and admin endpoints
 """
 
 import requests
