@@ -2812,6 +2812,9 @@ agent_communication:
       - working: "NA"
         agent: "main"
         comment: "Created features.json with moderation config (auto_from_sentiment=true, block_negative=false, threshold=-0.5). Created features.py utility to load and access feature flags with defaults if file missing."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Feature flags loading working correctly. Features loaded successfully with moderation threshold: -0.5, auto from sentiment: True, block negative: False. Feature utility functions working correctly with proper dot-notation access (e.g., get_feature('moderation.threshold', -0.5)). Graceful fallback to defaults confirmed when file missing."
 
   - task: "Moderation queue model and database"
     implemented: true
