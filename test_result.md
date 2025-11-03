@@ -2799,3 +2799,89 @@ agent_communication:
 # ============================================
 # END OF PHASE 6.3 DAY 2 UPDATE
 # ============================================
+
+  # Phase 6.4 - Sentiment-Driven Moderation Routing Backend
+  - task: "Feature flags configuration"
+    implemented: true
+    working: "NA"
+    file: "backend/config/features.json, backend/utils/features.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created features.json with moderation config (auto_from_sentiment=true, block_negative=false, threshold=-0.5). Created features.py utility to load and access feature flags with defaults if file missing."
+
+  - task: "Moderation queue model and database"
+    implemented: true
+    working: "NA"
+    file: "backend/models/moderation.py, backend/db/moderation_queue.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created ModerationQueueItem model with fields: id, content_id, content_type, title, sentiment_label, sentiment_score, reason, status (PENDING/APPROVED/REJECTED), created_at, reviewed_at, reviewed_by. Created database operations: create, get_items, get_by_id, update_status, get_stats, check_if_already_moderated."
+
+  - task: "Moderation service logic"
+    implemented: true
+    working: "NA"
+    file: "backend/services/moderation_service.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created moderation service with functions: should_moderate_content (checks threshold and feature flags), route_to_moderation (creates queue item), handle_content_moderation (main entry point). Threshold check: sentiment_label in negative/critical/bad AND sentiment_score <= -0.5. Supports Mode A (shadow) and Mode B (blocking) via feature flags."
+
+  - task: "Admin moderation API endpoints"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/admin/moderation.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created admin API endpoints: GET /api/admin/moderation (list items), GET /api/admin/moderation/stats (get counts), GET /api/admin/moderation/{id} (get single item), POST /api/admin/moderation/{id}/approve, POST /api/admin/moderation/{id}/reject. All endpoints protected with super_admin or moderator roles via require_role middleware."
+
+  - task: "RSS sync moderation integration"
+    implemented: true
+    working: "NA"
+    file: "backend/utils/rss_parser.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Integrated moderation routing into RSS sync pipeline. After news item is stored and sentiment analyzed, calls handle_content_moderation to check if item should be routed to moderation queue. Fail-safe: errors in moderation don't break RSS sync."
+
+  - task: "Resource creation moderation integration"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/resources.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Integrated moderation routing into resource POST endpoint. After resource is created and sentiment analyzed, calls handle_content_moderation to check if resource should be routed to moderation queue. Fail-safe: errors in moderation don't break resource creation."
+
+  - task: "Server moderation router registration"
+    implemented: true
+    working: "NA"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Registered admin_moderation_router in server.py. Moderation API endpoints now available at /api/admin/moderation/*. Backend restarted successfully."
+
