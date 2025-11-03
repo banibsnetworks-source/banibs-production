@@ -1685,18 +1685,24 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "Added sentiment badges to Search results for News and Resources (not Business listings as requested). Badges appear next to category badge. Uses size='sm' with emoji only (no label text)."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Search results sentiment integration working perfectly. Found News section with 10 sentiment badges and Resources section with 10 sentiment badges. Business section correctly has NO sentiment badges as expected. Sentiment badges appear next to category badges with proper emoji indicators. Search query 'business' returned 59 results across 3 categories. All sentiment badges positioned correctly and display proper tooltips."
 
   - task: "Resource detail page sentiment integration"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/pages/Resources/ResourceDetailPage.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Added sentiment badge to Resource detail page, positioned below title and above description. Uses size='md' with label text shown. Hover tooltip displays sentiment score. Only shown if sentiment data exists."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Resource detail page sentiment integration working perfectly. Found 1 sentiment badge on resource detail page showing '⚪ Neutral' with tooltip 'Sentiment: Neutral (0.00)'. Badge correctly uses medium size (size='md') and shows text label as specified. Badge positioned below title and above description as designed. Hover tooltip displays sentiment score in proper format. Badge only appears when sentiment data exists."
 
 metadata:
   created_by: "main_agent"
