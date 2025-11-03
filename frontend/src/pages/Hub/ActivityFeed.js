@@ -235,12 +235,24 @@ const ActivityFeed = () => {
 
                       {/* Content */}
                       <div className="flex-1 min-w-0">
-                        {/* Type Badge + Date */}
-                        <div className="flex items-center gap-2 mb-2">
+                        {/* Type Badge + Sentiment + Date */}
+                        <div className="flex items-center gap-2 mb-2 flex-wrap">
                           <span className="text-lg">{getTypeIcon(item.type)}</span>
                           <span className="text-xs font-semibold text-gray-700 bg-gray-100 px-2 py-1 rounded">
                             {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
                           </span>
+                          
+                          {/* Sentiment Badge - only for News and Resources */}
+                          {(item.type === 'news' || item.type === 'resource') && 
+                           item.metadata?.sentiment_label && (
+                            <SentimentBadge
+                              label={item.metadata.sentiment_label}
+                              score={item.metadata.sentiment_score}
+                              size="sm"
+                              showLabel={false}
+                            />
+                          )}
+                          
                           <span className="text-xs text-gray-500">
                             {formatDate(item.created_at)}
                           </span>
