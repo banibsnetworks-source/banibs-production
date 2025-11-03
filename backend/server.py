@@ -182,6 +182,7 @@ app.include_router(search_router)
 from routes.sentiment import router as sentiment_router
 from routes.admin.moderation import router as admin_moderation_router  # Phase 6.4 - Moderation Queue
 app.include_router(sentiment_router)
+app.include_router(admin_moderation_router)  # Phase 6.4 - Moderation Admin Endpoints
 
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
