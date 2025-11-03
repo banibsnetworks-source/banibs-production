@@ -77,7 +77,11 @@ async def search_news(query: str, limit: int = 5) -> SearchCategoryResults:
             category=item.get("category", "News"),
             published_at=item.get("published_at").isoformat() if item.get("published_at") else None,
             link=f"/world-news/{item['id']}",
-            metadata={"region": item.get("region")}
+            metadata={
+                "region": item.get("region"),
+                "sentiment_label": item.get("sentiment_label"),
+                "sentiment_score": item.get("sentiment_score")
+            }
         ))
     
     return SearchCategoryResults(
