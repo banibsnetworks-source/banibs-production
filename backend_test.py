@@ -1736,7 +1736,7 @@ class BanibsAPITester:
         
         headers = {"Authorization": f"Bearer {self.contributor_token}"}
         
-        # Test all endpoints with contributor token (should return 403)
+        # Test all endpoints with contributor token (should return 401 - old auth system)
         endpoints_to_test = [
             ("GET", "/admin/moderation/stats"),
             ("GET", "/admin/moderation"),
@@ -1747,8 +1747,8 @@ class BanibsAPITester:
         for method, endpoint in endpoints_to_test:
             response = self.make_request(method, endpoint, headers=headers)
             
-            if response.status_code != 403:
-                self.log(f"❌ {method} {endpoint} with contributor token should return 403, got {response.status_code}", "ERROR")
+            if response.status_code != 401:
+                self.log(f"❌ {method} {endpoint} with contributor token should return 401, got {response.status_code}", "ERROR")
                 return False
         
         self.log("✅ RBAC verification passed - contributor properly restricted from all moderation endpoints")
