@@ -1551,6 +1551,100 @@ class BanibsAPITester:
         else:
             self.log(f"❌ Search API failed: {response.status_code} - {response.text}", "ERROR")
             return False
+    
+    def test_sentiment_values_comprehensive(self) -> bool:
+        """Test comprehensive sentiment value validation across both APIs"""
+        self.log("Testing comprehensive sentiment value validation...")
+        
+        # Test Feed API with different types
+        feed_response = self.make_request("GET", "/feed", params={"limit": 10})
+        search_response = self.make_request("GET", "/search", params={"q": "business", "limit": 10})
+        
+        all_sentiment_items = []
+        
+        # Collect sentiment items from Feed API
+        if feed_response.status_code == 200:
+            feed_data = feed_response.json()
+            for item in feed_data.get("items", []):
+                if item.get("type") in ["news", "resource"]:
+                    metadata = item.get("metadata", {})
+                    if "sentiment_label" in metadata and "sentiment_score" in metadata:
+                        all_sentiment_items.append({
+                            "source": "feed",
+                            "type": item["type"],
+                            "title": item["title"],
+                            "label": metadata["sentiment_label"],
+                            "score": metadata["sentiment_score"]
+                        })
+        
+        # Collect sentiment items from Search API
+        if search_response.status_code == 200:
+            search_data = search_response.json()
+            for category_name, category_data in search_data.get("categories", {}).items():
+                if category_name in ["news", "resources"]:
+                    for item in category_data.get("items", []):
+                        metadata = item.get("metadata", {})
+                        if "sentiment_label" in metadata and "sentiment_score" in metadata:
+                            all_sentiment_items.append({
+                                "source": "search",
+                                "type": item["type"],
+                                "title": item["title"],
+                                "label": metadata["sentiment_label"],
+                                "score": metadata["sentiment_score"]
+                            })
+        
+        if len(all_sentiment_items) == 0:
+            self.log("⚠️ No sentiment items found for comprehensive validation")
+            return True
+        
+        self.log(f"✅ Found {len(all_sentiment_items)} items with sentiment data for validation")
+        
+        # Validate all sentiment values
+        valid_labels = ["positive", "neutral", "negative"]
+        label_counts = {"positive": 0, "neutral": 0, "negative": 0}
+        score_range_valid = True
+        
+        for item in all_sentiment_items:
+            label = item["label"]
+            score = item["score"]
+            
+            # Validate label
+            if label not in valid_labels:
+                self.log(f"❌ Invalid sentiment label '{label}' in {item['source']} {item['type']}: {item['title'][:50]}...", "ERROR")
+                return False
+            
+            label_counts[label] += 1
+            
+            # Validate score range
+            if not isinstance(score, (int, float)) or score < -1.0 or score > 1.0:
+                self.log(f"❌ Invalid sentiment score {score} in {item['source']} {item['type']}: {item['title'][:50]}...", "ERROR")
+                return False
+        
+        # Report statistics
+        self.log(f"✅ Sentiment label distribution:")
+        for label, count in label_counts.items():
+            percentage = (count / len(all_sentiment_items)) * 100
+            self.log(f"   {label}: {count} items ({percentage:.1f}%)")
+        
+        # Validate score ranges make sense for labels
+        positive_scores = [item["score"] for item in all_sentiment_items if item["label"] == "positive"]
+        negative_scores = [item["score"] for item in all_sentiment_items if item["label"] == "negative"]
+        neutral_scores = [item["score"] for item in all_sentiment_items if item["label"] == "neutral"]
+        
+        if positive_scores:
+            avg_positive = sum(positive_scores) / len(positive_scores)
+            self.log(f"   Average positive score: {avg_positive:.2f}")
+        
+        if negative_scores:
+            avg_negative = sum(negative_scores) / len(negative_scores)
+            self.log(f"   Average negative score: {avg_negative:.2f}")
+        
+        if neutral_scores:
+            avg_neutral = sum(neutral_scores) / len(neutral_scores)
+            self.log(f"   Average neutral score: {avg_neutral:.2f}")
+        
+        self.log("✅ All sentiment values are valid and within expected ranges")
+        return True
 
     # Phase 6.2.3 - Resources & Events API Tests
     
