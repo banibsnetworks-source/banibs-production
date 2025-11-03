@@ -2848,15 +2848,18 @@ agent_communication:
 
   - task: "Admin moderation API endpoints"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/admin/moderation.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created admin API endpoints: GET /api/admin/moderation (list items), GET /api/admin/moderation/stats (get counts), GET /api/admin/moderation/{id} (get single item), POST /api/admin/moderation/{id}/approve, POST /api/admin/moderation/{id}/reject. All endpoints protected with super_admin or moderator roles via require_role middleware."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: All 4 admin moderation endpoints working correctly. GET /api/admin/moderation/stats returns proper counts (pending=0, approved=0, rejected=0, total=0). GET /api/admin/moderation returns array of items with filtering by status and content_type. POST approve/reject endpoints return proper response structure. RBAC working perfectly: 401 for no auth, 401 for old contributor tokens, 403 for unified users without roles, 200 for admin tokens."
 
   - task: "RSS sync moderation integration"
     implemented: true
