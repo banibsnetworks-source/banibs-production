@@ -150,6 +150,7 @@ const AdminOpportunitiesDashboard = () => {
 
   useEffect(() => {
     loadAnalytics();
+    fetchModerationStats(); // Phase 6.4 - Load moderation pending count
   }, []);
 
   useEffect(() => {
@@ -160,6 +161,7 @@ const AdminOpportunitiesDashboard = () => {
     // Reload opportunities and analytics after any action
     loadOpportunities();
     loadAnalytics();
+    fetchModerationStats(); // Phase 6.4 - Refresh moderation count
   };
 
   const handleLogout = () => {
