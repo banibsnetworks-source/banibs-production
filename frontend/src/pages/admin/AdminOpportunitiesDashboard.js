@@ -79,6 +79,24 @@ const AdminOpportunitiesDashboard = () => {
     return role === 'super_admin' || role === 'admin'; // backward compatibility
   };
 
+  // Phase 6.4 - Fetch moderation queue stats
+  const fetchModerationStats = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      const response = await fetch(`${BACKEND_URL}/api/admin/moderation/stats`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setModerationPending(data.pending || 0);
+      }
+    } catch (err) {
+      console.error('Failed to fetch moderation stats:', err);
+    }
+  };
+
   const loadAnalytics = async () => {
     setLoadingAnalytics(true);
     try {
