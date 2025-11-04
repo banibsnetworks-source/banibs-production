@@ -3053,3 +3053,42 @@ agent_communication:
 # ============================================
 # END OF PHASE 6.4 BACKEND UPDATE
 # ============================================
+
+frontend:
+  # Phase 6.4 - Sentiment-Driven Moderation Routing Frontend
+  - task: "ModerationQueue admin page"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/Admin/ModerationQueue.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created ModerationQueue.js admin page at /admin/moderation. Features: stats cards (pending/approved/rejected/total), filter tabs (PENDING/APPROVED/REJECTED), table with Title/Type/Sentiment/Reason/Created/Actions columns, Approve/Reject buttons with confirmation, loading states, error handling, Mode A info panel. Styling matches BANIBS aesthetic with dark theme."
+
+  - task: "Admin navigation with moderation link"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/admin/AdminOpportunitiesDashboard.js, frontend/src/pages/Admin/ModerationQueue.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added navigation tabs to admin pages. AdminOpportunitiesDashboard now shows Opportunities (active) and Moderation links. ModerationQueue shows same navigation with Moderation active. Added pending badge count on Moderation link (red circle with count, only shown when pending > 0). Badge updates via GET /api/admin/moderation/stats."
+
+  - task: "Admin moderation route registration"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Registered /admin/moderation route in App.js. Route protected with ProtectedRoute requireAdmin={true}. Imported ModerationQueue component from pages/Admin/ModerationQueue.js."
+
