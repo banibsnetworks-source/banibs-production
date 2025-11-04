@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { opportunitiesAPI, moderationLogsAPI } from '../../services/api';
 import AdminOpportunityCard from '../../components/admin/AdminOpportunityCard';
 import RevenueOverview from '../../components/admin/RevenueOverview';
 import AbuseControls from '../../components/admin/AbuseControls';
 import RegionalInsightsPanel from '../../components/admin/RegionalInsightsPanel';
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
 const AdminOpportunitiesDashboard = () => {
   const [opportunities, setOpportunities] = useState([]);
@@ -13,6 +16,7 @@ const AdminOpportunitiesDashboard = () => {
   const [filter, setFilter] = useState('pending'); // pending, approved, featured
   const [analytics, setAnalytics] = useState(null);
   const [loadingAnalytics, setLoadingAnalytics] = useState(true);
+  const [moderationPending, setModerationPending] = useState(0); // Phase 6.4 - Moderation badge count
   
   // Advanced filters
   const [typeFilter, setTypeFilter] = useState('all');
