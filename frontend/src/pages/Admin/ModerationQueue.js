@@ -149,14 +149,32 @@ function ModerationQueue() {
       {/* Header */}
       <div className="bg-black border-b border-yellow-500/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between mb-4">
             <div>
-              <Link to="/admin/dashboard" className="text-yellow-500 hover:text-yellow-400 text-sm mb-2 inline-block">
-                ← Back to Dashboard
-              </Link>
-              <h1 className="text-3xl font-bold text-white">Content Moderation Queue</h1>
-              <p className="text-gray-400 mt-1">Review and manage flagged content</p>
+              <h1 className="text-3xl font-bold text-white">BANIBS Admin</h1>
+              <p className="text-gray-400 mt-1">Content Moderation Queue</p>
             </div>
+          </div>
+          
+          {/* Navigation Tabs */}
+          <div className="flex items-center gap-4">
+            <Link
+              to="/admin/opportunities"
+              className="px-4 py-2 text-gray-300 font-semibold rounded-lg hover:bg-gray-800 transition-all text-sm"
+            >
+              Opportunities
+            </Link>
+            <Link
+              to="/admin/moderation"
+              className="px-4 py-2 text-yellow-500 font-semibold rounded-lg hover:bg-gray-800 transition-all text-sm border-b-2 border-yellow-500 relative"
+            >
+              Moderation
+              {stats.pending > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {stats.pending}
+                </span>
+              )}
+            </Link>
           </div>
         </div>
       </div>
