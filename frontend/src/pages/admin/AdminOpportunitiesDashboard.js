@@ -185,6 +185,25 @@ const AdminOpportunitiesDashboard = () => {
             </div>
             
             <div className="flex items-center gap-4">
+              {/* Phase 6.4 - Navigation Tabs */}
+              <Link
+                to="/admin/opportunities"
+                className="px-4 py-2 text-[#FFD700] font-semibold rounded-lg hover:bg-[#1a1a1a] transition-all text-sm border-b-2 border-[#FFD700]"
+              >
+                Opportunities
+              </Link>
+              <Link
+                to="/admin/moderation"
+                className="px-4 py-2 text-gray-300 font-semibold rounded-lg hover:bg-[#1a1a1a] transition-all text-sm relative"
+              >
+                Moderation
+                {moderationPending > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                    {moderationPending}
+                  </span>
+                )}
+              </Link>
+              
               {/* Phase 3.2 - Export CSV Button */}
               <button
                 onClick={handleExportCSV}
