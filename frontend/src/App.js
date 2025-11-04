@@ -156,6 +156,14 @@ function App() {
                   </ProtectedRoute>
                 } 
               />
+              <Route 
+                path="/admin/moderation" 
+                element={
+                  <ProtectedRoute requireAdmin={true}>
+                    <ModerationQueue />
+                  </ProtectedRoute>
+                } 
+              />
             </Routes>
           </BrowserRouter>
         </div>
