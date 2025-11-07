@@ -49,15 +49,15 @@ async def get_date_range_with_sentiment():
     # Determine overall range
     dates = []
     
-    if earliest_news and earliest_news.get("published_at"):
-        pub_date = earliest_news["published_at"]
+    if earliest_news and earliest_news.get("publishedAt"):
+        pub_date = earliest_news["publishedAt"]
         if isinstance(pub_date, datetime):
             dates.append(pub_date.date())
         elif isinstance(pub_date, date):
             dates.append(pub_date)
     
-    if latest_news and latest_news.get("published_at"):
-        pub_date = latest_news["published_at"]
+    if latest_news and latest_news.get("publishedAt"):
+        pub_date = latest_news["publishedAt"]
         if isinstance(pub_date, datetime):
             dates.append(pub_date.date())
         elif isinstance(pub_date, date):
