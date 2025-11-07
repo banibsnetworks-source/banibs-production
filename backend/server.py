@@ -181,6 +181,7 @@ app.include_router(search_router)
 # Include sentiment router (Phase 6.3 - Sentiment Analysis)
 from routes.sentiment import router as sentiment_router
 from routes.admin.moderation import router as admin_moderation_router  # Phase 6.4 - Moderation Queue
+from routes.admin.sentiment_analytics import router as admin_sentiment_analytics_router  # Phase 6.5 - Sentiment Analytics
 app.include_router(sentiment_router)
 app.include_router(admin_moderation_router)  # Phase 6.4 - Moderation Admin Endpoints
 
