@@ -23,7 +23,7 @@ function TrendsChart({ startDate, endDate, granularity, contentType }) {
   const fetchTrendsData = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       const response = await fetch(
         `${BACKEND_URL}/api/admin/analytics/sentiment/trends?start_date=${startDate}&end_date=${endDate}&granularity=${granularity}&content_type=${contentType}`,
         {
