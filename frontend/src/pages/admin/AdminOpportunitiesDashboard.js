@@ -185,7 +185,7 @@ const AdminOpportunitiesDashboard = () => {
             </div>
             
             <div className="flex items-center gap-4">
-              {/* Phase 6.4 - Navigation Tabs */}
+              {/* Phase 6.4 & 6.5 - Navigation Tabs */}
               <Link
                 to="/admin/opportunities"
                 className="px-4 py-2 text-[#FFD700] font-semibold rounded-lg hover:bg-[#1a1a1a] transition-all text-sm border-b-2 border-[#FFD700]"
@@ -202,6 +202,12 @@ const AdminOpportunitiesDashboard = () => {
                     {moderationPending}
                   </span>
                 )}
+              </Link>
+              <Link
+                to="/admin/analytics/sentiment"
+                className="px-4 py-2 text-gray-300 font-semibold rounded-lg hover:bg-[#1a1a1a] transition-all text-sm"
+              >
+                Analytics
               </Link>
               
               {/* Phase 3.2 - Export CSV Button */}
