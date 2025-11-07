@@ -569,12 +569,14 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Feed API sentiment data integration"
-    - "Search API sentiment data integration"
-    - "SentimentBadge component"
-    - "Hub Activity Feed sentiment integration"
-    - "Search results sentiment integration"
-    - "Resource detail page sentiment integration"
+    - "Sentiment Analytics Backend - /api/admin/sentiment_analytics/summary"
+    - "Sentiment Analytics Backend - /api/admin/sentiment_analytics/trends"
+    - "Sentiment Analytics Backend - /api/admin/sentiment_analytics/by-source"
+    - "Sentiment Analytics Backend - /api/admin/sentiment_analytics/by-category"
+    - "Sentiment Analytics Backend - /api/admin/sentiment_analytics/by-region"
+    - "Sentiment Analytics Backend - /api/admin/sentiment_analytics/export"
+    - "Moderation Queue Regression - routing negative items"
+    - "Moderation Queue Regression - admin UI list/approve/reject"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
