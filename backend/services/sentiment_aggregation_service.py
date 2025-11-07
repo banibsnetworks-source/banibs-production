@@ -90,7 +90,7 @@ async def _aggregate_content_type(
     
     # Add date filter based on collection
     if collection_name == "news_items":
-        base_query["published_at"] = {"$gte": start_dt, "$lte": end_dt}
+        base_query["publishedAt"] = {"$gte": start_dt, "$lte": end_dt}
     else:  # resources
         base_query["created_at"] = {"$gte": start_dt, "$lte": end_dt}
     
