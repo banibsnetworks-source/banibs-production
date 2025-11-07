@@ -104,30 +104,24 @@ function SentimentAnalytics() {
           contentType={contentType}
         />
 
-        {/* Coming Soon Placeholders */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* By Source Chart Placeholder */}
-          <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
-            <h3 className="text-xl font-bold text-white mb-4">Sentiment by Source</h3>
-            <div className="flex items-center justify-center h-64">
-              <div className="text-center">
-                <div className="text-4xl mb-2">📰</div>
-                <div className="text-gray-400 text-sm">Coming in Day 3</div>
-              </div>
-            </div>
-          </div>
-
-          {/* By Category Chart Placeholder */}
-          <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
-            <h3 className="text-xl font-bold text-white mb-4">Sentiment by Category</h3>
-            <div className="flex items-center justify-center h-64">
-              <div className="text-center">
-                <div className="text-4xl mb-2">📊</div>
-                <div className="text-gray-400 text-sm">Coming in Day 3</div>
-              </div>
-            </div>
-          </div>
+        {/* Sources and Categories Charts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <SourcesChart
+            startDate={startDate}
+            endDate={endDate}
+          />
+          <CategoriesChart
+            startDate={startDate}
+            endDate={endDate}
+            contentType={contentType}
+          />
         </div>
+
+        {/* Regions Chart (Full Width) */}
+        <RegionsChart
+          startDate={startDate}
+          endDate={endDate}
+        />
 
         {/* Info Panel */}
         <div className="mt-8 bg-blue-900/20 border border-blue-500/30 rounded-xl p-6">
