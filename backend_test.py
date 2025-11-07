@@ -1271,6 +1271,481 @@ class BanibsAPITester:
             self.log(f"❌ Could not check scheduler status: {e}", "ERROR")
             return False
 
+    # Phase 6.5 - Sentiment Analytics API Tests
+    
+    def test_analytics_feature_flags(self) -> bool:
+        """Test analytics feature flags in features.json"""
+        self.log("Testing analytics feature flags...")
+        
+        try:
+            import sys
+            sys.path.append('/app/backend')
+            from utils.features import load_features, get_feature, is_feature_enabled
+            
+            features = load_features()
+            
+            if "analytics" in features:
+                analytics_config = features["analytics"]
+                
+                # Check required analytics flags
+                required_flags = ["sentiment_enabled", "aggregation_job_enabled", "export_enabled", "max_export_days"]
+                if all(flag in analytics_config for flag in required_flags):
+                    sentiment_enabled = analytics_config["sentiment_enabled"]
+                    aggregation_enabled = analytics_config["aggregation_job_enabled"]
+                    export_enabled = analytics_config["export_enabled"]
+                    max_export_days = analytics_config["max_export_days"]
+                    
+                    self.log(f"✅ Analytics feature flags loaded:")
+                    self.log(f"   sentiment_enabled: {sentiment_enabled}")
+                    self.log(f"   aggregation_job_enabled: {aggregation_enabled}")
+                    self.log(f"   export_enabled: {export_enabled}")
+                    self.log(f"   max_export_days: {max_export_days}")
+                    
+                    # Verify expected values
+                    if (sentiment_enabled == True and 
+                        aggregation_enabled == True and 
+                        export_enabled == True and 
+                        max_export_days == 365):
+                        self.log("✅ All analytics flags have expected values")
+                        return True
+                    else:
+                        self.log("❌ Analytics flags have unexpected values", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Missing required analytics flags: {required_flags}", "ERROR")
+                    return False
+            else:
+                self.log("❌ Features missing analytics section", "ERROR")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Failed to load analytics features: {e}", "ERROR")
+            return False
+    
+    def test_sentiment_trends_auth(self) -> bool:
+        """Test GET /api/admin/analytics/sentiment/trends authentication"""
+        self.log("Testing sentiment trends authentication...")
+        
+        # Test 1: Without auth → Should return 401
+        response = self.make_request("GET", "/admin/analytics/sentiment/trends")
+        
+        if response.status_code != 401:
+            self.log(f"❌ Trends without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        self.log("✅ Sentiment trends authentication working correctly")
+        return True
+    
+    def test_sentiment_trends_endpoint(self) -> bool:
+        """Test GET /api/admin/analytics/sentiment/trends with admin JWT"""
+        if not self.unified_access_token:
+            self.log("❌ No unified access token available for trends test", "ERROR")
+            return False
+        
+        self.log("Testing sentiment trends endpoint...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_access_token}"}
+        
+        # Test with default parameters
+        response = self.make_request("GET", "/admin/analytics/sentiment/trends", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["start_date", "end_date", "granularity", "content_type", "data"]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ Sentiment trends endpoint working:")
+                self.log(f"   Period: {data['start_date']} to {data['end_date']}")
+                self.log(f"   Granularity: {data['granularity']}")
+                self.log(f"   Content type: {data['content_type']}")
+                self.log(f"   Data points: {len(data['data'])}")
+                
+                # Verify data array structure
+                if isinstance(data['data'], list):
+                    if len(data['data']) > 0:
+                        item = data['data'][0]
+                        item_fields = ["date", "total_items", "positive_count", "neutral_count", "negative_count", "avg_sentiment"]
+                        if all(field in item for field in item_fields):
+                            self.log(f"✅ Trend data structure correct")
+                            
+                            # Verify sentiment score range
+                            avg_sentiment = item['avg_sentiment']
+                            if -1.0 <= avg_sentiment <= 1.0:
+                                self.log(f"✅ Sentiment score in valid range: {avg_sentiment}")
+                                return True
+                            else:
+                                self.log(f"❌ Sentiment score out of range: {avg_sentiment}", "ERROR")
+                                return False
+                        else:
+                            self.log("❌ Trend data item missing required fields", "ERROR")
+                            return False
+                    else:
+                        self.log("✅ Trends endpoint working (empty data - expected if no aggregates)")
+                        return True
+                else:
+                    self.log("❌ Data field is not a list", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Trends response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Sentiment trends failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_sentiment_by_source_auth(self) -> bool:
+        """Test GET /api/admin/analytics/sentiment/by-source authentication"""
+        self.log("Testing sentiment by-source authentication...")
+        
+        # Test 1: Without auth → Should return 401
+        response = self.make_request("GET", "/admin/analytics/sentiment/by-source")
+        
+        if response.status_code != 401:
+            self.log(f"❌ By-source without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        self.log("✅ Sentiment by-source authentication working correctly")
+        return True
+    
+    def test_sentiment_by_source_endpoint(self) -> bool:
+        """Test GET /api/admin/analytics/sentiment/by-source with admin JWT"""
+        if not self.unified_access_token:
+            self.log("❌ No unified access token available for by-source test", "ERROR")
+            return False
+        
+        self.log("Testing sentiment by-source endpoint...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_access_token}"}
+        
+        response = self.make_request("GET", "/admin/analytics/sentiment/by-source", 
+                                     headers=headers, params={"limit": 10})
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["start_date", "end_date", "dimension", "items"]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ Sentiment by-source endpoint working:")
+                self.log(f"   Period: {data['start_date']} to {data['end_date']}")
+                self.log(f"   Dimension: {data['dimension']}")
+                self.log(f"   Items: {len(data['items'])}")
+                
+                # Verify dimension is "source"
+                if data['dimension'] != "source":
+                    self.log(f"❌ Expected dimension 'source', got '{data['dimension']}'", "ERROR")
+                    return False
+                
+                # Verify items structure
+                if isinstance(data['items'], list):
+                    if len(data['items']) > 0:
+                        item = data['items'][0]
+                        item_fields = ["dimension_value", "total_items", "positive_count", "neutral_count", 
+                                      "negative_count", "positive_pct", "neutral_pct", "negative_pct", "avg_sentiment"]
+                        if all(field in item for field in item_fields):
+                            self.log(f"✅ By-source item structure correct")
+                            
+                            # Verify percentages sum to ~100
+                            total_pct = item['positive_pct'] + item['neutral_pct'] + item['negative_pct']
+                            if 99.0 <= total_pct <= 101.0:
+                                self.log(f"✅ Percentages sum correctly: {total_pct}%")
+                                return True
+                            else:
+                                self.log(f"❌ Percentages don't sum to 100: {total_pct}%", "ERROR")
+                                return False
+                        else:
+                            self.log("❌ By-source item missing required fields", "ERROR")
+                            return False
+                    else:
+                        self.log("✅ By-source endpoint working (empty data - expected if no aggregates)")
+                        return True
+                else:
+                    self.log("❌ Items field is not a list", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ By-source response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Sentiment by-source failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_sentiment_by_category_endpoint(self) -> bool:
+        """Test GET /api/admin/analytics/sentiment/by-category with admin JWT"""
+        if not self.unified_access_token:
+            self.log("❌ No unified access token available for by-category test", "ERROR")
+            return False
+        
+        self.log("Testing sentiment by-category endpoint...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_access_token}"}
+        
+        response = self.make_request("GET", "/admin/analytics/sentiment/by-category", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["start_date", "end_date", "dimension", "items"]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ Sentiment by-category endpoint working:")
+                self.log(f"   Dimension: {data['dimension']}")
+                self.log(f"   Items: {len(data['items'])}")
+                
+                # Verify dimension is "category"
+                if data['dimension'] == "category":
+                    self.log("✅ Dimension correctly set to 'category'")
+                    return True
+                else:
+                    self.log(f"❌ Expected dimension 'category', got '{data['dimension']}'", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ By-category response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Sentiment by-category failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_sentiment_by_region_endpoint(self) -> bool:
+        """Test GET /api/admin/analytics/sentiment/by-region with admin JWT"""
+        if not self.unified_access_token:
+            self.log("❌ No unified access token available for by-region test", "ERROR")
+            return False
+        
+        self.log("Testing sentiment by-region endpoint...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_access_token}"}
+        
+        response = self.make_request("GET", "/admin/analytics/sentiment/by-region", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["start_date", "end_date", "dimension", "items"]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ Sentiment by-region endpoint working:")
+                self.log(f"   Dimension: {data['dimension']}")
+                self.log(f"   Items: {len(data['items'])}")
+                
+                # Verify dimension is "region"
+                if data['dimension'] == "region":
+                    self.log("✅ Dimension correctly set to 'region'")
+                    return True
+                else:
+                    self.log(f"❌ Expected dimension 'region', got '{data['dimension']}'", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ By-region response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Sentiment by-region failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_sentiment_summary_endpoint(self) -> bool:
+        """Test GET /api/admin/analytics/sentiment/summary with admin JWT"""
+        if not self.unified_access_token:
+            self.log("❌ No unified access token available for summary test", "ERROR")
+            return False
+        
+        self.log("Testing sentiment summary endpoint...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_access_token}"}
+        
+        # Test with different periods
+        for period in ["7d", "30d", "90d", "1y"]:
+            response = self.make_request("GET", "/admin/analytics/sentiment/summary", 
+                                        headers=headers, params={"period": period})
+            
+            if response.status_code == 200:
+                data = response.json()
+                required_fields = ["period", "start_date", "end_date", "total_items", 
+                                  "positive_count", "neutral_count", "negative_count",
+                                  "positive_percentage", "neutral_percentage", "negative_percentage",
+                                  "avg_sentiment", "trend"]
+                
+                if all(field in data for field in required_fields):
+                    self.log(f"✅ Summary endpoint working for period {period}:")
+                    self.log(f"   Total items: {data['total_items']}")
+                    self.log(f"   Positive: {data['positive_count']} ({data['positive_percentage']}%)")
+                    self.log(f"   Neutral: {data['neutral_count']} ({data['neutral_percentage']}%)")
+                    self.log(f"   Negative: {data['negative_count']} ({data['negative_percentage']}%)")
+                    self.log(f"   Avg sentiment: {data['avg_sentiment']}")
+                    self.log(f"   Trend: {data['trend']}")
+                    
+                    # Verify trend is valid
+                    if data['trend'] in ["improving", "stable", "declining"]:
+                        self.log(f"✅ Trend value valid: {data['trend']}")
+                    else:
+                        self.log(f"❌ Invalid trend value: {data['trend']}", "ERROR")
+                        return False
+                    
+                    # Verify percentages are in range 0-100
+                    percentages = [data['positive_percentage'], data['neutral_percentage'], data['negative_percentage']]
+                    if all(0 <= pct <= 100 for pct in percentages):
+                        self.log("✅ All percentages in valid range (0-100)")
+                    else:
+                        self.log("❌ Percentages out of range", "ERROR")
+                        return False
+                    
+                    # Verify sentiment score in range -1.0 to 1.0
+                    if -1.0 <= data['avg_sentiment'] <= 1.0:
+                        self.log("✅ Sentiment score in valid range (-1.0 to 1.0)")
+                    else:
+                        self.log(f"❌ Sentiment score out of range: {data['avg_sentiment']}", "ERROR")
+                        return False
+                else:
+                    missing_fields = [field for field in required_fields if field not in data]
+                    self.log(f"❌ Summary response missing fields: {missing_fields}", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Summary endpoint failed for period {period}: {response.status_code}", "ERROR")
+                return False
+        
+        self.log("✅ All summary period tests passed")
+        return True
+    
+    def test_sentiment_export_auth(self) -> bool:
+        """Test GET /api/admin/analytics/sentiment/export authentication"""
+        self.log("Testing sentiment export authentication...")
+        
+        # Test 1: Without auth → Should return 401
+        response = self.make_request("GET", "/admin/analytics/sentiment/export", 
+                                     params={"start_date": "2025-01-01", "end_date": "2025-01-31"})
+        
+        if response.status_code != 401:
+            self.log(f"❌ Export without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        self.log("✅ Sentiment export authentication working correctly")
+        return True
+    
+    def test_sentiment_export_csv(self) -> bool:
+        """Test GET /api/admin/analytics/sentiment/export with CSV format"""
+        if not self.unified_access_token:
+            self.log("❌ No unified access token available for export test", "ERROR")
+            return False
+        
+        self.log("Testing sentiment export CSV format...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_access_token}"}
+        
+        response = self.make_request("GET", "/admin/analytics/sentiment/export", 
+                                     headers=headers, 
+                                     params={
+                                         "start_date": "2025-01-01",
+                                         "end_date": "2025-01-31",
+                                         "format": "csv"
+                                     })
+        
+        if response.status_code == 200:
+            # Verify content type
+            content_type = response.headers.get('Content-Type', '')
+            if 'text/csv' in content_type:
+                self.log("✅ CSV export returns correct content type: text/csv")
+                
+                # Verify Content-Disposition header
+                content_disposition = response.headers.get('Content-Disposition', '')
+                if 'attachment' in content_disposition and 'filename=' in content_disposition:
+                    self.log(f"✅ CSV export has proper Content-Disposition header")
+                    
+                    # Verify CSV content has headers
+                    content = response.text
+                    if 'date' in content and 'total_items' in content:
+                        self.log("✅ CSV export contains expected headers")
+                        return True
+                    else:
+                        self.log("❌ CSV export missing expected headers", "ERROR")
+                        return False
+                else:
+                    self.log("❌ CSV export missing Content-Disposition header", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ CSV export wrong content type: {content_type}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ CSV export failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_sentiment_export_json(self) -> bool:
+        """Test GET /api/admin/analytics/sentiment/export with JSON format"""
+        if not self.unified_access_token:
+            self.log("❌ No unified access token available for export test", "ERROR")
+            return False
+        
+        self.log("Testing sentiment export JSON format...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_access_token}"}
+        
+        response = self.make_request("GET", "/admin/analytics/sentiment/export", 
+                                     headers=headers, 
+                                     params={
+                                         "start_date": "2025-01-01",
+                                         "end_date": "2025-01-31",
+                                         "format": "json"
+                                     })
+        
+        if response.status_code == 200:
+            # Verify content type
+            content_type = response.headers.get('Content-Type', '')
+            if 'application/json' in content_type:
+                self.log("✅ JSON export returns correct content type: application/json")
+                
+                # Verify Content-Disposition header
+                content_disposition = response.headers.get('Content-Disposition', '')
+                if 'attachment' in content_disposition and 'filename=' in content_disposition:
+                    self.log(f"✅ JSON export has proper Content-Disposition header")
+                    
+                    # Verify JSON is valid
+                    try:
+                        data = response.json()
+                        if isinstance(data, list):
+                            self.log(f"✅ JSON export contains valid array with {len(data)} items")
+                            return True
+                        else:
+                            self.log("❌ JSON export is not an array", "ERROR")
+                            return False
+                    except Exception as e:
+                        self.log(f"❌ JSON export is not valid JSON: {e}", "ERROR")
+                        return False
+                else:
+                    self.log("❌ JSON export missing Content-Disposition header", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ JSON export wrong content type: {content_type}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ JSON export failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_sentiment_rbac_verification(self) -> bool:
+        """Test RBAC - verify contributor cannot access sentiment analytics"""
+        self.log("Testing sentiment analytics RBAC verification...")
+        
+        if not self.contributor_token:
+            self.log("⚠️ No contributor token available for RBAC test, skipping")
+            return True
+        
+        headers = {"Authorization": f"Bearer {self.contributor_token}"}
+        
+        # Test that contributor cannot access analytics endpoints
+        endpoints = [
+            "/admin/analytics/sentiment/trends",
+            "/admin/analytics/sentiment/by-source",
+            "/admin/analytics/sentiment/by-category",
+            "/admin/analytics/sentiment/by-region",
+            "/admin/analytics/sentiment/summary",
+            "/admin/analytics/sentiment/export?start_date=2025-01-01&end_date=2025-01-31"
+        ]
+        
+        for endpoint in endpoints:
+            response = self.make_request("GET", endpoint, headers=headers)
+            if response.status_code not in [401, 403]:
+                self.log(f"❌ Contributor should not access {endpoint}, got {response.status_code}", "ERROR")
+                return False
+        
+        self.log("✅ RBAC verification passed - contributor properly restricted from sentiment analytics")
+        return True
+    
     # Phase 6.4 - Sentiment-Driven Moderation Routing Tests
     
     def test_features_json_loading(self) -> bool:
