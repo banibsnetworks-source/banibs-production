@@ -5,7 +5,7 @@ import FilterPanel from '../../components/admin/FilterPanel';
 import TrendsChart from '../../components/admin/TrendsChart';
 
 function SentimentAnalytics() {
-  const [period, setPeriod] = useState('30d');
+  const [period, setPeriod] = useState('7d');  // Changed from 30d to 7d as approved
   const [contentType, setContentType] = useState('all');
   const [granularity, setGranularity] = useState('daily');
   const [startDate, setStartDate] = useState('');
