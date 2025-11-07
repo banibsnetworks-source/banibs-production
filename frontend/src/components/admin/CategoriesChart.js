@@ -24,7 +24,7 @@ function CategoriesChart({ startDate, endDate, contentType }) {
   const fetchCategoriesData = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       const response = await fetch(
         `${BACKEND_URL}/api/admin/analytics/sentiment/by-category?start_date=${startDate}&end_date=${endDate}`,
         {
