@@ -3132,6 +3132,131 @@ agent_communication:
 # END OF PHASE 6.4 BACKEND UPDATE
 # ============================================
 
+  # Phase 6.5 - Sentiment Analytics API Backend
+  - task: "Analytics feature flags in features.json"
+    implemented: true
+    working: true
+    file: "backend/config/features.json"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added analytics section to features.json with flags: sentiment_enabled (true), aggregation_job_enabled (true), export_enabled (true), max_export_days (365). All flags configured as specified."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Analytics feature flags loaded successfully. All flags have expected values: sentiment_enabled=true, aggregation_job_enabled=true, export_enabled=true, max_export_days=365. Feature utility functions working correctly."
+
+  - task: "GET /api/admin/analytics/sentiment/trends endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/admin/sentiment_analytics.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created GET /api/admin/analytics/sentiment/trends endpoint. Requires admin auth (super_admin or moderator). Query params: start_date, end_date, granularity (daily/weekly/monthly), content_type (news/resource/all). Returns time series data with date, total_items, positive/neutral/negative counts, avg_sentiment. Defaults to last 30 days if dates not specified."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Sentiment trends endpoint working perfectly. Returns 401 without auth. With admin JWT returns 200 with proper response structure (start_date, end_date, granularity, content_type, data array). Data array structure correct with all required fields. Sentiment scores in valid range (-1.0 to 1.0). Empty data handled gracefully."
+
+  - task: "GET /api/admin/analytics/sentiment/by-source endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/admin/sentiment_analytics.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created GET /api/admin/analytics/sentiment/by-source endpoint. Requires admin auth. Query params: start_date, end_date, limit (default 10). Returns top sources with sentiment metrics: dimension_value (source name), counts, percentages (0-100), avg_sentiment. Dimension set to 'source'."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: By-source endpoint working perfectly. Returns 401 without auth. With admin JWT returns 200 with proper structure (start_date, end_date, dimension='source', items array). Item structure correct with all required fields including percentages. Percentages sum to ~100%. Empty data handled gracefully."
+
+  - task: "GET /api/admin/analytics/sentiment/by-category endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/admin/sentiment_analytics.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created GET /api/admin/analytics/sentiment/by-category endpoint. Requires admin auth. Query params: start_date, end_date. Returns categories with sentiment metrics. Dimension set to 'category'. Same response structure as by-source."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: By-category endpoint working correctly. Returns 200 with admin JWT. Response structure matches specification with dimension='category'. All required fields present. Empty data handled gracefully."
+
+  - task: "GET /api/admin/analytics/sentiment/by-region endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/admin/sentiment_analytics.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created GET /api/admin/analytics/sentiment/by-region endpoint. Requires admin auth. Query params: start_date, end_date. Returns regions with sentiment metrics. Dimension set to 'region'. Only applies to news content type."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: By-region endpoint working correctly. Returns 200 with admin JWT. Response structure matches specification with dimension='region'. All required fields present. Empty data handled gracefully."
+
+  - task: "GET /api/admin/analytics/sentiment/summary endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/admin/sentiment_analytics.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created GET /api/admin/analytics/sentiment/summary endpoint. Requires admin auth. Query params: period (7d/30d/90d/1y), content_type. Returns summary stats: total_items, counts, percentages (0-100), avg_sentiment, most_negative_source, most_positive_source, trend (improving/stable/declining). Trend calculated from time series data."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Summary endpoint working perfectly for all periods (7d, 30d, 90d, 1y). Returns 200 with admin JWT. All required fields present including trend. Percentages in valid range (0-100). Sentiment scores in valid range (-1.0 to 1.0). Trend values valid (improving/stable/declining). Empty data handled gracefully with zeros."
+
+  - task: "GET /api/admin/analytics/sentiment/export endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/admin/sentiment_analytics.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created GET /api/admin/analytics/sentiment/export endpoint. Requires admin auth. Required params: start_date, end_date. Optional: dimension (overall/source/category/region), granularity (daily/weekly/monthly), format (csv/json). CSV format returns text/csv with proper headers. JSON format returns application/json. Both include Content-Disposition header with filename."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Export endpoint working for both CSV and JSON formats. Returns 401 without auth. CSV export returns correct content type (text/csv) with Content-Disposition header. JSON export returns correct content type (application/json) with Content-Disposition header and valid JSON array. Empty data handled gracefully for both formats."
+
+  - task: "RBAC verification for sentiment analytics"
+    implemented: true
+    working: true
+    file: "backend/routes/admin/sentiment_analytics.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "All sentiment analytics endpoints protected with require_role('super_admin', 'moderator'). Contributors and unauthenticated users cannot access. Feature flags checked at endpoint level (sentiment_enabled, export_enabled)."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: RBAC working correctly. All endpoints return 401 without authentication. Contributor tokens properly restricted (401/403). Admin tokens (super_admin) have full access to all 6 endpoints. Feature flags respected."
+
+# ============================================
+# END OF PHASE 6.5 BACKEND UPDATE
+# ============================================
+
 frontend:
   # Phase 6.4 - Sentiment-Driven Moderation Routing Frontend
   - task: "ModerationQueue admin page"
