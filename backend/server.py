@@ -184,6 +184,7 @@ from routes.admin.moderation import router as admin_moderation_router  # Phase 6
 from routes.admin.sentiment_analytics import router as admin_sentiment_analytics_router  # Phase 6.5 - Sentiment Analytics
 app.include_router(sentiment_router)
 app.include_router(admin_moderation_router)  # Phase 6.4 - Moderation Admin Endpoints
+app.include_router(admin_sentiment_analytics_router)  # Phase 6.5 - Sentiment Analytics Endpoints
 
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
