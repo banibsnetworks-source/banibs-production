@@ -23,7 +23,7 @@ function SourcesChart({ startDate, endDate }) {
   const fetchSourcesData = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       const response = await fetch(
         `${BACKEND_URL}/api/admin/analytics/sentiment/by-source?start_date=${startDate}&end_date=${endDate}&limit=10`,
         {
