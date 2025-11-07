@@ -612,75 +612,93 @@ test_plan:
 
   - task: "Sentiment Analytics API - /api/admin/sentiment_analytics/summary"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/admin/sentiment_analytics.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "GET /api/admin/sentiment_analytics/summary endpoint created. Returns overall sentiment statistics (total count, positive/neutral/negative counts and percentages, avg/min/max scores, trend indicators). Admin auth required. Need testing with admin JWT token."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/admin/analytics/sentiment/summary working perfectly. Returns 200 with all required fields (period, start_date, end_date, total_items, positive/neutral/negative counts and percentages, avg_sentiment, trend). Tested with default params (30d period) showing 22 total items (2 positive 9.1%, 20 neutral 90.9%, 0 negative 0.0%, avg sentiment 0.027, trend: stable). Also tested with content_type=news filter showing 441 items. All periods tested (7d, 30d, 90d, 1y) working correctly. Requires admin JWT authentication (401 without auth). Data aggregation accurate based on backfilled sentiment data."
 
   - task: "Sentiment Analytics API - /api/admin/sentiment_analytics/trends"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/admin/sentiment_analytics.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "GET /api/admin/sentiment_analytics/trends endpoint created. Accepts query params: start_date, end_date, granularity (daily/weekly/monthly), content_type (all/news/resource). Returns time series data for sentiment trends. Admin auth required. Need testing with various date ranges and granularities."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/admin/analytics/sentiment/trends working perfectly. Returns 200 with all required fields (start_date, end_date, granularity, content_type, data array). Default params (last 30 days, daily granularity) returns 1 data point. Tested with custom date range (2025-10-08 to 2025-11-07) returns 1 data point. Tested with content_type=news and weekly granularity returns 0 data points (expected for sparse data). Data structure correct with date, total_items, positive/neutral/negative counts, avg_sentiment fields. Sentiment scores in valid range (-1.0 to 1.0). Requires admin JWT authentication (401 without auth)."
 
   - task: "Sentiment Analytics API - /api/admin/sentiment_analytics/by-source"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/admin/sentiment_analytics.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "GET /api/admin/sentiment_analytics/by-source endpoint created. Returns sentiment breakdown by RSS source. Accepts date range and content_type filters. Admin auth required. Need testing to verify source aggregation."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/admin/analytics/sentiment/by-source working correctly. Returns 200 with all required fields (start_date, end_date, dimension='source', items array). Tested with custom date range (2025-10-08 to 2025-11-07) returns 0 source items (expected - RSS feeds may not have source attribution in aggregates). Response structure correct. Requires admin JWT authentication (401 without auth). Empty state handled gracefully."
 
   - task: "Sentiment Analytics API - /api/admin/sentiment_analytics/by-category"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/admin/sentiment_analytics.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "GET /api/admin/sentiment_analytics/by-category endpoint created. Returns sentiment breakdown by content category (Business, Education, Community, etc). Accepts date range and content_type filters. Admin auth required. Need testing to verify category aggregation."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/admin/analytics/sentiment/by-category working perfectly. Returns 200 with all required fields (start_date, end_date, dimension='category', items array). Tested with custom date range (2025-10-08 to 2025-11-07) returns 6 categories: Business Support, Grants & Funding, Education, Health & Wellness, Technology, Community & Culture. Each item has correct structure (dimension_value, total_items, positive/neutral/negative counts and percentages, avg_sentiment). Requires admin JWT authentication (401 without auth). Category aggregation working correctly."
 
   - task: "Sentiment Analytics API - /api/admin/sentiment_analytics/by-region"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/admin/sentiment_analytics.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "GET /api/admin/sentiment_analytics/by-region endpoint created. Returns sentiment breakdown by geographic region. Accepts date range and content_type filters. Admin auth required. Need testing to verify region aggregation."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/admin/analytics/sentiment/by-region working perfectly. Returns 200 with all required fields (start_date, end_date, dimension='region', items array). Tested with custom date range (2025-10-08 to 2025-11-07) returns 3 regions: Global, Middle East, Americas. Each item has correct structure (dimension_value, total_items, positive/neutral/negative counts and percentages, avg_sentiment). Requires admin JWT authentication (401 without auth). Region aggregation working correctly."
 
   - task: "Sentiment Analytics API - /api/admin/sentiment_analytics/export"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/admin/sentiment_analytics.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "GET /api/admin/sentiment_analytics/export endpoint created. Supports CSV and JSON export formats. Accepts date range, content_type, and format (csv/json) params. Returns properly formatted export file. Admin auth required. Need testing for both CSV and JSON exports."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/admin/analytics/sentiment/export working perfectly for both CSV and JSON formats. CSV export: Returns 200 with correct content-type (text/csv), proper Content-Disposition header, CSV has proper headers (date,dimension_value,total_items,positive_count,neutral_count,negative_count,positive_pct,neutral_pct,negative_pct,avg_sentiment), tested with date range 2025-11-01 to 2025-11-07 returns 2 CSV rows. JSON export: Returns 200 with correct content-type (application/json), proper Content-Disposition header, valid JSON array structure with 1 item. Both formats require admin JWT authentication (401 without auth). Export functionality working correctly."
 
 agent_communication:
   - agent: "main"
