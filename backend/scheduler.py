@@ -119,10 +119,23 @@ def init_scheduler():
         next_run_time=datetime.now()  # Run immediately on startup
     )
     
+    # Job 3: Daily sentiment aggregation (Phase 6.5 - at 00:30 UTC)
+    from tasks.sentiment_aggregation import run_daily_sentiment_aggregation
+    scheduler.add_job(
+        run_daily_sentiment_aggregation,
+        trigger="cron",
+        hour=0,
+        minute=30,
+        id="sentiment_aggregation_job",
+        name="BANIBS Daily Sentiment Aggregation",
+        replace_existing=True
+    )
+    
     scheduler.start()
     print("[BANIBS Scheduler] Started.")
     print("  - RSS pipeline: every 6 hours")
     print("  - Sentiment sweep: every 3 hours")
+    print("  - Sentiment aggregation: daily at 00:30 UTC")
 
 
 def shutdown_scheduler():
