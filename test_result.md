@@ -683,6 +683,27 @@ test_plan:
         comment: "GET /api/admin/sentiment_analytics/export endpoint created. Supports CSV and JSON export formats. Accepts date range, content_type, and format (csv/json) params. Returns properly formatted export file. Admin auth required. Need testing for both CSV and JSON exports."
 
 agent_communication:
+  - agent: "main"
+    message: |
+      🔧 PHASE 6.5 SENTIMENT ANALYTICS - CRITICAL BUG FIX & BACKFILL COMPLETE
+      
+      Fixed critical field name mismatch in sentiment aggregation:
+      - News items in MongoDB use 'publishedAt' (camelCase) field
+      - Aggregation service was looking for 'published_at' (snake_case)
+      - Updated sentiment_aggregation_service.py line 93 and backfill_sentiment_analytics.py to use correct field
+      
+      ✅ Backfill Results (Oct 8 - Nov 7, 2025):
+      - Successfully processed 31 days of sentiment data
+      - Created overall, category, and region aggregates
+      - Most active day: Nov 2 with 3 overall, 15 categories aggregates
+      - Multiple days have data scattered across the 31-day period
+      
+      📊 Analytics Data Now Available:
+      - Last 31 days of sentiment aggregates ready for analytics queries
+      - 6 admin API endpoints ready for testing
+      - Default 7d period will now show data in charts
+      
+      Ready for comprehensive backend testing of all 6 sentiment analytics endpoints plus moderation queue regression testing.
   - agent: "testing"
     message: |
       🎉 PHASE 6.4 MODERATION QUEUE FRONTEND TESTING COMPLETE - ALL MAJOR FUNCTIONALITY WORKING!
