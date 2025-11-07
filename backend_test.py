@@ -5325,6 +5325,6 @@ class BanibsAPITester:
 if __name__ == "__main__":
     tester = BanibsAPITester()
     
-    # Run Phase 6.5 - Sentiment Analytics API tests
+    # Run Phase 6.5 Sentiment Analytics + Phase 6.4 Moderation Regression tests
     success = tester.run_phase_6_5_tests()
     sys.exit(0 if success else 1)
