@@ -110,7 +110,7 @@ export const AuthProvider = ({ children }) => {
     refreshAccessToken,
     loading,
     isAuthenticated: !!accessToken && !!user,
-    isAdmin: user?.role === 'admin' || user?.role === 'super_admin' || user?.role === 'moderator'
+    isAdmin: user?.roles?.includes('admin') || user?.roles?.includes('super_admin') || user?.roles?.includes('moderator')
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
