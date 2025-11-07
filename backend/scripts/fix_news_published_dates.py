@@ -15,21 +15,21 @@ async def update_published_dates():
     db = client['banibs']
     news = db['news_items']
     
-    # Set published_at to Nov 2, 2025 for all items with None
+    # Set publishedAt to Nov 2, 2025 for all items with None
     target_date = datetime(2025, 11, 2, 12, 0, 0, tzinfo=timezone.utc)
     
-    print(f"Updating news items with published_at=None to {target_date}")
+    print(f"Updating news items with publishedAt=None to {target_date}")
     
     result = await news.update_many(
-        {'published_at': None},
-        {'$set': {'published_at': target_date}}
+        {'publishedAt': None},
+        {'$set': {'publishedAt': target_date}}
     )
     
     print(f'✅ Updated {result.modified_count} news items')
     
     # Verify
-    updated_count = await news.count_documents({'published_at': target_date})
-    print(f'Verification: {updated_count} items now have published_at={target_date}')
+    updated_count = await news.count_documents({'publishedAt': target_date})
+    print(f'Verification: {updated_count} items now have publishedAt={target_date}')
     
     client.close()
 
