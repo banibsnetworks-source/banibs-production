@@ -4660,6 +4660,67 @@ class BanibsAPITester:
             self.log("❌ Access token missing exp or iat fields", "ERROR")
             return False
 
+    def run_phase_6_5_tests(self) -> bool:
+        """Run Phase 6.5 Sentiment Analytics API Tests"""
+        self.log("=" * 80)
+        self.log("📊 PHASE 6.5 SENTIMENT ANALYTICS API TESTS")
+        self.log("=" * 80)
+        self.log(f"Testing against: {API_BASE}")
+        self.log("Testing 6 admin analytics endpoints with feature flags and RBAC")
+        
+        tests = [
+            # Authentication Setup
+            ("Admin Login (Unified Auth)", self.test_unified_user_register),
+            
+            # Feature Flags Verification
+            ("Analytics Feature Flags", self.test_analytics_feature_flags),
+            
+            # Analytics API Endpoints (6 endpoints)
+            ("Sentiment Trends Auth", self.test_sentiment_trends_auth),
+            ("Sentiment Trends Endpoint", self.test_sentiment_trends_endpoint),
+            ("Sentiment By-Source Auth", self.test_sentiment_by_source_auth),
+            ("Sentiment By-Source Endpoint", self.test_sentiment_by_source_endpoint),
+            ("Sentiment By-Category Endpoint", self.test_sentiment_by_category_endpoint),
+            ("Sentiment By-Region Endpoint", self.test_sentiment_by_region_endpoint),
+            ("Sentiment Summary Endpoint", self.test_sentiment_summary_endpoint),
+            ("Sentiment Export Auth", self.test_sentiment_export_auth),
+            ("Sentiment Export CSV", self.test_sentiment_export_csv),
+            ("Sentiment Export JSON", self.test_sentiment_export_json),
+            
+            # RBAC Verification
+            ("Sentiment Analytics RBAC", self.test_sentiment_rbac_verification),
+        ]
+        
+        passed = 0
+        failed = 0
+        
+        for test_name, test_func in tests:
+            self.log(f"\n🧪 Running: {test_name}")
+            try:
+                if test_func():
+                    passed += 1
+                    self.log(f"✅ {test_name} PASSED")
+                else:
+                    failed += 1
+                    self.log(f"❌ {test_name} FAILED")
+            except Exception as e:
+                failed += 1
+                self.log(f"💥 {test_name} ERROR: {e}")
+        
+        self.log("\n" + "=" * 80)
+        self.log("📊 PHASE 6.5 TEST RESULTS")
+        self.log("=" * 80)
+        self.log(f"✅ Passed: {passed}")
+        self.log(f"❌ Failed: {failed}")
+        self.log(f"Total: {passed + failed}")
+        
+        if failed == 0:
+            self.log("🎉 All Phase 6.5 tests passed!")
+            return True
+        else:
+            self.log(f"💥 {failed} test(s) failed")
+            return False
+    
     def run_migration_tests(self) -> bool:
         """Run Phase 6.0 Unified Authentication Migration Tests"""
         self.log("=" * 80)
