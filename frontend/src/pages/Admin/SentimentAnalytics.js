@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import SummaryStats from '../../components/admin/SummaryStats';
 import FilterPanel from '../../components/admin/FilterPanel';
 import TrendsChart from '../../components/admin/TrendsChart';
+import SourcesChart from '../../components/admin/SourcesChart';
+import CategoriesChart from '../../components/admin/CategoriesChart';
+import RegionsChart from '../../components/admin/RegionsChart';
 
 function SentimentAnalytics() {
   const [period, setPeriod] = useState('7d');  // Changed from 30d to 7d as approved
