@@ -4670,7 +4670,7 @@ class BanibsAPITester:
         
         tests = [
             # Authentication Setup
-            ("Admin Login (Unified Auth)", self.test_unified_user_register),
+            ("Admin Login (Unified Auth)", self.test_migrated_admin_login),
             
             # Feature Flags Verification
             ("Analytics Feature Flags", self.test_analytics_feature_flags),
