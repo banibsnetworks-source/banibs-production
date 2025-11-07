@@ -588,7 +588,7 @@ test_plan:
     file: "frontend/src/pages/Admin/ModerationQueue.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "main"
@@ -596,6 +596,91 @@ test_plan:
       - working: true
         agent: "testing"
         comment: "✅ COMPREHENSIVE TESTING COMPLETE: Authentication & Role-Based Access - Correctly redirects to login when not authenticated, admin login working with credentials admin@banibs.com/BanibsAdmin#2025. Fixed AuthContext issue (user.role vs user.roles array). Moderation Queue Dashboard - All 4 stats cards visible (Pending: 0, Approved: 0, Rejected: 0, Total: 0), Navigation tabs present with Moderation highlighted, No pending badge visible (expected when pending=0). Filter Tabs - All 3 filter buttons present (PENDING, APPROVED, REJECTED), PENDING active by default, filter switching functional. Empty State - Proper empty state handling, Mode A info panel visible explaining shadow moderation. Cross-Navigation - Successfully navigates between Opportunities and Moderation tabs. Minor: JavaScript error 'Failed to execute clone on Response' visible but doesn't affect functionality."
+
+  # Phase 6.5 - Sentiment Analytics Backend
+  - task: "Sentiment aggregation backfill script"
+    implemented: true
+    working: true
+    file: "backend/scripts/backfill_sentiment_analytics.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed critical bug in sentiment aggregation service - was looking for 'published_at' (snake_case) but news items use 'publishedAt' (camelCase). Updated both sentiment_aggregation_service.py and backfill_sentiment_analytics.py to use correct field name. Backfill script now successfully processes 31 days of sentiment data (Oct 8 - Nov 7, 2025) with aggregates created for categories and regions."
+
+  - task: "Sentiment Analytics API - /api/admin/sentiment_analytics/summary"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/admin/sentiment_analytics.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "GET /api/admin/sentiment_analytics/summary endpoint created. Returns overall sentiment statistics (total count, positive/neutral/negative counts and percentages, avg/min/max scores, trend indicators). Admin auth required. Need testing with admin JWT token."
+
+  - task: "Sentiment Analytics API - /api/admin/sentiment_analytics/trends"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/admin/sentiment_analytics.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "GET /api/admin/sentiment_analytics/trends endpoint created. Accepts query params: start_date, end_date, granularity (daily/weekly/monthly), content_type (all/news/resource). Returns time series data for sentiment trends. Admin auth required. Need testing with various date ranges and granularities."
+
+  - task: "Sentiment Analytics API - /api/admin/sentiment_analytics/by-source"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/admin/sentiment_analytics.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "GET /api/admin/sentiment_analytics/by-source endpoint created. Returns sentiment breakdown by RSS source. Accepts date range and content_type filters. Admin auth required. Need testing to verify source aggregation."
+
+  - task: "Sentiment Analytics API - /api/admin/sentiment_analytics/by-category"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/admin/sentiment_analytics.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "GET /api/admin/sentiment_analytics/by-category endpoint created. Returns sentiment breakdown by content category (Business, Education, Community, etc). Accepts date range and content_type filters. Admin auth required. Need testing to verify category aggregation."
+
+  - task: "Sentiment Analytics API - /api/admin/sentiment_analytics/by-region"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/admin/sentiment_analytics.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "GET /api/admin/sentiment_analytics/by-region endpoint created. Returns sentiment breakdown by geographic region. Accepts date range and content_type filters. Admin auth required. Need testing to verify region aggregation."
+
+  - task: "Sentiment Analytics API - /api/admin/sentiment_analytics/export"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/admin/sentiment_analytics.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "GET /api/admin/sentiment_analytics/export endpoint created. Supports CSV and JSON export formats. Accepts date range, content_type, and format (csv/json) params. Returns properly formatted export file. Admin auth required. Need testing for both CSV and JSON exports."
 
 agent_communication:
   - agent: "testing"
