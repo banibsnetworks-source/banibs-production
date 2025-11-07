@@ -28,11 +28,11 @@ async def get_date_range_with_sentiment():
     news_collection = db["news_items"]
     earliest_news = await news_collection.find_one(
         {"sentiment_label": {"$exists": True, "$ne": None}},
-        sort=[("published_at", 1)]
+        sort=[("publishedAt", 1)]
     )
     latest_news = await news_collection.find_one(
         {"sentiment_label": {"$exists": True, "$ne": None}},
-        sort=[("published_at", -1)]
+        sort=[("publishedAt", -1)]
     )
     
     # Get earliest and latest resources with sentiment
