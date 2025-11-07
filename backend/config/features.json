@@ -6,5 +6,11 @@
     "auto_from_sentiment": true,
     "block_negative": false,
     "threshold": -0.5
+  },
+  "analytics": {
+    "sentiment_enabled": true,
+    "aggregation_job_enabled": true,
+    "export_enabled": true,
+    "max_export_days": 365
   }
 }
