@@ -929,4 +929,22 @@ Phase 6.4 establishes a robust foundation for content moderation based on sentim
 
 ---
 
+## Screenshots
+
+### 1. Moderation Dashboard - Stats Cards and Navigation
+![Moderation Dashboard](screenshots/moderation_dashboard.png)
+
+**Features Visible:**
+- BANIBS Admin header with "Content Moderation Queue" subtitle
+- Navigation tabs: "Opportunities" and "Moderation" (Moderation active)
+- 4 stats cards: Pending (0), Approved (0), Rejected (0), Total (0)
+- Filter tabs: PENDING (active), APPROVED, REJECTED
+- Empty state message (no items in queue)
+- Mode A info panel explaining shadow moderation
+
+### 2. Mode A Shadow Moderation Info Panel
+![Mode A Info Panel](screenshots/moderation_mode_a_panel.png)
+
+---
+
 **End of Documentation**
