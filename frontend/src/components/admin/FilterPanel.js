@@ -17,7 +17,7 @@ function FilterPanel({
   
   const handleExportCSV = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       const url = `${BACKEND_URL}/api/admin/analytics/sentiment/export?start_date=${startDate}&end_date=${endDate}&dimension=overall&granularity=${granularity}&format=csv`;
       
       const response = await fetch(url, {
@@ -47,7 +47,7 @@ function FilterPanel({
 
   const handleExportJSON = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       const url = `${BACKEND_URL}/api/admin/analytics/sentiment/export?start_date=${startDate}&end_date=${endDate}&dimension=overall&granularity=${granularity}&format=json`;
       
       const response = await fetch(url, {
