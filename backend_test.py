@@ -4970,6 +4970,59 @@ class BanibsAPITester:
             self.log(f"💥 {failed} test(s) failed")
             return False
 
+    def run_phase_6_5_tests(self) -> bool:
+        """Run Phase 6.5 Sentiment Analytics + Phase 6.4 Moderation Regression Tests"""
+        self.log("Starting BANIBS Backend API Test Suite - Phase 6.5 Sentiment Analytics + Phase 6.4 Regression")
+        self.log(f"Testing against: {API_BASE}")
+        self.log("Testing sentiment analytics endpoints and moderation queue regression")
+        
+        tests = [
+            # Authentication Setup
+            ("Admin Login", self.test_admin_login),
+            
+            # Phase 6.5 - Sentiment Analytics Backend Tests
+            ("Sentiment Analytics Auth", self.test_sentiment_analytics_auth),
+            ("Sentiment Analytics Summary", self.test_sentiment_analytics_summary),
+            ("Sentiment Analytics Trends", self.test_sentiment_analytics_trends),
+            ("Sentiment Analytics By-Source", self.test_sentiment_analytics_by_source),
+            ("Sentiment Analytics By-Category", self.test_sentiment_analytics_by_category),
+            ("Sentiment Analytics By-Region", self.test_sentiment_analytics_by_region),
+            ("Sentiment Analytics Export", self.test_sentiment_analytics_export),
+            
+            # Phase 6.4 - Moderation Queue Regression Tests
+            ("Moderation Feature Flags", self.test_moderation_feature_flags),
+            ("Moderation Pending Endpoint", self.test_moderation_pending_endpoint),
+            ("Analytics Feature Flags", self.test_analytics_feature_flags),
+        ]
+        
+        passed = 0
+        failed = 0
+        
+        for test_name, test_func in tests:
+            self.log(f"\n--- Running {test_name} ---")
+            try:
+                if test_func():
+                    passed += 1
+                else:
+                    failed += 1
+            except Exception as e:
+                self.log(f"❌ {test_name} failed with exception: {e}", "ERROR")
+                import traceback
+                self.log(traceback.format_exc(), "ERROR")
+                failed += 1
+                
+        self.log(f"\n=== TEST RESULTS ===")
+        self.log(f"✅ Passed: {passed}")
+        self.log(f"❌ Failed: {failed}")
+        self.log(f"Total: {passed + failed}")
+        
+        if failed == 0:
+            self.log("🎉 All tests passed!")
+            return True
+        else:
+            self.log(f"💥 {failed} test(s) failed")
+            return False
+    
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
         self.log("Starting BANIBS Backend API Test Suite - Phase 6.4 Sentiment-Driven Moderation Routing")
