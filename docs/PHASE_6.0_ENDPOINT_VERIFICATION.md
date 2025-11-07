@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://black-indigenous.preview.emergentagent.com/api/auth
+https://moodwatch-6.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

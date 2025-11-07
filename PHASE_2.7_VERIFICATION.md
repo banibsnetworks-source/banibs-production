@@ -4,7 +4,7 @@ Branch / Base: banibs-v1.7-opportunities-backend
 Tag Target: v1.7-stable
 Date: October 27, 2025
 Owner: Raymond Neely / BANIBS
-Backend Env: https://black-indigenous.preview.emergentagent.com/api/opportunities
+Backend Env: https://moodwatch-6.preview.emergentagent.com/api/opportunities
 
 1. Scope of Phase 2.7
 
