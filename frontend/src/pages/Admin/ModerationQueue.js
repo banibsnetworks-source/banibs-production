@@ -175,6 +175,12 @@ function ModerationQueue() {
                 </span>
               )}
             </Link>
+            <Link
+              to="/admin/analytics/sentiment"
+              className="px-4 py-2 text-gray-300 font-semibold rounded-lg hover:bg-gray-800 transition-all text-sm"
+            >
+              Analytics
+            </Link>
           </div>
         </div>
       </div>
