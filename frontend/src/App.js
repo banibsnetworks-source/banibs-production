@@ -166,6 +166,14 @@ function App() {
                   </ProtectedRoute>
                 } 
               />
+              <Route 
+                path="/admin/analytics/sentiment" 
+                element={
+                  <ProtectedRoute requireAdmin={true}>
+                    <SentimentAnalytics />
+                  </ProtectedRoute>
+                } 
+              />
             </Routes>
           </BrowserRouter>
         </div>
