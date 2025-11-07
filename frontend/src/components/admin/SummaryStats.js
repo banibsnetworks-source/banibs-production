@@ -14,7 +14,7 @@ function SummaryStats({ period = '30d', contentType = 'all' }) {
   const fetchStats = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       const response = await fetch(
         `${BACKEND_URL}/api/admin/analytics/sentiment/summary?period=${period}&content_type=${contentType}`,
         {
