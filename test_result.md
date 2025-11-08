@@ -3877,3 +3877,178 @@ frontend:
 # ============================================
 # END OF PHASE 6.4 FRONTEND UPDATE
 # ============================================
+
+# ============================================
+# PHASE 6.6 DAY 2 - HEAVY CONTENT BANNER FRONTEND IMPLEMENTATION
+# ============================================
+
+backend:
+  - task: "Feature flags config endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/config.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created GET /api/config/features endpoint to return full features.json configuration. Public endpoint, no auth required. Registered router in server.py."
+
+  - task: "Heavy content banner data in news endpoints"
+    implemented: true
+    working: true
+    file: "backend/routes/news.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Backend already enriches news items with heavy_content and banner_message fields via enrich_item_with_banner_data() function. Applied to /latest, /featured, and /category endpoints."
+
+  - task: "Heavy content banner data in feed endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/feed.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Backend already enriches feed items with heavy_content and banner_message fields for both news and resource items in aggregated feed."
+
+  - task: "Heavy content banner data in resources endpoint"
+    implemented: true
+    working: true
+    file: "backend/routes/resources.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Need to verify if resources endpoint enriches items with heavy content data. Will test during backend testing."
+
+frontend:
+  - task: "HeavyContentBanner component"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/HeavyContentBanner.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Component already exists. Supports 3 variants: banner (detail pages), card (news cards), inline (feed items). Has local dismiss and global hide similar functionality via localStorage."
+
+  - task: "WorldNewsPage integration"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/WorldNewsPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Integrated HeavyContentBanner into WorldNewsPage. Banner displays above each news card when item.heavy_content is true and ui.heavyContentBanner flag is enabled. Uses 'card' variant. Fetches feature flags from /api/config/features on mount."
+
+  - task: "ResourceDetailPage integration"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/Resources/ResourceDetailPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Integrated HeavyContentBanner into ResourceDetailPage. Banner displays at top of detail view when resource.heavy_content is true and ui.heavyContentBanner flag is enabled. Uses 'banner' variant with showHideSimilar option. Fetches feature flags on mount."
+
+  - task: "Hub ActivityFeed integration"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/Hub/ActivityFeed.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Integrated HeavyContentBanner into Hub ActivityFeed. Banner displays inside each feed item when item.heavy_content is true and ui.heavyContentBanner flag is enabled. Uses 'inline' variant. Fetches feature flags on mount."
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 2
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "Phase 6.6 Day 2 Frontend Integration Testing"
+    - "Feature flags endpoint verification"
+    - "Heavy content banner display across all surfaces"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: |
+      🎨 PHASE 6.6 DAY 2 FRONTEND IMPLEMENTATION COMPLETE
+      
+      Implemented user-facing Heavy Content Banner across all surfaces:
+      
+      ✅ BACKEND:
+      - Created GET /api/config/features endpoint to expose feature flags
+      - Verified news, feed, and resources endpoints already enrich items with heavy_content and banner_message
+      
+      ✅ FRONTEND INTEGRATION:
+      1. WorldNewsPage.js:
+         - Added HeavyContentBanner import and integration
+         - Fetches feature flags on mount
+         - Displays banner above news cards when item.heavy_content = true
+         - Uses 'card' variant
+         - Respects ui.heavyContentBanner feature flag
+      
+      2. ResourceDetailPage.js:
+         - Added HeavyContentBanner import and integration
+         - Fetches feature flags on mount
+         - Displays banner at top of detail view when resource.heavy_content = true
+         - Uses 'banner' variant with showHideSimilar option
+         - Respects ui.heavyContentBanner feature flag
+      
+      3. Hub ActivityFeed.js (FeedItemCard):
+         - Added HeavyContentBanner import and integration
+         - Fetches feature flags on mount
+         - Displays banner inside feed items when item.heavy_content = true
+         - Uses 'inline' variant
+         - Respects ui.heavyContentBanner feature flag
+      
+      🎯 BANNER VARIANTS BY SURFACE:
+      - WorldNewsPage news cards: variant="card" (compact banner for grid layouts)
+      - ResourceDetailPage: variant="banner" (full-width banner with "hide similar" option)
+      - Hub ActivityFeed items: variant="inline" (minimal inline banner)
+      
+      🔑 FEATURE FLAG CONTROL:
+      - All surfaces check ui.heavyContentBanner flag before displaying banner
+      - Currently set to false in features.json (disabled by default)
+      - When enabled, banners will display on content where heavy_content = true
+      
+      📊 READY FOR TESTING:
+      Priority: Backend + Frontend testing
+      1. Test GET /api/config/features endpoint returns correct feature flags
+      2. Verify news endpoints include heavy_content and banner_message
+      3. Verify feed endpoint includes heavy_content and banner_message
+      4. Verify resources endpoint includes heavy_content and banner_message
+      5. Test banner display on WorldNewsPage with flagged content
+      6. Test banner display on ResourceDetailPage with flagged content
+      7. Test banner display in Hub ActivityFeed with flagged content
+      8. Test local dismiss functionality
+      9. Test global "hide similar" functionality
+      10. Test feature flag toggle (enable/disable banner globally)
+      
+      Frontend and backend services running with hot reload. Ready for comprehensive testing.
