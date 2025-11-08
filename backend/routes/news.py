@@ -258,6 +258,10 @@ async def get_all_news_admin(current_user: dict = Depends(require_role(["super_a
     for item in items:
         if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
             item['publishedAt'] = item['publishedAt'].isoformat()
+        
+        # Phase 6.6 - Enrich with heavy content banner data
+        enrich_item_with_banner_data(item)
+        
         result.append(NewsItemPublic(**item))
     
     return result
