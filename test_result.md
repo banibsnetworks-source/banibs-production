@@ -4094,15 +4094,18 @@ frontend:
 
   - task: "WorldNewsPage integration"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/pages/WorldNewsPage.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Integrated HeavyContentBanner into WorldNewsPage. Banner displays above each news card when item.heavy_content is true and ui.heavyContentBanner flag is enabled. Uses 'card' variant. Fetches feature flags from /api/config/features on mount."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: WorldNewsPage integration working perfectly. Page loads correctly with news cards and region filters. Feature flag fetch working (GET /api/config/features called on mount). No heavy content banners visible (correct behavior with ui.heavyContentBanner: false). Region filters functional (Global, Africa, Americas, Europe, Asia, Middle East). News cards display properly with images and fallbacks. BANIBS branding maintained. Responsive design working on mobile (390x844) and desktop viewports. No JavaScript errors related to banner integration."
 
   - task: "ResourceDetailPage integration"
     implemented: true
