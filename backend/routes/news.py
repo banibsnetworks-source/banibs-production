@@ -100,6 +100,9 @@ async def get_latest_news_feed():
         # Convert sentiment_at to ISO string if needed (Phase 6.3)
         if 'sentiment_at' in item and hasattr(item['sentiment_at'], 'isoformat'):
             item['sentiment_at'] = item['sentiment_at'].isoformat()
+        
+        # Phase 6.6 - Enrich with heavy content banner data
+        enrich_item_with_banner_data(item)
             
         unique_items.append(NewsItemPublic(**item))
         
