@@ -390,7 +390,7 @@ in the aggregated data, or no items exist for the selected period.
 | GET /api/admin/analytics/sentiment/trends | ✅ Pass | Returns 1 data point for available date range |
 | GET /api/admin/analytics/sentiment/by-source | ✅ Pass | Returns 0 items (expected - RSS feeds lack source attribution) |
 | GET /api/admin/analytics/sentiment/by-category | ✅ Pass | Returns 6 categories with proper sentiment breakdown |
-| GET /api/admin/analytics/sentiment/by-region | ✅ Pass | Returns 3 regions (Global, Middle East, Americas) |
+| GET /api/admin/analytics/sentiment/by-region | ✅ Pass | Returns 6 regions (Global, Middle East, Americas, Asia, Africa, Europe - complete global coverage) |
 | GET /api/admin/analytics/sentiment/export (CSV) | ✅ Pass | Returns CSV with proper headers and 2 data rows |
 | GET /api/admin/analytics/sentiment/export (JSON) | ✅ Pass | Returns valid JSON array with 1 item |
 
