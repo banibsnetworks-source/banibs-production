@@ -17,6 +17,10 @@ import sys
 from pathlib import Path
 from datetime import datetime, timedelta
 import uuid
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
