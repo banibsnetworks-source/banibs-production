@@ -158,7 +158,7 @@ async def get_opportunity_detail(
     - Engagement metrics (like_count, comment_count)
     - Sponsored status
     """
-    from db.opportunities import get_opportunity_by_id
+    from db.opportunities_legacy import get_opportunity_by_id
     
     # Fetch opportunity
     try:
