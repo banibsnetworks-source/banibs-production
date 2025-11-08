@@ -235,6 +235,17 @@ async def remove_role(user_id: str, role: str):
     )
 
 
+async def update_user_roles(user_id: str, roles: List[str]):
+    """
+    Update user's roles (replaces existing roles)
+    
+    Args:
+        user_id: User UUID
+        roles: List of role strings
+    """
+    await update_user(user_id, {"roles": roles})
+
+
 async def update_membership(user_id: str, level: str, status: str, subscription_id: Optional[str] = None):
     """
     Update user membership tier
