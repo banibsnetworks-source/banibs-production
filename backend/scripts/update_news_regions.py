@@ -16,7 +16,7 @@ from config.rss_sources import RSS_SOURCES
 SOURCE_TO_REGION = {}
 for source in RSS_SOURCES:
     if 'region' in source and source['region']:
-        SOURCE_TO_REGION[source['name']] = source['region']
+        SOURCE_TO_REGION[source['source_name']] = source['region']
 
 print(f"Found {len(SOURCE_TO_REGION)} sources with regions:")
 for name, region in SOURCE_TO_REGION.items():
