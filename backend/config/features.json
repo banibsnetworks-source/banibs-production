@@ -1,6 +1,7 @@
 {
   "ui": {
-    "sentimentBadges": true
+    "sentimentBadges": true,
+    "heavyContentBanner": false
   },
   "moderation": {
     "auto_from_sentiment": true,
