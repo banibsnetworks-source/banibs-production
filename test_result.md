@@ -584,14 +584,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Sentiment Analytics Backend - /api/admin/sentiment_analytics/summary"
-    - "Sentiment Analytics Backend - /api/admin/sentiment_analytics/trends"
-    - "Sentiment Analytics Backend - /api/admin/sentiment_analytics/by-source"
-    - "Sentiment Analytics Backend - /api/admin/sentiment_analytics/by-category"
-    - "Sentiment Analytics Backend - /api/admin/sentiment_analytics/by-region"
-    - "Sentiment Analytics Backend - /api/admin/sentiment_analytics/export"
-    - "Moderation Queue Regression - routing negative items"
-    - "Moderation Queue Regression - admin UI list/approve/reject"
+    - "Sentiment Analytics Dashboard Frontend - comprehensive testing complete"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
