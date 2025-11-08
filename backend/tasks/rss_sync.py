@@ -90,12 +90,14 @@ async def sync_rss_feeds():
     return {
         "success": True,
         "ranAt": datetime.utcnow().isoformat() + "Z",
-        "total_sources": len(RSS_SOURCES),
+        "total_sources": len(active_sources),
+        "total_active_sources": len(active_sources),
+        "total_configured_sources": len(RSS_SOURCES),
         "total_new_items": total_new_items,
         "ingestResults": results,
         "mirrorResult": mirror_result,
         "healthReport": health_report,
-        "message": f"Full pipeline complete. Added {total_new_items} new items."
+        "message": f"Full pipeline complete. Added {total_new_items} new items from {len(active_sources)} active sources."
     }
 
 
