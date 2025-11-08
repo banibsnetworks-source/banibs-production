@@ -28,48 +28,97 @@ def make_fingerprint(source_name: str, title: str) -> str:
     return hashlib.sha256(raw).hexdigest()
 
 import re
+from urllib.parse import urlparse
 
-IMG_TAG_REGEX = re.compile(r'<img[^>]+src="([^">]+)"', re.IGNORECASE)
+IMG_TAG_REGEX = re.compile(r'<img[^>]+src=["\']([^"\']+)["\']', re.IGNORECASE)
+
+def _is_probably_image_url(url: str) -> bool:
+    """
+    Quick validation that a URL looks like an image.
+    Checks scheme, netloc, and common image extensions.
+    """
+    if not url:
+        return False
+    try:
+        parsed = urlparse(url)
+        if parsed.scheme not in ("http", "https") or not parsed.netloc:
+            return False
+        # Check common image extensions
+        path_lower = parsed.path.lower()
+        return any(path_lower.endswith(ext) for ext in [".jpg", ".jpeg", ".png", ".webp", ".gif", ".svg"])
+    except Exception:
+        return False
 
 def _extract_image(entry):
     """
-    Extract the best possible image URL from an RSS entry.
-    Checks media, thumbnail, enclosure, and inline <img> tags.
+    Phase 6.5.3 - Enhanced image extraction from RSS entry.
+    Priority:
+      1) media:content / media:thumbnail (RSS media namespace)
+      2) enclosure with image/* type (RSS 2.0)
+      3) <img> tag inside summary/content (HTML parsing)
+      4) (Future) OG image scraping from article URL (disabled for performance)
+    
+    Returns image URL or None if no valid image found.
     """
-    # 1. media:content (WordPress, TechCrunch, AfroTech)
-    media = entry.get("media_content")
-    if media and isinstance(media, list):
-        for m in media:
-            url = m.get("url")
-            if url:
+    # 1. media:content (WordPress, TechCrunch, many modern RSS feeds)
+    media_content = entry.get("media_content") or entry.get("media:content")
+    if isinstance(media_content, list) and media_content:
+        for m in media_content:
+            url = (m.get("url") or "").strip()
+            if _is_probably_image_url(url):
                 return url
 
-    # 2. media:thumbnail
-    thumbs = entry.get("media_thumbnail")
-    if thumbs and isinstance(thumbs, list):
-        for t in thumbs:
-            url = t.get("url")
-            if url:
+    # 2. media:thumbnail (common in YouTube, podcasts, etc.)
+    media_thumb = entry.get("media_thumbnail") or entry.get("media:thumbnail")
+    if isinstance(media_thumb, list) and media_thumb:
+        for t in media_thumb:
+            url = (t.get("url") or "").strip()
+            if _is_probably_image_url(url):
                 return url
 
-    # 3. enclosure or link of type image/*
-    enclosures = entry.get("enclosures") or entry.get("links")
-    if enclosures and isinstance(enclosures, list):
-        for enc in enclosures:
-            if enc.get("type", "").startswith("image/") and enc.get("href"):
-                return enc["href"]
+    # 3. enclosure or link of type image/* (RSS 2.0 standard)
+    enclosures = entry.get("enclosures") or entry.get("links") or []
+    for enc in enclosures:
+        enc_type = (enc.get("type") or "").lower()
+        url = (enc.get("href") or enc.get("url") or "").strip()
+        if enc_type.startswith("image/") and _is_probably_image_url(url):
+            return url
 
-    # 4. First <img> tag inside summary/content HTML
-    for field in ["summary", "summary_detail", "content", "description"]:
-        html_block = entry.get(field)
-        if isinstance(html_block, dict):
-            html_block = html_block.get("value")
-        if isinstance(html_block, str):
-            m = IMG_TAG_REGEX.search(html_block)
-            if m:
-                return m.group(1)
+    # 4. First <img> tag inside summary/content HTML (very common fallback)
+    html_candidates = []
+    
+    # Check summary
+    if "summary" in entry:
+        html_candidates.append(entry.get("summary") or "")
+    
+    # Check content (feedparser may return list of dicts or string)
+    if "content" in entry:
+        content_val = entry.get("content")
+        if isinstance(content_val, list) and content_val:
+            html_candidates.extend(c.get("value", "") for c in content_val)
+        elif isinstance(content_val, str):
+            html_candidates.append(content_val)
+    
+    # Check description as fallback
+    if "description" in entry:
+        html_candidates.append(entry.get("description") or "")
+    
+    # Parse HTML for <img> tags
+    for html in html_candidates:
+        if not html:
+            continue
+        for match in IMG_TAG_REGEX.findall(html):
+            url = match.strip()
+            if _is_probably_image_url(url):
+                return url
 
-    # 5. No image found
+    # 5. OPTIONAL: OG image scraping (disabled by default for performance)
+    # Could be enabled behind a feature flag in future:
+    # - Fetches article HTML and extracts og:image meta tag
+    # - Adds ~1-3 seconds per article, so guard with limits
+    # - Useful for sources that don't include images in RSS
+
+    # No valid image found
     return None
 
 def _extract_published(entry):
