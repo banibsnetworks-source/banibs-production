@@ -20,6 +20,10 @@ class NewsItemDB(BaseModel):
     fingerprint: Optional[str] = None  # SHA256 hash for deduplication (sourceName::title)
     createdAt: datetime = Field(default_factory=datetime.utcnow)
     
+    # Phase 6.6 - Heavy Content Banner
+    is_heavy_content: bool = False  # Manual override flag for editors
+    banner_message: Optional[str] = None  # Optional custom banner text
+    
     class Config:
         populate_by_name = True
 
