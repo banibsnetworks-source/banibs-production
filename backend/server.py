@@ -187,6 +187,9 @@ app.include_router(sentiment_router)
 app.include_router(admin_moderation_router)  # Phase 6.4 - Moderation Admin Endpoints
 app.include_router(admin_sentiment_analytics_router)  # Phase 6.5 - Sentiment Analytics Endpoints
 
+# Include config router (Phase 6.6 - Feature Flags)
+app.include_router(config_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
