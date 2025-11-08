@@ -122,6 +122,16 @@ function ResourceDetailPage() {
         <article className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl overflow-hidden">
           {/* Header */}
           <div className="p-8 border-b border-gray-800">
+            {/* Phase 6.6 - Heavy Content Banner */}
+            {featureFlags.ui?.heavyContentBanner && resource.heavy_content && (
+              <HeavyContentBanner
+                visible={true}
+                message={resource.banner_message}
+                variant="banner"
+                showHideSimilar={true}
+              />
+            )}
+
             {/* Featured Badge */}
             {resource.featured && (
               <div className="mb-4">
