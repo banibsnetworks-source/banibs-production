@@ -7,7 +7,7 @@ from datetime import timedelta, datetime
 from pydantic import BaseModel
 
 from models.opportunity import OpportunityCreate, OpportunityPublic
-from db.opportunities import (
+from db.opportunities_legacy import (
     insert_opportunity,
     get_public_opportunities,
     get_featured_opportunities,
