@@ -1271,6 +1271,311 @@ class BanibsAPITester:
             self.log(f"❌ Could not check scheduler status: {e}", "ERROR")
             return False
 
+    # Phase 6.6 - Feature Flags and Heavy Content Banner Tests
+    
+    def test_feature_flags_config_endpoint(self) -> bool:
+        """Test GET /api/config/features endpoint (public)"""
+        self.log("Testing feature flags config endpoint...")
+        
+        response = self.make_request("GET", "/config/features")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Check for expected structure from features.json
+            required_sections = ["ui", "moderation", "analytics"]
+            
+            if all(section in data for section in required_sections):
+                self.log("✅ Feature flags config endpoint working:")
+                self.log(f"   UI flags: {data.get('ui', {})}")
+                self.log(f"   Moderation flags: {data.get('moderation', {})}")
+                self.log(f"   Analytics flags: {data.get('analytics', {})}")
+                
+                # Verify specific UI flags mentioned in review
+                ui_flags = data.get("ui", {})
+                if "sentimentBadges" in ui_flags and "heavyContentBanner" in ui_flags:
+                    self.log(f"✅ Expected UI flags present: sentimentBadges={ui_flags['sentimentBadges']}, heavyContentBanner={ui_flags['heavyContentBanner']}")
+                    return True
+                else:
+                    self.log("❌ Missing expected UI flags (sentimentBadges, heavyContentBanner)", "ERROR")
+                    return False
+            else:
+                missing = [s for s in required_sections if s not in data]
+                self.log(f"❌ Feature flags missing sections: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Feature flags config endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_news_latest_heavy_content(self) -> bool:
+        """Test GET /api/news/latest includes heavy_content and banner_message fields"""
+        self.log("Testing news latest endpoint with heavy content data...")
+        
+        response = self.make_request("GET", "/news/latest")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if isinstance(data, list):
+                self.log(f"✅ News latest returned {len(data)} items")
+                
+                if len(data) > 0:
+                    # Check first item for heavy content fields
+                    item = data[0]
+                    required_fields = ["heavy_content", "banner_message"]
+                    
+                    if all(field in item for field in required_fields):
+                        heavy_content = item["heavy_content"]
+                        banner_message = item["banner_message"]
+                        
+                        # Validate field types
+                        if isinstance(heavy_content, bool) and (banner_message is None or isinstance(banner_message, str)):
+                            self.log(f"✅ Heavy content fields present and valid:")
+                            self.log(f"   heavy_content: {heavy_content} (bool)")
+                            self.log(f"   banner_message: {banner_message} ({'str' if banner_message else 'null'})")
+                            
+                            # Check consistency: if heavy_content is false, banner_message should be null
+                            if not heavy_content and banner_message is not None:
+                                self.log("⚠️ Inconsistency: heavy_content=false but banner_message is not null")
+                            
+                            return True
+                        else:
+                            self.log(f"❌ Heavy content fields have wrong types: heavy_content={type(heavy_content)}, banner_message={type(banner_message)}", "ERROR")
+                            return False
+                    else:
+                        missing = [f for f in required_fields if f not in item]
+                        self.log(f"❌ News item missing heavy content fields: {missing}", "ERROR")
+                        return False
+                else:
+                    self.log("⚠️ No news items returned - cannot test heavy content fields")
+                    return True
+            else:
+                self.log(f"❌ News latest response is not a list: {type(data)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ News latest endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_news_category_heavy_content(self) -> bool:
+        """Test GET /api/news/category/world-news includes heavy content fields"""
+        self.log("Testing news category endpoint with heavy content data...")
+        
+        response = self.make_request("GET", "/news/category/world-news")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if isinstance(data, list):
+                self.log(f"✅ News category returned {len(data)} world news items")
+                
+                if len(data) > 0:
+                    # Check first item for heavy content fields
+                    item = data[0]
+                    required_fields = ["heavy_content", "banner_message"]
+                    
+                    if all(field in item for field in required_fields):
+                        heavy_content = item["heavy_content"]
+                        banner_message = item["banner_message"]
+                        
+                        # Validate field types
+                        if isinstance(heavy_content, bool) and (banner_message is None or isinstance(banner_message, str)):
+                            self.log(f"✅ Heavy content fields present in category news:")
+                            self.log(f"   heavy_content: {heavy_content} (bool)")
+                            self.log(f"   banner_message: {banner_message} ({'str' if banner_message else 'null'})")
+                            return True
+                        else:
+                            self.log(f"❌ Heavy content fields have wrong types in category news", "ERROR")
+                            return False
+                    else:
+                        missing = [f for f in required_fields if f not in item]
+                        self.log(f"❌ Category news item missing heavy content fields: {missing}", "ERROR")
+                        return False
+                else:
+                    self.log("⚠️ No world news items returned - cannot test heavy content fields")
+                    return True
+            else:
+                self.log(f"❌ News category response is not a list: {type(data)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ News category endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_news_featured_heavy_content(self) -> bool:
+        """Test GET /api/news/featured includes heavy content fields (if featured news exists)"""
+        self.log("Testing news featured endpoint with heavy content data...")
+        
+        response = self.make_request("GET", "/news/featured")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Featured endpoint can return empty object {} if no featured news
+            if isinstance(data, dict):
+                if data:  # Non-empty object means featured news exists
+                    required_fields = ["heavy_content", "banner_message"]
+                    
+                    if all(field in data for field in required_fields):
+                        heavy_content = data["heavy_content"]
+                        banner_message = data["banner_message"]
+                        
+                        # Validate field types
+                        if isinstance(heavy_content, bool) and (banner_message is None or isinstance(banner_message, str)):
+                            self.log(f"✅ Heavy content fields present in featured news:")
+                            self.log(f"   heavy_content: {heavy_content} (bool)")
+                            self.log(f"   banner_message: {banner_message} ({'str' if banner_message else 'null'})")
+                            return True
+                        else:
+                            self.log(f"❌ Heavy content fields have wrong types in featured news", "ERROR")
+                            return False
+                    else:
+                        missing = [f for f in required_fields if f not in data]
+                        self.log(f"❌ Featured news missing heavy content fields: {missing}", "ERROR")
+                        return False
+                else:
+                    self.log("⚠️ No featured news available - cannot test heavy content fields")
+                    return True
+            else:
+                self.log(f"❌ News featured response is not an object: {type(data)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ News featured endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_feed_news_heavy_content(self) -> bool:
+        """Test GET /api/feed?type=news&limit=5 includes heavy content fields"""
+        self.log("Testing feed endpoint (news) with heavy content data...")
+        
+        response = self.make_request("GET", "/feed", params={"type": "news", "limit": 5})
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if "items" in data and isinstance(data["items"], list):
+                items = data["items"]
+                self.log(f"✅ Feed (news) returned {len(items)} items")
+                
+                if len(items) > 0:
+                    # Check first item for heavy content fields
+                    item = items[0]
+                    required_fields = ["heavy_content", "banner_message"]
+                    
+                    if all(field in item for field in required_fields):
+                        heavy_content = item["heavy_content"]
+                        banner_message = item["banner_message"]
+                        
+                        # Validate field types
+                        if isinstance(heavy_content, bool) and (banner_message is None or isinstance(banner_message, str)):
+                            self.log(f"✅ Heavy content fields present in feed news:")
+                            self.log(f"   heavy_content: {heavy_content} (bool)")
+                            self.log(f"   banner_message: {banner_message} ({'str' if banner_message else 'null'})")
+                            return True
+                        else:
+                            self.log(f"❌ Heavy content fields have wrong types in feed news", "ERROR")
+                            return False
+                    else:
+                        missing = [f for f in required_fields if f not in item]
+                        self.log(f"❌ Feed news item missing heavy content fields: {missing}", "ERROR")
+                        return False
+                else:
+                    self.log("⚠️ No news items in feed - cannot test heavy content fields")
+                    return True
+            else:
+                self.log(f"❌ Feed response missing 'items' array: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Feed (news) endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_feed_resource_heavy_content(self) -> bool:
+        """Test GET /api/feed?type=resource&limit=5 includes heavy content fields"""
+        self.log("Testing feed endpoint (resource) with heavy content data...")
+        
+        response = self.make_request("GET", "/feed", params={"type": "resource", "limit": 5})
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if "items" in data and isinstance(data["items"], list):
+                items = data["items"]
+                self.log(f"✅ Feed (resource) returned {len(items)} items")
+                
+                if len(items) > 0:
+                    # Check first item for heavy content fields
+                    item = items[0]
+                    required_fields = ["heavy_content", "banner_message"]
+                    
+                    if all(field in item for field in required_fields):
+                        heavy_content = item["heavy_content"]
+                        banner_message = item["banner_message"]
+                        
+                        # Validate field types
+                        if isinstance(heavy_content, bool) and (banner_message is None or isinstance(banner_message, str)):
+                            self.log(f"✅ Heavy content fields present in feed resources:")
+                            self.log(f"   heavy_content: {heavy_content} (bool)")
+                            self.log(f"   banner_message: {banner_message} ({'str' if banner_message else 'null'})")
+                            return True
+                        else:
+                            self.log(f"❌ Heavy content fields have wrong types in feed resources", "ERROR")
+                            return False
+                    else:
+                        missing = [f for f in required_fields if f not in item]
+                        self.log(f"❌ Feed resource item missing heavy content fields: {missing}", "ERROR")
+                        return False
+                else:
+                    self.log("⚠️ No resource items in feed - cannot test heavy content fields")
+                    return True
+            else:
+                self.log(f"❌ Feed response missing 'items' array: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Feed (resource) endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_resources_heavy_content(self) -> bool:
+        """Test GET /api/resources includes heavy content fields"""
+        self.log("Testing resources endpoint with heavy content data...")
+        
+        response = self.make_request("GET", "/resources")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if "resources" in data and isinstance(data["resources"], list):
+                resources = data["resources"]
+                self.log(f"✅ Resources endpoint returned {len(resources)} items")
+                
+                if len(resources) > 0:
+                    # Check first item for heavy content fields
+                    item = resources[0]
+                    required_fields = ["heavy_content", "banner_message"]
+                    
+                    if all(field in item for field in required_fields):
+                        heavy_content = item["heavy_content"]
+                        banner_message = item["banner_message"]
+                        
+                        # Validate field types
+                        if isinstance(heavy_content, bool) and (banner_message is None or isinstance(banner_message, str)):
+                            self.log(f"✅ Heavy content fields present in resources:")
+                            self.log(f"   heavy_content: {heavy_content} (bool)")
+                            self.log(f"   banner_message: {banner_message} ({'str' if banner_message else 'null'})")
+                            return True
+                        else:
+                            self.log(f"❌ Heavy content fields have wrong types in resources", "ERROR")
+                            return False
+                    else:
+                        missing = [f for f in required_fields if f not in item]
+                        self.log(f"❌ Resource item missing heavy content fields: {missing}", "ERROR")
+                        return False
+                else:
+                    self.log("⚠️ No resources returned - cannot test heavy content fields")
+                    return True
+            else:
+                self.log(f"❌ Resources response missing 'resources' array: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Resources endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+
     # Phase 6.5 - Sentiment Analytics API Tests
     
     def test_sentiment_analytics_summary(self) -> bool:
