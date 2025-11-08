@@ -46,7 +46,7 @@ import BusinessPage from "./pages/Stubs/BusinessPage";
 import InformationPage from "./pages/Stubs/InformationPage";
 import EducationPage from "./pages/Stubs/EducationPage";
 import YouthPage from "./pages/Stubs/YouthPage";
-import OpportunitiesPage from "./pages/Stubs/OpportunitiesPage";
+import OpportunitiesPage from "./pages/Business/Opportunities/OpportunitiesPage"; // Phase 7.1
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
