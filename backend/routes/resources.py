@@ -19,6 +19,7 @@ from db.resources import (
     delete_resource
 )
 from middleware.auth_guard import get_current_user, require_role
+from services.heavy_content_service import enrich_item_with_banner_data
 import math
 
 router = APIRouter(prefix="/api/resources", tags=["resources"])
