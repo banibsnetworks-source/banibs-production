@@ -234,6 +234,16 @@ const ActivityFeed = () => {
                     onClick={() => handleItemClick(item)}
                     className="bg-white/70 backdrop-blur-sm border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition cursor-pointer"
                   >
+                    {/* Phase 6.6 - Heavy Content Banner */}
+                    {featureFlags.ui?.heavyContentBanner && item.heavy_content && (
+                      <HeavyContentBanner
+                        visible={true}
+                        message={item.banner_message}
+                        variant="inline"
+                        showHideSimilar={false}
+                      />
+                    )}
+
                     <div className="flex gap-4">
                       {/* Thumbnail */}
                       <div className="w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
