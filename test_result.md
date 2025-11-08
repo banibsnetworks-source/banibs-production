@@ -4079,15 +4079,18 @@ backend:
 frontend:
   - task: "HeavyContentBanner component"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/components/HeavyContentBanner.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Component already exists. Supports 3 variants: banner (detail pages), card (news cards), inline (feed items). Has local dismiss and global hide similar functionality via localStorage."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: HeavyContentBanner component working correctly. Component properly integrated across all surfaces with correct variants: 'card' for WorldNewsPage, 'banner' for ResourceDetailPage, 'inline' for Hub ActivityFeed. Component respects feature flag (ui.heavyContentBanner) and correctly hides when flag is disabled. Local dismiss and global hide functionality implemented via localStorage. BANIBS soft-glass aesthetic maintained with proper styling."
 
   - task: "WorldNewsPage integration"
     implemented: true
