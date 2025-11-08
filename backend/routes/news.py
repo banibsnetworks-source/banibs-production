@@ -143,6 +143,9 @@ async def get_featured_news():
     if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
         item['publishedAt'] = item['publishedAt'].isoformat()
     
+    # Phase 6.6 - Enrich with heavy content banner data
+    enrich_item_with_banner_data(item)
+    
     return NewsItemPublic(**item)
 
 @router.post("/seed-dev")
