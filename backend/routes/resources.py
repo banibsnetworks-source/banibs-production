@@ -61,12 +61,18 @@ async def list_resources(
         skip=skip
     )
     
+    # Phase 6.6 - Enrich with heavy content banner data
+    enriched_resources = []
+    for resource in resources:
+        enrich_item_with_banner_data(resource)
+        enriched_resources.append(ResourcePublic(**resource))
+    
     # Calculate pagination
     page = (skip // limit) + 1
     pages = math.ceil(total / limit) if total > 0 else 1
     
     return ResourceListResponse(
-        resources=[ResourcePublic(**r) for r in resources],
+        resources=enriched_resources,
         total=total,
         page=page,
         pages=pages
