@@ -4028,11 +4028,14 @@ backend:
     file: "backend/routes/config.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created GET /api/config/features endpoint to return full features.json configuration. Public endpoint, no auth required. Registered router in server.py."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: GET /api/config/features endpoint working perfectly. Returns 200 status with complete feature flags configuration. Confirmed ui.heavyContentBanner: false (disabled by default). Endpoint accessible from frontend JavaScript and properly integrated into all surfaces (WorldNewsPage, ResourceDetailPage, Hub ActivityFeed). No authentication required as expected."
 
   - task: "Heavy content banner data in news endpoints"
     implemented: true
