@@ -27,7 +27,6 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 # For moderation and sentiment integration
 from services.ai_sentiment import analyze_sentiment
-from db.news_sentiment import create_or_update_sentiment
 
 router = APIRouter(prefix="/api/jobs", tags=["jobs"])
 
