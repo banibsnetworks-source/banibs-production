@@ -5673,9 +5673,62 @@ class BanibsAPITester:
             self.log(f"💥 {failed} test(s) failed")
             return False
 
+    def run_phase_6_6_tests(self) -> bool:
+        """Run Phase 6.6 Heavy Content Banner tests"""
+        self.log("=" * 80)
+        self.log("🔧 PHASE 6.6 HEAVY CONTENT BANNER TESTS")
+        self.log("=" * 80)
+        
+        # First login as admin for any authenticated endpoints
+        self.log("Setting up authentication...")
+        admin_login_success = self.test_admin_login()
+        if not admin_login_success:
+            self.log("❌ Could not login admin user - continuing with public tests", "WARN")
+        
+        tests = [
+            # Phase 6.6 - Feature Flags and Heavy Content Banner Tests
+            ("1. GET /api/config/features - Feature flags config (PUBLIC)", self.test_feature_flags_config_endpoint),
+            ("2. GET /api/news/latest - News with heavy content data", self.test_news_latest_heavy_content),
+            ("3. GET /api/news/category/world-news - Category news with heavy content", self.test_news_category_heavy_content),
+            ("4. GET /api/news/featured - Featured news with heavy content", self.test_news_featured_heavy_content),
+            ("5. GET /api/feed?type=news - Feed news with heavy content", self.test_feed_news_heavy_content),
+            ("6. GET /api/feed?type=resource - Feed resources with heavy content", self.test_feed_resource_heavy_content),
+            ("7. GET /api/resources - Resources with heavy content", self.test_resources_heavy_content),
+        ]
+        
+        passed = 0
+        failed = 0
+        
+        for test_name, test_func in tests:
+            self.log(f"\n🧪 Running: {test_name}")
+            try:
+                if test_func():
+                    passed += 1
+                    self.log(f"✅ {test_name} PASSED")
+                else:
+                    failed += 1
+                    self.log(f"❌ {test_name} FAILED")
+            except Exception as e:
+                failed += 1
+                self.log(f"💥 {test_name} ERROR: {e}")
+        
+        self.log("\n" + "=" * 80)
+        self.log("📊 PHASE 6.6 TEST RESULTS")
+        self.log("=" * 80)
+        self.log(f"✅ Passed: {passed}")
+        self.log(f"❌ Failed: {failed}")
+        self.log(f"Total: {passed + failed}")
+        
+        if failed == 0:
+            self.log("🎉 All Phase 6.6 tests passed!")
+            return True
+        else:
+            self.log(f"💥 {failed} test(s) failed")
+            return False
+
 if __name__ == "__main__":
     tester = BanibsAPITester()
     
-    # Run Phase 6.5 Sentiment Analytics + Phase 6.4 Moderation Regression tests
-    success = tester.run_phase_6_5_tests()
+    # Run Phase 6.6 Heavy Content Banner tests
+    success = tester.run_phase_6_6_tests()
     sys.exit(0 if success else 1)
