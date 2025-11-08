@@ -385,6 +385,137 @@ sudo supervisorctl restart backend
 
 ---
 
+---
+
+## RSS Health Monitoring (Phase 6.5.2)
+
+To maintain stable global news coverage and detect feed failures early, Phase 6.5.2 includes automated RSS health monitoring.
+
+### Scripts
+
+**1. Schema Validator** (`/app/backend/scripts/validate_rss_schema.py`)
+
+Validates that every RSS feed entry follows the standardized schema:
+- All required fields present (`id`, `region`, `category`, `source_name`, `rss_url`, `language`, `active`)
+- No duplicate `id` values
+- Valid URL format (http/https with netloc)
+- Counts active vs inactive feeds
+
+**Usage:**
+```bash
+cd /app/backend
+python3 scripts/validate_rss_schema.py
+```
+
+**Output:**
+```
+🧾 Validating 49 RSS sources...
+✅ All feeds have required fields.
+✅ No duplicate IDs detected.
+✅ All RSS URLs appear valid.
+📊 Active feeds: 35 / 49
+✅ Schema validation PASSED.
+```
+
+**2. Health Check Logger** (`/app/backend/scripts/rss_health_check.py`)
+
+Wraps the validator and writes timestamped reports to `/app/logs/rss_validation.log`.
+
+**Usage:**
+```bash
+cd /app/backend
+python3 scripts/rss_health_check.py
+```
+
+**Log Format:**
+```
+============================================================
+RSS HEALTH CHECK @ 2025-11-08 04:10:40 UTC
+------------------------------------------------------------
+🧾 Validating 49 RSS sources...
+✅ All feeds have required fields.
+✅ No duplicate IDs detected.
+✅ All RSS URLs appear valid.
+📊 Active feeds: 35 / 49
+✅ Schema validation PASSED.
+```
+
+### Scheduler Integration
+
+The health check runs automatically via APScheduler:
+- **Schedule:** Daily at 01:00 UTC
+- **Job ID:** `rss_health_check_daily`
+- **Log Location:** `/app/logs/rss_validation.log`
+
+**Implementation** (in `/app/backend/scheduler.py`):
+```python
+from scripts.rss_health_check import run_health_check
+
+scheduler.add_job(
+    run_health_check,
+    trigger="cron",
+    hour=1,
+    minute=0,
+    id="rss_health_check_daily",
+    name="BANIBS RSS Health Check",
+    replace_existing=True
+)
+```
+
+**Current Scheduled Jobs:**
+1. RSS pipeline: every 6 hours
+2. Sentiment sweep: every 3 hours
+3. Sentiment aggregation: daily at 00:30 UTC
+4. **RSS health check: daily at 01:00 UTC** ⬅️ New!
+
+### Interpreting Health Check Failures
+
+**Issue: Missing Fields**
+```
+❌ Missing fields:
+   - bbc_africa_world: missing language
+```
+**Fix:** Add missing fields to `rss_sources.py` to match standard schema.
+
+**Issue: Duplicate IDs**
+```
+⚠️  Duplicate IDs found: bbc_africa_world
+```
+**Fix:** Ensure each `id` is unique. Rename duplicates and re-run validator.
+
+**Issue: Invalid URLs**
+```
+⚠️  Invalid URLs in: reuters_africa
+```
+**Fix:** Check for typos, redirects, or dead feeds. If dead, set `"active": False`.
+
+**Issue: High Inactive Count**
+```
+📊 Active feeds: 20 / 49
+   Inactive feeds (29): ...
+```
+**Fix:** Review inactive feeds and either:
+- Replace with alternative sources
+- Keep inactive for reference (if intentionally deprecated)
+
+### Monitoring Best Practices
+
+1. **Review logs weekly:** Check `/app/logs/rss_validation.log` for any schema violations
+2. **Monitor active count:** If active feeds drop significantly, investigate and replace broken sources
+3. **Test new sources:** Run validator after adding new RSS feeds
+4. **Update schema:** If adding new fields, update validator accordingly
+
+### Rollback Procedure
+
+If schema changes cause issues:
+```bash
+cd /app/backend/config
+cp rss_sources_old.py rss_sources.py
+sudo supervisorctl restart backend
+```
+
+---
+
 ## Conclusion
 
 Phase 6.5.2 successfully establishes BANIBS as a platform with truly **global news coverage**, expanding from limited regional focus to comprehensive coverage across:
