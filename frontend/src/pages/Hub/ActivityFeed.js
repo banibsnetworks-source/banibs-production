@@ -32,8 +32,21 @@ const ActivityFeed = () => {
   const [featureFlags, setFeatureFlags] = useState({ ui: { heavyContentBanner: false } });
 
   useEffect(() => {
+    fetchFeatureFlags();
     fetchFeed();
   }, [selectedType, dateRange]);
+
+  const fetchFeatureFlags = async () => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/config/features`);
+      if (response.ok) {
+        const data = await response.json();
+        setFeatureFlags(data);
+      }
+    } catch (err) {
+      console.error('Error fetching feature flags:', err);
+    }
+  };
 
   const fetchFeed = async () => {
     setLoading(true);
