@@ -23,6 +23,9 @@ class FeedItem(BaseModel):
     thumbnail: Optional[str] = None
     created_at: str
     metadata: Optional[Dict[str, Any]] = {}
+    # Phase 6.6 - Heavy Content Banner
+    heavy_content: bool = False
+    banner_message: Optional[str] = None
 
 
 class FeedResponse(BaseModel):
