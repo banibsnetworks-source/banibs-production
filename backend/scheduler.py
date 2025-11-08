@@ -42,22 +42,25 @@ async def run_all_feeds_job():
     print(f"[BANIBS RSS Sync] Starting full pipeline at {datetime.utcnow().isoformat()}Z")
     
     try:
-        # Step 1: Ingest fresh stories from all RSS sources
+        # Step 1: Ingest fresh stories from all RSS sources (only active)
         total_new_items = 0
-        for source in RSS_SOURCES:
+        active_sources = [s for s in RSS_SOURCES if s.get('active', True)]
+        
+        for source in active_sources:
             try:
                 # Get fallback image for this category
                 fallback_image = FALLBACK_IMAGES.get(source["category"])
                 
                 count = await fetch_and_store_feed(
-                    url=source["url"],
+                    url=source["rss_url"],
                     category=source["category"],
-                    source_name=source["name"],
+                    source_name=source["source_name"],
                     limit=5,
-                    fallback_image=fallback_image
+                    fallback_image=fallback_image,
+                    region=source.get("region")
                 )
                 total_new_items += count
-                print(f"[RSS] {source['name']}: {count} new items")
+                print(f"[RSS] {source['source_name']}: {count} new items")
             except Exception as e:
                 print(f"[RSS] {source['name']}: Error - {str(e)}")
         
