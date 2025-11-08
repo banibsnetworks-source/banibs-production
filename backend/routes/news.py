@@ -388,6 +388,9 @@ async def get_news_by_category(category_slug: str, region: Optional[str] = Query
         # Convert sentiment_at to ISO string if needed (Phase 6.3)
         if 'sentiment_at' in item and hasattr(item['sentiment_at'], 'isoformat'):
             item['sentiment_at'] = item['sentiment_at'].isoformat()
+        
+        # Phase 6.6 - Enrich with heavy content banner data
+        enrich_item_with_banner_data(item)
             
         unique_items.append(NewsItemPublic(**item))
         
