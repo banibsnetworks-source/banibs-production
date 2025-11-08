@@ -14,7 +14,7 @@ import uuid
 from datetime import datetime, timezone
 
 # Import routers
-from routes.opportunities import router as opportunities_router
+from routes.opportunities_legacy import router as opportunities_router
 from routes.auth import router as auth_router
 from routes.unified_auth import router as unified_auth_router  # Phase 6.0 - Unified Identity
 from routes.admin_uploads import router as admin_uploads_router
