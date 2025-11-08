@@ -85,6 +85,57 @@ GLOBAL_RSS_SOURCES = [
         "url": "https://feeds.bloomberg.com/politics/news.rss",
         "region": "Americas"
     },
+    # Phase 6.5.1 - Africa Coverage
+    {
+        "category": "World News",
+        "name": "BBC Africa",
+        "url": "https://feeds.bbci.co.uk/news/world/africa/rss.xml",
+        "region": "Africa"
+    },
+    {
+        "category": "World News",
+        "name": "All Africa",
+        "url": "https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf",
+        "region": "Africa"
+    },
+    {
+        "category": "World News",
+        "name": "Reuters Africa",
+        "url": "https://www.reuters.com/rssFeed/africa",
+        "region": "Africa"
+    },
+    # Phase 6.5.1 - Asia Coverage
+    {
+        "category": "World News",
+        "name": "BBC Asia",
+        "url": "https://feeds.bbci.co.uk/news/world/asia/rss.xml",
+        "region": "Asia"
+    },
+    {
+        "category": "World News",
+        "name": "Reuters Asia",
+        "url": "https://www.reuters.com/rssFeed/asia",
+        "region": "Asia"
+    },
+    {
+        "category": "World News",
+        "name": "The Hindu World",
+        "url": "https://www.thehindu.com/news/international/feeder/default.rss",
+        "region": "Asia"
+    },
+    # Phase 6.5.1 - Additional Europe Coverage
+    {
+        "category": "World News",
+        "name": "BBC Europe",
+        "url": "https://feeds.bbci.co.uk/news/world/europe/rss.xml",
+        "region": "Europe"
+    },
+    {
+        "category": "World News",
+        "name": "Reuters Europe",
+        "url": "https://www.reuters.com/rssFeed/europe",
+        "region": "Europe"
+    },
 ]
 
 # Combine all sources for the RSS sync system
