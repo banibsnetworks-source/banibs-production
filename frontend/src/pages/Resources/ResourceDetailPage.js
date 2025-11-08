@@ -13,8 +13,21 @@ function ResourceDetailPage() {
   const [featureFlags, setFeatureFlags] = useState({ ui: { heavyContentBanner: false } });
 
   useEffect(() => {
+    fetchFeatureFlags();
     fetchResource();
   }, [id]);
+
+  const fetchFeatureFlags = async () => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/config/features`);
+      if (response.ok) {
+        const data = await response.json();
+        setFeatureFlags(data);
+      }
+    } catch (err) {
+      console.error('Error fetching feature flags:', err);
+    }
+  };
 
   const fetchResource = async () => {
     setLoading(true);
