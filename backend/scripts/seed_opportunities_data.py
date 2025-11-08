@@ -601,7 +601,8 @@ async def seed_all():
             user_data = UserCreate(
                 email=candidate["email"],
                 password="Candidate#123",
-                name=candidate["name"]
+                name=candidate["name"],
+                accepted_terms=True
             )
             user_id = await create_user(user_data)
             
