@@ -392,12 +392,8 @@ async def create_job(
         job_dict["sentiment_label"] = sentiment_result["label"]
         job_dict["sentiment_at"] = datetime.utcnow()
         
-        # Store sentiment in sentiment collection
-        await create_or_update_sentiment(
-            content_type="job_listing",
-            content_id=job_dict.get("id"),  # Will be set after creation
-            sentiment_data=sentiment_result
-        )
+        # TODO: Phase 7.2 - Store job sentiment in dedicated collection if needed
+        # For Phase 7.1, we just store it in the job document itself
     except Exception as e:
         print(f"Sentiment analysis failed: {e}")
         # Don't block job creation if sentiment fails
