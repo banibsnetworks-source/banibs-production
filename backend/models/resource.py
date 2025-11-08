@@ -76,7 +76,7 @@ class ResourcePublic(ResourceBase):
     sentiment_at: Optional[datetime] = None  # When analyzed
     # Phase 6.6 - Heavy Content Banner (computed fields)
     heavy_content: bool = False  # Computed: is content flagged as heavy?
-    banner_message_computed: Optional[str] = None  # Computed: banner message to display
+    banner_message: Optional[str] = None  # Computed: banner message to display
     
     class Config:
         from_attributes = True
