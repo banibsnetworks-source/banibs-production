@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://moodwatch-6.preview.emergentagent.com/api/admin/analytics/sentiment
+https://bannersystem.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints

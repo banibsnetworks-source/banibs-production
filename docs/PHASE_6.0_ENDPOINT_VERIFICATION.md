@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://moodwatch-6.preview.emergentagent.com/api/auth
+https://bannersystem.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
