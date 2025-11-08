@@ -44,8 +44,10 @@ async def sync_rss_feeds():
     results = []
     total_new_items = 0
     
-    # Step 1: RSS ingestion
-    for source in RSS_SOURCES:
+    # Step 1: RSS ingestion (only active sources)
+    active_sources = [s for s in RSS_SOURCES if s.get('active', True)]
+    
+    for source in active_sources:
         try:
             count = await fetch_and_store_feed(
                 url=source["rss_url"],
