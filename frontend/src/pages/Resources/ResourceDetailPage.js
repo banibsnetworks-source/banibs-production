@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import SentimentBadge from '../../components/SentimentBadge';
+import HeavyContentBanner from '../../components/HeavyContentBanner';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
@@ -9,6 +10,7 @@ function ResourceDetailPage() {
   const [resource, setResource] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [featureFlags, setFeatureFlags] = useState({ ui: { heavyContentBanner: false } });
 
   useEffect(() => {
     fetchResource();
