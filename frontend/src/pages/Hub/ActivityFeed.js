@@ -29,6 +29,7 @@ const ActivityFeed = () => {
   const [selectedType, setSelectedType] = useState('all');
   const [dateRange, setDateRange] = useState('all');
   const [sentimentFilter, setSentimentFilter] = useState('all');
+  const [featureFlags, setFeatureFlags] = useState({ ui: { heavyContentBanner: false } });
 
   useEffect(() => {
     fetchFeed();
