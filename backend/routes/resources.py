@@ -91,6 +91,9 @@ async def get_resource(resource_id: str):
     if not resource:
         raise HTTPException(status_code=404, detail="Resource not found")
     
+    # Phase 6.6 - Enrich with heavy content banner data
+    enrich_item_with_banner_data(resource)
+    
     return ResourcePublic(**resource)
 
 
