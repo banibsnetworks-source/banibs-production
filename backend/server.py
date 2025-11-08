@@ -190,6 +190,17 @@ app.include_router(admin_sentiment_analytics_router)  # Phase 6.5 - Sentiment An
 # Include config router (Phase 6.6 - Feature Flags)
 app.include_router(config_router)
 
+# Include Phase 7.1 - Opportunities Exchange routers
+from routes.opportunities.jobs import router as jobs_router
+from routes.opportunities.recruiters import router as recruiters_router, employer_router
+from routes.opportunities.candidates import router as candidates_router
+from routes.opportunities.applications import router as applications_router
+app.include_router(jobs_router)  # Job listings API
+app.include_router(recruiters_router)  # Recruiter verification and profiles
+app.include_router(employer_router)  # Employer profiles
+app.include_router(candidates_router)  # Candidate profiles
+app.include_router(applications_router)  # Job applications
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
