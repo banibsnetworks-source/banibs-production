@@ -131,6 +131,10 @@ async def fetch_resource_items(date_cutoff: Optional[datetime], limit: int) -> L
     items = []
     
     async for item in cursor:
+        # Phase 6.6 - Compute heavy content banner data
+        heavy = is_heavy_content(item)
+        banner_msg = get_banner_message(item)
+        
         items.append(FeedItem(
             id=item["id"],
             type="resource",
@@ -144,7 +148,9 @@ async def fetch_resource_items(date_cutoff: Optional[datetime], limit: int) -> L
                 "type": item.get("type", "Article"),
                 "sentiment_label": item.get("sentiment_label"),
                 "sentiment_score": item.get("sentiment_score")
-            }
+            },
+            heavy_content=heavy,
+            banner_message=banner_msg
         ))
     
     return items
