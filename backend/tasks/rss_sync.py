@@ -48,15 +48,15 @@ async def sync_rss_feeds():
     for source in RSS_SOURCES:
         try:
             count = await fetch_and_store_feed(
-                url=source["url"],
+                url=source["rss_url"],
                 category=source["category"],
-                source_name=source["name"],
+                source_name=source["source_name"],
                 limit=5,  # Fetch 5 most recent items per source
                 fallback_image=FALLBACK_IMAGE,
                 region=source.get("region")  # Pass region from RSS source config
             )
             results.append({
-                "source": source["name"],
+                "source": source["source_name"],
                 "category": source["category"],
                 "region": source.get("region", "Unknown"),
                 "items_added": count,
@@ -65,7 +65,7 @@ async def sync_rss_feeds():
             total_new_items += count
         except Exception as e:
             results.append({
-                "source": source["name"],
+                "source": source["source_name"],
                 "category": source["category"],
                 "region": source.get("region", "Unknown"),
                 "error": str(e),
