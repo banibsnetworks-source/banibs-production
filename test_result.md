@@ -4067,11 +4067,14 @@ backend:
     file: "backend/routes/resources.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Need to verify if resources endpoint enriches items with heavy content data. Will test during backend testing."
+      - working: true
+        agent: "testing"
+        comment: "✅ VERIFIED: Resources endpoints already include heavy_content and banner_message fields as confirmed in Phase 6.6 backend testing. All resource items show heavy_content: false, banner_message: null indicating no heavy content detected in current dataset. Backend integration working correctly."
 
 frontend:
   - task: "HeavyContentBanner component"
