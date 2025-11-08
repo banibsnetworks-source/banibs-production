@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 
 from models.sponsor_order import SponsorCheckoutRequest, SponsorCheckoutResponse
 from db import sponsor_orders
-from db.opportunities import get_opportunity_by_id, update_opportunity_sponsor_status
+from db.opportunities_legacy import get_opportunity_by_id, update_opportunity_sponsor_status
 from middleware.auth_guard import require_auth
 
 router = APIRouter(prefix="/api/sponsor", tags=["sponsor"])
