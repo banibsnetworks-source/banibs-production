@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { formatDate } from '../utils/dateUtils';
 import { trackNewsClick } from '../utils/analytics';
 import TrendingWidget from '../components/TrendingWidget';
+import HeavyContentBanner from '../components/HeavyContentBanner';
 
 const REGIONS = [
   "Global",
@@ -93,10 +94,25 @@ const WorldNewsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [region, setRegion] = useState("Global"); // default view
+  const [featureFlags, setFeatureFlags] = useState({ ui: { heavyContentBanner: false } });
 
   useEffect(() => {
+    fetchFeatureFlags();
     fetchWorldNews();
   }, [region]);
+
+  const fetchFeatureFlags = async () => {
+    try {
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(`${BACKEND_URL}/api/config/features`);
+      if (response.ok) {
+        const data = await response.json();
+        setFeatureFlags(data);
+      }
+    } catch (err) {
+      console.error('Error fetching feature flags:', err);
+    }
+  };
 
   const fetchWorldNews = async () => {
     try {
@@ -212,62 +228,75 @@ const WorldNewsPage = () => {
             <div className="flex-1">
               <section className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
             {articles.map((article, index) => (
-              <a
-                key={article.id}
-                href={article.sourceUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackNewsClick(article.id, article.region || region)}
-                className="group bg-black/50 border border-yellow-400/20 rounded-xl overflow-hidden hover:border-yellow-400/40 hover:bg-black/70 transition-all duration-300 shadow-lg hover:shadow-xl flex flex-col"
-              >
-                {/* Article Image */}
-                <div className="relative w-full h-48 bg-black/40 border-b border-yellow-400/20 overflow-hidden">
-                  <ImageWithFallback
-                    src={article.imageUrl}
-                    alt={article.title}
-                    region={article.region}
-                    className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-300"
-                  />
-                </div>
+              <div key={article.id} className="flex flex-col">
+                {/* Phase 6.6 - Heavy Content Banner */}
+                {featureFlags.ui?.heavyContentBanner && article.heavy_content && (
+                  <div className="mb-3">
+                    <HeavyContentBanner
+                      visible={true}
+                      message={article.banner_message}
+                      variant="card"
+                      showHideSimilar={false}
+                    />
+                  </div>
+                )}
+                
+                <a
+                  href={article.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackNewsClick(article.id, article.region || region)}
+                  className="group bg-black/50 border border-yellow-400/20 rounded-xl overflow-hidden hover:border-yellow-400/40 hover:bg-black/70 transition-all duration-300 shadow-lg hover:shadow-xl flex flex-col flex-1"
+                >
+                  {/* Article Image */}
+                  <div className="relative w-full h-48 bg-black/40 border-b border-yellow-400/20 overflow-hidden">
+                    <ImageWithFallback
+                      src={article.imageUrl}
+                      alt={article.title}
+                      region={article.region}
+                      className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-300"
+                    />
+                  </div>
 
-                {/* Article Content */}
-                <div className="p-5 flex flex-col flex-1">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="text-[0.7rem] uppercase text-yellow-300/80 font-semibold tracking-wide">
-                      {article.sourceName}
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[0.65rem] text-gray-400">
-                        {formatDate(article.publishedAt)}
-                      </span>
-                      {article.region && (
-                        <span className="text-[0.6rem] bg-yellow-400/10 text-yellow-300/70 px-2 py-1 rounded">
-                          {article.region}
+                  {/* Article Content */}
+                  <div className="p-5 flex flex-col flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="text-[0.7rem] uppercase text-yellow-300/80 font-semibold tracking-wide">
+                        {article.sourceName}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[0.65rem] text-gray-400">
+                          {formatDate(article.publishedAt)}
                         </span>
-                      )}
+                        {article.region && (
+                          <span className="text-[0.6rem] bg-yellow-400/10 text-yellow-300/70 px-2 py-1 rounded">
+                            {article.region}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <h3 className="text-base font-semibold mb-3 leading-tight group-hover:text-yellow-200 transition-colors flex-1">
+                      {article.title}
+                    </h3>
+                    
+                    {article.summary && (
+                      <p className="text-sm text-gray-400 leading-relaxed line-clamp-3 mb-4">
+                        {article.summary}
+                      </p>
+                    )}
+
+                    <div className="flex items-center justify-between mt-auto">
+                      <span className="text-xs text-gray-500">
+                        {article.category}
+                      </span>
+                      <span className="text-yellow-400 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                        Read More →
+                      </span>
                     </div>
                   </div>
-                  
-                  <h3 className="text-base font-semibold mb-3 leading-tight group-hover:text-yellow-200 transition-colors flex-1">
-                    {article.title}
-                  </h3>
-                  
-                  {article.summary && (
-                    <p className="text-sm text-gray-400 leading-relaxed line-clamp-3 mb-4">
-                      {article.summary}
-                    </p>
-                  )}
-
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="text-xs text-gray-500">
-                      {article.category}
-                    </span>
-                    <span className="text-yellow-400 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                      Read More →
-                    </span>
-                  </div>
-                </div>
-              </a>
+                </a>
+              </div>
             ))}
               </section>
             </div>
