@@ -134,11 +134,24 @@ def init_scheduler():
         replace_existing=True
     )
     
+    # Job 4: Daily RSS schema health check (Phase 6.5.2 - at 01:00 UTC)
+    from scripts.rss_health_check import run_health_check
+    scheduler.add_job(
+        run_health_check,
+        trigger="cron",
+        hour=1,
+        minute=0,
+        id="rss_health_check_daily",
+        name="BANIBS RSS Health Check",
+        replace_existing=True
+    )
+    
     scheduler.start()
     print("[BANIBS Scheduler] Started.")
     print("  - RSS pipeline: every 6 hours")
     print("  - Sentiment sweep: every 3 hours")
     print("  - Sentiment aggregation: daily at 00:30 UTC")
+    print("  - RSS health check: daily at 01:00 UTC")
 
 
 def shutdown_scheduler():
