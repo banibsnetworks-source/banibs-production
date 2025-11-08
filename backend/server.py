@@ -34,6 +34,7 @@ from routes.business_directory import router as business_directory_router  # Bus
 from routes.phase6_stubs import router as phase6_stubs_router  # Phase 6 Stub Endpoints (v1.3.2)
 from tasks.rss_sync import router as rss_sync_router  # RSS sync endpoint
 from scheduler import init_scheduler  # APScheduler for automated RSS sync
+from routes.config import router as config_router  # Phase 6.6 - Feature Flags Config
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
