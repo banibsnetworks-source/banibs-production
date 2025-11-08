@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from utils.features import get_all_features
+from utils.features import load_features
 
 router = APIRouter(prefix="/api/config", tags=["config"])
 
@@ -14,4 +14,4 @@ async def get_feature_flags():
     Returns:
         dict: Complete feature flags configuration
     """
-    return get_all_features()
+    return load_features()
