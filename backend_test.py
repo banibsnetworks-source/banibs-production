@@ -1271,6 +1271,519 @@ class BanibsAPITester:
             self.log(f"❌ Could not check scheduler status: {e}", "ERROR")
             return False
 
+    # ==========================================
+    # PHASE 7.1 - OPPORTUNITIES EXCHANGE TESTS
+    # ==========================================
+    
+    def test_unified_auth_login(self) -> bool:
+        """Test unified auth login for Phase 7.1 users"""
+        self.log("Testing unified auth login...")
+        
+        # Test admin login
+        response = self.make_request("POST", "/auth/login", {
+            "email": "admin@banibs.com",
+            "password": "BanibsAdmin#2025"
+        })
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "access_token" in data:
+                self.unified_access_token = data["access_token"]
+                self.log("✅ Admin unified auth login successful")
+                return True
+            else:
+                self.log("❌ Admin login missing access_token", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Admin unified auth login failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_recruiter_login(self) -> bool:
+        """Test recruiter login with verified_recruiter role"""
+        self.log("Testing recruiter login...")
+        
+        response = self.make_request("POST", "/auth/login", {
+            "email": "sarah.j@techforward.com",
+            "password": "Recruiter#123"
+        })
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "access_token" in data:
+                self.unified_user_token = data["access_token"]
+                self.log("✅ Recruiter login successful")
+                return True
+            else:
+                self.log("❌ Recruiter login missing access_token", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Recruiter login failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_candidate_login(self) -> bool:
+        """Test candidate login"""
+        self.log("Testing candidate login...")
+        
+        response = self.make_request("POST", "/auth/login", {
+            "email": "james.t@email.com",
+            "password": "Candidate#123"
+        })
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "access_token" in data:
+                # Store candidate token separately
+                self.test_user_email = "james.t@email.com"
+                self.log("✅ Candidate login successful")
+                return True
+            else:
+                self.log("❌ Candidate login missing access_token", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Candidate login failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+
+    # Job Listings API Tests
+    
+    def test_jobs_public_endpoint(self) -> bool:
+        """Test GET /api/jobs - Public job listings"""
+        self.log("Testing public job listings endpoint...")
+        
+        response = self.make_request("GET", "/jobs")
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["jobs", "page", "limit", "total", "pages"]
+            
+            if all(field in data for field in required_fields):
+                jobs = data["jobs"]
+                self.log(f"✅ Public jobs endpoint working - Found {len(jobs)} jobs")
+                
+                # Test with filters
+                response_filtered = self.make_request("GET", "/jobs", params={
+                    "industry": "Technology",
+                    "remote_type": "remote",
+                    "limit": 5
+                })
+                
+                if response_filtered.status_code == 200:
+                    filtered_data = response_filtered.json()
+                    self.log(f"✅ Job filtering working - Technology remote jobs: {len(filtered_data['jobs'])}")
+                    return True
+                else:
+                    self.log(f"❌ Job filtering failed: {response_filtered.status_code}", "ERROR")
+                    return False
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Public jobs response missing fields: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Public jobs endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_jobs_mine_endpoint(self) -> bool:
+        """Test GET /api/jobs/mine - Recruiter's own jobs"""
+        if not self.unified_user_token:
+            self.log("❌ No recruiter token available", "ERROR")
+            return False
+            
+        self.log("Testing recruiter's jobs endpoint...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+        response = self.make_request("GET", "/jobs/mine", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["jobs", "page", "limit", "total", "pages"]
+            
+            if all(field in data for field in required_fields):
+                jobs = data["jobs"]
+                self.log(f"✅ Recruiter jobs endpoint working - Found {len(jobs)} jobs")
+                
+                # Store a job ID for later tests
+                if jobs:
+                    self.test_opportunity_id = jobs[0].get("id")
+                    self.log(f"   Sample job: {jobs[0].get('title', 'Unknown')}")
+                
+                return True
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Recruiter jobs response missing fields: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Recruiter jobs endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_job_detail_endpoint(self) -> bool:
+        """Test GET /api/jobs/{id} - Get single job detail"""
+        if not self.test_opportunity_id:
+            self.log("❌ No job ID available for detail test", "ERROR")
+            return False
+            
+        self.log("Testing job detail endpoint...")
+        
+        response = self.make_request("GET", f"/jobs/{self.test_opportunity_id}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["id", "title", "description", "employer_id", "status"]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ Job detail endpoint working - Job: {data.get('title')}")
+                self.log(f"   Status: {data.get('status')}, Employer: {data.get('employer_name', 'Unknown')}")
+                return True
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Job detail response missing fields: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Job detail endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_job_creation_auth(self) -> bool:
+        """Test POST /api/jobs - Create new job (auth required)"""
+        self.log("Testing job creation authentication...")
+        
+        # Test without auth - should fail
+        response = self.make_request("POST", "/jobs", {
+            "title": "Test Job",
+            "description": "Test description",
+            "employer_id": "test-employer-id"
+        })
+        
+        if response.status_code == 401:
+            self.log("✅ Job creation correctly requires authentication")
+            
+            # Test with recruiter auth - should work (if employer exists)
+            if self.unified_user_token:
+                headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+                response_auth = self.make_request("POST", "/jobs", {
+                    "title": "Test Job",
+                    "description": "Test description",
+                    "employer_id": "non-existent-employer"
+                }, headers=headers)
+                
+                # Should fail with 404 (employer not found) or 403 (not authorized for employer)
+                if response_auth.status_code in [403, 404]:
+                    self.log("✅ Job creation with auth correctly validates employer")
+                    return True
+                else:
+                    self.log(f"❌ Job creation with auth unexpected response: {response_auth.status_code}", "ERROR")
+                    return False
+            else:
+                self.log("⚠️ No recruiter token to test authenticated job creation")
+                return True
+        else:
+            self.log(f"❌ Job creation should require auth, got {response.status_code}", "ERROR")
+            return False
+
+    # Recruiter Profile API Tests
+    
+    def test_recruiter_verification_status(self) -> bool:
+        """Test GET /api/recruiters/verify-status"""
+        if not self.unified_user_token:
+            self.log("❌ No recruiter token available", "ERROR")
+            return False
+            
+        self.log("Testing recruiter verification status...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+        response = self.make_request("GET", "/recruiters/verify-status", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["has_profile", "verified", "status"]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ Recruiter verification status working:")
+                self.log(f"   Has profile: {data['has_profile']}")
+                self.log(f"   Verified: {data['verified']}")
+                self.log(f"   Status: {data['status']}")
+                return True
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Verification status missing fields: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Recruiter verification status failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_recruiter_profile_me(self) -> bool:
+        """Test GET /api/recruiters/me"""
+        if not self.unified_user_token:
+            self.log("❌ No recruiter token available", "ERROR")
+            return False
+            
+        self.log("Testing recruiter profile me endpoint...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+        response = self.make_request("GET", "/recruiters/me", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["id", "user_id", "full_name", "contact_email"]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ Recruiter profile me working:")
+                self.log(f"   Name: {data.get('full_name')}")
+                self.log(f"   Email: {data.get('contact_email')}")
+                self.log(f"   Verified: {data.get('verified', False)}")
+                return True
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Recruiter profile missing fields: {missing}", "ERROR")
+                return False
+        elif response.status_code == 404:
+            self.log("⚠️ Recruiter profile not found - this may be expected for test user")
+            return True
+        else:
+            self.log(f"❌ Recruiter profile me failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+
+    # Employer Profile API Tests
+    
+    def test_employers_list_endpoint(self) -> bool:
+        """Test GET /api/employers - List employer profiles"""
+        self.log("Testing employers list endpoint...")
+        
+        response = self.make_request("GET", "/employers")
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["employers", "page", "limit", "total", "pages"]
+            
+            if all(field in data for field in required_fields):
+                employers = data["employers"]
+                self.log(f"✅ Employers list endpoint working - Found {len(employers)} employers")
+                
+                # Store an employer ID for later tests
+                if employers:
+                    self.log(f"   Sample employer: {employers[0].get('organization_name', 'Unknown')}")
+                
+                # Test with verified filter
+                response_verified = self.make_request("GET", "/employers", params={"verified": True})
+                if response_verified.status_code == 200:
+                    verified_data = response_verified.json()
+                    self.log(f"✅ Employer filtering working - Verified employers: {len(verified_data['employers'])}")
+                
+                return True
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Employers list missing fields: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Employers list endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_employer_creation_auth(self) -> bool:
+        """Test POST /api/employers - Create employer (auth required)"""
+        self.log("Testing employer creation authentication...")
+        
+        # Test without auth - should fail
+        response = self.make_request("POST", "/employers", {
+            "organization_name": "Test Company",
+            "contact_email": "test@company.com"
+        })
+        
+        if response.status_code == 401:
+            self.log("✅ Employer creation correctly requires authentication")
+            return True
+        else:
+            self.log(f"❌ Employer creation should require auth, got {response.status_code}", "ERROR")
+            return False
+
+    # Candidate Profile API Tests
+    
+    def test_candidate_profile_creation(self) -> bool:
+        """Test candidate profile creation workflow"""
+        # First login as candidate
+        response = self.make_request("POST", "/auth/login", {
+            "email": "james.t@email.com",
+            "password": "Candidate#123"
+        })
+        
+        if response.status_code != 200:
+            self.log("❌ Could not login as candidate for profile test", "ERROR")
+            return False
+        
+        candidate_token = response.json().get("access_token")
+        if not candidate_token:
+            self.log("❌ No candidate token received", "ERROR")
+            return False
+        
+        self.log("Testing candidate profile creation...")
+        
+        headers = {"Authorization": f"Bearer {candidate_token}"}
+        
+        # Test GET /api/candidates/me (should be 404 initially)
+        response = self.make_request("GET", "/candidates/me", headers=headers)
+        
+        if response.status_code == 404:
+            self.log("✅ Candidate profile correctly returns 404 when not found")
+            
+            # Test profile creation
+            profile_data = {
+                "full_name": "James Thompson",
+                "professional_title": "Software Engineer",
+                "contact_email": "james.t@email.com",
+                "bio": "Experienced software engineer",
+                "skills": ["Python", "JavaScript", "React"],
+                "preferred_industries": ["Technology"],
+                "preferred_job_types": ["full_time"],
+                "preferred_remote_types": ["remote", "hybrid"]
+            }
+            
+            response_create = self.make_request("POST", "/candidates/profile", profile_data, headers=headers)
+            
+            if response_create.status_code == 201:
+                data = response_create.json()
+                self.log(f"✅ Candidate profile created successfully:")
+                self.log(f"   Name: {data.get('full_name')}")
+                self.log(f"   Title: {data.get('professional_title')}")
+                return True
+            else:
+                self.log(f"❌ Candidate profile creation failed: {response_create.status_code} - {response_create.text}", "ERROR")
+                return False
+        elif response.status_code == 200:
+            self.log("✅ Candidate profile already exists")
+            return True
+        else:
+            self.log(f"❌ Candidate profile me failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_candidate_saved_jobs(self) -> bool:
+        """Test candidate saved jobs functionality"""
+        # Login as candidate
+        response = self.make_request("POST", "/auth/login", {
+            "email": "james.t@email.com",
+            "password": "Candidate#123"
+        })
+        
+        if response.status_code != 200:
+            self.log("❌ Could not login as candidate for saved jobs test", "ERROR")
+            return False
+        
+        candidate_token = response.json().get("access_token")
+        headers = {"Authorization": f"Bearer {candidate_token}"}
+        
+        self.log("Testing candidate saved jobs...")
+        
+        # Test GET saved jobs (should work even if empty)
+        response = self.make_request("GET", "/candidates/saved-jobs", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "saved_jobs" in data and "total" in data:
+                self.log(f"✅ Candidate saved jobs endpoint working - {data['total']} saved jobs")
+                return True
+            else:
+                self.log("❌ Saved jobs response missing required fields", "ERROR")
+                return False
+        elif response.status_code == 404:
+            self.log("⚠️ Candidate profile not found for saved jobs test")
+            return True
+        else:
+            self.log(f"❌ Candidate saved jobs failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+
+    # Application API Tests
+    
+    def test_applications_auth_scenarios(self) -> bool:
+        """Test application endpoints authentication scenarios"""
+        self.log("Testing applications authentication scenarios...")
+        
+        # Test without auth - should fail
+        response = self.make_request("POST", "/applications", {
+            "job_id": "test-job-id",
+            "cover_letter": "Test cover letter"
+        })
+        
+        if response.status_code == 401:
+            self.log("✅ Application submission correctly requires authentication")
+            
+            # Test GET my applications without auth
+            response_get = self.make_request("GET", "/applications/my-applications")
+            
+            if response_get.status_code == 401:
+                self.log("✅ Get my applications correctly requires authentication")
+                return True
+            else:
+                self.log(f"❌ Get applications should require auth, got {response_get.status_code}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Application submission should require auth, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_applications_for_recruiter(self) -> bool:
+        """Test GET /api/applications - Applications for recruiter's jobs"""
+        if not self.unified_user_token:
+            self.log("❌ No recruiter token available", "ERROR")
+            return False
+            
+        self.log("Testing applications for recruiter...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+        
+        # Test without job_id parameter (should fail)
+        response = self.make_request("GET", "/applications", headers=headers)
+        
+        if response.status_code == 400:
+            self.log("✅ Applications endpoint correctly requires job_id parameter")
+            
+            # Test with job_id (should work even if no applications)
+            if self.test_opportunity_id:
+                response_with_job = self.make_request("GET", "/applications", 
+                    params={"job_id": self.test_opportunity_id}, headers=headers)
+                
+                if response_with_job.status_code == 200:
+                    data = response_with_job.json()
+                    if "applications" in data:
+                        self.log(f"✅ Applications for job endpoint working - {len(data['applications'])} applications")
+                        return True
+                    else:
+                        self.log("❌ Applications response missing applications field", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Applications for job failed: {response_with_job.status_code} - {response_with_job.text}", "ERROR")
+                    return False
+            else:
+                self.log("⚠️ No job ID available to test applications endpoint")
+                return True
+        else:
+            self.log(f"❌ Applications should require job_id parameter, got {response.status_code}", "ERROR")
+            return False
+
+    # Admin Verification Tests
+    
+    def test_admin_recruiter_verification(self) -> bool:
+        """Test admin recruiter verification endpoints"""
+        if not self.unified_access_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+            
+        self.log("Testing admin recruiter verification...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_access_token}"}
+        
+        # Test GET pending verifications
+        response = self.make_request("GET", "/recruiters/pending", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["requests", "page", "limit", "total", "pages"]
+            
+            if all(field in data for field in required_fields):
+                requests = data["requests"]
+                self.log(f"✅ Admin pending verifications working - {len(requests)} pending requests")
+                return True
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Pending verifications missing fields: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Admin pending verifications failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+
     # Phase 6.6 - Feature Flags and Heavy Content Banner Tests
     
     def test_feature_flags_config_endpoint(self) -> bool:
