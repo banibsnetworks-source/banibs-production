@@ -198,6 +198,45 @@ function RecruiterDashboard() {
         </button>
       </header>
 
+      {/* Analytics Summary Strip - Phase 7.1 Cycle 1.4 */}
+      {!analyticsLoading && overview && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
+          {[
+            { label: "Total Jobs", value: overview.total_jobs, color: "slate" },
+            { label: "Active Jobs", value: overview.active_jobs, color: "emerald" },
+            { label: "Total Applications", value: overview.total_applications, color: "blue" },
+            { label: "Last 30 Days", value: overview.applications_last_30_days, color: "purple" },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className="rounded-2xl backdrop-blur-lg bg-white/60 dark:bg-slate-800/60 shadow-sm border border-slate-200/50 dark:border-slate-700/50 p-4 text-center hover:shadow-md transition-shadow"
+            >
+              <div className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-1">
+                {item.value}
+              </div>
+              <div className="text-xs md:text-sm font-medium text-slate-600 dark:text-slate-300">
+                {item.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Analytics Loading State */}
+      {analyticsLoading && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
+          {[1, 2, 3, 4].map((i) => (
+            <div
+              key={i}
+              className="rounded-2xl backdrop-blur-lg bg-white/60 dark:bg-slate-800/60 shadow-sm border border-slate-200/50 dark:border-slate-700/50 p-4 text-center animate-pulse"
+            >
+              <div className="h-8 bg-slate-200 dark:bg-slate-700 rounded mb-2"></div>
+              <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded"></div>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Filters strip */}
       <RecruiterJobsFilters
         filters={filters}
