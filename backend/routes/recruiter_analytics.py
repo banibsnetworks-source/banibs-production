@@ -166,8 +166,13 @@ async def get_recruiter_job_application_stats(
                 except:
                     created_at = None
             
-            if created_at and created_at >= cutoff_7d:
-                job_stat["applications_last_7_days"] += 1
+            # Ensure created_at is timezone-aware before comparison
+            if created_at:
+                if created_at.tzinfo is None:
+                    created_at = created_at.replace(tzinfo=timezone.utc)
+                    
+                if created_at >= cutoff_7d:
+                    job_stat["applications_last_7_days"] += 1
             
             # Track most recent application
             current_last = job_stat["last_application_at"]
