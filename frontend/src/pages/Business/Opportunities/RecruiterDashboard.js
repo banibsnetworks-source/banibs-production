@@ -321,10 +321,12 @@ function RecruiterDashboard() {
                           Applications
                         </p>
                         <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-                          {job.applications_total ?? 0}
-                          {job.applications_new
-                            ? ` (${job.applications_new} new)`
-                            : ""}
+                          {(() => {
+                            const stats = jobStats.find((js) => js.job_id === job.id);
+                            const count = stats?.application_count ?? job.applications_total ?? 0;
+                            const recent = stats?.applications_last_7_days ?? job.applications_new ?? 0;
+                            return recent > 0 ? `${count} (${recent} new)` : count;
+                          })()}
                         </p>
                       </div>
                     </div>
