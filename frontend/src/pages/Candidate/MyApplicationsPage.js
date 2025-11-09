@@ -113,26 +113,21 @@ function MyApplicationsPage() {
 
         {/* Applications List */}
         {sortedApplications.length === 0 ? (
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-lg p-12 text-center">
-            <svg className="w-16 h-16 text-slate-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            <h3 className="text-xl font-semibold text-white mb-2">
-              {statusFilter === "all" ? "No Applications Yet" : "No Applications Found"}
-            </h3>
-            <p className="text-slate-400 mb-6">
-              {statusFilter === "all" 
-                ? "Start browsing opportunities and apply to positions that interest you"
-                : `You don't have any ${STATUS_LABELS[statusFilter] || statusFilter} applications`
-              }
-            </p>
-            <Link
-              to="/opportunities"
-              className="inline-block px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg transition"
-            >
-              Browse Opportunities
-            </Link>
-          </div>
+          <EmptyState
+            title={statusFilter === "all" ? "No applications yet" : "No applications found"}
+            description={
+              statusFilter === "all"
+                ? "When you apply for opportunities through BANIBS, they'll show up here so you can track every step in one place."
+                : `You don't have any ${statusFilter} applications right now.`
+            }
+            actionLabel="Browse Opportunities"
+            actionTo="/opportunities"
+            icon={
+              <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            }
+          />
         ) : (
           <div className="space-y-4">
             {sortedApplications.map(app => (
