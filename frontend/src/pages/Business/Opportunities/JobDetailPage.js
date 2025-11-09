@@ -79,9 +79,52 @@ function JobDetailPage() {
     navigate("/opportunities");
   }
 
-  function handleApply() {
-    // TODO: Wire this to real application flow (modal or /apply route)
-    alert("Apply flow not implemented yet. This is a placeholder.");
+  async function handleApply() {
+    // Gating logic: Check authentication and profile
+    const token = localStorage.getItem('accessToken');
+    
+    // 1. Check if user is logged in
+    if (!token) {
+      // Redirect to login with return URL
+      navigate(`/login?redirect=/jobs/${id}`);
+      return;
+    }
+
+    // 2. Check if user has a candidate profile
+    try {
+      setCheckingProfile(true);
+      const res = await fetch(`${BACKEND_URL}/api/candidates/me`, {
+        credentials: 'include',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (res.status === 404) {
+        // No profile exists - redirect to profile creation
+        navigate(`/candidate/profile?next=/jobs/${id}`);
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error('Failed to check profile');
+      }
+
+      // Profile exists - show application dialog
+      setShowApplicationDialog(true);
+    } catch (err) {
+      console.error(err);
+      alert("Unable to check your profile. Please try again.");
+    } finally {
+      setCheckingProfile(false);
+    }
+  }
+
+  function handleApplicationSuccess() {
+    setShowApplicationDialog(false);
+    alert("✅ Application submitted successfully! You can track it in 'My Applications'.");
+    // Optionally navigate to applications page
+    // navigate('/candidate/applications');
   }
 
   function handleToggleSave() {
