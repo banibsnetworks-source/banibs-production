@@ -161,9 +161,7 @@ function MyApplicationsPage() {
 
                   {/* Status & Date */}
                   <div className="flex flex-col items-end gap-2">
-                    <span className={`px-3 py-1 border rounded-full text-sm font-medium ${STATUS_COLORS[app.status] || STATUS_COLORS.submitted}`}>
-                      {STATUS_LABELS[app.status] || app.status}
-                    </span>
+                    <StatusBadge status={app.status} />
                     <div className="text-sm text-slate-400">
                       <div>Applied: {formatDate(app.created_at)}</div>
                       {app.updated_at && app.updated_at !== app.created_at && (
