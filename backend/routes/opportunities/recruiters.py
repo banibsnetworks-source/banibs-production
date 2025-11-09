@@ -130,7 +130,7 @@ async def get_my_recruiter_profile(current_user: dict = Depends(get_current_user
 
 @router.get("/pending", response_model=dict)
 async def get_pending_verifications(
-    current_user: dict = Depends(require_role(["super_admin"])),
+    current_user: dict = Depends(require_role("super_admin")),
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100)
 ):
@@ -165,7 +165,7 @@ async def get_pending_verifications(
 @router.post("/approve/{recruiter_id}", response_model=dict)
 async def approve_recruiter(
     recruiter_id: str,
-    current_user: dict = Depends(require_role(["super_admin"])),
+    current_user: dict = Depends(require_role("super_admin")),
     notes: Optional[str] = None
 ):
     """
@@ -204,7 +204,7 @@ async def approve_recruiter(
 @router.post("/reject/{recruiter_id}", response_model=dict)
 async def reject_recruiter(
     recruiter_id: str,
-    current_user: dict = Depends(require_role(["super_admin"])),
+    current_user: dict = Depends(require_role("super_admin")),
     notes: Optional[str] = None
 ):
     """
@@ -320,7 +320,7 @@ async def list_employers(
 @employer_router.post("/verify/{employer_id}", response_model=dict)
 async def verify_employer_profile(
     employer_id: str,
-    current_user: dict = Depends(require_role(["super_admin"])),
+    current_user: dict = Depends(require_role("super_admin")),
     notes: Optional[str] = None
 ):
     """
