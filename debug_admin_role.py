@@ -7,7 +7,7 @@ import requests
 import json
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://bannersystem.preview.emergentagent.com"
+BACKEND_URL = "https://talent-exchange-16.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 def test_admin_role():

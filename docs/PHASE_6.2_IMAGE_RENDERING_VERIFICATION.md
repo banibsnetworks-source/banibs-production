@@ -186,7 +186,7 @@ for source in RSS_SOURCES:
 
 ### 3.3 Frontend Rendering
 
-**Test**: Visited `https://bannersystem.preview.emergentagent.com/`
+**Test**: Visited `https://talent-exchange-16.preview.emergentagent.com/`
 
 **Results**:
 - ✅ Homepage loads successfully

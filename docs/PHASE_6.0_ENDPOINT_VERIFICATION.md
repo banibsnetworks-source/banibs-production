@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://bannersystem.preview.emergentagent.com/api/auth
+https://talent-exchange-16.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
