@@ -136,6 +136,8 @@ function App() {
               <Route path="/education" element={<EducationPage />} />
               <Route path="/youth" element={<YouthPage />} />
               <Route path="/opportunities" element={<OpportunitiesPage />} />
+              <Route path="/opportunities/:id" element={<JobDetailPage />} />
+              <Route path="/opportunities/dashboard" element={<RecruiterDashboard />} />
               
               {/* Public Routes */}
               <Route path="/opportunities" element={<PublicOpportunities />} />
