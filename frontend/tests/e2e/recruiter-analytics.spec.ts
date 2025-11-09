@@ -17,9 +17,9 @@ test.describe("Recruiter dashboard analytics", () => {
   test("analytics strip and applications column render correctly", async ({ page }) => {
     // Login as recruiter
     await page.goto("/login");
-    await page.getByLabel(/email/i).fill(RECRUITER_EMAIL);
-    await page.getByLabel(/password/i).fill(RECRUITER_PASSWORD);
-    await page.getByRole("button", { name: /sign in/i }).click();
+    await page.locator('input[type="email"]').fill(RECRUITER_EMAIL);
+    await page.locator('input[type="password"]').fill(RECRUITER_PASSWORD);
+    await page.locator('button:has-text("Sign In")').click();
     
     await page.waitForLoadState("networkidle");
 
