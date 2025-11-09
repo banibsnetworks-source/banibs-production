@@ -17,9 +17,9 @@ test.describe("Candidate flow: profile → apply → track", () => {
   test("profile changes persist after save", async ({ page }) => {
     // Login
     await page.goto("/login");
-    await page.getByLabel(/email/i).fill(CANDIDATE_EMAIL);
-    await page.getByLabel(/password/i).fill(CANDIDATE_PASSWORD);
-    await page.getByRole("button", { name: /sign in/i }).click();
+    await page.locator('input[type="email"]').fill(CANDIDATE_EMAIL);
+    await page.locator('input[type="password"]').fill(CANDIDATE_PASSWORD);
+    await page.locator('button:has-text("Sign In")').click();
     
     // Wait for navigation
     await page.waitForLoadState("networkidle");
