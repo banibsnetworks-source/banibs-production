@@ -157,7 +157,7 @@ async def delete_notification_endpoint(
 @router.post("", response_model=NotificationPublic)
 async def create_notification_endpoint(
     notification: NotificationCreate,
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     Create a notification (admin/moderator only)
