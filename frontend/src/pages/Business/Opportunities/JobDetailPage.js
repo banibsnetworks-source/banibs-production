@@ -14,7 +14,9 @@ function JobDetailPage() {
   const [similarLoading, setSimilarLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // TODO: wire to real candidate saved jobs / apply flow
+  // Application flow state
+  const [showApplicationDialog, setShowApplicationDialog] = useState(false);
+  const [checkingProfile, setCheckingProfile] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
