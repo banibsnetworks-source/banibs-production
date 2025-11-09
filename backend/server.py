@@ -201,6 +201,7 @@ app.include_router(recruiters_router)  # Recruiter verification and profiles
 app.include_router(employer_router)  # Employer profiles
 app.include_router(candidates_router)  # Candidate profiles
 app.include_router(applications_router)  # Job applications
+app.include_router(recruiter_analytics_router)  # Recruiter analytics - Phase 7.1 Cycle 1.4
 
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
