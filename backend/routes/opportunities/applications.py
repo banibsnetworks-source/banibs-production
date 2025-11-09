@@ -33,6 +33,87 @@ from middleware.auth_guard import get_current_user
 router = APIRouter(prefix="/api/applications", tags=["applications"])
 
 
+# Helper function for candidate applications
+async def _get_candidate_applications_logic(
+    current_user: dict,
+    status: Optional[str] = None,
+    page: int = 1,
+    limit: int = 20
+):
+    """
+    Shared logic for getting candidate applications
+    """
+    # Get candidate profile
+    candidate = await get_candidate_profile_by_user_id(current_user["id"])
+    
+    if not candidate:
+        return {
+            "applications": [],
+            "page": page,
+            "limit": limit,
+            "total": 0,
+            "pages": 0
+        }
+    
+    # Get applications
+    skip = (page - 1) * limit
+    applications, total = await get_applications_for_candidate(
+        candidate["id"],
+        status=status,
+        skip=skip,
+        limit=limit
+    )
+    
+    # Enrich with job and employer details
+    enriched_apps = []
+    for app in applications:
+        job = await get_job_listing_by_id(app["job_id"])
+        if job:
+            app["job_title"] = job.get("title")
+            app["job_location"] = job.get("location")
+            employer = await get_employer_profile_by_id(job["employer_id"])
+            if employer:
+                app["employer_name"] = employer.get("organization_name")
+        enriched_apps.append(ApplicationRecordPublic(**app))
+    
+    pages = (total + limit - 1) // limit if total > 0 else 1
+    
+    return {
+        "applications": enriched_apps,
+        "page": page,
+        "limit": limit,
+        "total": total,
+        "pages": pages
+    }
+
+
+# IMPORTANT: Specific routes must come before generic ones in FastAPI
+@router.get("/mine", response_model=dict)
+async def get_my_applications_mine(
+    current_user: dict = Depends(get_current_user),
+    status: Optional[str] = Query(None, description="Filter by status"),
+    page: int = Query(1, ge=1),
+    limit: int = Query(20, ge=1, le=100)
+):
+    """
+    Get authenticated user's job applications (candidate view)
+    """
+    return await _get_candidate_applications_logic(current_user, status, page, limit)
+
+
+@router.get("/my-applications", response_model=dict)
+async def get_my_applications(
+    current_user: dict = Depends(get_current_user),
+    status: Optional[str] = Query(None, description="Filter by status"),
+    page: int = Query(1, ge=1),
+    limit: int = Query(20, ge=1, le=100)
+):
+    """
+    Get authenticated user's job applications (legacy endpoint)
+    """
+    return await _get_candidate_applications_logic(current_user, status, page, limit)
+
+
 @router.post("", response_model=ApplicationRecordPublic, status_code=201)
 async def submit_application(
     application_data: ApplicationCreate,
