@@ -30,7 +30,12 @@ test.describe("Candidate flow: profile → apply → track", () => {
     await page.goto("/candidate/profile");
     await page.waitForURL("**/candidate/profile", { timeout: 10000 });
 
-    const headlineInput = page.getByLabel(/headline/i);
+    // Find headline input by placeholder or adjacent label text
+    const headlineInput = page.getByPlaceholder(/headline|professional/i).or(
+      page.locator('input[type="text"]').filter({
+        has: page.locator('..').filter({ hasText: /headline|professional/i })
+      })
+    ).first();
     await headlineInput.waitFor({ timeout: 10000 });
 
     const newHeadline = `BANIBS Test Headline ${Date.now()}`;
