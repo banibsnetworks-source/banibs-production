@@ -139,8 +139,12 @@ function App() {
               <Route path="/education" element={<EducationPage />} />
               <Route path="/youth" element={<YouthPage />} />
               <Route path="/opportunities" element={<OpportunitiesPage />} />
-              <Route path="/opportunities/:id" element={<JobDetailPage />} />
+              <Route path="/jobs/:id" element={<JobDetailPage />} />
               <Route path="/opportunities/dashboard" element={<RecruiterDashboard />} />
+              
+              {/* Candidate Routes - Phase 7.1 Cycle 1.3 */}
+              <Route path="/candidate/profile" element={<CandidateProfilePage />} />
+              <Route path="/candidate/applications" element={<MyApplicationsPage />} />
               
               {/* Public Routes */}
               <Route path="/opportunities" element={<PublicOpportunities />} />
