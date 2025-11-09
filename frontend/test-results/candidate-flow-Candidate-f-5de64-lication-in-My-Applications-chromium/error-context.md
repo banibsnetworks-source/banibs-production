@@ -2,30 +2,485 @@
 
 ```yaml
 - generic [active] [ref=e1]:
-  - generic [ref=e5]:
-    - generic [ref=e6]:
-      - link "BANIBS" [ref=e7] [cursor=pointer]:
-        - /url: /
-        - heading "BANIBS" [level=1] [ref=e8]
-      - paragraph [ref=e9]: Sign in to your account
-    - generic [ref=e10]:
-      - generic [ref=e11]:
-        - generic [ref=e12]:
-          - generic [ref=e13]: Email
-          - textbox "you@example.com" [ref=e14]
-        - generic [ref=e15]:
-          - generic [ref=e16]: Password
-          - textbox "••••••••" [ref=e17]
-        - button "Sign In" [ref=e18] [cursor=pointer]
-      - paragraph [ref=e20]:
-        - text: Don't have an account?
-        - link "Sign up" [ref=e21] [cursor=pointer]:
-          - /url: /register
-    - link "← Back to Home" [ref=e23] [cursor=pointer]:
-      - /url: /
-  - link "Made with Emergent" [ref=e24] [cursor=pointer]:
+  - generic [ref=e4]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - img [ref=e12]
+        - img [ref=e16]
+      - heading "Connecting Talent and Opportunity — Open to All, Rooted in Black Excellence." [level=1] [ref=e21]:
+        - text: Connecting Talent and Opportunity —
+        - text: Open to All, Rooted in Black Excellence.
+      - paragraph [ref=e22]:
+        - text: "The BANIBS Opportunities Exchange brings employers, recruiters, and job seekers together with one goal:"
+        - strong [ref=e23]: economic empowerment
+        - text: through visibility, trust, and community-driven advancement.
+      - generic [ref=e24]:
+        - button "Browse Opportunities" [ref=e25] [cursor=pointer]:
+          - img [ref=e26]
+          - text: Browse Opportunities
+        - button "Post a Job" [ref=e29] [cursor=pointer]:
+          - img [ref=e30]
+          - text: Post a Job
+      - paragraph [ref=e35]:
+        - text: Powered by
+        - strong [ref=e36]: BANIBS
+        - text: — Black American News, Information & Business Sources.
+    - generic [ref=e37]:
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - generic [ref=e41]:
+            - heading "Filter Opportunities" [level=2] [ref=e42]
+            - paragraph [ref=e43]: Open to all, rooted in Black advancement.
+          - button "Reset" [ref=e44] [cursor=pointer]
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - generic [ref=e47]: Search
+            - textbox "Search by title, company, or keywords" [ref=e48]
+          - generic [ref=e49]:
+            - generic [ref=e50]: Location
+            - textbox "City, region, or remote" [ref=e51]
+            - generic [ref=e52]:
+              - checkbox "Remote only" [ref=e53]
+              - generic [ref=e54]: Remote only
+        - generic [ref=e55]:
+          - generic [ref=e56]:
+            - generic [ref=e57]: Job type
+            - combobox [ref=e58]:
+              - option "Any" [selected]
+              - option "Full-time"
+              - option "Part-time"
+              - option "Contract"
+              - option "Internship"
+              - option "Temporary"
+          - generic [ref=e59]:
+            - generic [ref=e60]: Experience level
+            - combobox [ref=e61]:
+              - option "Any" [selected]
+              - option "Entry"
+              - option "Mid"
+              - option "Senior"
+              - option "Executive"
+          - generic [ref=e62]:
+            - generic [ref=e63]: Industry
+            - combobox [ref=e64]:
+              - option "Any" [selected]
+              - option "Technology"
+              - option "Education"
+              - option "Healthcare"
+              - option "Nonprofit"
+              - option "Government"
+              - option "Finance"
+              - option "Construction"
+              - option "Media"
+              - option "Legal"
+        - generic [ref=e65]:
+          - generic [ref=e66]:
+            - generic [ref=e67]: Posted within
+            - combobox [ref=e68]:
+              - option "Any time" [selected]
+              - option "Last 24 hours"
+              - option "Last 7 days"
+              - option "Last 30 days"
+          - generic [ref=e69]:
+            - checkbox "Verified employers only" [ref=e70]
+            - generic [ref=e71]: Verified employers only
+          - generic [ref=e72]:
+            - checkbox "Employers with DEI statement" [ref=e73]
+            - generic [ref=e74]: Employers with DEI statement
+      - generic [ref=e76]:
+        - heading "16 Opportunities" [level=2] [ref=e77]
+        - paragraph [ref=e78]: Page 1 of 1
+      - generic [ref=e79]:
+        - generic [ref=e81] [cursor=pointer]:
+          - generic [ref=e83]:
+            - heading "Senior Full-Stack Developer" [level=3] [ref=e84]
+            - paragraph [ref=e85]: TechForward Inc.
+          - generic [ref=e86]:
+            - generic [ref=e87]:
+              - img [ref=e88]
+              - text: Atlanta, GA
+            - generic [ref=e91]: Hybrid
+            - generic [ref=e92]:
+              - img [ref=e93]
+              - text: Full-time
+          - paragraph [ref=e96]: We're looking for an experienced full-stack developer to join our education technology team. You'll work on accessible learning platforms used by thousands of students daily.
+          - generic [ref=e97]:
+            - generic [ref=e98]: React
+            - generic [ref=e99]: Python
+            - generic [ref=e100]: PostgreSQL
+            - generic [ref=e101]: AWS
+          - generic [ref=e102]:
+            - generic [ref=e104]:
+              - img [ref=e105]
+              - text: $100k - $140k
+            - generic [ref=e107]:
+              - text: View Details
+              - img [ref=e108]
+        - generic [ref=e111] [cursor=pointer]:
+          - generic [ref=e113]:
+            - heading "Community Health Nurse" [level=3] [ref=e114]
+            - paragraph [ref=e115]: Community Health Partners
+          - generic [ref=e116]:
+            - generic [ref=e117]:
+              - img [ref=e118]
+              - text: Detroit, MI
+            - generic [ref=e121]: On-site
+            - generic [ref=e122]:
+              - img [ref=e123]
+              - text: Full-time
+          - paragraph [ref=e126]: Join our mission to provide quality healthcare to underserved communities. This role involves patient care, health education, and community outreach.
+          - generic [ref=e127]:
+            - generic [ref=e128]: RN
+            - generic [ref=e129]: Community Health
+            - generic [ref=e130]: Patient Care
+          - generic [ref=e131]:
+            - generic [ref=e133]:
+              - img [ref=e134]
+              - text: $65k - $85k
+            - generic [ref=e136]:
+              - text: View Details
+              - img [ref=e137]
+        - generic [ref=e140] [cursor=pointer]:
+          - generic [ref=e142]:
+            - heading "Business Development Manager" [level=3] [ref=e143]
+            - paragraph [ref=e144]: Black Business Accelerator
+          - generic [ref=e145]:
+            - generic [ref=e146]:
+              - img [ref=e147]
+              - text: Chicago, IL
+            - generic [ref=e150]: Hybrid
+            - generic [ref=e151]:
+              - img [ref=e152]
+              - text: Full-time
+          - paragraph [ref=e155]: Help us grow partnerships and secure funding for Black entrepreneurs. Ideal candidate has experience in nonprofit fundraising and a passion for economic justice.
+          - generic [ref=e156]:
+            - generic [ref=e157]: Fundraising
+            - generic [ref=e158]: Partnerships
+            - generic [ref=e159]: Nonprofit
+          - generic [ref=e160]:
+            - generic [ref=e162]:
+              - img [ref=e163]
+              - text: $60k - $75k
+            - generic [ref=e165]:
+              - text: View Details
+              - img [ref=e166]
+        - generic [ref=e169] [cursor=pointer]:
+          - generic [ref=e171]:
+            - heading "Financial Analyst" [level=3] [ref=e172]
+            - paragraph [ref=e173]: Emerald Financial Services
+          - generic [ref=e174]:
+            - generic [ref=e175]:
+              - img [ref=e176]
+              - text: New York, NY
+            - generic [ref=e179]: Hybrid
+            - generic [ref=e180]:
+              - img [ref=e181]
+              - text: Full-time
+          - paragraph [ref=e184]: Analyze financial data and support community banking initiatives. Strong Excel and SQL skills required.
+          - generic [ref=e185]:
+            - generic [ref=e186]: Finance
+            - generic [ref=e187]: Excel
+            - generic [ref=e188]: SQL
+            - generic [ref=e189]: Analytics
+          - generic [ref=e190]:
+            - generic [ref=e192]:
+              - img [ref=e193]
+              - text: $70k - $95k
+            - generic [ref=e195]:
+              - text: View Details
+              - img [ref=e196]
+        - generic [ref=e199] [cursor=pointer]:
+          - generic [ref=e201]:
+            - heading "High School Math Teacher" [level=3] [ref=e202]
+            - paragraph [ref=e203]: Urban Education Network
+          - generic [ref=e204]:
+            - generic [ref=e205]:
+              - img [ref=e206]
+              - text: Oakland, CA
+            - generic [ref=e209]: On-site
+            - generic [ref=e210]:
+              - img [ref=e211]
+              - text: Full-time
+          - paragraph [ref=e214]: Teach mathematics to high school students in an urban charter school. Must have teaching credential and passion for education equity.
+          - generic [ref=e215]:
+            - generic [ref=e216]: Teaching
+            - generic [ref=e217]: Math
+            - generic [ref=e218]: Education
+            - generic [ref=e219]: High School
+          - generic [ref=e220]:
+            - generic [ref=e222]:
+              - img [ref=e223]
+              - text: $55k - $75k
+            - generic [ref=e225]:
+              - text: View Details
+              - img [ref=e226]
+        - generic [ref=e229] [cursor=pointer]:
+          - generic [ref=e231]:
+            - heading "Social Media Manager" [level=3] [ref=e232]
+            - paragraph [ref=e233]: NextGen Marketing
+          - generic [ref=e234]:
+            - generic [ref=e235]:
+              - img [ref=e236]
+              - text: Remote
+            - generic [ref=e239]: Remote
+            - generic [ref=e240]:
+              - img [ref=e241]
+              - text: Full-time
+          - paragraph [ref=e244]: Manage social media strategy for our clients. Remote position with flexible hours.
+          - generic [ref=e245]:
+            - generic [ref=e246]: Social Media
+            - generic [ref=e247]: Marketing
+            - generic [ref=e248]: Content
+          - generic [ref=e249]:
+            - generic [ref=e251]:
+              - img [ref=e252]
+              - text: $50k - $70k
+            - generic [ref=e254]:
+              - text: View Details
+              - img [ref=e255]
+        - generic [ref=e258] [cursor=pointer]:
+          - generic [ref=e260]:
+            - heading "Construction Project Manager" [level=3] [ref=e261]
+            - paragraph [ref=e262]: Green City Construction
+          - generic [ref=e263]:
+            - generic [ref=e264]:
+              - img [ref=e265]
+              - text: Houston, TX
+            - generic [ref=e268]: On-site
+            - generic [ref=e269]:
+              - img [ref=e270]
+              - text: Full-time
+          - paragraph [ref=e273]: Lead sustainable construction projects from planning to completion. PMP certification preferred.
+          - generic [ref=e274]:
+            - generic [ref=e275]: Project Management
+            - generic [ref=e276]: Construction
+            - generic [ref=e277]: PMP
+          - generic [ref=e278]:
+            - generic [ref=e280]:
+              - img [ref=e281]
+              - text: $80k - $110k
+            - generic [ref=e283]:
+              - text: View Details
+              - img [ref=e284]
+        - generic [ref=e287] [cursor=pointer]:
+          - generic [ref=e289]:
+            - heading "Video Editor & Producer" [level=3] [ref=e290]
+            - paragraph [ref=e291]: Heritage Media Group
+          - generic [ref=e292]:
+            - generic [ref=e293]:
+              - img [ref=e294]
+              - text: Los Angeles, CA
+            - generic [ref=e297]: Hybrid
+            - generic [ref=e298]:
+              - img [ref=e299]
+              - text: Full-time
+          - paragraph [ref=e302]: Edit and produce video content for digital platforms. Experience with Adobe Premiere and After Effects required.
+          - generic [ref=e303]:
+            - generic [ref=e304]: Video Editing
+            - generic [ref=e305]: Adobe Premiere
+            - generic [ref=e306]: Production
+          - generic [ref=e307]:
+            - generic [ref=e309]:
+              - img [ref=e310]
+              - text: $55k - $75k
+            - generic [ref=e312]:
+              - text: View Details
+              - img [ref=e313]
+        - generic [ref=e316] [cursor=pointer]:
+          - generic [ref=e318]:
+            - heading "Bus Operator" [level=3] [ref=e319]
+            - paragraph [ref=e320]: Metro Transit Authority
+          - generic [ref=e321]:
+            - generic [ref=e322]:
+              - img [ref=e323]
+              - text: Washington, DC
+            - generic [ref=e326]: On-site
+            - generic [ref=e327]:
+              - img [ref=e328]
+              - text: Full-time
+          - paragraph [ref=e331]: Operate public transit buses safely and professionally. CDL with passenger endorsement required. Full benefits package.
+          - generic [ref=e332]:
+            - generic [ref=e333]: CDL
+            - generic [ref=e334]: Public Transit
+            - generic [ref=e335]: Driving
+          - generic [ref=e336]:
+            - generic [ref=e338]:
+              - img [ref=e339]
+              - text: $45000/hr - $60000/hr
+            - generic [ref=e341]:
+              - text: View Details
+              - img [ref=e342]
+        - generic [ref=e345] [cursor=pointer]:
+          - generic [ref=e347]:
+            - heading "Legal Aid Attorney" [level=3] [ref=e348]
+            - paragraph [ref=e349]: Roots Legal Services
+          - generic [ref=e350]:
+            - generic [ref=e351]:
+              - img [ref=e352]
+              - text: Baltimore, MD
+            - generic [ref=e355]: On-site
+            - generic [ref=e356]:
+              - img [ref=e357]
+              - text: Full-time
+          - paragraph [ref=e360]: Provide free legal services to low-income families in housing, family law, and civil rights matters.
+          - generic [ref=e361]:
+            - generic [ref=e362]: Law
+            - generic [ref=e363]: Legal Aid
+            - generic [ref=e364]: Civil Rights
+          - generic [ref=e365]:
+            - generic [ref=e367]:
+              - img [ref=e368]
+              - text: $55k - $70k
+            - generic [ref=e370]:
+              - text: View Details
+              - img [ref=e371]
+        - generic [ref=e374] [cursor=pointer]:
+          - generic [ref=e376]:
+            - heading "Junior Software Engineer" [level=3] [ref=e377]
+            - paragraph [ref=e378]: TechForward Inc.
+          - generic [ref=e379]:
+            - generic [ref=e380]:
+              - img [ref=e381]
+              - text: Atlanta, GA
+            - generic [ref=e384]: Remote
+            - generic [ref=e385]:
+              - img [ref=e386]
+              - text: Full-time
+          - paragraph [ref=e389]: Entry-level position for recent graduates or bootcamp alumni. Learn from experienced engineers while building real products.
+          - generic [ref=e390]:
+            - generic [ref=e391]: JavaScript
+            - generic [ref=e392]: Python
+            - generic [ref=e393]: Entry Level
+          - generic [ref=e394]:
+            - generic [ref=e396]:
+              - img [ref=e397]
+              - text: $65k - $80k
+            - generic [ref=e399]:
+              - text: View Details
+              - img [ref=e400]
+        - generic [ref=e403] [cursor=pointer]:
+          - generic [ref=e405]:
+            - heading "Medical Assistant" [level=3] [ref=e406]
+            - paragraph [ref=e407]: Community Health Partners
+          - generic [ref=e408]:
+            - generic [ref=e409]:
+              - img [ref=e410]
+              - text: Detroit, MI
+            - generic [ref=e413]: On-site
+            - generic [ref=e414]:
+              - img [ref=e415]
+              - text: Full-time
+          - paragraph [ref=e418]: Support our medical team in providing patient care. MA certification required.
+          - generic [ref=e419]:
+            - generic [ref=e420]: Medical Assistant
+            - generic [ref=e421]: Healthcare
+            - generic [ref=e422]: Patient Care
+          - generic [ref=e423]:
+            - generic [ref=e425]:
+              - img [ref=e426]
+              - text: $35000/hr - $45000/hr
+            - generic [ref=e428]:
+              - text: View Details
+              - img [ref=e429]
+        - generic [ref=e432] [cursor=pointer]:
+          - generic [ref=e434]:
+            - heading "Entrepreneurship Coach" [level=3] [ref=e435]
+            - paragraph [ref=e436]: Black Business Accelerator
+          - generic [ref=e437]:
+            - generic [ref=e438]:
+              - img [ref=e439]
+              - text: Chicago, IL
+            - generic [ref=e442]: Hybrid
+            - generic [ref=e443]:
+              - img [ref=e444]
+              - text: Part-time
+          - paragraph [ref=e447]: Mentor Black entrepreneurs through business planning, funding, and growth. Part-time contract position.
+          - generic [ref=e448]:
+            - generic [ref=e449]: Coaching
+            - generic [ref=e450]: Entrepreneurship
+            - generic [ref=e451]: Mentorship
+          - generic [ref=e452]:
+            - generic [ref=e454]:
+              - img [ref=e455]
+              - text: $40/hr - $60/hr
+            - generic [ref=e457]:
+              - text: View Details
+              - img [ref=e458]
+        - generic [ref=e461] [cursor=pointer]:
+          - generic [ref=e463]:
+            - heading "Data Science Intern" [level=3] [ref=e464]
+            - paragraph [ref=e465]: Emerald Financial Services
+          - generic [ref=e466]:
+            - generic [ref=e467]:
+              - img [ref=e468]
+              - text: New York, NY
+            - generic [ref=e471]: Hybrid
+            - generic [ref=e472]:
+              - img [ref=e473]
+              - text: Internship
+          - paragraph [ref=e476]: Summer internship program for students pursuing data science or statistics degrees. Work on real financial models.
+          - generic [ref=e477]:
+            - generic [ref=e478]: Data Science
+            - generic [ref=e479]: Python
+            - generic [ref=e480]: Internship
+          - generic [ref=e481]:
+            - generic [ref=e483]:
+              - img [ref=e484]
+              - text: $25/hr - $30/hr
+            - generic [ref=e486]:
+              - text: View Details
+              - img [ref=e487]
+        - generic [ref=e490] [cursor=pointer]:
+          - generic [ref=e492]:
+            - heading "Elementary School Teacher" [level=3] [ref=e493]
+            - paragraph [ref=e494]: Urban Education Network
+          - generic [ref=e495]:
+            - generic [ref=e496]:
+              - img [ref=e497]
+              - text: Oakland, CA
+            - generic [ref=e500]: On-site
+            - generic [ref=e501]:
+              - img [ref=e502]
+              - text: Full-time
+          - paragraph [ref=e505]: Teach grades K-5 in a diverse, supportive school environment. Teaching credential required.
+          - generic [ref=e506]:
+            - generic [ref=e507]: Teaching
+            - generic [ref=e508]: Elementary
+            - generic [ref=e509]: Education
+          - generic [ref=e510]:
+            - generic [ref=e512]:
+              - img [ref=e513]
+              - text: $50k - $70k
+            - generic [ref=e515]:
+              - text: View Details
+              - img [ref=e516]
+        - generic [ref=e519] [cursor=pointer]:
+          - generic [ref=e521]:
+            - heading "Graphic Designer" [level=3] [ref=e522]
+            - paragraph [ref=e523]: NextGen Marketing
+          - generic [ref=e524]:
+            - generic [ref=e525]:
+              - img [ref=e526]
+              - text: Remote
+            - generic [ref=e529]: Remote
+            - generic [ref=e530]:
+              - img [ref=e531]
+              - text: Full-time
+          - paragraph [ref=e534]: Create visual content for marketing campaigns and client projects. Remote-first role.
+          - generic [ref=e535]:
+            - generic [ref=e536]: Graphic Design
+            - generic [ref=e537]: Adobe Creative Suite
+            - generic [ref=e538]: Marketing
+          - generic [ref=e539]:
+            - generic [ref=e541]:
+              - img [ref=e542]
+              - text: $55k - $75k
+            - generic [ref=e544]:
+              - text: View Details
+              - img [ref=e545]
+  - link "Made with Emergent" [ref=e547] [cursor=pointer]:
     - /url: https://app.emergent.sh/?utm_source=emergent-badge
-    - generic [ref=e25]:
-      - img [ref=e26]
-      - paragraph [ref=e27]: Made with Emergent
+    - generic [ref=e548]:
+      - img [ref=e549]
+      - paragraph [ref=e550]: Made with Emergent
 ```

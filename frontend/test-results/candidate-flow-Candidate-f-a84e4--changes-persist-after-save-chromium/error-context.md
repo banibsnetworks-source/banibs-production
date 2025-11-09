@@ -1,31 +1,100 @@
 # Page snapshot
 
 ```yaml
-- generic [active] [ref=e1]:
+- generic [ref=e1]:
   - generic [ref=e5]:
     - generic [ref=e6]:
-      - link "BANIBS" [ref=e7] [cursor=pointer]:
-        - /url: /
-        - heading "BANIBS" [level=1] [ref=e8]
-      - paragraph [ref=e9]: Sign in to your account
-    - generic [ref=e10]:
-      - generic [ref=e11]:
+      - heading "Edit Your Profile" [level=1] [ref=e7]
+      - paragraph [ref=e8]: Complete your profile to start applying for opportunities. Open to all, rooted in Black advancement.
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - heading "Basic Information" [level=2] [ref=e11]
         - generic [ref=e12]:
-          - generic [ref=e13]: Email
-          - textbox "you@example.com" [ref=e14]
-        - generic [ref=e15]:
-          - generic [ref=e16]: Password
-          - textbox "••••••••" [ref=e17]
-        - button "Sign In" [ref=e18] [cursor=pointer]
-      - paragraph [ref=e20]:
-        - text: Don't have an account?
-        - link "Sign up" [ref=e21] [cursor=pointer]:
-          - /url: /register
-    - link "← Back to Home" [ref=e23] [cursor=pointer]:
-      - /url: /
-  - link "Made with Emergent" [ref=e24] [cursor=pointer]:
+          - generic [ref=e13]:
+            - generic [ref=e14]: Full Name *
+            - textbox [ref=e15]: James Thompson
+          - generic [ref=e16]:
+            - generic [ref=e17]: Location *
+            - textbox "City, State, Country" [ref=e18]
+          - generic [ref=e19]:
+            - generic [ref=e20]: Professional Headline *
+            - textbox "e.g., Senior Data Analyst – Remote/Hybrid" [active] [ref=e21]: BANIBS Test Headline 1762672744333
+          - generic [ref=e22]:
+            - generic [ref=e23]: Contact Email
+            - textbox [ref=e24]: james.t@email.com
+          - generic [ref=e25]:
+            - generic [ref=e26]: Bio
+            - textbox "Tell us about yourself..." [ref=e27]
+      - generic [ref=e28]:
+        - heading "Skills *" [level=2] [ref=e29]
+        - generic [ref=e30]:
+          - textbox "Add a skill (e.g., Python, Project Management)" [ref=e31]
+          - button "Add" [ref=e32] [cursor=pointer]
+        - generic [ref=e33]:
+          - generic [ref=e34]:
+            - text: Python
+            - button "×" [ref=e35] [cursor=pointer]
+          - generic [ref=e36]:
+            - text: React
+            - button "×" [ref=e37] [cursor=pointer]
+          - generic [ref=e38]:
+            - text: PostgreSQL
+            - button "×" [ref=e39] [cursor=pointer]
+      - generic [ref=e40]:
+        - heading "Job Preferences" [level=2] [ref=e41]
+        - generic [ref=e42]:
+          - generic [ref=e43]: Desired Industries
+          - generic [ref=e44]:
+            - textbox "Add an industry (e.g., Technology, Healthcare)" [ref=e45]
+            - button "Add" [ref=e46] [cursor=pointer]
+          - generic [ref=e47]:
+            - generic [ref=e48]:
+              - text: Technology
+              - button "×" [ref=e49] [cursor=pointer]
+            - generic [ref=e50]:
+              - text: Healthcare
+              - button "×" [ref=e51] [cursor=pointer]
+            - generic [ref=e52]:
+              - text: Education
+              - button "×" [ref=e53] [cursor=pointer]
+        - generic [ref=e54]:
+          - generic [ref=e55]: Desired Job Types
+          - generic [ref=e56]:
+            - button "Full-time" [ref=e57] [cursor=pointer]
+            - button "Part-time" [ref=e58] [cursor=pointer]
+            - button "Contract" [ref=e59] [cursor=pointer]
+            - button "Internship" [ref=e60] [cursor=pointer]
+        - generic [ref=e61]:
+          - generic [ref=e62]: Remote Preferences
+          - generic [ref=e63]:
+            - button "Remote" [ref=e64] [cursor=pointer]
+            - button "Hybrid" [ref=e65] [cursor=pointer]
+            - button "On-site" [ref=e66] [cursor=pointer]
+        - generic [ref=e67]:
+          - generic [ref=e68]: Desired Salary Range
+          - generic [ref=e69]:
+            - spinbutton [ref=e71]
+            - spinbutton [ref=e73]
+      - generic [ref=e74]:
+        - heading "Links & Resume" [level=2] [ref=e75]
+        - generic [ref=e76]:
+          - generic [ref=e77]:
+            - generic [ref=e78]: LinkedIn URL
+            - textbox "https://linkedin.com/in/yourprofile" [ref=e79]
+          - generic [ref=e80]:
+            - generic [ref=e81]: Portfolio / Website URL
+            - textbox "https://yourportfolio.com" [ref=e82]
+          - generic [ref=e83]:
+            - generic [ref=e84]: Resume *
+            - generic [ref=e85]:
+              - button "Choose File" [ref=e86]
+              - paragraph [ref=e87]: "Accepted formats: PDF, DOC, DOCX (max 5MB)"
+      - generic [ref=e88]:
+        - button "Cancel" [ref=e89] [cursor=pointer]
+        - button "Update Profile" [ref=e90] [cursor=pointer]
+  - link "Made with Emergent" [ref=e91] [cursor=pointer]:
     - /url: https://app.emergent.sh/?utm_source=emergent-badge
-    - generic [ref=e25]:
-      - img [ref=e26]
-      - paragraph [ref=e27]: Made with Emergent
+    - generic [ref=e92]:
+      - img [ref=e93]
+      - paragraph [ref=e94]: Made with Emergent
 ```

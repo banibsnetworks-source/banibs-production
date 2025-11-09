@@ -2,30 +2,74 @@
 
 ```yaml
 - generic [active] [ref=e1]:
-  - generic [ref=e5]:
-    - generic [ref=e6]:
-      - link "BANIBS" [ref=e7] [cursor=pointer]:
-        - /url: /
-        - heading "BANIBS" [level=1] [ref=e8]
-      - paragraph [ref=e9]: Sign in to your account
+  - main [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - heading "Recruiter Dashboard" [level=1] [ref=e7]
+        - paragraph [ref=e8]: Manage your opportunities, track applications, and refine your reach. Open to all, rooted in Black advancement.
+      - button "+ Create New Job" [ref=e9] [cursor=pointer]
     - generic [ref=e10]:
       - generic [ref=e11]:
-        - generic [ref=e12]:
-          - generic [ref=e13]: Email
-          - textbox "you@example.com" [ref=e14]
-        - generic [ref=e15]:
-          - generic [ref=e16]: Password
-          - textbox "••••••••" [ref=e17]
-        - button "Sign In" [ref=e18] [cursor=pointer]
-      - paragraph [ref=e20]:
-        - text: Don't have an account?
-        - link "Sign up" [ref=e21] [cursor=pointer]:
-          - /url: /register
-    - link "← Back to Home" [ref=e23] [cursor=pointer]:
-      - /url: /
-  - link "Made with Emergent" [ref=e24] [cursor=pointer]:
+        - generic [ref=e12]: "2"
+        - generic [ref=e13]: Total Jobs
+      - generic [ref=e14]:
+        - generic [ref=e15]: "2"
+        - generic [ref=e16]: Active Jobs
+      - generic [ref=e17]:
+        - generic [ref=e18]: "3"
+        - generic [ref=e19]: Total Applications
+      - generic [ref=e20]:
+        - generic [ref=e21]: "3"
+        - generic [ref=e22]: Last 30 Days
+    - generic [ref=e23]:
+      - textbox "Search my jobs" [ref=e24]
+      - combobox [ref=e25]:
+        - option "All statuses" [selected]
+        - option "Draft"
+        - option "Pending review"
+        - option "Active"
+        - option "Expired"
+        - option "Closed"
+      - generic [ref=e26]:
+        - checkbox "Has applications" [ref=e27]
+        - text: Has applications
+      - button "Reset" [ref=e28] [cursor=pointer]
+    - generic [ref=e30]:
+      - article [ref=e31]:
+        - generic [ref=e32]:
+          - heading "Junior Software Engineer" [level=2] [ref=e33]
+          - paragraph [ref=e34]: TechForward Inc. • Atlanta, GA
+          - generic [ref=e35]:
+            - generic [ref=e36]: approved
+            - generic [ref=e37]: Remote
+        - generic [ref=e38]:
+          - generic [ref=e40]:
+            - paragraph [ref=e41]: Applications
+            - paragraph [ref=e42]: "0"
+          - generic [ref=e43]:
+            - button "View" [ref=e44] [cursor=pointer]
+            - button "Edit" [ref=e45] [cursor=pointer]
+            - button "Close" [ref=e46] [cursor=pointer]
+            - button "Delete" [ref=e47] [cursor=pointer]
+      - article [ref=e48]:
+        - generic [ref=e49]:
+          - heading "Senior Full-Stack Developer" [level=2] [ref=e50]
+          - paragraph [ref=e51]: TechForward Inc. • Atlanta, GA
+          - generic [ref=e52]:
+            - generic [ref=e53]: approved
+            - generic [ref=e54]: Hybrid
+        - generic [ref=e55]:
+          - generic [ref=e57]:
+            - paragraph [ref=e58]: Applications
+            - paragraph [ref=e59]: 3 (3 new)
+          - generic [ref=e60]:
+            - button "View" [ref=e61] [cursor=pointer]
+            - button "Edit" [ref=e62] [cursor=pointer]
+            - button "Close" [ref=e63] [cursor=pointer]
+            - button "Delete" [ref=e64] [cursor=pointer]
+  - link "Made with Emergent" [ref=e65] [cursor=pointer]:
     - /url: https://app.emergent.sh/?utm_source=emergent-badge
-    - generic [ref=e25]:
-      - img [ref=e26]
-      - paragraph [ref=e27]: Made with Emergent
+    - generic [ref=e66]:
+      - img [ref=e67]
+      - paragraph [ref=e68]: Made with Emergent
 ```
