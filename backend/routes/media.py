@@ -131,7 +131,7 @@ async def get_all_media_admin(current_user: dict = Depends(require_role("super_a
 @router.post("/admin/create")
 async def create_media_admin(
     media: FeaturedMediaDB,
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     ADMIN ONLY: Create a new featured media item
@@ -148,7 +148,7 @@ async def create_media_admin(
 @router.patch("/admin/{media_id}/feature")
 async def feature_media_admin(
     media_id: str,
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     ADMIN ONLY: Set a media item as featured
@@ -168,7 +168,7 @@ async def feature_media_admin(
 @router.delete("/admin/{media_id}")
 async def delete_media_admin(
     media_id: str,
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     ADMIN ONLY: Delete a media item
