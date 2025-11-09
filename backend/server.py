@@ -195,6 +195,7 @@ from routes.opportunities.jobs import router as jobs_router
 from routes.opportunities.recruiters import router as recruiters_router, employer_router
 from routes.opportunities.candidates import router as candidates_router
 from routes.opportunities.applications import router as applications_router
+from routes.recruiter_analytics import router as recruiter_analytics_router  # Phase 7.1 Cycle 1.4
 app.include_router(jobs_router)  # Job listings API
 app.include_router(recruiters_router)  # Recruiter verification and profiles
 app.include_router(employer_router)  # Employer profiles
