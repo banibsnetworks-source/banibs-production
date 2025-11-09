@@ -243,7 +243,7 @@ employer_router = APIRouter(prefix="/api/employers", tags=["employers"])
 @employer_router.post("", response_model=EmployerProfilePublic, status_code=201)
 async def create_employer(
     employer_data: EmployerProfileCreate,
-    current_user: dict = Depends(require_role(["verified_recruiter", "super_admin"]))
+    current_user: dict = Depends(require_role("verified_recruiter", "super_admin"))
 ):
     """
     Create a new employer profile
