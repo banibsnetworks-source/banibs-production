@@ -12,9 +12,9 @@ const CANDIDATE_PASSWORD = "Candidate#123";
 
 async function loginAsCandidate(page) {
   await page.goto("/login");
-  await page.getByLabel(/email/i).fill(CANDIDATE_EMAIL);
-  await page.getByLabel(/password/i).fill(CANDIDATE_PASSWORD);
-  await page.getByRole("button", { name: /sign in/i }).click();
+  await page.locator('input[type="email"]').fill(CANDIDATE_EMAIL);
+  await page.locator('input[type="password"]').fill(CANDIDATE_PASSWORD);
+  await page.locator('button:has-text("Sign In")').click();
 
   // Wait for redirect after login
   await page.waitForURL(/dashboard|hub|candidate\/profile|opportunities/, {
