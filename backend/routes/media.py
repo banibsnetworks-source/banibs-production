@@ -112,7 +112,7 @@ def _get_fallback_thumbnail(tag: str) -> str:
 # ==========================================
 
 @router.get("/admin/all", response_model=List[FeaturedMediaPublic])
-async def get_all_media_admin(current_user: dict = Depends(require_role(["super_admin", "moderator"]))):
+async def get_all_media_admin(current_user: dict = Depends(require_role("super_admin", "moderator"))):
     """
     ADMIN ONLY: Get all featured media items
     Used for admin dashboard media management.
