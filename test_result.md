@@ -4325,63 +4325,78 @@ agent_communication:
 backend:
   - task: "Job Listing Model & Database"
     implemented: true
-    working: "NA"
+    working: true
     file: "models/job_listing.py, db/opportunities/job_listings.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created JobListing Pydantic models (Base, DB, Public, Create, Update). Includes title, description, employer_id, pay_range, location, remote_type, job_type, experience_level, industry, tags, application details, status tracking. Database helpers: create, get_by_id, get_listings (with filters), update, delete, increment_view, increment_applications. Uses UUID for IDs. Integrated with Phase 6.3 sentiment fields."
+      - working: true
+        agent: "testing"
+        comment: "✅ Job Listing API working correctly. Public jobs endpoint returns 16 jobs with proper pagination and filtering (Technology remote jobs: 3). Job detail endpoint works. Recruiter can access their own jobs (2 jobs found). Minor: Job creation validation returns 422 instead of expected error codes, but core functionality works."
 
   - task: "Employer Profile Model & Database"
     implemented: true
-    working: "NA"
+    working: true
     file: "models/employer_profile.py, db/opportunities/employer_profiles.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created EmployerProfile Pydantic models (Base, DB, Public, Create). Includes organization_name, contact_email, website_url, logo_url, sector, organization_size, headquarters_location, description, dei_statement, verification status. Database helpers: create, get_by_id, get_by_email, get_profiles (with filters), update, verify_employer. Links to Business Directory via business_directory_id field."
+      - working: true
+        agent: "testing"
+        comment: "✅ Employer Profile API working correctly. Employers list endpoint returns 10 employers with proper pagination. Verified employer filtering works (8 verified employers). Employer creation correctly requires authentication."
 
   - task: "Recruiter Profile Model & Database"
     implemented: true
-    working: "NA"
+    working: false
     file: "models/recruiter_profile.py, db/opportunities/recruiter_profiles.py"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created RecruiterProfile Pydantic models (Base, DB, Public, VerificationRequest). Links to unified_users via user_id. Includes full_name, professional_title, contact_email, agency details, employer_ids array (can recruit for multiple employers), verification fields (verified, verification_method, verification_notes), industries, specializations. Database helpers: create, get_by_id, get_by_user_id, get_profiles, update, verify_recruiter, request_verification, increment_stats."
+      - working: false
+        agent: "testing"
+        comment: "❌ Recruiter Profile API has issues. Verification status endpoint works correctly (verified: true). However, recruiter profile me endpoint missing required fields: user_id, contact_email. Admin recruiter verification endpoint returns 500 error due to role checker middleware issue (TypeError: sequence item 0: expected str instance, list found)."
 
   - task: "Candidate Profile Model & Database"
     implemented: true
-    working: "NA"
+    working: true
     file: "models/candidate_profile.py, db/opportunities/candidate_profiles.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created CandidateProfile Pydantic models (Base, DB, Public, Create). Links to unified_users via user_id. Includes full_name, professional_title, contact_email, resume_url, portfolio_url, linkedin_url, github_url, bio, preferred industries/job types/remote types, desired_salary range, skills array, saved_job_ids array, profile_public flag. Database helpers: create, get_by_id, get_by_user_id, get_public_profiles, update, add/remove_saved_job, increment_applications."
+      - working: true
+        agent: "testing"
+        comment: "✅ Candidate Profile API working correctly. Candidate profile already exists and can be accessed. Saved jobs endpoint works (3 saved jobs found). Authentication and profile creation workflow functional."
 
   - task: "Application Record Model & Database"
     implemented: true
-    working: "NA"
+    working: true
     file: "models/application_record.py, db/opportunities/application_records.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Created ApplicationRecord Pydantic models (Base, DB, Public, Create, StatusUpdate). Links job_id to JobListing and candidate_id to CandidateProfile. Includes cover_letter, resume_url (optional override), contact_email, contact_phone, status tracking (submitted, reviewed, interviewing, offered, rejected, withdrawn), recruiter_notes. Database helpers: create, get_by_id, get_for_job, get_for_candidate (with pagination), update_status, check_duplicate_application."
+      - working: true
+        agent: "testing"
+        comment: "✅ Application API working correctly. Authentication scenarios work properly (401 without auth). Applications for recruiter endpoint works with proper job_id parameter validation. Found 0 applications for test job (expected for new system)."
 
 metadata:
   created_by: "main_agent"
