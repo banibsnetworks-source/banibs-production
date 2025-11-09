@@ -73,6 +73,31 @@ function RecruiterDashboard() {
     fetchJobs(1);
   }, [filters]);
 
+  // Load analytics data - Phase 7.1 Cycle 1.4
+  useEffect(() => {
+    async function loadAnalytics() {
+      try {
+        setAnalyticsLoading(true);
+        const token = localStorage.getItem("accessToken");
+        
+        const [overviewData, statsData] = await Promise.all([
+          getRecruiterOverview(token),
+          getRecruiterJobStats(token)
+        ]);
+        
+        setOverview(overviewData);
+        setJobStats(statsData);
+      } catch (err) {
+        console.error("Failed to load analytics:", err);
+        // Don't show error to user - analytics are non-critical
+      } finally {
+        setAnalyticsLoading(false);
+      }
+    }
+    
+    loadAnalytics();
+  }, []);
+
   function handleFiltersChange(next) {
     setFilters(next);
   }
