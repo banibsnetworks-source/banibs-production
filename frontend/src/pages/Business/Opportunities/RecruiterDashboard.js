@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import RecruiterJobsFilters from "./RecruiterJobsFilters";
 import { useNavigate } from "react-router-dom";
 import { getRecruiterOverview, getRecruiterJobStats } from "../../../api/analytics";
+import EmptyState from "../../../components/EmptyState";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
