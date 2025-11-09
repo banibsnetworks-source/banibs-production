@@ -105,15 +105,14 @@ async def submit_application(
     return ApplicationRecordPublic(**application)
 
 
-@router.get("/my-applications", response_model=dict)
-async def get_my_applications(
-    current_user: dict = Depends(get_current_user),
-    status: Optional[str] = Query(None, description="Filter by status"),
-    page: int = Query(1, ge=1),
-    limit: int = Query(20, ge=1, le=100)
+async def _get_candidate_applications_logic(
+    current_user: dict,
+    status: Optional[str] = None,
+    page: int = 1,
+    limit: int = 20
 ):
     """
-    Get authenticated user's job applications
+    Shared logic for getting candidate applications
     """
     # Get candidate profile
     candidate = await get_candidate_profile_by_user_id(current_user["id"])
@@ -142,6 +141,7 @@ async def get_my_applications(
         job = await get_job_listing_by_id(app["job_id"])
         if job:
             app["job_title"] = job.get("title")
+            app["job_location"] = job.get("location")
             employer = await get_employer_profile_by_id(job["employer_id"])
             if employer:
                 app["employer_name"] = employer.get("organization_name")
@@ -156,6 +156,32 @@ async def get_my_applications(
         "total": total,
         "pages": pages
     }
+
+
+@router.get("/mine", response_model=dict)
+async def get_my_applications_mine(
+    current_user: dict = Depends(get_current_user),
+    status: Optional[str] = Query(None, description="Filter by status"),
+    page: int = Query(1, ge=1),
+    limit: int = Query(20, ge=1, le=100)
+):
+    """
+    Get authenticated user's job applications (alias for /my-applications)
+    """
+    return await _get_candidate_applications_logic(current_user, status, page, limit)
+
+
+@router.get("/my-applications", response_model=dict)
+async def get_my_applications(
+    current_user: dict = Depends(get_current_user),
+    status: Optional[str] = Query(None, description="Filter by status"),
+    page: int = Query(1, ge=1),
+    limit: int = Query(20, ge=1, le=100)
+):
+    """
+    Get authenticated user's job applications
+    """
+    return await _get_candidate_applications_logic(current_user, status, page, limit)
 
 
 @router.get("", response_model=dict)
