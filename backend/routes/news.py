@@ -241,7 +241,7 @@ async def seed_dev_news():
 # ==========================================
 
 @router.get("/admin/all", response_model=List[NewsItemPublic])
-async def get_all_news_admin(current_user: dict = Depends(require_role(["super_admin", "moderator"]))):
+async def get_all_news_admin(current_user: dict = Depends(require_role("super_admin", "moderator"))):
     """
     ADMIN ONLY: Get all news items sorted by published date
     
