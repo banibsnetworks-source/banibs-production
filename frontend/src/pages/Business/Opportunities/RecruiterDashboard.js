@@ -129,7 +129,7 @@ function RecruiterDashboard() {
         method: "DELETE",
         credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
         }
       });
       if (!res.ok) {
