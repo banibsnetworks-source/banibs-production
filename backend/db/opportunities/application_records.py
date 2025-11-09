@@ -176,3 +176,63 @@ async def check_duplicate_application(job_id: str, candidate_id: str) -> bool:
     })
     
     return existing is not None
+
+
+# Analytics helper functions for Phase 7.1 Cycle 1.4
+async def get_application_count_by_job_ids(job_ids: List[str]) -> int:
+    """
+    Count total applications for a list of job IDs
+    
+    Args:
+        job_ids: List of job UUIDs
+        
+    Returns:
+        Total count of applications
+    """
+    count = await application_records_collection.count_documents({
+        "job_id": {"$in": job_ids}
+    })
+    return count
+
+
+async def get_applications_by_job_ids(job_ids: List[str]) -> List[Dict[str, Any]]:
+    """
+    Get all applications for a list of job IDs
+    
+    Args:
+        job_ids: List of job UUIDs
+        
+    Returns:
+        List of application documents
+    """
+    cursor = application_records_collection.find(
+        {"job_id": {"$in": job_ids}},
+        {"_id": 0}
+    )
+    applications = await cursor.to_list(length=None)
+    return applications
+
+
+async def get_recent_applications_count(
+    job_ids: List[str], 
+    since: datetime
+) -> int:
+    """
+    Count applications created after a specific date for given job IDs
+    
+    Args:
+        job_ids: List of job UUIDs
+        since: DateTime cutoff (only count applications after this)
+        
+    Returns:
+        Count of recent applications
+    """
+    # Convert datetime to ISO string for comparison
+    since_str = since.isoformat()
+    
+    count = await application_records_collection.count_documents({
+        "job_id": {"$in": job_ids},
+        "created_at": {"$gte": since_str}
+    })
+    return count
+
