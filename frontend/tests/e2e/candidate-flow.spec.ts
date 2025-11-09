@@ -3,147 +3,120 @@ import { test, expect } from "@playwright/test";
 /**
  * Candidate Flow E2E Tests - Phase 7.1 Cycle 1.4
  * 
- * Tests the complete candidate journey:
- * - Profile management and persistence
- * - Job application flow with gating logic
- * - Application tracking in My Applications
+ * Tests using URL + selector waits instead of networkidle
+ * to handle continuous background activity (RSS, analytics, CDN)
  */
 
 const CANDIDATE_EMAIL = "james.t@email.com";
 const CANDIDATE_PASSWORD = "Candidate#123";
 
+async function loginAsCandidate(page) {
+  await page.goto("/login");
+  await page.getByLabel(/email/i).fill(CANDIDATE_EMAIL);
+  await page.getByLabel(/password/i).fill(CANDIDATE_PASSWORD);
+  await page.getByRole("button", { name: /sign in/i }).click();
+
+  // Wait for redirect after login
+  await page.waitForURL(/dashboard|hub|candidate\/profile|opportunities/, {
+    timeout: 15000,
+  });
+}
+
 test.describe("Candidate flow: profile → apply → track", () => {
-  
   test("profile changes persist after save", async ({ page }) => {
-    // Login
-    await page.goto("/login");
-    await page.locator('input[type="email"]').fill(CANDIDATE_EMAIL);
-    await page.locator('input[type="password"]').fill(CANDIDATE_PASSWORD);
-    await page.locator('button:has-text("Sign In")').click();
-    
-    // Wait for navigation
-    await page.waitForLoadState("networkidle");
+    await loginAsCandidate(page);
 
-    // Go to profile
+    // Go directly to profile
     await page.goto("/candidate/profile");
-    await page.waitForLoadState("networkidle");
+    await page.waitForURL("**/candidate/profile", { timeout: 10000 });
 
-    // Find headline input - be flexible with label text
-    const headlineInput = page.locator('input[type="text"]').filter({ 
-      has: page.locator('..').filter({ hasText: /headline/i }) 
-    }).or(page.getByPlaceholder(/headline/i)).first();
-    
+    const headlineInput = page.getByLabel(/headline/i);
+    await headlineInput.waitFor({ timeout: 10000 });
+
     const newHeadline = `BANIBS Test Headline ${Date.now()}`;
 
     await headlineInput.fill(newHeadline);
-    
-    // Find and click save button
-    const saveButton = page.getByRole("button", { name: /save profile|update profile/i });
-    await saveButton.click();
+    await page.getByRole("button", { name: /save profile/i }).click();
 
-    // Wait for save to complete
-    await page.waitForTimeout(2000);
+    // Give API a moment; we don't care about networkidle, just persistence
+    await page.waitForTimeout(800);
 
-    // Reload and verify persistence
-    await page.reload({ waitUntil: 'networkidle' });
-    
-    // Verify the headline persisted
+    await page.reload();
+    await headlineInput.waitFor({ timeout: 10000 });
     await expect(headlineInput).toHaveValue(newHeadline);
-    
-    console.log('✅ Profile save test passed');
   });
 
-  test("candidate can apply and see application in My Applications", async ({ page }) => {
-    // Login
-    await page.goto("/login");
-    await page.locator('input[type="email"]').fill(CANDIDATE_EMAIL);
-    await page.locator('input[type="password"]').fill(CANDIDATE_PASSWORD);
-    await page.locator('button:has-text("Sign In")').click();
-    
-    await page.waitForLoadState("networkidle");
+  test("candidate can apply and see application in My Applications", async ({
+    page,
+  }) => {
+    await loginAsCandidate(page);
 
-    // Go to opportunities
+    // Navigate to opportunities
     await page.goto("/opportunities");
-    await page.waitForLoadState("networkidle");
+    await page.waitForURL("**/opportunities", { timeout: 10000 });
 
-    // Find and click first job link - be flexible with selector
-    const firstJobLink = page.locator('a').filter({ 
-      hasText: /view details|view job|learn more/i 
-    }).first();
-    
-    // If no "view details" link, try clicking job card directly
-    if (await firstJobLink.count() === 0) {
-      const jobCard = page.locator('div, article').filter({ 
-        hasText: /engineer|developer|analyst/i 
-      }).first();
-      await jobCard.click();
-    } else {
-      await firstJobLink.click();
-    }
+    // Wait for at least one job entry
+    const firstJobLink = page
+      .getByRole("link", { name: /view details/i })
+      .first();
+    await firstJobLink.waitFor({ timeout: 10000 });
 
-    await page.waitForLoadState("networkidle");
+    await firstJobLink.click();
 
-    // Find and click Apply button
-    const applyButton = page.getByRole("button", { name: /apply now|apply/i }).first();
+    // Wait for job detail page by heading
+    const jobHeading = page
+      .getByRole("heading")
+      .filter({ hasText: /developer|engineer|job/i })
+      .first();
+    await jobHeading.waitFor({ timeout: 10000 });
+
+    // Apply button
+    let applyButton = page.getByRole("button", { name: /apply/i }).first();
+    await applyButton.waitFor({ timeout: 10000 });
     await applyButton.click();
 
-    // Handle potential profile gating
-    await page.waitForTimeout(1000);
-    
+    // If we got redirected to profile gating, handle it
     if (page.url().includes("/candidate/profile")) {
-      console.log('ℹ️  Profile page detected, saving profile first');
-      
-      const saveButton = page.getByRole("button", { name: /save profile|update profile/i });
-      await saveButton.click();
-      
-      await page.waitForTimeout(1500);
-      
-      // Navigate back to opportunities and try again
+      const saveProfile = page.getByRole("button", { name: /save profile/i });
+      await saveProfile.waitFor({ timeout: 10000 });
+      await saveProfile.click();
+      await page.waitForTimeout(800);
+
+      // Navigate back to opportunities → job → apply again
       await page.goto("/opportunities");
-      await page.waitForLoadState("networkidle");
-      
-      const retryJobLink = page.locator('a').filter({ 
-        hasText: /view details|view job/i 
-      }).first();
-      await retryJobLink.click();
-      
-      await page.waitForLoadState("networkidle");
-      await page.getByRole("button", { name: /apply now|apply/i }).first().click();
+      await page.waitForURL("**/opportunities", { timeout: 10000 });
+      await firstJobLink.waitFor({ timeout: 10000 });
+      await firstJobLink.click();
+
+      applyButton = page.getByRole("button", { name: /apply/i }).first();
+      await applyButton.waitFor({ timeout: 10000 });
+      await applyButton.click();
     }
 
-    // Application dialog should appear
-    await page.waitForTimeout(1000);
-    
-    // Find cover letter field
-    const coverLetterField = page.getByLabel(/cover letter/i).or(
-      page.locator('textarea').filter({ 
-        has: page.locator('..').filter({ hasText: /cover letter/i }) 
-      })
-    ).first();
-    
-    await expect(coverLetterField).toBeVisible({ timeout: 10000 });
-
+    // Application dialog
+    const coverLetterField = page.getByLabel(/cover letter/i);
+    await coverLetterField.waitFor({ timeout: 10000 });
     await coverLetterField.fill(
-      `BANIBS automated test application created at ${new Date().toISOString()}`
+      "This is an automated BANIBS test application."
     );
 
-    // Submit application
-    const submitButton = page.getByRole("button", { name: /submit application/i });
+    const submitButton = page.getByRole("button", {
+      name: /submit application/i,
+    });
+    await submitButton.waitFor({ timeout: 10000 });
     await submitButton.click();
 
-    await page.waitForTimeout(2000);
+    // Give the backend a moment
+    await page.waitForTimeout(1500);
 
-    // Navigate to My Applications
+    // Go to My Applications
     await page.goto("/candidate/applications");
-    await page.waitForLoadState("networkidle");
+    await page.waitForURL("**/candidate/applications", { timeout: 10000 });
 
-    // Verify at least one application is visible
-    const applicationsList = page.locator('div, article').filter({ 
-      hasText: /applied|application/i 
-    });
-    
-    await expect(applicationsList.first()).toBeVisible({ timeout: 5000 });
-    
-    console.log('✅ Application flow test passed');
+    // Wait for list or empty state
+    // We expect at least one application entry text like "Applied" or a status badge
+    await expect(
+      page.getByText(/submitted|in review|interview|applied/i).first()
+    ).toBeVisible({ timeout: 15000 });
   });
 });
