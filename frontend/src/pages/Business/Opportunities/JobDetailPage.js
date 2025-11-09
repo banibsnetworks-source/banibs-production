@@ -388,6 +388,15 @@ function JobDetailPage() {
           ))}
         </div>
       </section>
+
+      {/* Application Dialog */}
+      {showApplicationDialog && (
+        <JobApplicationDialog
+          job={job}
+          onClose={() => setShowApplicationDialog(false)}
+          onSuccess={handleApplicationSuccess}
+        />
+      )}
     </main>
   );
 }
