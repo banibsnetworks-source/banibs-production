@@ -35,7 +35,7 @@ function RecruiterDashboard() {
       const res = await fetch(`${BACKEND_URL}/api/jobs/mine?${params.toString()}`, {
         credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
         }
       });
       if (!res.ok) {
