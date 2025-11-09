@@ -11,9 +11,9 @@ const RECRUITER_PASSWORD = "Recruiter#123";
 
 async function loginAsRecruiter(page) {
   await page.goto("/login");
-  await page.getByLabel(/email/i).fill(RECRUITER_EMAIL);
-  await page.getByLabel(/password/i).fill(RECRUITER_PASSWORD);
-  await page.getByRole("button", { name: /sign in/i }).click();
+  await page.locator('input[type="email"]').fill(RECRUITER_EMAIL);
+  await page.locator('input[type="password"]').fill(RECRUITER_PASSWORD);
+  await page.locator('button:has-text("Sign In")').click();
 
   await page.waitForURL(/recruiter|dashboard|hub|opportunities/, {
     timeout: 15000,
