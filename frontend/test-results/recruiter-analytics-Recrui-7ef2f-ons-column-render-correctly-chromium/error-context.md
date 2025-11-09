@@ -1,0 +1,338 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - navigation [ref=e5]:
+      - generic [ref=e7]:
+        - link "BANIBS" [ref=e8] [cursor=pointer]:
+          - /url: /hub
+          - generic [ref=e9]: BANIBS
+        - button "BANIBS Network ▾" [ref=e11] [cursor=pointer]:
+          - text: BANIBS Network
+          - generic [ref=e12]: ▾
+        - generic [ref=e14]:
+          - textbox "Search news, businesses, people..." [ref=e15]
+          - button "🔍" [ref=e16] [cursor=pointer]
+        - generic [ref=e17]:
+          - button "🔔" [ref=e19] [cursor=pointer]
+          - button "💬" [ref=e21] [cursor=pointer]
+          - button "S Sarah Johnson" [ref=e23] [cursor=pointer]:
+            - generic [ref=e24]: S
+            - generic [ref=e25]: Sarah Johnson
+    - generic [ref=e26]:
+      - generic [ref=e27]:
+        - generic [ref=e29]: BANIBS
+        - generic [ref=e30]:
+          - heading "Welcome back, Sarah 👋" [level=1] [ref=e31]
+          - paragraph [ref=e32]: Here's what's happening today.
+          - generic [ref=e33]:
+            - button "➕ Add a Business" [ref=e34] [cursor=pointer]:
+              - generic [ref=e35]: ➕
+              - generic [ref=e36]: Add a Business
+            - button "Post to Community" [ref=e37] [cursor=pointer]
+            - button "View Opportunities" [ref=e38] [cursor=pointer]
+            - button "Read News" [ref=e39] [cursor=pointer]
+          - generic [ref=e40]: News • Business • Community • Opportunity
+      - generic [ref=e41]:
+        - generic [ref=e43]:
+          - generic [ref=e44]:
+            - generic [ref=e46]:
+              - button "🌐All" [ref=e47] [cursor=pointer]
+              - button "📰News" [ref=e48] [cursor=pointer]
+              - button "💼Opportunities" [ref=e49] [cursor=pointer]
+              - button "📚Resources" [ref=e50] [cursor=pointer]
+              - button "📅Events" [ref=e51] [cursor=pointer]
+              - button "🏢Business" [ref=e52] [cursor=pointer]
+            - generic [ref=e53]:
+              - generic [ref=e55]: "Filter by Sentiment:"
+              - generic [ref=e56]:
+                - button "🌐All" [ref=e57] [cursor=pointer]
+                - button "🟢Positive" [ref=e58] [cursor=pointer]
+                - button "⚪Neutral" [ref=e59] [cursor=pointer]
+                - button "🔴Critical" [ref=e60] [cursor=pointer]
+            - generic [ref=e61]:
+              - button "All Time" [ref=e62] [cursor=pointer]
+              - button "Today" [ref=e63] [cursor=pointer]
+              - button "This Week" [ref=e64] [cursor=pointer]
+              - button "This Month" [ref=e65] [cursor=pointer]
+          - generic [ref=e66]:
+            - article [ref=e67] [cursor=pointer]:
+              - generic [ref=e68]:
+                - img "Test Event" [ref=e70]
+                - generic [ref=e71]:
+                  - generic [ref=e72]:
+                    - generic [ref=e73]: 💼
+                    - generic [ref=e74]: Opportunity
+                    - generic [ref=e75]: Today
+                  - heading "Test Event" [level=3] [ref=e76]
+                  - paragraph [ref=e77]: Test description for event opportunity
+            - article [ref=e78] [cursor=pointer]:
+              - generic [ref=e79]:
+                - img "Test Event" [ref=e81]
+                - generic [ref=e82]:
+                  - generic [ref=e83]:
+                    - generic [ref=e84]: 💼
+                    - generic [ref=e85]: Opportunity
+                    - generic [ref=e86]: Today
+                  - heading "Test Event" [level=3] [ref=e87]
+                  - paragraph [ref=e88]: Test description for event opportunity
+            - article [ref=e89] [cursor=pointer]:
+              - generic [ref=e90]:
+                - img "Test Event" [ref=e92]
+                - generic [ref=e93]:
+                  - generic [ref=e94]:
+                    - generic [ref=e95]: 💼
+                    - generic [ref=e96]: Opportunity
+                    - generic [ref=e97]: Today
+                  - heading "Test Event" [level=3] [ref=e98]
+                  - paragraph [ref=e99]: Test description for event opportunity
+            - article [ref=e100] [cursor=pointer]:
+              - generic [ref=e101]:
+                - img "Test Event" [ref=e103]
+                - generic [ref=e104]:
+                  - generic [ref=e105]:
+                    - generic [ref=e106]: 💼
+                    - generic [ref=e107]: Opportunity
+                    - generic [ref=e108]: Today
+                  - heading "Test Event" [level=3] [ref=e109]
+                  - paragraph [ref=e110]: Test description
+            - article [ref=e111] [cursor=pointer]:
+              - generic [ref=e112]:
+                - img "Innovative Black-Owned Products To Savor On National Chocolate Day" [ref=e114]
+                - generic [ref=e115]:
+                  - generic [ref=e116]:
+                    - generic [ref=e117]: 📰
+                    - generic [ref=e118]: News
+                    - 'generic "Sentiment: Neutral (0.10)" [ref=e119]':
+                      - generic [ref=e120]: ⚪
+                    - generic [ref=e121]: Today
+                    - generic [ref=e122]: • Business
+                  - heading "Innovative Black-Owned Products To Savor On National Chocolate Day" [level=3] [ref=e123]
+                  - paragraph [ref=e124]: BLACK ENTERPRISE spotlights five standout products—each carving out its niche with chocolate from kitchen creations to spa products—on National Chocolate Day.
+            - article [ref=e125] [cursor=pointer]:
+              - generic [ref=e126]:
+                - img "Aid Workers Fear Trump Administration May Be Stockpiling Contraceptives Until Expiration" [ref=e128]
+                - generic [ref=e129]:
+                  - generic [ref=e130]:
+                    - generic [ref=e131]: 📰
+                    - generic [ref=e132]: News
+                    - 'generic "Sentiment: Critical (-0.30)" [ref=e133]':
+                      - generic [ref=e134]: 🔴
+                    - generic [ref=e135]: Today
+                    - generic [ref=e136]: • Business
+                  - heading "Aid Workers Fear Trump Administration May Be Stockpiling Contraceptives Until Expiration" [level=3] [ref=e137]
+                  - paragraph [ref=e138]: Concerns are mounting that the Trump administration may be storing $9.7 million in contraceptives in Belgium until they expire.
+            - article [ref=e139] [cursor=pointer]:
+              - generic [ref=e140]:
+                - img "TikTok’s New ‘5 O’Clock’ Trend Shows Off Black Employees’ Post-Work Glow Up" [ref=e142]
+                - generic [ref=e143]:
+                  - generic [ref=e144]:
+                    - generic [ref=e145]: 📰
+                    - generic [ref=e146]: News
+                    - 'generic "Sentiment: Neutral (0.00)" [ref=e147]':
+                      - generic [ref=e148]: ⚪
+                    - generic [ref=e149]: Today
+                    - generic [ref=e150]: • Business
+                  - heading "TikTok’s New ‘5 O’Clock’ Trend Shows Off Black Employees’ Post-Work Glow Up" [level=3] [ref=e151]
+                  - paragraph [ref=e152]: The trend has captivated the internet as it shows what people look like at their day job, as well as reveal how they look once they clock out.
+            - article [ref=e153] [cursor=pointer]:
+              - generic [ref=e154]:
+                - 'img "On the Brink: 39% Of Small Businesses Are Running On Less Than A Month Of Cash" [ref=e156]'
+                - generic [ref=e157]:
+                  - generic [ref=e158]:
+                    - generic [ref=e159]: 📰
+                    - generic [ref=e160]: News
+                    - 'generic "Sentiment: Neutral (0.00)" [ref=e161]':
+                      - generic [ref=e162]: ⚪
+                    - generic [ref=e163]: Today
+                    - generic [ref=e164]: • Business
+                  - 'heading "On the Brink: 39% Of Small Businesses Are Running On Less Than A Month Of Cash" [level=3] [ref=e165]'
+                  - paragraph [ref=e166]: Today’s small business math rarely balances itself.
+            - article [ref=e167] [cursor=pointer]:
+              - generic [ref=e168]:
+                - img "Updated Resource Title" [ref=e170]
+                - generic [ref=e171]:
+                  - generic [ref=e172]:
+                    - generic [ref=e173]: 📚
+                    - generic [ref=e174]: Resource
+                    - 'generic "Sentiment: Neutral (0.00)" [ref=e175]':
+                      - generic [ref=e176]: ⚪
+                    - generic [ref=e177]: 6 days ago
+                    - generic [ref=e178]: • Business Support
+                  - heading "Updated Resource Title" [level=3] [ref=e179]
+                  - paragraph [ref=e180]: Test resource created by admin
+            - article [ref=e181] [cursor=pointer]:
+              - generic [ref=e182]:
+                - img "Updated Resource Title" [ref=e184]
+                - generic [ref=e185]:
+                  - generic [ref=e186]:
+                    - generic [ref=e187]: 📚
+                    - generic [ref=e188]: Resource
+                    - 'generic "Sentiment: Neutral (0.00)" [ref=e189]':
+                      - generic [ref=e190]: ⚪
+                    - generic [ref=e191]: 6 days ago
+                    - generic [ref=e192]: • Business Support
+                  - heading "Updated Resource Title" [level=3] [ref=e193]
+                  - paragraph [ref=e194]: Test resource created by admin
+            - article [ref=e195] [cursor=pointer]:
+              - generic [ref=e196]:
+                - img "AI & Automation for Entrepreneurs" [ref=e198]
+                - generic [ref=e199]:
+                  - generic [ref=e200]:
+                    - generic [ref=e201]: 📅
+                    - generic [ref=e202]: Event
+                    - generic [ref=e203]: 6 days ago
+                    - generic [ref=e204]: • Webinar
+                  - heading "AI & Automation for Entrepreneurs" [level=3] [ref=e205]
+                  - paragraph [ref=e206]: "Explore how AI and automation can transform your business operations. Learn about: AI tools for marketing, customer service automation, workflow optimization, and emerging AI opportunities for small b"
+                  - generic [ref=e207]:
+                    - generic [ref=e208]:
+                      - generic [ref=e209]: 📍
+                      - generic [ref=e210]: Virtual
+                    - generic [ref=e211]:
+                      - generic [ref=e212]: 📅
+                      - generic [ref=e213]: 11/14/2025
+            - article [ref=e214] [cursor=pointer]:
+              - generic [ref=e215]:
+                - img "Digital Marketing 101 for Small Businesses" [ref=e217]
+                - generic [ref=e218]:
+                  - generic [ref=e219]:
+                    - generic [ref=e220]: 📅
+                    - generic [ref=e221]: Event
+                    - generic [ref=e222]: 6 days ago
+                    - generic [ref=e223]: • Workshop
+                  - heading "Digital Marketing 101 for Small Businesses" [level=3] [ref=e224]
+                  - paragraph [ref=e225]: "Master the essentials of digital marketing. Topics: social media strategy, email marketing, SEO basics, content creation, and analytics. Perfect for small business owners ready to grow their online pr"
+                  - generic [ref=e226]:
+                    - generic [ref=e227]:
+                      - generic [ref=e228]: 📍
+                      - generic [ref=e229]: Virtual
+                    - generic [ref=e230]:
+                      - generic [ref=e231]: 📅
+                      - generic [ref=e232]: 11/12/2025
+            - article [ref=e233] [cursor=pointer]:
+              - generic [ref=e234]:
+                - img "Black Tech Founders Monthly Call" [ref=e236]
+                - generic [ref=e237]:
+                  - generic [ref=e238]:
+                    - generic [ref=e239]: 📅
+                    - generic [ref=e240]: Event
+                    - generic [ref=e241]: 6 days ago
+                    - generic [ref=e242]: • Webinar
+                  - heading "Black Tech Founders Monthly Call" [level=3] [ref=e243]
+                  - paragraph [ref=e244]: Monthly virtual meetup for Black tech founders and aspiring entrepreneurs. Discuss fundraising strategies, product development, team building, and the unique challenges facing Black founders in tech.
+                  - generic [ref=e245]:
+                    - generic [ref=e246]:
+                      - generic [ref=e247]: 📍
+                      - generic [ref=e248]: Virtual
+                    - generic [ref=e249]:
+                      - generic [ref=e250]: 📅
+                      - generic [ref=e251]: 11/9/2025
+            - article [ref=e252] [cursor=pointer]:
+              - generic [ref=e253]:
+                - img "BANIBS Small Business Meetup - New York" [ref=e255]
+                - generic [ref=e256]:
+                  - generic [ref=e257]:
+                    - generic [ref=e258]: 📅
+                    - generic [ref=e259]: Event
+                    - generic [ref=e260]: 6 days ago
+                    - generic [ref=e261]: • Meetup
+                  - heading "BANIBS Small Business Meetup - New York" [level=3] [ref=e262]
+                  - paragraph [ref=e263]: Join fellow Black and Indigenous entrepreneurs for an evening of networking, knowledge sharing, and community building. Connect with local business owners, discuss challenges, and explore collaboratio
+                  - generic [ref=e264]:
+                    - generic [ref=e265]:
+                      - generic [ref=e266]: 📍
+                      - generic [ref=e267]: BANIBS Community Hub
+                    - generic [ref=e268]:
+                      - generic [ref=e269]: 📅
+                      - generic [ref=e270]: 11/16/2025
+            - article [ref=e271] [cursor=pointer]:
+              - generic [ref=e272]:
+                - img "Cultural Heritage Preservation Guides" [ref=e274]
+                - generic [ref=e275]:
+                  - generic [ref=e276]:
+                    - generic [ref=e277]: 📚
+                    - generic [ref=e278]: Resource
+                    - 'generic "Sentiment: Neutral (0.00)" [ref=e279]':
+                      - generic [ref=e280]: ⚪
+                    - generic [ref=e281]: 6 days ago
+                    - generic [ref=e282]: • Community & Culture
+                  - heading "Cultural Heritage Preservation Guides" [level=3] [ref=e283]
+                  - paragraph [ref=e284]: Resources for preserving Indigenous cultural heritage
+            - article [ref=e285] [cursor=pointer]:
+              - generic [ref=e286]:
+                - img "Community Building Strategies" [ref=e288]
+                - generic [ref=e289]:
+                  - generic [ref=e290]:
+                    - generic [ref=e291]: 📚
+                    - generic [ref=e292]: Resource
+                    - 'generic "Sentiment: Neutral (0.00)" [ref=e293]':
+                      - generic [ref=e294]: ⚪
+                    - generic [ref=e295]: 6 days ago
+                    - generic [ref=e296]: • Community & Culture
+                  - heading "Community Building Strategies" [level=3] [ref=e297]
+                  - paragraph [ref=e298]: How to build and engage your local community
+        - generic [ref=e300]:
+          - heading "Quick Destinations" [level=2] [ref=e301]
+          - generic [ref=e302] [cursor=pointer]:
+            - generic [ref=e303]:
+              - generic [ref=e304]: 🏢
+              - generic [ref=e305]:
+                - heading "Business Directory" [level=3] [ref=e306]
+                - paragraph [ref=e307]: Discover Black & Indigenous businesses
+            - generic [ref=e308]: Verified businesses
+            - button "Browse Directory" [ref=e309]
+          - generic [ref=e310] [cursor=pointer]:
+            - generic [ref=e311]:
+              - generic [ref=e312]: 📚
+              - generic [ref=e313]:
+                - heading "Information & Resources" [level=3] [ref=e314]
+                - paragraph [ref=e315]: Education, culture, language tools
+            - generic [ref=e316]: 8 resources available
+            - generic [ref=e317]:
+              - generic [ref=e318]: • Updated Resource Title
+              - generic [ref=e319]: • Updated Resource Title
+              - generic [ref=e320]: • Networking Groups & Organizations
+            - button "Explore Resources" [ref=e321]
+          - generic [ref=e322] [cursor=pointer]:
+            - generic [ref=e323]:
+              - generic [ref=e324]: 💼
+              - generic [ref=e325]:
+                - heading "Opportunities" [level=3] [ref=e326]
+                - paragraph [ref=e327]: Jobs, grants, funding
+            - generic [ref=e328]: Updated daily
+            - button "View All" [ref=e329]
+          - generic [ref=e330] [cursor=pointer]:
+            - generic [ref=e331]:
+              - generic [ref=e332]: 📅
+              - generic [ref=e333]:
+                - heading "Events & Networking" [level=3] [ref=e334]
+                - paragraph [ref=e335]: Connect with the community
+            - generic [ref=e336]: 6 upcoming events
+            - generic [ref=e337]:
+              - generic [ref=e338]: • Black Tech Founders Monthly Call
+              - generic [ref=e339]: • BANIBS Small Business Meetup - New York
+              - generic [ref=e340]: "• Grant Application Workshop: Winning Strategies"
+            - button "See Events" [ref=e341]
+          - generic [ref=e342]:
+            - heading "📊 My Activity" [level=3] [ref=e343]:
+              - generic [ref=e344]: 📊
+              - generic [ref=e345]: My Activity
+            - generic [ref=e346]:
+              - generic [ref=e347]:
+                - generic [ref=e348]: My Businesses
+                - generic [ref=e349]: "0"
+              - generic [ref=e350]:
+                - generic [ref=e351]: My Posts
+                - generic [ref=e352]: Phase 6.2
+              - generic [ref=e353]:
+                - generic [ref=e354]: My Applications
+                - generic [ref=e355]: Phase 6.2
+            - button "View All Activity" [ref=e356] [cursor=pointer]
+  - link "Made with Emergent" [ref=e357] [cursor=pointer]:
+    - /url: https://app.emergent.sh/?utm_source=emergent-badge
+    - generic [ref=e358]:
+      - img [ref=e359]
+      - paragraph [ref=e360]: Made with Emergent
+```
