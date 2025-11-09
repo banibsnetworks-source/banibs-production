@@ -38,12 +38,13 @@ async def get_recruiter_overview(
     if not recruiter:
         raise HTTPException(status_code=404, detail="Recruiter profile not found")
     
-    # Get all jobs for this recruiter
-    all_jobs, _ = await get_job_listings_for_recruiter(
-        recruiter_id=recruiter["id"],
-        skip=0,
-        limit=1000  # Get all jobs for counting
+    # Get all jobs for this recruiter directly from MongoDB
+    job_listings_collection = db.job_listings
+    cursor = job_listings_collection.find(
+        {"posted_by_recruiter_id": recruiter["id"]},
+        {"_id": 0}
     )
+    all_jobs = await cursor.to_list(length=None)
     
     total_jobs = len(all_jobs)
     
