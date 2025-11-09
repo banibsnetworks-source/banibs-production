@@ -269,7 +269,7 @@ async def get_all_news_admin(current_user: dict = Depends(require_role("super_ad
 @router.patch("/admin/{news_id}/feature")
 async def feature_news_item(
     news_id: str,
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     ADMIN ONLY: Set a news item as featured
@@ -410,7 +410,7 @@ async def get_news_by_category(category_slug: str, region: Optional[str] = Query
 @router.delete("/admin/{news_id}")
 async def delete_news_item(
     news_id: str,
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     ADMIN ONLY: Delete a news item
@@ -499,7 +499,7 @@ async def get_trending_news(region: str = "Global", limit: int = 5):
 
 @router.get("/admin/engagement-summary")
 async def get_admin_engagement_summary(
-    current_user: dict = Depends(require_role(["super_admin", "moderator"]))
+    current_user: dict = Depends(require_role("super_admin", "moderator"))
 ):
     """
     ADMIN ONLY: Get engagement summary across all regions.
