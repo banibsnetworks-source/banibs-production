@@ -8,13 +8,13 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException
 from middleware.auth_guard import get_current_user, require_role
 
-from db.opportunities.job_listings import get_job_listings_for_recruiter
 from db.opportunities.recruiter_profiles import get_recruiter_profile_by_user_id
 from db.opportunities.application_records import (
     get_application_count_by_job_ids,
     get_applications_by_job_ids,
     get_recent_applications_count
 )
+from db.connection import db
 
 router = APIRouter(prefix="/api/analytics", tags=["recruiter-analytics"])
 
