@@ -147,7 +147,7 @@ class Phase74APITester:
         if response.status_code == 200:
             data = response.json()
             if isinstance(data, list):
-                self.log(f"✅ GET /api/news working - {len(data)} items - Response time: {response_time:.2f}ms")
+                self.log(f"✅ GET /api/news/latest working - {len(data)} items - Response time: {response_time:.2f}ms")
                 
                 # Check if response time is under 200ms target
                 if response_time > 200:
