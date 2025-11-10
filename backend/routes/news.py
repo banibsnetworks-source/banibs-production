@@ -143,6 +143,10 @@ async def get_featured_news():
     if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
         item['publishedAt'] = item['publishedAt'].isoformat()
     
+    # Convert sentiment_at to ISO string if needed (Phase 6.3)
+    if 'sentiment_at' in item and hasattr(item['sentiment_at'], 'isoformat'):
+        item['sentiment_at'] = item['sentiment_at'].isoformat()
+    
     # Phase 6.6 - Enrich with heavy content banner data
     enrich_item_with_banner_data(item)
     
