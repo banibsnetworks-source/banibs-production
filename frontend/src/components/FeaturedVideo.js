@@ -97,7 +97,7 @@ const FeaturedVideo = () => {
           {media.thumbnailUrl ? (
             <img
               src={media.thumbnailUrl}
-              alt={media.title}
+              alt={`BANIBS TV video thumbnail: ${media.title}`}
               className="w-full h-full object-cover opacity-90"
               loading="lazy"
             />
