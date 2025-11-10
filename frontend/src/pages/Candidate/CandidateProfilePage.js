@@ -319,16 +319,18 @@ function CandidateProfilePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label htmlFor="location" className="block text-sm font-medium text-slate-300 mb-2">
                   Location <span className="text-red-400">*</span>
                 </label>
                 <input
+                  id="location"
                   type="text"
                   placeholder="City, State, Country"
                   value={formData.location}
                   onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
                   className="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   required
+                  aria-required="true"
                 />
               </div>
 
