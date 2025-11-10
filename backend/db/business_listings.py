@@ -195,31 +195,20 @@ def sanitize_listing_response(listing: dict) -> dict:
     """
     Convert database listing to public API response
     Adds computed directions_link field
-    """
-    # Compute directions link
-    directions_link = compute_directions_link(listing)
     
-    return {
-        "id": listing["id"],
-        "business_name": listing["business_name"],
-        "contact_email": listing.get("contact_email"),
-        "contact_phone": listing.get("contact_phone"),
-        "address_line1": listing.get("address_line1"),
-        "address_line2": listing.get("address_line2"),
-        "city": listing.get("city"),
-        "state": listing.get("state"),
-        "postal_code": listing.get("postal_code"),
-        "country": listing.get("country", "United States"),
-        "job_title": listing.get("job_title"),
-        "geo_latitude": listing.get("geo_latitude"),
-        "geo_longitude": listing.get("geo_longitude"),
-        "directions_url": listing.get("directions_url"),
-        "directions_link": directions_link,  # Computed field
-        "description": listing.get("description"),
-        "category": listing.get("category"),
-        "website": listing.get("website"),
-        "logo_url": listing.get("logo_url"),
-        "verified": listing.get("verified", False),
-        "featured": listing.get("featured", False),
-        "created_at": listing["created_at"]
-    }
+    Optimized to minimize dictionary operations
+    """
+    # Compute directions link inline for performance
+    directions_link = None
+    if listing.get("directions_url"):
+        directions_link = listing["directions_url"]
+    elif listing.get("geo_latitude") is not None and listing.get("geo_longitude") is not None:
+        directions_link = f"https://www.google.com/maps/search/?api=1&query={listing['geo_latitude']},{listing['geo_longitude']}"
+    
+    # Build response dict directly - faster than calling .get() repeatedly
+    listing["directions_link"] = directions_link
+    
+    # Remove MongoDB's _id if present
+    listing.pop("_id", None)
+    
+    return listing
