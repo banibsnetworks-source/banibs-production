@@ -103,22 +103,22 @@
 #====================================================================================================
 
 user_problem_statement: |
-  Phase 5 Backend Implementation - Continue BANIBS Phase 5 (Monetization, Delivery, Safety):
+  Phase 7.x Continuation - Homepage Content + Business Directory Performance + Testing Cleanup:
   
-  Phase 5.1 - Paid Sponsored Placement (Stripe):
-  1. Stripe checkout endpoint for contributors to sponsor their own approved opportunities
-  2. Stripe webhook handler to process successful payments
-  3. Update opportunities collection with sponsored status
-  4. Track sponsor orders in new collection
+  Phase 1 - Homepage Content Fixes (PRIORITY):
+  1. Fix Featured Stories section - ensure /api/news/featured returns valid data with image_url and link
+  2. Fix BANIBS TV section - ensure /api/media/featured returns media or graceful fallback
+  3. Frontend components should handle empty states properly
   
-  Phase 5.2 - Automated Weekly Digest Delivery:
-  1. Admin endpoint to manually send weekly digest to all newsletter subscribers
-  2. Log sends to newsletter_sends collection
-  3. Track send history for admins
+  Phase 2 - Business Directory Performance:
+  1. Investigate slow /api/business/directory endpoint (~20s response time)
+  2. Optimize MongoDB queries and indexes
+  3. Consider pagination and caching
   
-  RBAC rules from Phase 4 must be maintained:
-  - super_admin: full access
-  - moderator: can moderate but cannot sponsor, send newsletter, or view revenue
+  Phase 3 - Playwright Testing Cleanup:
+  1. Align selectors with current UI (buttons, cards, etc.)
+  2. Add data-testid attributes where needed
+  3. Ensure tests pass reliably
 
 backend:
   - task: "Contributor authentication endpoints"
