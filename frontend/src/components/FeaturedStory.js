@@ -4,6 +4,7 @@ import { formatDate } from '../utils/dateUtils';
 const FeaturedStory = () => {
   const [featuredStory, setFeaturedStory] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     fetchFeaturedStory();
