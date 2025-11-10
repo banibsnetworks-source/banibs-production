@@ -180,6 +180,10 @@ function RecruiterDashboard() {
 
   return (
     <main className="max-w-6xl mx-auto px-4 py-6 md:py-8">
+      <SEO 
+        title="BANIBS Recruiter Dashboard - Manage Job Postings"
+        description="Post jobs, review applications, and connect with talented candidates in the BANIBS opportunities network."
+      />
       {/* Header */}
       <header className="mb-4 md:mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         <div>
