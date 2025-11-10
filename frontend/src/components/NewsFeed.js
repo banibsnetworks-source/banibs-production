@@ -89,7 +89,7 @@ const NewsFeed = () => {
             <div className="w-full h-40 rounded-lg overflow-hidden bg-black/40 border border-yellow-400/20 flex items-center justify-center mb-4">
               <img
                 src={item.imageUrl || `${process.env.REACT_APP_BACKEND_URL}/static/img/fallbacks/news_default.jpg`}
-                alt={item.title}
+                alt={`News article image: ${item.title}`}
                 className="w-full h-full object-cover"
                 loading="lazy"
                 onError={(e) => {
