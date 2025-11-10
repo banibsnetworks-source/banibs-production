@@ -97,13 +97,15 @@ const HomePage = () => {
               <div className="hidden lg:flex gap-4 items-center border-r border-[#FFD700]/20 pr-8">
                 <button
                   onClick={() => navigate('/opportunities')}
-                  className="text-sm text-[#FFD700] hover:underline transition-all font-medium"
+                  className="text-sm text-[#FFD700] hover:underline transition-all font-medium focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:ring-offset-2 focus:ring-offset-black rounded px-1"
+                  aria-label="View all opportunities"
                 >
                   View Opportunities
                 </button>
                 <button
                   onClick={() => navigate('/opportunity-hub')}
-                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:ring-offset-2 focus:ring-offset-black rounded px-1"
+                  aria-label="Go to opportunity hub"
                 >
                   Opportunity Hub
                 </button>
@@ -113,7 +115,8 @@ const HomePage = () => {
               <div className="flex gap-3 items-center">
                 <button
                   onClick={() => navigate('/submit')}
-                  className="px-4 py-2 bg-[#FFD700] text-black font-semibold rounded hover:bg-[#FFC700] transition-all text-sm"
+                  className="px-4 py-2 bg-[#FFD700] text-black font-semibold rounded hover:bg-[#FFC700] transition-all text-sm focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:ring-offset-2 focus:ring-offset-black"
+                  aria-label="Submit a new opportunity"
                 >
                   Submit Opportunity
                 </button>
