@@ -120,7 +120,7 @@ class Phase74APITester:
         self.log("Testing Phase 7.4 - JWT token validation...")
         
         # Test protected route without token - should return 401
-        response = self.make_request("GET", "/candidates/profile/me")
+        response = self.make_request("GET", "/candidates/me")
         if response.status_code != 401:
             self.log(f"❌ Protected route should require auth, got {response.status_code}", "ERROR")
             return False
