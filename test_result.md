@@ -121,20 +121,35 @@ user_problem_statement: |
   3. Ensure tests pass reliably
 
 backend:
-  - task: "Contributor authentication endpoints"
+  - task: "Phase 1 - Featured News API Fix"
     implemented: true
     working: true
-    file: "backend/routes/contributor_auth.py"
+    file: "backend/routes/news.py"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Already implemented in Phase 2.9. Endpoints /api/auth/contributor/register and /api/auth/contributor/login exist. Need to test."
+        comment: "Fixed /api/news/featured endpoint. Issue was sentiment_at datetime not being converted to ISO string, causing Pydantic validation error. Added datetime conversion for sentiment_at field."
       - working: true
-        agent: "testing"
-        comment: "✅ TESTED: Both /api/auth/contributor/register and /api/auth/contributor/login working correctly. Registration creates new contributor with JWT tokens. Login validates credentials and returns JWT tokens. Contributor data properly stored with email, name, organization fields."
+        agent: "main"
+        comment: "✅ FIXED: /api/news/featured now returns proper NewsItemPublic object with all fields including imageUrl and sourceUrl. Created set_featured_news.py script to mark news items as featured. API tested successfully via curl."
+  
+  - task: "Phase 1 - BANIBS TV Media Seeding"
+    implemented: true
+    working: true
+    file: "backend/scripts/seed_media_items.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created seed script for BANIBS TV media items. The featured_media collection was empty, causing FeaturedVideo component to show error state. Script seeds 3 sample media items with 1 marked as featured."
+      - working: true
+        agent: "main"
+        comment: "✅ SEEDED: 3 BANIBS TV media items created including 'Building Wealth Through Black-Owned Businesses' (featured), 'Indigenous Youth Leading Climate Action', and 'Grant Writing Workshop'. /api/media/featured endpoint now returns proper data."
 
   - task: "Analytics endpoint"
     implemented: true
