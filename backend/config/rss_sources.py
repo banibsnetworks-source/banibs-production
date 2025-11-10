@@ -177,6 +177,7 @@ RSS_SOURCES = [
         "rss_url": "https://techcrunch.com/startups/feed/",
         "language": "en",
         "active": True,
+        "featured_source": True,  # Reliable images for featured stories
     },
     
     # ========================================================================
