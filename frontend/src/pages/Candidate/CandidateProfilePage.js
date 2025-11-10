@@ -266,6 +266,10 @@ function CandidateProfilePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-black py-12">
+      <SEO 
+        title="BANIBS - Create Your Candidate Profile"
+        description="Build your professional profile to connect with recruiters and opportunities in the BANIBS network."
+      />
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
