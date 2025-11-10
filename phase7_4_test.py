@@ -338,7 +338,7 @@ class Phase74APITester:
         
         if response.status_code == 200:
             data = response.json()
-            self.log(f"✅ GET /api/candidates/profile/me working - Response time: {response_time:.2f}ms")
+            self.log(f"✅ GET /api/candidates/me working - Response time: {response_time:.2f}ms")
             
             # Verify profile structure
             if isinstance(data, dict):
