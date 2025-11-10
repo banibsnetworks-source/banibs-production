@@ -45,6 +45,9 @@ async def get_business_directory(
     
     Returns listings with computed directions_link field
     """
+    import time
+    start_time = time.time()
+    
     listings = await get_all_business_listings(
         skip=skip,
         limit=limit,
@@ -54,8 +57,18 @@ async def get_business_directory(
         verified_only=verified_only
     )
     
+    db_time = time.time() - start_time
+    print(f"⏱️  DB query took: {db_time:.2f}s ({len(listings)} listings)")
+    
     # Add computed directions_link to each listing
-    return [sanitize_listing_response(listing) for listing in listings]
+    sanitize_start = time.time()
+    result = [sanitize_listing_response(listing) for listing in listings]
+    sanitize_time = time.time() - sanitize_start
+    
+    print(f"⏱️  Sanitization took: {sanitize_time:.2f}s")
+    print(f"⏱️  Total time: {time.time() - start_time:.2f}s")
+    
+    return result
 
 
 @router.get("/directory/{listing_id}", response_model=BusinessListingPublic)
