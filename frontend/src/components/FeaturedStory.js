@@ -55,7 +55,10 @@ const FeaturedStory = () => {
   const isFallback = !featuredStory;
   
   // Ensure we have valid image and link
-  const storyImage = story.imageUrl || `${process.env.REACT_APP_BACKEND_URL}/static/img/fallbacks/news_default.jpg`;
+  // Check if image URL is from non-existent CDN and use fallback instead
+  const fallbackImageUrl = `${process.env.REACT_APP_BACKEND_URL}/static/img/fallbacks/news_default.jpg`;
+  const isCdnUrl = story.imageUrl && story.imageUrl.includes('cdn.banibs.com');
+  const storyImage = (!story.imageUrl || isCdnUrl) ? fallbackImageUrl : story.imageUrl;
   const storyLink = story.sourceUrl || "#";
 
   return (
