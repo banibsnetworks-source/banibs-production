@@ -280,12 +280,13 @@ class Phase74APITester:
         job_data = {
             "title": "Phase 7.4 Test Job",
             "company": "Test Company",
-            "description": "Test job description",
+            "description": "This is a comprehensive test job description for Phase 7.4 testing that meets the minimum character requirements for job posting validation.",
             "location": "Remote",
             "salary_min": 50000,
             "salary_max": 80000,
             "job_type": "full_time",
-            "industry": "Technology"
+            "industry": "Technology",
+            "employer_id": "test-employer-id"
         }
         
         start_time = time.time()
