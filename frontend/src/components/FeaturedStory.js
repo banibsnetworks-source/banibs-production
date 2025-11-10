@@ -63,14 +63,21 @@ const FeaturedStory = () => {
         <div className="flex flex-col md:flex-row md:items-start gap-6">
 
           {/* Image Block */}
-          <div className="w-full md:w-1/3 rounded-xl overflow-hidden shadow-sm bg-black/40 border border-yellow-400/20">
+          <div className="w-full md:w-1/3 rounded-xl overflow-hidden shadow-sm bg-black/40 border border-yellow-400/20 relative">
+            {/* Loading skeleton */}
+            {!imageLoaded && (
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 animate-pulse" />
+            )}
             <img
               src={storyImage}
               alt={`Featured story: ${story.title}`}
-              className="w-full h-full object-cover"
-              loading="lazy"
+              className={`w-full h-full object-cover transition-opacity duration-300 ${
+                imageLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
+              onLoad={() => setImageLoaded(true)}
               onError={(e) => {
                 e.target.src = `${process.env.REACT_APP_BACKEND_URL}/static/img/fallbacks/news_default.jpg`;
+                setImageLoaded(true);
               }}
             />
           </div>
