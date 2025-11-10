@@ -143,6 +143,10 @@ function OpportunitiesPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+      <SEO 
+        title="BANIBS Opportunities - Jobs, Grants & Scholarships"
+        description="Browse curated opportunities for Black and Indigenous communities including jobs, grants, scholarships, training programs, and events."
+      />
       {/* Hero Section - Option A: Empowerment & Inclusion */}
       <section className="relative overflow-hidden">
         {/* Animated gradient background */}
