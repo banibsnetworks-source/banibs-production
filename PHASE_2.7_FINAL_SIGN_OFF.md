@@ -46,8 +46,8 @@
 | `/api/opportunities/{id}/feature` | PATCH | ✅ 200 | ✅ Yes |
 
 **Total Endpoints:** 8/8 Active ✅  
-**Swagger UI:** https://talent-exchange-16.preview.emergentagent.com/docs ✅  
-**ReDoc:** https://talent-exchange-16.preview.emergentagent.com/redoc ✅
+**Swagger UI:** https://workopps-2.preview.emergentagent.com/docs ✅  
+**ReDoc:** https://workopps-2.preview.emergentagent.com/redoc ✅
 
 ---
 
@@ -84,7 +84,7 @@ def check_admin(x_api_key: str = Header(None)):
 
 **Frontend Environment:**
 ```env
-REACT_APP_BACKEND_URL=https://talent-exchange-16.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://workopps-2.preview.emergentagent.com
 ```
 
 **Status:** ✅ Frontend is pointed at the live backend

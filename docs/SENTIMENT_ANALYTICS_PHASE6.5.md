@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://talent-exchange-16.preview.emergentagent.com/api/admin/analytics/sentiment
+https://workopps-2.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints

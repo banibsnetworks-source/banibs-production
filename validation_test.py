@@ -9,7 +9,7 @@ import json
 from datetime import datetime
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://talent-exchange-16.preview.emergentagent.com"
+BACKEND_URL = "https://workopps-2.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 def log(message: str, level: str = "INFO"):

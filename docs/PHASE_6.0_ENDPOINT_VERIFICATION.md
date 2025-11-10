@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://talent-exchange-16.preview.emergentagent.com/api/auth
+https://workopps-2.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
