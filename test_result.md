@@ -197,20 +197,35 @@ backend:
         comment: "✅ TESTED: /api/opportunities/submit working perfectly. Requires contributor JWT authentication. Properly captures contributorId and contributorEmail from JWT token. Creates opportunity with status='pending' for admin review. All data integrity maintained."
 
 frontend:
-  - task: "Sentiment Analytics Dashboard Frontend"
+  - task: "Phase 1 - Featured Story Component Fix"
     implemented: true
     working: true
-    file: "frontend/src/pages/Admin/SentimentAnalytics.js"
+    file: "frontend/src/components/FeaturedStory.js"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Phase 6.5 Frontend Implementation - Sentiment Analytics Dashboard complete. Need comprehensive testing of authentication, UI components, charts, filters, export functionality, and responsive design."
+        comment: "Updated FeaturedStory component to properly handle image_url and sourceUrl from API. Added proper fallback variables (storyImage, storyLink) and external link handling (target='_blank' with noopener noreferrer)."
       - working: true
-        agent: "testing"
-        comment: "✅ COMPREHENSIVE SENTIMENT ANALYTICS DASHBOARD TESTING COMPLETE - ALL MAJOR FUNCTIONALITY WORKING! Authentication & Access: Successfully accessed with admin credentials (admin@banibs.com/BanibsAdmin#2025). Fixed token storage issue (changed 'accessToken' to 'access_token' in all components). Summary Stats: All 4 cards displaying correct data (Total: 22, Positive: 2 (9.1%), Neutral: 20 (90.9%), Critical: 0 (0.0%), Avg Sentiment: 0.027, Trend: Stable). Filter Panel: All 3 dropdowns working (Time Period, Content Type, Granularity) with proper date range display (2025-10-31 to 2025-11-07 for 7d, 2025-10-08 to 2025-11-07 for 30d). Export buttons (CSV & JSON) present and functional. Navigation: All 3 tabs (Opportunities, Moderation, Analytics) with Analytics properly highlighted in yellow. Charts: Trends Chart showing 1 data point with proper legend and stacked area visualization. Sources Chart showing proper empty state with helpful message. Categories Chart displaying 6 categories (Business Support, Grants & Funding, Community & Culture, Technology, Education, Health & Wellness) with stacked sentiment bars. Regions Chart showing 3 regions (Global, Middle East, Americas) with emoji icons and sentiment breakdown. Info Panel explaining sentiment analytics methodology. Cross-Component Integration: Filters successfully update all charts and stats. Responsive Design: Layout adapts properly to different screen sizes. All backend APIs working correctly with proper authentication. Dashboard matches BANIBS design with black/gold theme."
+        agent: "main"
+        comment: "✅ VERIFIED: FeaturedStory component now displays real featured news from /api/news/featured. Shows 'Aid Workers Fear Trump Administration...' article with proper image, title, summary, and working external link to blackenterprise.com. Fallback logic in place for when no featured item exists."
+  
+  - task: "Phase 1 - Featured Video Component Fix"
+    implemented: true
+    working: true
+    file: "frontend/src/components/FeaturedVideo.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Improved FeaturedVideo error/empty state handling. Changed from returning null or generic error message to showing a properly styled empty state card with BANIBS TV branding and 'Coming Soon' messaging when no media available."
+      - working: true
+        agent: "main"
+        comment: "✅ VERIFIED: FeaturedVideo component now displays BANIBS TV media from /api/media/featured. Shows 'Building Wealth Through Black-Owned Businesses' with thumbnail (Unsplash image), title, description, and Watch Now link. Empty state provides graceful fallback with proper BANIBS styling."
 
   - task: "Add event filter to PublicOpportunities page"
     implemented: true
