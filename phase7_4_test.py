@@ -425,7 +425,7 @@ class Phase74APITester:
         """Test Phase 7.4 - CORS headers are present"""
         self.log("Testing Phase 7.4 - CORS headers...")
         
-        response = self.make_request("GET", "/news")
+        response = self.make_request("GET", "/news/latest")
         
         if response.status_code == 200:
             headers = response.headers
