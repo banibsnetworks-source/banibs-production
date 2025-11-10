@@ -164,7 +164,8 @@ function BusinessDirectoryPage() {
               id="verified-only"
               checked={filters.verifiedOnly}
               onChange={(e) => handleFilterChange("verifiedOnly", e.target.checked)}
-              className="w-4 h-4 text-yellow-500 bg-slate-900 border-slate-600 rounded focus:ring-yellow-500"
+              className="w-4 h-4 text-yellow-500 bg-slate-900 border-slate-600 rounded focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-slate-800"
+              aria-label="Filter to show verified businesses only"
             />
             <label htmlFor="verified-only" className="ml-2 text-sm text-slate-300">
               Show verified businesses only
