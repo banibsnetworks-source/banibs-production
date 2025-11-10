@@ -64,7 +64,7 @@ const FeaturedStory = () => {
           {/* Image Block */}
           <div className="w-full md:w-1/3 rounded-xl overflow-hidden shadow-sm bg-black/40 border border-yellow-400/20">
             <img
-              src={story.imageUrl || `${process.env.REACT_APP_BACKEND_URL}/static/img/fallbacks/news_default.jpg`}
+              src={storyImage}
               alt={story.title}
               className="w-full h-full object-cover"
               loading="lazy"
@@ -87,7 +87,9 @@ const FeaturedStory = () => {
             {/* CTA Row */}
             <div className="mt-5 flex flex-col sm:flex-row sm:items-center gap-3">
               <a
-                href={story.sourceUrl}
+                href={storyLink}
+                target={storyLink !== "#" ? "_blank" : "_self"}
+                rel={storyLink !== "#" ? "noopener noreferrer" : undefined}
                 className="inline-block text-center text-white bg-gray-900 hover:bg-black rounded-lg px-4 py-2 text-sm font-semibold shadow"
               >
                 Read Full Story
