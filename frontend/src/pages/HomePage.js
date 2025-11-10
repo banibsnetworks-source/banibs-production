@@ -21,6 +21,7 @@ import NewsFeed from '../components/NewsFeed';
 import FeaturedStory from '../components/FeaturedStory';
 import FeaturedVideo from '../components/FeaturedVideo';
 import QuickLinks from '../components/QuickLinks';
+import SEO from '../components/SEO';
 
 const HomePage = () => {
   const navigate = useNavigate();
