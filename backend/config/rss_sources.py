@@ -14,6 +14,7 @@ Standardized schema with comprehensive global coverage
 #   - rss_url: RSS feed URL
 #   - language: ISO language code (default: "en")
 #   - active: Boolean flag to enable/disable feed
+#   - featured_source: (Optional) Boolean flag indicating source has reliable images for featured stories
 # ============================================================================
 
 RSS_SOURCES = [
