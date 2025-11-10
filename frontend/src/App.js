@@ -136,6 +136,7 @@ function App() {
               {/* Stub Pages */}
               <Route path="/social" element={<SocialPage />} />
               <Route path="/business" element={<BusinessPage />} />
+              <Route path="/business-directory" element={<BusinessDirectoryPage />} /> {/* Phase 7.2 */}
               <Route path="/information" element={<InformationPage />} />
               <Route path="/education" element={<EducationPage />} />
               <Route path="/youth" element={<YouthPage />} />
