@@ -139,9 +139,9 @@ class Phase74APITester:
         """Test Phase 7.4 - News & Content APIs"""
         self.log("Testing Phase 7.4 - News & Content APIs...")
         
-        # Test GET /api/news
+        # Test GET /api/news/latest
         start_time = time.time()
-        response = self.make_request("GET", "/news")
+        response = self.make_request("GET", "/news/latest")
         response_time = (time.time() - start_time) * 1000
         
         if response.status_code == 200:
