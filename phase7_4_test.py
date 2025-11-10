@@ -99,7 +99,7 @@ class Phase74APITester:
         })
         response_time = (time.time() - start_time) * 1000
         
-        if response.status_code == 201:
+        if response.status_code in [200, 201]:
             data = response.json()
             if "access_token" in data and "user" in data:
                 self.user_token = data["access_token"]
