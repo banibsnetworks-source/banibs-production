@@ -42,23 +42,47 @@ const FeaturedVideo = () => {
     );
   }
 
-  if (error) {
+  // If error or no media, show empty state (not an error to user)
+  if (error || !media) {
     return (
       <section className="w-full max-w-[1100px] mx-auto px-4 mb-10">
         <div className="text-yellow-400 text-xs font-semibold tracking-wide uppercase mb-2">
           BANIBS TV
         </div>
-        <div className="relative w-full h-56 md:h-48 rounded-2xl bg-black/40 border border-yellow-400/30 flex items-center justify-center">
-          <div className="text-yellow-300/70 text-sm text-center px-4">
-            BANIBS TV • Coming Soon
+        <div className="relative w-full rounded-2xl overflow-hidden bg-black/60 border border-yellow-400/30 shadow-xl flex flex-col md:flex-row">
+          {/* Placeholder thumbnail */}
+          <div className="w-full md:w-1/2 h-56 md:h-auto bg-black/40 border-b md:border-b-0 md:border-r border-yellow-400/20 flex items-center justify-center">
+            <div className="text-yellow-300/80 italic text-sm text-center px-4">
+              BANIBS TV • Community Voices
+            </div>
+          </div>
+          
+          {/* Placeholder content */}
+          <div className="flex-1 p-6 flex flex-col justify-between text-white">
+            <div>
+              <div className="text-[0.7rem] text-yellow-300/80 uppercase tracking-wide mb-2">
+                BANIBS TV
+              </div>
+              <h2 className="text-xl md:text-2xl font-semibold mb-2 leading-snug">
+                Stories From The Network
+              </h2>
+              <p className="text-sm text-gray-200/90 mb-4 leading-relaxed">
+                Community wealth building, youth innovation, and real talk from founders, organizers, and educators shaping the future.
+              </p>
+            </div>
+            
+            <div className="flex items-center justify-between text-[0.8rem]">
+              <span className="text-yellow-400/70 font-medium">
+                Coming Soon
+              </span>
+              <div className="text-[0.7rem] text-yellow-300/60 italic">
+                BANIBS TV
+              </div>
+            </div>
           </div>
         </div>
       </section>
     );
-  }
-
-  if (!media) {
-    return null;
   }
 
   return (
