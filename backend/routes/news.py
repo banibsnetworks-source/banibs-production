@@ -117,27 +117,66 @@ async def get_featured_news():
     """
     Get the most recent featured news item for homepage hero
     
+    Prioritizes items with valid images from featured sources.
+    Query logic:
+    1. Look for manually featured items (isFeatured: True) with valid images
+    2. If none, look for recent items from featured sources with valid images
+    3. If still none, return empty object (frontend will show SVG fallback)
+    
     Returns exactly one featured story or empty object if none exists.
     This is a public endpoint - no authentication required.
     
     Used by: Homepage "Featured Story" hero section
     """
-    # Fallback image URL for items without images
-    FALLBACK_IMAGE = "/static/img/fallbacks/news_default.jpg"
+    from config.rss_sources import RSS_SOURCES
     
-    # Find most recent featured item
+    # Get list of featured source names
+    featured_source_names = [
+        source['source_name'] 
+        for source in RSS_SOURCES 
+        if source.get('featured_source', False) and source.get('active', False)
+    ]
+    
+    # Try 1: Look for manually featured item with valid image (not CDN)
     item = await news_collection.find_one(
-        {"isFeatured": True},
+        {
+            "isFeatured": True,
+            "imageUrl": {"$exists": True, "$ne": None, "$ne": ""},
+            "imageUrl": {"$not": {"$regex": "cdn.banibs.com"}},  # Exclude broken CDN URLs
+            "sourceUrl": {"$exists": True, "$ne": None, "$ne": ""}
+        },
         {"_id": 0}
     )
     
+    # Try 2: If no manually featured item, look for recent item from featured sources
+    if not item and featured_source_names:
+        item = await news_collection.find_one(
+            {
+                "sourceName": {"$in": featured_source_names},
+                "imageUrl": {"$exists": True, "$ne": None, "$ne": ""},
+                "imageUrl": {"$not": {"$regex": "cdn.banibs.com"}},  # Exclude broken CDN URLs
+                "sourceUrl": {"$exists": True, "$ne": None, "$ne": ""}
+            },
+            {"_id": 0},
+            sort=[("publishedAt", -1)]  # Most recent first
+        )
+    
+    # Try 3: If still nothing, look for ANY recent item with valid image
+    if not item:
+        item = await news_collection.find_one(
+            {
+                "imageUrl": {"$exists": True, "$ne": None, "$ne": ""},
+                "imageUrl": {"$not": {"$regex": "cdn.banibs.com"}},  # Exclude broken CDN URLs
+                "sourceUrl": {"$exists": True, "$ne": None, "$ne": ""}
+            },
+            {"_id": 0},
+            sort=[("publishedAt", -1)]  # Most recent first
+        )
+    
     if not item:
         # Return empty object if no featured story exists
+        # Frontend will show SVG fallback
         return {}
-    
-    # Ensure item has an imageUrl
-    if not item.get('imageUrl'):
-        item['imageUrl'] = FALLBACK_IMAGE
     
     # Convert datetime to ISO string
     if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
