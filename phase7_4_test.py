@@ -315,10 +315,11 @@ class Phase74APITester:
         
         if response.status_code == 200:
             data = response.json()
-            if isinstance(data, list):
-                self.log(f"✅ GET /api/applications/my-applications working - {len(data)} applications - Response time: {response_time:.2f}ms")
+            if "applications" in data and isinstance(data["applications"], list):
+                applications = data["applications"]
+                self.log(f"✅ GET /api/applications/my-applications working - {len(applications)} applications - Response time: {response_time:.2f}ms")
             else:
-                self.log("❌ Applications API should return array", "ERROR")
+                self.log("❌ Applications API should return object with applications array", "ERROR")
                 return False
         else:
             self.log(f"❌ Applications API failed: {response.status_code} - {response.text}", "ERROR")
