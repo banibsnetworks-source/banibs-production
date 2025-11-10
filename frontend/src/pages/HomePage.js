@@ -58,31 +58,36 @@ const HomePage = () => {
               <div className="hidden lg:flex gap-4 items-center border-r border-[#FFD700]/20 pr-8">
                 <button
                   onClick={() => navigate('/opportunities?type=job')}
-                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:ring-offset-2 focus:ring-offset-black rounded"
+                  aria-label="Browse job opportunities"
                 >
                   Jobs
                 </button>
                 <button
                   onClick={() => navigate('/opportunities?type=grant')}
-                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:ring-offset-2 focus:ring-offset-black rounded"
+                  aria-label="Browse grant opportunities"
                 >
                   Grants
                 </button>
                 <button
                   onClick={() => navigate('/opportunities?type=scholarship')}
-                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:ring-offset-2 focus:ring-offset-black rounded"
+                  aria-label="Browse scholarship opportunities"
                 >
                   Scholarships
                 </button>
                 <button
                   onClick={() => navigate('/opportunities?type=training')}
-                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:ring-offset-2 focus:ring-offset-black rounded"
+                  aria-label="Browse training opportunities"
                 >
                   Training
                 </button>
                 <button
                   onClick={() => navigate('/opportunities?type=event')}
-                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium"
+                  className="text-sm text-gray-300 hover:text-[#FFD700] transition-all font-medium focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:ring-offset-2 focus:ring-offset-black rounded"
+                  aria-label="Browse event opportunities"
                 >
                   Events
                 </button>
