@@ -335,24 +335,27 @@ function CandidateProfilePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label htmlFor="professional-title" className="block text-sm font-medium text-slate-300 mb-2">
                   Professional Headline <span className="text-red-400">*</span>
                 </label>
                 <input
+                  id="professional-title"
                   type="text"
                   placeholder="e.g., Senior Data Analyst – Remote/Hybrid"
                   value={formData.professional_title}
                   onChange={(e) => setFormData(prev => ({ ...prev, professional_title: e.target.value }))}
                   className="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   required
+                  aria-required="true"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label htmlFor="contact-email" className="block text-sm font-medium text-slate-300 mb-2">
                   Contact Email
                 </label>
                 <input
+                  id="contact-email"
                   type="email"
                   value={formData.contact_email}
                   onChange={(e) => setFormData(prev => ({ ...prev, contact_email: e.target.value }))}
