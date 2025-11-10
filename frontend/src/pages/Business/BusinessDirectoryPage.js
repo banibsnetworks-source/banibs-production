@@ -60,7 +60,15 @@ function BusinessDirectoryPage() {
       if (filters.verifiedOnly) params.append("verified_only", "true");
       params.append("limit", "50");
 
-      const res = await fetch(`${BACKEND_URL}/api/business/directory?${params.toString()}`);
+      // Increased timeout for initial load while backend warms up
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+      
+      const res = await fetch(`${BACKEND_URL}/api/business/directory?${params.toString()}`, {
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
       
       if (!res.ok) {
         throw new Error("Failed to load directory");
