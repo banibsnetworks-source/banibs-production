@@ -46,6 +46,10 @@ const FeaturedStory = () => {
 
   const story = featuredStory || fallbackStory;
   const isFallback = !featuredStory;
+  
+  // Ensure we have valid image and link
+  const storyImage = story.imageUrl || `${process.env.REACT_APP_BACKEND_URL}/static/img/fallbacks/news_default.jpg`;
+  const storyLink = story.sourceUrl || "#";
 
   return (
     <section className="max-w-7xl mx-auto px-4 mt-8 md:mt-10">
