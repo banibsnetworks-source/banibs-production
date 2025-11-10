@@ -190,6 +190,7 @@ RSS_SOURCES = [
         "rss_url": "http://rss.cnn.com/rss/edition_world.rss",
         "language": "en",
         "active": True,
+        "featured_source": True,  # Reliable images for featured stories
     },
     {
         "id": "bbc_world",
@@ -199,6 +200,7 @@ RSS_SOURCES = [
         "rss_url": "http://feeds.bbci.co.uk/news/world/rss.xml",
         "language": "en",
         "active": True,
+        "featured_source": True,  # Reliable images for featured stories
     },
     {
         "id": "reuters_world",
