@@ -36,6 +36,10 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen bg-black">
+      <SEO 
+        title="Black America News, Information & Business System"
+        description="Connecting Black and Indigenous communities to news, opportunities, business resources, and education. Browse jobs, grants, scholarships, and Black-owned businesses."
+      />
       {/* Navigation */}
       <nav className="border-b-2 border-[#FFD700] bg-black sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
