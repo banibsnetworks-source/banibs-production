@@ -63,7 +63,7 @@ const FeaturedStory = () => {
         <div className="flex flex-col md:flex-row md:items-start gap-6">
 
           {/* Image Block */}
-          <div className="w-full md:w-1/3 rounded-xl overflow-hidden shadow-sm bg-black/40 border border-yellow-400/20 relative">
+          <div className="w-full md:w-1/3 rounded-xl overflow-hidden shadow-sm bg-black/40 border border-yellow-400/20 relative min-h-[200px] md:min-h-[250px]">
             {/* Loading skeleton */}
             {!imageLoaded && (
               <div className="absolute inset-0 bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 animate-pulse" />
