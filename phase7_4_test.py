@@ -353,18 +353,17 @@ class Phase74APITester:
             self.log(f"❌ Candidate profile fetch failed: {response.status_code} - {response.text}", "ERROR")
             return False
         
-        # Test POST /api/candidates (create/update profile)
+        # Test POST /api/candidates/profile (create/update profile)
         profile_data = {
             "full_name": "Phase 7.4 Test Candidate",
             "contact_email": "test.candidate@example.com",
             "skills": ["Python", "JavaScript", "React"],
             "experience_years": 3,
-            "location": "Toronto, ON",
-            "user_id": "test-user-id"
+            "location": "Toronto, ON"
         }
         
         start_time = time.time()
-        response = self.make_request("POST", "/candidates", profile_data, headers=headers)
+        response = self.make_request("POST", "/candidates/profile", profile_data, headers=headers)
         response_time = (time.time() - start_time) * 1000
         
         if response.status_code in [200, 201]:
