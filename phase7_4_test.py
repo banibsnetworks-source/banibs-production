@@ -127,7 +127,7 @@ class Phase74APITester:
         
         # Test with invalid token
         headers = {"Authorization": "Bearer invalid_token"}
-        response = self.make_request("GET", "/candidates/profile/me", headers=headers)
+        response = self.make_request("GET", "/candidates/me", headers=headers)
         if response.status_code != 401:
             self.log(f"❌ Invalid token should return 401, got {response.status_code}", "ERROR")
             return False
