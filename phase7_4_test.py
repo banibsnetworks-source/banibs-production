@@ -331,9 +331,9 @@ class Phase74APITester:
         
         headers = {"Authorization": f"Bearer {self.admin_token}"}
         
-        # Test GET /api/candidates/profile/me
+        # Test GET /api/candidates/me
         start_time = time.time()
-        response = self.make_request("GET", "/candidates/profile/me", headers=headers)
+        response = self.make_request("GET", "/candidates/me", headers=headers)
         response_time = (time.time() - start_time) * 1000
         
         if response.status_code == 200:
