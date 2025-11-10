@@ -49,6 +49,7 @@ import YouthPage from "./pages/Stubs/YouthPage";
 import OpportunitiesPage from "./pages/Business/Opportunities/OpportunitiesPage"; // Phase 7.1
 import JobDetailPage from "./pages/Business/Opportunities/JobDetailPage"; // Phase 7.1
 import RecruiterDashboard from "./pages/Business/Opportunities/RecruiterDashboard"; // Phase 7.1
+import BusinessDirectoryPage from "./pages/Business/BusinessDirectoryPage"; // Phase 7.2
 // Phase 7.1 Cycle 1.3 - Candidate Flow
 import CandidateProfilePage from "./pages/Candidate/CandidateProfilePage";
 import MyApplicationsPage from "./pages/Candidate/MyApplicationsPage";
