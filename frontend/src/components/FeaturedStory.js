@@ -65,7 +65,7 @@ const FeaturedStory = () => {
           <div className="w-full md:w-1/3 rounded-xl overflow-hidden shadow-sm bg-black/40 border border-yellow-400/20">
             <img
               src={storyImage}
-              alt={story.title}
+              alt={`Featured story: ${story.title}`}
               className="w-full h-full object-cover"
               loading="lazy"
               onError={(e) => {
