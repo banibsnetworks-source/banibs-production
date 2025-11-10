@@ -368,7 +368,7 @@ class Phase74APITester:
         
         if response.status_code in [200, 201]:
             data = response.json()
-            self.log(f"✅ POST /api/candidates working - Response time: {response_time:.2f}ms")
+            self.log(f"✅ POST /api/candidates/profile working - Response time: {response_time:.2f}ms")
             
             # Verify created/updated profile
             if "id" in data:
