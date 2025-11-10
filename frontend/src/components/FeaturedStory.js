@@ -27,6 +27,12 @@ const FeaturedStory = () => {
         setFeaturedStory(null);
       } else {
         setFeaturedStory(data);
+        
+        // Preload the image to avoid flash
+        if (data.imageUrl) {
+          const img = new Image();
+          img.src = data.imageUrl;
+        }
       }
     } catch (err) {
       console.error('Error fetching featured story:', err);
