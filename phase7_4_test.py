@@ -94,7 +94,8 @@ class Phase74APITester:
             "email": test_email,
             "password": "TestPass123!",
             "name": "Phase 7.4 Test User",
-            "role": "candidate"
+            "role": "candidate",
+            "accepted_terms": True
         })
         response_time = (time.time() - start_time) * 1000
         
