@@ -6392,6 +6392,62 @@ if __name__ == "__main__":
             self.log(f"💥 {failed} test(s) failed")
             return False
 
+    def run_phase7_4_tests(self) -> bool:
+        """Run Phase 7.4 comprehensive backend API tests"""
+        self.log("Starting BANIBS Backend API Test Suite - Phase 7.4 Comprehensive Testing")
+        self.log(f"Testing against: {API_BASE}")
+        self.log("Testing authentication, news, business directory, opportunities, and candidate APIs")
+        
+        tests = [
+            # Phase 7.4 - Authentication & Authorization
+            ("Phase 7.4 - Auth Login", self.test_phase7_4_auth_login),
+            ("Phase 7.4 - Auth Register", self.test_phase7_4_auth_register),
+            ("Phase 7.4 - JWT Validation", self.test_phase7_4_jwt_validation),
+            
+            # Phase 7.4 - News & Content APIs
+            ("Phase 7.4 - News APIs", self.test_phase7_4_news_apis),
+            
+            # Phase 7.4 - Business Directory API
+            ("Phase 7.4 - Business Directory", self.test_phase7_4_business_directory),
+            
+            # Phase 7.4 - Opportunities APIs
+            ("Phase 7.4 - Opportunities APIs", self.test_phase7_4_opportunities_apis),
+            
+            # Phase 7.4 - Candidate & Recruiter APIs
+            ("Phase 7.4 - Candidate APIs", self.test_phase7_4_candidate_apis),
+            ("Phase 7.4 - Recruiter Analytics", self.test_phase7_4_recruiter_analytics),
+            
+            # Phase 7.4 - Security & Error Handling
+            ("Phase 7.4 - CORS Headers", self.test_phase7_4_cors_headers),
+            ("Phase 7.4 - Error Handling", self.test_phase7_4_error_handling),
+        ]
+        
+        passed = 0
+        failed = 0
+        
+        for test_name, test_func in tests:
+            self.log(f"\n--- Running {test_name} ---")
+            try:
+                if test_func():
+                    passed += 1
+                else:
+                    failed += 1
+            except Exception as e:
+                self.log(f"❌ {test_name} failed with exception: {e}", "ERROR")
+                failed += 1
+                
+        self.log(f"\n=== PHASE 7.4 TEST RESULTS ===")
+        self.log(f"✅ Passed: {passed}")
+        self.log(f"❌ Failed: {failed}")
+        self.log(f"Total: {passed + failed}")
+        
+        if failed == 0:
+            self.log("🎉 All Phase 7.4 tests passed!")
+            return True
+        else:
+            self.log(f"💥 {failed} Phase 7.4 test(s) failed")
+            return False
+
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
         self.log("Starting BANIBS Backend API Test Suite - Phase 6.4 Sentiment-Driven Moderation Routing")
