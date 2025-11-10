@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import EmptyState from "../../components/EmptyState";
+import SEO from "../../components/SEO";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
