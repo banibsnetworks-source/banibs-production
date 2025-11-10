@@ -304,15 +304,17 @@ function CandidateProfilePage() {
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label htmlFor="full-name" className="block text-sm font-medium text-slate-300 mb-2">
                   Full Name <span className="text-red-400">*</span>
                 </label>
                 <input
+                  id="full-name"
                   type="text"
                   value={formData.full_name}
                   onChange={(e) => setFormData(prev => ({ ...prev, full_name: e.target.value }))}
                   className="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   required
+                  aria-required="true"
                 />
               </div>
 
