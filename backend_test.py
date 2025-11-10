@@ -6803,6 +6803,6 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     tester = BanibsAPITester()
     
-    # Run Phase 6.6 Heavy Content Banner tests
-    success = tester.run_phase_6_6_tests()
+    # Run Phase 7.4 comprehensive backend API tests
+    success = tester.run_phase7_4_tests()
     sys.exit(0 if success else 1)
