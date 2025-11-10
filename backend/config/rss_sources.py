@@ -48,6 +48,7 @@ RSS_SOURCES = [
         "rss_url": "https://www.essence.com/feed/",
         "language": "en",
         "active": True,
+        "featured_source": True,  # Reliable images for featured stories
     },
     {
         "id": "indian_country_today_community",
