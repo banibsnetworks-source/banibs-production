@@ -94,7 +94,7 @@ async def get_post_by_id(post_id: str, viewer_id: Optional[str] = None):
         return None
     
     # Enrich with author
-    author = await db.unified_users.find_one(
+    author = await db.banibs_users.find_one(
         {"id": post["author_id"]},
         {"_id": 0, "id": 1, "name": 1, "avatar_url": 1}
     )
