@@ -165,6 +165,45 @@ backend:
       - working: true
         agent: "main"
         comment: "✅ OPTIMIZED: Reduced response time from ~20s to 0.08s (250x faster!). Changes: 1) Optimized sanitize_listing_response to minimize dictionary operations, 2) Added compound index on (status, created_at) for common query pattern, 3) Added index on owner_id. DB query: 0.00s, Sanitization: 0.00s, Total: 0.08s for 10 items. Frontend loads instantly."
+  
+  - task: "Phase 7.6.1 - News Homepage API Endpoint"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/news.py, backend/services/news_categorization_service.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: |
+          🚀 PHASE 7.6.1 - CNN-STYLE NEWS HOMEPAGE BACKEND
+          
+          Created /api/news/homepage endpoint for structured news data:
+          
+          1. Created news_categorization_service.py with intelligent categorization:
+             - categorize_news_item() - Maps news items to sections (us, world, business, tech, sports)
+             - sort_items_by_section() - Organizes items into structured sections
+             - Uses category, region, and sourceName for smart categorization
+          
+          2. Added /api/news/homepage endpoint in routes/news.py:
+             Returns structured payload:
+             - hero: Featured story (1 item from isFeatured=True)
+             - top_stories: Top 6 stories across all sections
+             - sections: {us, world, business, tech, sports} with 12 items each
+             - banibs_tv: Featured video from media collection
+          
+          3. Endpoint logic:
+             - Fetches 100 recent items, deduplicates
+             - Categorizes into sections intelligently
+             - Includes proper datetime serialization
+             - Falls back gracefully if no content exists
+          
+          Ready for testing via curl to verify:
+          - Response structure is correct
+          - Section categorization makes sense
+          - BANIBS TV data is included
+          - All datetime fields are ISO strings
 
   - task: "Analytics endpoint"
     implemented: true
