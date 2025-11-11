@@ -103,6 +103,7 @@ class UserPublic(BaseModel):
     membership_level: str
     email_verified: bool
     created_at: str
+    preferred_portal: str = "news"  # Phase 8.1
 
 
 class UserCreate(BaseModel):
