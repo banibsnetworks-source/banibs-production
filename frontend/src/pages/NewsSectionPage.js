@@ -259,19 +259,26 @@ const NewsSectionPage = () => {
 
           {/* Right Rail (4 columns) */}
           <aside className="lg:col-span-4 space-y-6">
-            <div className="sticky top-32">
+            <div className="sticky top-32 space-y-6">
               {/* BANIBS TV Card */}
               <BanibsTVCard />
 
-              {/* More from this section */}
-              <div className="mt-6 bg-gray-800/40 backdrop-blur-md rounded-lg p-6 border border-gray-700/50">
-                <h3 className="text-white font-bold text-lg mb-4">
-                  More {label} News
-                </h3>
-                <p className="text-gray-400 text-sm">
-                  Explore more stories from this section
-                </p>
-              </div>
+              {/* Phase 7.6.4 - Trending in This Section */}
+              {trending && (
+                <TrendingPanel
+                  trending={trending}
+                  title={`Trending in ${label}`}
+                  compact
+                />
+              )}
+
+              {/* Phase 7.6.4 - Section Sentiment Summary */}
+              {sentiment_summary && (
+                <SentimentSummaryBar
+                  summary={sentiment_summary}
+                  title={`Sentiment in ${label}`}
+                />
+              )}
             </div>
           </aside>
         </div>
