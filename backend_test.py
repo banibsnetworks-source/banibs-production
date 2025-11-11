@@ -7519,6 +7519,62 @@ def main():
             self.log(f"💥 {failed} test(s) failed")
             return False
 
+    def run_social_portal_tests(self) -> bool:
+        """Run Phase 8.3 - BANIBS Social Portal tests"""
+        self.log("Starting BANIBS Social Portal Backend Test Suite - Phase 8.3")
+        self.log(f"Testing against: {API_BASE}")
+        self.log("Testing social feed, posts, likes, and comments functionality")
+        
+        tests = [
+            # Authentication Flow
+            ("Social User Registration", self.test_social_user_registration),
+            ("Social User Login", self.test_social_user_login),
+            
+            # Social Post Creation
+            ("Social Post Creation", self.test_social_post_creation),
+            
+            # Feed Retrieval
+            ("Social Feed Retrieval", self.test_social_feed_retrieval),
+            
+            # Like Functionality
+            ("Social Like Functionality", self.test_social_like_functionality),
+            
+            # Comment Functionality
+            ("Social Comment Functionality", self.test_social_comment_functionality),
+            
+            # Single Post Retrieval
+            ("Single Post Retrieval", self.test_single_post_retrieval),
+            
+            # Authentication Requirements
+            ("Social Authentication Required", self.test_social_authentication_required),
+        ]
+        
+        passed = 0
+        failed = 0
+        
+        for test_name, test_func in tests:
+            self.log(f"\n--- Running {test_name} ---")
+            try:
+                if test_func():
+                    passed += 1
+                else:
+                    failed += 1
+            except Exception as e:
+                self.log(f"❌ {test_name} failed with exception: {e}", "ERROR")
+                failed += 1
+                
+        self.log(f"\n=== SOCIAL PORTAL TEST RESULTS ===")
+        self.log(f"✅ Passed: {passed}")
+        self.log(f"❌ Failed: {failed}")
+        self.log(f"Total: {passed + failed}")
+        
+        if failed == 0:
+            self.log("🎉 All social portal tests passed!")
+            return True
+        else:
+            self.log(f"💥 {failed} social portal test(s) failed")
+            return False
+
 
 if __name__ == "__main__":
     tester = BanibsAPITester()
