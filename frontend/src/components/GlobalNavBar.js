@@ -34,6 +34,26 @@ const GlobalNavBar = () => {
     return location.pathname.startsWith(path);
   };
 
+  const handleLogout = () => {
+    logout();
+    setUserMenuOpen(false);
+    navigate('/');
+  };
+
+  const handleAuthSuccess = (userData) => {
+    setAuthModalOpen(false);
+    // Redirect to preferred portal (Phase 8.1.C)
+    const portalMap = {
+      'news': '/portal/news',
+      'social': '/portal/social',
+      'business': '/portal/business',
+      'tv': '/portal/tv',
+      'search': '/portal/search',
+    };
+    const portalRoute = portalMap[userData?.preferred_portal] || '/portal/news';
+    navigate(portalRoute);
+  };
+
   return (
     <nav className="bg-gradient-to-r from-blue-900 to-blue-800 text-white shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4">
