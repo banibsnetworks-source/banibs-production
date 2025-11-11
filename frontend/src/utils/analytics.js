@@ -1,11 +1,127 @@
 /**
- * Phase 6.2 - News Engagement Analytics Utilities
+ * BANIBS Analytics Utilities
  * 
- * Track user clicks on news stories by region for trending analysis.
- * CRITICAL: This must never block user navigation to external news sources.
+ * Phase 6.2 - News Engagement Analytics (Internal tracking)
+ * Phase 7.5.1 - PostHog Integration (Privacy-compliant external analytics)
+ * 
+ * CRITICAL: Analytics must never block user navigation or degrade UX
  */
 
+import posthog from 'posthog-js';
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
+// =============================================================================
+// PHASE 7.5.1 - POSTHOG ANALYTICS
+// =============================================================================
+
+let analyticsInitialized = false;
+
+/**
+ * Initialize PostHog analytics (cookie-less, privacy-compliant)
+ * Call this once on app load
+ */
+export const initializeAnalytics = () => {
+  if (analyticsInitialized) return;
+  
+  const posthogKey = process.env.REACT_APP_POSTHOG_KEY;
+  const posthogHost = process.env.REACT_APP_POSTHOG_HOST || 'https://app.posthog.com';
+  
+  if (!posthogKey) {
+    console.log('📊 PostHog not configured - analytics tracking disabled');
+    return;
+  }
+  
+  try {
+    posthog.init(posthogKey, {
+      api_host: posthogHost,
+      persistence: 'memory', // Cookie-less
+      disable_session_recording: true,
+      disable_cookie: true,
+      respect_dnt: true,
+      autocapture: false, // Manual tracking only
+    });
+    
+    analyticsInitialized = true;
+    console.log('📊 PostHog analytics initialized (privacy-compliant)');
+  } catch (error) {
+    console.error('❌ PostHog initialization failed:', error);
+  }
+};
+
+/**
+ * Track a custom event (privacy-compliant, no PII)
+ */
+export const trackEvent = (eventName, properties = {}) => {
+  if (!analyticsInitialized) return;
+  
+  try {
+    // Sanitize properties to ensure no PII
+    const sanitized = { ...properties };
+    delete sanitized.email;
+    delete sanitized.name;
+    delete sanitized.phone;
+    
+    posthog.capture(eventName, {
+      ...sanitized,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    // Fail silently - analytics should never break UX
+  }
+};
+
+/**
+ * Track page view
+ */
+export const trackPageView = (pageName) => {
+  trackEvent('page_view', {
+    page_name: pageName,
+    page_url: window.location.pathname,
+  });
+};
+
+/**
+ * Track user registration
+ */
+export const trackRegistration = (method = 'email') => {
+  trackEvent('user_registration', { method });
+};
+
+/**
+ * Track user login
+ */
+export const trackLogin = (method = 'email') => {
+  trackEvent('user_login', { method });
+};
+
+/**
+ * Track job application
+ */
+export const trackJobApplication = (jobCategory) => {
+  trackEvent('job_application_submitted', { job_category: jobCategory });
+};
+
+/**
+ * Track directory search
+ */
+export const trackDirectorySearch = (resultsCount) => {
+  trackEvent('directory_search', { results_count: resultsCount });
+};
+
+/**
+ * Track directory filter
+ */
+export const trackDirectoryFilter = (filterType, filterValue) => {
+  trackEvent('directory_filter_used', {
+    filter_type: filterType,
+    filter_value: filterValue,
+  });
+};
+
+// =============================================================================
+// PHASE 6.2 - NEWS ENGAGEMENT ANALYTICS (EXISTING)
+// =============================================================================
 
 /**
  * Track a user click on a news story.
