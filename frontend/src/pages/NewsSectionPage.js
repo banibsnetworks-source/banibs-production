@@ -117,6 +117,8 @@ const NewsSectionPage = () => {
     page_size,
     total_items,
     total_pages,
+    trending,
+    sentiment_summary,
   } = sectionData || {};
 
   return (
