@@ -4592,7 +4592,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Phase 7.1 Cycle 1 Day 1: Backend Models & Schema"
+    - "Phase 7.6.1 - News Homepage API Endpoint"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
