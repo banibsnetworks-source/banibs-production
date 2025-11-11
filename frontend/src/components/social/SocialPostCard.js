@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Heart, MessageCircle, MoreHorizontal, Trash2 } from 'lucide-react';
+import { Heart, MessageCircle, MoreHorizontal, Trash2, Flag } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import SocialCommentSection from './SocialCommentSection';
+import ReportPostModal from './ReportPostModal';
 
 /**
  * SocialPostCard - Phase 8.3
