@@ -98,6 +98,33 @@ async def debug_social_issue():
                     if author:
                         print(f"   ✅ Step 2: Author found in banibs_users")
                         print(f"      Author: {author}")
+                        
+                        # Step 3: Check viewer like status
+                        print(f"   🔍 Step 3: Checking viewer like status")
+                        like = await db.social_reactions.find_one({
+                            "post_id": test_post_id,
+                            "user_id": user_id
+                        })
+                        viewer_has_liked = like is not None
+                        print(f"      Like found: {like is not None}")
+                        
+                        # Step 4: Try to construct the return object
+                        print(f"   🔍 Step 4: Constructing return object")
+                        try:
+                            result = {
+                                **post,
+                                "author": {
+                                    "id": author["id"],
+                                    "display_name": author.get("name", "Unknown User"),
+                                    "avatar_url": author.get("avatar_url")
+                                },
+                                "viewer_has_liked": viewer_has_liked
+                            }
+                            print(f"      ✅ Return object constructed successfully")
+                            print(f"      Keys: {list(result.keys())}")
+                        except Exception as e:
+                            print(f"      ❌ Failed to construct return object: {e}")
+                            
                     else:
                         print(f"   ❌ Step 2: Author NOT found in banibs_users")
                         print(f"      Looking for ID: {post['author_id']}")
