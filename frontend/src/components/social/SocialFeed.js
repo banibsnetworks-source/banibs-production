@@ -1,0 +1,186 @@
+import React, { useState, useEffect } from 'react';
+import { RefreshCw, Loader, AlertCircle } from 'lucide-react';
+import SocialPostCard from './SocialPostCard';
+
+/**
+ * SocialFeed - Phase 8.3
+ * Main feed component that displays paginated social posts
+ */
+const SocialFeed = ({ newPost }) => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  // Load initial feed
+  useEffect(() => {
+    loadFeed();
+  }, []);
+
+  // Add new post to top of feed
+  useEffect(() => {
+    if (newPost) {
+      setPosts([newPost, ...posts]);
+    }
+  }, [newPost]);
+
+  const loadFeed = async (pageNum = 1, append = false) => {
+    if (!append) {
+      setLoading(true);
+    } else {
+      setIsLoadingMore(true);
+    }
+    
+    setError(null);
+
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/social/feed?page=${pageNum}&page_size=20`,
+        {
+          credentials: 'include',
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to load feed');
+      }
+
+      const data = await response.json();
+      
+      if (append) {
+        setPosts([...posts, ...data.items]);
+      } else {
+        setPosts(data.items);
+      }
+      
+      setPage(pageNum);
+      setHasMore(data.page < data.total_pages);
+    } catch (err) {
+      console.error('Error loading feed:', err);
+      setError('Failed to load feed. Please try again.');
+    } finally {
+      setLoading(false);
+      setIsLoadingMore(false);
+    }
+  };
+
+  const handleRefresh = () => {
+    loadFeed(1, false);
+  };
+
+  const handleLoadMore = () => {
+    if (!isLoadingMore && hasMore) {
+      loadFeed(page + 1, true);
+    }
+  };
+
+  const handlePostUpdate = (updatedPost) => {
+    setPosts(posts.map(p => p.id === updatedPost.id ? updatedPost : p));
+  };
+
+  const handlePostDelete = (postId) => {
+    setPosts(posts.filter(p => p.id !== postId));
+  };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12">
+        <Loader className="animate-spin text-yellow-500 mb-3" size={32} />
+        <p className="text-gray-400 text-sm">Loading your feed...</p>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="bg-gray-800 rounded-xl border border-red-500/30 p-6 text-center">
+        <AlertCircle className="mx-auto mb-3 text-red-400" size={32} />
+        <p className="text-white mb-2">Oops! Something went wrong</p>
+        <p className="text-gray-400 text-sm mb-4">{error}</p>
+        <button
+          onClick={handleRefresh}
+          className="px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold rounded-lg transition-colors"
+        >
+          Try Again
+        </button>
+      </div>
+    );
+  }
+
+  // Empty state
+  if (posts.length === 0) {
+    return (
+      <div className="bg-gray-800 rounded-xl border border-gray-700 p-12 text-center">
+        <div className="max-w-md mx-auto">
+          <div className="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg className="w-8 h-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+          </div>
+          <h3 className="text-lg font-semibold text-white mb-2">
+            No posts yet
+          </h3>
+          <p className="text-gray-400 text-sm">
+            Be the first to share something with the BANIBS community!
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      {/* Refresh Button */}
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wide">
+          Community Feed
+        </h2>
+        <button
+          onClick={handleRefresh}
+          className="flex items-center space-x-1 px-3 py-1 rounded-lg text-xs text-gray-400 hover:bg-gray-800 hover:text-white transition-all"
+        >
+          <RefreshCw size={14} />
+          <span>Refresh</span>
+        </button>
+      </div>
+
+      {/* Posts */}
+      <div className="space-y-4">
+        {posts.map((post) => (
+          <SocialPostCard
+            key={post.id}
+            post={post}
+            onUpdate={handlePostUpdate}
+            onDelete={handlePostDelete}
+          />
+        ))}
+      </div>
+
+      {/* Load More */}
+      {hasMore && (
+        <div className="mt-6 text-center">
+          <button
+            onClick={handleLoadMore}
+            disabled={isLoadingMore}
+            className="px-6 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg border border-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoadingMore ? (
+              <span className="flex items-center space-x-2">
+                <Loader className="animate-spin" size={16} />
+                <span>Loading...</span>
+              </span>
+            ) : (
+              'Load More'
+            )}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default SocialFeed;
