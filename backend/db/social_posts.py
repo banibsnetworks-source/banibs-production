@@ -11,7 +11,7 @@ from db.connection import get_db
 
 
 async def create_post(author_id: str, text: str, media_url: Optional[str] = None):
-    """Create a new social post"""
+    """Create a new social post with default moderation fields (Phase 8.3.1)"""
     db = await get_db()
     
     post = {
@@ -23,7 +23,13 @@ async def create_post(author_id: str, text: str, media_url: Optional[str] = None
         "like_count": 0,
         "comment_count": 0,
         "created_at": datetime.now(timezone.utc),
-        "updated_at": datetime.now(timezone.utc)
+        "updated_at": datetime.now(timezone.utc),
+        # Phase 8.3.1 - Moderation fields
+        "is_deleted": False,
+        "is_hidden": False,
+        "moderation_status": "ok",  # "ok" | "flagged" | "under_review" | "hidden"
+        "moderation_reason": None,
+        "moderation_updated_at": None
     }
     
     await db.social_posts.insert_one(post)
