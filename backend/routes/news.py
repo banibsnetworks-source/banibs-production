@@ -722,10 +722,91 @@ async def get_news_section(
     }
 
 
+# ==========================================
+# PHASE 7.6.4 - TRENDING ANALYTICS ENDPOINT
+# ==========================================
+
 @router.get("/trending")
-async def get_trending_news(region: str = "Global", limit: int = 5):
+async def get_trending_news_analytics(
+    section: Optional[str] = Query(None, description="Optional section filter (us, world, business, etc.)"),
+    limit: int = Query(10, ge=1, le=50, description="Number of trending items to return")
+):
     """
-    Get trending (most-clicked) news stories by region.
+    Get trending news items (Phase 7.6.4)
+    
+    Returns top trending stories based on recency and sentiment intensity.
+    Can be filtered by section or return global trending.
+    
+    Query params:
+    - section: Optional section filter (e.g., 'us', 'world', 'business')
+    - limit: Number of items to return (default 10, max 50)
+    
+    Returns:
+    - section: Section identifier or 'all'
+    - updated_at: Timestamp of calculation
+    - items: Array of trending items with trending_score
+    """
+    from services.trending_service import get_trending_items, compute_sentiment_summary
+    
+    # Fallback image URL
+    FALLBACK_IMAGE = "/static/img/fallbacks/news_default.jpg"
+    
+    # Fetch recent news items
+    items = await news_collection.find(
+        {},
+        {"_id": 0}
+    ).sort("publishedAt", -1).limit(200).to_list(length=None)
+    
+    if not items:
+        return {
+            "section": section or "all",
+            "updated_at": datetime.utcnow().isoformat() + "Z",
+            "items": []
+        }
+    
+    # Deduplicate and prepare items
+    seen_keys = set()
+    unique_items = []
+    
+    for item in items:
+        dedupe_key = make_dedupe_key(item)
+        if dedupe_key in seen_keys:
+            continue
+        seen_keys.add(dedupe_key)
+        
+        # Ensure imageUrl
+        if not item.get('imageUrl'):
+            item['imageUrl'] = FALLBACK_IMAGE
+        
+        # Convert datetime to ISO string
+        if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
+            item['publishedAt'] = item['publishedAt'].isoformat()
+        if 'sentiment_at' in item and hasattr(item['sentiment_at'], 'isoformat'):
+            item['sentiment_at'] = item['sentiment_at'].isoformat()
+        
+        # Enrich with heavy content banner
+        enrich_item_with_banner_data(item)
+        
+        unique_items.append(item)
+    
+    # Get trending items (with optional section filter)
+    trending_items = get_trending_items(
+        unique_items,
+        section=section,
+        limit=limit
+    )
+    
+    return {
+        "section": section or "all",
+        "updated_at": datetime.utcnow().isoformat() + "Z",
+        "items": trending_items
+    }
+
+
+@router.get("/trending-legacy")
+async def get_trending_news_legacy(region: str = "Global", limit: int = 5):
+    """
+    Get trending (most-clicked) news stories by region (Legacy endpoint).
     
     Args:
         region: Geographic region ("Global", "Americas", "Middle East", etc.)
