@@ -30,7 +30,7 @@ router = APIRouter(prefix="/api/social", tags=["social"])
 async def get_social_feed(
     page: int = Query(1, ge=1, description="Page number"),
     page_size: int = Query(20, ge=1, le=50, description="Items per page"),
-    current_user=Depends(require_role("member"))
+    current_user=Depends(require_role("user", "member"))
 ):
     """
     Get social feed for authenticated members
@@ -52,7 +52,7 @@ async def get_social_feed(
 @router.post("/posts", response_model=SocialPost, status_code=status.HTTP_201_CREATED)
 async def create_post(
     post_data: SocialPostCreate,
-    current_user=Depends(require_role("member"))
+    current_user=Depends(require_role("user", "member"))
 ):
     """
     Create a new social post
@@ -82,7 +82,7 @@ async def create_post(
 @router.get("/posts/{post_id}", response_model=SocialPost)
 async def get_post(
     post_id: str,
-    current_user=Depends(require_role("member"))
+    current_user=Depends(require_role("user", "member"))
 ):
     """
     Get a single post by ID
@@ -105,7 +105,7 @@ async def get_post(
 @router.post("/posts/{post_id}/like", response_model=SocialLikeResponse)
 async def toggle_like_post(
     post_id: str,
-    current_user=Depends(require_role("member"))
+    current_user=Depends(require_role("user", "member"))
 ):
     """
     Toggle like on a post (like if not liked, unlike if already liked)
@@ -130,7 +130,7 @@ async def toggle_like_post(
 async def create_comment(
     post_id: str,
     comment_data: SocialCommentCreate,
-    current_user=Depends(require_role("member"))
+    current_user=Depends(require_role("user", "member"))
 ):
     """
     Create a comment on a post
@@ -172,7 +172,7 @@ async def get_comments(
     post_id: str,
     page: int = Query(1, ge=1, description="Page number"),
     page_size: int = Query(20, ge=1, le=50, description="Items per page"),
-    current_user=Depends(require_role("member"))
+    current_user=Depends(require_role("user", "member"))
 ):
     """
     Get comments for a post
@@ -189,7 +189,7 @@ async def get_comments(
 @router.delete("/comments/{comment_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_comment(
     comment_id: str,
-    current_user=Depends(require_role("member"))
+    current_user=Depends(require_role("user", "member"))
 ):
     """
     Delete own comment (soft delete)
