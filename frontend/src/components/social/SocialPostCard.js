@@ -217,6 +217,18 @@ const SocialPostCard = ({ post, onUpdate, onDelete }) => {
           />
         </div>
       )}
+
+      {/* Report Modal (Phase 8.3.1) */}
+      {showReportModal && (
+        <ReportPostModal
+          postId={localPost.id}
+          onClose={() => setShowReportModal(false)}
+          onReported={() => {
+            setShowReportModal(false);
+            // Optionally show a toast notification here
+          }}
+        />
+      )}
     </div>
   );
 };
