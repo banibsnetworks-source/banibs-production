@@ -40,6 +40,13 @@ const SocialFeedContent = () => {
  */
 const SocialPortal = () => {
   const { user, isAuthenticated } = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState('signin');
+
+  const handleOpenAuth = (mode = 'signin') => {
+    setAuthModalMode(mode);
+    setShowAuthModal(true);
+  };
 
   if (!isAuthenticated) {
     // Signed-Out Preview
@@ -50,6 +57,14 @@ const SocialPortal = () => {
           description="Join the BANIBS Social community. Connect with Black and Indigenous voices, share stories, and empower each other."
         />
         <GlobalNavBar />
+
+        {/* Auth Modal */}
+        {showAuthModal && (
+          <AuthModal
+            initialMode={authModalMode}
+            onClose={() => setShowAuthModal(false)}
+          />
+        )}
 
         {/* Hero Section */}
         <div className="relative h-96 bg-gradient-to-br from-blue-900 to-gray-900 flex items-center justify-center overflow-hidden">
