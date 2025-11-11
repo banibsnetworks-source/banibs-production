@@ -119,7 +119,7 @@ async def list_reports(
 async def resolve_report(
     report_id: str,
     resolve_data: ReportResolve,
-    current_user=Depends(require_role("admin", "moderator"))
+    current_user=Depends(require_role("admin", "moderator", "super_admin"))
 ):
     """
     Resolve a report by keeping or hiding the post
