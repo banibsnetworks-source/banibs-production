@@ -7523,7 +7523,7 @@ def main():
 if __name__ == "__main__":
     tester = BanibsAPITester()
     
-    # Run Phase 7.6.1 specific tests
-    success = tester.run_phase_7_6_1_tests()
+    # Run Phase 8.3 - BANIBS Social Portal tests
+    success = tester.run_social_portal_tests()
     
     sys.exit(0 if success else 1)
