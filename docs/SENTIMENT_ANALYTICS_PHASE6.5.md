@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://banibs-redesign.preview.emergentagent.com/api/admin/analytics/sentiment
+https://community-hub-217.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints
