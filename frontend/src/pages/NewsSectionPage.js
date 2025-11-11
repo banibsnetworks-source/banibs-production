@@ -26,8 +26,9 @@ const NewsSectionPage = () => {
   const [sectionData, setSectionData] = useState(null);
   const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
 
-  // Get page from URL params
+  // Get page and mood filter from URL params
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
+  const currentMood = searchParams.get('sentiment') || 'all';
 
   useEffect(() => {
     // Validate section
@@ -38,7 +39,7 @@ const NewsSectionPage = () => {
     }
 
     fetchSectionData();
-  }, [section, currentPage]);
+  }, [section, currentPage, currentMood]);
 
   const fetchSectionData = async () => {
     setLoading(true);
