@@ -21,7 +21,9 @@ import ContributorProfile from "./pages/contributor/ContributorProfile";
 import ContributorProfileEdit from "./pages/contributor/ContributorProfileEdit";
 // Phase 5.4 - Opportunity Detail Page
 import OpportunityDetailPage from "./pages/OpportunityDetailPage";
-// Home/Landing Page
+// Phase 7.6.2 - CNN-Style News Homepage
+import NewsHomePage from "./pages/NewsHomePage";
+// Home/Landing Page (Legacy)
 import HomePage from "./pages/HomePage";
 // Opportunity Hub (marketing/info page)
 import OpportunityHubPage from "./pages/OpportunityHubPage";
