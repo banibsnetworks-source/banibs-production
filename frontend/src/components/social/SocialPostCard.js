@@ -12,7 +12,8 @@ const SocialPostCard = ({ post, onUpdate, onDelete }) => {
   const { user } = useAuth();
   const [isLiking, setIsLiking] = useState(false);
   const [showComments, setShowComments] = useState(false);
-  const [localPost, setLocalPost] = useState(post);
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [localPost, setLocalPost] = = useState(post);
 
   const formatTimestamp = (dateString) => {
     try {
