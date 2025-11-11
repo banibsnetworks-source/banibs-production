@@ -49,7 +49,7 @@ async def get_feed(page: int = 1, page_size: int = 20, viewer_id: Optional[str] 
     # Enrich posts with author info and viewer like status
     enriched_posts = []
     for post in posts:
-        author = await db.unified_users.find_one(
+        author = await db.banibs_users.find_one(
             {"id": post["author_id"]},
             {"_id": 0, "id": 1, "name": 1, "avatar_url": 1}
         )
@@ -210,7 +210,7 @@ async def get_comments(post_id: str, page: int = 1, page_size: int = 20):
     # Enrich with author info
     enriched_comments = []
     for comment in comments:
-        author = await db.unified_users.find_one(
+        author = await db.banibs_users.find_one(
             {"id": comment["author_id"]},
             {"_id": 0, "id": 1, "name": 1, "avatar_url": 1}
         )
