@@ -46,9 +46,13 @@ const NewsSectionPage = () => {
     setError(null);
 
     try {
-      const response = await fetch(
-        `${backendUrl}/api/news/section?section=${section}&page=${currentPage}&page_size=20`
-      );
+      // Build URL with optional sentiment filter (Phase 7.6.5)
+      let url = `${backendUrl}/api/news/section?section=${section}&page=${currentPage}&page_size=20`;
+      if (currentMood && currentMood !== 'all') {
+        url += `&sentiment=${currentMood}`;
+      }
+
+      const response = await fetch(url);
 
       if (!response.ok) {
         throw new Error(`Failed to fetch section news: ${response.status}`);
@@ -62,6 +66,15 @@ const NewsSectionPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleMoodChange = (mood) => {
+    const params = { page: '1' }; // Reset to page 1 when changing mood
+    if (mood !== 'all') {
+      params.sentiment = mood;
+    }
+    setSearchParams(params);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handlePageChange = (newPage) => {
