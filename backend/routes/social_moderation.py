@@ -92,7 +92,7 @@ async def list_reports(
     status: str = Query("pending", description="Report status filter"),
     limit: int = Query(50, ge=1, le=200, description="Items per page"),
     skip: int = Query(0, ge=0, description="Skip items"),
-    current_user=Depends(require_role("admin", "moderator"))
+    current_user=Depends(require_role("admin", "moderator", "super_admin"))
 ):
     """
     Get list of reports for moderation queue
