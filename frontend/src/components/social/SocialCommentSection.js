@@ -24,9 +24,15 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
     setError(null);
     
     try {
+      // Get token from localStorage
+      const token = localStorage.getItem('access_token');
+      
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/social/posts/${postId}/comments`,
         {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
           credentials: 'include',
         }
       );
