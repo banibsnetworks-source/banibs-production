@@ -83,25 +83,18 @@ const SocialPortal = () => {
               Where Black America Connects
             </p>
             <div className="flex items-center justify-center space-x-4">
-              <a
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  // Will open auth modal from GlobalNavBar
-                }}
+              <button
+                onClick={() => handleOpenAuth('register')}
                 className="px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold rounded-lg transition-colors"
               >
                 Join BANIBS Social
-              </a>
-              <a
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
+              </button>
+              <button
+                onClick={() => handleOpenAuth('signin')}
                 className="px-8 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg backdrop-blur-sm transition-colors"
               >
                 Sign In
-              </a>
+              </button>
             </div>
             <p className="mt-4 text-sm text-gray-400">
               Free • Private • No Tracking
