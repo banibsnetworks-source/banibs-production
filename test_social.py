@@ -189,6 +189,11 @@ class SocialPortalTester:
                 self.log(f"✅ Feed retrieved successfully - {len(items)} posts on page {data['page']}")
                 
                 if len(items) > 0:
+                    # Store the first post ID for later tests if we don't have one
+                    if not self.test_post_id:
+                        self.test_post_id = items[0]["id"]
+                        self.log(f"   Using existing post ID for testing: {self.test_post_id}")
+                    
                     # Verify posts are in reverse chronological order
                     if len(items) > 1:
                         first_post_time = items[0]["created_at"]
