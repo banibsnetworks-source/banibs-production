@@ -8,10 +8,34 @@ import SocialPostComposer from '../../components/social/SocialPostComposer';
 import SocialFeed from '../../components/social/SocialFeed';
 
 /**
- * SocialPortal - Phase 8.2
+ * SocialFeedContent - Phase 8.3
+ * Authenticated user feed with composer and posts
+ */
+const SocialFeedContent = () => {
+  const [newPost, setNewPost] = useState(null);
+
+  const handlePostCreated = (post) => {
+    setNewPost(post);
+    // Reset after a moment to allow feed to process
+    setTimeout(() => setNewPost(null), 100);
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Post Composer */}
+      <SocialPostComposer onPostCreated={handlePostCreated} />
+      
+      {/* Feed */}
+      <SocialFeed newPost={newPost} />
+    </div>
+  );
+};
+
+/**
+ * SocialPortal - Phase 8.2 & 8.3
  * BANIBS Social Portal landing page
  * Signed-out: Preview with CTA
- * Signed-in: Feed placeholder (full implementation in later phase)
+ * Signed-in: Full interactive social feed
  */
 const SocialPortal = () => {
   const { user, isAuthenticated } = useAuth();
