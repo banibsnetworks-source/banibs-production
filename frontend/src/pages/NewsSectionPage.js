@@ -163,6 +163,13 @@ const NewsSectionPage = () => {
         <div className="grid lg:grid-cols-12 gap-8">
           {/* Main Content Area (8 columns) */}
           <div className="lg:col-span-8 space-y-10">
+            {/* Phase 7.6.5 - Mood Filter Bar */}
+            <MoodFilterBar
+              activeMood={currentMood}
+              onMoodChange={handleMoodChange}
+              itemCount={total_items}
+            />
+
             {/* Lead Story (Hero) */}
             {lead_story && <NewsHeroSection story={lead_story} />}
 
