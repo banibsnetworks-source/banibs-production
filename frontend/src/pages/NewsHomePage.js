@@ -48,7 +48,7 @@ const NewsHomePage = () => {
     return (
       <div className="min-h-screen bg-gray-950">
         <GlobalNavBar />
-        <NewsNavigationBar activeSection={activeSection} onSectionChange={handleSectionChange} />
+        <NewsNavigationBar activeSection="top-stories" />
         
         <div className="container mx-auto px-4 py-12">
           <div className="flex items-center justify-center space-x-3 text-gray-400">
@@ -64,7 +64,7 @@ const NewsHomePage = () => {
     return (
       <div className="min-h-screen bg-gray-950">
         <GlobalNavBar />
-        <NewsNavigationBar activeSection={activeSection} onSectionChange={handleSectionChange} />
+        <NewsNavigationBar activeSection="top-stories" />
         
         <div className="container mx-auto px-4 py-12">
           <div className="bg-red-900/20 border border-red-700 rounded-lg p-6 max-w-2xl mx-auto">
@@ -85,8 +85,7 @@ const NewsHomePage = () => {
     );
   }
 
-  const filteredData = getFilteredContent();
-  const { hero, top_stories, sections, banibs_tv } = filteredData || {};
+  const { hero, top_stories, sections, banibs_tv } = newsData || {};
 
   return (
     <div className="min-h-screen bg-gray-950">
