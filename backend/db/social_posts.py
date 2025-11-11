@@ -37,18 +37,24 @@ async def create_post(author_id: str, text: str, media_url: Optional[str] = None
 
 
 async def get_feed(page: int = 1, page_size: int = 20, viewer_id: Optional[str] = None):
-    """Get paginated social feed"""
+    """Get paginated social feed (Phase 8.3.1: excludes hidden/deleted posts)"""
     db = await get_db()
     
     skip = (page - 1) * page_size
     
+    # Phase 8.3.1: Filter out moderated content
+    feed_filter = {
+        "is_deleted": False,
+        "is_hidden": False
+    }
+    
     # Get total count
-    total_items = await db.social_posts.count_documents({})
+    total_items = await db.social_posts.count_documents(feed_filter)
     total_pages = (total_items + page_size - 1) // page_size
     
     # Get posts (reverse chronological)
     posts = await db.social_posts.find(
-        {},
+        feed_filter,
         {"_id": 0}
     ).sort("created_at", -1).skip(skip).limit(page_size).to_list(length=None)
     
