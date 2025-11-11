@@ -6,6 +6,8 @@ import NewsHeroSection from '../components/NewsHeroSection';
 import TopStoriesGrid from '../components/TopStoriesGrid';
 import NewsSectionBlock from '../components/NewsSectionBlock';
 import BanibsTVCard from '../components/BanibsTVCard';
+import TrendingPanel from '../components/TrendingPanel';
+import SentimentSummaryBar from '../components/SentimentSummaryBar';
 import SEO from '../components/SEO';
 import { AlertCircle, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
 import { isValidSection, getSectionLabel, getSectionIcon } from '../constants/sectionKeys';
