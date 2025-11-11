@@ -36,9 +36,15 @@ const SocialFeed = ({ newPost }) => {
     setError(null);
 
     try {
+      // Get token from localStorage
+      const token = localStorage.getItem('access_token');
+      
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/social/feed?page=${pageNum}&page_size=20`,
         {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
           credentials: 'include',
         }
       );
