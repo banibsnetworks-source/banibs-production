@@ -139,7 +139,7 @@ const SocialPortal = () => {
     );
   }
 
-  // Signed-In View (Placeholder for now)
+  // Signed-In View - Full Social Feed (Phase 8.3)
   return (
     <div className="min-h-screen bg-gray-950">
       <SEO
@@ -149,20 +149,20 @@ const SocialPortal = () => {
       <GlobalNavBar />
       <NewsNavigationBar activeSection="social" />
 
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gray-800/40 backdrop-blur-sm rounded-xl p-12 text-center border border-gray-700">
-            <Users className="mx-auto mb-4 text-yellow-400" size={64} />
-            <h1 className="text-3xl font-bold text-white mb-4">
-              Welcome to BANIBS Social, {user?.name}!
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-2xl mx-auto">
+          {/* Welcome Header */}
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-white mb-1">
+              Welcome back, {user?.name}!
             </h1>
-            <p className="text-gray-400 mb-6">
-              Your personalized feed is coming soon. We're building a powerful community platform for you.
+            <p className="text-gray-400 text-sm">
+              Share your thoughts with the BANIBS community
             </p>
-            <div className="inline-block px-4 py-2 bg-blue-600/20 border border-blue-500 rounded-lg text-blue-400 text-sm">
-              Full Social Portal: Phase 8.3+
-            </div>
           </div>
+
+          {/* Lazy load components */}
+          <SocialFeedContent />
         </div>
       </div>
     </div>
