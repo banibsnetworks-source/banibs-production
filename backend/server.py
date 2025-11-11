@@ -37,6 +37,7 @@ from scheduler import init_scheduler  # APScheduler for automated RSS sync
 from routes.config import router as config_router  # Phase 6.6 - Feature Flags Config
 from routes.health import router as health_router  # Phase 7.5.2 - Health Check
 from routes.feedback import router as feedback_router  # Phase 7.5.3 - User Feedback
+from routes.social import router as social_router  # Phase 8.3 - BANIBS Social Portal
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
