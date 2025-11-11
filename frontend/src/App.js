@@ -133,6 +133,14 @@ function App() {
             <Routes>
               {/* Phase 7.6.2 - New CNN-Style News Homepage */}
               <Route path="/" element={<NewsHomePage />} />
+              
+              {/* Phase 8.2 - Portal Routes */}
+              <Route path="/portal/news" element={<NewsPortal />} />
+              <Route path="/portal/social" element={<SocialPortal />} />
+              <Route path="/portal/business" element={<BusinessPortal />} />
+              <Route path="/portal/tv" element={<TVPortal />} />
+              <Route path="/portal/search" element={<SearchPortal />} />
+              
               {/* Phase 7.6.3 - Section-Specific News Pages */}
               <Route path="/news/:section" element={<NewsSectionPage />} />
               {/* Legacy homepage moved to /hub-legacy if needed */}
