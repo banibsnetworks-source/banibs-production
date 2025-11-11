@@ -152,7 +152,7 @@ async def create_comment(
     # Enrich with author info
     from db.connection import get_db
     db = await get_db()
-    author = await db.unified_users.find_one(
+    author = await db.banibs_users.find_one(
         {"id": current_user["id"]},
         {"_id": 0, "id": 1, "name": 1, "avatar_url": 1}
     )
