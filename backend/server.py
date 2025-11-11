@@ -199,6 +199,10 @@ app.include_router(health_router)
 # Include feedback router (Phase 7.5.3 - User Feedback)
 app.include_router(feedback_router)
 
+# Include social router (Phase 8.3 - BANIBS Social Portal)
+app.include_router(social_router)
+
+
 # Include Phase 7.1 - Opportunities Exchange routers
 from routes.opportunities.jobs import router as jobs_router
 from routes.opportunities.recruiters import router as recruiters_router, employer_router
