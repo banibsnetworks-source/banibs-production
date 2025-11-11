@@ -156,10 +156,134 @@ def sort_items_by_section(items: List[Dict[str, Any]]) -> Dict[str, List[Dict[st
 def get_section_display_name(section: str) -> str:
     """Get display name for section identifier"""
     display_names = {
-        'us': 'US',
+        'top-stories': 'Top Stories',
+        'us': 'U.S.',
         'world': 'World',
+        'politics': 'Politics',
+        'healthwatch': 'HealthWatch',
+        'moneywatch': 'MoneyWatch',
+        'entertainment': 'Entertainment',
+        'crime': 'Crime',
+        'sports': 'Sports',
+        'culture': 'Culture',
+        'science-tech': 'Science & Tech',
+        'civil-rights': 'Civil Rights',
         'business': 'Business',
-        'tech': 'Technology',
-        'sports': 'Sports'
+        'education': 'Education',
+        'tech': 'Technology'  # alias
     }
-    return display_names.get(section, section.title())
+    return display_names.get(section, section.replace('-', ' ').title())
+
+
+def filter_items_by_section(items: List[Dict[str, Any]], section: str) -> List[Dict[str, Any]]:
+    """
+    Filter news items by section identifier.
+    
+    Args:
+        items: List of news item dictionaries
+        section: Section identifier (e.g., 'us', 'world', 'business')
+        
+    Returns:
+        Filtered list of items matching the section
+    """
+    if section == 'top-stories' or section == 'all':
+        return items
+    
+    # Map section to categorization
+    section_mapping = {
+        'us': 'us',
+        'world': 'world',
+        'politics': 'politics',
+        'healthwatch': 'health',
+        'moneywatch': 'money',
+        'entertainment': 'entertainment',
+        'crime': 'crime',
+        'sports': 'sports',
+        'culture': 'culture',
+        'science-tech': 'tech',
+        'civil-rights': 'civil-rights',
+        'business': 'business',
+        'education': 'education'
+    }
+    
+    target_category = section_mapping.get(section, section)
+    filtered = []
+    
+    for item in items:
+        # Get categorization
+        item_category = categorize_news_item(item)
+        
+        # Check if it matches
+        if item_category == target_category:
+            filtered.append(item)
+            continue
+        
+        # Additional keyword matching for flexible categorization
+        category = (item.get('category') or '').lower()
+        title = (item.get('title') or '').lower()
+        
+        # Politics section
+        if section == 'politics' and any(kw in category + title for kw in ['politic', 'election', 'congress', 'senate', 'president']):
+            filtered.append(item)
+        
+        # HealthWatch section
+        elif section == 'healthwatch' and any(kw in category + title for kw in ['health', 'medical', 'wellness', 'hospital', 'doctor', 'medicine']):
+            filtered.append(item)
+        
+        # MoneyWatch section
+        elif section == 'moneywatch' and any(kw in category + title for kw in ['economy', 'finance', 'stock', 'market', 'investment', 'money']):
+            filtered.append(item)
+        
+        # Entertainment section
+        elif section == 'entertainment' and any(kw in category + title for kw in ['entertainment', 'film', 'movie', 'music', 'celebrity', 'tv', 'show']):
+            filtered.append(item)
+        
+        # Crime section
+        elif section == 'crime' and any(kw in category + title for kw in ['crime', 'criminal', 'arrest', 'prison', 'jail', 'police', 'law enforcement']):
+            filtered.append(item)
+        
+        # Culture section
+        elif section == 'culture' and any(kw in category + title for kw in ['culture', 'art', 'identity', 'heritage', 'tradition', 'lifestyle']):
+            filtered.append(item)
+        
+        # Civil Rights section
+        elif section == 'civil-rights' and any(kw in category + title for kw in ['civil rights', 'justice', 'equality', 'discrimination', 'protest', 'activism']):
+            filtered.append(item)
+        
+        # Education section
+        elif section == 'education' and any(kw in category + title for kw in ['education', 'school', 'college', 'university', 'student', 'teacher', 'learning']):
+            filtered.append(item)
+    
+    return filtered
+
+
+def paginate_items(
+    items: List[Dict[str, Any]], 
+    page: int = 1, 
+    page_size: int = 20
+) -> tuple[List[Dict[str, Any]], int, int]:
+    """
+    Paginate a list of items.
+    
+    Args:
+        items: List of items to paginate
+        page: Page number (1-indexed)
+        page_size: Number of items per page
+        
+    Returns:
+        Tuple of (paginated_items, total_items, total_pages)
+    """
+    total_items = len(items)
+    total_pages = (total_items + page_size - 1) // page_size  # Ceiling division
+    
+    if page < 1:
+        page = 1
+    if page > total_pages and total_pages > 0:
+        page = total_pages
+    
+    start_idx = (page - 1) * page_size
+    end_idx = start_idx + page_size
+    
+    paginated = items[start_idx:end_idx]
+    
+    return paginated, total_items, total_pages
