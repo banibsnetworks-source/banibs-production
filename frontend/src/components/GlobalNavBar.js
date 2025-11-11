@@ -211,6 +211,13 @@ const GlobalNavBar = () => {
           </div>
         )}
       </div>
+
+      {/* Phase 8.1 - Auth Modal */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        onSuccess={handleAuthSuccess}
+      />
     </nav>
   );
 };
