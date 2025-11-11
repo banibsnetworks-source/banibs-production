@@ -591,6 +591,137 @@ async def get_homepage_news():
     }
 
 
+# ==========================================
+# PHASE 7.6.3 - SECTION-SPECIFIC ENDPOINT
+# ==========================================
+
+VALID_SECTIONS = {
+    "top-stories", "us", "world", "politics", "healthwatch", "moneywatch",
+    "entertainment", "crime", "sports", "culture", "science-tech",
+    "civil-rights", "business", "education"
+}
+
+@router.get("/section")
+async def get_news_section(
+    section: str = Query(..., description="Section key, e.g. 'us', 'world'"),
+    page: int = Query(1, ge=1, description="Page number (1-indexed)"),
+    page_size: int = Query(20, ge=1, le=50, description="Items per page"),
+    sentiment: Optional[str] = Query(None, description="Filter by sentiment: positive, neutral, negative"),
+    region: Optional[str] = Query(None, description="Filter by region")
+):
+    """
+    Get news items for a specific section with pagination (Phase 7.6.3)
+    
+    Returns section-scoped news data with:
+    - section: Section identifier
+    - label: Display name for section
+    - page, page_size, total_items, total_pages: Pagination metadata
+    - lead_story: Top story for hero display (or null)
+    - featured: Array of 3-4 key stories for featured grid
+    - items: Paginated list of section stories
+    
+    Sections: us, world, politics, healthwatch, moneywatch, entertainment,
+              crime, sports, culture, science-tech, civil-rights, business, education
+    """
+    from services.news_categorization_service import (
+        filter_items_by_section,
+        paginate_items,
+        get_section_display_name
+    )
+    
+    # Validate section
+    if section not in VALID_SECTIONS:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Invalid section. Valid sections: {', '.join(VALID_SECTIONS)}"
+        )
+    
+    # Fallback image URL
+    FALLBACK_IMAGE = "/static/img/fallbacks/news_default.jpg"
+    
+    # Fetch news items from database
+    items = await news_collection.find(
+        {},
+        {"_id": 0}
+    ).sort("publishedAt", -1).limit(200).to_list(length=None)
+    
+    if not items:
+        return {
+            "section": section,
+            "label": get_section_display_name(section),
+            "page": page,
+            "page_size": page_size,
+            "total_items": 0,
+            "total_pages": 0,
+            "lead_story": None,
+            "featured": [],
+            "items": []
+        }
+    
+    # Deduplicate items
+    seen_keys = set()
+    unique_items = []
+    
+    for item in items:
+        dedupe_key = make_dedupe_key(item)
+        if dedupe_key in seen_keys:
+            continue
+        seen_keys.add(dedupe_key)
+        
+        # Ensure imageUrl
+        if not item.get('imageUrl'):
+            item['imageUrl'] = FALLBACK_IMAGE
+        
+        # Convert datetime to ISO string
+        if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
+            item['publishedAt'] = item['publishedAt'].isoformat()
+        if 'sentiment_at' in item and hasattr(item['sentiment_at'], 'isoformat'):
+            item['sentiment_at'] = item['sentiment_at'].isoformat()
+        
+        # Enrich with heavy content banner
+        enrich_item_with_banner_data(item)
+        
+        unique_items.append(item)
+    
+    # Filter by section
+    filtered_items = filter_items_by_section(unique_items, section)
+    
+    # Apply sentiment filter if provided
+    if sentiment:
+        filtered_items = [
+            item for item in filtered_items
+            if item.get('sentiment_label', '').lower() == sentiment.lower()
+        ]
+    
+    # Apply region filter if provided
+    if region:
+        filtered_items = [
+            item for item in filtered_items
+            if item.get('region', '').lower() == region.lower()
+        ]
+    
+    # Paginate
+    paginated_items, total_items, total_pages = paginate_items(
+        filtered_items, page, page_size
+    )
+    
+    # Extract lead story and featured
+    lead_story = filtered_items[0] if len(filtered_items) > 0 else None
+    featured = filtered_items[1:4] if len(filtered_items) > 1 else []
+    
+    return {
+        "section": section,
+        "label": get_section_display_name(section),
+        "page": page,
+        "page_size": page_size,
+        "total_items": total_items,
+        "total_pages": total_pages,
+        "lead_story": lead_story,
+        "featured": featured,
+        "items": paginated_items
+    }
+
+
 @router.get("/trending")
 async def get_trending_news(region: str = "Global", limit: int = 5):
     """
