@@ -21,10 +21,14 @@ const SocialPostComposer = ({ onPostCreated }) => {
     setError(null);
     
     try {
+      // Get token from localStorage
+      const token = localStorage.getItem('access_token');
+      
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/social/posts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         credentials: 'include',
         body: JSON.stringify({
