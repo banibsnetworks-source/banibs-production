@@ -43,10 +43,16 @@ const SocialPostCard = ({ post, onUpdate, onDelete }) => {
     setIsLiking(true);
     
     try {
+      // Get token from localStorage
+      const token = localStorage.getItem('access_token');
+      
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/social/posts/${localPost.id}/like`,
         {
           method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
           credentials: 'include',
         }
       );
