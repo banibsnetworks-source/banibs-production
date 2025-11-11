@@ -131,6 +131,7 @@ class UserUpdate(BaseModel):
     name: Optional[str] = None
     bio: Optional[str] = None
     avatar_url: Optional[str] = None
+    preferred_portal: Optional[str] = None  # Phase 8.1
 
 
 class PasswordResetRequest(BaseModel):
