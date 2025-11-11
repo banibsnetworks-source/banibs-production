@@ -16,7 +16,7 @@ API_BASE = f"{BACKEND_URL}/api"
 class SocialPortalTester:
     def __init__(self):
         self.access_token = None
-        self.test_user_email = "social_test_user@banibs.test"
+        self.test_user_email = "social_test_user@example.com"
         self.test_user_id = None
         self.test_post_id = None
         self.session = requests.Session()
