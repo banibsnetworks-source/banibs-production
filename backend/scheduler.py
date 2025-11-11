@@ -146,12 +146,17 @@ def init_scheduler():
         replace_existing=True
     )
     
+    # Job 5: Uptime monitoring (Phase 7.5.2 - every 5 minutes)
+    from tasks.uptime_monitor import schedule_uptime_monitoring
+    schedule_uptime_monitoring(scheduler)
+    
     scheduler.start()
     print("[BANIBS Scheduler] Started.")
     print("  - RSS pipeline: every 6 hours")
     print("  - Sentiment sweep: every 3 hours")
     print("  - Sentiment aggregation: daily at 00:30 UTC")
     print("  - RSS health check: daily at 01:00 UTC")
+    print("  - Uptime monitoring: every 5 minutes")
 
 
 def shutdown_scheduler():
