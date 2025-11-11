@@ -31,10 +31,19 @@ const AuthModal = ({ isOpen, onClose, onSuccess, defaultTab = 'signin' }) => {
     try {
       const result = await login(signInEmail, signInPassword);
       if (result.success) {
+        // Get the token that was just stored
+        const token = localStorage.getItem('access_token');
         const userResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/me`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
           credentials: 'include',
         });
         const userData = await userResponse.json();
+        
+        // Update localStorage with complete user data including preferred_portal
+        localStorage.setItem('user', JSON.stringify(userData));
+        
         onClose();
         if (onSuccess) onSuccess(userData);
       } else {
