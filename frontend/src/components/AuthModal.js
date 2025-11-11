@@ -29,9 +29,17 @@ const AuthModal = ({ isOpen, onClose, onSuccess, defaultTab = 'signin' }) => {
     setLoading(true);
 
     try {
-      await login(signInEmail, signInPassword);
-      onClose();
-      // Redirect based on preferred_portal will happen in parent
+      const result = await login(signInEmail, signInPassword);
+      if (result.success) {
+        const userResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/me`, {
+          credentials: 'include',
+        });
+        const userData = await userResponse.json();
+        onClose();
+        if (onSuccess) onSuccess(userData);
+      } else {
+        setError(result.error);
+      }
     } catch (err) {
       setError(err.message);
     } finally {
