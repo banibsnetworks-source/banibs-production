@@ -58,6 +58,12 @@ class UnifiedUser(BaseModel):
     last_login: Optional[str] = Field(None, description="Last login timestamp (ISO)")
     updated_at: Optional[str] = Field(None, description="Last update timestamp (ISO)")
     
+    # Phase 8.1 - Preferred Portal
+    preferred_portal: str = Field(
+        default="news",
+        description="User's preferred landing portal: news, social, business, tv, search"
+    )
+    
     # Metadata
     metadata: Dict[str, Any] = Field(
         default_factory=dict,
