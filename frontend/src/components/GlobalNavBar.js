@@ -12,7 +12,11 @@ import AuthModal from './AuthModal';
  */
 const GlobalNavBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [authModalOpen, setAuthModalOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const navLinks = [
     { label: 'BANIBS News', path: '/', icon: '📰' },
