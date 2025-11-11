@@ -63,8 +63,10 @@ const GlobalNavBar = () => {
             ))}
           </div>
 
-          {/* Auth Links */}
+          {/* Phase 7.6.5 - Mood Meter & Auth Links */}
           <div className="hidden lg:flex items-center space-x-3">
+            <MoodMeter />
+            <div className="w-px h-6 bg-blue-700"></div>
             <Link
               to="/login"
               className="px-4 py-2 text-sm font-medium text-white hover:text-yellow-300 transition-colors"
