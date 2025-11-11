@@ -123,7 +123,10 @@ function App() {
         <div className="App">
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<HomePage />} />
+              {/* Phase 7.6.2 - New CNN-Style News Homepage */}
+              <Route path="/" element={<NewsHomePage />} />
+              {/* Legacy homepage moved to /hub-legacy if needed */}
+              <Route path="/hub-legacy" element={<HomePage />} />
               <Route path="/opportunity-hub" element={<OpportunityHubPage />} />
               {/* Phase 6.0 - World News Page */}
               <Route path="/world-news" element={<WorldNewsPage />} />
