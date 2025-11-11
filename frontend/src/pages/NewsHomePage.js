@@ -17,7 +17,6 @@ const NewsHomePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newsData, setNewsData] = useState(null);
-  const [activeSection, setActiveSection] = useState('all');
   const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
 
   useEffect(() => {
@@ -43,25 +42,6 @@ const NewsHomePage = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleSectionChange = (sectionId) => {
-    setActiveSection(sectionId);
-    // For now, just update active state. In future phases, can filter content
-    // or navigate to dedicated section pages
-  };
-
-  const getFilteredContent = () => {
-    if (!newsData) return null;
-    
-    // For "all" or if no filtering needed yet, return full data
-    if (activeSection === 'all') {
-      return newsData;
-    }
-    
-    // In future: filter based on active section
-    // For now, return all data but could implement section-specific filtering
-    return newsData;
   };
 
   if (loading) {
