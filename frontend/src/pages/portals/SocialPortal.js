@@ -133,7 +133,10 @@ const SocialPortal = () => {
             ))}
           </div>
           <div className="text-center mt-8">
-            <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
+            <button 
+              onClick={() => handleOpenAuth('signin')}
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+            >
               Sign in to see your feed →
             </button>
           </div>
