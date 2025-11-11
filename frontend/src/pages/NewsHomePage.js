@@ -88,7 +88,7 @@ const NewsHomePage = () => {
     );
   }
 
-  const { hero, top_stories, sections, banibs_tv } = newsData || {};
+  const { hero, top_stories, sections, banibs_tv, trending, sentiment_summary } = newsData || {};
 
   return (
     <div className="min-h-screen bg-gray-950">
