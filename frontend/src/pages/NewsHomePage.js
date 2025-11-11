@@ -177,15 +177,20 @@ const NewsHomePage = () => {
 
           {/* Right Rail (4 columns) */}
           <aside className="lg:col-span-4 space-y-6">
-            {/* BANIBS TV Card */}
-            <div className="sticky top-32">
+            <div className="sticky top-32 space-y-6">
+              {/* BANIBS TV Card */}
               <BanibsTVCard media={banibs_tv} />
               
-              {/* Future: Trending Stories, Opinion, etc. */}
-              <div className="mt-6 bg-gray-800/40 backdrop-blur-md rounded-lg p-6 border border-gray-700/50">
-                <h3 className="text-white font-bold text-lg mb-4">Trending Now</h3>
-                <p className="text-gray-400 text-sm">Coming soon...</p>
-              </div>
+              {/* Phase 7.6.4 - BANIBS TV Trending Rail */}
+              {/* <BanibsTVTrendingRail items={tv_trending?.items || []} /> */}
+              
+              {/* Phase 7.6.4 - Trending Panel */}
+              {trending && <TrendingPanel trending={trending} title="Trending Now" />}
+              
+              {/* Phase 7.6.4 - Sentiment Summary */}
+              {sentiment_summary && (
+                <SentimentSummaryBar summary={sentiment_summary} title="News Sentiment" />
+              )}
             </div>
           </aside>
         </div>
