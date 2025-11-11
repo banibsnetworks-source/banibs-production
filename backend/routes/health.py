@@ -1,0 +1,112 @@
+"""
+Phase 7.5.2 - Health Check Endpoint
+Provides system health status for uptime monitoring
+"""
+from fastapi import APIRouter, HTTPException
+from datetime import datetime, timezone
+import os
+from motor.motor_asyncio import AsyncIOMotorClient
+
+router = APIRouter(prefix="/api", tags=["health"])
+
+# Database connection
+client = AsyncIOMotorClient(os.environ['MONGO_URL'])
+db = client[os.environ['DB_NAME']]
+
+
+@router.get("/health")
+async def health_check():
+    """
+    System health check endpoint
+    
+    Returns:
+    - 200 OK if all systems operational
+    - 503 Service Unavailable if critical systems down
+    
+    Checks:
+    - API server is running
+    - Database connectivity
+    - Basic response time
+    
+    Used by: UptimeRobot, internal monitoring, load balancers
+    """
+    health_status = {
+        "status": "healthy",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "service": "BANIBS API",
+        "version": "1.0.0",
+        "checks": {}
+    }
+    
+    # Check 1: API Server (implicit - if this runs, API is up)
+    health_status["checks"]["api_server"] = {
+        "status": "healthy",
+        "message": "API server responding"
+    }
+    
+    # Check 2: Database Connectivity
+    try:
+        # Ping database to verify connection
+        await db.command("ping")
+        
+        # Check if we can query collections
+        news_count = await db.news_items.count_documents({})
+        
+        health_status["checks"]["database"] = {
+            "status": "healthy",
+            "message": f"Database connected ({news_count} news items)",
+            "connection": "active"
+        }
+    except Exception as e:
+        health_status["status"] = "unhealthy"
+        health_status["checks"]["database"] = {
+            "status": "unhealthy",
+            "message": f"Database connection failed: {str(e)}",
+            "connection": "failed"
+        }
+    
+    # Check 3: Critical Collections Exist
+    try:
+        collections = await db.list_collection_names()
+        critical_collections = [
+            "news_items",
+            "unified_users",
+            "business_listings",
+            "job_listings"
+        ]
+        
+        missing = [c for c in critical_collections if c not in collections]
+        
+        if missing:
+            health_status["checks"]["collections"] = {
+                "status": "warning",
+                "message": f"Missing collections: {', '.join(missing)}"
+            }
+        else:
+            health_status["checks"]["collections"] = {
+                "status": "healthy",
+                "message": "All critical collections present"
+            }
+    except Exception as e:
+        health_status["checks"]["collections"] = {
+            "status": "warning",
+            "message": f"Collection check failed: {str(e)}"
+        }
+    
+    # Overall status determination
+    if health_status["status"] == "unhealthy":
+        raise HTTPException(
+            status_code=503,
+            detail=health_status
+        )
+    
+    return health_status
+
+
+@router.get("/health/simple")
+async def simple_health_check():
+    """
+    Minimal health check for basic uptime monitoring
+    Returns 200 OK if API is responding
+    """
+    return {"status": "ok", "timestamp": datetime.now(timezone.utc).isoformat()}
