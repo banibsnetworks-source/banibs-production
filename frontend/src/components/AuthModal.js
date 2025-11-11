@@ -53,9 +53,26 @@ const AuthModal = ({ isOpen, onClose, onSuccess, defaultTab = 'signin' }) => {
     setLoading(true);
 
     try {
-      await register(registerEmail, registerPassword, registerName);
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          email: registerEmail,
+          password: registerPassword,
+          name: registerName,
+          accepted_terms: true,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Registration failed');
+      }
+
+      const data = await response.json();
       onClose();
-      // Redirect based on preferred_portal will happen in parent
+      if (onSuccess) onSuccess(data.user);
     } catch (err) {
       setError(err.message);
     } finally {
