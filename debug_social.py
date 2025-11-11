@@ -65,6 +65,58 @@ async def debug_social_issue():
             print(f"   ID: {user_unified['id']}")
             print(f"   Name: {user_unified['name']}")
         
+    # Test the get_post_by_id function directly
+    if posts:
+        test_post_id = posts[0]['id']
+        print(f"\n🔍 Testing get_post_by_id function with ID: {test_post_id}")
+        
+        from db.social_posts import get_post_by_id
+        
+        try:
+            enriched_post = await get_post_by_id(test_post_id, user_id)
+            if enriched_post:
+                print(f"✅ get_post_by_id returned post successfully")
+                print(f"   Author: {enriched_post.get('author', {}).get('display_name', 'Unknown')}")
+                print(f"   Text: {enriched_post['text'][:50]}...")
+            else:
+                print(f"❌ get_post_by_id returned None")
+                
+                # Let's debug step by step
+                print(f"\n🔍 Debugging get_post_by_id step by step:")
+                
+                # Step 1: Find the post
+                post = await db.social_posts.find_one({"id": test_post_id}, {"_id": 0})
+                if post:
+                    print(f"   ✅ Step 1: Post found in database")
+                    print(f"      Author ID: {post['author_id']}")
+                    
+                    # Step 2: Find the author
+                    author = await db.banibs_users.find_one(
+                        {"id": post["author_id"]},
+                        {"_id": 0, "id": 1, "name": 1, "avatar_url": 1}
+                    )
+                    if author:
+                        print(f"   ✅ Step 2: Author found in banibs_users")
+                        print(f"      Author: {author}")
+                    else:
+                        print(f"   ❌ Step 2: Author NOT found in banibs_users")
+                        print(f"      Looking for ID: {post['author_id']}")
+                        
+                        # Check if author exists with different query
+                        author_check = await db.banibs_users.find_one({"id": post["author_id"]})
+                        if author_check:
+                            print(f"      ⚠️ Author exists but projection failed")
+                            print(f"      Full author: {author_check}")
+                        else:
+                            print(f"      ❌ Author truly doesn't exist")
+                else:
+                    print(f"   ❌ Step 1: Post NOT found in database")
+                    
+        except Exception as e:
+            print(f"❌ get_post_by_id failed with exception: {e}")
+            import traceback
+            traceback.print_exc()
+    
     print("\n=== DEBUG COMPLETE ===")
 
 if __name__ == "__main__":
