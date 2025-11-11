@@ -96,7 +96,7 @@ const NewsHomePage = () => {
       />
 
       <GlobalNavBar />
-      <NewsNavigationBar activeSection={activeSection} onSectionChange={handleSectionChange} />
+      <NewsNavigationBar activeSection="top-stories" />
 
       <main className="container mx-auto px-4 py-8">
         {/* 12-Column Grid Layout: 8 columns main + 4 columns sidebar */}
