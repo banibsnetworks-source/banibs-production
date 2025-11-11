@@ -1,32 +1,26 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { SECTION_MAP } from '../constants/sectionKeys';
 
 /**
  * News Section Navigation Bar
  * Secondary navigation for news categories
  * Sticky below global bar, horizontal scroll on mobile
+ * Now uses actual Link components for navigation
  */
-const NewsNavigationBar = ({ activeSection, onSectionChange }) => {
+const NewsNavigationBar = ({ activeSection }) => {
   const scrollContainerRef = useRef(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
+  const location = useLocation();
 
-  const sections = [
-    { id: 'all', label: 'Top Stories', icon: '⭐' },
-    { id: 'us', label: 'U.S.', icon: '🇺🇸' },
-    { id: 'world', label: 'World', icon: '🌍' },
-    { id: 'politics', label: 'Politics', icon: '⚖️' },
-    { id: 'health', label: 'HealthWatch', icon: '🏥' },
-    { id: 'money', label: 'MoneyWatch', icon: '💰' },
-    { id: 'entertainment', label: 'Entertainment', icon: '🎬' },
-    { id: 'crime', label: 'Crime', icon: '🚨' },
-    { id: 'sports', label: 'Sports', icon: '⚽' },
-    { id: 'culture', label: 'Culture', icon: '🎨' },
-    { id: 'tech', label: 'Science & Tech', icon: '🔬' },
-    { id: 'civil-rights', label: 'Civil Rights', icon: '✊' },
-    { id: 'business', label: 'Business', icon: '📈' },
-    { id: 'education', label: 'Education', icon: '🎓' },
-  ];
+  // Convert SECTION_MAP to array for rendering
+  const sections = Object.entries(SECTION_MAP).map(([id, { label, icon }]) => ({
+    id,
+    label,
+    icon,
+  }));
 
   const checkScroll = () => {
     if (scrollContainerRef.current) {
