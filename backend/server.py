@@ -36,6 +36,7 @@ from tasks.rss_sync import router as rss_sync_router  # RSS sync endpoint
 from scheduler import init_scheduler  # APScheduler for automated RSS sync
 from routes.config import router as config_router  # Phase 6.6 - Feature Flags Config
 from routes.health import router as health_router  # Phase 7.5.2 - Health Check
+from routes.feedback import router as feedback_router  # Phase 7.5.3 - User Feedback
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
