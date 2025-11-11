@@ -2466,12 +2466,7 @@ def main():
     sys.exit(0 if phase71_failed == 0 else 1)
 
 
-if __name__ == "__main__":
-    tester = BanibsAPITester()
-    
-    # Run Phase 7.4 comprehensive backend API tests
-    success = tester.run_phase7_4_tests()
-    sys.exit(0 if success else 1)
+# Removed duplicate main block - using the one at the end of file
 
     # Phase 6.6 - Feature Flags and Heavy Content Banner Tests
     
