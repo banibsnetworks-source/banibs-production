@@ -583,11 +583,26 @@ async def get_homepage_news():
             media['publishedAt'] = media['publishedAt'].isoformat()
         banibs_tv = media
     
+    # Phase 7.6.4 - Add trending and sentiment summary
+    from services.trending_service import get_trending_items, compute_sentiment_summary
+    
+    # Get global trending items
+    trending_items = get_trending_items(unique_items, section='all', limit=10)
+    
+    # Compute sentiment summary
+    sentiment_summary = compute_sentiment_summary(unique_items)
+    
     return {
         "hero": hero,
         "top_stories": top_stories,
         "sections": sections,
-        "banibs_tv": banibs_tv
+        "banibs_tv": banibs_tv,
+        "trending": {
+            "section": "all",
+            "updated_at": datetime.utcnow().isoformat() + "Z",
+            "items": trending_items
+        },
+        "sentiment_summary": sentiment_summary
     }
 
 
