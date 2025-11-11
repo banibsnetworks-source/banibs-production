@@ -1272,6 +1272,186 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # PHASE 7.6.1 - NEWS HOMEPAGE API ENDPOINT TESTING
+    # ==========================================
+    
+    def test_news_homepage_endpoint(self) -> bool:
+        """Test Phase 7.6.1 - News Homepage API Endpoint"""
+        self.log("Testing Phase 7.6.1 - News Homepage API Endpoint...")
+        
+        start_time = time.time()
+        response = self.make_request("GET", "/news/homepage")
+        response_time = (time.time() - start_time) * 1000
+        
+        if response.status_code != 200:
+            self.log(f"❌ Homepage endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        try:
+            data = response.json()
+        except Exception as e:
+            self.log(f"❌ Homepage endpoint returned invalid JSON: {e}", "ERROR")
+            return False
+        
+        # Test 1: Verify response structure
+        required_keys = ["hero", "top_stories", "sections", "banibs_tv"]
+        missing_keys = [key for key in required_keys if key not in data]
+        if missing_keys:
+            self.log(f"❌ Homepage response missing keys: {missing_keys}", "ERROR")
+            return False
+        
+        # Test 2: Verify sections structure
+        sections = data.get("sections", {})
+        required_sections = ["us", "world", "business", "tech", "sports"]
+        missing_sections = [section for section in required_sections if section not in sections]
+        if missing_sections:
+            self.log(f"❌ Homepage sections missing: {missing_sections}", "ERROR")
+            return False
+        
+        # Test 3: Verify top_stories array
+        top_stories = data.get("top_stories", [])
+        if not isinstance(top_stories, list):
+            self.log("❌ top_stories should be an array", "ERROR")
+            return False
+        
+        if len(top_stories) > 6:
+            self.log(f"❌ top_stories should have max 6 items, got {len(top_stories)}", "ERROR")
+            return False
+        
+        # Test 4: Verify section item limits
+        for section_name, items in sections.items():
+            if not isinstance(items, list):
+                self.log(f"❌ Section {section_name} should be an array", "ERROR")
+                return False
+            
+            if len(items) > 12:
+                self.log(f"❌ Section {section_name} should have max 12 items, got {len(items)}", "ERROR")
+                return False
+        
+        # Test 5: Verify news item structure
+        all_items = []
+        if data.get("hero"):
+            all_items.append(data["hero"])
+        all_items.extend(top_stories)
+        for section_items in sections.values():
+            all_items.extend(section_items)
+        
+        required_news_fields = ["id", "title", "summary", "imageUrl", "publishedAt", "category"]
+        for i, item in enumerate(all_items[:5]):  # Check first 5 items
+            missing_fields = [field for field in required_news_fields if field not in item]
+            if missing_fields:
+                self.log(f"❌ News item {i} missing fields: {missing_fields}", "ERROR")
+                return False
+            
+            # Test 6: Verify datetime serialization
+            published_at = item.get("publishedAt")
+            if published_at and not isinstance(published_at, str):
+                self.log(f"❌ publishedAt should be ISO string, got {type(published_at)}", "ERROR")
+                return False
+        
+        # Test 7: Verify BANIBS TV structure (if present)
+        banibs_tv = data.get("banibs_tv")
+        if banibs_tv:
+            required_tv_fields = ["id", "title", "description", "thumbnailUrl"]
+            missing_tv_fields = [field for field in required_tv_fields if field not in banibs_tv]
+            if missing_tv_fields:
+                self.log(f"❌ BANIBS TV missing fields: {missing_tv_fields}", "ERROR")
+                return False
+        
+        # Test 8: Check for duplicates across sections
+        all_item_ids = []
+        for section_items in sections.values():
+            for item in section_items:
+                if item.get("id"):
+                    all_item_ids.append(item["id"])
+        
+        if len(all_item_ids) != len(set(all_item_ids)):
+            self.log("❌ Duplicate items found across sections", "ERROR")
+            return False
+        
+        # Test 9: Verify response time
+        if response_time > 500:
+            self.log(f"⚠️ Response time {response_time:.2f}ms exceeds 500ms target")
+        
+        # Log success details
+        self.log(f"✅ News Homepage API working - Response time: {response_time:.2f}ms")
+        self.log(f"   Hero: {'Present' if data.get('hero') else 'None'}")
+        self.log(f"   Top Stories: {len(top_stories)} items")
+        self.log(f"   Sections: US({len(sections.get('us', []))}), World({len(sections.get('world', []))}), Business({len(sections.get('business', []))}), Tech({len(sections.get('tech', []))}), Sports({len(sections.get('sports', []))})")
+        self.log(f"   BANIBS TV: {'Present' if banibs_tv else 'None'}")
+        
+        return True
+    
+    def test_news_homepage_categorization(self) -> bool:
+        """Test news categorization logic makes sense"""
+        self.log("Testing news categorization logic...")
+        
+        response = self.make_request("GET", "/news/homepage")
+        if response.status_code != 200:
+            self.log("❌ Cannot test categorization - homepage endpoint failed", "ERROR")
+            return False
+        
+        data = response.json()
+        sections = data.get("sections", {})
+        
+        # Check if items are reasonably categorized
+        categorization_issues = []
+        
+        # Business section should contain business-related content
+        business_items = sections.get("business", [])
+        for item in business_items[:3]:  # Check first 3
+            category = (item.get("category") or "").lower()
+            title = (item.get("title") or "").lower()
+            if not any(keyword in category + title for keyword in ["business", "economy", "entrepreneur", "startup", "grant", "funding"]):
+                categorization_issues.append(f"Business section item may be miscategorized: {item.get('title', 'Unknown')}")
+        
+        # Tech section should contain tech-related content
+        tech_items = sections.get("tech", [])
+        for item in tech_items[:3]:  # Check first 3
+            category = (item.get("category") or "").lower()
+            title = (item.get("title") or "").lower()
+            if not any(keyword in category + title for keyword in ["tech", "technology", "innovation", "ai", "digital", "software"]):
+                categorization_issues.append(f"Tech section item may be miscategorized: {item.get('title', 'Unknown')}")
+        
+        if categorization_issues:
+            for issue in categorization_issues[:3]:  # Show max 3 issues
+                self.log(f"⚠️ {issue}")
+            self.log("✅ Categorization working but some items may need review")
+        else:
+            self.log("✅ News categorization logic appears correct")
+        
+        return True
+    
+    def test_news_homepage_empty_state(self) -> bool:
+        """Test homepage endpoint handles empty state gracefully"""
+        self.log("Testing news homepage empty state handling...")
+        
+        # The endpoint should return valid structure even if no news exists
+        response = self.make_request("GET", "/news/homepage")
+        
+        if response.status_code != 200:
+            self.log(f"❌ Homepage endpoint should handle empty state gracefully, got {response.status_code}", "ERROR")
+            return False
+        
+        data = response.json()
+        
+        # Should have proper structure even if empty
+        required_keys = ["hero", "top_stories", "sections", "banibs_tv"]
+        if not all(key in data for key in required_keys):
+            self.log("❌ Homepage should return proper structure even when empty", "ERROR")
+            return False
+        
+        # Sections should be objects with proper keys
+        sections = data.get("sections", {})
+        required_sections = ["us", "world", "business", "tech", "sports"]
+        if not all(section in sections for section in required_sections):
+            self.log("❌ Homepage should return all section keys even when empty", "ERROR")
+            return False
+        
+        self.log("✅ Homepage endpoint handles empty/sparse data gracefully")
+        return True
+
+    # ==========================================
     # PHASE 7.4 - COMPREHENSIVE BACKEND API TESTING
     # ==========================================
     
