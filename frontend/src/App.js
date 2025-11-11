@@ -8,6 +8,8 @@ import { initializeAnalytics } from "./utils/analytics"; // Phase 7.5.1
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminOpportunitiesDashboard from "./pages/admin/AdminOpportunitiesDashboard";
+// Phase 8.3.1 - Social Moderation
+import AdminSocialReportsPage from "./pages/admin/AdminSocialReportsPage";
 // Phase 6.4 - Moderation Queue
 import ModerationQueue from "./pages/Admin/ModerationQueue";
 // Phase 6.5 - Sentiment Analytics
