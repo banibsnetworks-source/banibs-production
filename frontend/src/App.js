@@ -23,6 +23,8 @@ import ContributorProfileEdit from "./pages/contributor/ContributorProfileEdit";
 import OpportunityDetailPage from "./pages/OpportunityDetailPage";
 // Phase 7.6.2 - CNN-Style News Homepage
 import NewsHomePage from "./pages/NewsHomePage";
+// Phase 7.6.3 - Section-Specific News Pages
+import NewsSectionPage from "./pages/NewsSectionPage";
 // Home/Landing Page (Legacy)
 import HomePage from "./pages/HomePage";
 // Opportunity Hub (marketing/info page)
