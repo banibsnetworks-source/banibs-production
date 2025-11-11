@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, User, Settings, LogOut, ChevronDown } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 import MoodMeter from './MoodMeter';
+import AuthModal from './AuthModal';
 
 /**
  * Global BANIBS Navigation Bar
