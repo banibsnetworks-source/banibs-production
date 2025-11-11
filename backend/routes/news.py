@@ -621,7 +621,7 @@ async def get_news_section(
     section: str = Query(..., description="Section key, e.g. 'us', 'world'"),
     page: int = Query(1, ge=1, description="Page number (1-indexed)"),
     page_size: int = Query(20, ge=1, le=50, description="Items per page"),
-    sentiment: Optional[str] = Query(None, description="Filter by sentiment: positive, neutral, negative"),
+    sentiment: Optional[str] = Query(None, description="Phase 7.6.5 - Filter by sentiment: positive, neutral, negative"),
     region: Optional[str] = Query(None, description="Filter by region")
 ):
     """
