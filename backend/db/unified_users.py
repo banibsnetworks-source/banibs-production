@@ -301,6 +301,7 @@ async def delete_user(user_id: str) -> bool:
 def sanitize_user_response(user: dict) -> UserPublic:
     """
     Convert database user to public API response (remove sensitive fields)
+    Phase 8.3.1: Added preferred_portal to response
     """
     # Handle datetime conversion for created_at field
     created_at = user["created_at"]
@@ -316,5 +317,6 @@ def sanitize_user_response(user: dict) -> UserPublic:
         roles=user["roles"],
         membership_level=user["membership_level"],
         email_verified=user["email_verified"],
-        created_at=created_at
+        created_at=created_at,
+        preferred_portal=user.get("preferred_portal", "news")  # Phase 8.1
     )
