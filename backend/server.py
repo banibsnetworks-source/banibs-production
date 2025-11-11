@@ -202,6 +202,10 @@ app.include_router(feedback_router)
 # Include social router (Phase 8.3 - BANIBS Social Portal)
 app.include_router(social_router)
 
+# Include social moderation router (Phase 8.3.1 - Moderation & Safety)
+from routes.social_moderation import router as social_moderation_router
+app.include_router(social_moderation_router)
+
 
 # Include Phase 7.1 - Opportunities Exchange routers
 from routes.opportunities.jobs import router as jobs_router
