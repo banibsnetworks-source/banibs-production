@@ -137,15 +137,23 @@ def get_trending_items(
     return scored_items[:limit]
 
 
-def compute_sentiment_summary(items: List[Dict[str, Any]]) -> Dict[str, int]:
+def compute_sentiment_summary(items: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
     Compute sentiment distribution across a list of items.
+    
+    Phase 7.6.5: Now includes dominant_tone calculation.
     
     Args:
         items: List of news item dictionaries
         
     Returns:
-        Dictionary with counts: {"positive": X, "neutral": Y, "negative": Z}
+        Dictionary with counts and dominant_tone:
+        {
+            "positive": X,
+            "neutral": Y,
+            "negative": Z,
+            "dominant_tone": "Optimistic" | "Balanced" | "Concerned"
+        }
     """
     summary = {
         'positive': 0,
@@ -157,5 +165,23 @@ def compute_sentiment_summary(items: List[Dict[str, Any]]) -> Dict[str, int]:
         sentiment_label = (item.get('sentiment_label') or 'neutral').lower()
         if sentiment_label in summary:
             summary[sentiment_label] += 1
+    
+    # Calculate dominant tone (Phase 7.6.5)
+    total = summary['positive'] + summary['neutral'] + summary['negative']
+    
+    if total == 0:
+        dominant_tone = "Balanced"
+    else:
+        pos_pct = (summary['positive'] / total) * 100
+        neg_pct = (summary['negative'] / total) * 100
+        
+        if pos_pct > 50:
+            dominant_tone = "Optimistic"
+        elif neg_pct > 50:
+            dominant_tone = "Concerned"
+        else:
+            dominant_tone = "Balanced"
+    
+    summary['dominant_tone'] = dominant_tone
     
     return summary
