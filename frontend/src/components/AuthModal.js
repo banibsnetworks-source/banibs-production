@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
  * AuthModal - Phase 8.1
  * Unified modal for Sign In / Register
  */
-const AuthModal = ({ isOpen, onClose, defaultTab = 'signin' }) => {
+const AuthModal = ({ isOpen, onClose, onSuccess, defaultTab = 'signin' }) => {
   const [activeTab, setActiveTab] = useState(defaultTab);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
