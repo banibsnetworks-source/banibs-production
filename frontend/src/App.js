@@ -127,6 +127,8 @@ function App() {
             <Routes>
               {/* Phase 7.6.2 - New CNN-Style News Homepage */}
               <Route path="/" element={<NewsHomePage />} />
+              {/* Phase 7.6.3 - Section-Specific News Pages */}
+              <Route path="/news/:section" element={<NewsSectionPage />} />
               {/* Legacy homepage moved to /hub-legacy if needed */}
               <Route path="/hub-legacy" element={<HomePage />} />
               <Route path="/opportunity-hub" element={<OpportunityHubPage />} />
