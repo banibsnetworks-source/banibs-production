@@ -218,6 +218,15 @@ function App() {
                   </ProtectedRoute>
                 } 
               />
+              {/* Phase 8.3.1 - Social Moderation */}
+              <Route 
+                path="/admin/social/reports" 
+                element={
+                  <ProtectedRoute requireAdmin={true}>
+                    <AdminSocialReportsPage />
+                  </ProtectedRoute>
+                } 
+              />
             </Routes>
           </BrowserRouter>
         </div>
