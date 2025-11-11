@@ -69,24 +69,33 @@ const NewsNavigationBar = ({ activeSection }) => {
             className="flex items-center space-x-1 overflow-x-auto scrollbar-hide py-3"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {sections.map((section) => (
-              <button
-                key={section.id}
-                onClick={() => onSectionChange(section.id)}
-                className={`
-                  flex items-center space-x-1.5 px-4 py-2 rounded-md text-sm font-medium
-                  whitespace-nowrap transition-all duration-200
-                  ${
-                    activeSection === section.id
-                      ? 'bg-yellow-500 text-gray-900 font-bold'
-                      : 'text-gray-300 hover:bg-gray-800 hover:text-yellow-400'
-                  }
-                `}
-              >
-                <span>{section.icon}</span>
-                <span>{section.label}</span>
-              </button>
-            ))}
+            {sections.map((section) => {
+              // Determine if this section is active
+              const isActive = activeSection === section.id || 
+                (section.id === 'top-stories' && location.pathname === '/');
+              
+              // Build the link path
+              const linkPath = section.id === 'top-stories' ? '/' : `/news/${section.id}`;
+              
+              return (
+                <Link
+                  key={section.id}
+                  to={linkPath}
+                  className={`
+                    flex items-center space-x-1.5 px-4 py-2 rounded-md text-sm font-medium
+                    whitespace-nowrap transition-all duration-200
+                    ${
+                      isActive
+                        ? 'bg-yellow-500 text-gray-900 font-bold'
+                        : 'text-gray-300 hover:bg-gray-800 hover:text-yellow-400'
+                    }
+                  `}
+                >
+                  <span>{section.icon}</span>
+                  <span>{section.label}</span>
+                </Link>
+              );
+            })}
           </div>
 
           {/* Right Scroll Arrow */}
