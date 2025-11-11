@@ -110,6 +110,11 @@ const Home = () => {
 };
 
 function App() {
+  // Phase 7.5.1 - Initialize analytics on app load
+  useEffect(() => {
+    initializeAnalytics();
+  }, []);
+  
   return (
     <AuthProvider>
       <ContributorAuthProvider>
