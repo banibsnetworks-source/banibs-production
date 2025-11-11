@@ -724,6 +724,15 @@ async def get_news_section(
     lead_story = filtered_items[0] if len(filtered_items) > 0 else None
     featured = filtered_items[1:4] if len(filtered_items) > 1 else []
     
+    # Phase 7.6.4 - Add trending and sentiment summary for this section
+    from services.trending_service import get_trending_items, compute_sentiment_summary
+    
+    # Get trending items for this section
+    trending_items = get_trending_items(filtered_items, section=section, limit=10)
+    
+    # Compute sentiment summary for this section
+    sentiment_summary = compute_sentiment_summary(filtered_items)
+    
     return {
         "section": section,
         "label": get_section_display_name(section),
@@ -733,7 +742,13 @@ async def get_news_section(
         "total_pages": total_pages,
         "lead_story": lead_story,
         "featured": featured,
-        "items": paginated_items
+        "items": paginated_items,
+        "trending": {
+            "section": section,
+            "updated_at": datetime.utcnow().isoformat() + "Z",
+            "items": trending_items
+        },
+        "sentiment_summary": sentiment_summary
     }
 
 
