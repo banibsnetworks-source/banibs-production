@@ -156,7 +156,7 @@ async def resolve_report(
 
 @router.get("/admin/social/reports/stats")
 async def get_moderation_stats(
-    current_user=Depends(require_role("admin", "moderator"))
+    current_user=Depends(require_role("admin", "moderator", "super_admin"))
 ):
     """
     Get moderation statistics
