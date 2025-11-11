@@ -478,6 +478,119 @@ async def delete_news_item(
 # PHASE 6.2 - ENGAGEMENT ANALYTICS ENDPOINTS
 # ==========================================
 
+# ==========================================
+# PHASE 7.6.1 - CNN-STYLE HOMEPAGE ENDPOINT
+# ==========================================
+
+@router.get("/homepage")
+async def get_homepage_news():
+    """
+    Get structured news data for CNN-style homepage (Phase 7.6.1)
+    
+    Returns a structured payload with:
+    - hero: Featured story with full details (1 item)
+    - top_stories: Top stories across all sections (6 items)
+    - sections: News items organized by section (us, world, business, tech, sports)
+    - banibs_tv: Featured video for BANIBS TV (1 item)
+    
+    This endpoint aggregates and categorizes news from the database,
+    intelligently sorting stories into sections based on category, region,
+    and source metadata.
+    
+    Used by: CNN-style news homepage at /
+    """
+    from services.news_categorization_service import sort_items_by_section
+    from db.featured_media import get_featured_media, get_latest_media_with_thumbnail
+    
+    # Fallback image URL for items without images
+    FALLBACK_IMAGE = "/static/img/fallbacks/news_default.jpg"
+    
+    # Fetch recent news items (over-fetch for categorization)
+    items = await news_collection.find(
+        {},
+        {"_id": 0}
+    ).sort("publishedAt", -1).limit(100).to_list(length=None)
+    
+    if not items:
+        # Return empty structure if no news exists
+        return {
+            "hero": None,
+            "top_stories": [],
+            "sections": {
+                "us": [],
+                "world": [],
+                "business": [],
+                "tech": [],
+                "sports": []
+            },
+            "banibs_tv": None
+        }
+    
+    # Deduplicate items
+    seen_keys = set()
+    unique_items = []
+    
+    for item in items:
+        dedupe_key = make_dedupe_key(item)
+        
+        if dedupe_key in seen_keys:
+            continue
+        seen_keys.add(dedupe_key)
+        
+        # Ensure every item has an imageUrl
+        if not item.get('imageUrl'):
+            item['imageUrl'] = FALLBACK_IMAGE
+        
+        # Convert datetime to ISO string
+        if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
+            item['publishedAt'] = item['publishedAt'].isoformat()
+        
+        if 'sentiment_at' in item and hasattr(item['sentiment_at'], 'isoformat'):
+            item['sentiment_at'] = item['sentiment_at'].isoformat()
+        
+        # Enrich with heavy content banner data
+        enrich_item_with_banner_data(item)
+        
+        unique_items.append(item)
+    
+    # Sort items into sections
+    categorized = sort_items_by_section(unique_items)
+    
+    # Extract hero story
+    hero = categorized['hero'][0] if categorized['hero'] else None
+    
+    # Get top stories
+    top_stories = categorized['top_stories']
+    
+    # Build sections object
+    sections = {
+        'us': categorized['us'][:12],  # Limit per section
+        'world': categorized['world'][:12],
+        'business': categorized['business'][:12],
+        'tech': categorized['tech'][:12],
+        'sports': categorized['sports'][:12]
+    }
+    
+    # Get BANIBS TV featured video
+    banibs_tv = None
+    media = await get_featured_media()
+    if not media:
+        media = await get_latest_media_with_thumbnail()
+    
+    if media:
+        # Convert datetime to ISO string
+        if 'publishedAt' in media and hasattr(media['publishedAt'], 'isoformat'):
+            media['publishedAt'] = media['publishedAt'].isoformat()
+        banibs_tv = media
+    
+    return {
+        "hero": hero,
+        "top_stories": top_stories,
+        "sections": sections,
+        "banibs_tv": banibs_tv
+    }
+
+
 @router.get("/trending")
 async def get_trending_news(region: str = "Global", limit: int = 5):
     """
