@@ -6984,9 +6984,48 @@ if __name__ == "__main__":
             self.log(f"💥 {failed} test(s) failed")
             return False
 
+    def run_phase_7_6_1_tests(self) -> bool:
+        """Run Phase 7.6.1 - News Homepage API Endpoint tests"""
+        self.log("Starting Phase 7.6.1 - News Homepage API Endpoint Testing")
+        self.log(f"Testing against: {API_BASE}")
+        
+        tests = [
+            ("News Homepage Endpoint Structure", self.test_news_homepage_endpoint),
+            ("News Homepage Categorization Logic", self.test_news_homepage_categorization),
+            ("News Homepage Empty State Handling", self.test_news_homepage_empty_state),
+        ]
+        
+        passed = 0
+        failed = 0
+        
+        for test_name, test_func in tests:
+            self.log(f"\n--- Running {test_name} ---")
+            try:
+                if test_func():
+                    passed += 1
+                else:
+                    failed += 1
+            except Exception as e:
+                self.log(f"❌ {test_name} failed with exception: {e}", "ERROR")
+                failed += 1
+                
+        self.log(f"\n=== PHASE 7.6.1 TEST RESULTS ===")
+        self.log(f"✅ Passed: {passed}")
+        self.log(f"❌ Failed: {failed}")
+        self.log(f"Total: {passed + failed}")
+        
+        if failed == 0:
+            self.log("🎉 All Phase 7.6.1 tests passed!")
+            return True
+        else:
+            self.log(f"💥 {failed} test(s) failed")
+            return False
+
+
 if __name__ == "__main__":
     tester = BanibsAPITester()
     
-    # Run Phase 7.4 comprehensive backend API tests
-    success = tester.run_phase7_4_tests()
+    # Run Phase 7.6.1 specific tests
+    success = tester.run_phase_7_6_1_tests()
+    
     sys.exit(0 if success else 1)
