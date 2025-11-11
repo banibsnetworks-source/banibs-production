@@ -195,6 +195,9 @@ app.include_router(config_router)
 # Include health check router (Phase 7.5.2 - Uptime Monitoring)
 app.include_router(health_router)
 
+# Include feedback router (Phase 7.5.3 - User Feedback)
+app.include_router(feedback_router)
+
 # Include Phase 7.1 - Opportunities Exchange routers
 from routes.opportunities.jobs import router as jobs_router
 from routes.opportunities.recruiters import router as recruiters_router, employer_router
