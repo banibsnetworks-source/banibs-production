@@ -5,6 +5,9 @@ import NewsHeroSection from '../components/NewsHeroSection';
 import TopStoriesGrid from '../components/TopStoriesGrid';
 import NewsSectionBlock from '../components/NewsSectionBlock';
 import BanibsTVCard from '../components/BanibsTVCard';
+import TrendingPanel from '../components/TrendingPanel';
+import SentimentSummaryBar from '../components/SentimentSummaryBar';
+import BanibsTVTrendingRail from '../components/BanibsTVTrendingRail';
 import SEO from '../components/SEO';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 
