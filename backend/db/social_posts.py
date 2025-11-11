@@ -100,19 +100,7 @@ async def get_post_by_id(post_id: str, viewer_id: Optional[str] = None):
     )
     
     if not author:
-        print(f"[DEBUG] Author not found for author_id={post['author_id']}")
-        print(f"[DEBUG] Database name: {db.name}")
-        print(f"[DEBUG] Collections: {await db.list_collection_names()}")
-        
-        # Try to find any user with this ID in any collection
-        user_in_users = await db.users.find_one({"id": post["author_id"]})
-        user_in_banibs = await db.banibs_users.find_one({"id": post["author_id"]})
-        print(f"[DEBUG] User in 'users' collection: {user_in_users is not None}")
-        print(f"[DEBUG] User in 'banibs_users' collection: {user_in_banibs is not None}")
-        
         return None
-    
-    print(f"[DEBUG] Author found: {author['name']}")
     
     # Check viewer like status
     viewer_has_liked = False
