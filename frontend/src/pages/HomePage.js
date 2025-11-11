@@ -22,6 +22,7 @@ import FeaturedStory from '../components/FeaturedStory';
 import FeaturedVideo from '../components/FeaturedVideo';
 import QuickLinks from '../components/QuickLinks';
 import SEO from '../components/SEO';
+import FeedbackModal from '../components/FeedbackModal'; // Phase 7.5.3
 
 const HomePage = () => {
   const navigate = useNavigate();
