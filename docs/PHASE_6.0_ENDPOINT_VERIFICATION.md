@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://workopps-2.preview.emergentagent.com/api/auth
+https://banibs-redesign.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

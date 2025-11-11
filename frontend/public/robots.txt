@@ -5,7 +5,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://workopps-2.preview.emergentagent.com/sitemap.xml
+Sitemap: https://banibs-redesign.preview.emergentagent.com/sitemap.xml
 
 # Disallow admin and auth pages
 Disallow: /admin/
