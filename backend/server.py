@@ -191,6 +191,9 @@ app.include_router(admin_sentiment_analytics_router)  # Phase 6.5 - Sentiment An
 # Include config router (Phase 6.6 - Feature Flags)
 app.include_router(config_router)
 
+# Include health check router (Phase 7.5.2 - Uptime Monitoring)
+app.include_router(health_router)
+
 # Include Phase 7.1 - Opportunities Exchange routers
 from routes.opportunities.jobs import router as jobs_router
 from routes.opportunities.recruiters import router as recruiters_router, employer_router
