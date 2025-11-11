@@ -89,22 +89,74 @@ const GlobalNavBar = () => {
             ))}
           </div>
 
-          {/* Phase 7.6.5 - Mood Meter & Auth Links */}
+          {/* Phase 7.6.5 - Mood Meter & Phase 8.1 - Auth Links/User Menu */}
           <div className="hidden lg:flex items-center space-x-3">
             <MoodMeter />
             <div className="w-px h-6 bg-blue-700"></div>
-            <Link
-              to="/login"
-              className="px-4 py-2 text-sm font-medium text-white hover:text-yellow-300 transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/register"
-              className="px-4 py-2 text-sm font-bold bg-yellow-500 text-blue-900 rounded-md hover:bg-yellow-400 transition-colors"
-            >
-              Subscribe
-            </Link>
+            
+            {!isAuthenticated ? (
+              /* Signed Out */
+              <>
+                <button
+                  onClick={() => setAuthModalOpen(true)}
+                  className="px-4 py-2 text-sm font-medium text-white hover:text-yellow-300 transition-colors"
+                >
+                  Sign In
+                </button>
+                <button
+                  onClick={() => setAuthModalOpen(true)}
+                  className="px-4 py-2 text-sm font-bold bg-yellow-500 text-blue-900 rounded-md hover:bg-yellow-400 transition-colors"
+                >
+                  Join BANIBS
+                </button>
+              </>
+            ) : (
+              /* Signed In - User Menu */
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center space-x-2 px-3 py-2 rounded-md text-white hover:bg-blue-700 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center">
+                    <span className="text-sm font-bold text-blue-900">
+                      {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                    </span>
+                  </div>
+                  <span className="text-sm font-medium">{user?.name}</span>
+                  <ChevronDown size={16} />
+                </button>
+
+                {/* User Dropdown Menu */}
+                {userMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                    <Link
+                      to="/profile"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    >
+                      <User size={16} />
+                      <span>Profile</span>
+                    </Link>
+                    <Link
+                      to="/settings"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    >
+                      <Settings size={16} />
+                      <span>Settings</span>
+                    </Link>
+                    <div className="border-t border-gray-200 my-2"></div>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center space-x-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition-colors w-full text-left"
+                    >
+                      <LogOut size={16} />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
