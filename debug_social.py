@@ -18,6 +18,11 @@ async def debug_social_issue():
     db = await get_db()
     
     print("=== DEBUGGING SOCIAL PORTAL ISSUE ===")
+    print(f"Database name: {db.name}")
+    
+    # List all collections to see what's available
+    collections = await db.list_collection_names()
+    print(f"Collections in database: {collections}")
     
     # Check if user exists in banibs_users
     user_email = "social_test_user@example.com"
