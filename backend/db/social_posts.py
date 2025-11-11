@@ -100,7 +100,10 @@ async def get_post_by_id(post_id: str, viewer_id: Optional[str] = None):
     )
     
     if not author:
+        print(f"[DEBUG] Author not found for author_id={post['author_id']}")
         return None
+    
+    print(f"[DEBUG] Author found: {author['name']}")
     
     # Check viewer like status
     viewer_has_liked = False
