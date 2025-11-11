@@ -58,6 +58,12 @@ import BusinessDirectoryPage from "./pages/Business/BusinessDirectoryPage"; // P
 // Phase 7.1 Cycle 1.3 - Candidate Flow
 import CandidateProfilePage from "./pages/Candidate/CandidateProfilePage";
 import MyApplicationsPage from "./pages/Candidate/MyApplicationsPage";
+// Phase 8.2 - Portal Routes
+import NewsPortal from "./pages/portals/NewsPortal";
+import SocialPortal from "./pages/portals/SocialPortal";
+import BusinessPortal from "./pages/portals/BusinessPortal";
+import TVPortal from "./pages/portals/TVPortal";
+import SearchPortal from "./pages/portals/SearchPortal";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
