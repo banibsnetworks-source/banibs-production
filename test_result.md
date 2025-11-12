@@ -5462,3 +5462,95 @@ Frontend:
 
 **Next:** Phase 9.2 - Privacy & Anonymous Posting
 
+
+---
+## Phase 10.0 - Left Rail Implementation (Fork Agent)
+**Date:** 2025-11-12
+**Agent:** main (fork)
+**Task:** Implement BANIBS Social Left Rail with collapsible glass design
+
+### Implementation Complete:
+
+**Backend Changes:**
+1. ✅ Created `/app/backend/routes/social_settings.py`
+   - `GET /api/social/settings` - Get user settings
+   - `PATCH /api/social/settings` - Update user settings (left_rail_collapsed, theme, autoplay, etc.)
+2. ✅ Registered settings router in `server.py`
+3. ✅ Settings persist to MongoDB `banibs_users.settings` field
+
+**Frontend Changes:**
+1. ✅ Created `SocialLayoutContext.js`
+   - Manages collapse state globally
+   - Loads from localStorage + server on mount
+   - Persists changes to server via PATCH
+   
+2. ✅ Created `LeftRail` component with **Medium Glass** design
+   - Background: `rgba(12, 12, 12, 0.58)` with `backdrop-filter: blur(18px)`
+   - Expanded: 260px width
+   - Collapsed: 72px width
+   - Smooth 200ms transitions
+   - Tooltips in collapsed mode
+   
+3. ✅ Navigation sections implemented:
+   - User Strip (avatar + name + @handle)
+   - MAIN (Home, Create Post, Go Live)
+   - MY SPACE (My Profile, My Posts, My Lives, My Subscriptions, Saved)
+   - DISCOVER (People, Businesses & Creators, Trending)
+   - COMMUNITY & SAFETY (Community Watch, Hidden & Muted, Blocked Users, My Reports)
+   - SETTINGS (Preferences, Privacy & Visibility, Security, Monetization)
+   - Collapse Toggle at bottom
+   
+4. ✅ Created `SocialLayout` wrapper
+   - Wraps all social pages with LeftRail
+   - Main content adjusts margin based on collapse state
+   
+5. ✅ Updated existing pages to use `SocialLayout`:
+   - `SocialPortal.js` (authenticated view only)
+   - `SocialProfilePublicPage.js`
+   - `SocialProfileEditPage.js`
+
+**Design System (BANIBS Gold + Black Glass):**
+- ✅ Medium glass transparency (58% opacity)
+- ✅ Backdrop blur (18px) with saturation (140%)
+- ✅ BANIBS Gold (#E8B657) for active items
+- ✅ Hover: `rgba(255, 255, 255, 0.08)`
+- ✅ Active glow: `box-shadow: inset 0 0 12px rgba(232, 182, 87, 0.15)`
+- ✅ Ambient shadow on rail
+- ✅ Custom gold scrollbar
+- ✅ Smooth animations (200ms cubic-bezier)
+
+**Features Delivered:**
+- ✅ Collapsible left rail (expand/collapse)
+- ✅ State persistence (localStorage + server)
+- ✅ Tooltips in collapsed mode
+- ✅ Active route highlighting
+- ✅ Premium glass effect
+- ✅ Responsive (desktop/tablet/mobile)
+- ✅ All navigation sections with proper icons
+- ✅ User profile strip with avatar
+
+**Testing Results:**
+```
+Backend:
+✅ GET /api/social/settings returns user settings
+✅ PATCH /api/social/settings persists collapse state
+✅ Settings stored in MongoDB correctly
+
+Frontend:
+✅ No compilation errors
+✅ SocialLayout renders correctly
+✅ LeftRail renders with glass effect
+✅ Context provides collapse state
+✅ All pages wrapped in SocialLayout
+```
+
+**Known Limitations:**
+- "Create Post" button logs to console (composer modal not yet implemented)
+- Some routes (Lives, Subscriptions, Discover pages) are placeholders
+- Mobile drawer behavior pending testing
+- Right rail not implemented yet (future Phase 10.3)
+
+**Status:** ✅ COMPLETE - Ready for user visual verification
+
+**Next:** User testing & visual refinement, then Phase 10.1 (Interactions & Audience)
+
