@@ -213,7 +213,7 @@ async def delete_cover(current_user: dict = Depends(get_current_user)):
     profile = user.get("profile", {}) or {}
     url = profile.get("cover_url")
     
-    if url and url.startswith("/static/covers/"):
+    if url and (url.startswith("/static/covers/") or url.startswith("/api/static/covers/")):
         try:
             os.remove(os.path.join(COVER_DIR, os.path.basename(url)))
         except FileNotFoundError:
