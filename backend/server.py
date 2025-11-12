@@ -54,6 +54,18 @@ app = FastAPI(
     version="2.8.0"
 )
 
+# Phase 9.0.1 - Mount static directories for profile media
+from fastapi.staticfiles import StaticFiles
+import os
+
+AVATAR_DIR = os.getenv("AVATAR_DIR", "/app/backend/static/avatars")
+COVER_DIR = os.getenv("COVER_DIR", "/app/backend/static/covers")
+os.makedirs(AVATAR_DIR, exist_ok=True)
+os.makedirs(COVER_DIR, exist_ok=True)
+
+app.mount("/static/avatars", StaticFiles(directory=AVATAR_DIR), name="avatars")
+app.mount("/static/covers", StaticFiles(directory=COVER_DIR), name="covers")
+
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
