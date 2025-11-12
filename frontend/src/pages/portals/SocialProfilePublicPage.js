@@ -10,8 +10,8 @@ const SocialProfilePublicPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  // Phase 9.1 - Posts Tab
-  const [activeTab, setActiveTab] = useState('about');
+  // Phase 9.1 - Posts Tab (get initial tab from URL)
+  const [activeTab, setActiveTab] = useState(searchParams.get('tab') || 'about');
   const [posts, setPosts] = useState([]);
   const [postsLoading, setPostsLoading] = useState(false);
   const [postsPage, setPostsPage] = useState(1);
