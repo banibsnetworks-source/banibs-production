@@ -228,6 +228,12 @@ from routes.social_profile_media import router as social_profile_media_router
 app.include_router(social_profile_media_router)
 
 
+# Include social settings router (Phase 10.0 - Left Rail)
+from routes.social_settings import router as social_settings_router
+app.include_router(social_settings_router)
+
+
+
 # Include Phase 7.1 - Opportunities Exchange routers
 from routes.opportunities.jobs import router as jobs_router
 from routes.opportunities.recruiters import router as recruiters_router, employer_router
