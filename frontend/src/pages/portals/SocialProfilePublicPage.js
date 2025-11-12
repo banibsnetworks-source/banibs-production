@@ -91,52 +91,69 @@ const SocialProfilePublicPage = () => {
             ← Back to Feed
           </Link>
 
-          {/* Profile Header */}
-          <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border border-gray-700 p-8">
-            <div className="flex items-start gap-6 flex-col sm:flex-row">
-              <ProfileAvatar 
-                name={profile.display_name} 
-                avatarUrl={profile.avatar_url}
-                size="xl"
-              />
-              
-              <div className="flex-1 space-y-3">
-                <div>
-                  <h1 className="text-3xl font-bold text-white mb-1">
-                    {profile.display_name}
-                  </h1>
-                  {profile.handle && (
-                    <div className="text-amber-400 text-sm">
-                      @{profile.handle}
-                    </div>
-                  )}
+          {/* Profile Header with Cover Image */}
+          <div className="bg-gray-800 rounded-2xl border border-gray-700 overflow-hidden">
+            {/* Cover Image */}
+            {profile.cover_url && (
+              <div className="w-full h-48 sm:h-60 md:h-72 overflow-hidden bg-gray-900">
+                <img 
+                  src={`${process.env.REACT_APP_BACKEND_URL}${profile.cover_url}`}
+                  alt="Profile cover" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+            
+            {/* Profile Info */}
+            <div className="p-6 sm:p-8">
+              <div className="flex items-start gap-6 flex-col sm:flex-row">
+                {/* Avatar overlaps cover if cover exists */}
+                <div className={profile.cover_url ? "-mt-16 sm:-mt-20" : ""}>
+                  <ProfileAvatar 
+                    name={profile.display_name} 
+                    avatarUrl={profile.avatar_url}
+                    size="xl"
+                  />
                 </div>
                 
-                {profile.headline && (
-                  <div className="text-gray-300 font-medium">
-                    {profile.headline}
+                <div className="flex-1 space-y-3">
+                  <div>
+                    <h1 className="text-3xl font-bold text-white mb-1">
+                      {profile.display_name}
+                    </h1>
+                    {profile.handle && (
+                      <div className="text-amber-400 text-sm">
+                        @{profile.handle}
+                      </div>
+                    )}
                   </div>
-                )}
-                
-                <div className="flex flex-wrap gap-4 text-sm text-gray-400">
-                  {profile.location && (
-                    <div className="flex items-center gap-1">
-                      <span>📍</span>
-                      <span>{profile.location}</span>
+                  
+                  {profile.headline && (
+                    <div className="text-gray-300 font-medium">
+                      {profile.headline}
                     </div>
                   )}
-                  {profile.joined_at && (
-                    <div className="flex items-center gap-1">
-                      <span>📅</span>
-                      <span>Joined {new Date(profile.joined_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
-                    </div>
-                  )}
-                  {profile.post_count !== undefined && (
-                    <div className="flex items-center gap-1">
-                      <span>✍️</span>
-                      <span>{profile.post_count} {profile.post_count === 1 ? 'post' : 'posts'}</span>
-                    </div>
-                  )}
+                  
+                  <div className="flex flex-wrap gap-4 text-sm text-gray-400">
+                    {profile.location && (
+                      <div className="flex items-center gap-1">
+                        <span>📍</span>
+                        <span>{profile.location}</span>
+                      </div>
+                    )}
+                    {profile.joined_at && (
+                      <div className="flex items-center gap-1">
+                        <span>📅</span>
+                        <span>Joined {new Date(profile.joined_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+                      </div>
+                    )}
+                    {profile.post_count !== undefined && (
+                      <div className="flex items-center gap-1">
+                        <span>✍️</span>
+                        <span>{profile.post_count} {profile.post_count === 1 ? 'post' : 'posts'}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
