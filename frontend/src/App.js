@@ -67,6 +67,9 @@ import BusinessPortal from "./pages/portals/BusinessPortal";
 import TVPortal from "./pages/portals/TVPortal";
 import SearchPortal from "./pages/portals/SearchPortal";
 import MarketplacePortal from "./pages/portals/MarketplacePortal";
+// Phase 9.0 - Social Profiles
+import SocialProfileEditPage from "./pages/portals/SocialProfileEditPage";
+import SocialProfilePublicPage from "./pages/portals/SocialProfilePublicPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
