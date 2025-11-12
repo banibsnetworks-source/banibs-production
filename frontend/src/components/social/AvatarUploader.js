@@ -176,8 +176,21 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
       );
 
       if (!response.ok) {
-        throw new Error('Could not remove avatar');
+        // Read response once
+        const errorText = await response.text();
+        let errorMessage = 'Could not remove avatar';
+        try {
+          const errorData = JSON.parse(errorText);
+          errorMessage = errorData.detail || errorMessage;
+        } catch (e) {
+          // Use text error if JSON parsing fails
+          errorMessage = errorText || errorMessage;
+        }
+        throw new Error(errorMessage);
       }
+
+      // Read success response once
+      await response.json();
 
       // Clean up previews
       if (localPreview) {
@@ -191,7 +204,7 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
       }
     } catch (err) {
       console.error('Avatar remove error:', err);
-      setError('Could not remove avatar');
+      setError(err.message || 'Could not remove avatar');
     } finally {
       setBusy(false);
       setUploadProgress(null);
