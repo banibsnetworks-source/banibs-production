@@ -286,3 +286,73 @@ async def delete_comment(comment_id: str, user_id: str):
     )
     
     return True
+
+
+
+async def get_user_posts(user_id: str, page: int = 1, page_size: int = 20, viewer_id: Optional[str] = None):
+    """
+    Get paginated posts by a specific user (Phase 9.1)
+    Used for "My Posts" tab on profile pages
+    """
+    db = await get_db()
+    
+    skip = (page - 1) * page_size
+    
+    # Filter posts by author and exclude moderated content
+    post_filter = {
+        "author_id": user_id,
+        "is_deleted": False,
+        "is_hidden": False
+    }
+    
+    # Get total count
+    total_items = await db.social_posts.count_documents(post_filter)
+    total_pages = (total_items + page_size - 1) // page_size
+    
+    # Get posts (reverse chronological)
+    posts = await db.social_posts.find(
+        post_filter,
+        {"_id": 0}
+    ).sort("created_at", -1).skip(skip).limit(page_size).to_list(length=None)
+    
+    # Enrich posts with author info and viewer like status
+    enriched_posts = []
+    for post in posts:
+        author = await db.banibs_users.find_one(
+            {"id": post["author_id"]},
+            {"_id": 0, "id": 1, "name": 1, "avatar_url": 1, "profile": 1}
+        )
+        
+        if not author:
+            continue
+        
+        # Check if viewer has liked
+        viewer_has_liked = False
+        if viewer_id:
+            like = await db.social_reactions.find_one({
+                "post_id": post["id"],
+                "user_id": viewer_id
+            })
+            viewer_has_liked = like is not None
+        
+        # Extract profile data
+        profile = author.get("profile", {}) or {}
+        
+        enriched_posts.append({
+            **post,
+            "author": {
+                "id": author["id"],
+                "display_name": author.get("name", "Unknown User"),
+                "avatar_url": profile.get("avatar_url") or author.get("avatar_url"),
+                "handle": profile.get("handle")
+            },
+            "viewer_has_liked": viewer_has_liked
+        })
+    
+    return {
+        "page": page,
+        "page_size": page_size,
+        "total_items": total_items,
+        "total_pages": total_pages,
+        "items": enriched_posts
+    }
