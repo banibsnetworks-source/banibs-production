@@ -142,22 +142,25 @@ const SocialProfileEditPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 pt-20">
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-3xl mx-auto">
-            <div className="flex items-center justify-center py-12">
-              <div className="text-gray-400">Loading profile...</div>
+      <SocialLayout>
+        <div className="min-h-screen" style={{ paddingTop: '80px', background: '#0B0B0B' }}>
+          <div className="container mx-auto px-4 py-8">
+            <div className="max-w-3xl mx-auto">
+              <div className="flex items-center justify-center py-12">
+                <div className="text-gray-400">Loading profile...</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </SocialLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 pt-20">
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-3xl mx-auto space-y-6">
+    <SocialLayout>
+      <div className="min-h-screen" style={{ paddingTop: '80px', background: '#0B0B0B' }}>
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-3xl mx-auto space-y-6">
           {/* Header */}
           <div className="flex items-center justify-between flex-wrap gap-3">
             <h1 className="text-3xl font-bold text-white">Edit Profile</h1>
