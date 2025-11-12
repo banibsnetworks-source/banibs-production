@@ -203,3 +203,32 @@ async def delete_comment(
         )
     
     return None
+
+
+
+# ==========================================
+# USER POSTS - Phase 9.1
+# ==========================================
+
+@router.get("/users/{user_id}/posts", response_model=SocialFeedResponse)
+async def get_user_posts(
+    user_id: str,
+    page: int = Query(1, ge=1, description="Page number"),
+    page_size: int = Query(20, ge=1, le=50, description="Items per page"),
+    current_user=Depends(require_role("user", "member"))
+):
+    """
+    Get all posts by a specific user (paginated)
+    Phase 9.1 - My Posts Tab
+    
+    Returns posts authored by the specified user, respecting visibility rules.
+    Used for profile "Posts" tab and "My Posts" view.
+    """
+    posts_data = await db_social.get_user_posts(
+        user_id=user_id,
+        page=page,
+        page_size=page_size,
+        viewer_id=current_user["id"]
+    )
+    
+    return posts_data
