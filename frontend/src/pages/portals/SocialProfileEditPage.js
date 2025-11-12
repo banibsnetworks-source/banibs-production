@@ -143,7 +143,7 @@ const SocialProfileEditPage = () => {
   if (loading) {
     return (
       <SocialLayout>
-        <div className="min-h-screen" style={{ paddingTop: '80px', background: '#0B0B0B' }}>
+        <div className="min-h-screen" style={{ paddingTop: '20px', background: '#0B0B0B' }}>
           <div className="container mx-auto px-4 py-8">
             <div className="max-w-3xl mx-auto">
               <div className="flex items-center justify-center py-12">
