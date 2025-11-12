@@ -29,6 +29,26 @@ def categorize_news_item(item: Dict[str, Any]) -> str:
     region = (item.get('region') or '').lower()
     source_name = (item.get('sourceName') or '').lower()
     
+    # Entertainment section
+    entertainment_keywords = [
+        'entertainment', 'celebrity', 'music', 'film', 'movie', 
+        'tv', 'show', 'concert', 'album', 'artist', 'actor'
+    ]
+    if any(keyword in category for keyword in entertainment_keywords):
+        return 'entertainment'
+    if any(keyword in source_name for keyword in ['bet', 'vibe', 'billboard', 'rolling stone', 'shadow and act']):
+        return 'entertainment'
+    
+    # Lifestyle section
+    lifestyle_keywords = [
+        'lifestyle', 'wellness', 'health', 'beauty', 'fashion',
+        'travel', 'food', 'relationship', 'culture', 'style'
+    ]
+    if any(keyword in category for keyword in lifestyle_keywords):
+        return 'lifestyle'
+    if any(keyword in source_name for keyword in ['essence', 'travel noire', 'healthline', 'blavity']):
+        return 'lifestyle'
+    
     # Business section
     business_keywords = [
         'business', 'economy', 'entrepreneur', 'startup', 
