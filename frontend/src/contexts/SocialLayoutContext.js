@@ -30,6 +30,7 @@ export const SocialLayoutProvider = ({ children }) => {
       try {
         // Check localStorage first for instant load
         const localState = localStorage.getItem('banibs_left_rail_collapsed');
+        console.log('🔧 [LeftRail] Loading state from localStorage:', localState);
         if (localState !== null) {
           setIsCollapsed(localState === 'true');
         }
