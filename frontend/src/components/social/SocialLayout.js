@@ -14,7 +14,14 @@ const SocialLayoutContent = ({ children }) => {
   return (
     <>
       <GlobalNavBar />
-      <div className="social-layout" style={{ display: 'flex', minHeight: '100vh' }}>
+      <div 
+        className="social-layout-root" 
+        style={{ 
+          display: 'flex', 
+          minHeight: '100vh',
+          background: '#050507' /* Deep BANIBS black base */
+        }}
+      >
         <LeftRail />
         
         {/* Main Content Area */}
