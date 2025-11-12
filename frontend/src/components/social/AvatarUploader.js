@@ -320,6 +320,64 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
           }
         }}
       />
+
+      {/* Preview Modal */}
+      {showPreviewModal && preview && (
+        <div
+          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
+          onClick={() => setShowPreviewModal(false)}
+        >
+          <div
+            className="relative max-w-4xl max-h-[90vh] bg-gray-900 rounded-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setShowPreviewModal(false)}
+              className="absolute top-4 right-4 z-10 p-2 bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors"
+            >
+              <X size={24} />
+            </button>
+
+            {/* Full-size image */}
+            <img
+              src={preview}
+              alt="Profile preview"
+              className="max-w-full max-h-[80vh] object-contain"
+            />
+
+            {/* Actions */}
+            <div className="p-4 bg-gray-800 flex gap-3 justify-center">
+              <button
+                onClick={() => {
+                  setShowPreviewModal(false);
+                  inputRef.current?.click();
+                }}
+                className="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+              >
+                <Upload size={16} />
+                Change Photo
+              </button>
+              <button
+                onClick={() => {
+                  setShowPreviewModal(false);
+                  handleRemove();
+                }}
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+              >
+                <X size={16} />
+                Remove
+              </button>
+              <button
+                onClick={() => setShowPreviewModal(false)}
+                className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
