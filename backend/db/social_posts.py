@@ -112,7 +112,7 @@ async def get_post_by_id(post_id: str, viewer_id: Optional[str] = None):
     # Enrich with author
     author = await db.banibs_users.find_one(
         {"id": post["author_id"]},
-        {"_id": 0, "id": 1, "name": 1, "avatar_url": 1}
+        {"_id": 0, "id": 1, "name": 1, "avatar_url": 1, "profile": 1}
     )
     
     if not author:
@@ -127,12 +127,16 @@ async def get_post_by_id(post_id: str, viewer_id: Optional[str] = None):
         })
         viewer_has_liked = like is not None
     
+    # Extract profile data
+    profile = author.get("profile", {}) or {}
+    
     return {
         **post,
         "author": {
             "id": author["id"],
             "display_name": author.get("name", "Unknown User"),
-            "avatar_url": author.get("avatar_url")
+            "avatar_url": profile.get("avatar_url") or author.get("avatar_url"),
+            "handle": profile.get("handle")
         },
         "viewer_has_liked": viewer_has_liked
     }
