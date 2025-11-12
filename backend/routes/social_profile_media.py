@@ -53,7 +53,7 @@ async def upload_avatar(
     if len(raw) > MAX_BYTES:
         raise HTTPException(
             status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
-            detail="File too large (max 5MB)"
+            detail="File too large (max 20MB)"
         )
     
     # Process image
@@ -154,7 +154,7 @@ async def upload_cover(
     if len(raw) > MAX_BYTES:
         raise HTTPException(
             status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
-            detail="File too large (max 5MB)"
+            detail="File too large (max 20MB)"
         )
     
     # Process image
