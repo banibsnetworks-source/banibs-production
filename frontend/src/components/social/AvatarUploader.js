@@ -1,19 +1,32 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Camera, X, Upload } from 'lucide-react';
+import { downscaleIfNeeded, createPreviewURL, revokePreviewURL, formatFileSize } from '../../utils/imageUtils';
 
 /**
  * AvatarUploader Component
  * Handles profile photo upload with drag & drop support
- * - Max 5MB
+ * - Max 20MB (client-side downscaling to 2048px before upload)
  * - Image files only (JPEG, PNG, WebP)
  * - Auto-crops to square and converts to WebP
+ * - Immediate local preview, swaps to server URL on success
  */
 const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
   const [preview, setPreview] = useState(initialUrl);
+  const [localPreview, setLocalPreview] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(null);
   const inputRef = useRef(null);
+
+  // Cleanup object URLs on unmount
+  useEffect(() => {
+    return () => {
+      if (localPreview) {
+        revokePreviewURL(localPreview);
+      }
+    };
+  }, [localPreview]);
 
   const sizeClasses = {
     sm: 'h-16 w-16',
