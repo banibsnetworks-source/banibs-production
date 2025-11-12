@@ -46,26 +46,33 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
     xl: 'h-40 w-40'
   };
 
-  const handleFile = async (file) => {
+  const handleFileSelect = (file) => {
     if (!file) return;
 
     setError(null);
-    setUploadProgress('Validating...');
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
       setError('Please choose an image file');
-      setUploadProgress(null);
       return;
     }
 
     // Validate file size (20MB - server limit)
     if (file.size > 20 * 1024 * 1024) {
       setError(`Image must be less than 20MB (current: ${formatFileSize(file.size)})`);
-      setUploadProgress(null);
       return;
     }
 
+    // Open cropper
+    setSelectedFile(file);
+    setShowCropper(true);
+  };
+
+  const handleFile = async (file) => {
+    if (!file) return;
+
+    setError(null);
+    setUploadProgress('Validating...');
     setBusy(true);
 
     try {
