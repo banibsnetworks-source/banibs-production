@@ -172,42 +172,35 @@ const SocialPortal = () => {
     );
   }
 
-  // Signed-In View - Full Social Feed (Phase 8.3)
+  // Signed-In View - Full Social Feed (Phase 8.3 + Phase 10.0)
   return (
-    <div className="min-h-screen bg-gray-950">
+    <SocialLayout>
       <SEO
         title="BANIBS Social - Your Feed"
         description="Stay connected with your BANIBS Social community."
       />
-      <GlobalNavBar />
-      <NewsNavigationBar activeSection="social" />
-
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto">
-          {/* Welcome Header */}
-          <div className="mb-6 flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-white mb-1">
-                Welcome back, {user?.name}!
-              </h1>
-              <p className="text-gray-400 text-sm">
-                Share your thoughts with the BANIBS community
-              </p>
+      
+      <div className="min-h-screen" style={{ paddingTop: '80px' }}>
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-2xl mx-auto">
+            {/* Welcome Header */}
+            <div className="mb-6 flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-bold text-white mb-1">
+                  Welcome back, {user?.name}!
+                </h1>
+                <p className="text-gray-400 text-sm">
+                  Share your thoughts with the BANIBS community
+                </p>
+              </div>
             </div>
-            <Link
-              to="/portal/social/profile"
-              className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg border border-gray-700 transition-colors text-sm"
-            >
-              <User size={16} />
-              <span>My Profile</span>
-            </Link>
-          </div>
 
-          {/* Lazy load components */}
-          <SocialFeedContent />
+            {/* Lazy load components */}
+            <SocialFeedContent />
+          </div>
         </div>
       </div>
-    </div>
+    </SocialLayout>
   );
 };
 
