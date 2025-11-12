@@ -56,9 +56,9 @@ async def upload_avatar(
             detail="File too large (max 20MB)"
         )
     
-    # Process image
+    # Process image (1024x1024 for high-quality presentation)
     try:
-        webp = process_square_avatar(raw, size=256)
+        webp = process_square_avatar(raw, size=1024)
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
