@@ -17,6 +17,7 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
   const [error, setError] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null);
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
   const inputRef = useRef(null);
 
   // Update preview when initialUrl changes
