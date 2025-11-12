@@ -206,6 +206,10 @@ app.include_router(social_router)
 from routes.social_moderation import router as social_moderation_router
 app.include_router(social_moderation_router)
 
+# Include social profile router (Phase 9.0 - Social Profiles)
+from routes.social_profile import router as social_profile_router
+app.include_router(social_profile_router)
+
 
 # Include Phase 7.1 - Opportunities Exchange routers
 from routes.opportunities.jobs import router as jobs_router
