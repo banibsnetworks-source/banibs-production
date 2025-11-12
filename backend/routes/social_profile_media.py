@@ -112,7 +112,7 @@ async def delete_avatar(current_user: dict = Depends(get_current_user)):
     profile = user.get("profile", {}) or {}
     url = profile.get("avatar_url")
     
-    if url and url.startswith("/static/avatars/"):
+    if url and (url.startswith("/static/avatars/") or url.startswith("/api/static/avatars/")):
         try:
             os.remove(os.path.join(AVATAR_DIR, os.path.basename(url)))
         except FileNotFoundError:
