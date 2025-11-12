@@ -4,7 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { ProfileAvatar } from '../../components/social/ProfileAvatar';
 
 const SocialProfileEditPage = () => {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const navigate = useNavigate();
   
   const [profile, setProfile] = useState(null);
