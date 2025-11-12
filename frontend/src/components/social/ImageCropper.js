@@ -156,7 +156,7 @@ const ImageCropper = ({ imageFile, onCrop, onCancel }) => {
     if (!image || !canvasRef.current) return;
 
     const canvas = canvasRef.current;
-    const size = 600;
+    const size = 800;
 
     // Create a new canvas for the cropped circular image
     const cropCanvas = document.createElement('canvas');
