@@ -403,7 +403,8 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
           onCrop={(croppedFile) => {
             setShowCropper(false);
             setSelectedFile(null);
-            handleFile(croppedFile);
+            // Skip downscaling since cropper already processed the image
+            handleFile(croppedFile, true);
           }}
           onCancel={() => {
             setShowCropper(false);
