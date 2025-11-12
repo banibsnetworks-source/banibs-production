@@ -1,0 +1,245 @@
+import React, { useState } from 'react';
+import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
+
+const MarketplacePortal = () => {
+  const location = useLocation();
+
+  const isActive = (path) => {
+    return location.pathname === path || location.pathname.startsWith(path + '/');
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Marketplace Header */}
+      <div className="bg-gradient-to-r from-amber-600 to-amber-700 text-white">
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-4xl font-bold mb-2">BANIBS Marketplace</h1>
+          <p className="text-amber-100 text-lg">
+            Connect, Trade, and Grow Within the Black Community
+          </p>
+        </div>
+      </div>
+
+      {/* Marketplace Navigation Tabs */}
+      <div className="bg-white border-b border-gray-200 sticky top-14 z-40">
+        <div className="container mx-auto px-4">
+          <nav className="flex space-x-8 overflow-x-auto">
+            <Link
+              to="/portal/marketplace/jobs"
+              className={`py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
+                isActive('/portal/marketplace/jobs')
+                  ? 'border-amber-600 text-amber-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              💼 Jobs
+            </Link>
+            <Link
+              to="/portal/marketplace/listings"
+              className={`py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
+                isActive('/portal/marketplace/listings')
+                  ? 'border-amber-600 text-amber-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              📋 Listings & Opportunities
+            </Link>
+            <Link
+              to="/portal/marketplace/products"
+              className={`py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
+                isActive('/portal/marketplace/products')
+                  ? 'border-amber-600 text-amber-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              🛍️ Products
+            </Link>
+            <Link
+              to="/portal/marketplace/services"
+              className={`py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
+                isActive('/portal/marketplace/services')
+                  ? 'border-amber-600 text-amber-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              🔧 Services
+            </Link>
+          </nav>
+        </div>
+      </div>
+
+      {/* Marketplace Content */}
+      <div className="container mx-auto px-4 py-8">
+        <Routes>
+          <Route index element={<Navigate to="/portal/marketplace/jobs" replace />} />
+          <Route path="jobs" element={<JobsSection />} />
+          <Route path="listings" element={<ListingsSection />} />
+          <Route path="products" element={<ProductsSection />} />
+          <Route path="services" element={<ServicesSection />} />
+        </Routes>
+      </div>
+    </div>
+  );
+};
+
+// Jobs Section Component
+const JobsSection = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  return (
+    <div>
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">Job Opportunities</h2>
+        <p className="text-gray-600 mb-6">
+          Explore career opportunities within Black-owned businesses and organizations supporting the community.
+        </p>
+
+        {/* Search Bar */}
+        <div className="max-w-2xl">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Search jobs by title, company, or location..."
+              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button className="px-6 py-3 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700 transition-colors">
+              Search
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Job Listings Placeholder */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <div key={i} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-start justify-between mb-4">
+              <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center text-2xl">
+                💼
+              </div>
+              <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">
+                Full-Time
+              </span>
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              Software Engineer {i}
+            </h3>
+            <p className="text-sm text-gray-600 mb-2">Black Tech Company Inc.</p>
+            <p className="text-sm text-gray-500 mb-4">📍 Remote / Atlanta, GA</p>
+            <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+              Join our team building innovative solutions for the Black community...
+            </p>
+            <button className="w-full py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm font-medium">
+              View Details
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-8 text-center">
+        <p className="text-gray-600 text-sm">
+          🚀 <strong>Coming Soon:</strong> Full job search and filtering functionality
+        </p>
+      </div>
+    </div>
+  );
+};
+
+// Listings Section Component (Business Opportunities)
+const ListingsSection = () => {
+  return (
+    <div>
+      <div className="mb-8">
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">Business Listings & Opportunities</h2>
+        <p className="text-gray-600 mb-6">
+          Discover grants, funding opportunities, and business resources for Black entrepreneurs.
+        </p>
+      </div>
+
+      {/* Opportunities Placeholder */}
+      <div className="grid gap-6 md:grid-cols-2">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+            <div className="flex items-start gap-4">
+              <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center text-3xl flex-shrink-0">
+                💰
+              </div>
+              <div className="flex-1">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  Small Business Grant Program {i}
+                </h3>
+                <p className="text-sm text-gray-600 mb-3">
+                  U.S. Department of Commerce - Minority Business Development Agency
+                </p>
+                <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                  <span>💵 Up to $50,000</span>
+                  <span>📅 Deadline: Dec 31, 2025</span>
+                </div>
+                <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                  Funding for minority-owned businesses to expand operations, hire staff, and invest in growth...
+                </p>
+                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
+                  Learn More →
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-8 text-center">
+        <p className="text-gray-600 text-sm">
+          📊 <strong>Note:</strong> This section will integrate with existing Opportunities data
+        </p>
+      </div>
+    </div>
+  );
+};
+
+// Products Section Component (Placeholder)
+const ProductsSection = () => {
+  return (
+    <div className="text-center py-16">
+      <div className="max-w-2xl mx-auto">
+        <div className="text-6xl mb-6">🛍️</div>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">Products Marketplace</h2>
+        <p className="text-gray-600 text-lg mb-6">
+          A dedicated space for buying and selling products within the Black community.
+        </p>
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
+          <p className="text-amber-800 font-medium mb-2">🚧 Coming Soon</p>
+          <p className="text-amber-700 text-sm">
+            We're building a platform to showcase and purchase products from Black-owned businesses.
+            Stay tuned for updates!
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Services Section Component (Placeholder)
+const ServicesSection = () => {
+  return (
+    <div className="text-center py-16">
+      <div className="max-w-2xl mx-auto">
+        <div className="text-6xl mb-6">🔧</div>
+        <h2 className="text-3xl font-bold text-gray-900 mb-4">Services Marketplace</h2>
+        <p className="text-gray-600 text-lg mb-6">
+          Find and offer professional services within the Black business community.
+        </p>
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <p className="text-blue-800 font-medium mb-2">🚧 Coming Soon</p>
+          <p className="text-blue-700 text-sm">
+            Connect with Black professionals offering consulting, design, marketing, legal services, and more.
+            This section is under development.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MarketplacePortal;
