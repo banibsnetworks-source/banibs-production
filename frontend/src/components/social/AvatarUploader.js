@@ -224,12 +224,9 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
             </div>
           )}
 
-          {/* Overlay on hover */}
+          {/* Overlay on hover - shows zoom icon when there's a preview */}
           {!busy && preview && (
-            <div
-              className="absolute inset-0 bg-black/60 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
-              onClick={() => setShowPreviewModal(true)}
-            >
+            <div className="absolute inset-0 bg-black/60 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
               <ZoomIn size={24} className="text-white" />
             </div>
           )}
@@ -238,7 +235,10 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
           {!busy && !preview && (
             <div
               className="absolute inset-0 bg-black/60 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
-              onClick={() => inputRef.current?.click()}
+              onClick={(e) => {
+                e.stopPropagation();
+                inputRef.current?.click();
+              }}
             >
               <Upload size={24} className="text-white" />
             </div>
