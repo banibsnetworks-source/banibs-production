@@ -32,9 +32,9 @@ def process_square_avatar(raw_bytes: bytes, size: int = 1024) -> bytes:
         # Simple resize (frontend already cropped to circle)
         im = im.resize((size, size), Image.LANCZOS)
         
-        # Save as WebP with high quality
+        # Save as WebP with maximum quality for best presentation
         out = BytesIO()
-        im.save(out, format="WEBP", quality=95, method=6)
+        im.save(out, format="WEBP", quality=98, method=6)
         return out.getvalue()
 
 
