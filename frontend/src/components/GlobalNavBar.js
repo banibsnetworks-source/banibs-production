@@ -37,9 +37,9 @@ const GlobalNavBar = () => {
   const navLinks = [
     { label: 'BANIBS News', path: '/', icon: '📰' },
     { label: 'Business Directory', path: '/business', icon: '💼' },
-    { label: 'Social', path: '/portal/social', icon: '🌐' },
+    { label: 'BANIBS Social', path: '/portal/social', icon: '🌐' },
     { label: 'Information & Resources', path: '/resources', icon: '📚' },
-    { label: 'Jobs Marketplace', path: '/opportunities', icon: '💼' },
+    { label: 'Marketplace', path: '/opportunities', icon: '💼' },
     { label: 'BANIBS TV', path: '/tv', icon: '📺' },
   ];
 
