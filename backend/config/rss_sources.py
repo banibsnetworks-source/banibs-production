@@ -92,6 +92,109 @@ RSS_SOURCES = [
     },
     
     # ========================================================================
+    # ENTERTAINMENT (BLACK-FOCUSED)
+    # ========================================================================
+    {
+        "id": "bet_entertainment",
+        "region": None,
+        "category": "Entertainment",
+        "source_name": "BET Entertainment",
+        "rss_url": "https://www.bet.com/feed.rss",
+        "language": "en",
+        "active": True,
+        "featured_source": True,
+    },
+    {
+        "id": "vibe_entertainment",
+        "region": None,
+        "category": "Entertainment",
+        "source_name": "Vibe",
+        "rss_url": "https://www.vibe.com/feed/",
+        "language": "en",
+        "active": True,
+        "featured_source": True,
+    },
+    {
+        "id": "blavity_entertainment",
+        "region": None,
+        "category": "Entertainment",
+        "source_name": "Blavity Entertainment",
+        "rss_url": "https://blavity.com/feed",
+        "language": "en",
+        "active": True,
+    },
+    {
+        "id": "shadow_and_act",
+        "region": None,
+        "category": "Entertainment",
+        "source_name": "Shadow and Act",
+        "rss_url": "https://shadowandact.com/feed",
+        "language": "en",
+        "active": True,
+        "featured_source": True,
+    },
+    {
+        "id": "rolling_stone_entertainment",
+        "region": None,
+        "category": "Entertainment",
+        "source_name": "Rolling Stone",
+        "rss_url": "https://www.rollingstone.com/feed/",
+        "language": "en",
+        "active": True,
+        "featured_source": True,
+    },
+    {
+        "id": "billboard_entertainment",
+        "region": None,
+        "category": "Entertainment",
+        "source_name": "Billboard",
+        "rss_url": "https://www.billboard.com/feed/",
+        "language": "en",
+        "active": True,
+    },
+    
+    # ========================================================================
+    # LIFESTYLE (BLACK-FOCUSED)
+    # ========================================================================
+    {
+        "id": "essence_lifestyle",
+        "region": None,
+        "category": "Lifestyle",
+        "source_name": "Essence Lifestyle",
+        "rss_url": "https://www.essence.com/lifestyle/feed/",
+        "language": "en",
+        "active": True,
+        "featured_source": True,
+    },
+    {
+        "id": "travel_noire",
+        "region": None,
+        "category": "Lifestyle",
+        "source_name": "Travel Noire",
+        "rss_url": "https://travelnoire.com/feed",
+        "language": "en",
+        "active": True,
+    },
+    {
+        "id": "blavity_lifestyle",
+        "region": None,
+        "category": "Lifestyle",
+        "source_name": "Blavity Lifestyle",
+        "rss_url": "https://blavity.com/c/lifestyle/feed",
+        "language": "en",
+        "active": True,
+    },
+    {
+        "id": "healthline_wellness",
+        "region": None,
+        "category": "Lifestyle",
+        "source_name": "Healthline",
+        "rss_url": "https://www.healthline.com/rss",
+        "language": "en",
+        "active": True,
+    },
+    
+    # ========================================================================
     # BUSINESS & FINANCE
     # ========================================================================
     {
