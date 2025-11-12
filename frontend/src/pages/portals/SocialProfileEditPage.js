@@ -219,6 +219,7 @@ const SocialProfileEditPage = () => {
                 Profile Photo
               </label>
               <AvatarUploader
+                key={profile?.avatar_url || 'no-avatar'}
                 initialUrl={profile?.avatar_url ? `${process.env.REACT_APP_BACKEND_URL}${profile.avatar_url}` : null}
                 onUploaded={async (url) => {
                   // Reload profile data to get updated avatar
