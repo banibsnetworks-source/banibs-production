@@ -36,9 +36,9 @@ async def upload_avatar(
 ):
     """
     Upload profile avatar
-    - Max 5MB
+    - Max 20MB
     - jpeg/png/webp only
-    - Crops to 256x256 square
+    - Crops to 1024x1024 square for crystal-clear presentation
     - Converts to WebP
     """
     # Validate content type
