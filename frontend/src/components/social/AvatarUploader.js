@@ -327,8 +327,10 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
         onChange={(e) => {
           const file = e.target.files?.[0];
           if (file) {
-            handleFile(file);
+            handleFileSelect(file);
           }
+          // Reset input so same file can be selected again
+          e.target.value = '';
         }}
       />
 
