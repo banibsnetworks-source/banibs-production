@@ -308,6 +308,10 @@ def sanitize_user_response(user: dict) -> UserPublic:
     if isinstance(created_at, datetime):
         created_at = created_at.isoformat()
     
+    # Debug: Print preferred_portal value
+    portal = user.get("preferred_portal", "news")
+    print(f"🔍 sanitize_user_response: email={user.get('email')}, preferred_portal={portal}")
+    
     return UserPublic(
         id=user["id"],
         email=user["email"],
@@ -318,5 +322,5 @@ def sanitize_user_response(user: dict) -> UserPublic:
         membership_level=user["membership_level"],
         email_verified=user["email_verified"],
         created_at=created_at,
-        preferred_portal=user.get("preferred_portal", "news")  # Phase 8.1
+        preferred_portal=portal  # Phase 8.1
     )
