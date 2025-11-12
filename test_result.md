@@ -5352,3 +5352,52 @@ After Fix:
 
 **Next:** Awaiting user visual confirmation, then proceed to Cover Image implementation
 
+
+---
+## Cover Image Support Implementation (Fork Agent)
+**Date:** 2025-11-12
+**Agent:** main (fork)
+**Task:** Implement cover/banner image upload for social profiles (Phase 9 P0)
+
+### Implementation Complete:
+
+**Backend Changes:**
+1. ✅ Cover upload endpoint already existed in `/app/backend/routes/social_profile_media.py`
+2. ✅ Updated `social_profile.py` to include `cover_url` in profile responses
+3. ✅ Backend processes covers at 1500×500 resolution (WEBP, quality 88)
+
+**Frontend Changes:**
+1. ✅ Created `/app/frontend/src/components/social/CoverUploader.js`
+   - Max 20MB file size
+   - Drag & drop support
+   - Client-side downscaling to 3000px max (for upload speed)
+   - Preview modal with zoom
+   - Same premium UX as avatar uploader
+2. ✅ Integrated CoverUploader into `/app/frontend/src/pages/portals/SocialProfileEditPage.js`
+3. ✅ Updated `/app/frontend/src/pages/portals/SocialProfilePublicPage.js` to display cover image
+   - Cover displays at top of profile (200-300px height)
+   - Avatar overlaps cover when both present
+   - Graceful fallback when no cover exists
+
+**Testing Results:**
+```
+✅ Cover upload working correctly
+✅ File saved at 1500×500 resolution
+✅ File size: ~10KB (WEBP compression)
+✅ Profile API returns cover_url correctly
+✅ Preview modal functional
+✅ Remove cover functional
+```
+
+**Key Features Delivered:**
+- ✅ Same high-quality approach as avatars
+- ✅ Max size: 20MB with client-side optimization
+- ✅ Target resolution: 1500×500
+- ✅ Preserves full composition (no aggressive cropping by backend)
+- ✅ Preview modal like avatar viewer
+- ✅ Smooth upload via client-side optimization
+
+**Status:** ✅ COMPLETE - Ready for user testing
+
+**Next:** Awaiting user visual confirmation, then proceed to "My Posts" tab (Phase 9.1)
+
