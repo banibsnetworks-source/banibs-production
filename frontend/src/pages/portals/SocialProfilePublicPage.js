@@ -49,6 +49,55 @@ const SocialProfilePublicPage = () => {
     }
   }, [handle]);
 
+  // Phase 9.1 - Load user posts when Posts tab is active
+  useEffect(() => {
+    if (activeTab === 'posts' && profile?.user_id) {
+      loadUserPosts(1);
+    }
+  }, [activeTab, profile]);
+
+  const loadUserPosts = async (page) => {
+    setPostsLoading(true);
+    
+    try {
+      const token = localStorage.getItem('access_token');
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/social/users/${profile.user_id}/posts?page=${page}&page_size=10`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          credentials: 'include'
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error('Failed to load posts');
+      }
+      
+      const data = await response.json();
+      
+      if (page === 1) {
+        setPosts(data.items);
+      } else {
+        setPosts(prev => [...prev, ...data.items]);
+      }
+      
+      setPostsPage(page);
+      setPostsTotalPages(data.total_pages);
+    } catch (err) {
+      console.error('Error loading user posts:', err);
+    } finally {
+      setPostsLoading(false);
+    }
+  };
+
+  const handleLoadMore = () => {
+    if (postsPage < postsTotalPages && !postsLoading) {
+      loadUserPosts(postsPage + 1);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-900 pt-20">
