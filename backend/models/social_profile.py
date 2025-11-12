@@ -14,6 +14,7 @@ class SocialProfile(BaseModel):
     display_name: str = Field(..., description="User's display name")
     handle: Optional[str] = Field(None, description="Unique @handle for profile URLs")
     avatar_url: Optional[str] = Field(None, description="Profile picture URL")
+    cover_url: Optional[str] = Field(None, description="Profile cover image URL")
     headline: Optional[str] = Field(None, max_length=100, description="Short headline (e.g., 'Founder • BANIBS')")
     bio: Optional[str] = Field(None, max_length=300, description="Profile bio (160-300 chars)")
     location: Optional[str] = Field(None, max_length=100, description="City, state, or region")
