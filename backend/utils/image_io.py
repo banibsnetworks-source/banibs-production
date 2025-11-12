@@ -20,21 +20,41 @@ def process_square_avatar(raw_bytes: bytes, size: int = 256) -> bytes:
     """
     Process uploaded avatar image:
     - Rotate based on EXIF orientation
-    - Center-crop to square
-    - Resize to target size
+    - Resize to fit within square (maintains aspect ratio)
+    - Add padding if needed to make square
     - Convert to WebP
     - Strip EXIF metadata
+    
+    This approach keeps the full image visible without aggressive cropping
     """
     with Image.open(BytesIO(raw_bytes)) as im:
         # Handle EXIF orientation
         im = ImageOps.exif_transpose(im)
+        im = im.convert("RGB")
         
-        # Center crop to square and resize
-        im = ImageOps.fit(im.convert("RGB"), (size, size), method=Image.LANCZOS)
+        # Calculate dimensions to fit within square
+        width, height = im.size
+        if width > height:
+            new_width = size
+            new_height = int((height / width) * size)
+        else:
+            new_height = size
+            new_width = int((width / height) * size)
+        
+        # Resize maintaining aspect ratio
+        im = im.resize((new_width, new_height), Image.LANCZOS)
+        
+        # Create square canvas with neutral background
+        canvas = Image.new('RGB', (size, size), (240, 240, 240))
+        
+        # Paste resized image centered on canvas
+        x_offset = (size - new_width) // 2
+        y_offset = (size - new_height) // 2
+        canvas.paste(im, (x_offset, y_offset))
         
         # Save as WebP
         out = BytesIO()
-        im.save(out, format="WEBP", quality=88, method=6)
+        canvas.save(out, format="WEBP", quality=88, method=6)
         return out.getvalue()
 
 
