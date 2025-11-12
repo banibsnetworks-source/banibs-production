@@ -7,6 +7,7 @@ import SEO from '../../components/SEO';
 import { Users, MessageCircle, Heart, User } from 'lucide-react';
 import SocialPostComposer from '../../components/social/SocialPostComposer';
 import SocialFeed from '../../components/social/SocialFeed';
+import SocialLayout from '../../components/social/SocialLayout';
 
 /**
  * SocialFeedContent - Phase 8.3
