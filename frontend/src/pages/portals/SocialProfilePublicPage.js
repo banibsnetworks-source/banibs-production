@@ -119,7 +119,7 @@ const SocialProfilePublicPage = () => {
   if (error || !profile) {
     return (
       <SocialLayout>
-        <div className="min-h-screen" style={{ paddingTop: '80px', background: '#0B0B0B' }}>
+        <div className="min-h-screen" style={{ paddingTop: '20px', background: '#0B0B0B' }}>
           <div className="container mx-auto px-4 py-8">
             <div className="max-w-3xl mx-auto">
               <div className="bg-gray-800 rounded-lg p-8 text-center">
