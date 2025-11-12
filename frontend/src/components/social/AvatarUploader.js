@@ -201,10 +201,11 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
         <div
           className={`${sizeClasses[size]} relative rounded-full border-4 border-gray-700 overflow-hidden bg-gray-800 flex-shrink-0 ${
             isDragging ? 'border-amber-500' : ''
-          }`}
+          } ${preview ? 'cursor-pointer' : ''}`}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
+          onClick={() => preview && setShowPreviewModal(true)}
         >
           {preview ? (
             <img
