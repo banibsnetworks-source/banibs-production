@@ -62,10 +62,16 @@ const SocialPortal = () => {
 
         {/* Auth Modal */}
         {showAuthModal && (
-          <AuthModal
-            initialMode={authModalMode}
-            onClose={() => setShowAuthModal(false)}
-          />
+          <>
+            {console.log('🎭 Rendering AuthModal, mode:', authModalMode)}
+            <AuthModal
+              initialMode={authModalMode}
+              onClose={() => {
+                console.log('🚪 Closing AuthModal');
+                setShowAuthModal(false);
+              }}
+            />
+          </>
         )}
 
         {/* Hero Section */}
