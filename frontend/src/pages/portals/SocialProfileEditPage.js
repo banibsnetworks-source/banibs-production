@@ -248,6 +248,39 @@ const SocialProfileEditPage = () => {
               />
             </div>
 
+            {/* Cover Image Upload */}
+            <div>
+              <label className="block text-white font-medium mb-3">
+                Cover Image (Banner)
+              </label>
+              <CoverUploader
+                key={profile?.cover_url || 'no-cover'}
+                initialUrl={profile?.cover_url ? `${process.env.REACT_APP_BACKEND_URL}${profile.cover_url}` : null}
+                onUploaded={async (url) => {
+                  // Reload profile data to get updated cover
+                  try {
+                    const response = await fetch(
+                      `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/me`,
+                      {
+                        headers: {
+                          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                        },
+                        credentials: 'include'
+                      }
+                    );
+                    if (response.ok) {
+                      const data = await response.json();
+                      setProfile(data);
+                      setSuccess(true);
+                      setTimeout(() => setSuccess(false), 3000);
+                    }
+                  } catch (err) {
+                    console.error('Error reloading profile:', err);
+                  }
+                }}
+              />
+            </div>
+
             {/* Display Name */}
             <div>
               <label className="block text-white font-medium mb-2">
