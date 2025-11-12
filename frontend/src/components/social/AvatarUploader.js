@@ -260,14 +260,22 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
           </div>
 
           <p className="text-sm text-gray-400">
-            JPG, PNG or WebP • Max 5MB • Will be cropped to square
+            JPG, PNG or WebP • Max 20MB • Auto-optimized before upload
           </p>
 
           {/* Drag & Drop hint */}
           {!busy && (
             <p className="text-xs text-gray-500">
-              💡 Tip: You can also drag & drop an image onto the avatar
+              💡 Tip: Large images are automatically downscaled to 2048px • Drag & drop supported
             </p>
+          )}
+          
+          {/* Upload progress indicator */}
+          {uploadProgress && (
+            <div className="flex items-center gap-2 text-sm text-amber-400">
+              <div className="animate-pulse">⚡</div>
+              <span>{uploadProgress}</span>
+            </div>
           )}
         </div>
       </div>
