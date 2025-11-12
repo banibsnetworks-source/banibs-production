@@ -165,7 +165,8 @@ function App() {
               {/* Phase 6.2.4 - Unified Search */}
               <Route path="/search" element={<SearchPage />} />
               {/* Stub Pages */}
-              <Route path="/social" element={<SocialPage />} />
+              {/* Old stub - redirect to portal */}
+              <Route path="/social" element={<Navigate to="/portal/social" replace />} />
               <Route path="/business" element={<BusinessPage />} />
               <Route path="/business-directory" element={<BusinessDirectoryPage />} /> {/* Phase 7.2 */}
               <Route path="/information" element={<InformationPage />} />
