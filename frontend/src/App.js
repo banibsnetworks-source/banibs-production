@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import axios from "axios";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ContributorAuthProvider } from "./contexts/ContributorAuthContext";
