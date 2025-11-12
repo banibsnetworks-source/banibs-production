@@ -160,6 +160,9 @@ async def login(credentials: UserLogin, response: Response):
         domain=".banibs.com"
     )
     
+    # Debug: Check user object before sanitization
+    print(f"🔍 Login endpoint - user from DB: email={user.get('email')}, preferred_portal={user.get('preferred_portal')}")
+    
     return TokenResponse(
         access_token=access_token,
         refresh_token=refresh_token,
