@@ -62,7 +62,7 @@ const ImageCropper = ({ imageFile, onCrop, onCancel }) => {
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-    const size = 400;
+    const size = 600;
 
     // Clear canvas
     ctx.clearRect(0, 0, size, size);
