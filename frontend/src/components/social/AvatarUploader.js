@@ -391,6 +391,22 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
           </div>
         </div>
       )}
+
+      {/* Image Cropper Modal */}
+      {showCropper && selectedFile && (
+        <ImageCropper
+          imageFile={selectedFile}
+          onCrop={(croppedFile) => {
+            setShowCropper(false);
+            setSelectedFile(null);
+            handleFile(croppedFile);
+          }}
+          onCancel={() => {
+            setShowCropper(false);
+            setSelectedFile(null);
+          }}
+        />
+      )}
     </div>
   );
 };
