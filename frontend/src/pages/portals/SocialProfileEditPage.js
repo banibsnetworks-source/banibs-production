@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { ProfileAvatar } from '../../components/social/ProfileAvatar';
 import AvatarUploader from '../../components/social/AvatarUploader';
+import CoverUploader from '../../components/social/CoverUploader';
 
 const SocialProfileEditPage = () => {
   const { user } = useAuth();
