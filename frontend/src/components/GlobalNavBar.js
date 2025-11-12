@@ -14,9 +14,25 @@ const GlobalNavBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState('signin');
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
+
+  // Phase 8.3.1: Listen for global auth modal events
+  React.useEffect(() => {
+    const handleOpenAuthModal = (event) => {
+      console.log('🎯 Global auth modal event received:', event.detail);
+      setAuthModalMode(event.detail?.mode || 'signin');
+      setAuthModalOpen(true);
+    };
+
+    window.addEventListener('open-auth-modal', handleOpenAuthModal);
+    
+    return () => {
+      window.removeEventListener('open-auth-modal', handleOpenAuthModal);
+    };
+  }, []);
 
   const navLinks = [
     { label: 'BANIBS News', path: '/', icon: '📰' },
