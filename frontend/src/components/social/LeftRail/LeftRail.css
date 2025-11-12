@@ -3,9 +3,9 @@
 .left-rail {
   position: fixed;
   left: 0;
-  top: 0;
-  height: 100vh;
-  z-index: 40;
+  top: 56px; /* Below GlobalNavBar (h-14 = 56px) */
+  height: calc(100vh - 56px); /* Full height minus navbar */
+  z-index: 45; /* Above content (40) but below GlobalNavBar (50) */
   display: flex;
   flex-direction: column;
   transition: width 200ms cubic-bezier(0.4, 0, 0.2, 1);
