@@ -16,7 +16,7 @@ ALLOWED_MIME = {"image/jpeg", "image/png", "image/webp"}
 MAX_BYTES = 20 * 1024 * 1024  # 20MB (client downscales first)
 
 
-def process_square_avatar(raw_bytes: bytes, size: int = 512) -> bytes:
+def process_square_avatar(raw_bytes: bytes, size: int = 1024) -> bytes:
     """
     Process uploaded avatar image:
     - Rotate based on EXIF orientation
