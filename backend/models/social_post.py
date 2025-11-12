@@ -15,10 +15,11 @@ class SocialPostCreate(BaseModel):
 
 
 class SocialPostAuthor(BaseModel):
-    """Post author info"""
+    """Post author info (Phase 9.0: added handle for profiles)"""
     id: str
     display_name: str
     avatar_url: Optional[str] = None
+    handle: Optional[str] = None
 
 
 class SocialPost(BaseModel):
