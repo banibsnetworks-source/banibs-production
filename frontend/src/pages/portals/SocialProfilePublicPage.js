@@ -8,6 +8,13 @@ const SocialProfilePublicPage = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  // Phase 9.1 - Posts Tab
+  const [activeTab, setActiveTab] = useState('about');
+  const [posts, setPosts] = useState([]);
+  const [postsLoading, setPostsLoading] = useState(false);
+  const [postsPage, setPostsPage] = useState(1);
+  const [postsTotalPages, setPostsTotalPages] = useState(1);
 
   useEffect(() => {
     const loadProfile = async () => {
