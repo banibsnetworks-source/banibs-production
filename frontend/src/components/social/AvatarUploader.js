@@ -39,24 +39,40 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
     if (!file) return;
 
     setError(null);
+    setUploadProgress('Validating...');
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
       setError('Please choose an image file');
+      setUploadProgress(null);
       return;
     }
 
-    // Validate file size (5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setError('Image must be less than 5MB');
+    // Validate file size (20MB - server limit)
+    if (file.size > 20 * 1024 * 1024) {
+      setError(`Image must be less than 20MB (current: ${formatFileSize(file.size)})`);
+      setUploadProgress(null);
       return;
     }
 
     setBusy(true);
 
     try {
+      // Show immediate local preview
+      const localUrl = createPreviewURL(file);
+      setLocalPreview(localUrl);
+      setPreview(localUrl);
+
+      // Downscale if needed (max 2048px, WebP 0.9)
+      setUploadProgress('Processing image...');
+      const processedFile = await downscaleIfNeeded(file);
+      
+      console.log(`Original: ${formatFileSize(file.size)}, Processed: ${formatFileSize(processedFile.size)}`);
+
+      // Upload to server
+      setUploadProgress('Uploading...');
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('file', processedFile);
 
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/media/avatar`,
@@ -76,15 +92,33 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
       }
 
       const { avatar_url } = await response.json();
-      const fullUrl = `${process.env.REACT_APP_BACKEND_URL}${avatar_url}`;
-      setPreview(fullUrl);
+      const fullUrl = `${process.env.REACT_APP_BACKEND_URL}${avatar_url}?t=${Date.now()}`;
       
-      if (onUploaded) {
-        onUploaded(fullUrl);
-      }
+      // Swap to server URL
+      setUploadProgress('Complete!');
+      setTimeout(() => {
+        // Clean up old local preview
+        if (localPreview) {
+          revokePreviewURL(localPreview);
+        }
+        setLocalPreview(null);
+        setPreview(fullUrl);
+        setUploadProgress(null);
+        
+        if (onUploaded) {
+          onUploaded(fullUrl);
+        }
+      }, 500);
+      
     } catch (err) {
       console.error('Avatar upload error:', err);
       setError(err.message || 'Could not upload avatar');
+      // Revert to original preview on error
+      setPreview(initialUrl);
+      if (localPreview) {
+        revokePreviewURL(localPreview);
+        setLocalPreview(null);
+      }
     } finally {
       setBusy(false);
     }
