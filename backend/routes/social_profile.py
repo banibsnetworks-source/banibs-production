@@ -23,6 +23,7 @@ def get_profile_from_user_doc(user_doc: dict) -> dict:
         "display_name": user_doc.get("name") or profile.get("display_name") or "BANIBS Member",
         "handle": profile.get("handle"),
         "avatar_url": profile.get("avatar_url"),
+        "cover_url": profile.get("cover_url"),
         "headline": profile.get("headline"),
         "bio": profile.get("bio"),
         "location": profile.get("location"),
