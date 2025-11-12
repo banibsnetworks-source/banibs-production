@@ -28,11 +28,6 @@ const SocialProfileEditPage = () => {
 
   // Load profile on mount
   useEffect(() => {
-    if (!user) {
-      navigate('/portal/social');
-      return;
-    }
-    
     const loadProfile = async () => {
       setLoading(true);
       try {
