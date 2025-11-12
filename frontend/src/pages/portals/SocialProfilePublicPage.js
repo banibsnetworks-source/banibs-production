@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { ProfileAvatar } from '../../components/social/ProfileAvatar';
 import SocialPostCard from '../../components/social/SocialPostCard';
 
 const SocialProfilePublicPage = () => {
   const { handle } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
