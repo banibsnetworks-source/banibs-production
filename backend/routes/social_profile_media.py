@@ -174,7 +174,7 @@ async def upload_cover(
     
     # Update database
     db = get_db_client()
-    cover_url = f"/static/covers/{fname}"
+    cover_url = f"/api/static/covers/{fname}"
     
     await db.banibs_users.update_one(
         {"id": current_user["id"]},
