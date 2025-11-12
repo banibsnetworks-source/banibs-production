@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Camera, X, Upload } from 'lucide-react';
+import { Camera, X, Upload, ZoomIn } from 'lucide-react';
 import { downscaleIfNeeded, createPreviewURL, revokePreviewURL, formatFileSize } from '../../utils/imageUtils';
 
 /**
