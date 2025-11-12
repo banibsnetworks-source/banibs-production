@@ -148,6 +148,10 @@ function App() {
               <Route path="/portal/tv" element={<TVPortal />} />
               <Route path="/portal/search" element={<SearchPortal />} />
               
+              {/* Phase 9.0 - Social Profile Routes */}
+              <Route path="/portal/social/profile" element={<SocialProfileEditPage />} />
+              <Route path="/portal/social/u/:handle" element={<SocialProfilePublicPage />} />
+              
               {/* Phase 7.6.3 - Section-Specific News Pages */}
               <Route path="/news/:section" element={<NewsSectionPage />} />
               {/* Legacy homepage moved to /hub-legacy if needed */}
