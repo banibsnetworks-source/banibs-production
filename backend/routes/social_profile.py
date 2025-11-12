@@ -9,7 +9,7 @@ from typing import Optional
 
 from db.connection import get_db_client
 from models.social_profile import SocialProfile, SocialProfileUpdate, SocialProfileResponse
-from routes.dependencies import get_current_user
+from middleware.auth_guard import get_current_user
 
 
 router = APIRouter(prefix="/api/social/profile", tags=["social-profile"])
