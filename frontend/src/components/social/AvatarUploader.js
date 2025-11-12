@@ -68,7 +68,7 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
     setShowCropper(true);
   };
 
-  const handleFile = async (file) => {
+  const handleFile = async (file, skipDownscale = false) => {
     if (!file) return;
 
     setError(null);
@@ -81,11 +81,15 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
       setLocalPreview(localUrl);
       setPreview(localUrl);
 
-      // Downscale if needed (max 2048px, WebP 0.9)
-      setUploadProgress('Processing image...');
-      const processedFile = await downscaleIfNeeded(file);
-      
-      console.log(`Original: ${formatFileSize(file.size)}, Processed: ${formatFileSize(processedFile.size)}`);
+      // Downscale if needed (skip if already cropped)
+      let processedFile = file;
+      if (!skipDownscale) {
+        setUploadProgress('Processing image...');
+        processedFile = await downscaleIfNeeded(file);
+        console.log(`Original: ${formatFileSize(file.size)}, Processed: ${formatFileSize(processedFile.size)}`);
+      } else {
+        console.log(`Using cropped file: ${formatFileSize(file.size)}`);
+      }
 
       // Upload to server
       setUploadProgress('Uploading...');
