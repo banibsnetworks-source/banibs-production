@@ -139,9 +139,10 @@ const SocialProfilePublicPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 pt-20">
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-3xl mx-auto space-y-6">
+    <SocialLayout>
+      <div className="min-h-screen" style={{ paddingTop: '80px', background: '#0B0B0B' }}>
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-3xl mx-auto space-y-6">
           {/* Back Button */}
           <Link 
             to="/portal/social" 
