@@ -184,13 +184,22 @@ const SocialPortal = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
           {/* Welcome Header */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold text-white mb-1">
-              Welcome back, {user?.name}!
-            </h1>
-            <p className="text-gray-400 text-sm">
-              Share your thoughts with the BANIBS community
-            </p>
+          <div className="mb-6 flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-bold text-white mb-1">
+                Welcome back, {user?.name}!
+              </h1>
+              <p className="text-gray-400 text-sm">
+                Share your thoughts with the BANIBS community
+              </p>
+            </div>
+            <Link
+              to="/portal/social/profile"
+              className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded-lg border border-gray-700 transition-colors text-sm"
+            >
+              <User size={16} />
+              <span>My Profile</span>
+            </Link>
           </div>
 
           {/* Lazy load components */}
