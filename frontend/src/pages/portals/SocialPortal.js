@@ -180,7 +180,7 @@ const SocialPortal = () => {
         description="Stay connected with your BANIBS Social community."
       />
       
-      <div className="min-h-screen" style={{ paddingTop: '80px' }}>
+      <div className="min-h-screen" style={{ paddingTop: '20px' }}>
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto">
             {/* Welcome Header */}
