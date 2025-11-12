@@ -5401,3 +5401,64 @@ After Fix:
 
 **Next:** Awaiting user visual confirmation, then proceed to "My Posts" tab (Phase 9.1)
 
+
+---
+## Phase 9.1 - "My Posts" Tab Implementation (Fork Agent)
+**Date:** 2025-11-12
+**Agent:** main (fork)
+**Task:** Add "My Posts" tab to profile pages
+
+### Implementation Complete:
+
+**Backend Changes:**
+1. ✅ Created new endpoint: `GET /api/social/users/{user_id}/posts`
+   - Supports pagination (page, page_size params)
+   - Returns posts by specific user
+   - Respects visibility rules (excludes deleted/hidden posts)
+   - Includes author info and viewer like status
+2. ✅ Added `get_user_posts()` function in `/app/backend/db/social_posts.py`
+
+**Frontend Changes:**
+1. ✅ Updated `SocialPostCard.js` to support `compact` mode
+   - When `compact={true}`, hides author header (no duplication on profile pages)
+   - Shows only timestamp and action options in compact mode
+   
+2. ✅ Updated `SocialProfilePublicPage.js` with tabbed interface
+   - Tabs: About | Posts
+   - Posts tab shows user's posts with pagination
+   - "Load More" button for pagination
+   - URL param support (?tab=posts)
+   - Post count displayed in tab label
+   - Empty states for no content
+   
+3. ✅ Updated `SocialProfileEditPage.js`
+   - Added "My Posts" link in header
+   - Links to public profile with ?tab=posts param
+
+**Features Delivered:**
+- ✅ Profile tabs (About | Posts)
+- ✅ Compact post cards (no author duplication)
+- ✅ Pagination with "Load More"
+- ✅ Basic stats display (post count, join date, likes shown in About section)
+- ✅ Easy access to "My Posts" from profile edit page
+- ✅ URL state management for deep linking to Posts tab
+
+**Testing Results:**
+```
+Backend Endpoint:
+✅ GET /api/social/users/{user_id}/posts working correctly
+✅ Returns paginated posts (page 1: 2 posts total)
+✅ Includes like_count, comment_count
+✅ Author info populated correctly
+
+Frontend:
+✅ Tabs render correctly
+✅ Compact mode hides author header
+✅ "My Posts" link navigates correctly
+✅ URL params work for deep linking
+```
+
+**Status:** ✅ COMPLETE - Ready for user testing
+
+**Next:** Phase 9.2 - Privacy & Anonymous Posting
+
