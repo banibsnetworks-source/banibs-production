@@ -220,9 +220,27 @@ const SocialProfileEditPage = () => {
               </label>
               <AvatarUploader
                 initialUrl={profile?.avatar_url ? `${process.env.REACT_APP_BACKEND_URL}${profile.avatar_url}` : null}
-                onUploaded={(url) => {
-                  // Reload profile to get updated avatar
-                  window.location.reload();
+                onUploaded={async (url) => {
+                  // Reload profile data to get updated avatar
+                  try {
+                    const response = await fetch(
+                      `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/me`,
+                      {
+                        headers: {
+                          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                        },
+                        credentials: 'include'
+                      }
+                    );
+                    if (response.ok) {
+                      const data = await response.json();
+                      setProfile(data);
+                      setSuccess(true);
+                      setTimeout(() => setSuccess(false), 3000);
+                    }
+                  } catch (err) {
+                    console.error('Error reloading profile:', err);
+                  }
                 }}
                 size="lg"
               />
