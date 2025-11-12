@@ -225,8 +225,11 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
 
           {/* Loading overlay */}
           {busy && (
-            <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
+            <div className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center gap-2">
               <div className="animate-spin rounded-full h-8 w-8 border-2 border-white border-t-transparent"></div>
+              {uploadProgress && (
+                <div className="text-white text-xs">{uploadProgress}</div>
+              )}
             </div>
           )}
         </div>
