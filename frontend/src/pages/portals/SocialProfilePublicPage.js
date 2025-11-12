@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { ProfileAvatar } from '../../components/social/ProfileAvatar';
 import SocialPostCard from '../../components/social/SocialPostCard';
+import SocialLayout from '../../components/social/SocialLayout';
 
 const SocialProfilePublicPage = () => {
   const { handle } = useParams();
