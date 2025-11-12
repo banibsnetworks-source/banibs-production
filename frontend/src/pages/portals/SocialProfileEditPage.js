@@ -62,8 +62,15 @@ const SocialProfileEditPage = () => {
       }
     };
     
+    // Check if user is authenticated via token
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      navigate('/portal/social');
+      return;
+    }
+    
     loadProfile();
-  }, [user, navigate]);
+  }, [navigate]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
