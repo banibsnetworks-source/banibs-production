@@ -11,7 +11,7 @@ def categorize_news_item(item: Dict[str, Any]) -> str:
     """
     Categorize a news item into one of the homepage sections.
     
-    Sections: "us", "world", "business", "tech", "sports"
+    Sections: "us", "world", "business", "tech", "sports", "entertainment", "lifestyle"
     
     Logic:
     1. Check category field for direct matches
@@ -23,7 +23,7 @@ def categorize_news_item(item: Dict[str, Any]) -> str:
         item: News item dictionary from MongoDB
         
     Returns:
-        Section identifier: "us", "world", "business", "tech", or "sports"
+        Section identifier: "us", "world", "business", "tech", "sports", "entertainment", or "lifestyle"
     """
     category = (item.get('category') or '').lower()
     region = (item.get('region') or '').lower()
