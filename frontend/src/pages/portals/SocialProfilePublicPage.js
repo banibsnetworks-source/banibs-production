@@ -222,7 +222,10 @@ const SocialProfilePublicPage = () => {
             {/* Tab Navigation */}
             <div className="flex border-b border-gray-700">
               <button
-                onClick={() => setActiveTab('about')}
+                onClick={() => {
+                  setActiveTab('about');
+                  setSearchParams({});
+                }}
                 className={`px-6 py-3 font-medium transition-colors ${
                   activeTab === 'about'
                     ? 'text-amber-400 border-b-2 border-amber-400'
@@ -232,7 +235,10 @@ const SocialProfilePublicPage = () => {
                 About
               </button>
               <button
-                onClick={() => setActiveTab('posts')}
+                onClick={() => {
+                  setActiveTab('posts');
+                  setSearchParams({ tab: 'posts' });
+                }}
                 className={`px-6 py-3 font-medium transition-colors ${
                   activeTab === 'posts'
                     ? 'text-amber-400 border-b-2 border-amber-400'
