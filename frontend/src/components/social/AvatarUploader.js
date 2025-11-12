@@ -19,6 +19,13 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
   const [uploadProgress, setUploadProgress] = useState(null);
   const inputRef = useRef(null);
 
+  // Update preview when initialUrl changes
+  useEffect(() => {
+    if (initialUrl && initialUrl !== preview) {
+      setPreview(initialUrl);
+    }
+  }, [initialUrl]);
+
   // Cleanup object URLs on unmount
   useEffect(() => {
     return () => {
