@@ -216,41 +216,122 @@ const SocialProfilePublicPage = () => {
             </div>
           </div>
 
-          {/* Bio Section */}
-          {profile.bio && (
-            <div className="bg-gray-800 rounded-2xl border border-gray-700 p-6">
-              <h2 className="text-white font-semibold mb-3">About</h2>
-              <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
-                {profile.bio}
-              </p>
+          {/* Tabs - Phase 9.1 */}
+          <div className="bg-gray-800 rounded-2xl border border-gray-700 overflow-hidden">
+            {/* Tab Navigation */}
+            <div className="flex border-b border-gray-700">
+              <button
+                onClick={() => setActiveTab('about')}
+                className={`px-6 py-3 font-medium transition-colors ${
+                  activeTab === 'about'
+                    ? 'text-amber-400 border-b-2 border-amber-400'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                About
+              </button>
+              <button
+                onClick={() => setActiveTab('posts')}
+                className={`px-6 py-3 font-medium transition-colors ${
+                  activeTab === 'posts'
+                    ? 'text-amber-400 border-b-2 border-amber-400'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                Posts {profile.post_count !== undefined && `(${profile.post_count})`}
+              </button>
             </div>
-          )}
 
-          {/* Interests Section */}
-          {profile.interests && profile.interests.length > 0 && (
-            <div className="bg-gray-800 rounded-2xl border border-gray-700 p-6">
-              <h2 className="text-white font-semibold mb-3">Interests</h2>
-              <div className="flex flex-wrap gap-2">
-                {profile.interests.map((interest, idx) => (
-                  <span 
-                    key={idx}
-                    className="px-3 py-1 bg-amber-600/20 text-amber-400 rounded-full text-sm font-medium"
-                  >
-                    {interest}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
+            {/* Tab Content */}
+            <div className="p-6">
+              {/* About Tab */}
+              {activeTab === 'about' && (
+                <div className="space-y-6">
+                  {/* Bio */}
+                  {profile.bio && (
+                    <div>
+                      <h3 className="text-white font-semibold mb-3">Bio</h3>
+                      <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
+                        {profile.bio}
+                      </p>
+                    </div>
+                  )}
 
-          {/* Posts Section - Placeholder for Phase 9.1 */}
-          <div className="bg-gray-800 rounded-2xl border border-gray-700 p-6">
-            <h2 className="text-white font-semibold mb-3">Recent Posts</h2>
-            <div className="text-center py-8">
-              <div className="text-4xl mb-3">📝</div>
-              <p className="text-gray-400 text-sm">
-                User posts will be displayed here in Phase 9.1
-              </p>
+                  {/* Interests */}
+                  {profile.interests && profile.interests.length > 0 && (
+                    <div>
+                      <h3 className="text-white font-semibold mb-3">Interests</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {profile.interests.map((interest, idx) => (
+                          <span 
+                            key={idx}
+                            className="px-3 py-1 bg-amber-600/20 text-amber-400 rounded-full text-sm font-medium"
+                          >
+                            {interest}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Empty state for About */}
+                  {!profile.bio && (!profile.interests || profile.interests.length === 0) && (
+                    <div className="text-center py-8">
+                      <div className="text-4xl mb-3">📝</div>
+                      <p className="text-gray-400 text-sm">
+                        No bio or interests added yet
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Posts Tab */}
+              {activeTab === 'posts' && (
+                <div className="space-y-4">
+                  {postsLoading && posts.length === 0 ? (
+                    <div className="text-center py-12">
+                      <div className="animate-spin rounded-full h-8 w-8 border-2 border-amber-400 border-t-transparent mx-auto mb-3"></div>
+                      <p className="text-gray-400 text-sm">Loading posts...</p>
+                    </div>
+                  ) : posts.length === 0 ? (
+                    <div className="text-center py-12">
+                      <div className="text-4xl mb-3">📝</div>
+                      <p className="text-gray-400 text-sm">
+                        No posts yet
+                      </p>
+                    </div>
+                  ) : (
+                    <>
+                      {posts.map(post => (
+                        <SocialPostCard
+                          key={post.id}
+                          post={post}
+                          compact={true}
+                          onUpdate={(updatedPost) => {
+                            setPosts(prev => prev.map(p => 
+                              p.id === updatedPost.id ? updatedPost : p
+                            ));
+                          }}
+                        />
+                      ))}
+
+                      {/* Load More Button */}
+                      {postsPage < postsTotalPages && (
+                        <div className="text-center pt-4">
+                          <button
+                            onClick={handleLoadMore}
+                            disabled={postsLoading}
+                            className="px-6 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {postsLoading ? 'Loading...' : 'Load More'}
+                          </button>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
