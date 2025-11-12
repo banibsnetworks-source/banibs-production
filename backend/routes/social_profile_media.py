@@ -73,7 +73,7 @@ async def upload_avatar(
     
     # Update database
     db = get_db_client()
-    avatar_url = f"/static/avatars/{fname}"
+    avatar_url = f"/api/static/avatars/{fname}"
     
     await db.banibs_users.update_one(
         {"id": current_user["id"]},
