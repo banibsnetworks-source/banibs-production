@@ -345,7 +345,7 @@ const SocialProfilePublicPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </SocialLayout>
   );
 };
 
