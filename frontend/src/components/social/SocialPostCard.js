@@ -113,60 +113,97 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
     <div className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
       {/* Post Header */}
       <div className="p-4">
-        <div className="flex items-start justify-between mb-3">
-          <Link 
-            to={profilePath}
-            className="flex items-center space-x-3 hover:opacity-80 transition-opacity flex-1"
-          >
-            {/* Author Avatar */}
-            <ProfileAvatar 
-              name={localPost.author.display_name}
-              avatarUrl={localPost.author.avatar_url}
-              size="md"
-            />
-            
-            {/* Author Info */}
-            <div>
-              <p className="text-sm font-semibold text-white">
-                {localPost.author.display_name}
-              </p>
-              {localPost.author.handle && (
-                <p className="text-xs text-amber-400">
-                  @{localPost.author.handle}
+        {!compact && (
+          <div className="flex items-start justify-between mb-3">
+            <Link 
+              to={profilePath}
+              className="flex items-center space-x-3 hover:opacity-80 transition-opacity flex-1"
+            >
+              {/* Author Avatar */}
+              <ProfileAvatar 
+                name={localPost.author.display_name}
+                avatarUrl={localPost.author.avatar_url}
+                size="md"
+              />
+              
+              {/* Author Info */}
+              <div>
+                <p className="text-sm font-semibold text-white">
+                  {localPost.author.display_name}
                 </p>
-              )}
-              <p className="text-xs text-gray-400">
-                {formatTimestamp(localPost.created_at)}
-              </p>
-            </div>
-          </Link>
+                {localPost.author.handle && (
+                  <p className="text-xs text-amber-400">
+                    @{localPost.author.handle}
+                  </p>
+                )}
+                <p className="text-xs text-gray-400">
+                  {formatTimestamp(localPost.created_at)}
+                </p>
+              </div>
+            </Link>
 
-          {/* More Options */}
-          <div className="flex items-center space-x-1">
-            {/* Report button for non-authors */}
-            {!isAuthor && (
-              <button
-                type="button"
-                onClick={() => setShowReportModal(true)}
-                className="p-1 rounded-lg text-gray-400 hover:bg-gray-700 hover:text-red-400 transition-colors"
-                title="Report post"
-              >
-                <Flag size={16} />
-              </button>
-            )}
-            
-            {/* More options for authors */}
-            {isAuthor && (
-              <button
-                type="button"
-                className="p-1 rounded-lg text-gray-400 hover:bg-gray-700 transition-colors"
-                title="Options"
-              >
-                <MoreHorizontal size={18} />
-              </button>
-            )}
+            {/* More Options */}
+            <div className="flex items-center space-x-1">
+              {/* Report button for non-authors */}
+              {!isAuthor && (
+                <button
+                  type="button"
+                  onClick={() => setShowReportModal(true)}
+                  className="p-1 rounded-lg text-gray-400 hover:bg-gray-700 hover:text-red-400 transition-colors"
+                  title="Report post"
+                >
+                  <Flag size={16} />
+                </button>
+              )}
+              
+              {/* More options for authors */}
+              {isAuthor && (
+                <button
+                  type="button"
+                  className="p-1 rounded-lg text-gray-400 hover:bg-gray-700 transition-colors"
+                  title="Options"
+                >
+                  <MoreHorizontal size={18} />
+                </button>
+              )}
+            </div>
           </div>
-        </div>
+        )}
+
+        {/* Compact mode: Just show timestamp and options */}
+        {compact && (
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-xs text-gray-400">
+              {formatTimestamp(localPost.created_at)}
+            </p>
+            
+            {/* More Options */}
+            <div className="flex items-center space-x-1">
+              {/* Report button for non-authors */}
+              {!isAuthor && (
+                <button
+                  type="button"
+                  onClick={() => setShowReportModal(true)}
+                  className="p-1 rounded-lg text-gray-400 hover:bg-gray-700 hover:text-red-400 transition-colors"
+                  title="Report post"
+                >
+                  <Flag size={16} />
+                </button>
+              )}
+              
+              {/* More options for authors */}
+              {isAuthor && (
+                <button
+                  type="button"
+                  className="p-1 rounded-lg text-gray-400 hover:bg-gray-700 transition-colors"
+                  title="Options"
+                >
+                  <MoreHorizontal size={18} />
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Post Content */}
         <div className="text-white text-sm leading-relaxed whitespace-pre-wrap">
