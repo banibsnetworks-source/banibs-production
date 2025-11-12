@@ -175,7 +175,7 @@ const ImageCropper = ({ imageFile, onCrop, onCancel }) => {
     cropCtx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
     cropCtx.fill();
 
-    // Convert to blob with high quality
+    // Convert to blob with maximum quality for best presentation
     cropCanvas.toBlob((blob) => {
       if (blob) {
         const croppedFile = new File([blob], imageFile.name.replace(/\.[^.]+$/, '.webp'), {
@@ -184,7 +184,7 @@ const ImageCropper = ({ imageFile, onCrop, onCancel }) => {
         });
         onCrop(croppedFile);
       }
-    }, 'image/webp', 0.98);
+    }, 'image/webp', 1.0); // Maximum quality
   };
 
   return (
