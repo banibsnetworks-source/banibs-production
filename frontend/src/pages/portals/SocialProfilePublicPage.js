@@ -102,39 +102,43 @@ const SocialProfilePublicPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 pt-20">
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-3xl mx-auto">
-            <div className="flex items-center justify-center py-12">
-              <div className="text-gray-400">Loading profile...</div>
+      <SocialLayout>
+        <div className="min-h-screen" style={{ paddingTop: '80px', background: '#0B0B0B' }}>
+          <div className="container mx-auto px-4 py-8">
+            <div className="max-w-3xl mx-auto">
+              <div className="flex items-center justify-center py-12">
+                <div className="text-gray-400">Loading profile...</div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </SocialLayout>
     );
   }
 
   if (error || !profile) {
     return (
-      <div className="min-h-screen bg-gray-900 pt-20">
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-3xl mx-auto">
-            <div className="bg-gray-800 rounded-lg p-8 text-center">
-              <div className="text-6xl mb-4">😕</div>
-              <h2 className="text-2xl font-bold text-white mb-2">Profile Not Found</h2>
-              <p className="text-gray-400 mb-6">
-                {error || 'The profile you\'re looking for doesn\'t exist or is not public.'}
-              </p>
-              <Link 
-                to="/portal/social" 
-                className="inline-block px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
-              >
-                Back to Social Feed
-              </Link>
+      <SocialLayout>
+        <div className="min-h-screen" style={{ paddingTop: '80px', background: '#0B0B0B' }}>
+          <div className="container mx-auto px-4 py-8">
+            <div className="max-w-3xl mx-auto">
+              <div className="bg-gray-800 rounded-lg p-8 text-center">
+                <div className="text-6xl mb-4">😕</div>
+                <h2 className="text-2xl font-bold text-white mb-2">Profile Not Found</h2>
+                <p className="text-gray-400 mb-6">
+                  {error || 'The profile you\'re looking for doesn\'t exist or is not public.'}
+                </p>
+                <Link 
+                  to="/portal/social" 
+                  className="inline-block px-6 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
+                >
+                  Back to Social Feed
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </SocialLayout>
     );
   }
 
