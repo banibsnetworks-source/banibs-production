@@ -59,20 +59,6 @@ const SocialPortal = () => {
         />
         <GlobalNavBar />
 
-        {/* Auth Modal */}
-        {showAuthModal && (
-          <>
-            {console.log('🎭 Rendering AuthModal, mode:', authModalMode)}
-            <AuthModal
-              initialMode={authModalMode}
-              onClose={() => {
-                console.log('🚪 Closing AuthModal');
-                setShowAuthModal(false);
-              }}
-            />
-          </>
-        )}
-
         {/* Hero Section */}
         <div className="relative h-96 bg-gradient-to-br from-blue-900 to-gray-900 flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0 opacity-10">
