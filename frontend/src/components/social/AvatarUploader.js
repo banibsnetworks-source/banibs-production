@@ -109,11 +109,21 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
       );
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Upload failed');
+        // Read response once and store it
+        const errorText = await response.text();
+        let errorMessage = 'Upload failed';
+        try {
+          const errorData = JSON.parse(errorText);
+          errorMessage = errorData.detail || errorMessage;
+        } catch (e) {
+          errorMessage = errorText || errorMessage;
+        }
+        throw new Error(errorMessage);
       }
 
-      const { avatar_url } = await response.json();
+      // Read response once
+      const responseData = await response.json();
+      const { avatar_url } = responseData;
       const fullUrl = `${process.env.REACT_APP_BACKEND_URL}${avatar_url}?t=${Date.now()}`;
       
       // Swap to server URL
