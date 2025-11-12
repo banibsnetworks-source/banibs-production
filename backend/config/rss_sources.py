@@ -651,9 +651,9 @@ if __name__ == "__main__":
     print(f"Total RSS Sources: {stats['total']}")
     print(f"  Active: {stats['active']}")
     print(f"  Inactive: {stats['inactive']}")
-    print(f"\nBy Region:")
+    print("\nBy Region:")
     for region, count in sorted(stats['by_region'].items()):
         print(f"  {region}: {count}")
-    print(f"\nBy Category:")
+    print("\nBy Category:")
     for category, count in sorted(stats['by_category'].items()):
         print(f"  {category}: {count}")
