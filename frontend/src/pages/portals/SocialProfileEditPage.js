@@ -158,16 +158,27 @@ const SocialProfileEditPage = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-3xl mx-auto space-y-6">
           {/* Header */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between flex-wrap gap-3">
             <h1 className="text-3xl font-bold text-white">Edit Profile</h1>
-            {profile?.handle && (
-              <Link 
-                to={`/portal/social/u/${profile.handle}`}
-                className="text-amber-400 hover:text-amber-300 text-sm"
-              >
-                View Public Profile →
-              </Link>
-            )}
+            <div className="flex items-center gap-3">
+              {profile?.handle && (
+                <>
+                  <Link 
+                    to={`/portal/social/u/${profile.handle}?tab=posts`}
+                    className="text-amber-400 hover:text-amber-300 text-sm flex items-center gap-1"
+                  >
+                    📝 My Posts
+                  </Link>
+                  <span className="text-gray-600">•</span>
+                  <Link 
+                    to={`/portal/social/u/${profile.handle}`}
+                    className="text-amber-400 hover:text-amber-300 text-sm"
+                  >
+                    View Public Profile →
+                  </Link>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Profile Preview */}
