@@ -224,7 +224,17 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
           )}
 
           {/* Overlay on hover */}
-          {!busy && (
+          {!busy && preview && (
+            <div
+              className="absolute inset-0 bg-black/60 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+              onClick={() => setShowPreviewModal(true)}
+            >
+              <ZoomIn size={24} className="text-white" />
+            </div>
+          )}
+          
+          {/* Upload overlay for when no preview */}
+          {!busy && !preview && (
             <div
               className="absolute inset-0 bg-black/60 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
               onClick={() => inputRef.current?.click()}
