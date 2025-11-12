@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://community-fix-9.preview.emergentagent.com/api/auth
+https://profile-express.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

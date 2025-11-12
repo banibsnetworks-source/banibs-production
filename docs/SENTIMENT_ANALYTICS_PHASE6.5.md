@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://community-fix-9.preview.emergentagent.com/api/admin/analytics/sentiment
+https://profile-express.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints
