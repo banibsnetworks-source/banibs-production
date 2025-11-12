@@ -39,14 +39,14 @@ const SocialFeedContent = () => {
  */
 const SocialPortal = () => {
   const { user, isAuthenticated } = useAuth();
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [authModalMode, setAuthModalMode] = useState('signin');
 
+  // Phase 8.3.1: Trigger GlobalNavBar's AuthModal via global event
   const handleOpenAuth = (mode = 'signin') => {
-    console.log('🔐 handleOpenAuth called with mode:', mode);
-    setAuthModalMode(mode);
-    setShowAuthModal(true);
-    console.log('✅ showAuthModal set to true');
+    console.log('🔐 Dispatching global auth modal event with mode:', mode);
+    const event = new CustomEvent('open-auth-modal', { 
+      detail: { mode } 
+    });
+    window.dispatchEvent(event);
   };
 
   if (!isAuthenticated) {
