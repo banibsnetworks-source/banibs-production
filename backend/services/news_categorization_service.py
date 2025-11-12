@@ -219,6 +219,7 @@ def filter_items_by_section(items: List[Dict[str, Any]], section: str) -> List[D
         'healthwatch': 'health',
         'moneywatch': 'money',
         'entertainment': 'entertainment',
+        'lifestyle': 'lifestyle',
         'crime': 'crime',
         'sports': 'sports',
         'culture': 'culture',
