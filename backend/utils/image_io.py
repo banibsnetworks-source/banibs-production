@@ -13,7 +13,7 @@ from PIL import Image, ImageOps
 from io import BytesIO
 
 ALLOWED_MIME = {"image/jpeg", "image/png", "image/webp"}
-MAX_BYTES = 5 * 1024 * 1024  # 5MB
+MAX_BYTES = 20 * 1024 * 1024  # 20MB (client downscales first)
 
 
 def process_square_avatar(raw_bytes: bytes, size: int = 256) -> bytes:
