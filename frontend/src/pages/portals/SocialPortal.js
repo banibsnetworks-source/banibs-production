@@ -44,8 +44,10 @@ const SocialPortal = () => {
   const [authModalMode, setAuthModalMode] = useState('signin');
 
   const handleOpenAuth = (mode = 'signin') => {
+    console.log('🔐 handleOpenAuth called with mode:', mode);
     setAuthModalMode(mode);
     setShowAuthModal(true);
+    console.log('✅ showAuthModal set to true');
   };
 
   if (!isAuthenticated) {
