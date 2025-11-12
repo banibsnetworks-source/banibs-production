@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Camera, X, Upload, ZoomIn } from 'lucide-react';
 import { downscaleIfNeeded, createPreviewURL, revokePreviewURL, formatFileSize } from '../../utils/imageUtils';
+import ImageCropper from './ImageCropper';
 
 /**
  * AvatarUploader Component
