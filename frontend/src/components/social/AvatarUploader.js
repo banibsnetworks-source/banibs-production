@@ -200,7 +200,7 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
 
     const file = e.dataTransfer.files[0];
     if (file) {
-      handleFile(file);
+      handleFileSelect(file);
     }
   };
 
