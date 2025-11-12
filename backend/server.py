@@ -63,8 +63,9 @@ COVER_DIR = os.getenv("COVER_DIR", "/app/backend/static/covers")
 os.makedirs(AVATAR_DIR, exist_ok=True)
 os.makedirs(COVER_DIR, exist_ok=True)
 
-app.mount("/static/avatars", StaticFiles(directory=AVATAR_DIR), name="avatars")
-app.mount("/static/covers", StaticFiles(directory=COVER_DIR), name="covers")
+# Mount under /api prefix so Kubernetes ingress routes them to backend
+app.mount("/api/static/avatars", StaticFiles(directory=AVATAR_DIR), name="avatars")
+app.mount("/api/static/covers", StaticFiles(directory=COVER_DIR), name="covers")
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
