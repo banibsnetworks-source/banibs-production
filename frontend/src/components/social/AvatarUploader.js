@@ -129,6 +129,7 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
 
     setBusy(true);
     setError(null);
+    setUploadProgress('Removing...');
 
     try {
       const response = await fetch(
@@ -146,6 +147,11 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
         throw new Error('Could not remove avatar');
       }
 
+      // Clean up previews
+      if (localPreview) {
+        revokePreviewURL(localPreview);
+        setLocalPreview(null);
+      }
       setPreview(null);
       
       if (onUploaded) {
@@ -156,6 +162,7 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
       setError('Could not remove avatar');
     } finally {
       setBusy(false);
+      setUploadProgress(null);
     }
   };
 
