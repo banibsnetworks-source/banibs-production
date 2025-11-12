@@ -211,7 +211,9 @@ const AvatarUploader = ({ initialUrl, onUploaded, size = 'lg' }) => {
               alt="Profile"
               className="w-full h-full object-cover"
               onError={(e) => {
-                e.target.style.display = 'none';
+                console.error('Failed to load avatar image:', preview);
+                setPreview(null);
+                setError('Failed to load avatar image');
               }}
             />
           ) : (
