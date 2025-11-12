@@ -141,6 +141,7 @@ function App() {
               <Route path="/portal/news" element={<NewsPortal />} />
               <Route path="/portal/social" element={<SocialPortal />} />
               <Route path="/portal/business" element={<BusinessPortal />} />
+              <Route path="/portal/marketplace/*" element={<MarketplacePortal />} />
               <Route path="/portal/tv" element={<TVPortal />} />
               <Route path="/portal/search" element={<SearchPortal />} />
               
