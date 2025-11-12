@@ -211,6 +211,21 @@ const SocialProfileEditPage = () => {
               </div>
             )}
 
+            {/* Avatar Upload */}
+            <div>
+              <label className="block text-white font-medium mb-3">
+                Profile Photo
+              </label>
+              <AvatarUploader
+                initialUrl={profile?.avatar_url ? `${process.env.REACT_APP_BACKEND_URL}${profile.avatar_url}` : null}
+                onUploaded={(url) => {
+                  // Reload profile to get updated avatar
+                  window.location.reload();
+                }}
+                size="lg"
+              />
+            </div>
+
             {/* Display Name */}
             <div>
               <label className="block text-white font-medium mb-2">
