@@ -25,7 +25,7 @@ const ImageCropper = ({ imageFile, onCrop, onCancel }) => {
         const canvas = canvasRef.current;
         if (canvas) {
           const ctx = canvas.getContext('2d');
-          const size = 600; // Larger canvas for better quality
+          const size = 800; // Large canvas for maximum quality
           canvas.width = size;
           canvas.height = size;
 
