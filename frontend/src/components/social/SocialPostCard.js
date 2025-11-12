@@ -9,8 +9,10 @@ import { ProfileAvatar } from './ProfileAvatar';
 /**
  * SocialPostCard - Phase 8.3
  * Component for displaying a single social post with engagement actions
+ * 
+ * @param {boolean} compact - When true, hides author header (for profile pages)
  */
-const SocialPostCard = ({ post, onUpdate, onDelete }) => {
+const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
   const { user } = useAuth();
   const [isLiking, setIsLiking] = useState(false);
   const [showComments, setShowComments] = useState(false);
