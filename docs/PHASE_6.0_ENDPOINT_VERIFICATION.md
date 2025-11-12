@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://community-hub-217.preview.emergentagent.com/api/auth
+https://community-fix-9.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

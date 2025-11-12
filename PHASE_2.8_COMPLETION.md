@@ -306,7 +306,7 @@ INITIAL_ADMIN_PASSWORD="BanibsAdmin#2025"
 
 ### Frontend Configuration
 ```env
-REACT_APP_BACKEND_URL="https://community-hub-217.preview.emergentagent.com"
+REACT_APP_BACKEND_URL="https://community-fix-9.preview.emergentagent.com"
 ```
 
 ---

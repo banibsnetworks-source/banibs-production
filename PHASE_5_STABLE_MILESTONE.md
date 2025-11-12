@@ -157,7 +157,7 @@ MONGO_URL=mongodb://localhost:27017
 DB_NAME=test_database
 
 # Frontend
-REACT_APP_BACKEND_URL=https://community-hub-217.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://community-fix-9.preview.emergentagent.com
 ```
 
 ---
