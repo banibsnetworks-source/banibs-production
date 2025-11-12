@@ -102,27 +102,42 @@ const SocialPostCard = ({ post, onUpdate, onDelete }) => {
 
   const isAuthor = user?.id === localPost.author.id;
 
+  // Determine profile path (handle or ID fallback)
+  const profilePath = localPost.author.handle 
+    ? `/portal/social/u/${localPost.author.handle}`
+    : `/portal/social/id/${localPost.author.id}`;
+
   return (
     <div className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
       {/* Post Header */}
       <div className="p-4">
         <div className="flex items-start justify-between mb-3">
-          <div className="flex items-center space-x-3">
+          <Link 
+            to={profilePath}
+            className="flex items-center space-x-3 hover:opacity-80 transition-opacity flex-1"
+          >
             {/* Author Avatar */}
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold flex-shrink-0">
-              {localPost.author.display_name.charAt(0).toUpperCase()}
-            </div>
+            <ProfileAvatar 
+              name={localPost.author.display_name}
+              avatarUrl={localPost.author.avatar_url}
+              size="md"
+            />
             
             {/* Author Info */}
             <div>
               <p className="text-sm font-semibold text-white">
                 {localPost.author.display_name}
               </p>
+              {localPost.author.handle && (
+                <p className="text-xs text-amber-400">
+                  @{localPost.author.handle}
+                </p>
+              )}
               <p className="text-xs text-gray-400">
                 {formatTimestamp(localPost.created_at)}
               </p>
             </div>
-          </div>
+          </Link>
 
           {/* More Options */}
           <div className="flex items-center space-x-1">
