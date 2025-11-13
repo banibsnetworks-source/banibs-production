@@ -140,7 +140,7 @@ const NewsSectionPage = () => {
   } = sectionData || {};
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-background">
       <SEO
         title={`${label} - BANIBS News`}
         description={`Latest ${label} news from BANIBS. Stay informed with comprehensive coverage of Black and Indigenous community news.`}
@@ -155,9 +155,9 @@ const NewsSectionPage = () => {
         <header className="mb-8">
           <div className="flex items-center space-x-3 mb-2">
             <span className="text-4xl">{getSectionIcon(section)}</span>
-            <h1 className="text-4xl font-bold text-white">{label}</h1>
+            <h1 className="text-4xl font-bold text-foreground">{label}</h1>
           </div>
-          <p className="text-gray-400 text-lg">
+          <p className="text-muted-foreground text-lg">
             Page {page} of {total_pages} • {total_items} stories
           </p>
         </header>
