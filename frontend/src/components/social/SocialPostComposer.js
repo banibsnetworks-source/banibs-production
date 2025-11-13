@@ -124,7 +124,7 @@ const SocialPostComposer = ({ onPostCreated }) => {
             {showEmojiPicker && (
               <EmojiPicker
                 onEmojiSelect={(emoji) => {
-                  // For now, just open the modal with the emoji
+                  setInitialEmoji(emoji);
                   setShowEmojiPicker(false);
                   setIsModalOpen(true);
                 }}
