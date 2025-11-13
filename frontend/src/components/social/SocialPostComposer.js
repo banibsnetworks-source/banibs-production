@@ -25,7 +25,7 @@ const SocialPostComposer = ({ onPostCreated }) => {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/social/posts`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': `Bearer ${token}`
         },
         credentials: 'include',
@@ -33,7 +33,11 @@ const SocialPostComposer = ({ onPostCreated }) => {
       });
       
       if (!response.ok) {
-        throw new Error('Failed to create post');
+        const errorData = await response.json().catch(() => ({}));
+        if (response.status === 401) {
+          throw new Error('Your session has expired. Please log in again.');
+        }
+        throw new Error(errorData.detail || 'Failed to create post');
       }
       
       const newPost = await response.json();
@@ -43,7 +47,8 @@ const SocialPostComposer = ({ onPostCreated }) => {
       }
     } catch (err) {
       console.error('Error creating post:', err);
-      setError('Failed to create post. Please try again.');
+      const errorMessage = err.message || 'Failed to create post. Please try again.';
+      setError(errorMessage);
       throw err;
     }
   };
