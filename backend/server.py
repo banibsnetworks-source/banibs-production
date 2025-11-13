@@ -67,6 +67,14 @@ os.makedirs(COVER_DIR, exist_ok=True)
 app.mount("/api/static/avatars", StaticFiles(directory=AVATAR_DIR), name="avatars")
 app.mount("/api/static/covers", StaticFiles(directory=COVER_DIR), name="covers")
 
+# Phase 8.1 - Mount media directories for Media Composer
+MEDIA_IMAGES_DIR = "/app/backend/static/media/images"
+MEDIA_VIDEOS_DIR = "/app/backend/static/media/videos"
+os.makedirs(MEDIA_IMAGES_DIR, exist_ok=True)
+os.makedirs(MEDIA_VIDEOS_DIR, exist_ok=True)
+app.mount("/api/static/media/images", StaticFiles(directory=MEDIA_IMAGES_DIR), name="media-images")
+app.mount("/api/static/media/videos", StaticFiles(directory=MEDIA_VIDEOS_DIR), name="media-videos")
+
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
