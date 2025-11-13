@@ -210,8 +210,72 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
           {localPost.text}
         </div>
 
-        {/* Media (if present) */}
-        {localPost.media_url && (
+        {/* Media Grid (Phase 8.1) */}
+        {localPost.media && localPost.media.length > 0 && (
+          <div className={`mt-3 grid gap-1 rounded-lg overflow-hidden ${
+            localPost.media.length === 1 ? 'grid-cols-1' :
+            localPost.media.length === 2 ? 'grid-cols-2' :
+            localPost.media.length === 3 ? 'grid-cols-2' :
+            'grid-cols-2'
+          }`}>
+            {localPost.media.map((item, index) => (
+              <div 
+                key={index} 
+                className={`relative ${
+                  localPost.media.length === 3 && index === 0 ? 'col-span-2' : ''
+                }`}
+              >
+                {item.type === 'image' ? (
+                  <img
+                    src={`${process.env.REACT_APP_BACKEND_URL}${item.url}`}
+                    alt={`Post media ${index + 1}`}
+                    className="w-full h-full object-cover aspect-video"
+                  />
+                ) : (
+                  <video
+                    src={`${process.env.REACT_APP_BACKEND_URL}${item.url}`}
+                    controls
+                    className="w-full h-full object-cover aspect-video"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Link Preview (Phase 8.1) */}
+        {localPost.link_meta && (
+          <a
+            href={localPost.link_meta.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 block border border-gray-700 rounded-lg overflow-hidden hover:border-yellow-500 transition-colors"
+          >
+            {localPost.link_meta.image && (
+              <div className="w-full aspect-[2/1] bg-gray-900">
+                <img
+                  src={localPost.link_meta.image}
+                  alt={localPost.link_meta.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+            <div className="p-3 bg-gray-900">
+              <p className="text-xs text-gray-400 mb-1">{localPost.link_meta.site}</p>
+              <p className="text-sm font-semibold text-white mb-1 line-clamp-2">
+                {localPost.link_meta.title}
+              </p>
+              {localPost.link_meta.description && (
+                <p className="text-xs text-gray-400 line-clamp-2">
+                  {localPost.link_meta.description}
+                </p>
+              )}
+            </div>
+          </a>
+        )}
+
+        {/* Legacy media_url support (Phase 8.0 backwards compatibility) */}
+        {!localPost.media && localPost.media_url && (
           <div className="mt-3 rounded-lg overflow-hidden">
             <img
               src={localPost.media_url}
