@@ -6910,3 +6910,89 @@ Register the BANIBS Gold Spark emoji pack with premium UI treatment
 ### Status
 **✅ PHASE 1.1 COMPLETE** - All features functional, preview bug fixed, ready for production
 
+
+---
+
+## 🐛 CRITICAL BUG FIX - Emoji Picker Not Showing Skin Tones
+
+### Issue Report (User Testing)
+**Problem**: Emoji picker was showing all yellow/default emojis despite user having `emoji_identity.skinTone` set
+- BANIBS Standard: All emojis appeared yellow
+- BANIBS Gold Spark: All emojis appeared yellow/orange
+- Standard Yellow: Pack appeared empty
+
+### Root Cause Analysis
+
+**Bug #1: Missing `supportsSkinTone` Field**
+- Location: `/app/frontend/src/utils/emojiSystem.js` - `normalizeManifest()` function
+- Issue: The function was NOT preserving the `supportsSkinTone` field from manifest JSON
+- Impact: All emojis defaulted to `supportsSkinTone: false`, preventing tone application
+- Fix: Added `supportsSkinTone: raw.supportsSkinTone || false` to unicode emoji definition
+
+**Bug #2: Old Manifest Format Not Handled**
+- Location: Same `normalizeManifest()` function
+- Issue: `base_yellow` pack uses nested `categories` format, not flat `emojis` array
+- Impact: Standard Yellow pack appeared empty (0 emojis loaded)
+- Fix: Added fallback logic to handle both formats:
+  - New format: Flat `emojis` array with full definitions
+  - Old format: Nested `categories` with emoji char arrays
+
+### Code Fix
+
+```javascript
+function normalizeManifest(manifest) {
+  // ... existing code ...
+  
+  // Handle both formats
+  if (emojis.length > 0) {
+    // New format with supportsSkinTone preserved
+    const unicodeDef = {
+      type: 'unicode',
+      // ... other fields ...
+      supportsSkinTone: raw.supportsSkinTone || false, // FIX #1
+    };
+  } else if (categories.length > 0) {
+    // Old format conversion  // FIX #2
+    categories.forEach((cat) => {
+      categoryEmojis.forEach((emojiChar, idx) => {
+        normalizedEmojis.push({
+          type: 'unicode',
+          id: `${id}_${categoryId}_${idx}`,
+          char: emojiChar,
+          category: categoryId,
+          supportsSkinTone: false,
+        });
+      });
+    });
+  }
+}
+```
+
+### Testing Results (Post-Fix)
+
+**✅ BANIBS Standard Pack**
+- Emojis: 👍🏾, 👎🏾, 👏🏾, 🙌🏾, 🙏🏾, ✊🏾, 👊🏾, 👋🏾, 👌🏾, ✌🏾, 💪🏾
+- All hand emojis show tone4 (medium-dark) ✓
+- Face emojis remain yellow (no tone support) ✓
+- Hearts/symbols unchanged ✓
+
+**✅ BANIBS Gold Spark Pack**
+- Hand emojis: 👏🏾, 🙌🏾, 👍🏾, ✊🏾, 💪🏾, ✌🏾 (all with tone4) ✓
+- Premium emojis (stars, trophies) unchanged ✓
+- Pack switching works correctly ✓
+
+**✅ Standard Yellow Pack**
+- Loads 100+ emojis from nested categories ✓
+- All classic yellow emojis visible ✓
+- No more empty state ✓
+
+### Verification
+
+**Picker Display**: ✅ Shows user's tone in all BANIBS packs
+**Pack Switching**: ✅ All 3 packs load and display correctly
+**Tone Application**: ✅ Only emojis with `supportsSkinTone: true` get toned
+**Non-Tone Emojis**: ✅ Hearts, fire, symbols render without modification
+
+### Status
+**✅ BUGS FIXED** - All emoji packs now functional with proper tone application
+
