@@ -5,13 +5,17 @@ import { useTheme } from '../../contexts/ThemeContext';
 
 const MarketplacePortal = () => {
   const location = useLocation();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   const isActive = (path) => {
     return location.pathname === path || location.pathname.startsWith(path + '/');
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'rgb(10, 10, 12)' }}>
+    <div className="min-h-screen" style={{ 
+      backgroundColor: isDark ? 'rgb(10, 10, 12)' : 'rgb(249, 250, 251)' 
+    }}>
       <GlobalNavBar />
       {/* Marketplace Hero */}
       <div className="bg-gradient-to-br from-amber-900/30 to-gray-900 py-20">
