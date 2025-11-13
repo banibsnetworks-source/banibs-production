@@ -21,6 +21,8 @@ function ResourcesPage() {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
