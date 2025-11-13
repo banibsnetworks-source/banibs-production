@@ -139,8 +139,12 @@ const SocialPostComposer = ({ onPostCreated }) => {
       {/* Media Composer Modal */}
       <MediaComposerModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => {
+          setIsModalOpen(false);
+          setInitialEmoji('');
+        }}
         onSubmit={handleSubmit}
+        initialText={initialEmoji}
       />
     </>
   );
