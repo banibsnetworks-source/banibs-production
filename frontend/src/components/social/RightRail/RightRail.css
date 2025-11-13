@@ -60,14 +60,14 @@
 
 .right-rail-section-link {
   font-size: 13px;
-  color: var(--accent-gold);
+  color: var(--text-secondary);
   text-decoration: none;
   cursor: pointer;
   transition: color 150ms ease;
 }
 
 .right-rail-section-link:hover {
-  opacity: 0.8;
+  color: var(--text-primary);
 }
 
 /* Card */
