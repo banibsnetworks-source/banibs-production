@@ -193,8 +193,17 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
                 <div style={{ position: 'absolute', bottom: '100%', left: 0, marginBottom: '8px', zIndex: 1000 }}>
                   <EmojiPicker
                     onSelect={(emoji) => {
+                      // Apply user's skin tone for unicode emojis
+                      let emojiChar = '';
+                      if (emoji.type === 'unicode') {
+                        const userSkinTone = user?.emoji_identity?.skinTone || 'tone4';
+                        const supportsSkinTone = emoji.supportsSkinTone !== undefined ? emoji.supportsSkinTone : false;
+                        emojiChar = supportsSkinTone 
+                          ? applySkinTone(emoji.char, userSkinTone, true)
+                          : emoji.char;
+                      }
+                      
                       // Insert emoji at cursor position
-                      const emojiChar = emoji.type === 'unicode' ? emoji.char : '';
                       const textarea = textareaRef.current;
                       if (textarea && emojiChar) {
                         const start = textarea.selectionStart;
