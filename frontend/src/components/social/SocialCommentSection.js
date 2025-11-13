@@ -196,7 +196,16 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
                 <div style={{ position: 'absolute', bottom: '100%', right: 0, marginBottom: '8px', zIndex: 1000 }}>
                   <EmojiPicker
                     onSelect={(emoji) => {
-                      const emojiChar = emoji.type === 'unicode' ? emoji.char : '';
+                      // Apply user's skin tone for unicode emojis
+                      let emojiChar = '';
+                      if (emoji.type === 'unicode') {
+                        const userSkinTone = user?.emoji_identity?.skinTone || 'tone4';
+                        const supportsSkinTone = emoji.supportsSkinTone !== undefined ? emoji.supportsSkinTone : false;
+                        emojiChar = supportsSkinTone 
+                          ? applySkinTone(emoji.char, userSkinTone, true)
+                          : emoji.char;
+                      }
+                      
                       const input = inputRef.current;
                       if (input && emojiChar) {
                         const start = input.selectionStart || 0;
