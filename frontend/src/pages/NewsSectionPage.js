@@ -179,7 +179,7 @@ const NewsSectionPage = () => {
             {/* Featured Stories Grid */}
             {featured && featured.length > 0 && page === 1 && (
               <div>
-                <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
+                <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center">
                   <span>Featured in {label}</span>
                   <div className="h-1 flex-1 bg-gradient-to-r from-yellow-500 to-transparent ml-4 rounded-full"></div>
                 </h2>
@@ -198,8 +198,8 @@ const NewsSectionPage = () => {
 
             {/* Empty State */}
             {(!items || items.length === 0) && (
-              <div className="bg-gray-800 rounded-lg p-12 text-center">
-                <p className="text-gray-400 text-lg mb-4">
+              <div className="bg-card rounded-lg p-12 text-center border border-border">
+                <p className="text-muted-foreground text-lg mb-4">
                   No stories available in this section at the moment.
                 </p>
                 <Link
