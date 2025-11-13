@@ -185,3 +185,26 @@ code {
   border-color: var(--border-subtle);
 }
 
+
+/* Emoji Rendering in Posts and Comments */
+.social-post-content,
+.comment-text {
+  /* Make emojis larger than text for better visibility */
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.social-post-content img.emoji,
+.comment-text img.emoji {
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+/* For native emoji characters, increase size */
+.emoji-char {
+  font-size: 1.4em;
+  line-height: 1;
+  vertical-align: middle;
+}
