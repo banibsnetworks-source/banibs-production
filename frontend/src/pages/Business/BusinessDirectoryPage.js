@@ -220,13 +220,15 @@ function BusinessDirectoryPage() {
         {user && (
           <div className="mb-8">
             <div style={{
-              background: 'rgba(10, 10, 12, 0.85)',
+              background: isDark ? 'rgba(10, 10, 12, 0.85)' : 'rgba(255, 255, 255, 0.9)',
               backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(255, 255, 255, 0.08)',
+              border: `1px solid ${isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`,
               borderRadius: '16px',
               padding: '24px'
             }}>
-              <h2 className="text-xl font-bold text-white mb-4">
+              <h2 className="text-xl font-bold mb-4" style={{
+                color: isDark ? 'white' : 'rgb(17, 24, 39)'
+              }}>
                 {hasBusinessProfile ? 'Business Owner Tools' : 'Start Your Business Journey'}
               </h2>
               
