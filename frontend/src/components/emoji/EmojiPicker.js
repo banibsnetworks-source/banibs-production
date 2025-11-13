@@ -23,6 +23,16 @@ const EmojiPicker = ({ onEmojiSelect, onClose, position = 'bottom' }) => {
   useEffect(() => {
     loadPacks();
   }, []);
+  
+  // Set default to BANIBS standard pack when component mounts
+  useEffect(() => {
+    if (packs.length > 0 && !activePack) {
+      const banibsStandard = packs.find(p => p.id === 'banibs_standard');
+      if (banibsStandard) {
+        setActivePack('banibs_standard');
+      }
+    }
+  }, [packs]);
 
   // Close picker when clicking outside
   useEffect(() => {
