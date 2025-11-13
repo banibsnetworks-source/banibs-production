@@ -12,12 +12,7 @@ const SocialPostComposer = ({ onPostCreated }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!text.trim() || isSubmitting) return;
-    
-    setIsSubmitting(true);
+  const handleSubmit = async (postData) => {
     setError(null);
     
     try {
@@ -31,9 +26,7 @@ const SocialPostComposer = ({ onPostCreated }) => {
           'Authorization': `Bearer ${token}`
         },
         credentials: 'include',
-        body: JSON.stringify({
-          text: text.trim()
-        })
+        body: JSON.stringify(postData)
       });
       
       if (!response.ok) {
@@ -41,7 +34,6 @@ const SocialPostComposer = ({ onPostCreated }) => {
       }
       
       const newPost = await response.json();
-      setText('');
       
       if (onPostCreated) {
         onPostCreated(newPost);
@@ -49,13 +41,9 @@ const SocialPostComposer = ({ onPostCreated }) => {
     } catch (err) {
       console.error('Error creating post:', err);
       setError('Failed to create post. Please try again.');
-    } finally {
-      setIsSubmitting(false);
+      throw err;
     }
   };
-
-  const maxChars = 1000;
-  const remaining = maxChars - text.length;
 
   return (
     <div className="bg-gray-800 rounded-xl border border-gray-700 p-4">
