@@ -10,20 +10,31 @@ const MarketplacePortal = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen" style={{ backgroundColor: 'rgb(10, 10, 12)' }}>
       <GlobalNavBar />
-      {/* Marketplace Header */}
-      <div className="bg-gradient-to-r from-amber-600 to-amber-700 text-white">
-        <div className="container mx-auto px-4 py-8">
-          <h1 className="text-4xl font-bold mb-2">BANIBS Marketplace</h1>
-          <p className="text-amber-100 text-lg">
+      {/* Marketplace Hero */}
+      <div className="bg-gradient-to-br from-amber-900/30 to-gray-900 py-20">
+        <div className="container mx-auto px-4 text-center">
+          <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full mb-6" style={{
+            background: 'rgb(232, 182, 87)'
+          }}>
+            <span className="text-black font-bold">🛍️ MARKETPLACE</span>
+          </div>
+          <h1 className="text-5xl font-bold text-white mb-4">
+            BANIBS Marketplace
+          </h1>
+          <p className="text-xl text-gray-300 mb-8">
             Connect, Trade, and Grow Within the Black Community
           </p>
         </div>
       </div>
 
       {/* Marketplace Navigation Tabs */}
-      <div className="bg-white border-b border-gray-200 sticky top-14 z-40">
+      <div className="sticky top-14 z-40" style={{
+        background: 'rgba(10, 10, 12, 0.95)',
+        backdropFilter: 'blur(12px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
+      }}>
         <div className="container mx-auto px-4">
           <nav className="flex space-x-8 overflow-x-auto">
             <Link
