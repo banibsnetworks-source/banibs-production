@@ -44,7 +44,9 @@ const NewsHeroSection = ({ story }) => {
   };
 
   return (
-    <div className="bg-card rounded-xl overflow-hidden shadow-xl border border-border hover:border-yellow-500/30 transition-all duration-300 group">
+    <div className={`rounded-xl overflow-hidden shadow-xl border transition-all duration-300 group hover:border-yellow-500/30 ${
+      isDark ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'
+    }`}>
       <div className="grid lg:grid-cols-2 gap-0">
         {/* Image Section */}
         <div
