@@ -32,11 +32,15 @@ export default function EmojiPicker({
   showHeader = true,
   className = '',
 }) {
+  const { user } = useAuth();
   const [allPacks, setAllPacks] = useState([]);
   const [defaultPack, setDefaultPack] = useState(null);
   const [activePackId, setActivePackId] = useState(null);
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
+
+  // Get user's emoji identity (default to tone4 for BANIBS)
+  const userSkinTone = user?.emoji_identity?.skinTone || 'tone4';
 
   // Load packs on mount
   useEffect(() => {
