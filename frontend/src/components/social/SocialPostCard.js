@@ -5,6 +5,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import SocialCommentSection from './SocialCommentSection';
 import ReportPostModal from './ReportPostModal';
 import { ProfileAvatar } from './ProfileAvatar';
+import HighFiveButton from '../emoji/HighFiveButton';
 
 /**
  * SocialPostCard - Phase 8.3
