@@ -31,16 +31,6 @@ const EmojiPicker = ({ onEmojiSelect, onClose, position = 'bottom' }) => {
   useEffect(() => {
     loadPacks();
   }, []);
-  
-  // Set default to BANIBS standard pack when component mounts
-  useEffect(() => {
-    if (packs.length > 0 && !activePack) {
-      const banibsStandard = packs.find(p => p.id === 'banibs_standard');
-      if (banibsStandard) {
-        setActivePack('banibs_standard');
-      }
-    }
-  }, [packs]);
 
   // Close picker when clicking outside
   useEffect(() => {
@@ -62,18 +52,26 @@ const EmojiPicker = ({ onEmojiSelect, onClose, position = 'bottom' }) => {
       const availablePacks = loadedPacks.filter(pack => 
         canAccessPack(pack.id, userTier)
       );
-      // Sort packs to put BANIBS standard first
+      
+      // Sort packs: BANIBS standard first (our brand identity)
       const sortedPacks = availablePacks.sort((a, b) => {
-        if (a.id === 'banibs_standard') return -1;
-        if (b.id === 'banibs_standard') return 1;
+        if (a.id === DEFAULT_EMOJI_PACK_ID) return -1;
+        if (b.id === DEFAULT_EMOJI_PACK_ID) return 1;
         return 0;
       });
+      
       setPacks(sortedPacks);
       
-      // Set default pack to BANIBS standard (our featured pack)
-      const defaultPack = sortedPacks.find(p => p.id === 'banibs_standard') || sortedPacks[0];
+      // Set default pack to BANIBS standard
+      const defaultPack = sortedPacks.find(p => p.id === DEFAULT_EMOJI_PACK_ID) || sortedPacks[0];
       if (defaultPack) {
         setActivePack(defaultPack.id);
+        // Set first category as active
+        const grouped = groupEmojisByCategory(defaultPack);
+        const categories = Object.keys(grouped);
+        if (categories.length > 0) {
+          setActiveCategory(categories[0]);
+        }
       }
     } catch (error) {
       console.error('Failed to load emoji packs:', error);
@@ -87,11 +85,22 @@ const EmojiPicker = ({ onEmojiSelect, onClose, position = 'bottom' }) => {
   };
 
   const handleEmojiClick = (emoji) => {
-    onEmojiSelect(emoji);
+    const rendered = renderEmoji(emoji);
+    onEmojiSelect(rendered);
   };
 
   const currentPack = getCurrentPack();
-  const currentCategory = currentPack?.categories?.[activeCategory];
+  const groupedEmojis = currentPack ? groupEmojisByCategory(currentPack) : {};
+  const categories = Object.keys(groupedEmojis);
+  
+  // Set initial category if not set
+  useEffect(() => {
+    if (categories.length > 0 && !activeCategory) {
+      setActiveCategory(categories[0]);
+    }
+  }, [categories, activeCategory]);
+  
+  const currentCategoryData = activeCategory ? groupedEmojis[activeCategory] : null;
 
   if (loading) {
     return (
