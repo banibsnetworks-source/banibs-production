@@ -1,14 +1,17 @@
 import React from 'react';
 import GlobalNavBar from '../../components/GlobalNavBar';
 import SEO from '../../components/SEO';
-import { Briefcase, Users, TrendingUp, Search } from 'lucide-react';
+import { Briefcase, Users, TrendingUp, Search, Building2, MessageSquare } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 /**
  * BusinessPortal - Phase 8.2
- * BANIBS Business Portal landing page
+ * BANIBS Business Portal landing page with business owner tools
  */
 const BusinessPortal = () => {
+  const { user } = useAuth();
+
   return (
     <div className="min-h-screen bg-gray-950">
       <SEO
@@ -29,8 +32,37 @@ const BusinessPortal = () => {
         </div>
       </div>
 
+      {/* Business Owner Tools - Show if user is logged in */}
+      {user && (
+        <div className="container mx-auto px-4 pb-8">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-2xl font-bold text-white mb-4">Business Owner Tools</h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              <Link
+                to="/portal/business/profile/edit"
+                className="bg-yellow-900/20 border-2 border-yellow-500/50 rounded-xl p-6 text-center hover:bg-yellow-900/30 hover:border-yellow-500 transition-all"
+              >
+                <Building2 className="mx-auto mb-3 text-yellow-400" size={40} />
+                <h3 className="text-lg font-bold text-white mb-2">Manage My Business</h3>
+                <p className="text-gray-300 text-sm">Create or edit your business profile, branding, and services</p>
+              </Link>
+
+              <Link
+                to="/portal/business/board"
+                className="bg-green-900/20 border-2 border-green-500/50 rounded-xl p-6 text-center hover:bg-green-900/30 hover:border-green-500 transition-all"
+              >
+                <MessageSquare className="mx-auto mb-3 text-green-400" size={40} />
+                <h3 className="text-lg font-bold text-white mb-2">Business Board</h3>
+                <p className="text-gray-300 text-sm">Post opportunities and connect with other businesses</p>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Quick Links */}
       <div className="container mx-auto px-4 py-12">
+        <h2 className="text-2xl font-bold text-white mb-6 max-w-5xl mx-auto">Explore</h2>
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           <Link
             to="/business-directory"
