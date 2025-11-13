@@ -6361,3 +6361,47 @@ hover:bg-muted     /* Hover states */
 | Visual Style | Standalone blue bar | Integrated design element |
 
 **Status**: ✅ **COMPLETE** - Navigation bar is now professional, cohesive, and responsive
+
+---
+
+## News Category Bar Theme Fix - November 13, 2025
+
+### Issue Fixed
+**Problem**: The news category navigation bar (with tabs like Top Stories, World, Politics, etc.) was staying dark even when users switched to light mode.
+
+### Solution Implemented
+
+**Component Updated**: `NewsNavigationBar.js`
+
+**Changes Made:**
+1. Imported `useTheme` hook to access current theme
+2. Replaced hardcoded colors with theme-aware classes:
+   - `bg-gray-900` → `bg-card/95` (with backdrop blur)
+   - `border-gray-800` → `border-border`
+   - `text-gray-300` → `text-foreground`
+   - Scroll arrows now use conditional gradients based on theme
+3. Updated sticky positioning from `top-14` to `top-16` to align with new main nav height
+4. Improved visual consistency with main navigation bar
+
+**Before vs After:**
+
+| Aspect | Before | After |
+|--------|--------|-------|
+| Background | Always dark gray | Theme-responsive (white in light, dark in dark) |
+| Text Color | Gray text | Theme-aware foreground colors |
+| Active Tab | Yellow on gray | Yellow on any theme |
+| Scroll Arrows | Dark gradient | Theme-aware gradients |
+
+### Visual Improvements
+- Added glassmorphism effect (`backdrop-blur-md`) matching main nav
+- Updated border radius from `rounded-md` to `rounded-lg`
+- Better hover states with `hover:bg-muted`
+- Proper positioning to sit flush below main nav bar
+
+### Testing Results
+✅ **Light Mode**: Category bar is now white with dark text - fully readable
+✅ **Dark Mode**: Category bar is dark with light text - maintains dark theme
+✅ **Active States**: Yellow highlight works in both themes
+✅ **Responsive**: Scroll arrows adapt to theme colors
+
+**Status**: ✅ **COMPLETE** - News category bar now fully theme-responsive
