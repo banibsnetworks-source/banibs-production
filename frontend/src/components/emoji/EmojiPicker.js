@@ -123,7 +123,7 @@ const EmojiPicker = ({ onEmojiSelect, onClose, position = 'bottom' }) => {
       <div className="emoji-picker-header">
         <div className="emoji-picker-title">
           <Smile size={18} />
-          <span>{currentPack.title}</span>
+          <span>{currentPack.label || currentPack.title}</span>
         </div>
         <button onClick={onClose} className="emoji-picker-close">
           <X size={18} />
@@ -149,10 +149,12 @@ const EmojiPicker = ({ onEmojiSelect, onClose, position = 'bottom' }) => {
               key={pack.id}
               onClick={() => {
                 setActivePack(pack.id);
-                setActiveCategory(0);
+                const grouped = groupEmojisByCategory(pack);
+                const cats = Object.keys(grouped);
+                setActiveCategory(cats[0] || null);
               }}
               className={`pack-tab ${activePack === pack.id ? 'active' : ''}`}
-              title={pack.title}
+              title={pack.label || pack.title}
             >
               {pack.featured && <span className="pack-badge">⭐</span>}
               {pack.id === 'base_yellow' && '😊'}
@@ -164,33 +166,39 @@ const EmojiPicker = ({ onEmojiSelect, onClose, position = 'bottom' }) => {
       )}
 
       {/* Category Tabs */}
-      {currentPack.categories && (
+      {categories.length > 0 && (
         <div className="emoji-picker-categories">
-          {currentPack.categories.map((category, index) => (
-            <button
-              key={category.id}
-              onClick={() => setActiveCategory(index)}
-              className={`category-tab ${activeCategory === index ? 'active' : ''}`}
-              title={category.name}
-            >
-              {category.icon}
-            </button>
-          ))}
+          {categories.map((categoryId) => {
+            const catData = groupedEmojis[categoryId];
+            return (
+              <button
+                key={categoryId}
+                onClick={() => setActiveCategory(categoryId)}
+                className={`category-tab ${activeCategory === categoryId ? 'active' : ''}`}
+                title={catData.name}
+              >
+                {catData.icon}
+              </button>
+            );
+          })}
         </div>
       )}
 
       {/* Emoji Grid */}
       <div className="emoji-picker-grid">
-        {currentCategory?.emojis?.map((emoji, index) => (
-          <button
-            key={`${emoji}-${index}`}
-            className="emoji-item"
-            onClick={() => handleEmojiClick(emoji)}
-            title={emoji}
-          >
-            {emoji}
-          </button>
-        )) || (
+        {currentCategoryData?.emojis?.map((emoji, index) => {
+          const rendered = renderEmoji(emoji);
+          return (
+            <button
+              key={`${index}-${typeof emoji === 'string' ? emoji : emoji.id}`}
+              className="emoji-item"
+              onClick={() => handleEmojiClick(emoji)}
+              title={typeof emoji === 'string' ? emoji : emoji.shortcodes?.[0] || ''}
+            >
+              {rendered}
+            </button>
+          );
+        }) || (
           <div className="emoji-picker-empty">
             No emojis in this category
           </div>
@@ -199,9 +207,9 @@ const EmojiPicker = ({ onEmojiSelect, onClose, position = 'bottom' }) => {
 
       {/* Footer */}
       <div className="emoji-picker-footer">
-        {currentCategory?.note && (
-          <span className="category-note">{currentCategory.note}</span>
-        )}
+        <span className="category-note">
+          {currentCategoryData?.name || 'BANIBS Emojis'}
+        </span>
       </div>
     </div>
   );
