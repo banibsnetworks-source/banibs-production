@@ -139,6 +139,7 @@ class UserUpdate(BaseModel):
     bio: Optional[str] = None
     avatar_url: Optional[str] = None
     preferred_portal: Optional[str] = None  # Phase 8.1
+    emoji_identity: Optional[Dict[str, Any]] = None  # Phase 10.0
 
 
 class PasswordResetRequest(BaseModel):
