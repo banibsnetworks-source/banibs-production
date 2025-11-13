@@ -14,9 +14,12 @@ const SocialFeed = ({ newPost }) => {
   const [hasMore, setHasMore] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-  // Load initial feed
+  // Load initial feed with small delay to ensure auth is ready
   useEffect(() => {
-    loadFeed();
+    const timer = setTimeout(() => {
+      loadFeed();
+    }, 100);
+    return () => clearTimeout(timer);
   }, []);
 
   // Add new post to top of feed
