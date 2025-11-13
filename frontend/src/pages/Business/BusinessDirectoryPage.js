@@ -438,6 +438,7 @@ function BusinessDirectoryPage() {
             ))}
           </div>
         )}
+        </div>
       </div>
     </div>
   );
