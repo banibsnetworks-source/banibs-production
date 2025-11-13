@@ -171,6 +171,9 @@ function App() {
               {/* Base business portal route */}
               <Route path="/portal/business" element={<BusinessPortal />} />
               
+              {/* High Five Demo */}
+              <Route path="/test/highfive" element={<HighFiveDemo />} />
+              
               <Route path="/portal/marketplace/*" element={<MarketplacePortal />} />
               <Route path="/portal/tv" element={<TVPortal />} />
               <Route path="/portal/search" element={<SearchPortal />} />
