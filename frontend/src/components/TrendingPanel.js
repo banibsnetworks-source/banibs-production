@@ -20,19 +20,19 @@ const TrendingPanel = ({ trending, title, compact }) => {
   };
 
   return (
-    <div className="rounded-xl border border-gray-700 bg-gray-800/60 backdrop-blur-md px-4 py-4 shadow-lg">
+    <div className="rounded-xl border border-border bg-card backdrop-blur-md px-4 py-4 shadow-lg">
       {/* Header */}
       <header className="flex items-center justify-between mb-3">
         <div className="flex items-center space-x-2">
           <div className="flex items-center justify-center w-6 h-6 rounded-full bg-red-500/20">
             <TrendingUp className="text-red-400" size={14} />
           </div>
-          <h2 className="text-xs font-bold tracking-wide text-white uppercase">
+          <h2 className="text-xs font-bold tracking-wide text-card-foreground uppercase">
             {headerTitle}
           </h2>
         </div>
         {trending.updated_at && (
-          <span className="text-[10px] text-gray-500">
+          <span className="text-[10px] text-muted-foreground">
             Updated recently
           </span>
         )}
@@ -55,7 +55,7 @@ const TrendingPanel = ({ trending, title, compact }) => {
               {/* Content */}
               <div className="flex-1 min-w-0">
                 {/* Title */}
-                <p className="text-sm font-semibold leading-snug text-white group-hover:text-yellow-400 transition-colors line-clamp-2 mb-1">
+                <p className="text-sm font-semibold leading-snug text-card-foreground group-hover:text-yellow-400 transition-colors line-clamp-2 mb-1">
                   {item.title}
                 </p>
 
@@ -63,7 +63,7 @@ const TrendingPanel = ({ trending, title, compact }) => {
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center space-x-2">
                     {item.category && (
-                      <span className="text-[10px] uppercase tracking-wide text-gray-500 font-medium">
+                      <span className="text-[10px] uppercase tracking-wide text-muted-foreground font-medium">
                         {item.category}
                       </span>
                     )}
@@ -79,7 +79,7 @@ const TrendingPanel = ({ trending, title, compact }) => {
                   {/* Trending Score */}
                   {typeof item.trending_score === 'number' && (
                     <div className="flex items-center space-x-1">
-                      <span className="text-[10px] text-gray-400">
+                      <span className="text-[10px] text-muted-foreground">
                         {(item.trending_score * 100).toFixed(0)}%
                       </span>
                       <TrendingUp size={10} className="text-red-400" />
@@ -93,7 +93,7 @@ const TrendingPanel = ({ trending, title, compact }) => {
       </ul>
 
       {/* View All Link */}
-      <div className="mt-3 pt-3 border-t border-gray-700">
+      <div className="mt-3 pt-3 border-t border-border">
         <button
           onClick={() => window.location.href = '/'}
           className="text-xs font-semibold text-yellow-400 hover:text-yellow-300 transition-colors flex items-center space-x-1"
