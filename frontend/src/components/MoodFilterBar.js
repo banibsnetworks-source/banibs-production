@@ -38,17 +38,17 @@ const MoodFilterBar = ({ activeMood, onMoodChange, itemCount }) => {
   };
 
   return (
-    <div className="bg-gray-900/50 backdrop-blur-md rounded-xl border border-gray-800 p-4 mb-6">
+    <div className="bg-card/60 backdrop-blur-md rounded-xl border border-border p-4 mb-6 shadow-sm">
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
             <span className="text-lg">🎭</span>
           </div>
-          <h3 className="text-white font-bold text-sm">Filter by Mood</h3>
+          <h3 className="text-foreground font-bold text-sm">Filter by Mood</h3>
         </div>
         {itemCount !== undefined && (
-          <span className="text-xs text-gray-400">
+          <span className="text-xs text-muted-foreground">
             {itemCount} {itemCount === 1 ? 'story' : 'stories'}
           </span>
         )}
@@ -70,8 +70,8 @@ const MoodFilterBar = ({ activeMood, onMoodChange, itemCount }) => {
 
       {/* Helper Text */}
       {activeMood !== 'all' && (
-        <div className="mt-3 pt-3 border-t border-gray-800">
-          <p className="text-xs text-gray-400 flex items-center space-x-2">
+        <div className="mt-3 pt-3 border-t border-border">
+          <p className="text-xs text-muted-foreground flex items-center space-x-2">
             <RefreshCw size={12} />
             <span>
               Showing {activeMood} stories only. Click "All Stories" to see everything.
