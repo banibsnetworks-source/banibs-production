@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Smile, Search, X } from 'lucide-react';
-import { loadEmojiPacks, getUserEmojiPacks, canAccessPack } from '../../utils/emojiSystem';
+import { 
+  loadEmojiPacks, 
+  getUserEmojiPacks, 
+  canAccessPack,
+  groupEmojisByCategory,
+  renderEmoji,
+  DEFAULT_EMOJI_PACK_ID
+} from '../../utils/emojiSystem';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import './EmojiPicker.css';
@@ -8,14 +15,15 @@ import './EmojiPicker.css';
 /**
  * BANIBS Emoji Picker Component
  * Supports multiple emoji packs with tier-based access
+ * Phase 1: Unicode emojis | Phase 2: Image-based emojis
  */
 const EmojiPicker = ({ onEmojiSelect, onClose, position = 'bottom' }) => {
   const { user } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const [packs, setPacks] = useState([]);
-  const [activePack, setActivePack] = useState('banibs_standard');
-  const [activeCategory, setActiveCategory] = useState(0);
+  const [activePack, setActivePack] = useState(DEFAULT_EMOJI_PACK_ID);
+  const [activeCategory, setActiveCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const pickerRef = useRef(null);
