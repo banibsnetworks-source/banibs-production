@@ -29,17 +29,14 @@ const SocialProfilePublicPage = () => {
           { credentials: 'include' }
         );
         
-        // Clone response BEFORE any operation to avoid "body already used" error
-        const clonedResponse = response.clone();
-        
-        if (!clonedResponse.ok) {
-          if (clonedResponse.status === 404) {
+        if (!response.ok) {
+          if (response.status === 404) {
             throw new Error('Profile not found');
           }
           throw new Error('Failed to load profile');
         }
         
-        const data = await clonedResponse.json();
+        const data = await response.json();
         setProfile(data);
       } catch (err) {
         console.error('Error loading profile:', err);
