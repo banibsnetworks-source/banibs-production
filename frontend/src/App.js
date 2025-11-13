@@ -78,6 +78,8 @@ import BusinessProfileEdit from "./pages/business/BusinessProfileEdit";
 import BusinessProfilePublic from "./pages/business/BusinessProfilePublic";
 // Phase 8.3 - Business Board
 import BusinessBoardPage from "./pages/business/BusinessBoardPage";
+// High Five Emoji System
+import HighFiveDemo from "./pages/test/HighFiveDemo";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
