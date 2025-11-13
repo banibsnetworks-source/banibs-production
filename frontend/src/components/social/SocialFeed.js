@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { RefreshCw, Loader, AlertCircle } from 'lucide-react';
+import { RefreshCw, Loader, AlertCircle, LogIn } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import SocialPostCard from './SocialPostCard';
 
 /**
@@ -7,9 +8,11 @@ import SocialPostCard from './SocialPostCard';
  * Main feed component that displays paginated social posts
  */
 const SocialFeed = ({ newPost }) => {
+  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isSessionExpired, setIsSessionExpired] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
