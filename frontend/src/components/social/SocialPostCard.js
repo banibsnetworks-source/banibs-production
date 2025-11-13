@@ -289,10 +289,10 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
             href={localPost.link_meta.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 block border border-gray-700 rounded-lg overflow-hidden hover:border-yellow-500 transition-colors"
+            className="mt-3 block border border-border rounded-lg overflow-hidden hover:border-yellow-500 transition-colors"
           >
             {localPost.link_meta.image && (
-              <div className="w-full aspect-[2/1] bg-gray-900">
+              <div className="w-full aspect-[2/1] bg-muted">
                 <img
                   src={localPost.link_meta.image}
                   alt={localPost.link_meta.title}
@@ -300,13 +300,13 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
                 />
               </div>
             )}
-            <div className="p-3 bg-gray-900">
-              <p className="text-xs text-gray-400 mb-1">{localPost.link_meta.site}</p>
-              <p className="text-sm font-semibold text-white mb-1 line-clamp-2">
+            <div className="p-3 bg-muted">
+              <p className="text-xs text-muted-foreground mb-1">{localPost.link_meta.site}</p>
+              <p className="text-sm font-semibold text-card-foreground mb-1 line-clamp-2">
                 {localPost.link_meta.title}
               </p>
               {localPost.link_meta.description && (
-                <p className="text-xs text-gray-400 line-clamp-2">
+                <p className="text-xs text-muted-foreground line-clamp-2">
                   {localPost.link_meta.description}
                 </p>
               )}
