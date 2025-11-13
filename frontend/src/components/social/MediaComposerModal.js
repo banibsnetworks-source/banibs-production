@@ -171,6 +171,39 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit }) => {
             >
               <Link2 size={20} />
             </button>
+            <div className="relative">
+              <button
+                className="toolbar-btn"
+                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                title="Add Emoji"
+              >
+                <Smile size={20} />
+              </button>
+              {showEmojiPicker && (
+                <div style={{ position: 'absolute', bottom: '100%', left: 0, marginBottom: '8px' }}>
+                  <EmojiPicker
+                    onEmojiSelect={(emoji) => {
+                      // Insert emoji at cursor position
+                      const textarea = textareaRef.current;
+                      if (textarea) {
+                        const start = textarea.selectionStart;
+                        const end = textarea.selectionEnd;
+                        const newText = text.substring(0, start) + emoji + text.substring(end);
+                        setText(newText);
+                        // Set cursor after emoji
+                        setTimeout(() => {
+                          textarea.selectionStart = textarea.selectionEnd = start + emoji.length;
+                          textarea.focus();
+                        }, 0);
+                      }
+                      setShowEmojiPicker(false);
+                    }}
+                    onClose={() => setShowEmojiPicker(false)}
+                    position="bottom"
+                  />
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="toolbar-right">
