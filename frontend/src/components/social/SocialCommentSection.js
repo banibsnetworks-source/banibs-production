@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Send, Loader, Smile } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import EmojiPicker from '../emoji/EmojiPicker.jsx';
+import { applySkinTone } from '../../utils/emojiToneUtils';
 
 /**
  * SocialCommentSection - Phase 8.3 + Emoji Support
