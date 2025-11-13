@@ -10,8 +10,8 @@ from typing import Optional
 from db.connection import get_db
 
 
-async def create_business_profile(owner_user_id: str, name: str, **kwargs):
-    """Create a new business profile"""
+async def create_business_profile(owner_user_id: str, name: str, handle: str, **kwargs):
+    """Create a new business profile with unique handle"""
     db = await get_db()
     
     # Check if user already has a business profile
@@ -23,10 +23,20 @@ async def create_business_profile(owner_user_id: str, name: str, **kwargs):
     if existing:
         return None  # User already has a business profile
     
+    # Check if handle is already taken
+    handle_taken = await db.business_profiles.find_one(
+        {"handle": handle},
+        {"_id": 0}
+    )
+    
+    if handle_taken:
+        return None  # Handle already in use
+    
     profile = {
         "id": str(uuid.uuid4()),
         "owner_user_id": owner_user_id,
         "name": name,
+        "handle": handle,
         "tagline": kwargs.get("tagline"),
         "bio": kwargs.get("bio"),
         "logo": kwargs.get("logo"),
@@ -38,6 +48,7 @@ async def create_business_profile(owner_user_id: str, name: str, **kwargs):
         "location": kwargs.get("location"),
         "services": kwargs.get("services", []),
         "verified_status": False,
+        "is_active": True,
         "created_at": datetime.now(timezone.utc),
         "updated_at": datetime.now(timezone.utc)
     }
