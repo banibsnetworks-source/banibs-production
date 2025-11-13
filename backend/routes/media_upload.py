@@ -5,7 +5,7 @@ Handles image and video uploads for posts
 
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from pydantic import BaseModel
-from typing import Literal
+from typing import Literal, Optional
 
 from auth.jwt import get_current_user
 from utils.media_processing import process_post_image, process_post_video
