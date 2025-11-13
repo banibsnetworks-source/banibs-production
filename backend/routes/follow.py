@@ -9,7 +9,7 @@ from typing import Literal, Optional
 from models.follow import FollowCreate, FollowDelete, FollowStatus
 from db.follows import FollowsDB
 from db.connection import get_db
-from utils.auth import get_current_user
+from middleware.auth_guard import get_current_user
 
 
 api_router = APIRouter(prefix="/api/follow", tags=["follow"])
