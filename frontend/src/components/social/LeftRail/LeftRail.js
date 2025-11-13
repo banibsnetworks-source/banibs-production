@@ -185,6 +185,11 @@ const LeftRail = () => {
           ))}
         </div>
 
+        {/* Theme Toggle */}
+        <div style={{ padding: '12px 16px', borderTop: '1px solid var(--border-subtle)' }}>
+          <ThemeToggle showLabel={!isCollapsed} size="sm" />
+        </div>
+
         {/* Collapse Toggle */}
         <div className="collapse-toggle" onClick={toggleCollapse}>
           <div className="collapse-toggle-icon">
