@@ -113,7 +113,7 @@
 .user-strip-name {
   font-size: 15px;
   font-weight: 600;
-  color: #F9F9F9;
+  color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -121,7 +121,7 @@
 
 .user-strip-handle {
   font-size: 13px;
-  color: #E8B657;
+  color: var(--gold-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
