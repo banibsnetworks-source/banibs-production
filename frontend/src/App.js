@@ -163,6 +163,7 @@ function App() {
               
               {/* Phase 8.2 - Business Profile Routes (must come BEFORE /portal/business) */}
               <Route path="/portal/business/profile/edit" element={<BusinessProfileEdit />} />
+              <Route path="/portal/business/board" element={<BusinessBoardPage />} />
               <Route path="/portal/business/:businessId" element={<BusinessProfilePublic />} />
               
               {/* Base business portal route */}
