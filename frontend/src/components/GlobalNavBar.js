@@ -73,15 +73,15 @@ const GlobalNavBar = () => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-blue-900 to-blue-800 text-white shadow-lg sticky top-0 z-50">
+    <nav className="bg-card/95 backdrop-blur-md border-b border-border shadow-sm sticky top-0 z-50">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-14">
+        <div className="flex items-center justify-between h-16">
           {/* Logo and Tagline */}
-          <Link to="/" className="flex items-center space-x-3 hover:opacity-90 transition-opacity">
+          <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity group">
             <div className="flex items-center">
-              <span className="text-2xl font-bold tracking-tight text-white">BANIBS</span>
+              <span className="text-2xl font-bold tracking-tight text-foreground">BANIBS</span>
             </div>
-            <span className="hidden md:block text-xs text-blue-200 border-l border-blue-400 pl-3">
+            <span className="hidden md:block text-xs text-muted-foreground border-l border-border pl-3 transition-colors group-hover:text-foreground">
               Black America News Network
             </span>
           </Link>
@@ -93,11 +93,11 @@ const GlobalNavBar = () => {
                 key={link.path}
                 to={link.path}
                 className={`
-                  px-3 py-2 rounded-md text-sm font-medium transition-all duration-200
+                  px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
                   ${
                     isActive(link.path)
-                      ? 'bg-blue-700 text-yellow-400'
-                      : 'text-white hover:bg-blue-700 hover:text-yellow-300'
+                      ? 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20'
+                      : 'text-foreground hover:bg-muted'
                   }
                 `}
               >
@@ -112,16 +112,16 @@ const GlobalNavBar = () => {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-md text-white hover:bg-blue-700 transition-colors"
+              className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
               aria-label="Toggle theme"
               title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-            <div className="w-px h-6 bg-blue-700"></div>
+            <div className="w-px h-6 bg-border"></div>
             
             <MoodMeter />
-            <div className="w-px h-6 bg-blue-700"></div>
+            <div className="w-px h-6 bg-border"></div>
             
             {!isAuthenticated ? (
               /* Signed Out */
