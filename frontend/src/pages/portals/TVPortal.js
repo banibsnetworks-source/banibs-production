@@ -50,12 +50,12 @@ const TVPortal = () => {
       {/* Featured Content */}
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-white mb-6">Featured Now</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-6">Featured Now</h2>
           <BanibsTVCard />
 
           <div className="mt-12 text-center">
-            <div className="inline-block px-6 py-3 bg-gray-800/40 backdrop-blur-sm border border-gray-700 rounded-lg">
-              <p className="text-gray-400 text-sm">
+            <div className="inline-block px-6 py-3 bg-card/60 backdrop-blur-sm border border-border rounded-lg">
+              <p className="text-muted-foreground text-sm">
                 Full TV Portal with live streams, show library, and schedules coming soon.
               </p>
             </div>
