@@ -81,6 +81,7 @@ import BusinessBoardPage from "./pages/business/BusinessBoardPage";
 // High Five Emoji System
 import HighFiveDemo from "./pages/test/HighFiveDemo";
 import EmojiTestPage from "./pages/test/EmojiTestPage";
+import EmojiPickerDemo from "./pages/test/EmojiPickerDemo";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
