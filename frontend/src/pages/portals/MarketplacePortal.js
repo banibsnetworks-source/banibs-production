@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
+import GlobalNavBar from '../../components/GlobalNavBar';
 
 const MarketplacePortal = () => {
   const location = useLocation();
@@ -10,6 +11,7 @@ const MarketplacePortal = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <GlobalNavBar />
       {/* Marketplace Header */}
       <div className="bg-gradient-to-r from-amber-600 to-amber-700 text-white">
         <div className="container mx-auto px-4 py-8">
