@@ -5,7 +5,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://banibs-features.preview.emergentagent.com/sitemap.xml
+Sitemap: https://theme-harmony-2.preview.emergentagent.com/sitemap.xml
 
 # Disallow admin and auth pages
 Disallow: /admin/
