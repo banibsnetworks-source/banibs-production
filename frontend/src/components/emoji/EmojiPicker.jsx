@@ -41,16 +41,6 @@ export default function EmojiPicker({
 
   // Get user's emoji identity (default to tone4 for BANIBS)
   const userSkinTone = user?.emoji_identity?.skinTone || 'tone4';
-  
-  // Debug logging
-  useEffect(() => {
-    console.log('🎨 EmojiPicker Debug:', {
-      userSkinTone,
-      userIdentity: user?.emoji_identity,
-      packsLoaded: allPacks.length,
-      activePackId
-    });
-  }, [userSkinTone, user, allPacks, activePackId]);
 
   // Load packs on mount
   useEffect(() => {
