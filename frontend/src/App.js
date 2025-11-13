@@ -154,6 +154,7 @@ function App() {
               {/* Phase 9.0 - Social Profile Routes */}
               <Route path="/portal/social/profile" element={<SocialProfileEditPage />} />
               <Route path="/portal/social/u/:handle" element={<SocialProfilePublicPage />} />
+              <Route path="/portal/social/settings/display" element={<SocialSettingsDisplay />} />
               
               {/* Phase 7.6.3 - Section-Specific News Pages */}
               <Route path="/news/:section" element={<NewsSectionPage />} />
