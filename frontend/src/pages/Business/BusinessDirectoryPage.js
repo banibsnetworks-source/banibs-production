@@ -424,12 +424,7 @@ function BusinessDirectoryPage() {
             {businesses.map((business) => (
               <div
                 key={business.id}
-                className="rounded-2xl p-6 transition group"
-                style={{
-                  background: 'rgba(10, 10, 12, 0.85)',
-                  backdropFilter: 'blur(12px)',
-                  border: '1px solid rgba(255, 255, 255, 0.08)'
-                }}
+                className="bg-card border border-border rounded-2xl p-6 transition-all hover:border-yellow-500/50 group"
               >
                 {/* Logo & Name */}
                 <div className="flex items-start gap-4 mb-4">
@@ -451,34 +446,28 @@ function BusinessDirectoryPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
-                      <h3 className="text-lg font-semibold text-white transition" style={{
-                        color: 'white'
-                      }}>
+                      <h3 className="text-lg font-semibold text-card-foreground transition">
                         {business.business_name}
                       </h3>
                       {business.verified && (
-                        <span className="flex-shrink-0 px-2 py-1 text-xs font-medium rounded-full" style={{
-                          background: 'rgba(16, 185, 129, 0.2)',
-                          border: '1px solid rgb(16, 185, 129)',
-                          color: 'rgb(16, 185, 129)'
-                        }}>
+                        <span className="flex-shrink-0 px-2 py-1 text-xs font-medium rounded-full bg-emerald-500/20 border border-emerald-500 text-emerald-500">
                           ✓ Verified
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-slate-400 mt-1">{business.category}</p>
+                    <p className="text-sm text-muted-foreground mt-1">{business.category}</p>
                   </div>
                 </div>
 
                 {/* Description */}
                 {business.description && (
-                  <p className="text-sm text-slate-300 mb-4 line-clamp-3">
+                  <p className="text-sm text-card-foreground/80 mb-4 line-clamp-3">
                     {business.description}
                   </p>
                 )}
 
                 {/* Location */}
-                <div className="flex items-center gap-2 text-sm text-slate-400 mb-4">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -501,7 +490,7 @@ function BusinessDirectoryPage() {
                   {business.contact_email && (
                     <a
                       href={`mailto:${business.contact_email}`}
-                      className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold rounded-lg transition"
+                      className="px-4 py-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground text-sm font-semibold rounded-lg transition"
                     >
                       Contact
                     </a>
