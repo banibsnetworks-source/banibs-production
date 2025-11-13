@@ -1,4 +1,4 @@
-/* BANIBS Social Right Rail - Phase 10.1 */
+/* BANIBS Social Right Rail - Phase 10.1 - Matching LeftRail Glass */
 
 .right-rail {
   width: 100%;
@@ -6,17 +6,17 @@
   overflow-y: auto;
   overflow-x: hidden;
   
-  /* Glass effect matching left rail aesthetic */
-  background: var(--bg-glass-light);
-  backdrop-filter: blur(12px) saturate(130%);
-  -webkit-backdrop-filter: blur(12px) saturate(130%);
+  /* Glass background - matches LeftRail exactly */
+  background-color: var(--bg-rail);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-left: 1px solid var(--border-subtle);
   
   padding: 20px 16px;
   
-  /* Custom scrollbar */
+  /* Custom scrollbar matching theme */
   scrollbar-width: thin;
-  scrollbar-color: rgba(232, 182, 87, 0.3) transparent;
+  scrollbar-color: var(--text-tertiary) transparent;
 }
 
 .right-rail::-webkit-scrollbar {
