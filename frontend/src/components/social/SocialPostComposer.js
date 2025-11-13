@@ -46,78 +46,70 @@ const SocialPostComposer = ({ onPostCreated }) => {
   };
 
   return (
-    <div className="bg-gray-800 rounded-xl border border-gray-700 p-4">
-      {/* Header */}
-      <div className="flex items-center space-x-3 mb-3">
-        {/* Avatar */}
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-gray-900 font-bold">
-          {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+    <>
+      <div className="bg-gray-800 rounded-xl border border-gray-700 p-4">
+        {/* Header */}
+        <div className="flex items-center space-x-3 mb-3">
+          {/* Avatar */}
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-gray-900 font-bold">
+            {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+          </div>
+          
+          {/* User Info */}
+          <div>
+            <p className="text-sm font-semibold text-white">{user?.name || 'User'}</p>
+            <p className="text-xs text-gray-400">Share with the BANIBS community</p>
+          </div>
         </div>
-        
-        {/* User Info */}
-        <div>
-          <p className="text-sm font-semibold text-white">{user?.name || 'User'}</p>
-          <p className="text-xs text-gray-400">Share with the BANIBS community</p>
-        </div>
-      </div>
 
-      {/* Composer Form */}
-      <form onSubmit={handleSubmit}>
-        <textarea
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="What's on your mind?"
-          maxLength={maxChars}
-          disabled={isSubmitting}
-          className="w-full bg-gray-900 text-white rounded-lg px-4 py-3 text-sm placeholder-gray-500 border border-gray-700 focus:border-yellow-500 focus:outline-none focus:ring-1 focus:ring-yellow-500 transition-all resize-none"
-          rows={3}
-        />
+        {/* Quick Composer - Opens Modal */}
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="w-full bg-gray-900 text-left text-gray-500 rounded-lg px-4 py-3 text-sm border border-gray-700 hover:border-yellow-500 focus:border-yellow-500 focus:outline-none transition-all"
+        >
+          What's on your mind?
+        </button>
 
         {error && (
           <p className="text-red-400 text-xs mt-2">{error}</p>
         )}
 
-        {/* Footer */}
-        <div className="flex items-center justify-between mt-3">
-          <div className="flex items-center space-x-2">
-            {/* Media upload placeholder */}
-            <button
-              type="button"
-              disabled
-              className="p-2 rounded-lg text-gray-500 hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              title="Image upload (coming soon)"
-            >
-              <ImageIcon size={18} />
-            </button>
-          </div>
-
-          <div className="flex items-center space-x-3">
-            {/* Character count */}
-            <span className={`text-xs ${
-              remaining < 50 ? 'text-red-400' : 'text-gray-500'
-            }`}>
-              {remaining}
-            </span>
-
-            {/* Submit button */}
-            <button
-              type="submit"
-              disabled={!text.trim() || isSubmitting}
-              className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? (
-                <span className="text-sm">Posting...</span>
-              ) : (
-                <>
-                  <Send size={16} />
-                  <span className="text-sm">Post</span>
-                </>
-              )}
-            </button>
-          </div>
+        {/* Media buttons */}
+        <div className="flex items-center space-x-2 mt-3">
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            className="flex items-center space-x-2 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-700 transition-colors text-sm"
+          >
+            <ImageIcon size={18} />
+            <span>Photo</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            className="flex items-center space-x-2 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-700 transition-colors text-sm"
+          >
+            <Video size={18} />
+            <span>Video</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsModalOpen(true)}
+            className="flex items-center space-x-2 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-700 transition-colors text-sm"
+          >
+            <Link2 size={18} />
+            <span>Link</span>
+          </button>
         </div>
-      </form>
-    </div>
+      </div>
+
+      {/* Media Composer Modal */}
+      <MediaComposerModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleSubmit}
+      />
+    </>
   );
 };
 
