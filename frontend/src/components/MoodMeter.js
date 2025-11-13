@@ -89,26 +89,26 @@ const MoodMeter = () => {
       </div>
 
       {/* Tooltip on Hover */}
-      <div className="absolute right-0 top-full mt-2 w-48 bg-gray-900 border border-gray-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+      <div className="absolute right-0 top-full mt-2 w-48 bg-card border border-border rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
         <div className="p-3">
           <div className="flex items-center space-x-2 mb-2">
             <Activity size={14} className={config.color} />
-            <span className="text-xs font-bold text-white">News Mood</span>
+            <span className="text-xs font-bold text-card-foreground">News Mood</span>
           </div>
-          <p className="text-xs text-gray-400 mb-2">
+          <p className="text-xs text-muted-foreground mb-2">
             Current sentiment: <span className={`font-semibold ${config.color}`}>{dominant_tone}</span>
           </p>
           <div className="space-y-1 text-[10px]">
             <div className="flex items-center justify-between">
-              <span className="text-gray-500">🟢 Positive:</span>
+              <span className="text-muted-foreground">🟢 Positive:</span>
               <span className="text-green-400 font-semibold">{sentiment.positive}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-gray-500">⚪ Neutral:</span>
-              <span className="text-gray-400 font-semibold">{sentiment.neutral}</span>
+              <span className="text-muted-foreground">⚪ Neutral:</span>
+              <span className="text-muted-foreground font-semibold">{sentiment.neutral}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-gray-500">🔴 Negative:</span>
+              <span className="text-muted-foreground">🔴 Negative:</span>
               <span className="text-red-400 font-semibold">{sentiment.negative}</span>
             </div>
           </div>
