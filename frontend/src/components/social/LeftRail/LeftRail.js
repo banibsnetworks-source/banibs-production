@@ -22,6 +22,7 @@ import {
 import { useAuth } from '../../../contexts/AuthContext';
 import { useSocialLayout } from '../../../contexts/SocialLayoutContext';
 import { ProfileAvatar } from '../ProfileAvatar';
+import ThemeToggle from '../ThemeToggle';
 import './LeftRail.css';
 
 /**
