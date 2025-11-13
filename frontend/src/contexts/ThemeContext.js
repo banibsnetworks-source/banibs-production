@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useAuth } from './AuthContext';
 
 /**
  * ThemeContext - Light/Dark Mode Management
