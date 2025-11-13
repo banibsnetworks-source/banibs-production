@@ -173,10 +173,15 @@ const SocialPortal = () => {
 
         {/* Preview Feed */}
         <div className="container mx-auto px-4 py-12">
-          <h2 className="text-2xl font-bold text-white mb-6">Community Activity</h2>
+          <h2 className="text-2xl font-bold mb-6" style={{
+            color: isDark ? 'white' : 'rgb(17, 24, 39)'
+          }}>Community Activity</h2>
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="bg-gray-800/40 backdrop-blur-sm rounded-lg p-6 border border-gray-700">
+              <div key={i} className="backdrop-blur-sm rounded-lg p-6" style={{
+                backgroundColor: isDark ? 'rgba(31, 41, 55, 0.4)' : 'rgba(255, 255, 255, 0.8)',
+                border: `1px solid ${isDark ? 'rgb(55, 65, 81)' : 'rgb(229, 231, 235)'}`
+              }}>
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
                   <div className="flex-1">
