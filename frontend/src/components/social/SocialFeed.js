@@ -128,12 +128,34 @@ const SocialFeed = ({ newPost }) => {
     );
   }
 
-  // Error state
+  // Error state - Session expired gets special treatment
   if (error) {
+    if (isSessionExpired) {
+      return (
+        <div className="bg-card rounded-xl border border-yellow-500/30 p-8 text-center">
+          <div className="w-16 h-16 rounded-full bg-yellow-500/20 flex items-center justify-center mx-auto mb-4">
+            <LogIn className="text-yellow-500" size={32} />
+          </div>
+          <h3 className="text-xl font-bold text-card-foreground mb-2">Session Expired</h3>
+          <p className="text-muted-foreground text-sm mb-6">
+            Your session has timed out for security. Please sign in again to continue browsing your feed.
+          </p>
+          <button
+            onClick={() => navigate('/login', { state: { from: '/portal/social' } })}
+            className="px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold rounded-lg transition-colors inline-flex items-center space-x-2"
+          >
+            <LogIn size={18} />
+            <span>Sign In</span>
+          </button>
+        </div>
+      );
+    }
+
+    // Regular error state
     return (
       <div className="bg-card rounded-xl border border-red-500/30 p-6 text-center">
         <AlertCircle className="mx-auto mb-3 text-red-400" size={32} />
-        <p className="text-card-foreground mb-2">Oops! Something went wrong</p>
+        <p className="text-card-foreground mb-2">Unable to Load Feed</p>
         <p className="text-muted-foreground text-sm mb-4">{error}</p>
         <button
           onClick={handleRefresh}
