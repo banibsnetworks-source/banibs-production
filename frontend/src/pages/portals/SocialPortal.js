@@ -42,6 +42,8 @@ const SocialFeedContent = () => {
  */
 const SocialPortal = () => {
   const { user, isAuthenticated } = useAuth();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   // Phase 8.3.1: Trigger GlobalNavBar's AuthModal via global event
   const handleOpenAuth = (mode = 'signin') => {
@@ -55,7 +57,9 @@ const SocialPortal = () => {
   if (!isAuthenticated) {
     // Signed-Out Preview
     return (
-      <div className="min-h-screen bg-gray-950">
+      <div className="min-h-screen" style={{ 
+        backgroundColor: isDark ? 'rgb(10, 10, 12)' : 'rgb(249, 250, 251)' 
+      }}>
         <SEO
           title="BANIBS Social - Connect, Share, Empower"
           description="Join the BANIBS Social community. Connect with Black and Indigenous voices, share stories, and empower each other."
