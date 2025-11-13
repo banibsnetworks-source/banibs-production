@@ -98,9 +98,9 @@ function ResourcesPage() {
           <Link to="/hub" className="text-yellow-500 hover:text-yellow-400 mb-4 inline-block">
             ← Back to Hub
           </Link>
-          <h1 className="text-4xl font-bold text-white mb-2">Information & Resources</h1>
-          <p className="text-gray-400">Education, culture, and language tools for the community</p>
-          <div className="mt-4 text-sm text-gray-500">
+          <h1 className="text-4xl font-bold text-foreground mb-2">Information & Resources</h1>
+          <p className="text-muted-foreground">Education, culture, and language tools for the community</p>
+          <div className="mt-4 text-sm text-muted-foreground">
             {total} {total === 1 ? 'resource' : 'resources'} available
           </div>
         </div>
