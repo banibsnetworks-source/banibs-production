@@ -144,18 +144,28 @@ const SocialPortal = () => {
             <div className="flex items-center justify-center space-x-4">
               <button
                 onClick={() => handleOpenAuth('register')}
-                className="px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold rounded-lg transition-colors"
+                className="px-8 py-3 font-bold rounded-lg transition-colors"
+                style={{
+                  backgroundColor: 'rgb(232, 182, 87)',
+                  color: 'rgb(17, 24, 39)'
+                }}
               >
                 Join BANIBS Social
               </button>
               <button
                 onClick={() => handleOpenAuth('signin')}
-                className="px-8 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg backdrop-blur-sm transition-colors"
+                className="px-8 py-3 font-semibold rounded-lg backdrop-blur-sm transition-colors"
+                style={{
+                  backgroundColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+                  color: isDark ? 'white' : 'rgb(17, 24, 39)'
+                }}
               >
                 Sign In
               </button>
             </div>
-            <p className="mt-4 text-sm text-gray-400">
+            <p className="mt-4 text-sm" style={{
+              color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)'
+            }}>
               Free • Private • No Tracking
             </p>
           </div>
