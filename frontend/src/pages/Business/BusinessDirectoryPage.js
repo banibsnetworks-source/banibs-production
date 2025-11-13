@@ -142,6 +142,68 @@ function BusinessDirectoryPage() {
           </p>
         </div>
 
+        {/* Business Owner Tools - Show for logged in users */}
+        {user && (
+          <div className="mb-8">
+            <div className="bg-gradient-to-r from-slate-800/50 to-slate-900/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6">
+              <h2 className="text-xl font-bold text-white mb-4">
+                {hasBusinessProfile ? 'Business Owner Tools' : 'Start Your Business Journey'}
+              </h2>
+              
+              <div className="grid md:grid-cols-3 gap-4">
+                {/* Create/Manage Business */}
+                <Link
+                  to="/portal/business/profile/edit"
+                  className="flex items-center gap-3 p-4 bg-yellow-900/20 border-2 border-yellow-500/50 rounded-xl hover:bg-yellow-900/30 hover:border-yellow-500 transition-all"
+                >
+                  {hasBusinessProfile ? (
+                    <>
+                      <Building2 className="text-yellow-400 flex-shrink-0" size={28} />
+                      <div>
+                        <div className="text-white font-semibold">Manage My Business</div>
+                        <div className="text-yellow-300 text-sm">Edit profile & branding</div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <Plus className="text-yellow-400 flex-shrink-0" size={28} />
+                      <div>
+                        <div className="text-white font-semibold">Create Business Profile</div>
+                        <div className="text-yellow-300 text-sm">Join the directory</div>
+                      </div>
+                    </>
+                  )}
+                </Link>
+
+                {/* Business Board / Business Social */}
+                {hasBusinessProfile && (
+                  <Link
+                    to="/portal/business/board"
+                    className="flex items-center gap-3 p-4 bg-green-900/20 border-2 border-green-500/50 rounded-xl hover:bg-green-900/30 hover:border-green-500 transition-all"
+                  >
+                    <MessageSquare className="text-green-400 flex-shrink-0" size={28} />
+                    <div>
+                      <div className="text-white font-semibold">Business Social</div>
+                      <div className="text-green-300 text-sm">Connect & collaborate</div>
+                    </div>
+                  </Link>
+                )}
+
+                {/* Empty slot or future feature */}
+                {!hasBusinessProfile && (
+                  <div className="flex items-center gap-3 p-4 bg-slate-800/30 border border-slate-700 rounded-xl opacity-60">
+                    <MessageSquare className="text-slate-500 flex-shrink-0" size={28} />
+                    <div>
+                      <div className="text-slate-400 font-semibold">Business Social</div>
+                      <div className="text-slate-500 text-sm">Available after setup</div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Filters */}
         <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-4 md:p-6 mb-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
