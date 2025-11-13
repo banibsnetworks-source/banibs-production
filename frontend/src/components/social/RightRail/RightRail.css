@@ -1,8 +1,7 @@
 /* BANIBS Social Right Rail - Phase 10.1 */
 
 .right-rail {
-  position: relative;
-  width: 320px;
+  width: 100%;
   height: calc(100vh - 56px);
   overflow-y: auto;
   overflow-x: hidden;
