@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emoji Size Test</title>
+    <style>
+        body { background: #1a1a1a; color: white; padding: 40px; font-family: system-ui; }
+        .test-section { margin: 30px 0; padding: 20px; background: #2a2a2a; border-radius: 8px; }
+        .emoji-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin: 20px 0; }
+        .emoji-item { font-size: 44px; text-align: center; padding: 10px; background: #3a3a3a; border-radius: 8px; }
+        h2 { color: #EAB308; }
+    </style>
+</head>
+<body>
+    <h1>BANIBS Emoji Test - Phase 1 (Unicode)</h1>
+    
+    <div class="test-section">
+        <h2>👋🏿 Hand Gestures (Dark Skin Tone)</h2>
+        <div class="emoji-grid">
+            <div class="emoji-item">👋🏿</div>
+            <div class="emoji-item">👍🏿</div>
+            <div class="emoji-item">👎🏿</div>
+            <div class="emoji-item">✊🏿</div>
+            <div class="emoji-item">👊🏿</div>
+            <div class="emoji-item">👏🏿</div>
+            <div class="emoji-item">🙌🏿</div>
+            <div class="emoji-item">🙏🏿</div>
+            <div class="emoji-item">✋🏿</div>
+            <div class="emoji-item">👌🏿</div>
+            <div class="emoji-item">✌🏿</div>
+            <div class="emoji-item">💪🏿</div>
+        </div>
+        <p style="font-size: 44px;">Emoji size: 44px - Should be clearly visible</p>
+    </div>
+
+    <div class="test-section">
+        <h2>😊 Smileys & Expressions</h2>
+        <div class="emoji-grid">
+            <div class="emoji-item">😀</div>
+            <div class="emoji-item">😃</div>
+            <div class="emoji-item">😄</div>
+            <div class="emoji-item">😊</div>
+            <div class="emoji-item">😍</div>
+            <div class="emoji-item">🥰</div>
+            <div class="emoji-item">😎</div>
+            <div class="emoji-item">🥳</div>
+            <div class="emoji-item">🤓</div>
+            <div class="emoji-item">😘</div>
+            <div class="emoji-item">😋</div>
+            <div class="emoji-item">🤣</div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>❤️ Hearts & Love</h2>
+        <div class="emoji-grid">
+            <div class="emoji-item">❤️</div>
+            <div class="emoji-item">🧡</div>
+            <div class="emoji-item">💛</div>
+            <div class="emoji-item">💚</div>
+            <div class="emoji-item">💙</div>
+            <div class="emoji-item">💜</div>
+            <div class="emoji-item">🖤</div>
+            <div class="emoji-item">🤎</div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Ready for Phase 2</h2>
+        <p>✅ Unicode emojis with dark skin tones implemented</p>
+        <p>✅ BANIBS pack set as default</p>
+        <p>✅ Emoji size: 44px (large and visible)</p>
+        <p>✅ System ready to swap in custom image files</p>
+        <p style="color: #EAB308; margin-top: 20px;">
+            📁 When custom images are ready, place them in:<br>
+            <code style="background: #1a1a1a; padding: 5px; border-radius: 4px;">
+                /app/frontend/public/static/emojis/packs/banibs_standard/
+            </code>
+        </p>
+    </div>
+</body>
+</html>
