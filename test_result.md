@@ -6526,3 +6526,62 @@ Elite → spark_big (bright gold/red sparkles)
 ✅ Test page accessible at /test/emojis
 
 **Status**: ✅ **COMPLETE** - Full emoji system operational
+
+---
+
+## Featured Story & Mood Filter Theme Fix - November 13, 2025
+
+### Issues Fixed
+
+**1. Featured Story Block (NewsHeroSection)**
+- **Problem**: Stayed gray/dark in light mode, didn't match page theme
+- **Solution**:
+  - Added `useTheme` hook for theme awareness
+  - Replaced `bg-gray-900` → `bg-card`
+  - Updated borders: `border-gray-800` → `border-border`
+  - Content section now uses conditional gradient:
+    - Dark mode: `from-gray-900 to-gray-800`
+    - Light mode: `from-gray-50 to-white`
+  - All text colors updated to theme variables:
+    - `text-white` → `text-foreground`
+    - `text-gray-300/400` → `text-muted-foreground`, `text-card-foreground`
+- **Result**: Featured story now perfectly matches active theme
+
+**2. Filter by Mood Strip (MoodFilterBar)**
+- **Problem**: Gray band background in light mode didn't match clean light theme
+- **Solution**:
+  - Added `useTheme` hook
+  - Background: `bg-gray-900/50` → `bg-card/60` (with backdrop blur)
+  - Border: `border-gray-800` → `border-border`
+  - Header text: `text-white` → `text-foreground`
+  - Count text: `text-gray-400` → `text-muted-foreground`
+  - Filter buttons updated:
+    - Inactive: `bg-gray-800/40` → `bg-background` with `border-input`
+    - Active gray: `bg-gray-700` → `bg-muted` with `border-border`
+    - Hover states use theme colors
+  - Helper text border: `border-gray-800` → `border-border`
+- **Result**: Mood filter strip now bright/clean in light mode, dark glass in dark mode
+
+### Testing Results
+
+**Light Mode:**
+- ✅ Featured Story: Bright white gradient background, dark text
+- ✅ Mood Filter: Clean light card, proper contrast
+- ✅ Both components match overall light theme aesthetic
+
+**Dark Mode:**
+- ✅ Featured Story: Dark gradient background, light text
+- ✅ Mood Filter: Dark glass with backdrop blur
+- ✅ Both components blend with dark glass theme
+
+**All News Categories Verified:**
+- Top Stories, US News, World, Politics, Health, Money Watch, Entertainment, Crime, Sports, Culture, Science, Civil Rights
+- Every page now has consistent theming across:
+  - Category bar ✅
+  - Featured Story ✅
+  - Mood filter bar ✅
+  - Article cards ✅
+  - Pagination ✅
+
+### Status
+✅ **COMPLETE** - News UI is now fully cohesive with perfect light/dark mode theming
