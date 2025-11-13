@@ -7,7 +7,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 from pydantic import BaseModel
 from typing import Literal, Optional
 
-from auth.jwt import get_current_user
+from middleware.auth_guard import require_role
 from utils.media_processing import process_post_image, process_post_video
 from utils.media_storage import save_media_file
 from utils.link_preview import fetch_link_preview
