@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
-import { Send, Image as ImageIcon, Video, Link2 } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Send, Image as ImageIcon, Video, Link2, Smile } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import MediaComposerModal from './MediaComposerModal';
+import EmojiPicker from '../emoji/EmojiPicker';
 
 /**
- * SocialPostComposer - Phase 8.1 (Updated for Media Composer)
- * Component for creating new social posts with media support
+ * SocialPostComposer - Phase 8.1 (Updated for Media Composer + Emoji Picker)
+ * Component for creating new social posts with media support and emoji picker
  */
 const SocialPostComposer = ({ onPostCreated }) => {
   const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [error, setError] = useState(null);
+  const emojiButtonRef = useRef(null);
 
   const handleSubmit = async (postData) => {
     setError(null);
