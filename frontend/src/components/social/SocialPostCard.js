@@ -360,6 +360,19 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
           </span>
         </button>
 
+        {/* High Five Button */}
+        <div className="flex-1 flex items-center justify-center">
+          <HighFiveButton
+            postId={localPost.id}
+            hasHighFived={localPost.viewer_has_highfived || false}
+            highFiveCount={localPost.highfive_count || 0}
+            userTier={user?.subscription_tier || 'free'}
+            onHighFive={handleHighFive}
+            size={24}
+            showCount={false}
+          />
+        </div>
+
         {/* Comment Button */}
         <button
           type="button"
