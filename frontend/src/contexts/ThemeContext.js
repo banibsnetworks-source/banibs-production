@@ -29,6 +29,12 @@ export const ThemeProvider = ({ children }) => {
   // Apply theme to document on mount and changes
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
+    // Also add/remove .dark class for Tailwind CSS
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   }, [theme]);
 
   // Load theme from server after mount (if authenticated)
