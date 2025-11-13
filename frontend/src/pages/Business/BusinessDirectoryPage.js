@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import EmptyState from "../../components/EmptyState";
 import SEO from "../../components/SEO";
+import GlobalNavBar from "../../components/GlobalNavBar";
 import { useAuth } from "../../contexts/AuthContext";
 import { Building2, MessageSquare, Plus } from "lucide-react";
 
