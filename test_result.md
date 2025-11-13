@@ -6165,3 +6165,47 @@ The frontend is wired to call `POST /api/social/posts/{postId}/highfive` but thi
 - Dark mode maintains the existing aesthetic with dark backgrounds and light text
 - Theme toggle functionality works correctly site-wide
 
+
+---
+
+## Additional Theme Consistency Fixes - November 13, 2025
+
+### Issues Fixed (User Feedback Round 2)
+
+**Components Updated:**
+
+1. **Right Rail Components**
+   - ✅ TrendingPanel: `bg-gray-800` → `bg-card`, all text to theme variables
+   - ✅ SentimentSummaryBar: Updated to use `bg-card`, `text-card-foreground`, `text-muted-foreground`
+   - ✅ BanibsTVCard: Updated to `bg-card/60`, theme-aware text colors
+
+2. **News Section Blocks**
+   - ✅ NewsSectionBlock (World News, Business & MoneyWatch): `bg-gray-900` → `bg-card`, all text updated to theme variables
+   - ✅ Featured items and list items now use proper theme colors
+
+3. **Social Media Pages**
+   - ✅ SocialPostComposer: Composer input now uses `bg-background`, `border-input`
+   - ✅ SocialFeed: Loading, error, empty states, and headers all theme-responsive
+   - ✅ SocialPortal: Welcome header updated to use theme variables
+
+4. **Marketplace Portal**
+   - ✅ Jobs section: Cards, text, inputs all theme-aware
+   - ✅ Listings section: Updated to use theme variables
+   - ✅ Products/Services sections: "Coming Soon" banners are theme-responsive
+
+5. **TV Portal**
+   - ✅ Featured content section updated to use theme variables
+   - ✅ "Coming soon" message now theme-aware
+
+### Text Readability Fixes
+- All small text (10px, 11px, 12px) updated from hardcoded gray colors to `text-muted-foreground`
+- Ensured proper contrast in both light and dark modes
+- Headers use `text-foreground` or `text-card-foreground` for maximum readability
+
+### Status
+✅ **COMPLETE** - All identified components now properly respond to light/dark theme toggle
+- Right rail components (BANIBS TV, Trending, Sentiment) are theme-responsive
+- News section blocks for World, Business properly themed
+- Social feed and composer fully theme-aware
+- Marketplace and TV portals consistent with rest of app
+
