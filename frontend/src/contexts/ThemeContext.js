@@ -72,6 +72,12 @@ export const ThemeProvider = ({ children }) => {
   const setTheme = async (newTheme) => {
     setThemeState(newTheme);
     document.documentElement.setAttribute('data-theme', newTheme);
+    // Also add/remove .dark class for Tailwind CSS
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
     localStorage.setItem('banibs_theme', newTheme);
 
     // Persist to server
