@@ -192,24 +192,24 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
                 <Smile size={16} />
               </button>
               {showEmojiPicker && (
-                <div style={{ position: 'absolute', bottom: '100%', right: 0, marginBottom: '8px' }}>
+                <div style={{ position: 'absolute', bottom: '100%', right: 0, marginBottom: '8px', zIndex: 1000 }}>
                   <EmojiPicker
-                    onEmojiSelect={(emoji) => {
+                    onSelect={(emoji) => {
+                      const emojiChar = emoji.type === 'unicode' ? emoji.char : '';
                       const input = inputRef.current;
-                      if (input) {
+                      if (input && emojiChar) {
                         const start = input.selectionStart || 0;
                         const end = input.selectionEnd || 0;
-                        const newText = commentText.substring(0, start) + emoji + commentText.substring(end);
+                        const newText = commentText.substring(0, start) + emojiChar + commentText.substring(end);
                         setCommentText(newText);
                         setTimeout(() => {
                           input.focus();
-                          input.selectionStart = input.selectionEnd = start + emoji.length;
+                          input.selectionStart = input.selectionEnd = start + emojiChar.length;
                         }, 0);
                       }
                       setShowEmojiPicker(false);
                     }}
                     onClose={() => setShowEmojiPicker(false)}
-                    position="bottom"
                   />
                 </div>
               )}
