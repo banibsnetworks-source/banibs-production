@@ -55,13 +55,19 @@ async def create_post(
     current_user=Depends(require_role("user", "member"))
 ):
     """
-    Create a new social post
+    Create a new social post (Phase 8.1: with media and link support)
     Requires authentication
     """
+    # Convert Pydantic models to dicts for DB
+    media_list = [m.dict() for m in post_data.media] if post_data.media else []
+    link_meta_dict = post_data.link_meta.dict() if post_data.link_meta else None
+    
     post = await db_social.create_post(
         author_id=current_user["id"],
         text=post_data.text,
-        media_url=post_data.media_url
+        media=media_list,
+        link_url=post_data.link_url,
+        link_meta=link_meta_dict
     )
     
     # Return enriched post
