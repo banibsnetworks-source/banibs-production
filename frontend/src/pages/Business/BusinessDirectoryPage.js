@@ -208,7 +208,11 @@ function BusinessDirectoryPage() {
                 {/* Create/Manage Business */}
                 <Link
                   to="/portal/business/profile/edit"
-                  className="flex items-center gap-3 p-4 bg-yellow-900/20 border-2 border-yellow-500/50 rounded-xl hover:bg-yellow-900/30 hover:border-yellow-500 transition-all"
+                  className="flex items-center gap-3 p-4 rounded-xl transition-all"
+                  style={{
+                    background: 'rgba(232, 182, 87, 0.1)',
+                    border: '1px solid rgba(232, 182, 87, 0.3)'
+                  }}
                 >
                   {hasBusinessProfile ? (
                     <>
