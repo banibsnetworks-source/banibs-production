@@ -112,7 +112,7 @@ async def upload_media(
 @router.post("/link/preview", response_model=LinkPreviewResponse)
 async def get_link_preview(
     request: LinkPreviewRequest,
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(require_role("user", "member"))
 ):
     """
     Fetch OpenGraph metadata for a URL
