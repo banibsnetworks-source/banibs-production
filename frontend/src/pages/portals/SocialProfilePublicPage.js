@@ -76,11 +76,14 @@ const SocialProfilePublicPage = () => {
         }
       );
       
+      // Clone response to avoid "body already used" error
+      const clonedResponse = response.clone();
+      
       if (!response.ok) {
         throw new Error('Failed to load posts');
       }
       
-      const data = await response.json();
+      const data = await clonedResponse.json();
       
       if (page === 1) {
         setPosts(data.items);
