@@ -270,8 +270,8 @@ const NewsSectionPage = () => {
                     flex items-center space-x-2 px-4 py-2 rounded-md font-medium transition-colors
                     ${
                       page === total_pages
-                        ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
-                        : 'bg-gray-700 text-white hover:bg-gray-600'
+                        ? 'bg-muted text-muted-foreground cursor-not-allowed'
+                        : 'bg-card text-foreground hover:bg-muted border border-border'
                     }
                   `}
                 >
