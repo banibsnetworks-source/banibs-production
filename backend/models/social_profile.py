@@ -60,6 +60,7 @@ class SocialProfileUpdate(BaseModel):
     location: Optional[str] = Field(None, max_length=100)
     interests: Optional[List[str]] = None
     is_public: Optional[bool] = None
+    theme: Optional[ProfileTheme] = None
 
 
 class SocialProfileResponse(SocialProfile):
