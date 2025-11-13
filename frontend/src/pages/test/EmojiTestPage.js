@@ -25,7 +25,7 @@ const EmojiTestPage = () => {
   const loadPacks = async () => {
     setLoading(true);
     try {
-      const loadedPacks = await loadEmojiPacks();
+      const loadedPacks = await getAllEmojiPacks();
       setPacks(loadedPacks);
     } catch (error) {
       console.error('Failed to load packs:', error);
