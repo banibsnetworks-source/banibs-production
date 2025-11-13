@@ -47,7 +47,9 @@ class SocialPost(BaseModel):
     id: str
     author: SocialPostAuthor
     text: str
-    media_url: Optional[str] = None
+    media: list[MediaItem] = []
+    link_url: Optional[str] = None
+    link_meta: Optional[LinkMetadata] = None
     created_at: datetime
     updated_at: datetime
     like_count: int = 0
