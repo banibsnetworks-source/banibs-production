@@ -50,10 +50,16 @@ const TopStoriesGrid = ({ stories }) => {
           <div
             key={story.id}
             onClick={() => handleClick(story.sourceUrl)}
-            className="bg-gray-800 rounded-lg overflow-hidden border border-gray-700 hover:border-yellow-500/50 transition-all duration-300 cursor-pointer group"
+            className="rounded-lg overflow-hidden transition-all duration-300 cursor-pointer group"
+            style={{
+              ...styles.card,
+              cursor: 'pointer'
+            }}
           >
             {/* Thumbnail */}
-            <div className="relative aspect-video bg-gray-900 overflow-hidden">
+            <div className="relative aspect-video overflow-hidden" style={{
+              backgroundColor: isDark ? 'rgb(17, 24, 39)' : 'rgb(243, 244, 246)'
+            }}>
               <img
                 src={story.imageUrl}
                 alt={story.title}
