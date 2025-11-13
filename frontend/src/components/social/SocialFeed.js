@@ -39,6 +39,10 @@ const SocialFeed = ({ newPost }) => {
       // Get token from localStorage
       const token = localStorage.getItem('access_token');
       
+      if (!token) {
+        throw new Error('No authentication token found. Please log in.');
+      }
+      
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/social/feed?page=${pageNum}&page_size=20`,
         {
@@ -50,7 +54,10 @@ const SocialFeed = ({ newPost }) => {
       );
 
       if (!response.ok) {
-        throw new Error('Failed to load feed');
+        if (response.status === 401) {
+          throw new Error('Your session has expired. Please log in again.');
+        }
+        throw new Error(`Failed to load feed (${response.status})`);
       }
 
       const data = await response.json();
@@ -65,7 +72,7 @@ const SocialFeed = ({ newPost }) => {
       setHasMore(data.page < data.total_pages);
     } catch (err) {
       console.error('Error loading feed:', err);
-      setError('Failed to load feed. Please try again.');
+      setError(err.message || 'Failed to load feed. Please try again.');
     } finally {
       setLoading(false);
       setIsLoadingMore(false);
