@@ -41,7 +41,7 @@ All critical testing has been completed with excellent results:
 ### Backend API Testing (10/10 Passed)
 
 **Test Environment:**
-- Base URL: https://profile-express.preview.emergentagent.com
+- Base URL: https://themeverse-3.preview.emergentagent.com
 - Test Suite: phase7_4_test.py
 - Test Duration: ~2 minutes
 

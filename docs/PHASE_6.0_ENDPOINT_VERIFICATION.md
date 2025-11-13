@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://profile-express.preview.emergentagent.com/api/auth
+https://themeverse-3.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
