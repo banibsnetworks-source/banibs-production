@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   Home, 
-  Edit3, 
   Video,
   User,
   FileText,
@@ -11,18 +10,14 @@ import {
   Bookmark,
   Search,
   Briefcase,
-  TrendingUp,
   Shield,
   EyeOff,
-  XCircle,
-  Flag,
   Settings,
   Lock,
   ShieldCheck,
-  DollarSign,
   ChevronLeft,
   ChevronRight,
-  MoreVertical
+  MessageCircle
 } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useSocialLayout } from '../../../contexts/SocialLayoutContext';
