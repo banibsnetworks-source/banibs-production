@@ -179,7 +179,7 @@
 .group-card-name {
   font-size: 14px;
   font-weight: 600;
-  color: #F9F9F9;
+  color: var(--text-primary);
   margin-bottom: 2px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -188,7 +188,7 @@
 
 .group-card-meta {
   font-size: 12px;
-  color: rgba(247, 247, 247, 0.6);
+  color: var(--text-tertiary);
 }
 
 /* Person Card */
