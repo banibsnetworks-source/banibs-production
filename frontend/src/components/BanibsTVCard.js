@@ -9,13 +9,13 @@ import { Play } from 'lucide-react';
 const BanibsTVCard = ({ media }) => {
   if (!media) {
     return (
-      <div className="bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-md rounded-xl p-6 border border-gray-700/50">
+      <div className="bg-card/60 backdrop-blur-md rounded-xl p-6 border border-border">
         <div className="flex items-center space-x-2 mb-4">
           <span className="px-3 py-1 bg-blue-600 text-white text-xs font-bold rounded-full">
             BANIBS TV
           </span>
         </div>
-        <p className="text-gray-400 text-sm">Content coming soon...</p>
+        <p className="text-muted-foreground text-sm">Content coming soon...</p>
       </div>
     );
   }
@@ -27,21 +27,21 @@ const BanibsTVCard = ({ media }) => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-md rounded-xl overflow-hidden border border-gray-700/50 hover:border-yellow-500/50 transition-all duration-300 cursor-pointer group">
+    <div className="bg-card/60 backdrop-blur-md rounded-xl overflow-hidden border border-border hover:border-yellow-500/50 transition-all duration-300 cursor-pointer group">
       {/* Header */}
       <div className="px-4 pt-4 pb-2">
         <div className="flex items-center space-x-2 mb-2">
           <span className="px-3 py-1 bg-blue-600 text-white text-xs font-bold rounded-full">
             BANIBS TV
           </span>
-          <span className="text-xs text-gray-400">Featured</span>
+          <span className="text-xs text-muted-foreground">Featured</span>
         </div>
       </div>
 
       {/* Thumbnail with Play Button */}
       <div
         onClick={handleClick}
-        className="relative aspect-video bg-gray-900 overflow-hidden cursor-pointer"
+        className="relative aspect-video bg-muted overflow-hidden cursor-pointer"
       >
         <img
           src={media.thumbnailUrl}
@@ -69,10 +69,10 @@ const BanibsTVCard = ({ media }) => {
 
       {/* Content */}
       <div className="p-4">
-        <h3 className="text-white font-bold text-lg mb-2 line-clamp-2 group-hover:text-yellow-400 transition-colors">
+        <h3 className="text-card-foreground font-bold text-lg mb-2 line-clamp-2 group-hover:text-yellow-400 transition-colors">
           {media.title}
         </h3>
-        <p className="text-gray-400 text-sm line-clamp-2 mb-3">
+        <p className="text-muted-foreground text-sm line-clamp-2 mb-3">
           {media.description}
         </p>
         
