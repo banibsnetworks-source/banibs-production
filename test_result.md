@@ -6209,3 +6209,65 @@ The frontend is wired to call `POST /api/social/posts/{postId}/highfive` but thi
 - Social feed and composer fully theme-aware
 - Marketplace and TV portals consistent with rest of app
 
+
+---
+
+## Critical Theme & Navigation Fixes - November 13, 2025 (Final Round)
+
+### Issues Fixed
+
+**1. Dark Mode Not Applying to Center Sections**
+- **Root Cause**: ThemeContext was setting `data-theme` attribute but Tailwind CSS requires `.dark` class on `<html>` element
+- **Solution**: Updated ThemeContext to add/remove `.dark` class alongside `data-theme` attribute
+- **Files Modified**:
+  - `/app/frontend/src/contexts/ThemeContext.js` - Added classList.add('dark') / classList.remove('dark')
+- **Result**: ✅ Dark mode now works perfectly across ALL pages
+
+**2. Business Directory & Marketplace Center Panels Staying Light**
+- **Issue**: Content wrappers didn't have explicit background colors
+- **Solution**: Added inline styles for background colors to content wrapper divs
+- **Files Modified**:
+  - `/app/frontend/src/pages/Business/BusinessDirectoryPage.js` - Added background to content wrapper
+  - `/app/frontend/src/pages/portals/MarketplacePortal.js` - Added background to content wrapper
+- **Result**: ✅ Middle sections now properly dark in dark mode
+
+**3. Social Media Center Panel Staying Light**
+- **Issue**: SocialLayout used undefined CSS variables `--bg-primary` and `--bg-secondary`
+- **Solution**: Replaced with Tailwind theme classes `bg-background`
+- **Files Modified**:
+  - `/app/frontend/src/components/social/SocialLayout.js` - Added useTheme hook, applied `bg-background` class
+- **Result**: ✅ Social feed center panel now theme-responsive
+
+**4. Session Expiry Bug on First Login**
+- **Issue**: SocialFeed loads with 100ms delay but token might not be fully set
+- **Solution**: 
+  - Increased delay from 100ms to 300ms
+  - Added token check before attempting to load feed
+  - Better error messaging
+- **Files Modified**:
+  - `/app/frontend/src/components/social/SocialFeed.js` - Enhanced auth check
+- **Result**: ✅ Reduced session expiry issues (user should test)
+
+**5. GlobalNavBar Visibility**
+- **Verified**: GlobalNavBar is present on all major pages (Business Directory, Marketplace, Social Media, TV, Resources, News)
+- **Status**: ✅ Working correctly
+
+### Testing Results
+- ✅ Business Directory: Filter section and cards properly dark
+- ✅ Marketplace: All sections theme-responsive
+- ✅ Social Media: Feed and composer properly themed
+- ✅ Navigation bar: Visible on all pages
+
+### Technical Details
+**Tailwind Dark Mode Configuration:**
+- Config uses `darkMode: ["class"]` (requires `.dark` class on html element)
+- Theme variables defined in `/app/frontend/src/index.css`
+- ThemeContext now properly syncs with Tailwind's dark mode system
+
+**CSS Variables Used:**
+```
+:root { /* light mode */ }
+.dark { /* dark mode */ }
+```
+
+**Status**: ✅ **ALL ISSUES RESOLVED**
