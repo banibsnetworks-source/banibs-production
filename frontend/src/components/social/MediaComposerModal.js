@@ -8,6 +8,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import './MediaComposerModal.css';
 
 const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => {
+  const { user } = useAuth();
   const [text, setText] = useState('');
   const [media, setMedia] = useState([]);
   const [linkUrl, setLinkUrl] = useState('');
