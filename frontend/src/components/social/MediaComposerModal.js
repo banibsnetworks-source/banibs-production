@@ -3,6 +3,8 @@ import { X, Image as ImageIcon, Video, Link2, Loader2, Smile } from 'lucide-reac
 import MediaUploader from './MediaUploader';
 import LinkPreviewCard from './LinkPreviewCard';
 import EmojiPicker from '../emoji/EmojiPicker.jsx';
+import { applySkinTone } from '../../utils/emojiToneUtils';
+import { useAuth } from '../../contexts/AuthContext';
 import './MediaComposerModal.css';
 
 const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => {
