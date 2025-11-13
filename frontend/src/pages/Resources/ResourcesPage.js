@@ -189,7 +189,7 @@ function ResourcesPage() {
           <>
             {resources.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-gray-400 text-lg">No resources found matching your criteria.</p>
+                <p className="text-muted-foreground text-lg">No resources found matching your criteria.</p>
                 <button
                   onClick={() => {
                     setSearchTerm('');
@@ -210,7 +210,7 @@ function ResourcesPage() {
                     <Link
                       key={resource.id}
                       to={`/resources/${resource.id}`}
-                      className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 hover:border-yellow-500/50 transition-all hover:shadow-lg hover:shadow-yellow-500/10 group"
+                      className="bg-card border border-border rounded-xl p-6 hover:border-yellow-500/50 transition-all group"
                     >
                       {/* Featured Badge */}
                       {resource.featured && (
@@ -224,18 +224,18 @@ function ResourcesPage() {
                       {/* Type & Category */}
                       <div className="flex items-center justify-between mb-3">
                         <span className="text-2xl">{getTypeIcon(resource.type)}</span>
-                        <span className="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded">
+                        <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
                           {resource.category}
                         </span>
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-yellow-500 transition-colors line-clamp-2">
+                      <h3 className="text-xl font-bold text-card-foreground mb-2 group-hover:text-yellow-500 transition-colors line-clamp-2">
                         {resource.title}
                       </h3>
 
                       {/* Description */}
-                      <p className="text-gray-400 text-sm mb-4 line-clamp-3">
+                      <p className="text-muted-foreground text-sm mb-4 line-clamp-3">
                         {resource.description}
                       </p>
 
@@ -245,7 +245,7 @@ function ResourcesPage() {
                           {resource.tags.slice(0, 3).map((tag, idx) => (
                             <span
                               key={idx}
-                              className="text-xs bg-gray-800 text-gray-400 px-2 py-1 rounded"
+                              className="text-xs bg-muted text-muted-foreground px-2 py-1 rounded"
                             >
                               #{tag}
                             </span>
