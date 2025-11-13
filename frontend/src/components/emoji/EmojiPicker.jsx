@@ -105,26 +105,36 @@ export default function EmojiPicker({
           {/* Pack Tabs */}
           {allPacks.length > 1 && (
             <div className="flex flex-wrap items-center gap-1">
-              {allPacks.map((pack) => (
-                <button
-                  key={pack.id}
-                  type="button"
-                  onClick={() => setActivePackId(pack.id)}
-                  className={`
-                    text-xs md:text-sm px-3 py-1.5 rounded-lg border
-                    transition-all font-medium
-                    ${
-                      pack.id === activePackId
-                        ? 'bg-yellow-500 text-gray-900 border-yellow-500'
-                        : 'bg-muted text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground'
-                    }
-                  `}
-                >
-                  {pack.id === 'banibs_standard' && '👍🏿'}
-                  {pack.id === 'base_yellow' && '😊'}
-                  {' '}{pack.label}
-                </button>
-              ))}
+              {allPacks.map((pack) => {
+                const isGoldSpark = pack.id === 'banibs_gold_spark';
+                const isActive = pack.id === activePackId;
+                
+                return (
+                  <button
+                    key={pack.id}
+                    type="button"
+                    onClick={() => setActivePackId(pack.id)}
+                    className={`
+                      text-xs md:text-sm px-3 py-1.5 rounded-lg border
+                      transition-all font-medium
+                      ${
+                        isActive
+                          ? isGoldSpark
+                            ? 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 border-yellow-500 shadow-lg'
+                            : 'bg-yellow-500 text-gray-900 border-yellow-500'
+                          : isGoldSpark
+                            ? 'bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 text-yellow-500 border-yellow-500/50 hover:from-yellow-400/30 hover:to-yellow-600/30'
+                            : 'bg-muted text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground'
+                      }
+                    `}
+                  >
+                    {pack.id === 'banibs_standard' && '👍🏿'}
+                    {pack.id === 'banibs_gold_spark' && '⭐'}
+                    {pack.id === 'base_yellow' && '😊'}
+                    {' '}{pack.label}
+                  </button>
+                );
+              })}
             </div>
           )}
 
