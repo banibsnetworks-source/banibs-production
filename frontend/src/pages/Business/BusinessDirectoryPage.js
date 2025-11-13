@@ -224,10 +224,10 @@ function BusinessDirectoryPage() {
                     </>
                   ) : (
                     <>
-                      <Plus className="text-yellow-400 flex-shrink-0" size={28} />
+                      <Plus style={{ color: 'rgb(232, 182, 87)' }} className="flex-shrink-0" size={28} />
                       <div>
                         <div className="text-white font-semibold">Create Business Profile</div>
-                        <div className="text-yellow-300 text-sm">Join the directory</div>
+                        <div className="text-gray-400 text-sm">Join the directory</div>
                       </div>
                     </>
                   )}
