@@ -46,7 +46,7 @@ MAX_VIDEO_SIZE = 100 * 1024 * 1024  # 100MB
 @router.post("/upload", response_model=MediaUploadResponse)
 async def upload_media(
     file: UploadFile = File(...),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(require_role("user", "member"))
 ):
     """
     Upload image or video for post
