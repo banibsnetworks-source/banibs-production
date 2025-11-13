@@ -82,6 +82,7 @@ import BusinessBoardPage from "./pages/business/BusinessBoardPage";
 import HighFiveDemo from "./pages/test/HighFiveDemo";
 import EmojiTestPage from "./pages/test/EmojiTestPage";
 import EmojiPickerDemo from "./pages/test/EmojiPickerDemo";
+import EmojiIdentitySettingsPanel from "./components/settings/EmojiIdentitySettingsPanel";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
