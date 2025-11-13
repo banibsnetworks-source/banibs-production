@@ -8,10 +8,30 @@ from typing import Optional, Literal
 from datetime import datetime
 
 
+class MediaItem(BaseModel):
+    """Media item in a post"""
+    url: str
+    type: Literal["image", "video"]
+    width: Optional[int] = None
+    height: Optional[int] = None
+    thumbnail_url: Optional[str] = None
+
+
+class LinkMetadata(BaseModel):
+    """Link preview metadata"""
+    title: str
+    description: Optional[str] = None
+    image: Optional[str] = None
+    site: str
+    url: str
+
+
 class SocialPostCreate(BaseModel):
     """Create social post request"""
     text: str = Field(..., min_length=1, max_length=1000, description="Post content")
-    media_url: Optional[str] = Field(None, description="Optional media URL")
+    media: Optional[list[MediaItem]] = Field(default=[], description="Media attachments (max 4 images or 1 video)")
+    link_url: Optional[str] = Field(None, description="Optional link URL")
+    link_meta: Optional[LinkMetadata] = Field(None, description="Link preview metadata")
 
 
 class SocialPostAuthor(BaseModel):
