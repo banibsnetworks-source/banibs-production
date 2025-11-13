@@ -118,6 +118,39 @@ async def update_business_profile(business_id: str, owner_user_id: str, **update
     return updated_profile
 
 
+async def get_business_profile_by_handle(handle: str):
+    """Get business profile by handle"""
+    db = await get_db()
+    
+    profile = await db.business_profiles.find_one(
+        {"handle": handle},
+        {"_id": 0}
+    )
+    
+    return profile
+
+
+async def is_handle_available(handle: str, exclude_business_id: Optional[str] = None):
+    """Check if a handle is available"""
+    db = await get_db()
+    
+    query = {"handle": handle}
+    if exclude_business_id:
+        query["id"] = {"$ne": exclude_business_id}
+    
+    existing = await db.business_profiles.find_one(query, {"_id": 0})
+    return existing is None
+
+
+async def get_all_handles():
+    """Get list of all existing handles (for uniqueness checking)"""
+    db = await get_db()
+    
+    cursor = db.business_profiles.find({}, {"handle": 1, "_id": 0})
+    profiles = await cursor.to_list(length=10000)
+    return [p["handle"] for p in profiles if "handle" in p]
+
+
 async def delete_business_profile(business_id: str, owner_user_id: str):
     """Delete business profile (owner only)"""
     db = await get_db()
