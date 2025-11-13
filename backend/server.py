@@ -248,6 +248,10 @@ app.include_router(media_upload_router)
 from routes.business import router as business_router
 app.include_router(business_router)
 
+# Include business board router (Phase 8.3 - Business Board)
+from routes.business_board import router as business_board_router
+app.include_router(business_board_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
