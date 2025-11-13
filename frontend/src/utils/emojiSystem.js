@@ -79,13 +79,15 @@ function normalizeManifest(manifest) {
     title,
     type,
     emojis = [],
+    categories = [],
   } = manifest || {};
 
-  return {
-    id: id || 'unknown_pack',
-    label: label || title || id || 'Unknown Pack',
-    type: type === 'image' ? 'image' : 'unicode', // default to 'unicode'
-    emojis: emojis.map((raw) => {
+  // Handle both formats: flat emojis array (new) and nested categories (old)
+  let normalizedEmojis = [];
+
+  if (emojis.length > 0) {
+    // New format: flat emoji array with full definitions
+    normalizedEmojis = emojis.map((raw) => {
       if (raw.type === 'image') {
         /** @type {ImageEmojiDefinition} */
         const imageDef = {
@@ -114,7 +116,32 @@ function normalizeManifest(manifest) {
         supportsSkinTone: raw.supportsSkinTone || false, // CRITICAL: Preserve tone support flag
       };
       return unicodeDef;
-    }),
+    });
+  } else if (categories.length > 0) {
+    // Old format: nested categories with emoji char arrays
+    categories.forEach((cat) => {
+      const categoryId = cat.id || 'misc';
+      const categoryEmojis = cat.emojis || [];
+      
+      categoryEmojis.forEach((emojiChar, idx) => {
+        normalizedEmojis.push({
+          type: 'unicode',
+          id: `${id}_${categoryId}_${idx}`,
+          char: emojiChar,
+          shortcodes: [`:${categoryId}_${idx}:`],
+          keywords: [categoryId],
+          category: categoryId,
+          supportsSkinTone: false, // Old format doesn't specify, default to false
+        });
+      });
+    });
+  }
+
+  return {
+    id: id || 'unknown_pack',
+    label: label || title || id || 'Unknown Pack',
+    type: type === 'image' ? 'image' : 'unicode', // default to 'unicode'
+    emojis: normalizedEmojis,
   };
 }
 
