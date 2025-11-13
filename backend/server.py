@@ -244,13 +244,14 @@ app.include_router(social_settings_router)
 from routes.media_upload import router as media_upload_router
 app.include_router(media_upload_router)
 
+# Include business board router FIRST (Phase 8.3 - Business Board)
+# Must come before business profile router to avoid route conflicts
+from routes.business_board import router as business_board_router
+app.include_router(business_board_router)
+
 # Include business profile router (Phase 8.2 - Business Accounts)
 from routes.business import router as business_router
 app.include_router(business_router)
-
-# Include business board router (Phase 8.3 - Business Board)
-from routes.business_board import router as business_board_router
-app.include_router(business_board_router)
 
 
 
