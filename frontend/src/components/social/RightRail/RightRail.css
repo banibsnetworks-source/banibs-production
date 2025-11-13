@@ -99,7 +99,7 @@
   width: 80px;
   height: 80px;
   border-radius: 8px;
-  background: linear-gradient(135deg, #E8B657, #D4A03D);
+  background: var(--bg-hover);
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
