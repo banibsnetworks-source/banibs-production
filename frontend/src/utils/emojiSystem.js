@@ -119,10 +119,15 @@ function normalizeManifest(manifest) {
 
 /**
  * Load emoji packs from manifest files
+ * Order: BANIBS Standard (default) → BANIBS Gold Spark (premium) → Base Yellow (classic)
  * @returns {Promise<EmojiPack[]>}
  */
 async function loadEmojiPacksFromManifests() {
-  const packIds = ['banibs_standard', 'base_yellow'];
+  const packIds = [
+    'banibs_standard',    // BANIBS first - our brand identity
+    'banibs_gold_spark',  // BANIBS premium - gold sparkle
+    'base_yellow'         // Classic yellow - fallback
+  ];
   const loadedPacks = [];
 
   for (const packId of packIds) {
