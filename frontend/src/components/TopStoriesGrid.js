@@ -41,7 +41,7 @@ const TopStoriesGrid = ({ stories }) => {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-white">Top Stories</h2>
+        <h2 className="text-2xl font-bold text-foreground">Top Stories</h2>
         <div className="h-1 flex-1 bg-gradient-to-r from-yellow-500 to-transparent ml-4 rounded-full"></div>
       </div>
 
@@ -50,16 +50,10 @@ const TopStoriesGrid = ({ stories }) => {
           <div
             key={story.id}
             onClick={() => handleClick(story.sourceUrl)}
-            className="rounded-lg overflow-hidden transition-all duration-300 cursor-pointer group"
-            style={{
-              ...styles.card,
-              cursor: 'pointer'
-            }}
+            className="bg-card border border-border rounded-lg overflow-hidden transition-all duration-300 cursor-pointer group hover:border-yellow-500/50"
           >
             {/* Thumbnail */}
-            <div className="relative aspect-video overflow-hidden" style={{
-              backgroundColor: isDark ? 'rgb(17, 24, 39)' : 'rgb(243, 244, 246)'
-            }}>
+            <div className="relative aspect-video overflow-hidden bg-muted">
               <img
                 src={story.imageUrl}
                 alt={story.title}
@@ -91,7 +85,7 @@ const TopStoriesGrid = ({ stories }) => {
             {/* Content */}
             <div className="p-4">
               {/* Meta */}
-              <div className="flex items-center space-x-2 mb-2 text-xs text-gray-400">
+              <div className="flex items-center space-x-2 mb-2 text-xs text-muted-foreground">
                 {story.sourceName && (
                   <span className="font-medium">{story.sourceName}</span>
                 )}
@@ -103,17 +97,17 @@ const TopStoriesGrid = ({ stories }) => {
               </div>
 
               {/* Headline */}
-              <h3 className="text-white font-bold text-lg mb-2 line-clamp-3 group-hover:text-yellow-400 transition-colors leading-tight">
+              <h3 className="text-card-foreground font-bold text-lg mb-2 line-clamp-3 group-hover:text-yellow-500 transition-colors leading-tight">
                 {story.title}
               </h3>
 
               {/* Summary */}
-              <p className="text-gray-400 text-sm line-clamp-2 mb-3">
+              <p className="text-muted-foreground text-sm line-clamp-2 mb-3">
                 {story.summary}
               </p>
 
               {/* Read More Link */}
-              <div className="flex items-center space-x-1 text-yellow-400 text-sm font-semibold group-hover:text-yellow-300 transition-colors">
+              <div className="flex items-center space-x-1 text-yellow-500 text-sm font-semibold group-hover:text-yellow-400 transition-colors">
                 <span>Read more</span>
                 <ExternalLink size={14} />
               </div>
