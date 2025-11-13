@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Send, Loader } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Send, Loader, Smile } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import EmojiPicker from '../emoji/EmojiPicker';
 
 /**
- * SocialCommentSection - Phase 8.3
- * Displays comments for a post and allows adding new comments
+ * SocialCommentSection - Phase 8.3 + Emoji Support
+ * Displays comments for a post and allows adding new comments with emoji support
  */
 const SocialCommentSection = ({ postId, onCommentAdded }) => {
   const { user } = useAuth();
@@ -12,7 +13,9 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
   const [loading, setLoading] = useState(true);
   const [commentText, setCommentText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [error, setError] = useState(null);
+  const inputRef = useRef(null);
 
   // Load comments
   useEffect(() => {
