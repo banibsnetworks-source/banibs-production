@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import GlobalNavBar from '../../components/GlobalNavBar';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const MarketplacePortal = () => {
   const location = useLocation();
