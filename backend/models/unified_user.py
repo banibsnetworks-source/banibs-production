@@ -70,6 +70,12 @@ class UnifiedUser(BaseModel):
         description="Additional user preferences and settings"
     )
     
+    # Phase 10.0 - BANIBS Emoji Identity System
+    emoji_identity: Optional[Dict[str, Any]] = Field(
+        default=None,
+        description="User's personalized emoji identity (skin tone, hair, accessories)"
+    )
+    
     class Config:
         json_schema_extra = {
             "example": {
