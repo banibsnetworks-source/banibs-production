@@ -178,8 +178,8 @@ const ListingsSection = () => {
   return (
     <div>
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Business Listings & Opportunities</h2>
-        <p className="text-gray-600 mb-6">
+        <h2 className="text-3xl font-bold text-foreground mb-4">Business Listings & Opportunities</h2>
+        <p className="text-muted-foreground mb-6">
           Discover grants, funding opportunities, and business resources for Black entrepreneurs.
         </p>
       </div>
@@ -187,23 +187,23 @@ const ListingsSection = () => {
       {/* Opportunities Placeholder */}
       <div className="grid gap-6 md:grid-cols-2">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+          <div key={i} className="bg-card border border-border rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-start gap-4">
-              <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center text-3xl flex-shrink-0">
+              <div className="w-16 h-16 bg-blue-500/20 rounded-lg flex items-center justify-center text-3xl flex-shrink-0">
                 💰
               </div>
               <div className="flex-1">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                <h3 className="text-xl font-semibold text-card-foreground mb-2">
                   Small Business Grant Program {i}
                 </h3>
-                <p className="text-sm text-gray-600 mb-3">
+                <p className="text-sm text-muted-foreground mb-3">
                   U.S. Department of Commerce - Minority Business Development Agency
                 </p>
-                <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
                   <span>💵 Up to $50,000</span>
                   <span>📅 Deadline: Dec 31, 2025</span>
                 </div>
-                <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
                   Funding for minority-owned businesses to expand operations, hire staff, and invest in growth...
                 </p>
                 <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium">
@@ -216,7 +216,7 @@ const ListingsSection = () => {
       </div>
 
       <div className="mt-8 text-center">
-        <p className="text-gray-600 text-sm">
+        <p className="text-muted-foreground text-sm">
           📊 <strong>Note:</strong> This section will integrate with existing Opportunities data
         </p>
       </div>
