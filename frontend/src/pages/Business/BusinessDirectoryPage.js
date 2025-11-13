@@ -150,10 +150,14 @@ function BusinessDirectoryPage() {
           }}>
             <span className="text-black font-bold">💼 DIRECTORY</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{
+            color: isDark ? 'white' : 'rgb(17, 24, 39)'
+          }}>
             BANIBS Business Directory
           </h1>
-          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl mb-8 max-w-3xl mx-auto" style={{
+            color: isDark ? 'rgb(209, 213, 219)' : 'rgb(55, 65, 81)'
+          }}>
             Discover Black-owned and Black-supporting businesses in our network. 
             Open to all, rooted in Black advancement.
           </p>
