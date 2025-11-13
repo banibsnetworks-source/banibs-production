@@ -46,7 +46,7 @@ async def get_my_settings(current_user: dict = Depends(get_current_user)):
     return {
         "left_rail_collapsed": settings.get("left_rail_collapsed", False),
         "theme": settings.get("theme", "dark"),
-        "autoplay": settings.get("autoplay", True),
+        "autoplay": settings.get("autoplay", "always"),
         "media_quality": settings.get("media_quality", "auto"),
         "captions_default": settings.get("captions_default", False)
     }
