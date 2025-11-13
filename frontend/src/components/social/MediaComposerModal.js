@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { X, Image as ImageIcon, Video, Link2, Loader2, Smile } from 'lucide-react';
 import MediaUploader from './MediaUploader';
 import LinkPreviewCard from './LinkPreviewCard';
-import EmojiPicker from '../emoji/EmojiPicker';
+import EmojiPicker from '../emoji/EmojiPicker.jsx';
 import './MediaComposerModal.css';
 
 const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => {
