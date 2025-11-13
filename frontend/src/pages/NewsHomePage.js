@@ -9,6 +9,8 @@ import TrendingPanel from '../components/TrendingPanel';
 import SentimentSummaryBar from '../components/SentimentSummaryBar';
 import BanibsTVTrendingRail from '../components/BanibsTVTrendingRail';
 import SEO from '../components/SEO';
+import { useTheme } from '../contexts/ThemeContext';
+import { getThemeStyles } from '../utils/themeStyles';
 import { AlertCircle, RefreshCw } from 'lucide-react';
 
 /**
