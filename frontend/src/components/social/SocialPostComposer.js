@@ -47,7 +47,7 @@ const SocialPostComposer = ({ onPostCreated }) => {
 
   return (
     <>
-      <div className="bg-gray-800 rounded-xl border border-gray-700 p-4">
+      <div className="bg-card rounded-xl border border-border p-4">
         {/* Header */}
         <div className="flex items-center space-x-3 mb-3">
           {/* Avatar */}
@@ -57,15 +57,15 @@ const SocialPostComposer = ({ onPostCreated }) => {
           
           {/* User Info */}
           <div>
-            <p className="text-sm font-semibold text-white">{user?.name || 'User'}</p>
-            <p className="text-xs text-gray-400">Share with the BANIBS community</p>
+            <p className="text-sm font-semibold text-card-foreground">{user?.name || 'User'}</p>
+            <p className="text-xs text-muted-foreground">Share with the BANIBS community</p>
           </div>
         </div>
 
         {/* Quick Composer - Opens Modal */}
         <button
           onClick={() => setIsModalOpen(true)}
-          className="w-full bg-gray-900 text-left text-gray-500 rounded-lg px-4 py-3 text-sm border border-gray-700 hover:border-yellow-500 focus:border-yellow-500 focus:outline-none transition-all"
+          className="w-full bg-background text-left text-muted-foreground rounded-lg px-4 py-3 text-sm border border-input hover:border-yellow-500 focus:border-yellow-500 focus:outline-none transition-all"
         >
           What's on your mind?
         </button>
@@ -79,7 +79,7 @@ const SocialPostComposer = ({ onPostCreated }) => {
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center space-x-2 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-700 transition-colors text-sm"
+            className="flex items-center space-x-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted transition-colors text-sm"
           >
             <ImageIcon size={18} />
             <span>Photo</span>
@@ -87,7 +87,7 @@ const SocialPostComposer = ({ onPostCreated }) => {
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center space-x-2 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-700 transition-colors text-sm"
+            className="flex items-center space-x-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted transition-colors text-sm"
           >
             <Video size={18} />
             <span>Video</span>
@@ -95,7 +95,7 @@ const SocialPostComposer = ({ onPostCreated }) => {
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="flex items-center space-x-2 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-700 transition-colors text-sm"
+            className="flex items-center space-x-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted transition-colors text-sm"
           >
             <Link2 size={18} />
             <span>Link</span>
