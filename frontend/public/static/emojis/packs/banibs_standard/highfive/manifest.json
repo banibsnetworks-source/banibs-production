@@ -1,0 +1,17 @@
+{
+  "id": "highfive_clean",
+  "title": "High Five - Clean",
+  "type": "animated",
+  "variant": "clean",
+  "tier": "free",
+  "frames": 8,
+  "sizes": [128, 256, 512],
+  "fps": 12,
+  "files": {
+    "128": "banibs_highfive_clean_strip_128.png",
+    "256": "banibs_highfive_clean_strip_256.png",
+    "512": "banibs_highfive_clean_strip_512.png"
+  },
+  "fallback": "🙌🏿",
+  "description": "Animated High Five gesture for free tier users"
+}
