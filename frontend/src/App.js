@@ -244,7 +244,7 @@ function App() {
         </div>
       </ContributorAuthProvider>
     </AuthProvider>
-    </ThemeProvider>
+  </ThemeProvider>
   );
 }
 
