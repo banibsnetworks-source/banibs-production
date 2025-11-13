@@ -1,12 +1,17 @@
 import React from 'react';
 import { RefreshCw } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
 
 /**
- * MoodFilterBar - Phase 7.6.5
+ * MoodFilterBar - Phase 7.6.5 + Theme Support
  * Allows users to filter news by sentiment/mood
  * Buttons: 🟢 Positive | ⚪ Neutral | 🔴 Negative | 🔁 All
+ * Now fully theme-aware for light and dark modes
  */
 const MoodFilterBar = ({ activeMood, onMoodChange, itemCount }) => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   const moods = [
     { id: 'all', label: 'All Stories', icon: '🔁', color: 'gray' },
     { id: 'positive', label: 'Positive', icon: '🟢', color: 'green' },
@@ -25,11 +30,11 @@ const MoodFilterBar = ({ activeMood, onMoodChange, itemCount }) => {
       } else if (mood.color === 'red') {
         return `${baseClasses} bg-red-500 text-white shadow-lg shadow-red-500/30`;
       } else {
-        return `${baseClasses} bg-gray-700 text-white shadow-lg`;
+        return `${baseClasses} bg-muted text-foreground shadow-lg border border-border`;
       }
     }
     
-    return `${baseClasses} bg-gray-800/40 text-gray-300 hover:bg-gray-700 hover:text-white border border-gray-700`;
+    return `${baseClasses} bg-background text-muted-foreground hover:bg-muted hover:text-foreground border border-input`;
   };
 
   return (
