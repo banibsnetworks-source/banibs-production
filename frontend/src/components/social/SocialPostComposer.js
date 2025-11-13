@@ -103,6 +103,30 @@ const SocialPostComposer = ({ onPostCreated }) => {
             <Link2 size={18} />
             <span>Link</span>
           </button>
+          <div className="relative">
+            <button
+              ref={emojiButtonRef}
+              type="button"
+              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+              className="flex items-center space-x-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted transition-colors text-sm"
+            >
+              <Smile size={18} />
+              <span>Emoji</span>
+            </button>
+            
+            {/* Emoji Picker */}
+            {showEmojiPicker && (
+              <EmojiPicker
+                onEmojiSelect={(emoji) => {
+                  // For now, just open the modal with the emoji
+                  setShowEmojiPicker(false);
+                  setIsModalOpen(true);
+                }}
+                onClose={() => setShowEmojiPicker(false)}
+                position="top"
+              />
+            )}
+          </div>
         </div>
       </div>
 
