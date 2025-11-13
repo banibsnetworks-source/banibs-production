@@ -31,13 +31,46 @@ async def create_business(
     """
     Create a business profile (one per user)
     Requires authentication
+    
+    Handle generation:
+    - If handle provided, validate and check uniqueness
+    - If not provided, auto-generate from business name
     """
+    db = await get_db()
+    
+    # Generate or validate handle
+    if profile_data.handle:
+        # User provided a handle - validate it
+        is_valid, error_msg = validate_handle(profile_data.handle)
+        if not is_valid:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=error_msg
+            )
+        
+        # Check if handle is available
+        handle_available = await db_business.is_handle_available(profile_data.handle)
+        if not handle_available:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail=f"Handle '{profile_data.handle}' is already taken"
+            )
+        
+        handle = profile_data.handle
+    else:
+        # Auto-generate handle from business name
+        base_handle = generate_handle(profile_data.name)
+        existing_handles = await db_business.get_all_handles()
+        handle = make_handle_unique(base_handle, existing_handles)
+    
     # Convert services to dicts
     services_list = [s.dict() for s in profile_data.services] if profile_data.services else []
     
+    # Create business profile
     profile = await db_business.create_business_profile(
         owner_user_id=current_user["id"],
         name=profile_data.name,
+        handle=handle,
         tagline=profile_data.tagline,
         bio=profile_data.bio,
         website=profile_data.website,
@@ -50,8 +83,17 @@ async def create_business(
     if not profile:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="User already has a business profile"
+            detail="User already has a business profile or handle is taken"
         )
+    
+    # Create BusinessMember record with owner role
+    members_db = BusinessMembersDB(db)
+    await members_db.create_member(
+        business_id=profile["id"],
+        user_id=current_user["id"],
+        role="owner",
+        status="active"
+    )
     
     return profile
 
