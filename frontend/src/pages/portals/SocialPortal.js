@@ -277,30 +277,50 @@ const SocialPortal = () => {
           backgroundColor: isDark ? 'rgb(17, 24, 39)' : 'rgb(243, 244, 246)'
         }}>
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-white text-center mb-12">
+            <h2 className="text-3xl font-bold text-center mb-12" style={{
+              color: isDark ? 'white' : 'rgb(17, 24, 39)'
+            }}>
               Connect with Purpose
             </h2>
             <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <div className="text-center">
-                <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{
+                  backgroundColor: 'rgb(59, 130, 246)'
+                }}>
                   <MessageCircle className="text-white" size={32} />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">Share & Discuss</h3>
-                <p className="text-gray-400">Post updates, share stories, and engage in meaningful conversations.</p>
+                <h3 className="text-xl font-semibold mb-2" style={{
+                  color: isDark ? 'white' : 'rgb(17, 24, 39)'
+                }}>Share & Discuss</h3>
+                <p style={{
+                  color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)'
+                }}>Post updates, share stories, and engage in meaningful conversations.</p>
               </div>
               <div className="text-center">
-                <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Users className="text-gray-900" size={32} />
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{
+                  backgroundColor: 'rgb(232, 182, 87)'
+                }}>
+                  <Users style={{ color: 'rgb(17, 24, 39)' }} size={32} />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">Build Community</h3>
-                <p className="text-gray-400">Connect with like-minded individuals and grow your network.</p>
+                <h3 className="text-xl font-semibold mb-2" style={{
+                  color: isDark ? 'white' : 'rgb(17, 24, 39)'
+                }}>Build Community</h3>
+                <p style={{
+                  color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)'
+                }}>Connect with like-minded individuals and grow your network.</p>
               </div>
               <div className="text-center">
-                <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{
+                  backgroundColor: 'rgb(16, 185, 129)'
+                }}>
                   <Heart className="text-white" size={32} />
                 </div>
-                <h3 className="text-xl font-semibold text-white mb-2">Support Each Other</h3>
-                <p className="text-gray-400">Uplift voices, share resources, and empower the community.</p>
+                <h3 className="text-xl font-semibold mb-2" style={{
+                  color: isDark ? 'white' : 'rgb(17, 24, 39)'
+                }}>Support Each Other</h3>
+                <p style={{
+                  color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)'
+                }}>Uplift voices, share resources, and empower the community.</p>
               </div>
             </div>
           </div>
