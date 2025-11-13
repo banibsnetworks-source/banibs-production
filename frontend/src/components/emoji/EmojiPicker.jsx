@@ -257,6 +257,18 @@ function EmojiRenderer({ emoji, userSkinTone }) {
     ? applySkinTone(emoji.char, userSkinTone, true)
     : emoji.char;
 
+  // Debug first few emojis
+  if (Math.random() < 0.1) {
+    console.log('🎨 EmojiRenderer:', {
+      emojiId: emoji.id,
+      baseChar: emoji.char,
+      supportsSkinTone,
+      userSkinTone,
+      displayChar,
+      charCodes: [...displayChar].map(c => c.codePointAt(0).toString(16))
+    });
+  }
+
   return (
     <span
       className="leading-none"
