@@ -128,13 +128,13 @@ const GlobalNavBar = () => {
               <>
                 <button
                   onClick={() => setAuthModalOpen(true)}
-                  className="px-4 py-2 text-sm font-medium text-white hover:text-yellow-300 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-foreground hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors"
                 >
                   Sign In
                 </button>
                 <button
                   onClick={() => setAuthModalOpen(true)}
-                  className="px-4 py-2 text-sm font-bold bg-yellow-500 text-blue-900 rounded-md hover:bg-yellow-400 transition-colors"
+                  className="px-4 py-2 text-sm font-bold bg-yellow-500 text-gray-900 rounded-lg hover:bg-yellow-400 transition-colors shadow-sm"
                 >
                   Join BANIBS
                 </button>
@@ -144,10 +144,10 @@ const GlobalNavBar = () => {
               <div className="relative">
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center space-x-2 px-3 py-2 rounded-md text-white hover:bg-blue-700 transition-colors"
+                  className="flex items-center space-x-2 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center">
-                    <span className="text-sm font-bold text-blue-900">
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shadow-sm">
+                    <span className="text-sm font-bold text-gray-900">
                       {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                     </span>
                   </div>
@@ -157,11 +157,11 @@ const GlobalNavBar = () => {
 
                 {/* User Dropdown Menu */}
                 {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                  <div className="absolute right-0 mt-2 w-48 bg-card rounded-lg shadow-xl border border-border py-2 z-50">
                     <Link
                       to="/portal/social/profile"
                       onClick={() => setUserMenuOpen(false)}
-                      className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                      className="flex items-center space-x-2 px-4 py-2 text-sm text-card-foreground hover:bg-muted transition-colors"
                     >
                       <User size={16} />
                       <span>Profile</span>
@@ -169,15 +169,15 @@ const GlobalNavBar = () => {
                     <Link
                       to="/settings"
                       onClick={() => setUserMenuOpen(false)}
-                      className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                      className="flex items-center space-x-2 px-4 py-2 text-sm text-card-foreground hover:bg-muted transition-colors"
                     >
                       <Settings size={16} />
                       <span>Settings</span>
                     </Link>
-                    <div className="border-t border-gray-200 my-2"></div>
+                    <div className="border-t border-border my-2"></div>
                     <button
                       onClick={handleLogout}
-                      className="flex items-center space-x-2 px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition-colors w-full text-left"
+                      className="flex items-center space-x-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-muted transition-colors w-full text-left"
                     >
                       <LogOut size={16} />
                       <span>Sign Out</span>
