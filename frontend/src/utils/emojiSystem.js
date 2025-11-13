@@ -1,51 +1,128 @@
 /**
- * BANIBS Emoji System - Phase 1 (Unicode)
- * Central utility for emoji pack management and rendering
- * Architecture designed to support future image-based packs
+ * Emoji system utilities for BANIBS.
+ * Phase 1: Unicode-only, but fully ready for image-based packs in Phase 2.
  */
 
 /**
- * Data Models (TypeScript-style definitions for documentation)
- * 
  * @typedef {'unicode' | 'image'} EmojiPackType
- * 
- * @typedef {Object} EmojiDefinition
- * @property {string} id - Unique identifier
- * @property {EmojiPackType} type - 'unicode' or 'image'
- * @property {string} [char] - Unicode character (for type='unicode')
- * @property {string} [url] - Image URL (for type='image')
- * @property {string[]} shortcodes - Shortcode aliases like ':smile:'
- * @property {string} category - Category slug (faces, hands, hearts, etc.)
- * @property {string[]} keywords - Search keywords
- * 
- * @typedef {Object} EmojiPack
- * @property {string} id - Unique pack identifier
- * @property {string} label - Display name
- * @property {string} description - Pack description
- * @property {EmojiPackType} type - Pack type
- * @property {number} version - Pack version
- * @property {boolean} featured - Is this pack featured?
- * @property {string} tier - Required tier (free, plus, elite)
- * @property {string[]} categories - List of category slugs
- * @property {EmojiDefinition[]} emojis - Array of emoji definitions
  */
-
-// Constants
-export const DEFAULT_EMOJI_PACK_ID = 'banibs_standard';
-export const EMOJI_SIZE_DEFAULT = '32px'; // Large enough to see expressions clearly
-
-// Central Emoji Pack Registry
-let emojiPackRegistry = [];
 
 /**
- * Load all available emoji packs from manifest files
+ * @typedef {'unicode' | 'image'} EmojiType
  */
-export const loadEmojiPacks = async () => {
-  const packIds = [
-    'banibs_standard',  // BANIBS first - our brand identity
-    'base_yellow'       // Classic yellow emojis second
-  ];
 
+/**
+ * @typedef EmojiDefinitionBase
+ * @property {string} id            - Unique ID (e.g. "banibs_smile_warm")
+ * @property {string[]} shortcodes  - e.g. [":smile:", ":happy:"]
+ * @property {string[]} keywords    - Search tags
+ * @property {string} category      - e.g. "faces", "hands", "reactions"
+ */
+
+/**
+ * @typedef UnicodeEmojiDefinition
+ * @property {'unicode'} type
+ * @property {string} char          - Actual Unicode emoji
+ * @property {string} id
+ * @property {string[]} shortcodes
+ * @property {string[]} keywords
+ * @property {string} category
+ */
+
+/**
+ * @typedef ImageEmojiDefinition
+ * @property {'image'} type
+ * @property {string} spriteSheet   - URL to sprite sheet (Phase 2)
+ * @property {number} x             - X offset in sprite
+ * @property {number} y             - Y offset in sprite
+ * @property {number} width
+ * @property {number} height
+ * @property {string} id
+ * @property {string[]} shortcodes
+ * @property {string[]} keywords
+ * @property {string} category
+ */
+
+/**
+ * @typedef {UnicodeEmojiDefinition | ImageEmojiDefinition} EmojiDefinition
+ */
+
+/**
+ * @typedef EmojiPack
+ * @property {string} id            - "banibs_standard", "base_yellow", etc.
+ * @property {string} label         - Display label in UI
+ * @property {EmojiPackType} type   - "unicode" or "image"
+ * @property {EmojiDefinition[]} emojis
+ */
+
+// ---- CONSTANTS -------------------------------------------------------------
+
+export const DEFAULT_EMOJI_PACK_ID = 'banibs_standard';
+
+/**
+ * Phase 1: Unicode-based manifests
+ * Note: Using async fetch instead of direct JSON imports for flexibility
+ */
+let cachedPacks = null;
+
+/**
+ * Normalize a raw manifest.json into an EmojiPack.
+ * This lets us change manifest structure later without breaking the rest of the app.
+ *
+ * @param {any} manifest
+ * @returns {EmojiPack}
+ */
+function normalizeManifest(manifest) {
+  const {
+    id,
+    label,
+    title,
+    type,
+    emojis = [],
+  } = manifest || {};
+
+  return {
+    id: id || 'unknown_pack',
+    label: label || title || id || 'Unknown Pack',
+    type: type === 'image' ? 'image' : 'unicode', // default to 'unicode'
+    emojis: emojis.map((raw) => {
+      if (raw.type === 'image') {
+        /** @type {ImageEmojiDefinition} */
+        const imageDef = {
+          type: 'image',
+          id: raw.id,
+          shortcodes: raw.shortcodes || [],
+          keywords: raw.keywords || [],
+          category: raw.category || 'misc',
+          spriteSheet: raw.spriteSheet,
+          x: raw.x || 0,
+          y: raw.y || 0,
+          width: raw.width || 40,
+          height: raw.height || 40,
+        };
+        return imageDef;
+      }
+
+      /** @type {UnicodeEmojiDefinition} */
+      const unicodeDef = {
+        type: 'unicode',
+        id: raw.id,
+        shortcodes: raw.shortcodes || [],
+        keywords: raw.keywords || [],
+        category: raw.category || 'misc',
+        char: raw.char,
+      };
+      return unicodeDef;
+    }),
+  };
+}
+
+/**
+ * Load emoji packs from manifest files
+ * @returns {Promise<EmojiPack[]>}
+ */
+async function loadEmojiPacksFromManifests() {
+  const packIds = ['banibs_standard', 'base_yellow'];
   const loadedPacks = [];
 
   for (const packId of packIds) {
@@ -53,157 +130,80 @@ export const loadEmojiPacks = async () => {
       const response = await fetch(`/static/emojis/packs/${packId}/manifest.json`);
       if (response.ok) {
         const manifest = await response.json();
-        loadedPacks.push(manifest);
+        loadedPacks.push(normalizeManifest(manifest));
       }
     } catch (error) {
       console.warn(`Failed to load emoji pack: ${packId}`, error);
     }
   }
 
-  emojiPackRegistry = loadedPacks;
   return loadedPacks;
-};
+}
 
 /**
- * Get the emoji pack registry
+ * Get all emoji packs (with caching)
+ * @returns {Promise<EmojiPack[]>}
  */
-export const getEmojiPackRegistry = () => {
-  return emojiPackRegistry;
-};
-
-/**
- * Get a specific emoji pack by ID
- */
-export const getEmojiPack = (packId) => {
-  return emojiPackRegistry.find(pack => pack.id === packId);
-};
-
-/**
- * Get user's available emoji packs based on subscription tier
- * BANIBS packs are ALWAYS listed first - they're our primary brand identity
- */
-export const getUserEmojiPacks = (userTier = 'free') => {
-  const tierMap = {
-    'free': ['banibs_standard', 'base_yellow'],
-    'basic': ['banibs_standard', 'base_yellow'],
-    'banibs_plus': ['banibs_standard', 'banibs_gold_spark', 'base_yellow'],
-    'elite': ['banibs_standard', 'banibs_gold_spark', 'base_yellow'],
-    'business_pro': ['banibs_standard', 'banibs_gold_spark', 'base_yellow']
-  };
-
-  return tierMap[userTier] || tierMap['free'];
-};
-
-/**
- * Check if user can access a specific emoji pack
- */
-export const canAccessPack = (packId, userTier = 'free') => {
-  const userPacks = getUserEmojiPacks(userTier);
-  return userPacks.includes(packId);
-};
-
-/**
- * Group emojis by category
- * Handles both flat emoji arrays (new format) and nested categories (old format)
- */
-export const groupEmojisByCategory = (pack) => {
-  if (!pack) return {};
-
-  // Handle old format with nested categories
-  if (pack.categories && Array.isArray(pack.categories) && pack.categories[0]?.emojis) {
-    const grouped = {};
-    pack.categories.forEach(cat => {
-      grouped[cat.id] = {
-        id: cat.id,
-        name: cat.name,
-        icon: cat.icon,
-        emojis: cat.emojis || []
-      };
-    });
-    return grouped;
+export async function getAllEmojiPacks() {
+  if (!cachedPacks) {
+    cachedPacks = await loadEmojiPacksFromManifests();
   }
-
-  // Handle new format with flat emoji array
-  if (pack.emojis && Array.isArray(pack.emojis)) {
-    const grouped = {};
-    
-    pack.emojis.forEach(emoji => {
-      const category = emoji.category || 'other';
-      
-      if (!grouped[category]) {
-        grouped[category] = {
-          id: category,
-          name: getCategoryDisplayName(category),
-          icon: getCategoryIcon(category),
-          emojis: []
-        };
-      }
-      
-      // For unicode emojis, store the character
-      // For image emojis (future), store the definition
-      grouped[category].emojis.push(emoji.type === 'unicode' ? emoji.char : emoji);
-    });
-    
-    return grouped;
-  }
-
-  return {};
-};
+  return cachedPacks;
+}
 
 /**
- * Get display name for category slug
+ * Get a pack by ID.
+ * @param {string} packId
+ * @returns {Promise<EmojiPack | undefined>}
  */
-const getCategoryDisplayName = (categorySlug) => {
-  const names = {
-    'faces': 'Smileys & Faces',
-    'hands': 'Hand Gestures',
-    'reactions': 'Reactions',
-    'hearts': 'Hearts & Love',
-    'symbols': 'Symbols',
-    'celebration': 'Celebration',
-    'objects': 'Objects',
-    'other': 'Other'
-  };
-  return names[categorySlug] || categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1);
-};
+export async function getEmojiPackById(packId) {
+  const packs = await getAllEmojiPacks();
+  return packs.find((pack) => pack.id === packId);
+}
 
 /**
- * Get icon for category slug
+ * Get the default BANIBS-first emoji pack.
+ * @returns {Promise<EmojiPack>}
  */
-const getCategoryIcon = (categorySlug) => {
-  const icons = {
-    'faces': '😊',
-    'hands': '👍🏿',
-    'reactions': '🔥',
-    'hearts': '❤️',
-    'symbols': '✨',
-    'celebration': '🎉',
-    'objects': '💼',
-    'other': '📦'
-  };
-  return icons[categorySlug] || '📦';
-};
+export async function getDefaultEmojiPack() {
+  const packs = await getAllEmojiPacks();
+  return (
+    packs.find((p) => p.id === DEFAULT_EMOJI_PACK_ID) ||
+    packs[0]
+  );
+}
 
 /**
- * Render emoji based on type
+ * Simple search across a pack's emojis by shortcode or keyword.
+ *
+ * @param {EmojiPack} pack
+ * @param {string} query
+ * @returns {EmojiDefinition[]}
  */
-export const renderEmoji = (emoji) => {
-  if (typeof emoji === 'string') {
-    // Simple unicode emoji character
-    return emoji;
-  }
-  
-  if (emoji.type === 'unicode') {
-    return emoji.char;
-  }
-  
-  if (emoji.type === 'image') {
-    // Future: return <img> element or URL for image-based emojis
-    return emoji.url;
-  }
-  
-  return emoji;
-};
+export function searchEmojisInPack(pack, query) {
+  if (!query) return pack.emojis;
+  const q = query.toLowerCase();
+
+  return pack.emojis.filter((emoji) => {
+    const inShortcodes = (emoji.shortcodes || []).some((code) =>
+      code.toLowerCase().includes(q),
+    );
+    const inKeywords = (emoji.keywords || []).some((kw) =>
+      kw.toLowerCase().includes(q),
+    );
+    return inShortcodes || inKeywords;
+  });
+}
+
+/**
+ * Utility: flatten all emojis from all packs (if you ever need global search).
+ *
+ * @returns {Promise<EmojiDefinition[]>}
+ */
+export async function getAllEmojis() {
+  const packs = await getAllEmojiPacks();
+  return packs.flatMap((pack) => pack.emojis);
+}
 
 /**
  * Get high-five animation variant based on user tier
@@ -219,17 +219,4 @@ export const getHighFiveVariant = (userTier = 'free') => {
   };
 
   return tierMap[userTier] || 'clean';
-};
-
-export default {
-  DEFAULT_EMOJI_PACK_ID,
-  EMOJI_SIZE_DEFAULT,
-  loadEmojiPacks,
-  getEmojiPackRegistry,
-  getEmojiPack,
-  getUserEmojiPacks,
-  canAccessPack,
-  groupEmojisByCategory,
-  renderEmoji,
-  getHighFiveVariant
 };
