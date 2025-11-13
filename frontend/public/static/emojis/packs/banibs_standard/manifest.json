@@ -28,16 +28,16 @@
     {"id": "banibs_ok_hand", "type": "unicode", "char": "👌", "supportsSkinTone": true, "shortcodes": [":ok_hand:", ":perfect:"], "category": "hands", "keywords": ["ok", "perfect", "good", "banibs"]},
     {"id": "banibs_peace", "type": "unicode", "char": "✌", "supportsSkinTone": true, "shortcodes": [":peace:", ":v:"], "category": "hands", "keywords": ["peace", "victory", "two", "banibs"]},
     {"id": "banibs_muscle", "type": "unicode", "char": "💪", "supportsSkinTone": true, "shortcodes": [":muscle:", ":strong:", ":flex:"], "category": "hands", "keywords": ["muscle", "strong", "strength", "power", "banibs"]},
-    {"id": "banibs_red_heart", "type": "unicode", "char": "❤️", "shortcodes": [":heart:", ":love:", ":red_heart:"], "category": "hearts", "keywords": ["heart", "love", "red", "romance"]},
-    {"id": "banibs_orange_heart", "type": "unicode", "char": "🧡", "shortcodes": [":orange_heart:"], "category": "hearts", "keywords": ["heart", "orange", "care"]},
-    {"id": "banibs_yellow_heart", "type": "unicode", "char": "💛", "shortcodes": [":yellow_heart:"], "category": "hearts", "keywords": ["heart", "yellow", "friendship", "banibs"]},
-    {"id": "banibs_green_heart", "type": "unicode", "char": "💚", "shortcodes": [":green_heart:"], "category": "hearts", "keywords": ["heart", "green", "nature"]},
-    {"id": "banibs_brown_heart", "type": "unicode", "char": "🤎", "shortcodes": [":brown_heart:"], "category": "hearts", "keywords": ["heart", "brown", "banibs", "community"]},
-    {"id": "banibs_black_heart", "type": "unicode", "char": "🖤", "shortcodes": [":black_heart:"], "category": "hearts", "keywords": ["heart", "black", "banibs", "solidarity"]},
-    {"id": "banibs_sparkles", "type": "unicode", "char": "✨", "shortcodes": [":sparkles:", ":shine:"], "category": "symbols", "keywords": ["sparkles", "shine", "magic", "special"]},
-    {"id": "banibs_star", "type": "unicode", "char": "⭐", "shortcodes": [":star:"], "category": "symbols", "keywords": ["star", "favorite", "excellent"]},
-    {"id": "banibs_trophy", "type": "unicode", "char": "🏆", "shortcodes": [":trophy:", ":winner:"], "category": "symbols", "keywords": ["trophy", "winner", "champion", "success"]},
-    {"id": "banibs_party_popper", "type": "unicode", "char": "🎉", "shortcodes": [":tada:", ":party_popper:"], "category": "reactions", "keywords": ["party", "celebration", "confetti", "hooray"]},
-    {"id": "banibs_crown", "type": "unicode", "char": "👑", "shortcodes": [":crown:", ":king:", ":queen:"], "category": "symbols", "keywords": ["crown", "royalty", "king", "queen", "excellence"]}
+    {"id": "banibs_red_heart", "type": "unicode", "char": "❤️", "supportsSkinTone": false, "shortcodes": [":heart:", ":love:", ":red_heart:"], "category": "hearts", "keywords": ["heart", "love", "red", "romance"]},
+    {"id": "banibs_orange_heart", "type": "unicode", "char": "🧡", "supportsSkinTone": false, "shortcodes": [":orange_heart:"], "category": "hearts", "keywords": ["heart", "orange", "care"]},
+    {"id": "banibs_yellow_heart", "type": "unicode", "char": "💛", "supportsSkinTone": false, "shortcodes": [":yellow_heart:"], "category": "hearts", "keywords": ["heart", "yellow", "friendship", "banibs"]},
+    {"id": "banibs_green_heart", "type": "unicode", "char": "💚", "supportsSkinTone": false, "shortcodes": [":green_heart:"], "category": "hearts", "keywords": ["heart", "green", "nature"]},
+    {"id": "banibs_brown_heart", "type": "unicode", "char": "🤎", "supportsSkinTone": false, "shortcodes": [":brown_heart:"], "category": "hearts", "keywords": ["heart", "brown", "banibs", "community"]},
+    {"id": "banibs_black_heart", "type": "unicode", "char": "🖤", "supportsSkinTone": false, "shortcodes": [":black_heart:"], "category": "hearts", "keywords": ["heart", "black", "banibs", "solidarity"]},
+    {"id": "banibs_sparkles", "type": "unicode", "char": "✨", "supportsSkinTone": false, "shortcodes": [":sparkles:", ":shine:"], "category": "symbols", "keywords": ["sparkles", "shine", "magic", "special"]},
+    {"id": "banibs_star", "type": "unicode", "char": "⭐", "supportsSkinTone": false, "shortcodes": [":star:"], "category": "symbols", "keywords": ["star", "favorite", "excellent"]},
+    {"id": "banibs_trophy", "type": "unicode", "char": "🏆", "supportsSkinTone": false, "shortcodes": [":trophy:", ":winner:"], "category": "symbols", "keywords": ["trophy", "winner", "champion", "success"]},
+    {"id": "banibs_party_popper", "type": "unicode", "char": "🎉", "supportsSkinTone": false, "shortcodes": [":tada:", ":party_popper:"], "category": "reactions", "keywords": ["party", "celebration", "confetti", "hooray"]},
+    {"id": "banibs_crown", "type": "unicode", "char": "👑", "supportsSkinTone": false, "shortcodes": [":crown:", ":king:", ":queen:"], "category": "symbols", "keywords": ["crown", "royalty", "king", "queen", "excellence"]}
   ]
 }
