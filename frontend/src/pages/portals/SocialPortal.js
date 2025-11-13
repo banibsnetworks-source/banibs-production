@@ -261,7 +261,11 @@ const SocialPortal = () => {
           <div className="text-center mt-8">
             <button 
               onClick={() => handleOpenAuth('signin')}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors"
+              className="px-6 py-3 font-semibold rounded-lg transition-colors"
+              style={{
+                backgroundColor: 'rgb(59, 130, 246)',
+                color: 'white'
+              }}
             >
               Sign in to see your feed →
             </button>
@@ -269,7 +273,9 @@ const SocialPortal = () => {
         </div>
 
         {/* Features */}
-        <div className="bg-gray-900 py-16">
+        <div className="py-16" style={{
+          backgroundColor: isDark ? 'rgb(17, 24, 39)' : 'rgb(243, 244, 246)'
+        }}>
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-white text-center mb-12">
               Connect with Purpose
