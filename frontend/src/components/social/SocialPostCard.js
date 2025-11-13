@@ -330,7 +330,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
       </div>
 
       {/* Engagement Stats */}
-      <div className="px-4 py-2 border-t border-gray-700 flex items-center justify-between text-xs text-gray-400">
+      <div className="px-4 py-2 border-t border-border flex items-center justify-between text-xs text-muted-foreground">
         <div className="flex items-center space-x-3">
           <span>{localPost.like_count} {localPost.like_count === 1 ? 'like' : 'likes'}</span>
           <span>{localPost.highfive_count || 0} {localPost.highfive_count === 1 ? 'high five' : 'high fives'}</span>
@@ -339,7 +339,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
       </div>
 
       {/* Action Buttons */}
-      <div className="px-4 py-2 border-t border-gray-700 flex items-center space-x-2">
+      <div className="px-4 py-2 border-t border-border flex items-center space-x-2">
         {/* Like Button */}
         <button
           type="button"
@@ -348,7 +348,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
           className={`flex-1 flex items-center justify-center space-x-2 py-2 rounded-lg transition-all ${
             localPost.viewer_has_liked
               ? 'text-red-400 bg-red-400/10 hover:bg-red-400/20'
-              : 'text-gray-400 hover:bg-gray-700'
+              : 'text-muted-foreground hover:bg-muted'
           } disabled:opacity-50 disabled:cursor-not-allowed`}
         >
           <Heart
@@ -377,7 +377,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
         <button
           type="button"
           onClick={() => setShowComments(!showComments)}
-          className="flex-1 flex items-center justify-center space-x-2 py-2 rounded-lg text-gray-400 hover:bg-gray-700 transition-all"
+          className="flex-1 flex items-center justify-center space-x-2 py-2 rounded-lg text-muted-foreground hover:bg-muted transition-all"
         >
           <MessageCircle size={18} />
           <span className="text-sm font-medium">Comment</span>
@@ -386,7 +386,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
 
       {/* Comments Section */}
       {showComments && (
-        <div className="border-t border-gray-700">
+        <div className="border-t border-border">
           <SocialCommentSection
             postId={localPost.id}
             onCommentAdded={handleCommentAdded}
