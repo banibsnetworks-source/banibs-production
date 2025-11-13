@@ -17,6 +17,7 @@ class BusinessService(BaseModel):
 class BusinessProfileCreate(BaseModel):
     """Create business profile request"""
     name: str = Field(..., min_length=1, max_length=100, description="Business name")
+    handle: Optional[str] = Field(None, min_length=3, max_length=50, description="URL handle (auto-generated if not provided)")
     tagline: Optional[str] = Field(None, max_length=200, description="Short business tagline")
     bio: Optional[str] = Field(None, max_length=1000, description="Business description")
     website: Optional[str] = Field(None, description="Business website URL")
