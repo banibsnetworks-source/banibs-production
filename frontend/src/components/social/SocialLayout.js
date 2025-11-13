@@ -39,7 +39,7 @@ const SocialLayoutContent = ({ children }) => {
             flex: 1,
             overflowY: 'auto',
             overflowX: 'hidden',
-            background: '#0B0B0B',
+            background: 'var(--bg-secondary)',
             position: 'relative',
             minWidth: 0
           }}
