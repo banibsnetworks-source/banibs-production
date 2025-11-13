@@ -126,7 +126,7 @@ function BusinessDirectoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-black">
+    <div className="min-h-screen" style={{ backgroundColor: 'rgb(10, 10, 12)' }}>
       <SEO 
         title="BANIBS Business Directory - Black-Owned Businesses"
         description="Discover and support Black-owned and Black-supporting businesses. Find verified businesses in technology, food, healthcare, education, and more."
