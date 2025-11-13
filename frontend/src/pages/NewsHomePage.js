@@ -97,7 +97,7 @@ const NewsHomePage = () => {
   const { hero, top_stories, sections, banibs_tv, trending, sentiment_summary } = newsData || {};
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen" style={styles.page}>
       <SEO
         title="BANIBS - Black America News Network"
         description="Your trusted source for Black and Indigenous community news, business, opportunities, and resources. Stay informed with BANIBS."
