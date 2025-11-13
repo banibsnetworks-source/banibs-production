@@ -159,7 +159,13 @@ function App() {
               {/* Base social portal route (catch-all for /portal/social) */}
               <Route path="/portal/social" element={<SocialPortal />} />
               
+              {/* Phase 8.2 - Business Profile Routes (must come BEFORE /portal/business) */}
+              <Route path="/portal/business/profile/edit" element={<BusinessProfileEdit />} />
+              <Route path="/portal/business/:businessId" element={<BusinessProfilePublic />} />
+              
+              {/* Base business portal route */}
               <Route path="/portal/business" element={<BusinessPortal />} />
+              
               <Route path="/portal/marketplace/*" element={<MarketplacePortal />} />
               <Route path="/portal/tv" element={<TVPortal />} />
               <Route path="/portal/search" element={<SearchPortal />} />
