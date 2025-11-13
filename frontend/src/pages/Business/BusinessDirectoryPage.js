@@ -253,11 +253,14 @@ function BusinessDirectoryPage() {
 
                 {/* Empty slot or future feature */}
                 {!hasBusinessProfile && (
-                  <div className="flex items-center gap-3 p-4 bg-slate-800/30 border border-slate-700 rounded-xl opacity-60">
-                    <MessageSquare className="text-slate-500 flex-shrink-0" size={28} />
+                  <div className="flex items-center gap-3 p-4 rounded-xl opacity-50" style={{
+                    background: 'rgba(255, 255, 255, 0.02)',
+                    border: '1px solid rgba(255, 255, 255, 0.05)'
+                  }}>
+                    <MessageSquare className="text-gray-600 flex-shrink-0" size={28} />
                     <div>
-                      <div className="text-slate-400 font-semibold">Business Social</div>
-                      <div className="text-slate-500 text-sm">Available after setup</div>
+                      <div className="text-gray-500 font-semibold">Business Social</div>
+                      <div className="text-gray-600 text-sm">Available after setup</div>
                     </div>
                   </div>
                 )}
