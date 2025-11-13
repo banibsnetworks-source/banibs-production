@@ -146,7 +146,7 @@ const GlobalNavBar = () => {
                 {userMenuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
                     <Link
-                      to="/profile"
+                      to="/portal/social/profile"
                       onClick={() => setUserMenuOpen(false)}
                       className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                     >
