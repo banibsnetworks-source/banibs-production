@@ -230,13 +230,13 @@ const ProductsSection = () => {
     <div className="text-center py-16">
       <div className="max-w-2xl mx-auto">
         <div className="text-6xl mb-6">🛍️</div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Products Marketplace</h2>
-        <p className="text-gray-600 text-lg mb-6">
+        <h2 className="text-3xl font-bold text-foreground mb-4">Products Marketplace</h2>
+        <p className="text-muted-foreground text-lg mb-6">
           A dedicated space for buying and selling products within the Black community.
         </p>
-        <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
-          <p className="text-amber-800 font-medium mb-2">🚧 Coming Soon</p>
-          <p className="text-amber-700 text-sm">
+        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-6">
+          <p className="text-amber-800 dark:text-amber-400 font-medium mb-2">🚧 Coming Soon</p>
+          <p className="text-amber-700 dark:text-amber-300 text-sm">
             We're building a platform to showcase and purchase products from Black-owned businesses.
             Stay tuned for updates!
           </p>
