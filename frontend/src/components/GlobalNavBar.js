@@ -109,6 +109,17 @@ const GlobalNavBar = () => {
 
           {/* Phase 7.6.5 - Mood Meter & Phase 8.1 - Auth Links/User Menu */}
           <div className="hidden lg:flex items-center space-x-3">
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-md text-white hover:bg-blue-700 transition-colors"
+              aria-label="Toggle theme"
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <div className="w-px h-6 bg-blue-700"></div>
+            
             <MoodMeter />
             <div className="w-px h-6 bg-blue-700"></div>
             
