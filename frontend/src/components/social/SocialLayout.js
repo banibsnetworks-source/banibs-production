@@ -16,31 +16,44 @@ const SocialLayoutContent = ({ children }) => {
     <>
       <GlobalNavBar />
       <div 
-        className="social-layout-root" 
         style={{ 
-          display: 'grid',
-          gridTemplateColumns: isCollapsed ? '72px minmax(0, 1fr) 320px' : '260px minmax(0, 1fr) 320px',
+          display: 'flex',
           height: 'calc(100vh - 56px)',
           background: '#050507', /* Deep BANIBS black base */
-          transition: 'grid-template-columns 200ms cubic-bezier(0.4, 0, 0.2, 1)'
+          position: 'relative'
         }}
       >
-        <LeftRail />
+        {/* Left Rail - Fixed width, collapsible */}
+        <div style={{ 
+          width: isCollapsed ? '72px' : '260px',
+          transition: 'width 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+          flexShrink: 0
+        }}>
+          <LeftRail />
+        </div>
         
-        {/* Main Content Area - Scrollable */}
+        {/* Main Content Area - Flexible, Scrollable */}
         <main 
           className="social-main"
           style={{
+            flex: 1,
             overflowY: 'auto',
             overflowX: 'hidden',
             background: '#0B0B0B',
-            position: 'relative'
+            position: 'relative',
+            minWidth: 0
           }}
         >
           {children}
         </main>
 
-        <RightRail />
+        {/* Right Rail - Fixed width */}
+        <div style={{ 
+          width: '320px',
+          flexShrink: 0
+        }}>
+          <RightRail />
+        </div>
       </div>
     </>
   );
