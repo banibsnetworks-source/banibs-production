@@ -2,6 +2,7 @@ import React from 'react';
 import GlobalNavBar from '../../components/GlobalNavBar';
 import BanibsTVCard from '../../components/BanibsTVCard';
 import SEO from '../../components/SEO';
+import { useTheme } from '../../contexts/ThemeContext';
 import { Play } from 'lucide-react';
 
 /**
