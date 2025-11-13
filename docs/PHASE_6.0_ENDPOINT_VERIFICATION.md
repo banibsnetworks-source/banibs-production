@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://themeverse-3.preview.emergentagent.com/api/auth
+https://banibs-features.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

@@ -1,7 +1,7 @@
 # Phase 8.3 - BANIBS Social Portal Frontend Test Report
 
 **Test Date:** November 11, 2025  
-**Test Environment:** https://themeverse-3.preview.emergentagent.com/portal/social  
+**Test Environment:** https://banibs-features.preview.emergentagent.com/portal/social  
 **Test User:** social_test_user@example.com  
 **Browser:** Playwright (Chromium) - Desktop viewport 1920x800  
 
