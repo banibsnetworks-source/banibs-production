@@ -75,6 +75,11 @@ os.makedirs(MEDIA_VIDEOS_DIR, exist_ok=True)
 app.mount("/api/static/media/images", StaticFiles(directory=MEDIA_IMAGES_DIR), name="media-images")
 app.mount("/api/static/media/videos", StaticFiles(directory=MEDIA_VIDEOS_DIR), name="media-videos")
 
+# High Five System - Mount emojis directory
+EMOJIS_DIR = "/app/backend/static/emojis"
+os.makedirs(EMOJIS_DIR, exist_ok=True)
+app.mount("/api/static/emojis", StaticFiles(directory=EMOJIS_DIR), name="emojis")
+
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
