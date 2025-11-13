@@ -116,10 +116,19 @@ async def get_my_business(
     return profile
 
 
+async def get_current_user_optional():
+    """Optional authentication - returns None if not authenticated"""
+    try:
+        from utils.auth import get_current_user
+        return await get_current_user()
+    except:
+        return None
+
+
 @router.get("/{handle_or_id}", response_model=BusinessProfilePublic)
 async def get_business(
     handle_or_id: str,
-    current_user: Optional[dict] = Depends(require_role("user", "member", optional=True))
+    current_user: Optional[dict] = Depends(get_current_user_optional)
 ):
     """
     Get public business profile by handle or ID
