@@ -76,6 +76,8 @@ import SocialProfileTheme from "./pages/portals/SocialProfileTheme";
 // Phase 8.2 - Business Profiles
 import BusinessProfileEdit from "./pages/business/BusinessProfileEdit";
 import BusinessProfilePublic from "./pages/business/BusinessProfilePublic";
+// Phase 8.3 - Business Board
+import BusinessBoardPage from "./pages/business/BusinessBoardPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
