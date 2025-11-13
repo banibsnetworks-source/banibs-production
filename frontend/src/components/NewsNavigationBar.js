@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { SECTION_MAP } from '../constants/sectionKeys';
+import { useTheme } from '../contexts/ThemeContext';
 
 /**
  * News Section Navigation Bar
@@ -14,6 +15,8 @@ const NewsNavigationBar = ({ activeSection }) => {
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
   const location = useLocation();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   // Convert SECTION_MAP to array for rendering
   const sections = Object.entries(SECTION_MAP).map(([id, { label, icon }]) => ({
