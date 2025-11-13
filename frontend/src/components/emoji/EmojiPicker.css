@@ -162,14 +162,14 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 44px;
+  font-size: 36px; /* 32-40px range for clear expressions */
   line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.15s;
   padding: 6px;
-  min-height: 56px;
+  min-height: 48px;
 }
 
 .emoji-item:hover {
