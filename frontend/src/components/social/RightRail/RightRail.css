@@ -238,19 +238,20 @@
 
 .person-card-follow-btn {
   padding: 6px 16px;
-  background: var(--accent-gold);
-  color: #000;
-  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
   border-radius: 6px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 150ms ease;
+  transition: all 150ms ease;
   flex-shrink: 0;
 }
 
 .person-card-follow-btn:hover {
-  opacity: 0.9;
+  background: var(--bg-hover);
+  border-color: var(--text-tertiary);
 }
 
 /* Trending Card */
