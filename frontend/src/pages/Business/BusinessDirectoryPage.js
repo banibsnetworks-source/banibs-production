@@ -193,7 +193,13 @@ function BusinessDirectoryPage() {
         {/* Business Owner Tools - Show for logged in users */}
         {user && (
           <div className="mb-8">
-            <div className="bg-gradient-to-r from-slate-800/50 to-slate-900/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6">
+            <div style={{
+              background: 'rgba(10, 10, 12, 0.85)',
+              backdropFilter: 'blur(12px)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '16px',
+              padding: '24px'
+            }}>
               <h2 className="text-xl font-bold text-white mb-4">
                 {hasBusinessProfile ? 'Business Owner Tools' : 'Start Your Business Journey'}
               </h2>
