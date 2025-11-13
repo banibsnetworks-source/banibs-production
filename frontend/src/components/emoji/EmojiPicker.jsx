@@ -6,6 +6,8 @@ import {
   getDefaultEmojiPack,
   searchEmojisInPack,
 } from '../../utils/emojiSystem';
+import { applySkinTone } from '../../utils/emojiToneUtils';
+import { useAuth } from '../../contexts/AuthContext';
 
 /**
  * Props:
