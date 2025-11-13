@@ -107,29 +107,33 @@ const EmojiTestPage = () => {
                 😀 Static Emoji Rendering
               </h2>
               {packs.map(pack => {
-                const groupedEmojis = groupEmojisByCategory(pack);
-                const categories = Object.values(groupedEmojis).slice(0, 3);
+                // Group emojis by category
+                const grouped = {};
+                pack.emojis.forEach(emoji => {
+                  const cat = emoji.category || 'misc';
+                  if (!grouped[cat]) grouped[cat] = [];
+                  grouped[cat].push(emoji);
+                });
+                
+                const categories = Object.entries(grouped).slice(0, 3);
                 
                 return (
                   <div key={pack.id} className="mb-6">
                     <h3 className="font-bold text-foreground mb-3">
-                      {pack.label || pack.title}
-                      {pack.featured && <span className="ml-2 text-yellow-500">⭐ Featured</span>}
+                      {pack.label}
+                      {pack.id === 'banibs_standard' && <span className="ml-2 text-yellow-500">⭐ Featured</span>}
                     </h3>
-                    {categories.map(category => (
-                      <div key={category.id} className="mb-4">
-                        <p className="text-sm text-muted-foreground mb-2">
-                          {category.icon} {category.name}
+                    {categories.map(([categoryName, emojis]) => (
+                      <div key={categoryName} className="mb-4">
+                        <p className="text-sm text-muted-foreground mb-2 capitalize">
+                          {categoryName}
                         </p>
                         <div className="flex flex-wrap gap-2">
-                          {category.emojis?.slice(0, 20).map((emoji, idx) => {
-                            const rendered = renderEmoji(emoji);
-                            return (
-                              <span key={idx} className="text-3xl p-2 hover:bg-muted rounded">
-                                {rendered}
-                              </span>
-                            );
-                          })}
+                          {emojis.slice(0, 20).map((emoji, idx) => (
+                            <span key={idx} className="text-3xl p-2 hover:bg-muted rounded">
+                              {emoji.type === 'unicode' ? emoji.char : ''}
+                            </span>
+                          ))}
                         </div>
                       </div>
                     ))}
