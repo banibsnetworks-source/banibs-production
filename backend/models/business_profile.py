@@ -30,6 +30,7 @@ class BusinessProfileCreate(BaseModel):
 class BusinessProfileUpdate(BaseModel):
     """Update business profile request"""
     name: Optional[str] = Field(None, min_length=1, max_length=100)
+    handle: Optional[str] = Field(None, min_length=3, max_length=50)
     tagline: Optional[str] = Field(None, max_length=200)
     bio: Optional[str] = Field(None, max_length=1000)
     logo: Optional[str] = None
