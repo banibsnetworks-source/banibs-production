@@ -168,6 +168,13 @@ const SocialProfileEditPage = () => {
               {profile?.handle && (
                 <>
                   <Link 
+                    to="/portal/social/profile/theme"
+                    className="text-amber-400 hover:text-amber-300 text-sm flex items-center gap-1"
+                  >
+                    🎨 Profile Theme
+                  </Link>
+                  <span className="text-gray-600">•</span>
+                  <Link 
                     to={`/portal/social/u/${profile.handle}?tab=posts`}
                     className="text-amber-400 hover:text-amber-300 text-sm flex items-center gap-1"
                   >
