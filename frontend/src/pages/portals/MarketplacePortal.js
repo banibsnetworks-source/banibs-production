@@ -252,13 +252,13 @@ const ServicesSection = () => {
     <div className="text-center py-16">
       <div className="max-w-2xl mx-auto">
         <div className="text-6xl mb-6">🔧</div>
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Services Marketplace</h2>
-        <p className="text-gray-600 text-lg mb-6">
+        <h2 className="text-3xl font-bold text-foreground mb-4">Services Marketplace</h2>
+        <p className="text-muted-foreground text-lg mb-6">
           Find and offer professional services within the Black business community.
         </p>
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <p className="text-blue-800 font-medium mb-2">🚧 Coming Soon</p>
-          <p className="text-blue-700 text-sm">
+        <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+          <p className="text-blue-800 dark:text-blue-400 font-medium mb-2">🚧 Coming Soon</p>
+          <p className="text-blue-700 dark:text-blue-300 text-sm">
             Connect with Black professionals offering consulting, design, marketing, legal services, and more.
             This section is under development.
           </p>
