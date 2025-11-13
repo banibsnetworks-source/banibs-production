@@ -25,7 +25,8 @@ const SocialFeed = ({ newPost }) => {
       if (token) {
         loadFeed();
       } else {
-        setError('Authentication required. Please log in.');
+        setIsSessionExpired(true);
+        setError('Please sign in to view your social feed.');
         setLoading(false);
       }
     }, 300); // Increased delay to ensure token is set
