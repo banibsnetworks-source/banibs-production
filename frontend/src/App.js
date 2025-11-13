@@ -133,10 +133,11 @@ function App() {
   }, []);
   
   return (
-    <AuthProvider>
-      <ContributorAuthProvider>
-        <div className="App">
-          <BrowserRouter>
+    <ThemeProvider>
+      <AuthProvider>
+        <ContributorAuthProvider>
+          <div className="App">
+            <BrowserRouter>
             <Routes>
               {/* Phase 7.6.2 - New CNN-Style News Homepage */}
               <Route path="/" element={<NewsHomePage />} />
