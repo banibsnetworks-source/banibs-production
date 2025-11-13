@@ -44,12 +44,12 @@ const NewsHeroSection = ({ story }) => {
   };
 
   return (
-    <div className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl border border-gray-800 hover:border-yellow-500/30 transition-all duration-300 group">
+    <div className="bg-card rounded-xl overflow-hidden shadow-xl border border-border hover:border-yellow-500/30 transition-all duration-300 group">
       <div className="grid lg:grid-cols-2 gap-0">
         {/* Image Section */}
         <div
           onClick={handleClick}
-          className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[400px] bg-gray-800 overflow-hidden cursor-pointer"
+          className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[400px] bg-muted overflow-hidden cursor-pointer"
         >
           <img
             src={story.imageUrl}
@@ -78,19 +78,23 @@ const NewsHeroSection = ({ story }) => {
           )}
         </div>
 
-        {/* Content Section */}
-        <div className="p-8 lg:p-10 flex flex-col justify-center bg-gradient-to-br from-gray-900 to-gray-800">
+        {/* Content Section - Theme Aware */}
+        <div className={`p-8 lg:p-10 flex flex-col justify-center ${
+          isDark 
+            ? 'bg-gradient-to-br from-gray-900 to-gray-800' 
+            : 'bg-gradient-to-br from-gray-50 to-white'
+        }`}>
           {/* Meta Info */}
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <span className="px-3 py-1 bg-blue-600 text-white text-xs font-semibold rounded-full">
               {story.category || 'News'}
             </span>
             {story.sourceName && (
-              <span className="text-gray-400 text-sm font-medium">
+              <span className="text-muted-foreground text-sm font-medium">
                 {story.sourceName}
               </span>
             )}
-            <div className="flex items-center space-x-1.5 text-gray-500 text-xs">
+            <div className="flex items-center space-x-1.5 text-muted-foreground text-xs">
               <Clock size={14} />
               <span>{formatDate(story.publishedAt)}</span>
             </div>
@@ -99,13 +103,13 @@ const NewsHeroSection = ({ story }) => {
           {/* Headline */}
           <h1
             onClick={handleClick}
-            className="text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight cursor-pointer hover:text-yellow-400 transition-colors line-clamp-3"
+            className="text-3xl lg:text-4xl font-bold text-foreground mb-4 leading-tight cursor-pointer hover:text-yellow-500 transition-colors line-clamp-3"
           >
             {story.title}
           </h1>
 
           {/* Summary */}
-          <p className="text-gray-300 text-lg mb-6 line-clamp-4 leading-relaxed">
+          <p className="text-card-foreground text-lg mb-6 line-clamp-4 leading-relaxed">
             {story.summary}
           </p>
 
