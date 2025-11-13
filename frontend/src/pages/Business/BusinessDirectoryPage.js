@@ -216,10 +216,10 @@ function BusinessDirectoryPage() {
                 >
                   {hasBusinessProfile ? (
                     <>
-                      <Building2 className="text-yellow-400 flex-shrink-0" size={28} />
+                      <Building2 style={{ color: 'rgb(232, 182, 87)' }} className="flex-shrink-0" size={28} />
                       <div>
                         <div className="text-white font-semibold">Manage My Business</div>
-                        <div className="text-yellow-300 text-sm">Edit profile & branding</div>
+                        <div className="text-gray-400 text-sm">Edit profile & branding</div>
                       </div>
                     </>
                   ) : (
