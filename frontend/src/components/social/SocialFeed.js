@@ -72,7 +72,8 @@ const SocialFeed = ({ newPost }) => {
               reject(new Error('Failed to parse response'));
             }
           } else if (xhr.status === 401) {
-            reject(new Error('Your session has expired. Please log in again.'));
+            setIsSessionExpired(true);
+            reject(new Error('Your session has expired. Please sign in again to continue.'));
           } else {
             reject(new Error(`Failed to load feed (${xhr.status})`));
           }
