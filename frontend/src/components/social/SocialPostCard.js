@@ -331,7 +331,10 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
 
       {/* Engagement Stats */}
       <div className="px-4 py-2 border-t border-gray-700 flex items-center justify-between text-xs text-gray-400">
-        <span>{localPost.like_count} {localPost.like_count === 1 ? 'like' : 'likes'}</span>
+        <div className="flex items-center space-x-3">
+          <span>{localPost.like_count} {localPost.like_count === 1 ? 'like' : 'likes'}</span>
+          <span>{localPost.highfive_count || 0} {localPost.highfive_count === 1 ? 'high five' : 'high fives'}</span>
+        </div>
         <span>{localPost.comment_count} {localPost.comment_count === 1 ? 'comment' : 'comments'}</span>
       </div>
 
