@@ -225,13 +225,13 @@
   gap: 12px;
   cursor: pointer;
   transition: all 200ms ease;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  color: #F7F7F7;
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-primary);
 }
 
 .collapse-toggle:hover {
-  background-color: rgba(255, 255, 255, 0.06);
-  color: #E8B657;
+  background-color: var(--hover-overlay);
+  color: var(--gold-primary);
 }
 
 .collapse-toggle-icon {
