@@ -129,13 +129,14 @@ const LoginPage = () => {
               </Link>
             </p>
           </div>
-        </div>
+          </div>
 
-        {/* Back to Home */}
-        <div className="mt-6 text-center">
-          <Link to="/" className="text-gray-400 hover:text-yellow-400 text-sm">
-            ← Back to Home
-          </Link>
+          {/* Back to Home */}
+          <div className="mt-6 text-center">
+            <Link to="/" className="text-gray-400 hover:text-gray-300 text-sm">
+              ← Back to Home
+            </Link>
+          </div>
         </div>
       </div>
     </div>
