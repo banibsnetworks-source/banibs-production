@@ -63,21 +63,29 @@ const SocialProfilePublicPage = () => {
     
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/social/users/${profile.user_id}/posts?page=${page}&page_size=10`,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          credentials: 'include'
-        }
-      );
       
-      if (!response.ok) {
-        throw new Error('Failed to load posts');
-      }
-      
-      const data = await response.json();
+      // Use XMLHttpRequest to bypass platform's rrweb fetch interceptor
+      const data = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `${process.env.REACT_APP_BACKEND_URL}/api/social/users/${profile.user_id}/posts?page=${page}&page_size=10`);
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+        xhr.withCredentials = true;
+        
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              resolve(JSON.parse(xhr.responseText));
+            } catch (e) {
+              reject(new Error('Failed to parse response'));
+            }
+          } else {
+            reject(new Error('Failed to load posts'));
+          }
+        };
+        
+        xhr.onerror = () => reject(new Error('Network error'));
+        xhr.send();
+      });
       
       if (page === 1) {
         setPosts(data.items);
