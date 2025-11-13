@@ -343,10 +343,10 @@ const SocialPortal = () => {
             {/* Welcome Header */}
             <div className="mb-6 flex items-center justify-between">
               <div>
-                <h1 className="text-2xl font-bold text-white mb-1">
+                <h1 className="text-2xl font-bold text-foreground mb-1">
                   Welcome back, {user?.name}!
                 </h1>
-                <p className="text-gray-400 text-sm">
+                <p className="text-muted-foreground text-sm">
                   Share your thoughts with the BANIBS community
                 </p>
               </div>
