@@ -10,15 +10,23 @@ from typing import Optional
 from db.connection import get_db
 
 
-async def create_post(author_id: str, text: str, media_url: Optional[str] = None):
-    """Create a new social post with default moderation fields (Phase 8.3.1)"""
+async def create_post(
+    author_id: str,
+    text: str,
+    media: Optional[list] = None,
+    link_url: Optional[str] = None,
+    link_meta: Optional[dict] = None
+):
+    """Create a new social post with media and link support (Phase 8.1)"""
     db = await get_db()
     
     post = {
         "id": str(uuid.uuid4()),
         "author_id": author_id,
         "text": text,
-        "media_url": media_url,
+        "media": media or [],
+        "link_url": link_url,
+        "link_meta": link_meta,
         "visibility": "members",
         "like_count": 0,
         "comment_count": 0,
