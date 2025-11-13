@@ -150,7 +150,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
     : `/portal/social/id/${localPost.author.id}`;
 
   return (
-    <div className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
+    <div className="bg-card rounded-xl border border-border overflow-hidden">
       {/* Post Header */}
       <div className="p-4">
         {!compact && (
@@ -168,15 +168,15 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
               
               {/* Author Info */}
               <div>
-                <p className="text-sm font-semibold text-white">
+                <p className="text-sm font-semibold text-card-foreground">
                   {localPost.author.display_name}
                 </p>
                 {localPost.author.handle && (
-                  <p className="text-xs text-amber-400">
+                  <p className="text-xs text-amber-500">
                     @{localPost.author.handle}
                   </p>
                 )}
-                <p className="text-xs text-gray-400">
+                <p className="text-xs text-muted-foreground">
                   {formatTimestamp(localPost.created_at)}
                 </p>
               </div>
@@ -189,7 +189,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
                 <button
                   type="button"
                   onClick={() => setShowReportModal(true)}
-                  className="p-1 rounded-lg text-gray-400 hover:bg-gray-700 hover:text-red-400 transition-colors"
+                  className="p-1 rounded-lg text-muted-foreground hover:bg-muted hover:text-red-400 transition-colors"
                   title="Report post"
                 >
                   <Flag size={16} />
@@ -200,7 +200,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
               {isAuthor && (
                 <button
                   type="button"
-                  className="p-1 rounded-lg text-gray-400 hover:bg-gray-700 transition-colors"
+                  className="p-1 rounded-lg text-muted-foreground hover:bg-muted transition-colors"
                   title="Options"
                 >
                   <MoreHorizontal size={18} />
@@ -213,7 +213,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
         {/* Compact mode: Just show timestamp and options */}
         {compact && (
           <div className="flex items-center justify-between mb-3">
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-muted-foreground">
               {formatTimestamp(localPost.created_at)}
             </p>
             
@@ -224,7 +224,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
                 <button
                   type="button"
                   onClick={() => setShowReportModal(true)}
-                  className="p-1 rounded-lg text-gray-400 hover:bg-gray-700 hover:text-red-400 transition-colors"
+                  className="p-1 rounded-lg text-muted-foreground hover:bg-muted hover:text-red-400 transition-colors"
                   title="Report post"
                 >
                   <Flag size={16} />
@@ -235,7 +235,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
               {isAuthor && (
                 <button
                   type="button"
-                  className="p-1 rounded-lg text-gray-400 hover:bg-gray-700 transition-colors"
+                  className="p-1 rounded-lg text-muted-foreground hover:bg-muted transition-colors"
                   title="Options"
                 >
                   <MoreHorizontal size={18} />
@@ -246,7 +246,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
         )}
 
         {/* Post Content */}
-        <div className="text-white text-sm leading-relaxed whitespace-pre-wrap">
+        <div className="text-card-foreground text-sm leading-relaxed whitespace-pre-wrap">
           {localPost.text}
         </div>
 
