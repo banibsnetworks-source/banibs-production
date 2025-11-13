@@ -221,8 +221,8 @@ const NewsSectionPage = () => {
                     flex items-center space-x-2 px-4 py-2 rounded-md font-medium transition-colors
                     ${
                       page === 1
-                        ? 'bg-gray-800 text-gray-600 cursor-not-allowed'
-                        : 'bg-gray-700 text-white hover:bg-gray-600'
+                        ? 'bg-muted text-muted-foreground cursor-not-allowed'
+                        : 'bg-card text-foreground hover:bg-muted border border-border'
                     }
                   `}
                 >
@@ -253,7 +253,7 @@ const NewsSectionPage = () => {
                           ${
                             page === pageNum
                               ? 'bg-yellow-500 text-gray-900'
-                              : 'bg-gray-700 text-white hover:bg-gray-600'
+                              : 'bg-card text-foreground hover:bg-muted border border-border'
                           }
                         `}
                       >
