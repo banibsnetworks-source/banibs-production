@@ -3,6 +3,7 @@ import { SocialLayoutProvider, useSocialLayout } from '../../contexts/SocialLayo
 import LeftRail from './LeftRail/LeftRail';
 import RightRail from './RightRail/RightRail';
 import GlobalNavBar from '../GlobalNavBar';
+import { useTheme } from '../../contexts/ThemeContext';
 
 /**
  * SocialLayout - Phase 10.1
@@ -11,15 +12,17 @@ import GlobalNavBar from '../GlobalNavBar';
  */
 const SocialLayoutContent = ({ children }) => {
   const { isCollapsed } = useSocialLayout();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   return (
     <>
       <GlobalNavBar />
       <div 
+        className="bg-background"
         style={{ 
           display: 'flex',
           height: 'calc(100vh - 56px)',
-          background: 'var(--bg-primary)',
           position: 'relative'
         }}
       >
@@ -34,12 +37,11 @@ const SocialLayoutContent = ({ children }) => {
         
         {/* Main Content Area - Flexible, Scrollable */}
         <main 
-          className="social-main"
+          className="social-main bg-background"
           style={{
             flex: 1,
             overflowY: 'auto',
             overflowX: 'hidden',
-            background: 'var(--bg-secondary)',
             position: 'relative',
             minWidth: 0
           }}
