@@ -1,0 +1,17 @@
+{
+  "name": "banibs_highfive_clean",
+  "variant": "clean",
+  "tier": "free",
+  "frames": 8,
+  "layout": "strip",
+  "frameWidth": 512,
+  "frameHeight": 512,
+  "fps": 10,
+  "defaultMode": "once",
+  "sizes": {
+    "128": "banibs_highfive_clean_strip_128.png",
+    "256": "banibs_highfive_clean_strip_256.png",
+    "512": "banibs_highfive_clean_strip_512.png"
+  },
+  "description": "Clean high five - no spark, just hands slapping. For free/basic users."
+}

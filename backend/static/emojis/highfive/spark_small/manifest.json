@@ -1,0 +1,17 @@
+{
+  "name": "banibs_highfive_spark_small",
+  "variant": "spark_small",
+  "tier": "banibs_plus",
+  "frames": 8,
+  "layout": "strip",
+  "frameWidth": 512,
+  "frameHeight": 512,
+  "fps": 10,
+  "defaultMode": "once",
+  "sizes": {
+    "128": "banibs_highfive_spark_small_strip_128.png",
+    "256": "banibs_highfive_spark_small_strip_256.png",
+    "512": "banibs_highfive_spark_small_strip_512.png"
+  },
+  "description": "Small spark high five - subtle BANIBS gold flash at impact. For BANIBS+ / Gold pack users."
+}
