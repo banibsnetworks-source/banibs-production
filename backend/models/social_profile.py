@@ -31,6 +31,7 @@ class SocialProfile(BaseModel):
     location: Optional[str] = Field(None, max_length=100, description="City, state, or region")
     interests: List[str] = Field(default_factory=list, description="Tags for discovery & recommendations")
     is_public: bool = Field(default=True, description="Profile visibility setting")
+    theme: Optional[ProfileTheme] = Field(default=None, description="Profile theme customization")
     
     class Config:
         json_schema_extra = {
