@@ -93,6 +93,7 @@ const LeftRail = () => {
       id: 'my-space',
       label: 'MY SPACE',
       items: [
+        { icon: User, label: 'My Profile', path: '/portal/social/profile' },
         { icon: FileText, label: 'My Posts', path: `/portal/social/u/${userHandle}?tab=posts` },
         { icon: User, label: 'My Groups', path: '/portal/social/groups/mine' },
         { icon: MessageCircle, label: 'My Messages', path: '/portal/social/messages' },
