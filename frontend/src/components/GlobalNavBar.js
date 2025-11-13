@@ -221,6 +221,27 @@ const GlobalNavBar = () => {
                 </Link>
               ))}
               <div className="pt-4 border-t border-blue-700 flex flex-col space-y-2">
+                {/* Mobile Theme Toggle */}
+                <button
+                  onClick={toggleTheme}
+                  className="px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 rounded-md flex items-center justify-between"
+                >
+                  <span>Theme</span>
+                  <span className="flex items-center">
+                    {theme === 'dark' ? (
+                      <>
+                        <Sun size={18} className="mr-2" />
+                        Light Mode
+                      </>
+                    ) : (
+                      <>
+                        <Moon size={18} className="mr-2" />
+                        Dark Mode
+                      </>
+                    )}
+                  </span>
+                </button>
+                
                 <Link
                   to="/login"
                   onClick={() => setMobileMenuOpen(false)}
