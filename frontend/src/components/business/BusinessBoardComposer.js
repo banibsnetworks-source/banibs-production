@@ -5,14 +5,14 @@ import LinkPreviewCard from '../social/LinkPreviewCard';
 import './BusinessBoardComposer.css';
 
 const CATEGORIES = [
-  { value: 'hiring', label: '💼 Hiring', desc: 'Job opportunities' },
-  { value: 'partnership', label: '🤝 Partnership', desc: 'Business partnerships' },
-  { value: 'funding', label: '💰 Funding', desc: 'Investment opportunities' },
-  { value: 'event', label: '📅 Event', desc: 'Business events' },
-  { value: 'service', label: '⚙️ Service', desc: 'Services offered' },
-  { value: 'announcement', label: '📢 Announcement', desc: 'Company news' },
-  { value: 'collaboration', label: '🔗 Collaboration', desc: 'Project collaboration' },
-  { value: 'opportunity', label: '✨ Opportunity', desc: 'General opportunities' }
+  { value: 'hiring', label: 'Hiring', desc: 'Job opportunities' },
+  { value: 'partnership', label: 'Partnership', desc: 'Business partnerships' },
+  { value: 'funding', label: 'Funding', desc: 'Investment opportunities' },
+  { value: 'event', label: 'Event', desc: 'Business events' },
+  { value: 'service', label: 'Service', desc: 'Services offered' },
+  { value: 'announcement', label: 'Announcement', desc: 'Company news' },
+  { value: 'collaboration', label: 'Collaboration', desc: 'Project collaboration' },
+  { value: 'opportunity', label: 'Opportunity', desc: 'General opportunities' }
 ];
 
 const BusinessBoardComposer = ({ isOpen, onClose, onPostCreated }) => {
