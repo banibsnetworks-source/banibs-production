@@ -151,8 +151,8 @@
   padding: 12px;
   overflow-y: auto;
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 4px;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
   align-content: start;
 }
 
@@ -160,22 +160,23 @@
   aspect-ratio: 1;
   background: none;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.15s;
+  padding: 4px;
 }
 
 .emoji-item:hover {
   background: var(--muted);
-  transform: scale(1.2);
+  transform: scale(1.15);
 }
 
 .emoji-item:active {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 /* Footer */
