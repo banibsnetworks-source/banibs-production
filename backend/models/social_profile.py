@@ -7,6 +7,17 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 
 
+class ProfileTheme(BaseModel):
+    """
+    User profile theme customization
+    Controls accent colors, layout, and cover treatment
+    """
+    accent: str = Field(default="gold", description="Accent color: gold|royal_blue|purple|emerald|brick_red|teal")
+    layout: str = Field(default="classic", description="Layout style: classic|creator|business")
+    cover_style: str = Field(default="normal", description="Cover treatment: normal|dark_overlay|light_overlay|accent_gradient")
+    show_tagline_bar: bool = Field(default=False, description="Show highlighted tagline bar under name")
+
+
 class SocialProfile(BaseModel):
     """
     Public social profile data
