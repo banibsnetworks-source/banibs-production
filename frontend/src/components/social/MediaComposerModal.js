@@ -5,7 +5,7 @@ import LinkPreviewCard from './LinkPreviewCard';
 import EmojiPicker from '../emoji/EmojiPicker';
 import './MediaComposerModal.css';
 
-const MediaComposerModal = ({ isOpen, onClose, onSubmit }) => {
+const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => {
   const [text, setText] = useState('');
   const [media, setMedia] = useState([]);
   const [linkUrl, setLinkUrl] = useState('');
@@ -16,6 +16,13 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit }) => {
   const [isFetchingLink, setIsFetchingLink] = useState(false);
   const linkInputRef = useRef(null);
   const textareaRef = useRef(null);
+
+  // Set initial text when modal opens with emoji
+  React.useEffect(() => {
+    if (isOpen && initialText) {
+      setText(initialText);
+    }
+  }, [isOpen, initialText]);
 
   const handleAddLink = async () => {
     if (!linkUrl.trim()) return;
