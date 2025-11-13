@@ -246,16 +246,16 @@ function BusinessDirectoryPage() {
                     <>
                       <Building2 style={{ color: 'rgb(232, 182, 87)' }} className="flex-shrink-0" size={28} />
                       <div>
-                        <div className="text-white font-semibold">Manage My Business</div>
-                        <div className="text-gray-400 text-sm">Edit profile & branding</div>
+                        <div className="text-foreground font-semibold">Manage My Business</div>
+                        <div className="text-muted-foreground text-sm">Edit profile & branding</div>
                       </div>
                     </>
                   ) : (
                     <>
                       <Plus style={{ color: 'rgb(232, 182, 87)' }} className="flex-shrink-0" size={28} />
                       <div>
-                        <div className="text-white font-semibold">Create Business Profile</div>
-                        <div className="text-gray-400 text-sm">Join the directory</div>
+                        <div className="text-foreground font-semibold">Create Business Profile</div>
+                        <div className="text-muted-foreground text-sm">Join the directory</div>
                       </div>
                     </>
                   )}
@@ -273,22 +273,19 @@ function BusinessDirectoryPage() {
                   >
                     <MessageSquare style={{ color: 'rgb(16, 185, 129)' }} className="flex-shrink-0" size={28} />
                     <div>
-                      <div className="text-white font-semibold">Business Social</div>
-                      <div className="text-gray-400 text-sm">Connect & collaborate</div>
+                      <div className="text-foreground font-semibold">Business Social</div>
+                      <div className="text-muted-foreground text-sm">Connect & collaborate</div>
                     </div>
                   </Link>
                 )}
 
                 {/* Empty slot or future feature */}
                 {!hasBusinessProfile && (
-                  <div className="flex items-center gap-3 p-4 rounded-xl opacity-50" style={{
-                    background: 'rgba(255, 255, 255, 0.02)',
-                    border: '1px solid rgba(255, 255, 255, 0.05)'
-                  }}>
-                    <MessageSquare className="text-gray-600 flex-shrink-0" size={28} />
+                  <div className="flex items-center gap-3 p-4 rounded-xl opacity-50 bg-muted/20 border border-border">
+                    <MessageSquare className="text-muted-foreground flex-shrink-0" size={28} />
                     <div>
-                      <div className="text-gray-500 font-semibold">Business Social</div>
-                      <div className="text-gray-600 text-sm">Available after setup</div>
+                      <div className="text-muted-foreground font-semibold">Business Social</div>
+                      <div className="text-muted-foreground/60 text-sm">Available after setup</div>
                     </div>
                   </div>
                 )}
