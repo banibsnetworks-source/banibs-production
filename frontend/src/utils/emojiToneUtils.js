@@ -72,7 +72,7 @@ export function getToneModifier(toneKey) {
  * @param {string} category - Emoji category
  * @returns {boolean} True if likely supports tone
  */
-export function categorySupportsT one(category) {
+export function categorySupportsTone(category) {
   const toneCategories = ['people', 'hands', 'gestures', 'faces'];
   return toneCategories.includes(category?.toLowerCase());
 }
@@ -82,5 +82,5 @@ export default {
   removeSkinTone,
   getToneLabel,
   getToneModifier,
-  categorySupportsT one
+  categorySupportsTone
 };
