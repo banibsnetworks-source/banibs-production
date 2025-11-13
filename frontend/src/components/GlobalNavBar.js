@@ -36,7 +36,7 @@ const GlobalNavBar = () => {
 
   const navLinks = [
     { label: 'BANIBS News', path: '/', icon: '📰' },
-    { label: 'Business Directory', path: '/business', icon: '💼' },
+    { label: 'Business Directory', path: '/business-directory', icon: '💼' },
     { label: 'BANIBS Social', path: '/portal/social', icon: '🌐' },
     { label: 'Information & Resources', path: '/resources', icon: '📚' },
     { label: 'Marketplace', path: '/portal/marketplace', icon: '🛍️' },
