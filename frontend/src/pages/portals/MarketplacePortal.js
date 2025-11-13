@@ -39,41 +39,41 @@ const MarketplacePortal = () => {
           <nav className="flex space-x-8 overflow-x-auto">
             <Link
               to="/portal/marketplace/jobs"
-              className={`py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
-                isActive('/portal/marketplace/jobs')
-                  ? 'border-amber-600 text-amber-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
+              className="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap transition-colors"
+              style={{
+                borderColor: isActive('/portal/marketplace/jobs') ? 'rgb(232, 182, 87)' : 'transparent',
+                color: isActive('/portal/marketplace/jobs') ? 'rgb(232, 182, 87)' : 'rgb(156, 163, 175)'
+              }}
             >
               💼 Jobs
             </Link>
             <Link
               to="/portal/marketplace/listings"
-              className={`py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
-                isActive('/portal/marketplace/listings')
-                  ? 'border-amber-600 text-amber-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
+              className="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap transition-colors"
+              style={{
+                borderColor: isActive('/portal/marketplace/listings') ? 'rgb(232, 182, 87)' : 'transparent',
+                color: isActive('/portal/marketplace/listings') ? 'rgb(232, 182, 87)' : 'rgb(156, 163, 175)'
+              }}
             >
               📋 Listings & Opportunities
             </Link>
             <Link
               to="/portal/marketplace/products"
-              className={`py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
-                isActive('/portal/marketplace/products')
-                  ? 'border-amber-600 text-amber-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
+              className="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap transition-colors"
+              style={{
+                borderColor: isActive('/portal/marketplace/products') ? 'rgb(232, 182, 87)' : 'transparent',
+                color: isActive('/portal/marketplace/products') ? 'rgb(232, 182, 87)' : 'rgb(156, 163, 175)'
+              }}
             >
               🛍️ Products
             </Link>
             <Link
               to="/portal/marketplace/services"
-              className={`py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
-                isActive('/portal/marketplace/services')
-                  ? 'border-amber-600 text-amber-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
+              className="py-4 px-2 border-b-2 font-medium text-sm whitespace-nowrap transition-colors"
+              style={{
+                borderColor: isActive('/portal/marketplace/services') ? 'rgb(232, 182, 87)' : 'transparent',
+                color: isActive('/portal/marketplace/services') ? 'rgb(232, 182, 87)' : 'rgb(156, 163, 175)'
+              }}
             >
               🔧 Services
             </Link>
