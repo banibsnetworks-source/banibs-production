@@ -131,8 +131,8 @@ const LeftRail = () => {
           {/* User Strip */}
           <div 
             className={`user-strip ${isCollapsed ? 'collapsed' : ''}`}
-            onClick={() => navigate(`/portal/social/u/${userHandle}`)}
-            onMouseEnter={(e) => handleMouseEnter(e, userName)}
+            onClick={() => navigate('/portal/social/profile')}
+            onMouseEnter={(e) => handleMouseEnter(e, 'Edit Profile')}
             onMouseLeave={handleMouseLeave}
           >
             <div className="user-strip-avatar">
