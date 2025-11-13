@@ -187,26 +187,26 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
                 <Smile size={20} />
               </button>
               {showEmojiPicker && (
-                <div style={{ position: 'absolute', bottom: '100%', left: 0, marginBottom: '8px' }}>
+                <div style={{ position: 'absolute', bottom: '100%', left: 0, marginBottom: '8px', zIndex: 1000 }}>
                   <EmojiPicker
-                    onEmojiSelect={(emoji) => {
+                    onSelect={(emoji) => {
                       // Insert emoji at cursor position
+                      const emojiChar = emoji.type === 'unicode' ? emoji.char : '';
                       const textarea = textareaRef.current;
-                      if (textarea) {
+                      if (textarea && emojiChar) {
                         const start = textarea.selectionStart;
                         const end = textarea.selectionEnd;
-                        const newText = text.substring(0, start) + emoji + text.substring(end);
+                        const newText = text.substring(0, start) + emojiChar + text.substring(end);
                         setText(newText);
                         // Set cursor after emoji
                         setTimeout(() => {
-                          textarea.selectionStart = textarea.selectionEnd = start + emoji.length;
+                          textarea.selectionStart = textarea.selectionEnd = start + emojiChar.length;
                           textarea.focus();
                         }, 0);
                       }
                       setShowEmojiPicker(false);
                     }}
                     onClose={() => setShowEmojiPicker(false)}
-                    position="bottom"
                   />
                 </div>
               )}
