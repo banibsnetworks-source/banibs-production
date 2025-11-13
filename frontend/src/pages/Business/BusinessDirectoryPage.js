@@ -4,6 +4,7 @@ import EmptyState from "../../components/EmptyState";
 import SEO from "../../components/SEO";
 import GlobalNavBar from "../../components/GlobalNavBar";
 import { useAuth } from "../../contexts/AuthContext";
+import { useTheme } from "../../contexts/ThemeContext";
 import { Building2, MessageSquare, Plus } from "lucide-react";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
