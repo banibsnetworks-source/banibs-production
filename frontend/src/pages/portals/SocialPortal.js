@@ -67,19 +67,78 @@ const SocialPortal = () => {
         <GlobalNavBar />
 
         {/* Hero Section */}
-        <div className="relative h-96 bg-gradient-to-br from-blue-900 to-gray-900 flex items-center justify-center overflow-hidden">
-          <div className="absolute inset-0 opacity-10">
-            <div className="grid grid-cols-8 gap-4 p-8">
-              {[...Array(32)].map((_, i) => (
-                <div key={i} className="aspect-square bg-white rounded-lg"></div>
+        <div className="relative py-20" style={{
+          background: isDark 
+            ? 'linear-gradient(to bottom right, rgb(30, 58, 138), rgb(17, 24, 39))' 
+            : 'linear-gradient(to bottom right, rgb(147, 197, 253), rgb(219, 234, 254))'
+        }}>
+          {/* Image Grid Background */}
+          <div className="absolute inset-0 overflow-hidden opacity-20">
+            <div className="grid grid-cols-6 gap-2 p-4 h-full">
+              {[...Array(24)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="aspect-square rounded-lg overflow-hidden"
+                  style={{
+                    background: `linear-gradient(135deg, ${
+                      isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+                    }, ${
+                      isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'
+                    })`
+                  }}
+                >
+                  {/* Image placeholder icons - representing diverse Black community */}
+                  <div className="w-full h-full flex items-center justify-center">
+                    <Users size={24} style={{ 
+                      color: isDark ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.2)' 
+                    }} />
+                  </div>
+                </div>
               ))}
             </div>
           </div>
+          
+          {/* Community Photos Section */}
+          <div className="container mx-auto px-4 mb-12">
+            <div className="grid grid-cols-4 gap-4 max-w-4xl mx-auto mb-8">
+              {[
+                { label: '👨‍👩‍👧‍👦 Families', color: 'rgb(59, 130, 246)' },
+                { label: '🎓 Students', color: 'rgb(16, 185, 129)' },
+                { label: '💼 Professionals', color: 'rgb(139, 92, 246)' },
+                { label: '👴👵 Elders', color: 'rgb(234, 179, 8)' }
+              ].map((item, i) => (
+                <div 
+                  key={i}
+                  className="aspect-square rounded-xl overflow-hidden"
+                  style={{
+                    background: isDark 
+                      ? `linear-gradient(135deg, ${item.color}40, ${item.color}20)`
+                      : `linear-gradient(135deg, ${item.color}30, ${item.color}10)`,
+                    border: `2px solid ${isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`
+                  }}
+                >
+                  <div className="w-full h-full flex flex-col items-center justify-center p-4">
+                    <span className="text-3xl mb-2">{item.label.split(' ')[0]}</span>
+                    <span className="text-xs font-semibold text-center" style={{
+                      color: isDark ? 'white' : 'rgb(17, 24, 39)'
+                    }}>
+                      {item.label.split(' ')[1]}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          
           <div className="relative z-10 text-center px-4">
-            <h1 className="text-5xl font-bold text-white mb-4">
+            <h1 className="text-5xl font-bold mb-4" style={{
+              color: isDark ? 'white' : 'rgb(17, 24, 39)'
+            }}>
               BANIBS Social
             </h1>
-            <p className="text-2xl text-gray-300 mb-8">
+            <p className="text-2xl mb-8" style={{
+              color: isDark ? 'rgb(209, 213, 219)' : 'rgb(55, 65, 81)'
+            }}>
               Where Black America Connects
             </p>
             <div className="flex items-center justify-center space-x-4">
