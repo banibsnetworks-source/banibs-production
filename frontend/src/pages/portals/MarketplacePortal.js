@@ -44,9 +44,9 @@ const MarketplacePortal = () => {
 
       {/* Marketplace Navigation Tabs */}
       <div className="sticky top-14 z-40" style={{
-        background: 'rgba(10, 10, 12, 0.95)',
+        background: isDark ? 'rgba(10, 10, 12, 0.95)' : 'rgba(255, 255, 255, 0.95)',
         backdropFilter: 'blur(12px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.08)'
+        borderBottom: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.08)'
       }}>
         <div className="container mx-auto px-4">
           <nav className="flex space-x-8 overflow-x-auto">
