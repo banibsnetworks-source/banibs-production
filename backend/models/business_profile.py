@@ -48,6 +48,7 @@ class BusinessProfilePublic(BaseModel):
     id: str
     owner_user_id: str
     name: str
+    handle: str
     tagline: Optional[str] = None
     bio: Optional[str] = None
     logo: Optional[str] = None
@@ -59,6 +60,8 @@ class BusinessProfilePublic(BaseModel):
     location: Optional[str] = None
     services: list[BusinessService] = []
     verified_status: bool = False
+    follower_count: int = 0
+    is_following: bool = False  # Whether current user follows this business
     created_at: datetime
     updated_at: datetime
     
