@@ -6585,3 +6585,70 @@ Elite → spark_big (bright gold/red sparkles)
 
 ### Status
 ✅ **COMPLETE** - News UI is now fully cohesive with perfect light/dark mode theming
+
+---
+
+## Session Expiry UX Enhancement - November 13, 2025
+
+### Issue Fixed
+
+**Problem:**
+- Generic "Oops! Something went wrong" error when session expired
+- "Try Again" button didn't help - just showed same message
+- Made users feel like something was broken when they just needed to log back in
+- Poor UX and confusing messaging
+
+**Solution:**
+
+**1. Session Detection**
+- Added `isSessionExpired` state to track auth failures
+- Detects 401 status codes (unauthorized)
+- Distinguishes between session expiry and other errors
+
+**2. Better Messaging**
+- **Before**: "Oops! Something went wrong"
+- **After**: "Session Expired" with clear explanation
+- Friendly tone: "Your session has timed out for security. Please sign in again to continue browsing your feed."
+
+**3. Proper Action Button**
+- **Before**: "Try Again" → does nothing helpful
+- **After**: "Sign In" button → navigates to login page
+- Includes return path so user comes back to Social after login
+- Uses LogIn icon for visual clarity
+
+**4. Visual Design**
+- Yellow warning style instead of red error
+- Icon changed from AlertCircle to LogIn
+- Prominent call-to-action button
+- Clear, friendly design that doesn't feel like an error
+
+### Implementation Details
+
+**Component**: `/app/frontend/src/components/social/SocialFeed.js`
+
+**Changes:**
+- Added `useNavigate` hook from react-router-dom
+- Added `isSessionExpired` state flag
+- Updated 401 error handling to set session expired flag
+- Created separate UI for session expiry vs general errors
+- Sign In button navigates to `/login` with return state
+
+**User Flow:**
+1. User's session expires (token invalid/missing)
+2. Feed detects 401 error
+3. Shows friendly "Session Expired" message
+4. User clicks "Sign In"
+5. Redirected to login page
+6. After login, returns to Social feed
+
+### Testing Results
+
+✅ Session expired detection works correctly
+✅ Friendly message displayed instead of error
+✅ Sign In button navigates to login page
+✅ Return path preserved (user comes back to Social)
+✅ Visual design uses yellow (informational) not red (error)
+✅ Regular errors still show "Try Again" appropriately
+
+### Status
+✅ **COMPLETE** - Session expiry now has proper, friendly UX flow
