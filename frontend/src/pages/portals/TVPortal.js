@@ -10,8 +10,13 @@ import { Play } from 'lucide-react';
  * BANIBS TV Portal landing page
  */
 const TVPortal = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen" style={{
+      backgroundColor: isDark ? 'rgb(10, 10, 12)' : 'rgb(249, 250, 251)'
+    }}>
       <SEO
         title="BANIBS TV - Watch Live & On-Demand"
         description="Watch BANIBS TV live streams, news programs, and community content."
