@@ -80,58 +80,49 @@ const LeftRail = () => {
     setHoveredItem(null);
   };
 
-  // Navigation configuration
+  // Navigation configuration - Phase 10.1 Final Structure
   const navSections = [
     {
       id: 'main',
-      label: null,
+      label: 'MAIN',
       items: [
         { icon: Home, label: 'Home', path: '/portal/social' },
-        { icon: Edit3, label: 'Create Post', action: () => {
-          // TODO: Open post composer modal
-          console.log('Open composer');
-        }},
-        { icon: Video, label: 'Go Live', path: '/portal/social/live' }
+        { icon: Search, label: 'Discover People', path: '/portal/social/discover/people' },
+        { icon: User, label: 'Groups & Communities', path: '/portal/social/groups' },
+        { icon: Briefcase, label: 'Marketplace', path: '/portal/marketplace' },
+        { icon: Video, label: 'Live Now', path: '/portal/social/live' }
       ]
     },
     {
       id: 'my-space',
       label: 'MY SPACE',
       items: [
-        { icon: User, label: 'My Profile', path: `/portal/social/u/${userHandle}` },
         { icon: FileText, label: 'My Posts', path: `/portal/social/u/${userHandle}?tab=posts` },
+        { icon: User, label: 'My Groups', path: '/portal/social/groups/mine' },
+        { icon: MessageCircle, label: 'My Messages', path: '/portal/social/messages' },
+        { icon: Bookmark, label: 'Saved / Bookmarks', path: '/portal/social/saved' },
         { icon: Mic, label: 'My Lives', path: '/portal/social/lives' },
-        { icon: Star, label: 'My Subscriptions', path: '/portal/social/subscriptions' },
-        { icon: Bookmark, label: 'Saved', path: '/portal/social/saved' }
-      ]
-    },
-    {
-      id: 'discover',
-      label: 'DISCOVER',
-      items: [
-        { icon: Search, label: 'People', path: '/portal/social/discover/people' },
-        { icon: Briefcase, label: 'Businesses & Creators', path: '/portal/social/discover/creators' },
-        { icon: TrendingUp, label: 'Trending', path: '/portal/social/trending' }
+        { icon: Star, label: 'Subscriptions', path: '/portal/social/subscriptions' }
       ]
     },
     {
       id: 'community',
       label: 'COMMUNITY & SAFETY',
       items: [
-        { icon: Shield, label: 'Community Watch', path: '/portal/social/watch' },
-        { icon: EyeOff, label: 'Hidden & Muted', path: '/portal/social/hidden' },
-        { icon: XCircle, label: 'Blocked Users', path: '/portal/social/blocked' },
-        { icon: Flag, label: 'My Reports', path: '/portal/social/reports' }
+        { icon: Lock, label: 'Privacy Settings', path: '/portal/social/settings/privacy' },
+        { icon: EyeOff, label: 'Hidden / Blocked', path: '/portal/social/settings/blocked' },
+        { icon: User, label: 'Anonymous Posting', path: '/portal/social/settings/anonymous' },
+        { icon: Shield, label: 'Community Watch', path: '/portal/social/watch' }
       ]
     },
     {
       id: 'settings',
       label: 'SETTINGS',
       items: [
-        { icon: Settings, label: 'Preferences', path: '/portal/social/settings' },
-        { icon: Lock, label: 'Privacy & Visibility', path: '/portal/social/settings/privacy' },
-        { icon: ShieldCheck, label: 'Security', path: '/portal/social/settings/security' },
-        { icon: DollarSign, label: 'Monetization', path: '/portal/social/settings/monetization' }
+        { icon: Settings, label: 'Theme & Display', path: '/portal/social/settings/display' },
+        { icon: Video, label: 'Autoplay Settings', path: '/portal/social/settings/video' },
+        { icon: Settings, label: 'Language', path: '/portal/social/settings/language' },
+        { icon: ShieldCheck, label: 'Security & 2FA', path: '/portal/social/settings/security' }
       ]
     }
   ];
