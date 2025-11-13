@@ -4,14 +4,14 @@ import { ExternalLink, MapPin, Calendar } from 'lucide-react';
 import './BusinessBoardPostCard.css';
 
 const CATEGORY_LABELS = {
-  'hiring': '💼 Hiring',
-  'partnership': '🤝 Partnership',
-  'funding': '💰 Funding',
-  'event': '📅 Event',
-  'service': '⚙️ Service',
-  'announcement': '📢 Announcement',
-  'collaboration': '🔗 Collaboration',
-  'opportunity': '✨ Opportunity'
+  'hiring': 'Hiring',
+  'partnership': 'Partnership',
+  'funding': 'Funding',
+  'event': 'Event',
+  'service': 'Service',
+  'announcement': 'Announcement',
+  'collaboration': 'Collaboration',
+  'opportunity': 'Opportunity'
 };
 
 const BusinessBoardPostCard = ({ post }) => {
