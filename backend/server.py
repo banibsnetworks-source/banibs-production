@@ -244,6 +244,10 @@ app.include_router(social_settings_router)
 from routes.media_upload import router as media_upload_router
 app.include_router(media_upload_router)
 
+# Include business profile router (Phase 8.2 - Business Accounts)
+from routes.business import router as business_router
+app.include_router(business_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
