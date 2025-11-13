@@ -73,6 +73,9 @@ import SocialProfileEditPage from "./pages/portals/SocialProfileEditPage";
 import SocialProfilePublicPage from "./pages/portals/SocialProfilePublicPage";
 import SocialSettingsDisplay from "./pages/portals/SocialSettingsDisplay";
 import SocialProfileTheme from "./pages/portals/SocialProfileTheme";
+// Phase 8.2 - Business Profiles
+import BusinessProfileEdit from "./pages/business/BusinessProfileEdit";
+import BusinessProfilePublic from "./pages/business/BusinessProfilePublic";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
