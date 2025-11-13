@@ -19,6 +19,7 @@ const GlobalNavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   // Phase 8.3.1: Listen for global auth modal events
   React.useEffect(() => {
