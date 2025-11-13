@@ -270,11 +270,18 @@ function BusinessDirectoryPage() {
         )}
 
         {/* Filters */}
-        <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-4 md:p-6 mb-8">
+        <div style={{
+          background: 'rgba(10, 10, 12, 0.85)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: '16px',
+          padding: '24px',
+          marginBottom: '32px'
+        }}>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Search */}
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm font-medium text-gray-400 mb-2">
                 Search
               </label>
               <input
