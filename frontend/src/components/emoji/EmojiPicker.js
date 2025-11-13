@@ -54,10 +54,16 @@ const EmojiPicker = ({ onEmojiSelect, onClose, position = 'bottom' }) => {
       const availablePacks = loadedPacks.filter(pack => 
         canAccessPack(pack.id, userTier)
       );
-      setPacks(availablePacks);
+      // Sort packs to put BANIBS standard first
+      const sortedPacks = availablePacks.sort((a, b) => {
+        if (a.id === 'banibs_standard') return -1;
+        if (b.id === 'banibs_standard') return 1;
+        return 0;
+      });
+      setPacks(sortedPacks);
       
-      // Set default pack to BANIBS standard if available
-      const defaultPack = availablePacks.find(p => p.id === 'banibs_standard') || availablePacks[0];
+      // Set default pack to BANIBS standard (our featured pack)
+      const defaultPack = sortedPacks.find(p => p.id === 'banibs_standard') || sortedPacks[0];
       if (defaultPack) {
         setActivePack(defaultPack.id);
       }
