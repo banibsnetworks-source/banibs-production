@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { X, Image as ImageIcon, Video, Link2, Loader2 } from 'lucide-react';
+import { X, Image as ImageIcon, Video, Link2, Loader2, Smile } from 'lucide-react';
 import MediaUploader from './MediaUploader';
 import LinkPreviewCard from './LinkPreviewCard';
+import EmojiPicker from '../emoji/EmojiPicker';
 import './MediaComposerModal.css';
 
 const MediaComposerModal = ({ isOpen, onClose, onSubmit }) => {
@@ -10,9 +11,11 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit }) => {
   const [linkUrl, setLinkUrl] = useState('');
   const [linkMeta, setLinkMeta] = useState(null);
   const [showLinkInput, setShowLinkInput] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [isFetchingLink, setIsFetchingLink] = useState(false);
   const linkInputRef = useRef(null);
+  const textareaRef = useRef(null);
 
   const handleAddLink = async () => {
     if (!linkUrl.trim()) return;
