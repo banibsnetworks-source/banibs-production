@@ -1,17 +1,22 @@
 import React from 'react';
 import { ExternalLink, Clock } from 'lucide-react';
 import SentimentBadge from './SentimentBadge';
+import { useTheme } from '../contexts/ThemeContext';
 
 /**
  * News Hero Section
  * Large featured story at the top of the homepage
  * Prominent image, headline, summary, and CTA
+ * Theme-aware design
  */
 const NewsHeroSection = ({ story }) => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+
   if (!story) {
     return (
-      <div className="bg-gray-800 rounded-lg p-8 text-center">
-        <p className="text-gray-400">No featured story available</p>
+      <div className="bg-card rounded-lg p-8 text-center border border-border">
+        <p className="text-muted-foreground">No featured story available</p>
       </div>
     );
   }
