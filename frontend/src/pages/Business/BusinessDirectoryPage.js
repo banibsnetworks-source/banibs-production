@@ -142,6 +142,38 @@ function BusinessDirectoryPage() {
           </p>
         </div>
 
+        {/* Call to Action for Anonymous Users */}
+        {!user && (
+          <div className="mb-8">
+            <div className="bg-gradient-to-r from-yellow-900/20 to-amber-900/20 backdrop-blur-sm border-2 border-yellow-500/50 rounded-2xl p-6">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="flex-1">
+                  <h2 className="text-xl font-bold text-white mb-2">
+                    Own a Business? Join Our Directory
+                  </h2>
+                  <p className="text-slate-300 text-sm">
+                    Sign in or create an account to add your business to the BANIBS directory and connect with customers.
+                  </p>
+                </div>
+                <div className="flex gap-3">
+                  <Link
+                    to="/login"
+                    className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg backdrop-blur-sm transition-colors border border-white/20"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-black font-bold rounded-lg transition-colors"
+                  >
+                    Create Account
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Business Owner Tools - Show for logged in users */}
         {user && (
           <div className="mb-8">
