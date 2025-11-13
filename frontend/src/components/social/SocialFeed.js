@@ -17,8 +17,15 @@ const SocialFeed = ({ newPost }) => {
   // Load initial feed with small delay to ensure auth is ready
   useEffect(() => {
     const timer = setTimeout(() => {
-      loadFeed();
-    }, 100);
+      // Check if token exists before loading
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        loadFeed();
+      } else {
+        setError('Authentication required. Please log in.');
+        setLoading(false);
+      }
+    }, 300); // Increased delay to ensure token is set
     return () => clearTimeout(timer);
   }, []);
 
