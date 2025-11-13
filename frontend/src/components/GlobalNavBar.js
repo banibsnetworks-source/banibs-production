@@ -191,7 +191,7 @@ const GlobalNavBar = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 rounded-md text-white hover:bg-blue-700 transition-colors"
+            className="lg:hidden p-2 rounded-lg text-foreground hover:bg-muted transition-colors"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -200,7 +200,7 @@ const GlobalNavBar = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-blue-700">
+          <div className="lg:hidden py-4 border-t border-border bg-card/95 backdrop-blur-md">
             <div className="flex flex-col space-y-2">
               {navLinks.map((link) => (
                 <Link
@@ -208,11 +208,11 @@ const GlobalNavBar = () => {
                   to={link.path}
                   onClick={() => setMobileMenuOpen(false)}
                   className={`
-                    px-4 py-3 rounded-md text-sm font-medium transition-all
+                    px-4 py-3 rounded-lg text-sm font-medium transition-all
                     ${
                       isActive(link.path)
-                        ? 'bg-blue-700 text-yellow-400'
-                        : 'text-white hover:bg-blue-700'
+                        ? 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20'
+                        : 'text-foreground hover:bg-muted'
                     }
                   `}
                 >
@@ -220,11 +220,11 @@ const GlobalNavBar = () => {
                   {link.label}
                 </Link>
               ))}
-              <div className="pt-4 border-t border-blue-700 flex flex-col space-y-2">
+              <div className="pt-4 border-t border-border flex flex-col space-y-2">
                 {/* Mobile Theme Toggle */}
                 <button
                   onClick={toggleTheme}
-                  className="px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 rounded-md flex items-center justify-between"
+                  className="px-4 py-3 text-sm font-medium text-foreground hover:bg-muted rounded-lg flex items-center justify-between"
                 >
                   <span>Theme</span>
                   <span className="flex items-center">
@@ -242,20 +242,57 @@ const GlobalNavBar = () => {
                   </span>
                 </button>
                 
-                <Link
-                  to="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-3 text-sm font-medium text-white hover:bg-blue-700 rounded-md"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  to="/register"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-3 text-sm font-bold bg-yellow-500 text-blue-900 rounded-md hover:bg-yellow-400 text-center"
-                >
-                  Subscribe
-                </Link>
+                {!isAuthenticated ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        setAuthModalOpen(true);
+                      }}
+                      className="px-4 py-3 text-sm font-medium text-foreground hover:bg-muted rounded-lg text-left"
+                    >
+                      Sign In
+                    </button>
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        setAuthModalOpen(true);
+                      }}
+                      className="px-4 py-3 text-sm font-bold bg-yellow-500 text-gray-900 rounded-lg hover:bg-yellow-400 text-center"
+                    >
+                      Join BANIBS
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/portal/social/profile"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="px-4 py-3 text-sm font-medium text-foreground hover:bg-muted rounded-lg flex items-center space-x-2"
+                    >
+                      <User size={18} />
+                      <span>Profile</span>
+                    </Link>
+                    <Link
+                      to="/settings"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="px-4 py-3 text-sm font-medium text-foreground hover:bg-muted rounded-lg flex items-center space-x-2"
+                    >
+                      <Settings size={18} />
+                      <span>Settings</span>
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setMobileMenuOpen(false);
+                      }}
+                      className="px-4 py-3 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-muted rounded-lg text-left flex items-center space-x-2"
+                    >
+                      <LogOut size={18} />
+                      <span>Sign Out</span>
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>
