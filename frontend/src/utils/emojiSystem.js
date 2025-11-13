@@ -29,13 +29,14 @@ export const loadEmojiPacks = async () => {
 };
 
 // Get user's available emoji packs based on tier
+// BANIBS packs are ALWAYS listed first - they're our primary brand identity
 export const getUserEmojiPacks = (userTier = 'free') => {
   const tierMap = {
-    'free': ['base_yellow', 'banibs_standard'],
-    'basic': ['base_yellow', 'banibs_standard'],
-    'banibs_plus': ['base_yellow', 'banibs_standard', 'banibs_gold_spark'],
-    'elite': ['base_yellow', 'banibs_standard', 'banibs_gold_spark'],
-    'business_pro': ['base_yellow', 'banibs_standard', 'banibs_gold_spark']
+    'free': ['banibs_standard', 'base_yellow'],
+    'basic': ['banibs_standard', 'base_yellow'],
+    'banibs_plus': ['banibs_standard', 'banibs_gold_spark', 'base_yellow'],
+    'elite': ['banibs_standard', 'banibs_gold_spark', 'base_yellow'],
+    'business_pro': ['banibs_standard', 'banibs_gold_spark', 'base_yellow']
   };
 
   return tierMap[userTier] || tierMap['free'];
