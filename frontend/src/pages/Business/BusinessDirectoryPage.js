@@ -129,7 +129,9 @@ function BusinessDirectoryPage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'rgb(10, 10, 12)' }}>
+    <div className="min-h-screen" style={{ 
+      backgroundColor: isDark ? 'rgb(10, 10, 12)' : 'rgb(249, 250, 251)' 
+    }}>
       <SEO 
         title="BANIBS Business Directory - Black-Owned Businesses"
         description="Discover and support Black-owned and Black-supporting businesses. Find verified businesses in technology, food, healthcare, education, and more."
@@ -137,7 +139,11 @@ function BusinessDirectoryPage() {
       <GlobalNavBar />
       
       {/* Hero Section */}
-      <div className="bg-gradient-to-br from-yellow-900/30 to-gray-900 py-16">
+      <div className="py-16" style={{
+        background: isDark 
+          ? 'linear-gradient(to bottom right, rgb(113, 63, 18), rgb(17, 24, 39))'
+          : 'linear-gradient(to bottom right, rgb(254, 243, 199), rgb(253, 230, 138))'
+      }}>
         <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full mb-6" style={{
             background: 'rgb(232, 182, 87)'
