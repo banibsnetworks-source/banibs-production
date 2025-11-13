@@ -176,6 +176,7 @@ function App() {
               {/* Test Pages */}
               <Route path="/test/highfive" element={<HighFiveDemo />} />
               <Route path="/test/emojis" element={<EmojiTestPage />} />
+              <Route path="/test/emoji-picker" element={<EmojiPickerDemo />} />
               
               <Route path="/portal/marketplace/*" element={<MarketplacePortal />} />
               <Route path="/portal/tv" element={<TVPortal />} />
