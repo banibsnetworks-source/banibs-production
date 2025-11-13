@@ -98,6 +98,7 @@ const BusinessBoardPage = () => {
 
   return (
     <div className="business-board-container">
+      <GlobalNavBar />
       {/* Header */}
       <div className="board-header">
         <div className="header-content">
