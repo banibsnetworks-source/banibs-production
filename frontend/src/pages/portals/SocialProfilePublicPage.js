@@ -29,11 +29,11 @@ const SocialProfilePublicPage = () => {
           { credentials: 'include' }
         );
         
-        // Clone response to avoid "body already used" error
+        // Clone response BEFORE any operation to avoid "body already used" error
         const clonedResponse = response.clone();
         
-        if (!response.ok) {
-          if (response.status === 404) {
+        if (!clonedResponse.ok) {
+          if (clonedResponse.status === 404) {
             throw new Error('Profile not found');
           }
           throw new Error('Failed to load profile');
