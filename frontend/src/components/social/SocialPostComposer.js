@@ -122,15 +122,18 @@ const SocialPostComposer = ({ onPostCreated }) => {
             
             {/* Emoji Picker */}
             {showEmojiPicker && (
-              <EmojiPicker
-                onEmojiSelect={(emoji) => {
-                  setInitialEmoji(emoji);
-                  setShowEmojiPicker(false);
-                  setIsModalOpen(true);
-                }}
-                onClose={() => setShowEmojiPicker(false)}
-                position="top"
-              />
+              <div style={{ position: 'absolute', bottom: '100%', left: 0, marginBottom: '8px', zIndex: 1000 }}>
+                <EmojiPicker
+                  onSelect={(emoji) => {
+                    // Insert emoji char for unicode emojis
+                    const emojiChar = emoji.type === 'unicode' ? emoji.char : '';
+                    setInitialEmoji(emojiChar);
+                    setShowEmojiPicker(false);
+                    setIsModalOpen(true);
+                  }}
+                  onClose={() => setShowEmojiPicker(false)}
+                />
+              </div>
             )}
           </div>
         </div>
