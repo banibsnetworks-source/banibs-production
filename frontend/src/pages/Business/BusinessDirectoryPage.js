@@ -132,18 +132,27 @@ function BusinessDirectoryPage() {
         description="Discover and support Black-owned and Black-supporting businesses. Find verified businesses in technology, food, healthcare, education, and more."
       />
       <GlobalNavBar />
-      <div className="py-8 md:py-12">
-        <div className="max-w-7xl mx-auto px-4">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
+      
+      {/* Hero Section */}
+      <div className="bg-gradient-to-br from-yellow-900/30 to-gray-900 py-16">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full mb-6" style={{
+            background: 'rgb(232, 182, 87)'
+          }}>
+            <span className="text-black font-bold">💼 DIRECTORY</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             BANIBS Business Directory
           </h1>
-          <p className="text-slate-300 text-base md:text-lg">
+          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
             Discover Black-owned and Black-supporting businesses in our network. 
             Open to all, rooted in Black advancement.
           </p>
         </div>
+      </div>
+
+      <div className="py-8 md:py-12">
+        <div className="max-w-7xl mx-auto px-4">
 
         {/* Call to Action for Anonymous Users */}
         {!user && (
