@@ -298,18 +298,11 @@ function BusinessDirectoryPage() {
         )}
 
         {/* Filters */}
-        <div style={{
-          background: 'rgba(10, 10, 12, 0.85)',
-          backdropFilter: 'blur(12px)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          borderRadius: '16px',
-          padding: '24px',
-          marginBottom: '32px'
-        }}>
+        <div className="bg-card border border-border rounded-2xl p-6 mb-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {/* Search */}
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-400 mb-2">
+              <label className="block text-sm font-medium text-muted-foreground mb-2">
                 Search
               </label>
               <input
@@ -317,28 +310,19 @@ function BusinessDirectoryPage() {
                 placeholder="Business name or description..."
                 value={filters.q}
                 onChange={(e) => handleFilterChange("q", e.target.value)}
-                className="w-full px-4 py-2 rounded-lg text-white focus:outline-none"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  '::placeholder': { color: 'rgba(255, 255, 255, 0.4)' }
-                }}
+                className="w-full px-4 py-2 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
               />
             </div>
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">
+              <label className="block text-sm font-medium text-muted-foreground mb-2">
                 Industry
               </label>
               <select
                 value={filters.category}
                 onChange={(e) => handleFilterChange("category", e.target.value)}
-                className="w-full px-4 py-2 rounded-lg text-white focus:outline-none"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)'
-                }}
+                className="w-full px-4 py-2 rounded-lg bg-background border border-input text-foreground focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
               >
                 {CATEGORIES.map(cat => (
                   <option key={cat} value={cat === "All Categories" ? "" : cat}>
