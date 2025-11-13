@@ -146,17 +146,20 @@ function App() {
               
               {/* Phase 8.2 - Portal Routes */}
               <Route path="/portal/news" element={<NewsPortal />} />
+              
+              {/* Phase 9.0 - Social Profile Routes (must come BEFORE /portal/social) */}
+              <Route path="/portal/social/profile/theme" element={<SocialProfileTheme />} />
+              <Route path="/portal/social/profile" element={<SocialProfileEditPage />} />
+              <Route path="/portal/social/u/:handle" element={<SocialProfilePublicPage />} />
+              <Route path="/portal/social/settings/display" element={<SocialSettingsDisplay />} />
+              
+              {/* Base social portal route (catch-all for /portal/social) */}
               <Route path="/portal/social" element={<SocialPortal />} />
+              
               <Route path="/portal/business" element={<BusinessPortal />} />
               <Route path="/portal/marketplace/*" element={<MarketplacePortal />} />
               <Route path="/portal/tv" element={<TVPortal />} />
               <Route path="/portal/search" element={<SearchPortal />} />
-              
-              {/* Phase 9.0 - Social Profile Routes */}
-              <Route path="/portal/social/profile" element={<SocialProfileEditPage />} />
-              <Route path="/portal/social/profile/theme" element={<SocialProfileTheme />} />
-              <Route path="/portal/social/u/:handle" element={<SocialProfilePublicPage />} />
-              <Route path="/portal/social/settings/display" element={<SocialSettingsDisplay />} />
               
               {/* Phase 7.6.3 - Section-Specific News Pages */}
               <Route path="/news/:section" element={<NewsSectionPage />} />
