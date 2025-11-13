@@ -51,17 +51,21 @@ const NewsNavigationBar = ({ activeSection }) => {
   };
 
   return (
-    <div className="bg-gray-900 border-b border-gray-800 sticky top-14 z-40 shadow-md">
+    <div className="bg-card/95 backdrop-blur-md border-b border-border sticky top-16 z-40 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="relative">
           {/* Left Scroll Arrow */}
           {showLeftArrow && (
             <button
               onClick={() => scroll('left')}
-              className="absolute left-0 top-0 bottom-0 z-10 bg-gradient-to-r from-gray-900 to-transparent px-2 flex items-center justify-center hover:opacity-80"
+              className={`absolute left-0 top-0 bottom-0 z-10 px-2 flex items-center justify-center hover:opacity-80 ${
+                isDark 
+                  ? 'bg-gradient-to-r from-gray-900 to-transparent' 
+                  : 'bg-gradient-to-r from-white to-transparent'
+              }`}
               aria-label="Scroll left"
             >
-              <ChevronLeft className="text-yellow-400" size={24} />
+              <ChevronLeft className="text-yellow-500" size={24} />
             </button>
           )}
 
@@ -85,12 +89,12 @@ const NewsNavigationBar = ({ activeSection }) => {
                   key={section.id}
                   to={linkPath}
                   className={`
-                    flex items-center space-x-1.5 px-4 py-2 rounded-md text-sm font-medium
+                    flex items-center space-x-1.5 px-4 py-2 rounded-lg text-sm font-medium
                     whitespace-nowrap transition-all duration-200
                     ${
                       isActive
-                        ? 'bg-yellow-500 text-gray-900 font-bold'
-                        : 'text-gray-300 hover:bg-gray-800 hover:text-yellow-400'
+                        ? 'bg-yellow-500 text-gray-900 font-bold shadow-sm'
+                        : 'text-foreground hover:bg-muted hover:text-yellow-600 dark:hover:text-yellow-400'
                     }
                   `}
                 >
@@ -105,10 +109,14 @@ const NewsNavigationBar = ({ activeSection }) => {
           {showRightArrow && (
             <button
               onClick={() => scroll('right')}
-              className="absolute right-0 top-0 bottom-0 z-10 bg-gradient-to-l from-gray-900 to-transparent px-2 flex items-center justify-center hover:opacity-80"
+              className={`absolute right-0 top-0 bottom-0 z-10 px-2 flex items-center justify-center hover:opacity-80 ${
+                isDark 
+                  ? 'bg-gradient-to-l from-gray-900 to-transparent' 
+                  : 'bg-gradient-to-l from-white to-transparent'
+              }`}
               aria-label="Scroll right"
             >
-              <ChevronRight className="text-yellow-400" size={24} />
+              <ChevronRight className="text-yellow-500" size={24} />
             </button>
           )}
         </div>
