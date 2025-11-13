@@ -33,26 +33,19 @@ const SocialProfileEditPage = () => {
     const loadProfile = async () => {
       setLoading(true);
       try {
-        const token = localStorage.getItem('access_token');
-        console.log('[ProfileEdit] Token found:', token ? 'YES' : 'NO');
-        
         const response = await fetch(
           `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/me`,
           {
             headers: {
-              'Authorization': `Bearer ${token}`
+              'Authorization': `Bearer ${localStorage.getItem('access_token')}`
             },
             credentials: 'include'
           }
         );
         
-        if (!response.ok) {
-          console.error('[ProfileEdit] API response not ok:', response.status);
-          throw new Error('Failed to load profile');
-        }
+        if (!response.ok) throw new Error('Failed to load profile');
         
         const data = await response.json();
-        console.log('[ProfileEdit] Profile loaded:', data.display_name);
         setProfile(data);
         setFormData({
           display_name: data.display_name || '',
@@ -64,7 +57,7 @@ const SocialProfileEditPage = () => {
           is_public: data.is_public !== false
         });
       } catch (err) {
-        console.error('[ProfileEdit] Error loading profile:', err);
+        console.error('Error loading profile:', err);
         setError('Failed to load profile');
       } finally {
         setLoading(false);
@@ -73,10 +66,7 @@ const SocialProfileEditPage = () => {
     
     // Check if user is authenticated via token
     const token = localStorage.getItem('access_token');
-    console.log('[ProfileEdit] Checking auth, token:', token ? 'EXISTS' : 'MISSING');
-    
     if (!token) {
-      console.warn('[ProfileEdit] No token found, redirecting to /portal/social');
       navigate('/portal/social');
       return;
     }
