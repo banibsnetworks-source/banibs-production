@@ -19,7 +19,7 @@ const SocialLayoutContent = ({ children }) => {
         style={{ 
           display: 'flex',
           height: 'calc(100vh - 56px)',
-          background: '#050507', /* Deep BANIBS black base */
+          background: 'var(--bg-primary)',
           position: 'relative'
         }}
       >
