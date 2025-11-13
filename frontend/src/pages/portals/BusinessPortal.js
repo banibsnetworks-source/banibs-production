@@ -33,7 +33,7 @@ const BusinessPortal = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           <Link
-            to="/business"
+            to="/business-directory"
             className="bg-gray-800 rounded-xl p-8 text-center hover:bg-gray-700 transition-colors border border-gray-700"
           >
             <Briefcase className="mx-auto mb-4 text-yellow-400" size={48} />
