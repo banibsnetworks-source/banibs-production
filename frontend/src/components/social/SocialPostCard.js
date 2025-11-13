@@ -103,6 +103,45 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
     }
   };
 
+  const handleHighFive = async (postId, isHighFiving) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/social/posts/${postId}/highfive`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          credentials: 'include',
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to toggle high five');
+      }
+
+      const result = await response.json();
+      
+      // Update local state
+      const updatedPost = {
+        ...localPost,
+        viewer_has_highfived: result.highfived,
+        highfive_count: result.highfive_count
+      };
+      
+      setLocalPost(updatedPost);
+      
+      if (onUpdate) {
+        onUpdate(updatedPost);
+      }
+    } catch (err) {
+      console.error('Error toggling high five:', err);
+      throw err; // Re-throw for HighFiveButton to handle rollback
+    }
+  };
+
   const isAuthor = user?.id === localPost.author.id;
 
   // Determine profile path (handle or ID fallback)
