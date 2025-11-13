@@ -108,7 +108,7 @@ function ResourcesPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Filters */}
-        <div className="bg-gray-900/50 backdrop-blur-sm rounded-xl border border-gray-800 p-6 mb-8">
+        <div className="bg-card border border-border rounded-xl p-6 mb-8">
           {/* Search Bar */}
           <form onSubmit={handleSearch} className="mb-6">
             <div className="flex gap-2">
@@ -117,7 +117,7 @@ function ResourcesPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search resources by title or description..."
-                className="flex-1 bg-black border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-yellow-500"
+                className="flex-1 bg-background border border-input rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-yellow-500"
               />
               <button
                 type="submit"
@@ -130,7 +130,7 @@ function ResourcesPage() {
 
           {/* Category Filters */}
           <div className="mb-4">
-            <label className="text-gray-400 text-sm mb-2 block">Category</label>
+            <label className="text-muted-foreground text-sm mb-2 block">Category</label>
             <div className="flex flex-wrap gap-2">
               {CATEGORIES.map((category) => (
                 <button
@@ -142,7 +142,7 @@ function ResourcesPage() {
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     selectedCategory === category
                       ? 'bg-yellow-500 text-black'
-                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/70'
                   }`}
                 >
                   {category}
@@ -161,9 +161,9 @@ function ResourcesPage() {
                 setShowFeaturedOnly(e.target.checked);
                 setPage(1);
               }}
-              className="w-4 h-4 text-yellow-500 bg-gray-700 border-gray-600 rounded focus:ring-yellow-500"
+              className="w-4 h-4 text-yellow-500 bg-background border-input rounded focus:ring-yellow-500"
             />
-            <label htmlFor="featured" className="text-gray-300 cursor-pointer">
+            <label htmlFor="featured" className="text-foreground cursor-pointer">
               Show featured resources only
             </label>
           </div>
