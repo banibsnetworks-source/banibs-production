@@ -12,6 +12,7 @@ import MoodFilterBar from '../components/MoodFilterBar';
 import SEO from '../components/SEO';
 import { AlertCircle, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
 import { isValidSection, getSectionLabel, getSectionIcon } from '../constants/sectionKeys';
+import { useTheme } from '../contexts/ThemeContext';
 
 /**
  * NewsSectionPage - Section-Specific News Feed
@@ -25,6 +26,8 @@ const NewsSectionPage = () => {
   const [error, setError] = useState(null);
   const [sectionData, setSectionData] = useState(null);
   const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   // Get page and mood filter from URL params
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
