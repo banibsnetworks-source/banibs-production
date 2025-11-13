@@ -87,12 +87,12 @@ const NewsSectionPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-950">
+      <div className="min-h-screen bg-background">
         <GlobalNavBar />
         <NewsNavigationBar activeSection={section} />
 
         <div className="container mx-auto px-4 py-12">
-          <div className="flex items-center justify-center space-x-3 text-gray-400">
+          <div className="flex items-center justify-center space-x-3 text-muted-foreground">
             <RefreshCw className="animate-spin" size={24} />
             <span className="text-lg">Loading {getSectionLabel(section)} news...</span>
           </div>
@@ -103,7 +103,7 @@ const NewsSectionPage = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-950">
+      <div className="min-h-screen bg-background">
         <GlobalNavBar />
         <NewsNavigationBar activeSection={section} />
 
@@ -113,7 +113,7 @@ const NewsSectionPage = () => {
               <AlertCircle size={24} />
               <h3 className="text-lg font-bold">Unable to Load Section</h3>
             </div>
-            <p className="text-gray-300 mb-4">{error}</p>
+            <p className="text-card-foreground mb-4">{error}</p>
             <button
               onClick={fetchSectionData}
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
