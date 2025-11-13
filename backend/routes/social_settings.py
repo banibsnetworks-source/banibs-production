@@ -19,7 +19,7 @@ class SocialSettingsUpdate(BaseModel):
     """Settings update payload"""
     left_rail_collapsed: Optional[bool] = None
     theme: Optional[str] = None  # "dark" | "light" | "system"
-    autoplay: Optional[bool] = None
+    autoplay: Optional[str] = None  # "always" | "wifi_only" | "off"
     media_quality: Optional[str] = None  # "auto" | "data_saver" | "high"
     captions_default: Optional[bool] = None
 
