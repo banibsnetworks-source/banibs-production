@@ -119,8 +119,9 @@ async def get_my_business(
 async def get_current_user_optional():
     """Optional authentication - returns None if not authenticated"""
     try:
-        from utils.auth import get_current_user
-        return await get_current_user()
+        from middleware.auth_guard import get_current_user
+        user = await get_current_user()
+        return user
     except:
         return None
 
