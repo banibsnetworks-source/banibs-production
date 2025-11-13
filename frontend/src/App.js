@@ -72,6 +72,7 @@ import MarketplacePortal from "./pages/portals/MarketplacePortal";
 import SocialProfileEditPage from "./pages/portals/SocialProfileEditPage";
 import SocialProfilePublicPage from "./pages/portals/SocialProfilePublicPage";
 import SocialSettingsDisplay from "./pages/portals/SocialSettingsDisplay";
+import SocialProfileTheme from "./pages/portals/SocialProfileTheme";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
