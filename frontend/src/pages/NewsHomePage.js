@@ -19,6 +19,10 @@ import { AlertCircle, RefreshCw } from 'lucide-react';
  * Uses /api/news/homepage endpoint for structured data
  */
 const NewsHomePage = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  const styles = getThemeStyles(isDark);
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newsData, setNewsData] = useState(null);
