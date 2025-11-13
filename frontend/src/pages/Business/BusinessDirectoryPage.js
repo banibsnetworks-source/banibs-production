@@ -375,18 +375,23 @@ function BusinessDirectoryPage() {
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div
                 key={i}
-                className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 animate-pulse"
+                className="rounded-2xl p-6 animate-pulse"
+                style={{
+                  background: 'rgba(10, 10, 12, 0.85)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)'
+                }}
               >
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 bg-slate-700 rounded-full"></div>
+                  <div className="w-16 h-16 rounded-full" style={{ background: 'rgba(255, 255, 255, 0.1)' }}></div>
                   <div className="flex-1">
-                    <div className="h-4 bg-slate-700 rounded mb-2"></div>
-                    <div className="h-3 bg-slate-700 rounded w-2/3"></div>
+                    <div className="h-4 rounded mb-2" style={{ background: 'rgba(255, 255, 255, 0.1)' }}></div>
+                    <div className="h-3 rounded w-2/3" style={{ background: 'rgba(255, 255, 255, 0.1)' }}></div>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <div className="h-3 bg-slate-700 rounded"></div>
-                  <div className="h-3 bg-slate-700 rounded w-5/6"></div>
+                  <div className="h-3 rounded" style={{ background: 'rgba(255, 255, 255, 0.1)' }}></div>
+                  <div className="h-3 rounded w-5/6" style={{ background: 'rgba(255, 255, 255, 0.1)' }}></div>
                 </div>
               </div>
             ))}
