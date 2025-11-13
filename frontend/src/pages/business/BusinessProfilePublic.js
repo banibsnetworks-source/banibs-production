@@ -85,6 +85,7 @@ const BusinessProfilePublic = () => {
 
   return (
     <div className="business-profile-container" style={{'--accent-color': business.accent_color}}>
+      <GlobalNavBar />
       {/* Cover Section */}
       <div className="business-cover">
         {business.cover ? (
