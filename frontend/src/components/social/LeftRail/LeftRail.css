@@ -137,7 +137,7 @@
   font-weight: 700;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  color: rgba(247, 247, 247, 0.5);
+  color: var(--text-tertiary);
   padding: 8px 20px;
   margin-bottom: 4px;
   transition: opacity 150ms ease;
