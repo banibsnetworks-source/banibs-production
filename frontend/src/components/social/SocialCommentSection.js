@@ -121,17 +121,17 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
   };
 
   return (
-    <div className="p-4 bg-gray-900/50">
+    <div className="p-4 bg-muted/30">
       {/* Comments List */}
       <div className="space-y-3 mb-4">
         {loading ? (
           <div className="flex items-center justify-center py-4">
-            <Loader className="animate-spin text-gray-500" size={20} />
+            <Loader className="animate-spin text-muted-foreground" size={20} />
           </div>
         ) : error ? (
           <p className="text-red-400 text-xs text-center py-2">{error}</p>
         ) : comments.length === 0 ? (
-          <p className="text-gray-500 text-xs text-center py-2">
+          <p className="text-muted-foreground text-xs text-center py-2">
             No comments yet. Be the first to comment!
           </p>
         ) : (
@@ -144,16 +144,16 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
               
               {/* Comment Content */}
               <div className="flex-1">
-                <div className="bg-gray-800 rounded-lg px-3 py-2">
+                <div className="bg-background rounded-lg px-3 py-2 border border-border">
                   <div className="flex items-center space-x-2 mb-1">
-                    <span className="text-xs font-semibold text-white">
+                    <span className="text-xs font-semibold text-foreground">
                       {comment.author.display_name}
                     </span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-muted-foreground">
                       {formatTimestamp(comment.created_at)}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-300">
+                  <p className="text-sm text-card-foreground">
                     {comment.text}
                   </p>
                 </div>
@@ -171,17 +171,49 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
         </div>
 
         {/* Comment Input */}
-        <div className="flex-1">
-          <div className="flex items-center space-x-2">
+        <div className="flex-1 relative">
+          <div className="flex items-center space-x-1">
             <input
+              ref={inputRef}
               type="text"
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
               placeholder="Write a comment..."
               maxLength={500}
               disabled={isSubmitting}
-              className="flex-1 bg-gray-800 text-white rounded-lg px-3 py-2 text-sm placeholder-gray-500 border border-gray-700 focus:border-yellow-500 focus:outline-none focus:ring-1 focus:ring-yellow-500 transition-all"
+              className="flex-1 bg-background text-foreground rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground border border-input focus:border-yellow-500 focus:outline-none focus:ring-1 focus:ring-yellow-500 transition-all"
             />
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+              >
+                <Smile size={16} />
+              </button>
+              {showEmojiPicker && (
+                <div style={{ position: 'absolute', bottom: '100%', right: 0, marginBottom: '8px' }}>
+                  <EmojiPicker
+                    onEmojiSelect={(emoji) => {
+                      const input = inputRef.current;
+                      if (input) {
+                        const start = input.selectionStart || 0;
+                        const end = input.selectionEnd || 0;
+                        const newText = commentText.substring(0, start) + emoji + commentText.substring(end);
+                        setCommentText(newText);
+                        setTimeout(() => {
+                          input.focus();
+                          input.selectionStart = input.selectionEnd = start + emoji.length;
+                        }, 0);
+                      }
+                      setShowEmojiPicker(false);
+                    }}
+                    onClose={() => setShowEmojiPicker(false)}
+                    position="bottom"
+                  />
+                </div>
+              )}
+            </div>
             <button
               type="submit"
               disabled={!commentText.trim() || isSubmitting}
