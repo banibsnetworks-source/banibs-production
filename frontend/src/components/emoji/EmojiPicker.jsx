@@ -186,7 +186,7 @@ export default function EmojiPicker({
             "
             title={emoji.shortcodes?.[0] || emoji.id}
           >
-            <EmojiRenderer emoji={emoji} />
+            <EmojiRenderer emoji={emoji} userSkinTone={userSkinTone} />
           </button>
         ))}
 
