@@ -177,30 +177,82 @@ const SocialPortal = () => {
             color: isDark ? 'white' : 'rgb(17, 24, 39)'
           }}>Community Activity</h2>
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {[1, 2, 3, 4].map((i) => (
+            {[
+              {
+                name: 'Marcus Johnson',
+                time: '2 hours ago',
+                avatar: '💼',
+                avatarBg: 'rgb(59, 130, 246)',
+                content: 'Just launched my new business consulting firm! So grateful for the support from this community. Here\'s to building Black wealth together! 🎉',
+                likes: 142,
+                comments: 28
+              },
+              {
+                name: 'Aisha Williams',
+                time: '4 hours ago',
+                avatar: '🎓',
+                avatarBg: 'rgb(16, 185, 129)',
+                content: 'My daughter just got accepted into Howard University! All the late nights studying paid off. Proud mom moment 💕',
+                likes: 287,
+                comments: 45
+              },
+              {
+                name: 'James Thompson',
+                time: '5 hours ago',
+                avatar: '🎨',
+                avatarBg: 'rgb(139, 92, 246)',
+                content: 'Finished my latest painting celebrating our ancestors. Art is my way of honoring their journey and keeping our history alive.',
+                likes: 198,
+                comments: 32
+              },
+              {
+                name: 'Keisha Brown',
+                time: '8 hours ago',
+                avatar: '👨‍👩‍👧‍👦',
+                avatarBg: 'rgb(234, 179, 8)',
+                content: 'Family cookout this weekend was everything! Three generations together, sharing stories and laughter. This is what it\'s all about.',
+                likes: 321,
+                comments: 56
+              }
+            ].map((post, i) => (
               <div key={i} className="backdrop-blur-sm rounded-lg p-6" style={{
                 backgroundColor: isDark ? 'rgba(31, 41, 55, 0.4)' : 'rgba(255, 255, 255, 0.8)',
                 border: `1px solid ${isDark ? 'rgb(55, 65, 81)' : 'rgb(229, 231, 235)'}`
               }}>
                 <div className="flex items-center space-x-3 mb-4">
-                  <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center text-2xl" style={{
+                    backgroundColor: post.avatarBg
+                  }}>
+                    {post.avatar}
+                  </div>
                   <div className="flex-1">
-                    <div className="h-4 bg-gray-700 rounded w-32 mb-2"></div>
-                    <div className="h-3 bg-gray-700 rounded w-24"></div>
+                    <div className="font-semibold" style={{
+                      color: isDark ? 'white' : 'rgb(17, 24, 39)'
+                    }}>
+                      {post.name}
+                    </div>
+                    <div className="text-sm" style={{
+                      color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)'
+                    }}>
+                      {post.time}
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-2 mb-4">
-                  <div className="h-3 bg-gray-700 rounded"></div>
-                  <div className="h-3 bg-gray-700 rounded w-5/6"></div>
+                <div className="mb-4" style={{
+                  color: isDark ? 'rgb(229, 231, 235)' : 'rgb(55, 65, 81)'
+                }}>
+                  {post.content}
                 </div>
-                <div className="flex items-center space-x-4 text-gray-500 text-sm">
+                <div className="flex items-center space-x-6 text-sm" style={{
+                  color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)'
+                }}>
                   <div className="flex items-center space-x-1">
-                    <Heart size={16} />
-                    <span>24</span>
+                    <Heart size={18} />
+                    <span>{post.likes}</span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <MessageCircle size={16} />
-                    <span>8</span>
+                    <MessageCircle size={18} />
+                    <span>{post.comments}</span>
                   </div>
                 </div>
               </div>
