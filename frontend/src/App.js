@@ -202,7 +202,7 @@ function App() {
               {/* Stub Pages */}
               {/* Old stub - redirect to portal */}
               <Route path="/social" element={<Navigate to="/portal/social" replace />} />
-              <Route path="/business" element={<BusinessPage />} />
+              <Route path="/business" element={<Navigate to="/portal/business" replace />} />
               <Route path="/business-directory" element={<BusinessDirectoryPage />} /> {/* Phase 7.2 */}
               <Route path="/information" element={<InformationPage />} />
               <Route path="/education" element={<EducationPage />} />
