@@ -444,11 +444,17 @@ function BusinessDirectoryPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
-                      <h3 className="text-lg font-semibold text-white group-hover:text-yellow-400 transition">
+                      <h3 className="text-lg font-semibold text-white transition" style={{
+                        color: 'white'
+                      }}>
                         {business.business_name}
                       </h3>
                       {business.verified && (
-                        <span className="flex-shrink-0 px-2 py-1 bg-emerald-500/20 border border-emerald-500 text-emerald-300 text-xs font-medium rounded-full">
+                        <span className="flex-shrink-0 px-2 py-1 text-xs font-medium rounded-full" style={{
+                          background: 'rgba(16, 185, 129, 0.2)',
+                          border: '1px solid rgb(16, 185, 129)',
+                          color: 'rgb(16, 185, 129)'
+                        }}>
                           ✓ Verified
                         </span>
                       )}
