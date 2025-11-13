@@ -115,30 +115,40 @@ code {
 }
 
 
-/* Theme-specific custom properties */
-:root[data-theme="light"] {
+/* Theme-specific custom properties - BANIBS Social Standard */
+:root[data-theme="light"],
+.light {
   --bg-primary: rgb(255, 255, 255);
   --bg-secondary: rgb(249, 250, 251);
+  --bg-tertiary: rgb(243, 244, 246);
   --bg-glass: rgba(255, 255, 255, 0.9);
+  --bg-card: rgba(255, 255, 255, 0.8);
   --text-primary: rgb(17, 24, 39);
-  --text-secondary: rgb(75, 85, 99);
-  --text-tertiary: rgb(156, 163, 175);
-  --border-color: rgba(229, 231, 235, 1);
+  --text-secondary: rgb(55, 65, 81);
+  --text-tertiary: rgb(107, 114, 128);
+  --text-muted: rgb(156, 163, 175);
+  --border-color: rgba(0, 0, 0, 0.1);
   --border-subtle: rgba(0, 0, 0, 0.08);
   --gold-accent: rgb(202, 138, 4);
+  --hover-bg: rgba(0, 0, 0, 0.05);
 }
 
 :root[data-theme="dark"],
-:root:not([data-theme]) {
+:root:not([data-theme]),
+.dark {
   --bg-primary: rgb(10, 10, 12);
   --bg-secondary: rgb(17, 24, 39);
+  --bg-tertiary: rgb(31, 41, 55);
   --bg-glass: rgba(10, 10, 12, 0.85);
+  --bg-card: rgba(31, 41, 55, 0.4);
   --text-primary: rgb(255, 255, 255);
-  --text-secondary: rgb(156, 163, 175);
-  --text-tertiary: rgb(107, 114, 128);
-  --border-color: rgba(55, 65, 81, 1);
+  --text-secondary: rgb(209, 213, 219);
+  --text-tertiary: rgb(156, 163, 175);
+  --text-muted: rgb(107, 114, 128);
+  --border-color: rgba(255, 255, 255, 0.1);
   --border-subtle: rgba(255, 255, 255, 0.08);
   --gold-accent: rgb(232, 182, 87);
+  --hover-bg: rgba(255, 255, 255, 0.05);
 }
 
 /* Utility classes for theme-aware styling */
