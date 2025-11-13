@@ -126,12 +126,14 @@ function BusinessDirectoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-black py-8 md:py-12">
+    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-black">
       <SEO 
         title="BANIBS Business Directory - Black-Owned Businesses"
         description="Discover and support Black-owned and Black-supporting businesses. Find verified businesses in technology, food, healthcare, education, and more."
       />
-      <div className="max-w-7xl mx-auto px-4">
+      <GlobalNavBar />
+      <div className="py-8 md:py-12">
+        <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
