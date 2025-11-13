@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from '../../contexts/ThemeContext';
-import { loadEmojiPacks, groupEmojisByCategory, renderEmoji } from '../../utils/emojiSystem';
+import { getAllEmojiPacks } from '../../utils/emojiSystem';
 import HighFiveAnim from '../../components/emoji/HighFiveAnim';
 import HighFiveButton from '../../components/emoji/HighFiveButton';
 import GlobalNavBar from '../../components/GlobalNavBar';
