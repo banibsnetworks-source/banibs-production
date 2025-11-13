@@ -225,3 +225,11 @@ export const getHighFiveVariant = (userTier = 'free') => {
 
   return tierMap[userTier] || 'clean';
 };
+
+/**
+ * Check if user can access Gold Spark pack based on tier
+ */
+export const canAccessGoldSpark = (userTier = 'free') => {
+  const premiumTiers = ['banibs_plus', 'gold', 'elite', 'business_pro'];
+  return premiumTiers.includes(userTier);
+};
