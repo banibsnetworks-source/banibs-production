@@ -9,6 +9,10 @@ import { getThemeStyles } from '../utils/themeStyles';
  * Displays 4-6 top stories in a 2-column grid below hero
  */
 const TopStoriesGrid = ({ stories }) => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  const styles = getThemeStyles(isDark);
+  
   if (!stories || stories.length === 0) {
     return null;
   }
