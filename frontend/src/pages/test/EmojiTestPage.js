@@ -106,25 +106,36 @@ const EmojiTestPage = () => {
               <h2 className="text-2xl font-bold text-card-foreground mb-4">
                 😀 Static Emoji Rendering
               </h2>
-              {packs.map(pack => (
-                <div key={pack.id} className="mb-6">
-                  <h3 className="font-bold text-foreground mb-3">{pack.title}</h3>
-                  {pack.categories?.slice(0, 2).map(category => (
-                    <div key={category.id} className="mb-4">
-                      <p className="text-sm text-muted-foreground mb-2">
-                        {category.icon} {category.name}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {category.emojis?.slice(0, 20).map((emoji, idx) => (
-                          <span key={idx} className="text-3xl p-2 hover:bg-muted rounded">
-                            {emoji}
-                          </span>
-                        ))}
+              {packs.map(pack => {
+                const groupedEmojis = groupEmojisByCategory(pack);
+                const categories = Object.values(groupedEmojis).slice(0, 3);
+                
+                return (
+                  <div key={pack.id} className="mb-6">
+                    <h3 className="font-bold text-foreground mb-3">
+                      {pack.label || pack.title}
+                      {pack.featured && <span className="ml-2 text-yellow-500">⭐ Featured</span>}
+                    </h3>
+                    {categories.map(category => (
+                      <div key={category.id} className="mb-4">
+                        <p className="text-sm text-muted-foreground mb-2">
+                          {category.icon} {category.name}
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {category.emojis?.slice(0, 20).map((emoji, idx) => {
+                            const rendered = renderEmoji(emoji);
+                            return (
+                              <span key={idx} className="text-3xl p-2 hover:bg-muted rounded">
+                                {rendered}
+                              </span>
+                            );
+                          })}
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
+                    ))}
+                  </div>
+                );
+              })}
             </div>
 
             {/* Section 3: High-Five Animations */}
