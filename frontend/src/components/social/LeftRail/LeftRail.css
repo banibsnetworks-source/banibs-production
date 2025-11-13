@@ -162,20 +162,20 @@
   cursor: pointer;
   transition: all 200ms ease;
   position: relative;
-  color: #F7F7F7;
+  color: var(--text-primary);
   text-decoration: none;
   border-left: 3px solid transparent;
 }
 
 .nav-item:hover {
-  background-color: rgba(255, 255, 255, 0.06);
-  color: #E8B657;
+  background-color: var(--hover-overlay);
+  color: var(--gold-primary);
 }
 
 .nav-item.active {
-  background-color: rgba(255, 215, 130, 0.12);
-  border-left: 3px solid #E8B657;
-  color: #E8B657;
+  background-color: var(--active-overlay);
+  border-left: 3px solid var(--gold-primary);
+  color: var(--gold-primary);
   box-shadow: inset 0 0 12px rgba(232, 182, 87, 0.22);
 }
 
