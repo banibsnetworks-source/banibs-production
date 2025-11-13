@@ -171,18 +171,22 @@ function BusinessDirectoryPage() {
         {!user && (
           <div className="mb-8">
             <div style={{
-              background: 'rgba(10, 10, 12, 0.85)',
+              background: isDark ? 'rgba(10, 10, 12, 0.85)' : 'rgba(255, 255, 255, 0.9)',
               backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(232, 182, 87, 0.2)',
+              border: `1px solid ${isDark ? 'rgba(232, 182, 87, 0.2)' : 'rgba(202, 138, 4, 0.3)'}`,
               borderRadius: '16px',
               padding: '24px'
             }}>
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="flex-1">
-                  <h2 className="text-xl font-bold text-white mb-2">
+                  <h2 className="text-xl font-bold mb-2" style={{
+                    color: isDark ? 'white' : 'rgb(17, 24, 39)'
+                  }}>
                     Own a Business? Join Our Directory
                   </h2>
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-sm" style={{
+                    color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)'
+                  }}>
                     Sign in or create an account to add your business to the BANIBS directory and connect with customers.
                   </p>
                 </div>
