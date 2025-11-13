@@ -12,6 +12,7 @@ const SocialPostComposer = ({ onPostCreated }) => {
   const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [initialEmoji, setInitialEmoji] = useState('');
   const [error, setError] = useState(null);
   const emojiButtonRef = useRef(null);
 
