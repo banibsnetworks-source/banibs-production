@@ -97,6 +97,7 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit }) => {
         {/* Text Area */}
         <div className="composer-body">
           <textarea
+            ref={textareaRef}
             className="composer-textarea"
             placeholder="What's on your mind?"
             value={text}
