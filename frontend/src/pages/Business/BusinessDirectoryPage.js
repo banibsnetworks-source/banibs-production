@@ -289,7 +289,12 @@ function BusinessDirectoryPage() {
                 placeholder="Business name or description..."
                 value={filters.q}
                 onChange={(e) => handleFilterChange("q", e.target.value)}
-                className="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                className="w-full px-4 py-2 rounded-lg text-white focus:outline-none"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  '::placeholder': { color: 'rgba(255, 255, 255, 0.4)' }
+                }}
               />
             </div>
 
