@@ -110,6 +110,7 @@ class UserPublic(BaseModel):
     email_verified: bool
     created_at: str
     preferred_portal: str = "news"  # Phase 8.1
+    emoji_identity: Optional[Dict[str, Any]] = None  # Phase 10.0
 
 
 class UserCreate(BaseModel):
