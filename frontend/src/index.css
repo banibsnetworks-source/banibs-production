@@ -113,3 +113,65 @@ code {
         border-bottom-color: inherit;
     }
 }
+
+
+/* Theme-specific custom properties */
+:root[data-theme="light"] {
+  --bg-primary: rgb(255, 255, 255);
+  --bg-secondary: rgb(249, 250, 251);
+  --bg-glass: rgba(255, 255, 255, 0.9);
+  --text-primary: rgb(17, 24, 39);
+  --text-secondary: rgb(75, 85, 99);
+  --text-tertiary: rgb(156, 163, 175);
+  --border-color: rgba(229, 231, 235, 1);
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --gold-accent: rgb(202, 138, 4);
+}
+
+:root[data-theme="dark"],
+:root:not([data-theme]) {
+  --bg-primary: rgb(10, 10, 12);
+  --bg-secondary: rgb(17, 24, 39);
+  --bg-glass: rgba(10, 10, 12, 0.85);
+  --text-primary: rgb(255, 255, 255);
+  --text-secondary: rgb(156, 163, 175);
+  --text-tertiary: rgb(107, 114, 128);
+  --border-color: rgba(55, 65, 81, 1);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --gold-accent: rgb(232, 182, 87);
+}
+
+/* Utility classes for theme-aware styling */
+.bg-theme-primary {
+  background-color: var(--bg-primary);
+}
+
+.bg-theme-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.bg-theme-glass {
+  background-color: var(--bg-glass);
+  backdrop-filter: blur(12px);
+}
+
+.text-theme-primary {
+  color: var(--text-primary);
+}
+
+.text-theme-secondary {
+  color: var(--text-secondary);
+}
+
+.text-theme-tertiary {
+  color: var(--text-tertiary);
+}
+
+.border-theme {
+  border-color: var(--border-color);
+}
+
+.border-theme-subtle {
+  border-color: var(--border-subtle);
+}
+
