@@ -185,16 +185,19 @@ const EmojiIdentitySettingsPanel = () => {
           </h2>
           
           {/* Emoji Preview */}
-          <div className="bg-muted rounded-lg p-6 mb-6">
+          <div className="bg-muted rounded-lg p-6 mb-6" key={identity.skinTone}>
             <p className="text-sm text-muted-foreground mb-4 text-center">
               Your emojis with {SKIN_TONES.find(t => t.id === identity.skinTone)?.label.toLowerCase()}
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              {previewEmojis.map((emoji, idx) => (
-                <div key={idx} className="text-5xl">
-                  {applySkinTone(emoji, identity.skinTone, true)}
-                </div>
-              ))}
+              {previewEmojis.map((emoji, idx) => {
+                const tonedEmoji = applySkinTone(emoji, identity.skinTone, true);
+                return (
+                  <div key={`${emoji}-${identity.skinTone}-${idx}`} className="text-5xl">
+                    {tonedEmoji}
+                  </div>
+                );
+              })}
             </div>
           </div>
 
