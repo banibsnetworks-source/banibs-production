@@ -95,7 +95,9 @@ const MarketplacePortal = () => {
       </div>
 
       {/* Marketplace Content */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8" style={{ 
+        backgroundColor: isDark ? 'rgb(10, 10, 12)' : 'rgb(249, 250, 251)' 
+      }}>
         <Routes>
           <Route index element={<Navigate to="/portal/marketplace/jobs" replace />} />
           <Route path="jobs" element={<JobsSection />} />
