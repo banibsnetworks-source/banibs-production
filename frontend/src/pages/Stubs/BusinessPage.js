@@ -15,7 +15,7 @@ function BusinessPage() {
         </p>
         <div className="flex gap-4 justify-center">
           <Link
-            to="/business/directory"
+            to="/portal/business"
             className="inline-block bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-6 py-3 rounded-lg transition-colors"
           >
             Browse Business Directory
