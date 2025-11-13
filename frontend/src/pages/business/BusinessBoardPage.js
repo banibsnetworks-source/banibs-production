@@ -7,14 +7,14 @@ import './BusinessBoardPage.css';
 
 const CATEGORIES = [
   { value: '', label: 'All Posts' },
-  { value: 'hiring', label: '💼 Hiring' },
-  { value: 'partnership', label: '🤝 Partnership' },
-  { value: 'funding', label: '💰 Funding' },
-  { value: 'event', label: '📅 Event' },
-  { value: 'service', label: '⚙️ Service' },
-  { value: 'announcement', label: '📢 Announcement' },
-  { value: 'collaboration', label: '🔗 Collaboration' },
-  { value: 'opportunity', label: '✨ Opportunity' }
+  { value: 'hiring', label: 'Hiring' },
+  { value: 'partnership', label: 'Partnership' },
+  { value: 'funding', label: 'Funding' },
+  { value: 'event', label: 'Event' },
+  { value: 'service', label: 'Service' },
+  { value: 'announcement', label: 'Announcement' },
+  { value: 'collaboration', label: 'Collaboration' },
+  { value: 'opportunity', label: 'Opportunity' }
 ];
 
 const BusinessBoardPage = () => {
