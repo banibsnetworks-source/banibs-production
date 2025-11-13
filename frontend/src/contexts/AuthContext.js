@@ -101,6 +101,35 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUserProfile = async (updates) => {
+    if (!accessToken) {
+      throw new Error('Not authenticated');
+    }
+
+    try {
+      const response = await axios.patch(
+        `${BACKEND_URL}/api/auth/profile`,
+        updates,
+        {
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+
+      // Update local user state
+      const updatedUser = response.data;
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+
+      return { success: true, user: updatedUser };
+    } catch (error) {
+      console.error('Profile update error:', error);
+      throw error;
+    }
+  };
+
   const value = {
     user,
     accessToken,
