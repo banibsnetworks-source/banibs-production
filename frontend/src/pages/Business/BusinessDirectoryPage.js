@@ -23,9 +23,11 @@ const CATEGORIES = [
 ];
 
 function BusinessDirectoryPage() {
+  const { user } = useAuth();
   const [businesses, setBusinesses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [hasBusinessProfile, setHasBusinessProfile] = useState(false);
   
   const [filters, setFilters] = useState({
     q: "",
@@ -35,6 +37,36 @@ function BusinessDirectoryPage() {
   });
 
   const [debouncedQuery, setDebouncedQuery] = useState("");
+
+  // Check if user has a business profile
+  useEffect(() => {
+    async function checkBusinessProfile() {
+      if (!user) {
+        setHasBusinessProfile(false);
+        return;
+      }
+
+      try {
+        const token = localStorage.getItem('access_token');
+        const response = await fetch(`${BACKEND_URL}/api/business/my-profile`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          credentials: 'include'
+        });
+
+        if (response.ok) {
+          setHasBusinessProfile(true);
+        } else {
+          setHasBusinessProfile(false);
+        }
+      } catch (err) {
+        setHasBusinessProfile(false);
+      }
+    }
+
+    checkBusinessProfile();
+  }, [user]);
 
   // Debounce search query
   useEffect(() => {
