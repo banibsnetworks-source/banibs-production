@@ -55,19 +55,19 @@
 .right-rail-section-title {
   font-size: 16px;
   font-weight: 600;
-  color: #F9F9F9;
+  color: var(--text-primary);
 }
 
 .right-rail-section-link {
   font-size: 13px;
-  color: #E8B657;
+  color: var(--accent-gold);
   text-decoration: none;
   cursor: pointer;
   transition: color 150ms ease;
 }
 
 .right-rail-section-link:hover {
-  color: #FFD580;
+  opacity: 0.8;
 }
 
 /* Card */
