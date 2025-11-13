@@ -20,52 +20,49 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }) => {
-  const { user } = useAuth();
-  const [theme, setThemeState] = useState('dark');
-  const [isLoading, setIsLoading] = useState(true);
+  const [theme, setThemeState] = useState(() => {
+    // Initialize from localStorage immediately
+    const saved = localStorage.getItem('banibs_theme');
+    return saved || 'dark';
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Load theme on mount
+  // Apply theme to document on mount and changes
   useEffect(() => {
-    const loadTheme = async () => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  // Load theme from server after mount (if authenticated)
+  useEffect(() => {
+    const loadServerTheme = async () => {
       try {
-        // Check localStorage first
-        const localTheme = localStorage.getItem('banibs_theme');
-        if (localTheme) {
-          setThemeState(localTheme);
-          document.documentElement.setAttribute('data-theme', localTheme);
-        }
+        const token = localStorage.getItem('access_token');
+        if (!token) return;
 
-        // Then fetch from server if authenticated
-        if (user) {
-          const token = localStorage.getItem('access_token');
-          const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/api/social/settings`,
-            {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              },
-              credentials: 'include'
-            }
-          );
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/api/social/settings`,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            },
+            credentials: 'include'
+          }
+        );
 
-          if (response.ok) {
-            const settings = await response.json();
-            if (settings.theme) {
-              setThemeState(settings.theme);
-              document.documentElement.setAttribute('data-theme', settings.theme);
-              localStorage.setItem('banibs_theme', settings.theme);
-            }
+        if (response.ok) {
+          const settings = await response.json();
+          if (settings.theme && settings.theme !== theme) {
+            setThemeState(settings.theme);
+            localStorage.setItem('banibs_theme', settings.theme);
           }
         }
       } catch (err) {
-        console.error('Error loading theme:', err);
-      } finally {
-        setIsLoading(false);
+        console.error('Error loading theme from server:', err);
       }
     };
 
-    loadTheme();
-  }, [user]);
+    loadServerTheme();
+  }, []);
 
   const setTheme = async (newTheme) => {
     setThemeState(newTheme);
