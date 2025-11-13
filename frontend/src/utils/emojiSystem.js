@@ -111,6 +111,7 @@ function normalizeManifest(manifest) {
         keywords: raw.keywords || [],
         category: raw.category || 'misc',
         char: raw.char,
+        supportsSkinTone: raw.supportsSkinTone || false, // CRITICAL: Preserve tone support flag
       };
       return unicodeDef;
     }),
