@@ -116,18 +116,51 @@ async def get_my_business(
     return profile
 
 
-@router.get("/{business_id}", response_model=BusinessProfilePublic)
-async def get_business(business_id: str):
+@router.get("/{handle_or_id}", response_model=BusinessProfilePublic)
+async def get_business(
+    handle_or_id: str,
+    current_user: Optional[dict] = Depends(require_role("user", "member", optional=True))
+):
     """
-    Get public business profile by ID
+    Get public business profile by handle or ID
+    
+    Includes:
+    - Follower count
+    - Whether current user follows this business (if authenticated)
     """
-    profile = await db_business.get_business_profile_by_id(business_id)
+    # Try to get by handle first, then by ID
+    profile = await db_business.get_business_profile_by_handle(handle_or_id)
+    if not profile:
+        profile = await db_business.get_business_profile_by_id(handle_or_id)
     
     if not profile:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Business profile not found"
         )
+    
+    # Get follow data
+    db = await get_db()
+    follows_db = FollowsDB(db)
+    
+    # Get follower count
+    follower_count = await follows_db.get_follower_count(
+        target_type="business",
+        target_id=profile["id"]
+    )
+    profile["follower_count"] = follower_count
+    
+    # Check if current user follows this business
+    if current_user:
+        is_following = await follows_db.is_following(
+            follower_type="user",
+            follower_id=current_user["id"],
+            target_type="business",
+            target_id=profile["id"]
+        )
+        profile["is_following"] = is_following
+    else:
+        profile["is_following"] = False
     
     return profile
 
