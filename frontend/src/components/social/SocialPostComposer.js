@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Send, Image as ImageIcon } from 'lucide-react';
+import { Send, Image as ImageIcon, Video, Link2 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import MediaComposerModal from './MediaComposerModal';
 
 /**
- * SocialPostComposer - Phase 8.3
- * Component for creating new social posts
+ * SocialPostComposer - Phase 8.1 (Updated for Media Composer)
+ * Component for creating new social posts with media support
  */
 const SocialPostComposer = ({ onPostCreated }) => {
   const { user } = useAuth();
-  const [text, setText] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
