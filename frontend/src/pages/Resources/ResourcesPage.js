@@ -83,10 +83,17 @@ function ResourcesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
+    <div className="min-h-screen" style={{
+      background: isDark
+        ? 'linear-gradient(to bottom right, rgb(0, 0, 0), rgb(17, 24, 39), rgb(0, 0, 0))'
+        : 'linear-gradient(to bottom right, rgb(249, 250, 251), rgb(255, 255, 255), rgb(249, 250, 251))'
+    }}>
       <GlobalNavBar />
       {/* Header */}
-      <div className="bg-black border-b border-yellow-500/20">
+      <div style={{
+        backgroundColor: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
+        borderBottom: isDark ? '1px solid rgba(234, 179, 8, 0.2)' : '1px solid rgba(202, 138, 4, 0.2)'
+      }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Link to="/hub" className="text-yellow-500 hover:text-yellow-400 mb-4 inline-block">
             ← Back to Hub
