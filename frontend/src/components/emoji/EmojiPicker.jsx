@@ -215,10 +215,10 @@ export default function EmojiPicker({
 
 /**
  * EmojiRenderer
- * - Phase 1: unicode only
- * - Phase 2: will support image-based with sprite sheets
+ * - Phase 1.1: Unicode with personalized skin tone
+ * - Phase 2: Will support image-based with sprite sheets
  */
-function EmojiRenderer({ emoji }) {
+function EmojiRenderer({ emoji, userSkinTone }) {
   // Approx 32–40px visual size target
   const sizePx = 36;
 
@@ -241,7 +241,12 @@ function EmojiRenderer({ emoji }) {
     );
   }
 
-  // Default: Unicode
+  // Phase 1.1: Unicode with tone application
+  const supportsSkinTone = emoji.supportsSkinTone !== undefined ? emoji.supportsSkinTone : false;
+  const displayChar = supportsSkinTone 
+    ? applySkinTone(emoji.char, userSkinTone, true)
+    : emoji.char;
+
   return (
     <span
       className="leading-none"
@@ -251,7 +256,7 @@ function EmojiRenderer({ emoji }) {
       }}
       aria-label={emoji.shortcodes?.[0] || emoji.id}
     >
-      {emoji.char}
+      {displayChar}
     </span>
   );
 }
