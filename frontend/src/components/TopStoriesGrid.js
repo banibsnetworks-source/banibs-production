@@ -1,6 +1,8 @@
 import React from 'react';
 import { ExternalLink, Clock } from 'lucide-react';
 import SentimentBadge from './SentimentBadge';
+import { useTheme } from '../contexts/ThemeContext';
+import { getThemeStyles } from '../utils/themeStyles';
 
 /**
  * Top Stories Grid
