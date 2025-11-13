@@ -258,6 +258,10 @@ app.include_router(business_board_router)
 from routes.business import router as business_router
 app.include_router(business_router)
 
+# Include follow router (Phase B1 - Follow System)
+from routes.follow import api_router as follow_router
+app.include_router(follow_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
