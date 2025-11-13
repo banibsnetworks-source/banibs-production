@@ -358,10 +358,10 @@ function BusinessDirectoryPage() {
               id="verified-only"
               checked={filters.verifiedOnly}
               onChange={(e) => handleFilterChange("verifiedOnly", e.target.checked)}
-              className="w-4 h-4 text-yellow-500 bg-slate-900 border-slate-600 rounded focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-slate-800"
+              className="w-4 h-4 text-yellow-500 bg-background border-input rounded focus:ring-2 focus:ring-yellow-500"
               aria-label="Filter to show verified businesses only"
             />
-            <label htmlFor="verified-only" className="ml-2 text-sm text-slate-300">
+            <label htmlFor="verified-only" className="ml-2 text-sm text-foreground">
               Show verified businesses only
             </label>
           </div>
@@ -369,7 +369,7 @@ function BusinessDirectoryPage() {
 
         {/* Results Count */}
         {!loading && (
-          <div className="mb-4 text-sm text-slate-400">
+          <div className="mb-4 text-sm text-muted-foreground">
             {businesses.length} {businesses.length === 1 ? 'business' : 'businesses'} found
           </div>
         )}
