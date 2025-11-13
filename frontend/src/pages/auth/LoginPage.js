@@ -31,8 +31,10 @@ const LoginPage = () => {
         throw new Error(data.detail || 'Login failed');
       }
 
-      // Store access token
-      localStorage.setItem('accessToken', data.access_token);
+      // Store access token and user data
+      localStorage.setItem('access_token', data.access_token);
+      localStorage.setItem('refresh_token', data.refresh_token);
+      localStorage.setItem('user', JSON.stringify(data.user));
       
       // Redirect to Hub
       navigate('/hub');
