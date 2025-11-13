@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import GlobalNavBar from '../../components/GlobalNavBar';
 
 const LoginPage = () => {
   const navigate = useNavigate();
