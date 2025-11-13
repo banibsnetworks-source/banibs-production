@@ -172,8 +172,9 @@ function App() {
               {/* Base business portal route */}
               <Route path="/portal/business" element={<BusinessPortal />} />
               
-              {/* High Five Demo */}
+              {/* Test Pages */}
               <Route path="/test/highfive" element={<HighFiveDemo />} />
+              <Route path="/test/emojis" element={<EmojiTestPage />} />
               
               <Route path="/portal/marketplace/*" element={<MarketplacePortal />} />
               <Route path="/portal/tv" element={<TVPortal />} />
