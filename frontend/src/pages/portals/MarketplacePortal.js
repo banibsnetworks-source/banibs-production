@@ -115,8 +115,8 @@ const JobsSection = () => {
   return (
     <div>
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">Job Opportunities</h2>
-        <p className="text-gray-600 mb-6">
+        <h2 className="text-3xl font-bold text-foreground mb-4">Job Opportunities</h2>
+        <p className="text-muted-foreground mb-6">
           Explore career opportunities within Black-owned businesses and organizations supporting the community.
         </p>
 
@@ -126,7 +126,7 @@ const JobsSection = () => {
             <input
               type="text"
               placeholder="Search jobs by title, company, or location..."
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="flex-1 px-4 py-3 border border-input bg-background text-foreground rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -140,21 +140,21 @@ const JobsSection = () => {
       {/* Job Listings Placeholder */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {[1, 2, 3, 4, 5, 6].map((i) => (
-          <div key={i} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+          <div key={i} className="bg-card border border-border rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
             <div className="flex items-start justify-between mb-4">
-              <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center text-2xl">
+              <div className="w-12 h-12 bg-amber-500/20 rounded-lg flex items-center justify-center text-2xl">
                 💼
               </div>
               <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-medium">
                 Full-Time
               </span>
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-card-foreground mb-2">
               Software Engineer {i}
             </h3>
-            <p className="text-sm text-gray-600 mb-2">Black Tech Company Inc.</p>
-            <p className="text-sm text-gray-500 mb-4">📍 Remote / Atlanta, GA</p>
-            <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+            <p className="text-sm text-muted-foreground mb-2">Black Tech Company Inc.</p>
+            <p className="text-sm text-muted-foreground mb-4">📍 Remote / Atlanta, GA</p>
+            <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
               Join our team building innovative solutions for the Black community...
             </p>
             <button className="w-full py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors text-sm font-medium">
@@ -165,7 +165,7 @@ const JobsSection = () => {
       </div>
 
       <div className="mt-8 text-center">
-        <p className="text-gray-600 text-sm">
+        <p className="text-muted-foreground text-sm">
           🚀 <strong>Coming Soon:</strong> Full job search and filtering functionality
         </p>
       </div>
