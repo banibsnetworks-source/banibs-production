@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import axios from "axios";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ContributorAuthProvider } from "./contexts/ContributorAuthContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import { initializeAnalytics } from "./utils/analytics"; // Phase 7.5.1
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLogin from "./pages/admin/AdminLogin";
