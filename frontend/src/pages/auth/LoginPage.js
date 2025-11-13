@@ -47,18 +47,36 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center px-4">
-      <div className="max-w-md w-full">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-block">
-            <h1 className="text-4xl font-bold text-yellow-400">BANIBS</h1>
-          </Link>
-          <p className="text-gray-400 mt-2">Sign in to your account</p>
+    <div className="min-h-screen" style={{ backgroundColor: 'rgb(10, 10, 12)' }}>
+      <GlobalNavBar />
+      
+      {/* Hero Section */}
+      <div className="bg-gradient-to-br from-blue-900/30 to-gray-900 py-16">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full mb-6" style={{
+            background: 'rgb(59, 130, 246)'
+          }}>
+            <span className="text-white font-bold">🌐 SOCIAL</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Welcome to BANIBS Social
+          </h1>
+          <p className="text-xl text-gray-300 mb-8">
+            Connect with your community
+          </p>
         </div>
+      </div>
 
-        {/* Login Form */}
-        <div className="bg-white/10 backdrop-blur-sm border border-yellow-400/20 rounded-2xl p-8 shadow-xl">
+      {/* Login Form Container */}
+      <div className="py-12 px-4">
+        <div className="max-w-md mx-auto">
+          <div style={{
+            background: 'rgba(10, 10, 12, 0.85)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            borderRadius: '16px',
+            padding: '32px'
+          }}>
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-lg text-sm">
