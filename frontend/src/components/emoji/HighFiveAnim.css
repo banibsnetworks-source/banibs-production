@@ -1,0 +1,81 @@
+.highfive-anim {
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: transform 0.1s ease;
+}
+
+.highfive-anim:hover {
+  transform: scale(1.05);
+}
+
+.highfive-anim:active {
+  transform: scale(0.95);
+}
+
+/* Variant-specific enhancements */
+.highfive-variant-clean {
+  /* Clean version - no additional effects */
+}
+
+.highfive-variant-spark_small {
+  /* Small spark - subtle glow */
+  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.3));
+}
+
+.highfive-variant-spark_big {
+  /* Big spark - stronger glow */
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
+}
+
+/* Radial burst effect (optional overlay) */
+.highfive-anim::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.highfive-variant-spark_small::after,
+.highfive-variant-spark_big::after {
+  animation: burst 0.6s ease-out;
+}
+
+@keyframes burst {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Size variants for responsive contexts */
+.highfive-anim-sm {
+  width: 64px;
+  height: 64px;
+}
+
+.highfive-anim-md {
+  width: 128px;
+  height: 128px;
+}
+
+.highfive-anim-lg {
+  width: 256px;
+  height: 256px;
+}
