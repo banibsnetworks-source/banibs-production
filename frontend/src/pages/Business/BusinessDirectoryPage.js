@@ -417,7 +417,12 @@ function BusinessDirectoryPage() {
             {businesses.map((business) => (
               <div
                 key={business.id}
-                className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-2xl p-6 hover:border-slate-600 transition group"
+                className="rounded-2xl p-6 transition group"
+                style={{
+                  background: 'rgba(10, 10, 12, 0.85)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)'
+                }}
               >
                 {/* Logo & Name */}
                 <div className="flex items-start gap-4 mb-4">
