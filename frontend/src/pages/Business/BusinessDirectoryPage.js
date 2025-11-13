@@ -164,7 +164,9 @@ function BusinessDirectoryPage() {
         </div>
       </div>
 
-      <div className="py-8 md:py-12">
+      <div className="py-8 md:py-12" style={{ 
+        backgroundColor: isDark ? 'rgb(10, 10, 12)' : 'rgb(249, 250, 251)' 
+      }}>
         <div className="max-w-7xl mx-auto px-4">
 
         {/* Call to Action for Anonymous Users */}
