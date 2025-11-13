@@ -3,6 +3,7 @@ import { Send, Image as ImageIcon, Video, Link2, Smile } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import MediaComposerModal from './MediaComposerModal';
 import EmojiPicker from '../emoji/EmojiPicker.jsx';
+import { applySkinTone } from '../../utils/emojiToneUtils';
 
 /**
  * SocialPostComposer - Phase 8.1 (Updated for Media Composer + Emoji Picker)
