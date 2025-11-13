@@ -237,12 +237,16 @@ function BusinessDirectoryPage() {
                 {hasBusinessProfile && (
                   <Link
                     to="/portal/business/board"
-                    className="flex items-center gap-3 p-4 bg-green-900/20 border-2 border-green-500/50 rounded-xl hover:bg-green-900/30 hover:border-green-500 transition-all"
+                    className="flex items-center gap-3 p-4 rounded-xl transition-all"
+                    style={{
+                      background: 'rgba(16, 185, 129, 0.1)',
+                      border: '1px solid rgba(16, 185, 129, 0.3)'
+                    }}
                   >
-                    <MessageSquare className="text-green-400 flex-shrink-0" size={28} />
+                    <MessageSquare style={{ color: 'rgb(16, 185, 129)' }} className="flex-shrink-0" size={28} />
                     <div>
                       <div className="text-white font-semibold">Business Social</div>
-                      <div className="text-green-300 text-sm">Connect & collaborate</div>
+                      <div className="text-gray-400 text-sm">Connect & collaborate</div>
                     </div>
                   </Link>
                 )}
