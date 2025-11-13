@@ -5554,3 +5554,87 @@ Frontend:
 
 **Next:** User testing & visual refinement, then Phase 10.1 (Interactions & Audience)
 
+
+---
+## Phase 10.1 - Shell + Right Rail Skeleton (Fork Agent)
+**Date:** 2025-11-12
+**Agent:** main (fork)
+**Task:** Implement 3-column layout with complete navigation structure
+
+### Implementation Complete:
+
+**Layout Changes:**
+1. ✅ **3-Column Grid Layout**
+   - LeftRail (260px/72px collapsed)
+   - SocialMain (flexible center, scrollable)
+   - RightRail (320px, scrollable)
+   - Independent scrolling for each column
+   - Smooth transition on collapse (200ms)
+
+**LeftRail Navigation - FINAL STRUCTURE:**
+1. ✅ **MAIN Section**
+   - Home (/portal/social)
+   - Discover People (/portal/social/discover/people)
+   - Groups & Communities (/portal/social/groups)
+   - Marketplace (/portal/marketplace)
+   - Live Now (/portal/social/live)
+
+2. ✅ **MY SPACE Section**
+   - My Posts
+   - My Groups
+   - My Messages
+   - Saved / Bookmarks
+   - My Lives
+   - Subscriptions
+
+3. ✅ **COMMUNITY & SAFETY Section**
+   - Privacy Settings
+   - Hidden / Blocked
+   - Anonymous Posting
+   - Community Watch
+
+4. ✅ **SETTINGS Section**
+   - Theme & Display
+   - Autoplay Settings
+   - Language
+   - Security & 2FA
+
+**RightRail - 4 Sections with Mock Data:**
+1. ✅ **Live Now**
+   - Shows 3 mock live sessions
+   - LIVE badge, viewer counts
+   - "See all" link to /portal/social/live
+
+2. ✅ **Suggested Groups Near You**
+   - 3 mock groups with member counts
+   - Location display
+   - "Explore" link to /portal/social/groups
+
+3. ✅ **People You May Know**
+   - 3 mock people with handles
+   - Follow button (logs to console for now)
+   - "See all" link to /portal/social/discover/people
+
+4. ✅ **Trending Topics**
+   - 5 mock trending hashtags
+   - Post counts
+   - "More" link to /portal/social/trending
+
+**Design System:**
+- ✅ RightRail uses glass effect matching LeftRail
+- ✅ Background: rgba(10, 10, 12, 0.85)
+- ✅ Backdrop blur: 12px
+- ✅ Gold accents for links and buttons
+- ✅ Hover states on all cards
+- ✅ Custom gold scrollbar
+- ✅ Responsive (hides on screens < 1280px)
+
+**Navigation:**
+- ✅ All LeftRail items navigate to correct routes (placeholders accepted)
+- ✅ RightRail cards clickable with navigation
+- ✅ Active route highlighting on LeftRail
+
+**Status:** ✅ COMPLETE - Visual shell ready for Phase 10.2 (Groups backend)
+
+**Next Phase:** 10.2 - Groups models + API + UI
+
