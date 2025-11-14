@@ -186,4 +186,26 @@ export const realMessagingApi = {
       method: 'POST',
     });
   },
+
+  /**
+   * Search messages in a conversation or across all conversations
+   * @param {string} query - Search query
+   * @param {string} [conversationId] - Optional: limit to specific conversation
+   * @param {number} [limit=50] - Results limit
+   * @param {number} [offset=0] - Results offset
+   * @returns {Promise<Array>}
+   */
+  searchMessages: async (query, conversationId = null, limit = 50, offset = 0) => {
+    const params = new URLSearchParams({
+      q: query,
+      limit: limit.toString(),
+      offset: offset.toString()
+    });
+    
+    if (conversationId) {
+      params.append('conversation_id', conversationId);
+    }
+    
+    return apiRequest(`/messages/search?${params.toString()}`);
+  },
 };
