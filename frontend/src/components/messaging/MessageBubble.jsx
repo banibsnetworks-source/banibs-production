@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { MoreVertical, Trash2 } from 'lucide-react';
 import PostTextWithEmojis from '../social/PostTextWithEmojis';
+import DropdownMenu, { DropdownMenuItem } from '../common/DropdownMenu';
 
-export function MessageBubble({ message, showSender = false }) {
+export function MessageBubble({ 
+  message, 
+  showSender = false, 
+  currentUserId = null,
+  onDeleteForMe = null,
+  onDeleteForEveryone = null
+}) {
   const isOutgoing = message.direction === 'outgoing';
+  const isSender = currentUserId && message.sender_id === currentUserId;
 
   const formatTime = (timestamp) => {
     const date = new Date(timestamp);
