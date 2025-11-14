@@ -80,6 +80,12 @@ import BusinessProfilePublic from "./pages/business/BusinessProfilePublic";
 import BusinessBoardPage from "./pages/business/BusinessBoardPage";
 // Phase 3.0 - BANIBS Connect (Messaging)
 import { MessagingHomePage } from "./pages/messaging/MessagingHomePage.jsx";
+// Phase 10.x - Social Portal Pages
+import SocialMyPostsPage from "./pages/portals/SocialMyPostsPage";
+import SocialGroupsPage from "./pages/portals/SocialGroupsPage";
+import SocialSavedPage from "./pages/portals/SocialSavedPage";
+import SocialLivesPage from "./pages/portals/SocialLivesPage";
+import SocialSubscriptionsPage from "./pages/portals/SocialSubscriptionsPage";
 // High Five Emoji System
 import HighFiveDemo from "./pages/test/HighFiveDemo";
 import EmojiTestPage from "./pages/test/EmojiTestPage";
