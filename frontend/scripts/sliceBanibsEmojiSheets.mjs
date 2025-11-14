@@ -95,7 +95,7 @@ async function generateManifest(totalEmojis) {
   const manifest = {
     id: 'banibs_full',
     label: '👨🏿 BANIBS (My Tone)',
-    style: 'image',
+    type: 'image',
     description: 'Full BANIBS custom emoji collection with diverse representation',
     categories: ['people', 'gestures', 'emotions'],
     emojis: emojis,
