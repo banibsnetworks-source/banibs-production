@@ -8,11 +8,14 @@ from models.messaging_message import Message
 
 def transform_conversation_for_api(conv: Conversation) -> Dict[str, Any]:
     """Transform a Conversation document for API response (frontend compatibility)"""
-    data = conv.dict()
+    # Use model_dump to get dict representation
+    data = conv.model_dump(by_alias=False)
     
-    # Replace _id with id
+    # Get the MongoDB ID and convert to string
+    data["id"] = str(conv.id)
+    
+    # Remove _id if it exists
     if "_id" in data:
-        data["id"] = str(data["_id"])
         del data["_id"]
     
     # Generate title for DMs if not set
@@ -24,11 +27,14 @@ def transform_conversation_for_api(conv: Conversation) -> Dict[str, Any]:
 
 def transform_message_for_api(msg: Message) -> Dict[str, Any]:
     """Transform a Message document for API response (frontend compatibility)"""
-    data = msg.dict()
+    # Use model_dump to get dict representation
+    data = msg.model_dump(by_alias=False)
     
-    # Replace _id with id
+    # Get the MongoDB ID and convert to string
+    data["id"] = str(msg.id)
+    
+    # Remove _id if it exists
     if "_id" in data:
-        data["id"] = str(data["_id"])
         del data["_id"]
     
     return data
