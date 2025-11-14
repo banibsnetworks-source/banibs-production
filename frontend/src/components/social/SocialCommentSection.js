@@ -154,9 +154,10 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
                       {formatTimestamp(comment.created_at)}
                     </span>
                   </div>
-                  <p className="text-sm text-card-foreground">
-                    {comment.text}
-                  </p>
+                  <PostTextWithEmojis 
+                    text={comment.text}
+                    className="text-sm text-card-foreground"
+                  />
                 </div>
               </div>
             </div>
