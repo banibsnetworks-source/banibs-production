@@ -104,10 +104,11 @@ class MessagingAPITester:
         if response.status_code == 201:
             data = response.json()
             self.log(f"   Response data: {json.dumps(data, indent=2)}")
-            required_fields = ["id", "type", "participant_ids", "created_at", "updated_at"]
+            required_fields = ["type", "participant_ids", "created_at", "updated_at"]
+            id_field = "id" if "id" in data else "_id"
             
-            if all(field in data for field in required_fields):
-                self.test_conversation_id = data["id"]
+            if all(field in data for field in required_fields) and id_field in data:
+                self.test_conversation_id = data[id_field]
                 self.log(f"✅ Conversation created - ID: {self.test_conversation_id}")
                 self.log(f"   Type: {data['type']}, Participants: {len(data['participant_ids'])}")
                 return True
