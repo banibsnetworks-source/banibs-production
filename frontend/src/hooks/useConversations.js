@@ -10,7 +10,7 @@ export function useConversations() {
     const fetchConversations = async () => {
       try {
         setLoading(true);
-        const data = await mockApi.getConversations();
+        const data = await messagingApi.getConversations();
         setConversations(data);
       } catch (err) {
         setError('Failed to load conversations');
