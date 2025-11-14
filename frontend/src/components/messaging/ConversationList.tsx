@@ -46,7 +46,11 @@ export function ConversationList({ conversations, activeConversationId, onSelect
 
       {/* Conversation List */}
       <div className="flex-1 overflow-y-auto">
-        {filteredConversations.length === 0 ? (
+        {isLoading ? (
+          <div className="p-8 text-center text-muted-foreground">
+            Loading conversations...
+          </div>
+        ) : filteredConversations.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
             {searchQuery ? 'No conversations found' : 'No messages yet'}
           </div>
