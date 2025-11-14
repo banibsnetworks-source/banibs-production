@@ -16,7 +16,7 @@ export function useMessages(conversationId) {
     const fetchMessages = async () => {
       try {
         setLoading(true);
-        const data = await mockApi.getMessages(conversationId);
+        const data = await messagingApi.getMessages(conversationId);
         // Automatically set direction based on senderId
         const messagesWithDirection = data.map(msg => ({
           ...msg,
