@@ -176,22 +176,36 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
         {/* Comment Input */}
         <div className="flex-1 relative">
           <div className="flex items-center space-x-1">
-            <textarea
-              ref={inputRef}
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-              placeholder="Write a comment..."
-              maxLength={2000}
-              disabled={isSubmitting}
-              rows={1}
-              className="flex-1 bg-background text-foreground rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground border border-input focus:border-yellow-500 focus:outline-none focus:ring-1 focus:ring-yellow-500 transition-all resize-none"
-              style={{ minHeight: '38px', maxHeight: '120px' }}
-              onInput={(e) => {
-                // Auto-resize textarea
-                e.target.style.height = 'auto';
-                e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px';
-              }}
-            />
+            <div className="flex-1 relative">
+              <textarea
+                ref={inputRef}
+                value={commentText}
+                onChange={(e) => setCommentText(e.target.value)}
+                placeholder="Write a comment..."
+                maxLength={2000}
+                disabled={isSubmitting}
+                rows={1}
+                className="w-full bg-background text-foreground rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground border border-input focus:border-yellow-500 focus:outline-none focus:ring-1 focus:ring-yellow-500 transition-all resize-none"
+                style={{ minHeight: '38px', maxHeight: '120px' }}
+                onInput={(e) => {
+                  // Auto-resize textarea
+                  e.target.style.height = 'auto';
+                  e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px';
+                }}
+              />
+              {/* Preview of emojis while typing */}
+              {commentText.includes('[emoji:') && (
+                <div className="absolute left-0 right-0 top-full mt-1 px-3 py-2 bg-muted/50 rounded-lg text-xs text-muted-foreground border border-border">
+                  <div className="flex items-center space-x-1 mb-1">
+                    <span className="font-semibold">Preview:</span>
+                  </div>
+                  <PostTextWithEmojis 
+                    text={commentText}
+                    className="text-sm text-foreground"
+                  />
+                </div>
+              )}
+            </div>
             <div className="relative">
               <button
                 type="button"
