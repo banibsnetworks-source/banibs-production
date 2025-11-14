@@ -180,6 +180,22 @@ async function loadEmojiPacksFromManifests() {
 export async function getAllEmojiPacks() {
   if (!cachedPacks) {
     cachedPacks = await loadEmojiPacksFromManifests();
+    
+    // DEBUG: Log loaded packs
+    console.log('🎨 Emoji Packs Loaded:', {
+      total: cachedPacks.length,
+      packs: cachedPacks.map(p => ({
+        id: p.id,
+        label: p.label,
+        type: p.type,
+        emojiCount: p.emojis?.length,
+        sampleEmojis: p.emojis?.slice(0, 3).map(e => ({
+          id: e.id,
+          char: e.char,
+          supportsSkinTone: e.supportsSkinTone
+        }))
+      }))
+    });
   }
   return cachedPacks;
 }
