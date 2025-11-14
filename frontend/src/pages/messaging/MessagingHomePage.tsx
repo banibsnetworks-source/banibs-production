@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useConversations } from '../../hooks/useConversations';
-import { useMessages } from '../../hooks/useMessages';
-import { ConversationList } from '../../components/messaging/ConversationList';
-import { ConversationHeader } from '../../components/messaging/ConversationHeader';
-import { MessageList } from '../../components/messaging/MessageList';
-import { MessageComposer } from '../../components/messaging/MessageComposer';
+import { useConversations } from '../../hooks/useConversations.ts';
+import { useMessages } from '../../hooks/useMessages.ts';
+import { ConversationList } from '../../components/messaging/ConversationList.tsx';
+import { ConversationHeader } from '../../components/messaging/ConversationHeader.tsx';
+import { MessageList } from '../../components/messaging/MessageList.tsx';
+import { MessageComposer } from '../../components/messaging/MessageComposer.tsx';
 
 export function MessagingHomePage() {
   const navigate = useNavigate();
