@@ -5,11 +5,12 @@ import { Search, Plus } from 'lucide-react';
 
 interface ConversationListProps {
   conversations: Conversation[];
-  activeConversationId?: string;
+  activeConversationId?: string | null;
   onSelect: (id: string) => void;
+  isLoading?: boolean;
 }
 
-export function ConversationList({ conversations, activeConversationId, onSelect }: ConversationListProps) {
+export function ConversationList({ conversations, activeConversationId, onSelect, isLoading }: ConversationListProps) {
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredConversations = conversations.filter(conv =>
