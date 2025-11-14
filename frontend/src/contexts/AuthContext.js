@@ -35,12 +35,20 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
+      console.log('🔐 [AuthContext] Starting login for:', email);
       const response = await axios.post(`${BACKEND_URL}/api/auth/login`, {
         email,
         password
       });
 
+      console.log('🔐 [AuthContext] Login API response received');
       const { access_token, refresh_token, user: userData } = response.data;
+
+      console.log('🔐 [AuthContext] Tokens extracted:', {
+        hasAccessToken: !!access_token,
+        tokenLength: access_token?.length,
+        hasRefreshToken: !!refresh_token
+      });
 
       // Store tokens
       setAccessToken(access_token);
@@ -48,16 +56,22 @@ export const AuthProvider = ({ children }) => {
       setUser(userData);
 
       // Persist to localStorage
+      console.log('🔐 [AuthContext] Storing in localStorage...');
       localStorage.setItem('access_token', access_token);
       localStorage.setItem('refresh_token', refresh_token);
       localStorage.setItem('user', JSON.stringify(userData));
       
       // Also store as adminToken for Phase 5 admin API helpers
       localStorage.setItem('adminToken', access_token);
+      
+      console.log('🔐 [AuthContext] localStorage after storing:', {
+        hasAccessToken: !!localStorage.getItem('access_token'),
+        allKeys: Object.keys(localStorage)
+      });
 
       return { success: true };
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('🔐 [AuthContext] Login error:', error);
       return {
         success: false,
         error: error.response?.data?.detail || 'Login failed'
