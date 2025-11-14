@@ -64,6 +64,15 @@ export function ConversationHeader({ conversation, onStartCall, onShowInfo, onSe
 
         {/* Actions */}
         <div className="flex items-center space-x-2">
+          {onSearch && (
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className={`p-2 hover:bg-muted rounded-lg transition-colors ${searchOpen ? 'text-yellow-500 bg-muted' : 'text-muted-foreground hover:text-foreground'}`}
+              title="Search messages"
+            >
+              <Search size={20} />
+            </button>
+          )}
           {conversation.type === 'dm' && onStartCall && (
             <>
               <button
