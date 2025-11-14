@@ -46,7 +46,7 @@ function CandidateProfilePage() {
   async function fetchProfile() {
     try {
       setLoading(true);
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       
       const res = await fetch(`${BACKEND_URL}/api/candidates/me`, {
         credentials: 'include',
@@ -114,7 +114,7 @@ function CandidateProfilePage() {
     try {
       setSaving(true);
       setError(null);
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
 
       const res = await fetch(`${BACKEND_URL}/api/candidates/me`, {
         method: profile ? 'PUT' : 'POST',
@@ -173,7 +173,7 @@ function CandidateProfilePage() {
     try {
       setUploading(true);
       setError(null);
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
 
       const formData = new FormData();
       formData.append('file', file);

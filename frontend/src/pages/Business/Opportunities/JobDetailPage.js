@@ -81,7 +81,7 @@ function JobDetailPage() {
 
   async function handleApply() {
     // Gating logic: Check authentication and profile
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('access_token');
     
     // 1. Check if user is logged in
     if (!token) {

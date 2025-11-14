@@ -43,7 +43,7 @@ function RecruiterDashboard() {
       const res = await fetch(`${BACKEND_URL}/api/jobs/mine?${params.toString()}`, {
         credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
         }
       });
       if (!res.ok) {
@@ -80,7 +80,7 @@ function RecruiterDashboard() {
     async function loadAnalytics() {
       try {
         setAnalyticsLoading(true);
-        const token = localStorage.getItem("accessToken");
+        const token = localStorage.getItem("access_token");
         
         const [overviewData, statsData] = await Promise.all([
           getRecruiterOverview(token),
@@ -141,7 +141,7 @@ function RecruiterDashboard() {
         credentials: 'include',
         headers: { 
           "Content-Type": "application/json",
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
         },
         body: JSON.stringify({ status: "closed" }),
       });
@@ -162,7 +162,7 @@ function RecruiterDashboard() {
         method: "DELETE",
         credentials: 'include',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
         }
       });
       if (!res.ok) {

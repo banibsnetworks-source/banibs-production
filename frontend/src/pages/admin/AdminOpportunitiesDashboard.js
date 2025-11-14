@@ -82,7 +82,7 @@ const AdminOpportunitiesDashboard = () => {
   // Phase 6.4 - Fetch moderation queue stats
   const fetchModerationStats = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       const response = await fetch(`${BACKEND_URL}/api/admin/moderation/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`

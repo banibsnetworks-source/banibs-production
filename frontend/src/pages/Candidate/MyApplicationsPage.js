@@ -19,7 +19,7 @@ function MyApplicationsPage() {
     try {
       setLoading(true);
       setError(null);
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
 
       const res = await fetch(`${BACKEND_URL}/api/applications/mine`, {
         credentials: 'include',

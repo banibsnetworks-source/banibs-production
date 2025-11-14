@@ -18,7 +18,7 @@ function ModerationQueue() {
 
   const fetchStats = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       const response = await fetch(`${BACKEND_URL}/api/admin/moderation/stats`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -39,7 +39,7 @@ function ModerationQueue() {
     setError(null);
 
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       const url = `${BACKEND_URL}/api/admin/moderation?status=${filter}&limit=100`;
       
       const response = await fetch(url, {
@@ -69,7 +69,7 @@ function ModerationQueue() {
   const handleApprove = async (modId) => {
     setActionLoading(modId);
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       const response = await fetch(`${BACKEND_URL}/api/admin/moderation/${modId}/approve`, {
         method: 'POST',
         headers: {
@@ -98,7 +98,7 @@ function ModerationQueue() {
 
     setActionLoading(modId);
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       const response = await fetch(`${BACKEND_URL}/api/admin/moderation/${modId}/reject`, {
         method: 'POST',
         headers: {
