@@ -37,7 +37,12 @@ const LoginPage = () => {
       console.log('🔐 Login result:', result);
       
       if (result.success) {
-        console.log('🔐 Login successful, navigating to /portal/social');
+        console.log('🔐 Login successful');
+        console.log('🔍 Checking localStorage after login:', {
+          hasAccessToken: !!localStorage.getItem('access_token'),
+          allKeys: Object.keys(localStorage)
+        });
+        console.log('🔐 Navigating to /portal/social');
         // Navigate to social portal after login
         navigate('/portal/social');
       } else {
