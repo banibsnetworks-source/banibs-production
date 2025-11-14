@@ -96,11 +96,15 @@ function normalizeManifest(manifest) {
           shortcodes: raw.shortcodes || [],
           keywords: raw.keywords || [],
           category: raw.category || 'misc',
-          spriteSheet: raw.spriteSheet,
+          // Support both sprite sheet format and individual image files
+          spriteSheet: raw.spriteSheet || (raw.src ? `/static/emojis/${id}/${raw.src}` : ''),
+          src: raw.src, // Individual image file path
           x: raw.x || 0,
           y: raw.y || 0,
           width: raw.width || 40,
           height: raw.height || 40,
+          label: raw.label || raw.id,
+          tags: raw.tags || [],
         };
         return imageDef;
       }
