@@ -146,6 +146,9 @@ export function MessagingHomePage() {
               messages={messages}
               loading={messagesLoading}
               isGroupChat={activeConversation.type === 'group'}
+              currentUserId={user?.id}
+              onDeleteForMe={handleDeleteForMe}
+              onDeleteForEveryone={handleDeleteForEveryone}
             />
             <MessageComposer
               onSend={handleSendMessage}
