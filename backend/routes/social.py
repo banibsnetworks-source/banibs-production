@@ -192,19 +192,50 @@ async def get_comments(
     return comments_data
 
 
+@router.delete("/posts/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_post(
+    post_id: str,
+    current_user=Depends(require_role("user", "member"))
+):
+    """
+    Delete own post (soft delete) - Phase 3 Add-On
+    Only author or moderator/admin can delete.
+    """
+    user_role = current_user.get("role", "user")
+    success = await db_social.delete_post(
+        post_id=post_id,
+        user_id=current_user["id"],
+        user_role=user_role
+    )
+    
+    if not success:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Post not found or you don't have permission to delete it"
+        )
+    
+    return None
+
+
 @router.delete("/comments/{comment_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_comment(
     comment_id: str,
     current_user=Depends(require_role("user", "member"))
 ):
     """
-    Delete own comment (soft delete)
+    Delete own comment (soft delete) - Phase 3 Add-On Enhanced
+    Only author or moderator/admin can delete.
     """
-    success = await db_social.delete_comment(comment_id, current_user["id"])
+    user_role = current_user.get("role", "user")
+    success = await db_social.delete_comment(
+        comment_id=comment_id,
+        user_id=current_user["id"],
+        user_role=user_role
+    )
     
     if not success:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
+            status_code=status.HTTP_403_FORBIDDEN,
             detail="Comment not found or you don't have permission to delete it"
         )
     
