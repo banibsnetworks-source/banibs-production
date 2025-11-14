@@ -235,18 +235,18 @@ export const mockMessages = {
 
 // Fetch simulation
 export const mockApi = {
-  getConversations: (): Promise<Conversation[]> =>
+  getConversations: () =>
     new Promise(resolve => setTimeout(() => resolve(mockConversations), 200)),
 
-  getMessages: (conversationId: string): Promise<Message[]> =>
+  getMessages: (conversationId) =>
     new Promise(resolve => 
       setTimeout(() => resolve(mockMessages[conversationId] || []), 200)
     ),
 
-  sendMessage: (conversationId: string, message: Partial<Message>): Promise<Message> =>
+  sendMessage: (conversationId, message) =>
     new Promise(resolve =>
       setTimeout(() => {
-        const newMessage: Message = {
+        const newMessage = {
           id: `m_${Date.now()}`,
           conversationId,
           senderId: mockUser.id,
@@ -274,7 +274,7 @@ export const mockApi = {
       }, 150)
     ),
 
-  markAsRead: (conversationId: string): Promise<void> =>
+  markAsRead: (conversationId) =>
     new Promise(resolve => {
       const conv = mockConversations.find(c => c.id === conversationId);
       if (conv) {
