@@ -31,3 +31,14 @@ class Message(Document):
 
     class Config:
         json_encoders = {ObjectId: str}
+    
+    def dict(self, **kwargs) -> Dict[str, Any]:
+        """Override dict() to replace _id with id for frontend compatibility"""
+        data = super().dict(**kwargs)
+        
+        # Replace _id with id
+        if "_id" in data:
+            data["id"] = str(data["_id"])
+            del data["_id"]
+        
+        return data
