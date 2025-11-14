@@ -179,6 +179,7 @@ function App() {
               <Route path="/test/highfive" element={<HighFiveDemo />} />
               <Route path="/test/emojis" element={<EmojiTestPage />} />
               <Route path="/test/emoji-picker" element={<EmojiPickerDemo />} />
+              <Route path="/test/emoji-render" element={<EmojiRenderTest />} />
               <Route path="/settings/emoji-identity" element={<EmojiIdentitySettingsPanel />} />
               
               <Route path="/portal/marketplace/*" element={<MarketplacePortal />} />
