@@ -177,34 +177,41 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
         <div className="flex-1 relative">
           <div className="flex items-center space-x-1">
             <div className="flex-1 relative">
+              {/* Hidden textarea for form submission */}
               <textarea
                 ref={inputRef}
                 value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-                placeholder="Write a comment..."
-                maxLength={2000}
+                onChange={() => {}} // Controlled by contenteditable
+                className="hidden"
                 disabled={isSubmitting}
-                rows={1}
-                className="w-full bg-background text-foreground rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground border border-input focus:border-yellow-500 focus:outline-none focus:ring-1 focus:ring-yellow-500 transition-all resize-none"
-                style={{ minHeight: '38px', maxHeight: '120px' }}
-                onInput={(e) => {
-                  // Auto-resize textarea
-                  e.target.style.height = 'auto';
-                  e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px';
-                }}
               />
-              {/* Preview of emojis while typing */}
-              {commentText.includes('[emoji:') && (
-                <div className="absolute left-0 right-0 top-full mt-1 px-3 py-2 bg-muted/50 rounded-lg text-xs text-muted-foreground border border-border">
-                  <div className="flex items-center space-x-1 mb-1">
-                    <span className="font-semibold">Preview:</span>
-                  </div>
-                  <PostTextWithEmojis 
-                    text={commentText}
-                    className="text-sm text-foreground"
-                  />
-                </div>
-              )}
+              
+              {/* Contenteditable div with live emoji rendering */}
+              <div
+                contentEditable={!isSubmitting}
+                suppressContentEditableWarning
+                onInput={(e) => {
+                  const text = e.currentTarget.textContent || '';
+                  setCommentText(text);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSubmitComment(e);
+                  }
+                }}
+                className="w-full bg-background text-foreground rounded-lg px-3 py-2 text-sm border border-input focus:border-yellow-500 focus:outline-none focus:ring-1 focus:ring-yellow-500 transition-all min-h-[38px] max-h-[120px] overflow-y-auto"
+                style={{ 
+                  wordBreak: 'break-word',
+                  whiteSpace: 'pre-wrap'
+                }}
+                data-placeholder={commentText ? '' : 'Write a comment...'}
+              >
+                <PostTextWithEmojis 
+                  text={commentText}
+                  className=""
+                />
+              </div>
             </div>
             <div className="relative">
               <button
