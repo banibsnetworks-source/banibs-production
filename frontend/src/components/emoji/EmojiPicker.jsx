@@ -70,6 +70,24 @@ export default function EmojiPicker({
     [activePack, search]
   );
 
+  // DEBUG: Log active pack details (now safe after activePack is defined)
+  useEffect(() => {
+    if (activePack) {
+      const sampleEmojis = activePack.emojis?.slice(0, 5) || [];
+      console.log('🎨 EmojiPicker Active Pack:', {
+        id: activePack.id,
+        label: activePack.label,
+        totalEmojis: activePack.emojis?.length,
+        userSkinTone,
+        sampleEmojis: sampleEmojis.map(e => ({
+          id: e.id,
+          char: e.char,
+          supportsSkinTone: e.supportsSkinTone
+        }))
+      });
+    }
+  }, [activePack, userSkinTone]);
+
   const handleEmojiClick = (emoji) => {
     if (typeof onSelect === 'function') {
       onSelect(emoji);
