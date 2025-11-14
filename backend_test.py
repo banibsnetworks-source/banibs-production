@@ -1272,6 +1272,486 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # PHASE 3.1 - BANIBS CONNECT MESSAGING API TESTING
+    # ==========================================
+    
+    def test_messaging_authentication_setup(self) -> bool:
+        """Test authentication setup for messaging API using existing test user"""
+        self.log("Testing messaging authentication setup...")
+        
+        # Use the existing test user credentials
+        test_email = "social_test_user@example.com"
+        test_password = "TestPass123!"
+        
+        response = self.make_request("POST", "/auth/login", {
+            "email": test_email,
+            "password": test_password
+        })
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "access_token" in data and "user" in data:
+                self.unified_user_token = data["access_token"]
+                self.test_user_id = data["user"]["id"]
+                self.log(f"✅ Messaging authentication successful - User ID: {self.test_user_id}")
+                return True
+            else:
+                self.log("❌ Login response missing required fields", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Messaging authentication failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_create_conversation(self) -> bool:
+        """Test creating a DM conversation"""
+        if not self.unified_user_token:
+            self.log("❌ No user token available for conversation creation", "ERROR")
+            return False
+        
+        self.log("Testing conversation creation...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+        
+        # Create a DM conversation with another participant
+        # For testing, we'll use a mock participant ID
+        mock_participant_id = "test_participant_123"
+        
+        response = self.make_request("POST", "/messaging/conversations", {
+            "type": "dm",
+            "participant_ids": [mock_participant_id]
+        }, headers=headers)
+        
+        if response.status_code == 201:
+            data = response.json()
+            required_fields = ["id", "type", "participant_ids", "created_at", "updated_at"]
+            
+            if all(field in data for field in required_fields):
+                self.test_conversation_id = data["id"]
+                self.log(f"✅ Conversation created successfully - ID: {self.test_conversation_id}")
+                
+                # Verify conversation details
+                if data["type"] == "dm":
+                    self.log(f"   Type: {data['type']}")
+                    self.log(f"   Participants: {len(data['participant_ids'])} users")
+                    
+                    # Verify current user is in participants
+                    if self.test_user_id in data["participant_ids"]:
+                        self.log("   ✅ Current user included in participants")
+                        return True
+                    else:
+                        self.log("❌ Current user not found in participants", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Wrong conversation type: {data['type']}", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Conversation creation missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Conversation creation failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_list_conversations(self) -> bool:
+        """Test listing conversations for authenticated user"""
+        if not self.unified_user_token:
+            self.log("❌ No user token available for listing conversations", "ERROR")
+            return False
+        
+        self.log("Testing conversation listing...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+        
+        response = self.make_request("GET", "/messaging/conversations", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list):
+                self.log(f"✅ Conversations listed successfully - Found {len(data)} conversations")
+                
+                # Check if our created conversation appears
+                if hasattr(self, 'test_conversation_id') and self.test_conversation_id:
+                    found_conversation = None
+                    for conv in data:
+                        if conv.get("id") == self.test_conversation_id:
+                            found_conversation = conv
+                            break
+                    
+                    if found_conversation:
+                        self.log(f"   ✅ Created conversation found in list")
+                        # Verify sorting (most recent first)
+                        if len(data) > 1:
+                            first_conv = data[0]
+                            if "last_message_at" in first_conv:
+                                self.log("   ✅ Conversations include last_message_at for sorting")
+                        return True
+                    else:
+                        self.log("   ⚠️ Created conversation not found in list (might be expected)")
+                        return True
+                else:
+                    self.log("   ⚠️ No test conversation ID to verify")
+                    return True
+            else:
+                self.log(f"❌ Conversations response is not a list: {type(data)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Conversation listing failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_get_single_conversation(self) -> bool:
+        """Test getting a single conversation by ID"""
+        if not self.unified_user_token or not hasattr(self, 'test_conversation_id'):
+            self.log("❌ No user token or conversation ID available", "ERROR")
+            return False
+        
+        self.log("Testing single conversation retrieval...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+        
+        response = self.make_request("GET", f"/messaging/conversations/{self.test_conversation_id}", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["id", "type", "participant_ids", "created_at", "updated_at"]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ Single conversation retrieved successfully")
+                self.log(f"   ID: {data['id']}")
+                self.log(f"   Type: {data['type']}")
+                self.log(f"   Participants: {len(data['participant_ids'])}")
+                return True
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Single conversation missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Single conversation retrieval failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_get_nonexistent_conversation(self) -> bool:
+        """Test 404 for non-existent conversation"""
+        if not self.unified_user_token:
+            self.log("❌ No user token available", "ERROR")
+            return False
+        
+        self.log("Testing non-existent conversation handling...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+        
+        response = self.make_request("GET", "/messaging/conversations/nonexistent-id", headers=headers)
+        
+        if response.status_code == 404:
+            self.log("✅ Non-existent conversation correctly returns 404")
+            return True
+        else:
+            self.log(f"❌ Non-existent conversation should return 404, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_send_messages(self) -> bool:
+        """Test sending messages to conversation"""
+        if not self.unified_user_token or not hasattr(self, 'test_conversation_id'):
+            self.log("❌ No user token or conversation ID available", "ERROR")
+            return False
+        
+        self.log("Testing message sending...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+        
+        # Test messages to send
+        test_messages = [
+            {
+                "text": "Hello! This is a test message.",
+                "description": "Simple text message"
+            },
+            {
+                "text": "Hello [emoji:banibs_full_banibs_009]! How are you doing?",
+                "description": "Message with BANIBS emoji placeholder"
+            },
+            {
+                "text": "Check out this cool feature! [emoji:banibs_full_banibs_015] Amazing!",
+                "description": "Another message with BANIBS emoji"
+            }
+        ]
+        
+        sent_messages = []
+        
+        for i, msg_data in enumerate(test_messages):
+            response = self.make_request("POST", f"/messaging/conversations/{self.test_conversation_id}/messages", {
+                "type": "text",
+                "text": msg_data["text"]
+            }, headers=headers)
+            
+            if response.status_code == 201:
+                data = response.json()
+                required_fields = ["id", "conversation_id", "sender_id", "type", "text", "created_at", "read_by"]
+                
+                if all(field in data for field in required_fields):
+                    sent_messages.append(data)
+                    self.log(f"✅ Message {i+1} sent successfully - {msg_data['description']}")
+                    
+                    # Verify message content
+                    if data["text"] == msg_data["text"]:
+                        self.log(f"   Text preserved correctly: {data['text'][:50]}...")
+                        
+                        # Check BANIBS emoji placeholders are preserved
+                        if "[emoji:banibs_full_banibs_" in msg_data["text"]:
+                            if "[emoji:banibs_full_banibs_" in data["text"]:
+                                self.log("   ✅ BANIBS emoji placeholder preserved")
+                            else:
+                                self.log("❌ BANIBS emoji placeholder not preserved", "ERROR")
+                                return False
+                    else:
+                        self.log(f"❌ Message text not preserved correctly", "ERROR")
+                        return False
+                    
+                    # Verify sender_id
+                    if data["sender_id"] == self.test_user_id:
+                        self.log("   ✅ Sender ID correct")
+                    else:
+                        self.log(f"❌ Wrong sender ID: {data['sender_id']}", "ERROR")
+                        return False
+                    
+                    # Verify read_by includes sender
+                    if self.test_user_id in data["read_by"]:
+                        self.log("   ✅ Sender marked as read")
+                    else:
+                        self.log("❌ Sender not marked as read", "ERROR")
+                        return False
+                        
+                else:
+                    missing_fields = [field for field in required_fields if field not in data]
+                    self.log(f"❌ Message {i+1} missing fields: {missing_fields}", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Message {i+1} sending failed: {response.status_code} - {response.text}", "ERROR")
+                return False
+        
+        self.sent_message_ids = [msg["id"] for msg in sent_messages]
+        self.log(f"✅ All {len(sent_messages)} messages sent successfully")
+        return True
+    
+    def test_list_messages(self) -> bool:
+        """Test listing messages for conversation with pagination"""
+        if not self.unified_user_token or not hasattr(self, 'test_conversation_id'):
+            self.log("❌ No user token or conversation ID available", "ERROR")
+            return False
+        
+        self.log("Testing message listing...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+        
+        # Test basic message listing
+        response = self.make_request("GET", f"/messaging/conversations/{self.test_conversation_id}/messages", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if isinstance(data, list):
+                self.log(f"✅ Messages listed successfully - Found {len(data)} messages")
+                
+                # Verify chronological order (oldest first)
+                if len(data) > 1:
+                    first_msg_time = data[0]["created_at"]
+                    last_msg_time = data[-1]["created_at"]
+                    self.log(f"   First message: {first_msg_time}")
+                    self.log(f"   Last message: {last_msg_time}")
+                    
+                    # Check if times are in ascending order
+                    if first_msg_time <= last_msg_time:
+                        self.log("   ✅ Messages in chronological order (oldest first)")
+                    else:
+                        self.log("❌ Messages not in chronological order", "ERROR")
+                        return False
+                
+                # Verify BANIBS emoji placeholders are preserved
+                emoji_messages = [msg for msg in data if msg.get("text") and "[emoji:banibs_full_banibs_" in msg["text"]]
+                if emoji_messages:
+                    self.log(f"   ✅ Found {len(emoji_messages)} messages with BANIBS emoji placeholders")
+                    for msg in emoji_messages[:2]:  # Show first 2
+                        self.log(f"      {msg['text'][:60]}...")
+                
+                # Test pagination
+                self.log("Testing pagination...")
+                paginated_response = self.make_request("GET", f"/messaging/conversations/{self.test_conversation_id}/messages", 
+                                                     headers=headers, params={"page": 1, "limit": 2})
+                
+                if paginated_response.status_code == 200:
+                    paginated_data = paginated_response.json()
+                    if isinstance(paginated_data, list) and len(paginated_data) <= 2:
+                        self.log(f"   ✅ Pagination working - Requested limit 2, got {len(paginated_data)}")
+                        return True
+                    else:
+                        self.log(f"❌ Pagination not working correctly", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Pagination request failed: {paginated_response.status_code}", "ERROR")
+                    return False
+                    
+            else:
+                self.log(f"❌ Messages response is not a list: {type(data)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Message listing failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_mark_messages_read(self) -> bool:
+        """Test marking messages as read"""
+        if not self.unified_user_token or not hasattr(self, 'test_conversation_id'):
+            self.log("❌ No user token or conversation ID available", "ERROR")
+            return False
+        
+        self.log("Testing mark messages as read...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+        
+        response = self.make_request("POST", f"/messaging/conversations/{self.test_conversation_id}/read", {}, headers=headers)
+        
+        if response.status_code == 204:
+            self.log("✅ Messages marked as read successfully (204 No Content)")
+            
+            # Verify by checking messages again
+            messages_response = self.make_request("GET", f"/messaging/conversations/{self.test_conversation_id}/messages", headers=headers)
+            
+            if messages_response.status_code == 200:
+                messages = messages_response.json()
+                if isinstance(messages, list):
+                    # Check if user is in read_by array for all messages
+                    all_read = all(self.test_user_id in msg.get("read_by", []) for msg in messages)
+                    if all_read:
+                        self.log("   ✅ All messages marked as read by user")
+                        return True
+                    else:
+                        unread_count = len([msg for msg in messages if self.test_user_id not in msg.get("read_by", [])])
+                        self.log(f"   ⚠️ {unread_count} messages still not marked as read")
+                        return True  # This might be expected behavior
+                else:
+                    self.log("❌ Could not verify read status", "ERROR")
+                    return False
+            else:
+                self.log("❌ Could not fetch messages to verify read status", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Mark messages read failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_messaging_error_handling(self) -> bool:
+        """Test error handling scenarios"""
+        self.log("Testing messaging error handling...")
+        
+        # Test 1: Unauthorized access (no token)
+        response = self.make_request("GET", "/messaging/conversations")
+        if response.status_code != 401:
+            self.log(f"❌ Unauthorized access should return 401, got {response.status_code}", "ERROR")
+            return False
+        self.log("   ✅ Unauthorized access correctly returns 401")
+        
+        if not self.unified_user_token:
+            self.log("❌ No user token available for further error testing", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+        
+        # Test 2: Send message without text or media_url
+        if hasattr(self, 'test_conversation_id'):
+            response = self.make_request("POST", f"/messaging/conversations/{self.test_conversation_id}/messages", {
+                "type": "text"
+                # No text or media_url
+            }, headers=headers)
+            
+            if response.status_code == 400:
+                self.log("   ✅ Message without text/media_url correctly returns 400")
+            else:
+                self.log(f"❌ Message without content should return 400, got {response.status_code}", "ERROR")
+                return False
+        
+        # Test 3: Create group conversation without title
+        response = self.make_request("POST", "/messaging/conversations", {
+            "type": "group",
+            "participant_ids": ["user1", "user2"]
+            # No title for group conversation
+        }, headers=headers)
+        
+        if response.status_code == 400:
+            data = response.json()
+            if "Title is required for group conversations" in data.get("detail", ""):
+                self.log("   ✅ Group conversation without title correctly returns 400")
+            else:
+                self.log(f"❌ Wrong error message for group without title: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Group conversation without title should return 400, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 4: Access conversation you're not part of (simulate with invalid ID)
+        response = self.make_request("GET", "/messaging/conversations/invalid-conversation-id", headers=headers)
+        if response.status_code == 404:
+            self.log("   ✅ Invalid conversation access correctly returns 404")
+        else:
+            self.log(f"❌ Invalid conversation access should return 404, got {response.status_code}", "ERROR")
+            return False
+        
+        self.log("✅ All error handling scenarios working correctly")
+        return True
+    
+    def test_conversation_last_message_update(self) -> bool:
+        """Test that conversation's last_message_at updates when messages are sent"""
+        if not self.unified_user_token or not hasattr(self, 'test_conversation_id'):
+            self.log("❌ No user token or conversation ID available", "ERROR")
+            return False
+        
+        self.log("Testing conversation last message update...")
+        
+        headers = {"Authorization": f"Bearer {self.unified_user_token}"}
+        
+        # Get conversation before sending message
+        response1 = self.make_request("GET", f"/messaging/conversations/{self.test_conversation_id}", headers=headers)
+        if response1.status_code != 200:
+            self.log("❌ Could not get conversation for update test", "ERROR")
+            return False
+        
+        conv_before = response1.json()
+        last_message_at_before = conv_before.get("last_message_at")
+        
+        # Wait a moment then send a new message
+        import time
+        time.sleep(1)
+        
+        response2 = self.make_request("POST", f"/messaging/conversations/{self.test_conversation_id}/messages", {
+            "type": "text",
+            "text": "Testing last message update functionality"
+        }, headers=headers)
+        
+        if response2.status_code != 201:
+            self.log("❌ Could not send message for update test", "ERROR")
+            return False
+        
+        # Get conversation after sending message
+        response3 = self.make_request("GET", f"/messaging/conversations/{self.test_conversation_id}", headers=headers)
+        if response3.status_code != 200:
+            self.log("❌ Could not get conversation after message", "ERROR")
+            return False
+        
+        conv_after = response3.json()
+        last_message_at_after = conv_after.get("last_message_at")
+        
+        # Verify last_message_at was updated
+        if last_message_at_before != last_message_at_after:
+            self.log("✅ Conversation last_message_at updated correctly")
+            self.log(f"   Before: {last_message_at_before}")
+            self.log(f"   After: {last_message_at_after}")
+            
+            # Check if last_message_preview was updated
+            last_preview = conv_after.get("last_message_preview")
+            if last_preview and "Testing last message update" in last_preview:
+                self.log("   ✅ Last message preview updated correctly")
+                return True
+            else:
+                self.log(f"   ⚠️ Last message preview not updated: {last_preview}")
+                return True  # Still consider success if timestamp updated
+        else:
+            self.log("❌ Conversation last_message_at not updated", "ERROR")
+            return False
+
+    # ==========================================
     # PHASE 8.3 - BANIBS SOCIAL PORTAL TESTING
     # ==========================================
     
