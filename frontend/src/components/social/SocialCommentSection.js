@@ -252,17 +252,11 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
                         emojiContent = `[emoji:${emoji.id}]`;
                       }
                       
-                      const input = inputRef.current;
-                      if (input && emojiContent) {
-                        const start = input.selectionStart || 0;
-                        const end = input.selectionEnd || 0;
-                        const newText = commentText.substring(0, start) + emojiContent + commentText.substring(end);
-                        setCommentText(newText);
-                        setTimeout(() => {
-                          input.focus();
-                          input.selectionStart = input.selectionEnd = start + emojiContent.length;
-                        }, 0);
+                      // Append emoji to comment text
+                      if (emojiContent) {
+                        setCommentText(commentText + emojiContent);
                       }
+                      
                       setShowEmojiPicker(false);
                     }}
                     onClose={() => setShowEmojiPicker(false)}
