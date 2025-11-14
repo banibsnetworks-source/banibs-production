@@ -21,6 +21,10 @@ class Message(Document):
 
     created_at: datetime = Field(default_factory=datetime.utcnow)
     read_by: List[str] = Field(default_factory=list)
+    
+    # Phase 3 Add-Ons: Delete functionality
+    deleted_at: Optional[datetime] = None  # Delete for everyone
+    deleted_for: List[str] = Field(default_factory=list)  # Delete for specific users
 
     class Settings:
         name = "messages"
