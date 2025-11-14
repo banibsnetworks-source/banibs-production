@@ -905,7 +905,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Phase 2 BANIBS Emoji Integration Testing - COMPLETED SUCCESSFULLY"
+    - "Emoji Rendering in Comments Testing"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
