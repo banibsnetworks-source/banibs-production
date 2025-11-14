@@ -48,7 +48,7 @@ const HubPage = () => {
 
       if (!userRes.ok) {
         // Token expired or invalid, redirect to login
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem('access_token');
         navigate('/login');
         return;
       }
