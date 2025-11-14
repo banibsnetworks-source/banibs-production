@@ -1,12 +1,40 @@
 # backend/services/messaging_service.py
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 from models.messaging_conversation import Conversation
 from models.messaging_message import Message
 
 
-async def get_user_conversations(user_id: str) -> List[Conversation]:
+def transform_conversation_for_api(conv: Conversation) -> Dict[str, Any]:
+    """Transform a Conversation document for API response (frontend compatibility)"""
+    data = conv.dict()
+    
+    # Replace _id with id
+    if "_id" in data:
+        data["id"] = str(data["_id"])
+        del data["_id"]
+    
+    # Generate title for DMs if not set
+    if conv.type == "dm" and not data.get("title"):
+        data["title"] = "Direct Message"
+    
+    return data
+
+
+def transform_message_for_api(msg: Message) -> Dict[str, Any]:
+    """Transform a Message document for API response (frontend compatibility)"""
+    data = msg.dict()
+    
+    # Replace _id with id
+    if "_id" in data:
+        data["id"] = str(data["_id"])
+        del data["_id"]
+    
+    return data
+
+
+async def get_user_conversations(user_id: str) -> List[Dict[str, Any]]:
     """Get all conversations where user is a participant."""
     return await Conversation.find(
         Conversation.participant_ids == user_id
