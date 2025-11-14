@@ -165,6 +165,7 @@ export function MessagingHomePage() {
                 console.log('Show conversation info');
                 // TODO: Wire to info panel in Phase 3.1
               }}
+              onSearch={handleSearch}
             />
             <MessageList
               messages={messages}
