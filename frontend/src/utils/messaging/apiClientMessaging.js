@@ -9,7 +9,13 @@ const API_BASE = `${BACKEND_URL}/api/messaging`;
  * Get auth token from localStorage
  */
 function getAuthToken() {
-  return localStorage.getItem('access_token');
+  const token = localStorage.getItem('access_token');
+  console.log('🔑 [Messaging API] Getting token from localStorage:', {
+    tokenExists: !!token,
+    tokenLength: token ? token.length : 0,
+    tokenPreview: token ? `${token.substring(0, 20)}...` : 'NULL'
+  });
+  return token;
 }
 
 /**
@@ -18,6 +24,13 @@ function getAuthToken() {
 async function apiRequest(endpoint, options = {}) {
   const token = getAuthToken();
   
+  console.log('📡 [Messaging API] Making request:', {
+    endpoint,
+    method: options.method || 'GET',
+    hasToken: !!token,
+    fullUrl: `${API_BASE}${endpoint}`
+  });
+  
   const headers = {
     'Content-Type': 'application/json',
     ...options.headers,
@@ -25,6 +38,9 @@ async function apiRequest(endpoint, options = {}) {
   
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
+    console.log('✅ [Messaging API] Authorization header added');
+  } else {
+    console.warn('⚠️ [Messaging API] NO TOKEN AVAILABLE - Request will fail!');
   }
   
   const response = await fetch(`${API_BASE}${endpoint}`, {
@@ -32,7 +48,17 @@ async function apiRequest(endpoint, options = {}) {
     headers,
   });
   
+  console.log('📥 [Messaging API] Response received:', {
+    status: response.status,
+    statusText: response.statusText,
+    endpoint
+  });
+  
   if (response.status === 401) {
+    console.error('🚫 [Messaging API] 401 Unauthorized - Token invalid or missing');
+    console.log('🔍 [Messaging API] All localStorage keys:', Object.keys(localStorage));
+    console.log('🔍 [Messaging API] Token that was sent:', token ? `${token.substring(0, 50)}...` : 'NONE');
+    
     // Handle unauthorized - redirect to login
     localStorage.removeItem('access_token');
     window.location.href = '/login?session_expired=true';
@@ -41,6 +67,7 @@ async function apiRequest(endpoint, options = {}) {
   
   if (!response.ok) {
     const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
+    console.error('❌ [Messaging API] Request failed:', error);
     throw new Error(error.detail || `HTTP ${response.status}`);
   }
   
