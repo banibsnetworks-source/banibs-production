@@ -50,5 +50,27 @@ export function useMessages(conversationId) {
     }
   };
 
-  return { messages, loading, error, sendMessage };
+  const deleteMessage = async (messageId, mode) => {
+    if (!messageId || !mode) return;
+
+    try {
+      if (mode === 'me') {
+        await messagingApi.deleteMessageForMe(messageId);
+        // Remove from local state
+        setMessages(prev => prev.filter(m => m.id !== messageId));
+      } else if (mode === 'everyone') {
+        const updatedMessage = await messagingApi.deleteMessageForEveryone(messageId);
+        // Update message to show deleted state
+        setMessages(prev => prev.map(m => 
+          m.id === messageId ? { ...m, text: '[This message was deleted]', deleted: true } : m
+        ));
+      }
+    } catch (err) {
+      setError('Failed to delete message');
+      console.error(err);
+      throw err;
+    }
+  };
+
+  return { messages, loading, error, sendMessage, deleteMessage };
 }
