@@ -22,7 +22,7 @@ export function MessageList({ messages, loading = false, isGroupChat = false }) 
     }
     groups[date].push(message);
     return groups;
-  }, {} as Record<string, Message[]>);
+  }, {});
 
   const formatDateHeader = (dateString) => {
     const date = new Date(dateString);
