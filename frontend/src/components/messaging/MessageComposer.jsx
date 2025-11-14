@@ -3,7 +3,6 @@ import { Send, Smile, Paperclip, Mic, Phone, Video } from 'lucide-react';
 import EmojiPicker from '../emoji/EmojiPicker.jsx';
 import { useAuth } from '../../contexts/AuthContext';
 import { applySkinTone } from '../../utils/emojiToneUtils';
-import PostTextWithEmojis from '../social/PostTextWithEmojis';
 
 export function MessageComposer({ 
   onSend, 
@@ -23,7 +22,7 @@ export function MessageComposer({
     onSend(messageText);
     setMessageText('');
     if (inputRef.current) {
-      inputRef.current.textContent = '';
+      inputRef.current.value = '';
     }
   };
 
