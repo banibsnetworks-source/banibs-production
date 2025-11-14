@@ -217,6 +217,13 @@ export function CreateConversationModal({ isOpen, onClose, onCreateConversation 
           )}
         </div>
 
+        {/* Error Message */}
+        {error && (
+          <div className="px-4 py-3 bg-red-500/10 border-t border-red-500/20">
+            <p className="text-sm text-red-500">{error}</p>
+          </div>
+        )}
+
         {/* Footer */}
         {step === 2 && (
           <div className="p-4 border-t border-border flex items-center justify-between">
