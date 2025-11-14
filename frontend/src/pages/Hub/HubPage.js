@@ -17,7 +17,7 @@ const HubPage = () => {
 
   useEffect(() => {
     // Check authentication
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('access_token');
     if (!token) {
       navigate('/login');
       return;
@@ -31,7 +31,7 @@ const HubPage = () => {
     try {
       setLoading(true);
       const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       
       const headers = {
         'Authorization': `Bearer ${token}`,
