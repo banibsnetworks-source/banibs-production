@@ -1,33 +1,35 @@
 // BANIBS Connect – Mock API v1.0
 // Used for Phase 3.0 UI development (DM, Group, Business Inbox)
 
-export interface Conversation {
-  id: string;
-  type: 'dm' | 'group' | 'business';
-  name: string;
-  avatar?: string | null;
-  members?: number;
-  lastMessage: string;
-  lastTimestamp: string;
-  unread: number;
-  online?: boolean;
-  tag?: 'New' | 'Pending' | 'Resolved';
-}
+/**
+ * @typedef {Object} Conversation
+ * @property {string} id
+ * @property {'dm'|'group'|'business'} type
+ * @property {string} name
+ * @property {string|null} [avatar]
+ * @property {number} [members]
+ * @property {string} lastMessage
+ * @property {string} lastTimestamp
+ * @property {number} unread
+ * @property {boolean} [online]
+ * @property {'New'|'Pending'|'Resolved'} [tag]
+ */
 
-export interface Message {
-  id: string;
-  conversationId: string;
-  senderId: string;
-  senderName?: string;
-  direction?: 'incoming' | 'outgoing';
-  type: 'text' | 'emoji' | 'image' | 'file' | 'voice' | 'call_event';
-  text?: string;
-  mediaUrl?: string;
-  fileName?: string;
-  duration?: number;
-  createdAt: string;
-  isRead?: boolean;
-}
+/**
+ * @typedef {Object} Message
+ * @property {string} id
+ * @property {string} conversationId
+ * @property {string} senderId
+ * @property {string} [senderName]
+ * @property {'incoming'|'outgoing'} [direction]
+ * @property {'text'|'emoji'|'image'|'file'|'voice'|'call_event'} type
+ * @property {string} [text]
+ * @property {string} [mediaUrl]
+ * @property {string} [fileName]
+ * @property {number} [duration]
+ * @property {string} createdAt
+ * @property {boolean} [isRead]
+ */
 
 export const mockUser = {
   id: "user_001",
@@ -36,7 +38,7 @@ export const mockUser = {
 };
 
 // --- Conversation List ---
-export const mockConversations: Conversation[] = [
+export const mockConversations = [
   {
     id: "c_dm_001",
     type: "dm",
