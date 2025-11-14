@@ -5,9 +5,10 @@ import { Search, Plus } from 'lucide-react';
 export function ConversationList({ conversations, activeConversationId, onSelect, isLoading }) {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredConversations = conversations.filter(conv =>
-    conv.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredConversations = conversations.filter(conv => {
+    const name = conv.title || conv.name || '';
+    return name.toLowerCase().includes(searchQuery.toLowerCase());
+  });
 
   return (
     <div className="h-full flex flex-col bg-card border-r border-border">
