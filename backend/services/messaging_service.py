@@ -156,7 +156,7 @@ async def mark_messages_read(
     user_id: str,
 ) -> int:
     """Mark all unread messages in a conversation as read by user."""
-    conv = await get_conversation_for_user(conversation_id, user_id)
+    conv = await _get_conversation_raw(conversation_id, user_id)
     if not conv:
         return 0
 
