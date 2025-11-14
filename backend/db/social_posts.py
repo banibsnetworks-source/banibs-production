@@ -263,16 +263,55 @@ async def get_comments(post_id: str, page: int = 1, page_size: int = 20):
     }
 
 
-async def delete_comment(comment_id: str, user_id: str):
-    """Soft delete a comment (only author can delete)"""
+async def delete_post(post_id: str, user_id: str, user_role: str = "user"):
+    """
+    Soft delete a post - Phase 3 Add-On
+    Author or moderator/admin can delete.
+    """
+    db = await get_db()
+    
+    post = await db.social_posts.find_one({"id": post_id}, {"_id": 0})
+    if not post:
+        return False
+    
+    # Check permissions
+    is_author = post["author_id"] == user_id
+    is_moderator = user_role in ["moderator", "admin"]
+    
+    if not (is_author or is_moderator):
+        return False
+    
+    # Soft delete
+    await db.social_posts.update_one(
+        {"id": post_id},
+        {
+            "$set": {
+                "is_deleted": True,
+                "text": "[This post was deleted]",
+                "updated_at": datetime.now(timezone.utc)
+            }
+        }
+    )
+    
+    return True
+
+
+async def delete_comment(comment_id: str, user_id: str, user_role: str = "user"):
+    """
+    Soft delete a comment - Phase 3 Add-On Enhanced
+    Author or moderator/admin can delete.
+    """
     db = await get_db()
     
     comment = await db.social_comments.find_one({"id": comment_id})
     if not comment:
         return False
     
-    # Check if user is author
-    if comment["author_id"] != user_id:
+    # Check permissions
+    is_author = comment["author_id"] == user_id
+    is_moderator = user_role in ["moderator", "admin"]
+    
+    if not (is_author or is_moderator):
         return False
     
     # Soft delete
@@ -281,7 +320,7 @@ async def delete_comment(comment_id: str, user_id: str):
         {
             "$set": {
                 "is_deleted": True,
-                "text": "This comment was removed.",
+                "text": "[This comment was deleted]",
                 "updated_at": datetime.now(timezone.utc)
             }
         }
