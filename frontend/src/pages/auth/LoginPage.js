@@ -19,16 +19,23 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
+      console.log('🔐 Login attempt:', formData.email);
+      
       // Use AuthContext login method
       const result = await login(formData.email, formData.password);
       
+      console.log('🔐 Login result:', result);
+      
       if (result.success) {
+        console.log('🔐 Login successful, navigating to /hub');
         // Redirect to Hub after successful login
         navigate('/hub');
       } else {
+        console.error('🔐 Login failed:', result.error);
         setError(result.error || 'Login failed');
       }
     } catch (err) {
+      console.error('🔐 Login error:', err);
       setError(err.message || 'Login failed');
     } finally {
       setLoading(false);
