@@ -1,7 +1,7 @@
 {
   "id": "banibs_full",
   "label": "👨🏿 BANIBS (My Tone)",
-  "style": "image",
+  "type": "image",
   "description": "Full BANIBS custom emoji collection with diverse representation",
   "categories": [
     "people",
@@ -1080,6 +1080,6 @@
     "version": "1.0.0",
     "totalEmojis": 82,
     "sheets": 7,
-    "generatedAt": "2025-11-14T03:43:27.797Z"
+    "generatedAt": "2025-11-14T03:44:44.790Z"
   }
 }
