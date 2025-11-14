@@ -469,6 +469,21 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
           }}
         />
       )}
+
+      {/* Delete Confirmation Modal - Phase 3.3 */}
+      {showDeleteModal && (
+        <ConfirmModal
+          isOpen={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={handleDeletePost}
+          title="Delete Post"
+          message="Are you sure you want to delete this post? This action cannot be undone."
+          confirmText="Delete"
+          cancelText="Cancel"
+          isDestructive={true}
+          isLoading={isDeleting}
+        />
+      )}
     </div>
   );
 };
