@@ -160,6 +160,7 @@ async function sliceSheet(sheetName, startIndex) {
   }
 
   console.log(`   🧮 Found and sliced ${blobs.length} emojis on ${sheetName}`);
+  console.log(`   📝 Files created: banibs_${String(startIndex).padStart(3, '0')}.png through banibs_${String(index - 1).padStart(3, '0')}.png`);
   return index;
 }
 
