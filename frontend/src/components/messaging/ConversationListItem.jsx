@@ -33,7 +33,7 @@ export function ConversationListItem({ conversation, isActive, onClick }) {
           {conversation.avatar ? (
             <img 
               src={conversation.avatar} 
-              alt={conversation.name}
+              alt={conversation.title || conversation.name || 'Conversation'}
               className="w-full h-full object-cover"
             />
           ) : conversation.type === 'group' ? (
@@ -42,7 +42,7 @@ export function ConversationListItem({ conversation, isActive, onClick }) {
             <Briefcase className="w-6 h-6 text-yellow-500" />
           ) : (
             <span className="text-lg font-semibold text-foreground">
-              {conversation.name[0]}
+              {(conversation.title || conversation.name || '?')[0]}
             </span>
           )}
         </div>
@@ -58,7 +58,7 @@ export function ConversationListItem({ conversation, isActive, onClick }) {
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center space-x-2">
             <h3 className="font-semibold text-sm text-foreground truncate">
-              {conversation.name}
+              {conversation.title || conversation.name || 'Conversation'}
             </h3>
             {conversation.type === 'business' && conversation.tag && (
               <span className={`
