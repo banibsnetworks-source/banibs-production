@@ -34,6 +34,16 @@ def transform_message_for_api(msg: Message) -> Dict[str, Any]:
     return data
 
 
+async def _get_conversation_raw(conversation_id: str, user_id: str) -> Optional[Conversation]:
+    """Internal helper to get raw Conversation object (for updates)"""
+    conv = await Conversation.get(conversation_id)
+    if not conv:
+        return None
+    if user_id not in conv.participant_ids:
+        return None
+    return conv
+
+
 async def get_user_conversations(user_id: str) -> List[Dict[str, Any]]:
     """Get all conversations where user is a participant."""
     conversations = await Conversation.find(
@@ -49,10 +59,8 @@ async def get_conversation_for_user(
     user_id: str,
 ) -> Optional[Dict[str, Any]]:
     """Get a conversation if user is a participant."""
-    conv = await Conversation.get(conversation_id)
+    conv = await _get_conversation_raw(conversation_id, user_id)
     if not conv:
-        return None
-    if user_id not in conv.participant_ids:
         return None
     return transform_conversation_for_api(conv)
 
