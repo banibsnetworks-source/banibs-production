@@ -9,10 +9,10 @@ import { MessageComposer } from '../../components/messaging/MessageComposer';
 
 export function MessagingHomePage() {
   const navigate = useNavigate();
-  const { conversationId } = useParams<{ conversationId: string }>();
+  const { conversationId } = useParams();
   
   const { conversations, loading: conversationsLoading, markAsRead } = useConversations();
-  const [activeConversationId, setActiveConversationId] = useState<string | null>(conversationId || null);
+  const [activeConversationId, setActiveConversationId] = useState(conversationId || null);
   
   // Find the active conversation object
   const activeConversation = conversations.find(c => c.id === activeConversationId);
