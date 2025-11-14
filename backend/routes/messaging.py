@@ -13,7 +13,7 @@ from services.messaging_service import (
     send_message,
     mark_messages_read,
 )
-from deps import get_current_user
+from middleware.auth_guard import get_current_user
 
 
 router = APIRouter(prefix="/api/messaging", tags=["messaging"])
