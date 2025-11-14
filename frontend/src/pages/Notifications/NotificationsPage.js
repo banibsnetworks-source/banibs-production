@@ -62,7 +62,7 @@ const NotificationsPage = () => {
 
   const handleNotificationClick = async (notification) => {
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
 
       // Mark as read
       if (!notification.read) {
