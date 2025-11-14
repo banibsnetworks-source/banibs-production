@@ -316,6 +316,13 @@ export function MessagingHomePage() {
         destructive={deleteMode === 'everyone'}
         isLoading={isDeleting}
       />
+      
+      {/* Create Conversation Modal */}
+      <CreateConversationModal
+        isOpen={createModalOpen}
+        onClose={() => setCreateModalOpen(false)}
+        onCreateConversation={handleCreateConversation}
+      />
     </div>
     </>
   );
