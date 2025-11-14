@@ -135,6 +135,8 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
 
   return (
     <div className="p-4 bg-muted/30">
+      {/* Inject placeholder styles */}
+      <style>{commentInputStyles}</style>
       {/* Comments List */}
       <div className="space-y-3 mb-4">
         {loading ? (
