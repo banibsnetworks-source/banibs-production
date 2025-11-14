@@ -31,6 +31,11 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [error, setError] = useState(null);
   const inputRef = useRef(null);
+  
+  // Delete state
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [commentToDelete, setCommentToDelete] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Load comments
   useEffect(() => {
