@@ -110,6 +110,23 @@ export function MessagingHomePage() {
     }
   };
 
+  const handleCreateConversation = async (conversationData) => {
+    try {
+      const { messagingApi } = await import('../../utils/messaging');
+      const newConversation = await messagingApi.createConversation(conversationData);
+      
+      // Navigate to the new conversation
+      setActiveConversationId(newConversation.id);
+      navigate(`/messages/${newConversation.id}`);
+      
+      // Refresh conversations list (in a real app, this would update automatically)
+      window.location.reload();
+    } catch (error) {
+      console.error('Failed to create conversation:', error);
+      throw error;
+    }
+  };
+
   return (
     <>
       <GlobalNavBar />
