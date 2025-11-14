@@ -8,6 +8,7 @@ export function CreateConversationModal({ isOpen, onClose, onCreateConversation 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedParticipants, setSelectedParticipants] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
+  const [error, setError] = useState(null);
   
   // Mock users - in production, this would come from an API
   const [availableUsers] = useState([
