@@ -487,6 +487,98 @@ backend:
         agent: "testing"
         comment: "✅ TESTED: /api/opportunities/submit working perfectly. Requires contributor JWT authentication. Properly captures contributorId and contributorEmail from JWT token. Creates opportunity with status='pending' for admin review. All data integrity maintained."
 
+  # Phase 3.1 - BANIBS Connect Messaging API Backend
+  - task: "BANIBS Connect Messaging API (Phase 3.1)"
+    implemented: true
+    working: true
+    file: "backend/routes/messaging.py, backend/models/messaging_conversation.py, backend/models/messaging_message.py, backend/services/messaging_service.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Phase 3.1 - BANIBS Connect messaging API implementation complete using Beanie ODM with MongoDB. Includes conversation management, message sending, and JWT authentication."
+      - working: true
+        agent: "testing"
+        comment: |
+          ✅ COMPREHENSIVE MESSAGING API TESTING COMPLETE - ALL 8 TESTS PASSED (100% SUCCESS RATE)
+          
+          🎯 **PHASE 3.1 BANIBS CONNECT MESSAGING API TESTING RESULTS:**
+          
+          **1. AUTHENTICATION SETUP** ✅ PASSED
+          - Successfully authenticated with existing test user: social_test_user@example.com
+          - JWT token obtained and validated for messaging endpoints
+          - User ID: 938ba7cf-b52c-495c-a20b-590f54448d5d
+          
+          **2. CREATE CONVERSATION (POST /api/messaging/conversations)** ✅ PASSED
+          - Successfully created DM conversation with participant_ids
+          - Response includes conversation ID (_id), type, participants, timestamps
+          - Current user automatically added to participant list
+          - Conversation ID: 6916d9ab16084929b24189e8 created successfully
+          
+          **3. LIST CONVERSATIONS (GET /api/messaging/conversations)** ✅ PASSED
+          - Successfully retrieved all conversations for authenticated user
+          - Found 3 conversations in user's conversation list
+          - Conversations sorted by last_message_at (most recent first)
+          - Proper authentication required (401 without token)
+          
+          **4. GET SINGLE CONVERSATION (GET /api/messaging/conversations/{id})** ✅ PASSED
+          - Successfully retrieved individual conversation by ID
+          - All required fields present: type, participant_ids, timestamps
+          - Proper access control - only participants can access conversation
+          - Returns 404 for non-existent conversations (tested with valid ObjectId format)
+          
+          **5. SEND MESSAGES (POST /api/messaging/conversations/{id}/messages)** ✅ PASSED
+          - Successfully sent 3 test messages including BANIBS emoji placeholders
+          - Message 1: "Hello! This is a test message."
+          - Message 2: "Hello [emoji:banibs_full_banibs_009]! How are you?"
+          - Message 3: "Amazing feature! [emoji:banibs_full_banibs_015] Love it!"
+          - ✅ BANIBS emoji placeholders preserved in text field
+          - Proper sender_id assignment and read_by initialization
+          - Returns 201 status with complete message object
+          
+          **6. LIST MESSAGES (GET /api/messaging/conversations/{id}/messages)** ✅ PASSED
+          - Successfully retrieved all 3 messages for conversation
+          - Messages returned in chronological order (oldest first)
+          - Found 2 messages containing BANIBS emoji placeholders
+          - Pagination working correctly (tested with page=1, limit=2)
+          - BANIBS emoji placeholders preserved in message listing
+          
+          **7. MARK MESSAGES READ (POST /api/messaging/conversations/{id}/read)** ✅ PASSED
+          - Successfully marked all messages as read for current user
+          - Returns 204 No Content status (correct REST behavior)
+          - Read status properly updated in message read_by arrays
+          
+          **8. ERROR HANDLING** ✅ PASSED
+          - Unauthorized access correctly returns 401 (no JWT token)
+          - Invalid conversation ID returns 404 (tested with valid ObjectId format)
+          - Message without text/media_url returns 400 Bad Request
+          - Group conversation without title returns 400 Bad Request
+          - All error responses include proper HTTP status codes
+          
+          **📊 TECHNICAL VERIFICATION:**
+          - Beanie ODM integration working correctly with MongoDB
+          - JWT authentication enforced on all protected endpoints
+          - ObjectId handling proper (uses _id field from MongoDB)
+          - BANIBS emoji placeholder preservation: [emoji:banibs_full_banibs_009], [emoji:banibs_full_banibs_015]
+          - Conversation last_message_at updates automatically when messages sent
+          - Proper REST API status codes (201, 204, 400, 401, 404)
+          - Pagination support with page/limit parameters
+          
+          **🎉 ALL MESSAGING API REQUIREMENTS FULFILLED:**
+          - ✅ Authentication with existing test user
+          - ✅ Conversation CRUD operations
+          - ✅ Message sending with BANIBS emoji support
+          - ✅ Message listing with pagination
+          - ✅ Read receipt functionality
+          - ✅ Comprehensive error handling
+          - ✅ Proper HTTP status codes
+          - ✅ JWT token validation
+          
+          **DEPLOYMENT READINESS: 100% COMPLETE**
+          The BANIBS Connect messaging API (Phase 3.1) is fully functional and ready for production use.
+
 frontend:
   - task: "Phase 1 - Featured Story Component Fix"
     implemented: true
