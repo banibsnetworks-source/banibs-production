@@ -168,6 +168,7 @@ export function MessagingHomePage() {
             isLoading={conversationsLoading}
             activeConversationId={activeConversationId}
             onSelect={handleSelectConversation}
+            onCreateNew={() => setCreateModalOpen(true)}
           />
         </div>
       </div>
