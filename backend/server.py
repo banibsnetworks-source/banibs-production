@@ -253,6 +253,10 @@ app.include_router(media_upload_router)
 from routes.messaging import router as messaging_router
 app.include_router(messaging_router)
 
+# Include messaging WebSocket router (Phase 3.2 - Real-Time)
+from routes.messaging_ws import router as messaging_ws_router
+app.include_router(messaging_ws_router)
+
 # Include business board router FIRST (Phase 8.3 - Business Board)
 # Must come before business profile router to avoid route conflicts
 from routes.business_board import router as business_board_router
