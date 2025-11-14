@@ -23,8 +23,8 @@ export function MessageBubble({
   };
 
   return (
-    <div className={`flex ${isOutgoing ? 'justify-end' : 'justify-start'} mb-4`}>
-      <div className={`max-w-[70%] ${isOutgoing ? 'order-2' : 'order-1'}`}>
+    <div className={`flex ${isOutgoing ? 'justify-end' : 'justify-start'} mb-4 group`}>
+      <div className={`max-w-[70%] ${isOutgoing ? 'order-2' : 'order-1'} relative`}>
         {/* Sender name for group chats */}
         {showSender && !isOutgoing && message.senderName && (
           <p className="text-xs text-muted-foreground mb-1 ml-3">
@@ -35,7 +35,7 @@ export function MessageBubble({
         {/* Message bubble */}
         <div
           className={`
-            px-4 py-2 rounded-2xl
+            px-4 py-2 rounded-2xl relative
             ${isOutgoing 
               ? 'bg-yellow-500 text-black rounded-br-md' 
               : 'bg-muted text-foreground rounded-bl-md'
@@ -60,6 +60,36 @@ export function MessageBubble({
           {message.type === 'file' && message.fileName && (
             <div className="flex items-center space-x-2">
               <span className="text-sm">{message.fileName}</span>
+            </div>
+          )}
+          
+          {/* Delete menu - show on hover */}
+          {(onDeleteForMe || onDeleteForEveryone) && (
+            <div className={`absolute top-1 ${isOutgoing ? 'left-1' : 'right-1'} opacity-0 group-hover:opacity-100 transition-opacity`}>
+              <DropdownMenu
+                trigger={
+                  <button className={`p-1 rounded hover:bg-black/10 transition-colors ${isOutgoing ? 'text-black/60 hover:text-black' : 'text-muted-foreground hover:text-foreground'}`}>
+                    <MoreVertical size={14} />
+                  </button>
+                }
+                align={isOutgoing ? "left" : "right"}
+              >
+                {onDeleteForMe && (
+                  <DropdownMenuItem
+                    icon={Trash2}
+                    label="Delete for Me"
+                    onClick={() => onDeleteForMe(message)}
+                  />
+                )}
+                {isSender && onDeleteForEveryone && (
+                  <DropdownMenuItem
+                    icon={Trash2}
+                    label="Delete for Everyone"
+                    destructive
+                    onClick={() => onDeleteForEveryone(message)}
+                  />
+                )}
+              </DropdownMenu>
             </div>
           )}
         </div>
