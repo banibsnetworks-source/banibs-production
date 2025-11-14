@@ -239,8 +239,8 @@ export default function EmojiPicker({
  * - Phase 2: Will support image-based with sprite sheets
  */
 function EmojiRenderer({ emoji, userSkinTone }) {
-  // Approx 32–40px visual size target
-  const sizePx = 36;
+  // Increased size for better visibility (especially for detailed emojis)
+  const sizePx = 44;
 
   if (emoji.type === 'image') {
     // Phase 2: Image-based rendering
