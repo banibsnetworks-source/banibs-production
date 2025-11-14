@@ -57,7 +57,7 @@
 
 // ---- CONSTANTS -------------------------------------------------------------
 
-export const DEFAULT_EMOJI_PACK_ID = 'banibs_standard';
+export const DEFAULT_EMOJI_PACK_ID = 'banibs_full';
 
 /**
  * Phase 1: Unicode-based manifests
