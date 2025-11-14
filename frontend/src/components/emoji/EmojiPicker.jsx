@@ -247,6 +247,19 @@ function EmojiRenderer({ emoji, userSkinTone }) {
     ? applySkinTone(emoji.char, userSkinTone, true)
     : emoji.char;
 
+  // DEBUG: Log first few emojis to verify tone application
+  if (Math.random() < 0.05) { // 5% sample
+    console.log('🎨 EmojiRenderer DEBUG:', {
+      id: emoji.id,
+      char: emoji.char,
+      supportsSkinTone,
+      userSkinTone,
+      displayChar,
+      charCodes: Array.from(displayChar).map(c => '0x' + c.codePointAt(0).toString(16)),
+      isActuallyToned: displayChar !== emoji.char
+    });
+  }
+
   return (
     <span
       className="leading-none"
