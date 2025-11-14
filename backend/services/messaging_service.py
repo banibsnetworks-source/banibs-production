@@ -186,7 +186,7 @@ async def search_user_messages(
     conversation_id: Optional[str] = None,
     limit: int = 50,
     offset: int = 0
-) -> List[Message]:
+) -> List[Dict[str, Any]]:
     """
     Search messages by text content.
     Only returns messages from conversations user participates in.
@@ -201,20 +201,20 @@ async def search_user_messages(
     
     if conversation_id:
         # Verify user is participant
-        conv = await get_conversation_for_user(conversation_id, user_id)
+        conv = await _get_conversation_raw(conversation_id, user_id)
         if not conv:
             return []
         filters["conversation_id"] = conversation_id
     else:
         # Get all user's conversations
         user_convs = await get_user_conversations(user_id)
-        conv_ids = [str(c.id) for c in user_convs]
+        conv_ids = [c["id"] for c in user_convs]
         filters["conversation_id"] = {"$in": conv_ids}
     
     # Search messages
     messages = await Message.find(filters).sort(-Message.created_at).skip(offset).limit(limit).to_list()
     
-    return messages
+    return [transform_message_for_api(msg) for msg in messages]
 
 
 async def delete_message_for_user(
