@@ -63,6 +63,129 @@
 # THIS SECTION CONTAINS CRITICAL TESTING INSTRUCTIONS FOR BOTH AGENTS
 # BOTH MAIN_AGENT AND TESTING_AGENT MUST PRESERVE THIS ENTIRE BLOCK
 
+
+---
+
+## 🎨 PHASE 2 - Image-Based BANIBS Emojis (IN PROGRESS)
+
+**Date**: 2025-11-14  
+**Objective**: Slice custom BANIBS emoji sprite sheets and integrate as primary image-based emoji pack
+
+### Progress Summary
+
+#### ✅ Completed Steps
+
+**1. Installed Dependencies**
+```bash
+cd /app/frontend && yarn add sharp
+```
+- Installed `sharp` v0.34.5 for image processing
+
+**2. Analyzed Sprite Sheets**
+- All 7 sheets are 1024x1024 pixels
+- Sheets 1-5: 8x8 grids (64 emojis each, 128x128px tiles)
+- Sheets 6-7: 1x1 (single hero emojis, 1024x1024px each)
+- Total emojis: 322
+
+**3. Created Slicing Script**
+- Location: `/app/frontend/scripts/sliceBanibsEmojiSheets.mjs`
+- Successfully sliced all 7 sheets
+- Output: `/app/frontend/public/static/emojis/banibs_full/`
+  - 320 grid emojis (sheets 1-5)
+  - 2 hero emojis (sheets 6-7)
+  - Total: 322 individual PNG files
+
+**4. Generated Manifest**
+- Location: `/app/frontend/public/static/emojis/banibs_full/manifest.json`
+- Pack ID: `banibs_full`
+- Label: "👨🏿 BANIBS (My Tone)"
+- Style: `image`
+- Total emojis: 322
+- ✅ Manifest accessible at: `https://emoji-migration.preview.emergentagent.com/static/emojis/banibs_full/manifest.json`
+
+**5. Updated Emoji System**
+- Modified: `/app/frontend/src/utils/emojiSystem.js`
+  - Updated `normalizeManifest()` to support individual image files (not just sprite sheets)
+  - Added `banibs_full` as the PRIMARY pack (loads first)
+  - Pack loading order: BANIBS Full (image) → BANIBS Standard (unicode) → BANIBS Gold Spark → Base Yellow
+
+**6. Updated Emoji Renderer**
+- Modified: `/app/frontend/src/components/emoji/EmojiPicker.jsx`
+  - Updated `EmojiRenderer` component to handle both:
+    - Individual image files (`<img src="..." />`)
+    - Sprite sheets (background-position method)
+  - Image emojis render at 36px size
+
+### 🚧 Remaining Work
+
+**1. Test Emoji Picker UI**
+- Need to visually verify the new `banibs_full` pack appears in the picker
+- Verify all 322 emojis load and display correctly
+- Check pack switching between image and unicode packs
+
+**2. Update Composer Integration**
+- Currently, composers only handle unicode emoji insertion
+- Need to decide on approach for image emojis:
+  - Option A: Convert to shortcode format (`:banibs_001:`) for storage, render as images in display
+  - Option B: Keep as unicode-only for text insertion, use images only for display
+  - Option C: Implement rich content support for posts/comments
+
+**3. Test Full Integration**
+- Test emoji picker in Social Portal composer
+- Verify emoji insertion works
+- Test emoji display in posts and comments
+
+### File Changes
+
+**New Files**:
+- `/app/frontend/scripts/sliceBanibsEmojiSheets.mjs` - Main slicing script
+- `/app/frontend/scripts/inspect_sheet.mjs` - Sheet inspection tool
+- `/app/frontend/scripts/test_slice.mjs` - Test slicing tool
+- `/app/frontend/public/static/emojis/banibs_full/manifest.json` - Pack manifest
+- `/app/frontend/public/static/emojis/banibs_full/*.png` - 322 emoji images
+
+**Modified Files**:
+- `/app/frontend/src/utils/emojiSystem.js` - Pack loading & normalization
+- `/app/frontend/src/components/emoji/EmojiPicker.jsx` - Image rendering support
+
+### Technical Details
+
+**Grid Layout Calculation**:
+- 1024px ÷ 8 = 128px per emoji
+- Each emoji extracted with exact dimensions
+- File sizes: 24-36KB (grid emojis), 948KB-1.4MB (hero emojis)
+
+**Manifest Structure**:
+```json
+{
+  "id": "banibs_full",
+  "label": "👨🏿 BANIBS (My Tone)",
+  "style": "image",
+  "emojis": [
+    {
+      "type": "image",
+      "id": "banibs_full_0001",
+      "src": "banibs_1_001.png",
+      "label": "BANIBS Custom 1",
+      "category": "people",
+      "supportsSkinTone": false
+    }
+    // ... 321 more
+  ]
+}
+```
+
+### Status
+**🚧 Phase 2: 70% Complete**
+- ✅ Sprite sheet slicing
+- ✅ Manifest generation
+- ✅ System integration
+- 🚧 UI testing pending
+- 🚧 Composer integration pending
+
+---
+
+
 # Communication Protocol:
 # If the `testing_agent` is available, main agent should delegate all testing tasks to it.
 #
