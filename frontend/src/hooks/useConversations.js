@@ -24,7 +24,7 @@ export function useConversations() {
   }, []);
 
   const markAsRead = async (conversationId) => {
-    await mockApi.markAsRead(conversationId);
+    await messagingApi.markAsRead(conversationId);
     setConversations(prev => 
       prev.map(c => c.id === conversationId ? { ...c, unread: 0 } : c)
     );
