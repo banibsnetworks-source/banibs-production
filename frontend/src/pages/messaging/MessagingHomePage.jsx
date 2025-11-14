@@ -28,6 +28,11 @@ export function MessagingHomePage() {
   const [messageToDelete, setMessageToDelete] = useState(null);
   const [deleteMode, setDeleteMode] = useState(null); // 'me' or 'everyone'
   const [isDeleting, setIsDeleting] = useState(false);
+  
+  // Search state
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchError, setSearchError] = useState(null);
 
   // Sync URL param with state
   useEffect(() => {
