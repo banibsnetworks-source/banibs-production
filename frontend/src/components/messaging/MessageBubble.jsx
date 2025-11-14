@@ -1,16 +1,10 @@
 import React from 'react';
-import { Message } from '../../utils/messaging/mockApi';
 import PostTextWithEmojis from '../social/PostTextWithEmojis';
 
-interface MessageBubbleProps {
-  message: Message;
-  showSender?: boolean;
-}
-
-export function MessageBubble({ message, showSender = false }: MessageBubbleProps) {
+export function MessageBubble({ message, showSender = false }) {
   const isOutgoing = message.direction === 'outgoing';
 
-  const formatTime = (timestamp: string) => {
+  const formatTime = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleTimeString('en-US', { 
       hour: 'numeric', 
