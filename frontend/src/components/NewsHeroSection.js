@@ -85,11 +85,7 @@ const NewsHeroSection = ({ story }) => {
         </div>
 
         {/* Content Section - Theme Aware */}
-        <div className={`p-8 lg:p-10 flex flex-col justify-center ${
-          isDark 
-            ? 'bg-gradient-to-br from-gray-900 to-gray-800' 
-            : 'bg-gradient-to-br from-gray-50 to-white'
-        }`}>
+        <div className="p-8 lg:p-10 flex flex-col justify-center bg-card">
           {/* Meta Info */}
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <span className="px-3 py-1 bg-blue-600 text-white text-xs font-semibold rounded-full">
