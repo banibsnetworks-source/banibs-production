@@ -9,6 +9,17 @@ import PostTextWithEmojis from './PostTextWithEmojis';
  * SocialCommentSection - Phase 8.3 + Emoji Support
  * Displays comments for a post and allows adding new comments with emoji support
  */
+
+// Add styles for placeholder
+const commentInputStyles = `
+  [contenteditable][data-placeholder]:empty:before {
+    content: attr(data-placeholder);
+    color: hsl(var(--muted-foreground));
+    pointer-events: none;
+    position: absolute;
+  }
+`;
+
 const SocialCommentSection = ({ postId, onCommentAdded }) => {
   const { user } = useAuth();
   const [comments, setComments] = useState([]);
