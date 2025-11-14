@@ -74,7 +74,7 @@ const HubPage = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem('access_token');
     navigate('/login');
   };
 
