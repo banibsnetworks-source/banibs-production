@@ -362,7 +362,19 @@ logger = logging.getLogger(__name__)
 
 @app.on_event("startup")
 async def startup_event():
-    """Initialize APScheduler for automated RSS sync"""
+    """Initialize APScheduler for automated RSS sync and Beanie ODM"""
+    # Initialize Beanie for messaging (Phase 3.1)
+    from beanie import init_beanie
+    from models.messaging_conversation import Conversation
+    from models.messaging_message import Message
+    
+    await init_beanie(
+        database=db,
+        document_models=[Conversation, Message],
+    )
+    logger.info("Beanie ODM initialized for BANIBS Connect messaging")
+    
+    # Initialize scheduler
     init_scheduler()
     logger.info("BANIBS RSS scheduler initialized")
 
