@@ -2,1084 +2,580 @@
   "id": "banibs_full",
   "label": "👨🏿 BANIBS (My Tone)",
   "type": "image",
-  "description": "Full BANIBS custom emoji collection with diverse representation",
+  "description": "Smart-sliced BANIBS custom emoji collection with diverse Black representation",
   "categories": [
     "people",
     "gestures",
-    "emotions"
+    "emotions",
+    "hands",
+    "faces"
   ],
   "emojis": [
     {
       "type": "image",
-      "id": "banibs_full_0001",
-      "src": "banibs_1_001.png",
+      "id": "banibs_full_banibs_001",
+      "src": "banibs_001.png",
       "label": "BANIBS Custom 1",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0002",
-      "src": "banibs_1_002.png",
+      "id": "banibs_full_banibs_002",
+      "src": "banibs_002.png",
       "label": "BANIBS Custom 2",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0003",
-      "src": "banibs_1_003.png",
+      "id": "banibs_full_banibs_003",
+      "src": "banibs_003.png",
       "label": "BANIBS Custom 3",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0004",
-      "src": "banibs_1_004.png",
+      "id": "banibs_full_banibs_004",
+      "src": "banibs_004.png",
       "label": "BANIBS Custom 4",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0005",
-      "src": "banibs_1_005.png",
+      "id": "banibs_full_banibs_005",
+      "src": "banibs_005.png",
       "label": "BANIBS Custom 5",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0006",
-      "src": "banibs_1_006.png",
+      "id": "banibs_full_banibs_006",
+      "src": "banibs_006.png",
       "label": "BANIBS Custom 6",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0007",
-      "src": "banibs_1_007.png",
+      "id": "banibs_full_banibs_007",
+      "src": "banibs_007.png",
       "label": "BANIBS Custom 7",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0008",
-      "src": "banibs_1_008.png",
+      "id": "banibs_full_banibs_008",
+      "src": "banibs_008.png",
       "label": "BANIBS Custom 8",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0009",
-      "src": "banibs_1_009.png",
+      "id": "banibs_full_banibs_009",
+      "src": "banibs_009.png",
       "label": "BANIBS Custom 9",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0010",
-      "src": "banibs_1_010.png",
+      "id": "banibs_full_banibs_010",
+      "src": "banibs_010.png",
       "label": "BANIBS Custom 10",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0011",
-      "src": "banibs_1_011.png",
+      "id": "banibs_full_banibs_011",
+      "src": "banibs_011.png",
       "label": "BANIBS Custom 11",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0012",
-      "src": "banibs_1_012.png",
+      "id": "banibs_full_banibs_012",
+      "src": "banibs_012.png",
       "label": "BANIBS Custom 12",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0013",
-      "src": "banibs_1_013.png",
+      "id": "banibs_full_banibs_013",
+      "src": "banibs_013.png",
       "label": "BANIBS Custom 13",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0014",
-      "src": "banibs_1_014.png",
+      "id": "banibs_full_banibs_014",
+      "src": "banibs_014.png",
       "label": "BANIBS Custom 14",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0015",
-      "src": "banibs_1_015.png",
+      "id": "banibs_full_banibs_015",
+      "src": "banibs_015.png",
       "label": "BANIBS Custom 15",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0016",
-      "src": "banibs_1_016.png",
+      "id": "banibs_full_banibs_016",
+      "src": "banibs_016.png",
       "label": "BANIBS Custom 16",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0017",
-      "src": "banibs_2_001.png",
+      "id": "banibs_full_banibs_017",
+      "src": "banibs_017.png",
       "label": "BANIBS Custom 17",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0018",
-      "src": "banibs_2_002.png",
+      "id": "banibs_full_banibs_018",
+      "src": "banibs_018.png",
       "label": "BANIBS Custom 18",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0019",
-      "src": "banibs_2_003.png",
+      "id": "banibs_full_banibs_019",
+      "src": "banibs_019.png",
       "label": "BANIBS Custom 19",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0020",
-      "src": "banibs_2_004.png",
+      "id": "banibs_full_banibs_020",
+      "src": "banibs_020.png",
       "label": "BANIBS Custom 20",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0021",
-      "src": "banibs_2_005.png",
+      "id": "banibs_full_banibs_021",
+      "src": "banibs_021.png",
       "label": "BANIBS Custom 21",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0022",
-      "src": "banibs_2_006.png",
+      "id": "banibs_full_banibs_022",
+      "src": "banibs_022.png",
       "label": "BANIBS Custom 22",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0023",
-      "src": "banibs_2_007.png",
+      "id": "banibs_full_banibs_023",
+      "src": "banibs_023.png",
       "label": "BANIBS Custom 23",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0024",
-      "src": "banibs_2_008.png",
+      "id": "banibs_full_banibs_024",
+      "src": "banibs_024.png",
       "label": "BANIBS Custom 24",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0025",
-      "src": "banibs_2_009.png",
+      "id": "banibs_full_banibs_025",
+      "src": "banibs_025.png",
       "label": "BANIBS Custom 25",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0026",
-      "src": "banibs_2_010.png",
+      "id": "banibs_full_banibs_026",
+      "src": "banibs_026.png",
       "label": "BANIBS Custom 26",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0027",
-      "src": "banibs_2_011.png",
+      "id": "banibs_full_banibs_027",
+      "src": "banibs_027.png",
       "label": "BANIBS Custom 27",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0028",
-      "src": "banibs_2_012.png",
+      "id": "banibs_full_banibs_028",
+      "src": "banibs_028.png",
       "label": "BANIBS Custom 28",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0029",
-      "src": "banibs_2_013.png",
+      "id": "banibs_full_banibs_029",
+      "src": "banibs_029.png",
       "label": "BANIBS Custom 29",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0030",
-      "src": "banibs_2_014.png",
+      "id": "banibs_full_banibs_030",
+      "src": "banibs_030.png",
       "label": "BANIBS Custom 30",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0031",
-      "src": "banibs_2_015.png",
+      "id": "banibs_full_banibs_031",
+      "src": "banibs_031.png",
       "label": "BANIBS Custom 31",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0032",
-      "src": "banibs_2_016.png",
+      "id": "banibs_full_banibs_032",
+      "src": "banibs_032.png",
       "label": "BANIBS Custom 32",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0033",
-      "src": "banibs_3_001.png",
+      "id": "banibs_full_banibs_033",
+      "src": "banibs_033.png",
       "label": "BANIBS Custom 33",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0034",
-      "src": "banibs_3_002.png",
+      "id": "banibs_full_banibs_034",
+      "src": "banibs_034.png",
       "label": "BANIBS Custom 34",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0035",
-      "src": "banibs_3_003.png",
+      "id": "banibs_full_banibs_035",
+      "src": "banibs_035.png",
       "label": "BANIBS Custom 35",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0036",
-      "src": "banibs_3_004.png",
+      "id": "banibs_full_banibs_036",
+      "src": "banibs_036.png",
       "label": "BANIBS Custom 36",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0037",
-      "src": "banibs_3_005.png",
+      "id": "banibs_full_banibs_037",
+      "src": "banibs_037.png",
       "label": "BANIBS Custom 37",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0038",
-      "src": "banibs_3_006.png",
+      "id": "banibs_full_banibs_038",
+      "src": "banibs_038.png",
       "label": "BANIBS Custom 38",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0039",
-      "src": "banibs_3_007.png",
+      "id": "banibs_full_banibs_039",
+      "src": "banibs_039.png",
       "label": "BANIBS Custom 39",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     },
     {
       "type": "image",
-      "id": "banibs_full_0040",
-      "src": "banibs_3_008.png",
+      "id": "banibs_full_banibs_040",
+      "src": "banibs_040.png",
       "label": "BANIBS Custom 40",
       "category": "people",
       "tags": [
         "banibs",
         "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0041",
-      "src": "banibs_3_009.png",
-      "label": "BANIBS Custom 41",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0042",
-      "src": "banibs_3_010.png",
-      "label": "BANIBS Custom 42",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0043",
-      "src": "banibs_3_011.png",
-      "label": "BANIBS Custom 43",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0044",
-      "src": "banibs_3_012.png",
-      "label": "BANIBS Custom 44",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0045",
-      "src": "banibs_3_013.png",
-      "label": "BANIBS Custom 45",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0046",
-      "src": "banibs_3_014.png",
-      "label": "BANIBS Custom 46",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0047",
-      "src": "banibs_3_015.png",
-      "label": "BANIBS Custom 47",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0048",
-      "src": "banibs_3_016.png",
-      "label": "BANIBS Custom 48",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0049",
-      "src": "banibs_4_001.png",
-      "label": "BANIBS Custom 49",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0050",
-      "src": "banibs_4_002.png",
-      "label": "BANIBS Custom 50",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0051",
-      "src": "banibs_4_003.png",
-      "label": "BANIBS Custom 51",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0052",
-      "src": "banibs_4_004.png",
-      "label": "BANIBS Custom 52",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0053",
-      "src": "banibs_4_005.png",
-      "label": "BANIBS Custom 53",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0054",
-      "src": "banibs_4_006.png",
-      "label": "BANIBS Custom 54",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0055",
-      "src": "banibs_4_007.png",
-      "label": "BANIBS Custom 55",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0056",
-      "src": "banibs_4_008.png",
-      "label": "BANIBS Custom 56",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0057",
-      "src": "banibs_4_009.png",
-      "label": "BANIBS Custom 57",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0058",
-      "src": "banibs_4_010.png",
-      "label": "BANIBS Custom 58",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0059",
-      "src": "banibs_4_011.png",
-      "label": "BANIBS Custom 59",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0060",
-      "src": "banibs_4_012.png",
-      "label": "BANIBS Custom 60",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0061",
-      "src": "banibs_4_013.png",
-      "label": "BANIBS Custom 61",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0062",
-      "src": "banibs_4_014.png",
-      "label": "BANIBS Custom 62",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0063",
-      "src": "banibs_4_015.png",
-      "label": "BANIBS Custom 63",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0064",
-      "src": "banibs_4_016.png",
-      "label": "BANIBS Custom 64",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0065",
-      "src": "banibs_5_001.png",
-      "label": "BANIBS Custom 65",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0066",
-      "src": "banibs_5_002.png",
-      "label": "BANIBS Custom 66",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0067",
-      "src": "banibs_5_003.png",
-      "label": "BANIBS Custom 67",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0068",
-      "src": "banibs_5_004.png",
-      "label": "BANIBS Custom 68",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0069",
-      "src": "banibs_5_005.png",
-      "label": "BANIBS Custom 69",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0070",
-      "src": "banibs_5_006.png",
-      "label": "BANIBS Custom 70",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0071",
-      "src": "banibs_5_007.png",
-      "label": "BANIBS Custom 71",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0072",
-      "src": "banibs_5_008.png",
-      "label": "BANIBS Custom 72",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0073",
-      "src": "banibs_5_009.png",
-      "label": "BANIBS Custom 73",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0074",
-      "src": "banibs_5_010.png",
-      "label": "BANIBS Custom 74",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0075",
-      "src": "banibs_5_011.png",
-      "label": "BANIBS Custom 75",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0076",
-      "src": "banibs_5_012.png",
-      "label": "BANIBS Custom 76",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0077",
-      "src": "banibs_5_013.png",
-      "label": "BANIBS Custom 77",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0078",
-      "src": "banibs_5_014.png",
-      "label": "BANIBS Custom 78",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0079",
-      "src": "banibs_5_015.png",
-      "label": "BANIBS Custom 79",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0080",
-      "src": "banibs_5_016.png",
-      "label": "BANIBS Custom 80",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0081",
-      "src": "banibs_6_001.png",
-      "label": "BANIBS Custom 81",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_0082",
-      "src": "banibs_7_001.png",
-      "label": "BANIBS Custom 82",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse"
+        "diverse",
+        "Black"
       ],
       "supportsSkinTone": false
     }
   ],
   "metadata": {
-    "version": "1.0.0",
-    "totalEmojis": 82,
-    "sheets": 7,
-    "generatedAt": "2025-11-14T03:44:44.790Z"
+    "version": "2.0.0",
+    "slicingMethod": "smart-pixel-detection",
+    "totalEmojis": 40,
+    "generatedAt": "2025-11-14T04:00:35.896Z"
   }
 }
