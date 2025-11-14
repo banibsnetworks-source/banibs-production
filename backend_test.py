@@ -8052,7 +8052,7 @@ def main():
 if __name__ == "__main__":
     tester = BanibsAPITester()
     
-    # Run Phase 8.3 - BANIBS Social Portal tests
-    success = tester.run_social_portal_tests()
+    # Run Phase 3.1 - BANIBS Connect Messaging API tests
+    success = tester.run_messaging_tests()
     
     sys.exit(0 if success else 1)
