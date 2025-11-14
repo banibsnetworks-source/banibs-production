@@ -247,8 +247,8 @@ async def delete_message_for_me(
     return None
 
 
-@router.post("/messages/{message_id}/delete-for-everyone", response_model=Message)
-async def delete_message_for_everyone(
+@router.post("/messages/{message_id}/delete-for-everyone")
+async def delete_message_for_everyone_route(
     message_id: str,
     current_user=Depends(get_current_user),
 ):
