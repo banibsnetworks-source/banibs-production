@@ -152,12 +152,12 @@ export default function EmojiPicker({
                       }
                     `}
                   >
+                    {/* Dynamic icon & label based on pack ID */}
+                    {pack.id === 'banibs_full' && '🎨 '}
                     {pack.id === 'banibs_standard' && '👨🏿 '}
                     {pack.id === 'banibs_gold_spark' && '⭐ '}
                     {pack.id === 'base_yellow' && '😊 '}
-                    {pack.id === 'banibs_standard' && 'BANIBS Standard (My Tone)'}
-                    {pack.id === 'banibs_gold_spark' && 'BANIBS Gold Spark (My Tone)'}
-                    {pack.id === 'base_yellow' && 'Legacy Yellow'}
+                    {pack.label}
                   </button>
                 );
               })}
