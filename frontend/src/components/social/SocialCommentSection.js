@@ -193,7 +193,7 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
           </p>
         ) : (
           comments.map((comment) => (
-            <div key={comment.id} className="flex space-x-2">
+            <div key={comment.id} className="flex space-x-2 group">
               {/* Commenter Avatar */}
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
                 {comment.author.display_name.charAt(0).toUpperCase()}
@@ -201,14 +201,40 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
               
               {/* Comment Content */}
               <div className="flex-1">
-                <div className="bg-background rounded-lg px-3 py-2 border border-border">
-                  <div className="flex items-center space-x-2 mb-1">
-                    <span className="text-xs font-semibold text-foreground">
-                      {comment.author.display_name}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      {formatTimestamp(comment.created_at)}
-                    </span>
+                <div className="bg-background rounded-lg px-3 py-2 border border-border relative">
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-xs font-semibold text-foreground">
+                        {comment.author.display_name}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        {formatTimestamp(comment.created_at)}
+                      </span>
+                    </div>
+                    
+                    {/* Delete menu - only show for comment author */}
+                    {user && comment.author.id === user.id && (
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <DropdownMenu
+                          trigger={
+                            <button className="p-1 rounded hover:bg-muted text-muted-foreground hover:text-foreground transition-colors">
+                              <MoreVertical size={14} />
+                            </button>
+                          }
+                          align="right"
+                        >
+                          <DropdownMenuItem
+                            icon={Trash2}
+                            label="Delete Comment"
+                            destructive
+                            onClick={() => {
+                              setCommentToDelete(comment);
+                              setDeleteModalOpen(true);
+                            }}
+                          />
+                        </DropdownMenu>
+                      </div>
+                    )}
                   </div>
                   <PostTextWithEmojis 
                     text={comment.text}
