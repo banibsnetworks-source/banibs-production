@@ -105,5 +105,6 @@ export function MessagingHomePage() {
         )}
       </div>
     </div>
+    </>
   );
 }
