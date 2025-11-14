@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://chatflow-95.preview.emergentagent.com/api/auth
+https://real-time-chat-2.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

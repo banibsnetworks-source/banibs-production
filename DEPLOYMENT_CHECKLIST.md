@@ -20,20 +20,20 @@ sudo supervisorctl status
 
 **Test basic endpoint:**
 ```bash
-curl https://chatflow-95.preview.emergentagent.com/api/
+curl https://real-time-chat-2.preview.emergentagent.com/api/
 # Expected: {"message": "Hello World"}
 ```
 
 **Test opportunities endpoint:**
 ```bash
-curl https://chatflow-95.preview.emergentagent.com/api/opportunities/
+curl https://real-time-chat-2.preview.emergentagent.com/api/opportunities/
 # Expected: [] or array of opportunities
 ```
 
 **Test API documentation:**
 ```bash
 # Open in browser:
-https://chatflow-95.preview.emergentagent.com/docs
+https://real-time-chat-2.preview.emergentagent.com/docs
 ```
 
 ---
@@ -163,14 +163,14 @@ sudo supervisorctl restart backend
 
 ```bash
 # Health check
-curl https://chatflow-95.preview.emergentagent.com/api/
+curl https://real-time-chat-2.preview.emergentagent.com/api/
 
 # Public endpoints
-curl https://chatflow-95.preview.emergentagent.com/api/opportunities/
-curl https://chatflow-95.preview.emergentagent.com/api/opportunities/featured
+curl https://real-time-chat-2.preview.emergentagent.com/api/opportunities/
+curl https://real-time-chat-2.preview.emergentagent.com/api/opportunities/featured
 
 # Admin endpoints (with API key)
-curl https://chatflow-95.preview.emergentagent.com/api/opportunities/pending \
+curl https://real-time-chat-2.preview.emergentagent.com/api/opportunities/pending \
   -H "X-API-Key: BANIBS_INTERNAL_KEY"
 ```
 
@@ -196,7 +196,7 @@ https://your-frontend-domain.com/opportunities
 
 **Create test opportunity:**
 ```bash
-curl -X POST https://chatflow-95.preview.emergentagent.com/api/opportunities/ \
+curl -X POST https://real-time-chat-2.preview.emergentagent.com/api/opportunities/ \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Test Deployment",
@@ -208,13 +208,13 @@ curl -X POST https://chatflow-95.preview.emergentagent.com/api/opportunities/ \
 
 **Get ID from response, then approve:**
 ```bash
-curl -X PATCH https://chatflow-95.preview.emergentagent.com/api/opportunities/{ID}/approve \
+curl -X PATCH https://real-time-chat-2.preview.emergentagent.com/api/opportunities/{ID}/approve \
   -H "X-API-Key: BANIBS_INTERNAL_KEY"
 ```
 
 **Verify it appears in public listing:**
 ```bash
-curl https://chatflow-95.preview.emergentagent.com/api/opportunities/
+curl https://real-time-chat-2.preview.emergentagent.com/api/opportunities/
 ```
 
 ---
@@ -249,7 +249,7 @@ cat /app/frontend/.env | grep REACT_APP_BACKEND_URL
 
 **Should be:**
 ```
-REACT_APP_BACKEND_URL=https://chatflow-95.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://real-time-chat-2.preview.emergentagent.com
 ```
 
 **Restart frontend:**
@@ -280,10 +280,10 @@ sudo supervisorctl restart backend
 **Verify admin key:**
 ```bash
 # Should return 403
-curl https://chatflow-95.preview.emergentagent.com/api/opportunities/pending
+curl https://real-time-chat-2.preview.emergentagent.com/api/opportunities/pending
 
 # Should return data
-curl https://chatflow-95.preview.emergentagent.com/api/opportunities/pending \
+curl https://real-time-chat-2.preview.emergentagent.com/api/opportunities/pending \
   -H "X-API-Key: BANIBS_INTERNAL_KEY"
 ```
 
@@ -301,7 +301,7 @@ curl https://chatflow-95.preview.emergentagent.com/api/opportunities/pending \
 
 2. **Verify old version works:**
    ```bash
-   curl https://chatflow-95.preview.emergentagent.com/api/
+   curl https://real-time-chat-2.preview.emergentagent.com/api/
    ```
 
 3. **Debug issue on branch:**

@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://chatflow-95.preview.emergentagent.com"
+BACKEND_URL="https://real-time-chat-2.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output

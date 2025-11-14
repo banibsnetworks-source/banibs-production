@@ -1,422 +1,186 @@
-<analysis>
-✅ BANIBS – Phase 2 Emoji + Theme System Session Summary
-🎯 Primary Objective
-
-Implement a full-brand, expandable BANIBS emoji system and fix all remaining light/dark theme issues, while resolving a critical auth bug blocking post creation.
-
-🧱 Phase 1: Unicode Emoji System (CURRENT WORK)
-What you require:
-
-BANIBS-first branding
-
-Default emoji pack: banibs_standard
-
-Dark skin tone + BANIBS identity
-
-Yellow emojis allowed but secondary
-
-Scalable Emoji Architecture
-
-Emoji packs stored in:
-/public/static/emojis/packs/
-
-Manifest-driven architecture
-
-Supports both:
-
-unicode emojis (Phase 1)
-
-image emojis (Phase 2)
-
-Front-end Integration
-
-EmojiPicker in:
-
-SocialPostComposer
-
-MediaComposerModal
-
-Comments
-
-HighFiveButton rendered on each post
-
-Visual Requirements
-
-Emoji size: 32–40px (visible, expressive)
-
-BANIBS pack displays first in picker
-
-Proper theme awareness (dark vs light)
-
-Verification
-
-Hidden test route: /test/emojis
-
-Must render:
-
-All packs
-
-All emojis
-
-Theme compatibility
-
-Size correctness
-
-🧱 Phase 2: Image-Based BANIBS Packs (READY WHEN YOU ARE)
-
-You already have the Phase 2 packs saved on your hard drive:
-
-✔ BANIBS Standard (image version)
-✔ BANIBS Gold Spark (premium)
-✔ BANIBS Culture Pack (community / unity)
-
-These will drop into:
-
-/public/static/emojis/packs/banibs_standard/
-    sheet.png
-    manifest.json
-
-
-Architecturally the system is already being built to support these.
-
-🔧 What Currently Exists
-✔ The initial architecture exists:
-
-GlobalNavBar is fully theme-aware
-
-NewsNavigationBar updated
-
-Unicode emoji folder exists (but not functional yet)
-
-A new manifest.json has been created
-
-EmojiTestPage scaffold exists
-
-❗ BUT:
-
-The emoji system is mid-refactor, not functional yet
-
-Theme issues on News pages still broken
-
-Authentication error (401) breaks posting when emojis used
-
-🚨 Critical Issues Outstanding
-Issue 1 (P0) – Implement the New Emoji Architecture
-
-🔥 Highest priority – currently in progress.
-
-Tasks left:
-
-Build emojiSystem.js with:
-
-EmojiPackType
-
-EmojiDefinition
-
-EmojiPack
-
-Create central registry
-
-Refactor EmojiPicker to use registry
-
-Default to banibs_standard
-
-Render unicode for now
-
-Ensure size and theme awareness
-
-Goal: Fully functional Phase 1 emoji system, ready for Phase 2 images.
-
-Issue 2 (P1) – Theme Bugs on News Pages
-
-Several sections ignore light mode:
-
-Featured Story / NewsHeroSection
-
-MoodFilterBar
-
-News category pages (World, Politics, etc.)
-
-Next steps:
-
-Inspect theme classes
-
-Fix Tailwind overrides
-
-Ensure components use:
-
-bg-background
-
-bg-card
-
-text-foreground
-
-Issue 3 (P2) – 401 Unauthorized When Posting With Emojis
-
-Root cause:
-
-Token expires during session
-
-POST /api/social/posts returns 401
-
-Needed:
-
-Token refresh or
-
-Global API interceptor
-
-Redirect to login on invalid token
-
-Issue 4 (P2) – Emoji Visual Issues
-
-Will automatically be fixed once Issue 1 lands.
-
-📋 In-Progress Tasks
-Task 1 (P0) – Build the Emoji System
-
-This is the current main task. Neo should resume coding inside:
-
-/src/utils/emojiSystem.js
-/src/components/emoji/EmojiPicker.js
-
-📅 Upcoming Tasks
-(P1) Integrate High-Five backend
-(P2) EmojiPicker in Comments
-(P2) Build /test/emojis full internal test page
-(P3) Business Pages & Follow System
-(P3) MongoDB migration script
-🟡 Future Tasks
-
-Phase 2 image-based emoji rendering
-
-Fix Playwright tests
-
-Implement live right-rail
-
-User follow system
-
-Business ownership transfer
-
-🛠 Completed Work This Session
-
-GlobalNavBar theme polish
-
-NewsNavigationBar theme polish
-
-Session expiry UX improved
-
-manifest.json rewritten using your spec
-
-EmojiTestPage scaffold created
-
-🧩 Technical Architecture Snapshot
-/app
-  ├── backend (unchanged)
-  └── frontend
-      ├── public/static/emojis/packs/
-      │     ├── banibs_standard/manifest.json
-      │     └── base_yellow/manifest.json
-      ├── src/utils/emojiSystem.js  (refactor needed)
-      ├── src/components/emoji/EmojiPicker.js (refactor needed)
-      ├── src/components/social/* (needs picker hookup)
-      ├── src/components/News* (theme issues)
-      └── src/pages/test/EmojiTestPage.js
-
-🧠 What Neo Must Know
-
-Follow your spec exactly (message #442)
-
-Don’t assume theme fixes worked — verify in preview
-
-Posting failure is auth bug, not emoji bug
-
-Phase 2 images already exist (saved locally)
-
-Build Phase 1 cleanly so Phase 2 is drop-in**original_problem_statement:**
-The user wants to implement a full-featured, expandable emoji system for their social platform, BANIBS.
-
-The core requirements are:
-1.  **BANIBS-First Branding:** The default emoji set must be the banibs_standard pack, featuring Black and Brown Unicode emojis. Standard yellow emojis should be available but as a secondary option.
-2.  **Expandable Architecture:** The system must be built to support multiple future emoji packs, including premium image-based packs. The user provided a detailed technical specification for the data models and file structure to support this.
-3.  **UI Integration:**
-    *   An emoji picker button must be added to the , , and comment sections.
-    *   The  reaction must be integrated into every .
-4.  **Visual Polish:** Emojis rendered in the picker and in posts/comments must be large enough for expressions to be clearly visible (approx. 32-40px).
-5.  **Verification Page:** A hidden route  must be created to visually verify all emoji packs, animations, and theme compatibility.
-6.  **Bug Fixes & UX:**
-    *   Resolve all remaining light/dark theme inconsistencies, particularly on the News category pages where the Featured Story and Filter by Mood sections do not respect light mode.
-    *   Fix the Failed to create post error when using emojis, which was identified as a  issue.
-    *   Improve the session expiry flow to show a clear message and a link to the login page instead of a generic error.
+<analysis>**original_problem_statement:**
+The user's initial goal was to fix bugs and complete a custom emoji system. This evolved into building a full-scale, real-time messaging platform called BANIBS Connect. The scope recently expanded to include robust user controls (search and delete) for both messaging and the existing social feed.
+
+However, development was paused due to critical usability and authentication issues. The user, acting as the primary tester, reported that the messaging feature was inaccessible and broken in the live environment, leading to a project-wide reassessment.
+
+The new, agreed-upon mandate is to **STOP** all new feature development, **FIX** the foundational authentication blocker, **COMPLETE** the in-progress search/delete features, and **POLISH** the existing UI before moving on to any new phases.
+
+**PRODUCT REQUIREMENTS (Revised Phase 3 Focus):**
+-   **Core Functionality:**
+    -   A working messaging system (DMs, Groups) connected to the **real backend API**.
+    -   Users must be able to **create** conversations from the UI.
+    -   **Search:** Users can search for messages within a conversation.
+    -   **Delete (Messaging):** Users can Delete for Me (hide from their view) or Delete for Everyone (soft delete for all participants).
+    -   **Delete (Social):** Users can delete their own posts and comments on the social feed.
+-   **Stability & UX:**
+    -   The application must use a **single, consistent authentication context**. A user logged into the Social section must be authenticated for Messaging.
+    -   The UI must have proper **loading states, empty states, and user-friendly error messages**.
+    -   The BANIBS global navigation bar must be present on all pages for consistent flow.
 
 **what currently exists?**
-- A full-stack application with a partially implemented but buggy light/dark theme system.
-- A  that has been styled to be theme-aware.
-- A basic, non-functional emoji folder structure was created.
-- A session expiry error message on the Social Feed has been improved to redirect users to the login page.
-- Multiple attempts were made to fix theme inconsistencies on the News pages, but user verification confirmed the issues persist.
-- A new, detailed  for the  emoji pack has been created based on a precise user specification.
+The application has a partially built-out BANIBS Connect messaging system.
+
+-   **Frontend:**
+    -   The UI for messaging (, , , etc.) exists but has been plagued by bugs, including data mismatches and rendering issues.
+    -   It is currently hard-coded to use **mock data** () as a workaround for a critical authentication failure with the real API.
+    -   Some frontend work for deleting social posts has been started, including creating reusable  and  components.
+-   **Backend:**
+    -   A robust backend for messaging is in place, built with FastAPI and Beanie (ODM for MongoDB).
+    -   **REST API ():** Endpoints for creating/getting conversations, sending/getting messages, search, and delete are all implemented and have passed isolated backend tests.
+    -   **WebSocket API ():** A real-time layer for live messages, typing indicators, and presence is implemented but has never been tested end-to-end due to the auth blocker.
+    -   **Social API:** Endpoints for deleting social posts and comments have been added.
 
 **Last working item**:
-- **Last item agent was working**: The agent was in the middle of a major refactor of the entire emoji system to match a detailed technical specification provided by the user (message #442). The goal was to create a flexible architecture supporting both Unicode and future image-based emoji packs. The last action was overwriting the old manifest with the new, structured one and starting to implement the corresponding data models and logic.
-- **Status**: IN PROGRESS
-- **Agent Testing Done**: N
-- **Which testing method agent to use?**: Frontend testing agent to verify the emoji picker, emoji rendering, and the test page () once the system is built. The screenshot tool should be used to verify the final theme fixes.
-- **User Testing Done**: N
+-   **Last item agent was working**: After a project-wide reassessment with the user, the agent agreed to a new, focused plan. The absolute first priority is investigating and fixing the critical authentication issue that prevents the messaging frontend from communicating with the real backend API. The agent was just beginning this investigation by analyzing the auth middleware.
+-   **Status**: IN PROGRESS
+-   **Agent Testing Done**: N
+-   **Which testing method agent to use?**: manual testing by curl. The agent needs to simulate API calls with a valid user token to diagnose why the  endpoints return a 401 error while other parts of the app (like Social) work.
+-   **User Testing Done**: N
 
 **All Pending/In progress Issue list**:
--   **Issue 1 (P0): Implement New Emoji System Architecture.**
--   **Issue 2 (P1): Persistent Theme Inconsistencies on News Pages.**
--   **Issue 3 (P2): Failed to create post Authentication Error.**
--   **Issue 4 (P2): Emoji Visuals (Size & Default Pack).**
+-   **Issue 1: P0 - Critical Auth Failure (401 on Messaging API)**
+-   **Issue 2: P1 - Recurring  Runtime Error**
+-   **Issue 3: P2 - Frontend JavaScript Caching Issues**
 
 **Issues Detail**:
--   **Issue 1: Implement New Emoji System Architecture**
-    -   **Attempted fixes**: The agent's initial implementation did not meet the user's branding or architectural requirements. The agent has now started over based on a new, detailed spec.
+-   **Issue 1: P0 - Critical Auth Failure (401 on Messaging API)**
+    -   **Attempted fixes**: The agent confirmed the  appears to send the token correctly. The investigation concluded that Social and Messaging routes use slightly different dependency patterns ( vs. ), but this shouldn't cause a 401. The root cause is still unknown.
     -   **Next debug checklist**:
-        1.  Open .
-        2.  Implement the TypeScript-style data models (, , ) as defined by the user in message #442.
-        3.  Create the emoji pack registry ( array) and set  to .
-        4.  Update the  component to load packs from this new registry and render emojis based on their  ('unicode' for now).
-        5.  Ensure the  pack is the default view.
-    -   **Why fix this issue and what will be achieved with the fix?**: This will create a robust, expandable emoji system that aligns with the user's brand identity and technical requirements, setting the foundation for future monetization.
+        1.  Verify the JWT token being sent from the frontend is valid and not expired when the  call is made.
+        2.  Check the backend logs for more details on the 401 error. Is it a token parsing error, an invalid signature, or a role-based rejection?
+        3.  Create a minimal test script (e.g.,  or a Python script) to manually make an authenticated request to  and compare it to a successful request to a social feed endpoint. This will isolate whether the issue is in the frontend request or the backend endpoint's security dependency.
+        4.  Ensure the  dependency in  is correctly resolving the user from the token.
+    -   **Why fix this issue and what will be achieved with the fix?**: This is the **absolute blocker** for the entire messaging feature. Fixing it will allow the frontend to switch from mock data to the real API, enabling end-to-end testing and the use of real-time features.
     -   **Status**: IN PROGRESS
     -   **Is recurring issue?**: Y
-    -   **Should Test frontend/backend/both after fix?**: Frontend
-    -   **Blocked on other issue**: None
+    -   **Should Test frontend/backend/both after fix?**: Both.
+    -   **Blocked on other issue**: None. This issue blocks everything else.
 
--   **Issue 2: Persistent Theme Inconsistencies on News Pages**
-    -   **Attempted fixes**: The agent made multiple edits to  (Featured Story) and  to make them theme-aware. However, the user confirmed (message #367) that in the live preview, these sections remain dark/gray when in light mode on most news category pages (e.g., , ).
+-   **Issue 2: P1 - Recurring  Runtime Error**
+    -   **Attempted fixes**: The agent identified a  vs.  field mismatch in  and applied a fix. However, the user reported the same error afterward, likely due to caching or the fix being incomplete.
     -   **Next debug checklist**:
-        1.  Navigate to a news category page like .
-        2.  Toggle to light mode.
-        3.  Use the browser inspector or  with  to verify that the Featured Story () and Filter by Mood () containers still have dark backgrounds.
-        4.  Review the CSS classes and styles in  and . The issue is likely that Tailwind's theme classes (, ) are not being applied correctly or are being overridden.
-        5.  Implement a robust fix that ensures these components use the correct theme variables.
-    -   **Why fix this issue and what will be achieved with the fix?**: This will resolve a long-standing visual bug and deliver the professional, congruent UI the user has repeatedly requested.
+        1.  After the Auth issue is fixed and the frontend is using the **real API**, re-examine the data structure returned by .
+        2.  Inspect  and  again. The error occurs in a  call during search. Add defensive coding: .
+        3.  Ensure all components (, ) consistently use the correct field names from the API (, , ) instead of the mock API names (, , ).
+    -   **Why fix this issue and what will be achieved with this?**: This bug makes the conversation list unusable, preventing users from searching or even viewing their conversations. Fixing it is critical for basic messaging functionality.
     -   **Status**: IN PROGRESS
     -   **Is recurring issue?**: Y
-    -   **Should Test frontend/backend/both after fix?**: Frontend
-    -   **Blocked on other issue**: None
+    -   **Should Test frontend/backend/both after fix?**: Frontend.
 
--   **Issue 3: Failed to create post Authentication Error**
-    -   **Attempted fixes**: The agent identified the error as a  response from the backend. The agent improved the frontend error messaging in  and  but did not fix the root cause of the invalid token.
+-   **Issue 3: P2 - Frontend JavaScript Caching Issues**
+    -   **Attempted fixes**: The agent has repeatedly restarted the frontend server, but the user continues to see old, broken versions of the UI. The agent has advised the user to do hard refreshes and use incognito mode.
     -   **Next debug checklist**:
-        1.  Investigate why the  becomes invalid during a user session, leading to 401 errors on POST requests.
-        2.  Review the token handling logic in , , and the main  context providers.
-        3.  Consider implementing a silent token refresh mechanism or a global API interceptor that handles expired tokens gracefully by redirecting to login.
-    -   **Why fix this issue and what will be achieved with the fix?**: This will fix a critical bug that prevents users from creating posts, which is core to the application's functionality.
+        1.  This is likely a platform or Webpack configuration issue. Investigate if there's a way to enforce cache-busting in the build process (e.g., using hashes in filenames).
+        2.  For now, the agent must remind the user to hard-refresh after every single frontend deployment.
+    -   **Why fix this issue and what will be achieved with this?**: This issue severely hinders the feedback loop, causing frustration and making it impossible to confirm if fixes are working.
     -   **Status**: NOT STARTED
     -   **Is recurring issue?**: Y
-    -   **Should Test frontend/backend/both after fix?**: Both
-    -   **Blocked on other issue**: None
-
--   **Issue 4: Emoji Visuals (Size & Default Pack)**
-    -   **Attempted fixes**: The agent tried to increase emoji CSS size and set the default pack. User verification failed.
-    -   **Next debug checklist**: This issue should be resolved by correctly implementing **Issue 1**. The new architecture and registry explicitly define the default pack. The CSS for emoji size in  and  should be re-verified after the new system is in place.
-    -   **Why fix this issue and what will be achieved with the fix?**: Fulfills a key part of the user's branding and usability requirements for the emoji system.
-    -   **Status**: BLOCKED
-    -   **Is recurring issue?**: Y
-    -   **Should Test frontend/backend/both after fix?**: Frontend
-    -   **Blocked on other issue**: Issue 1: Implement New Emoji System Architecture
+    -   **Should Test frontend/backend/both after fix?**: Frontend.
 
 **In progress Task List**:
--   **Task 1 (P0): Refactor Emoji System to Match User's Specification**
-    -   **Where to resume**: Continue building out the new emoji architecture in  and , based on the data models and registry structure from message #442.
-    -   **What will be achieved with this?**: A fully architected, brand-aligned emoji system ready for integration and future expansion.
-    -   **Status**: IN PROGRESS
-    -   **Should Test frontend/backend/both after fix?**: Frontend
-    -   **Blocked on something**: None
+-   **Task 1: Complete Phase 3.3 Frontend (Delete & Search UI)** (P1)
+
+**Task Detail**:
+  - **Task 1: Complete Phase 3.3 Frontend (Delete & Search UI)**
+     - **Where to resume**: The backend is complete. The frontend for **Social Post Delete** is partially implemented. The next steps are sequential, one at a time, per the new agreement:
+        1.  **Social Comment Delete:** Implement the delete option in the  component, reusing the  and .
+        2.  **Messaging Delete Controls:** Add the 3-dot menu to  with Delete for Me and Delete for Everyone options, reusing the confirmation modal.
+        3.  **Messaging Search UI:** Add the search bar to the  for local filtering and implement the in-conversation deep search UI in  that calls the backend search API.
+     - **What will be achieved with this?**: Users will have full control to search their messages and delete their own content across both Messaging and Social, a critical trust-building feature.
+     - **Status**: IN PROGRESS
+     - **Should Test frontend/backend/both after fix?**: Both.
+     - **Blocked on something**: **Issue 1: P0 - Critical Auth Failure**. The messaging parts of this task cannot be fully tested without a working real API connection.
 
 **Upcoming and Future Tasks**
--   **Upcoming Tasks**:
-    -   **(P1) Integrate the High-Five Button:** Wire the existing  on  to a backend API endpoint to record reactions.
-    -   **(P2) Complete Emoji Integration:** Ensure the new emoji picker works in the .
-    -   **(P2) Build the  Page:** Create the internal verification page as requested.
-    -   **(P3) Business Pages & Follow System (Phase B2):** Implement Team Management UI and backend APIs.
-    -   **(P3) Run MongoDB Migration Script**: Execute  to clean up old data.
--   **Future Tasks**:
-    -   **Emoji System Phase 2:** Once the user provides image assets, update the system to render custom image-based emojis.
-    -   Fix failing Playwright tests.
-    -   Implement Live Data for the Right Rail (Live Now, Trending Topics).
-    -   Implement user-to-user follow functionality.
-    -   Implement business ownership transfer.
+-   **Upcoming Tasks (Post-Phase 3.3):**
+    -   **(P0) Polish & Stability Sprint:**
+        -   Fix all empty states (conversations, messages, social feed).
+        -   Add loading indicators (spinners, skeleton screens).
+        -   Implement user-friendly error toast notifications.
+        -   **Implement Create Conversation UI:** Add a + button to  to allow users to start new conversations.
+    -   **(P1) Full End-to-End Testing of Phase 3:** User validation of the complete, polished messaging system.
+-   **Future Tasks:**
+    -   **Phase 4: Hybrid Encryption:** Implement server-side, AI-compatible encryption.
+    -   **Phase 5: E2EE (Blackout Mode):** Implement full, client-side end-to-end encryption.
+    -   Phase 3.4: Media & Voice Notes.
+    -   Audio/Video Calls.
 
 **Completed work in this session**
--   **UI/UX - Navigation Bar:** The  was completely restyled to be theme-aware and visually cohesive with the site's aesthetic. The  was also fixed to be theme-aware.
--   **UI/UX - Session Expiry:** Improved the user experience for session timeouts on the social feed by replacing a generic error with a clear message and a Login button.
--   **Architecture - Emoji System:** Began a major refactor of the emoji system to align with a detailed user-provided specification, including creating a new, structured .
-
-**Earlier issues found/mentioned but not fixed**
-- The recurring theme issue on News pages and the emoji visual issues have been captured in the All Pending/In progress Issue list.
-
-**Known issue recurrence from previous fork**
--   None from this session, but the theme issue is a recurring problem within this session.
+-   **Project Reassessment & New Plan:** Aligned with the user on a new, focused development process prioritizing stability, testing, and fixing the auth blocker before adding new features.
+-   **Phase 3.3 Backend (Search & Delete):**
+    -   **Messaging:** Implemented backend logic and API endpoints for searching messages, delete for me, and delete for everyone.
+    -   **Social:** Implemented backend logic and API endpoints for deleting user posts and comments.
+    -   Updated MongoDB models () with  and  fields.
+-   **Phase 3.2 Backend (WebSockets):** Implemented the full WebSocket infrastructure (, ) for real-time events, though it remains untested.
+-   **Phase 3.1 Backend (REST API):** Implemented a full REST API for messaging using FastAPI and Beanie, including models, services, and routes.
+-   **Frontend Scaffolding & Fixes:**
+    -   Created placeholder pages for broken social navigation links (, , etc.).
+    -   Added the  to the  for consistent navigation.
+    -   Attempted to fix several UI bugs by converting multiple components and hooks from TypeScript (/) to JavaScript (/), though this caused significant churn.
+    -   Created reusable  and  components.
+    -   Partially implemented the Delete Post feature on the frontend .
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
--   **Expandable Emoji Architecture:** The new system is being designed around a central registry and manifest files. It supports different pack types (, ) and allows for easy expansion, as specified by the user.
--   **Component-level Theme Debugging:** The remaining theme issues are not global but are isolated to specific components (, ) on specific pages, requiring targeted CSS debugging.
--   **Auth Error Handling:** Differentiating between generic network errors and specific  errors on the frontend is crucial for providing helpful UX, like redirecting to a login page.
+-   **Process Pivot:** Shifted from rapid feature development to a focused fix, complete, polish, test cycle.
+-   **Auth-First Principle:** Acknowledged that a working, unified authentication system is the highest priority and a blocker for all other real-time and data-driven features.
+-   **Mock/API Toggle:** A  environment variable allows the frontend to switch between a stable mock API and the (currently broken) real backend API, enabling parallel development and safe testing.
+-   **Soft Deletes:** Deletions are handled by adding  or  fields to database records rather than physically removing them, preserving data for moderation and preventing broken references.
+-   **Beanie ODM:** The backend now uses Beanie for cleaner, typed interactions with MongoDB, replacing raw Motor calls for the messaging feature.
 
 **key DB schema**
--   No changes in this session.
+-   **conversations**: 
+-   **messages**: 
+-   **posts / comments**: Now support a  field for soft deletes.
 
 **All files**
-*New Files*
--   : Documents the plan for Phase 2 of the emoji system.
--   : A placeholder page for testing the emoji system.
+*New Backend Files:*
+-   : Manages WebSocket connections, rooms, and broadcasts.
+-   : Defines the WebSocket endpoint and handles real-time events.
+-   : Beanie model for conversations.
 
-*Key Modified Files*
--   : Overwritten with a new, detailed schema for a Unicode-based emoji pack.
--   , : Are the main targets for the ongoing refactor.
--   : Updated with an improved session expiry flow.
--   , : Completely restyled for theme consistency and professional aesthetic.
--   , , : Modified in attempts to fix theme issues, but still contain bugs.
--   , : Updated with better error handling for post creation failures.
+*New Frontend Files:*
+-   : Reusable dropdown menu for delete actions.
+-   : Reusable modal for confirming destructive actions.
+-   : Hook to manage WebSocket connection and events.
+-   : API client for making calls to the real messaging backend.
+-    (and related stubs): Placeholder pages for broken navigation links.
 
-**Areas that need refactoring**:
--   The entire emoji system (, ) is currently being refactored per user request.
-
-**key api endpoints**
--   : This endpoint is generating  errors for users, blocking post creation.
+*Key Modified Files:*
+-   : Added search and delete endpoints.
+-   : Added business logic for search and delete.
+-   : Added soft delete fields.
+-   : Added the  endpoint.
+-   : Added GlobalNavBar, switched to .
+-   Many / files in  and  were converted to /.
 
 **Critical Info for New Agent**
--   **Follow the User's Spec:** The highest priority is to implement the emoji system exactly as described in message #442. The user has provided a precise technical blueprint. Do not deviate.
--   **Verify, Then Fix:** The user has repeatedly found that the live preview does not match the agent's summaries. For the theme issues (Issue #2), you MUST verify the bug on the live preview first before attempting a fix. Trust the user's feedback over previous agent's claims of success.
--   **Auth Issue is the Root Cause:** The Failed to create post error is an authentication problem (401), not an emoji encoding problem. While the frontend error message has been improved, the underlying cause of the token becoming invalid needs to be investigated and solved.
-
-**documents created in this job**
--   
+-   **Follow the New Plan:** The most critical directive is the Phase 3 Completion Plan agreed upon with the user. **DO NOT** start any new features.
+-   **Priority #1 is Authentication:** You **MUST** investigate and fix the 401 error on the  endpoints. Nothing else in messaging can be properly tested or completed until this is resolved.
+-   **Sequential Feature Delivery:** Build and deliver UI features one at a time for user testing (Comment Delete, then Message Delete, then Search). Do not work on them in parallel.
+-   **Use the Mock Toggle:** While debugging the auth issue, keep  set to  to allow for UI work. The goal is to switch it to  and have it work.
+-   **Expect Caching Issues:** Be aware that the user may not see your frontend changes immediately. Always remind them to perform a hard refresh (Ctrl+Shift+R) and, if necessary, clear their cache.
 
 **Last 5 User Messages and any pending user messages**
-1.  **User (msg #417):** Reports failed to create post when I add emoji. (IN PROGRESS - Issue #3)
-2.  **Agent (msg #441):** Summarizes that the issue is an auth error and that error messaging has been improved to guide the user.
-3.  **User (msg #442):** Provides a new, highly detailed technical specification for how the entire emoji system should be architected, overriding all previous attempts. (IN PROGRESS - Issue #1)
-4.  **Agent (msg #448):** Acknowledges the new spec and overwrites the  file as the first step.
-5.  **Agent (msg #449):** States intent to create the new emoji system architecture based on the user's spec. (IN PROGRESS - Issue #1)
+1.  **User:** Reports the message composer is entirely missing after the last fix. (IN PROGRESS - Root cause likely auth/data issue).
+2.  **Agent:** Acknowledges the issue and confirms a new, focused plan is needed. Provides a detailed Project Reassessment Form to gather feedback.
+3.  **User:** Agrees with the agent's assessment, takes accountability for scope creep, and commits to a more structured, test-driven process. Approves the complete one phase fully rule.
+4.  **Agent:** Thanks the user, confirms alignment, and presents a revised, highly-focused Phase 3 Completion Plan that prioritizes fixing the auth blocker, then completing Phase 3.3 UI, followed by a polish sprint.
+5.  **User:** Gives full approval to the revised plan and the new working agreement. Greenlights the agent to start the auth investigation.
 
 **Project Health Check:**
 -   **Broken**:
-    -   The theme system is partially broken on News category pages, with key components not switching to light mode.
-    -   Post creation is broken for users who encounter the  error.
+    -   **Messaging Feature**: The connection to the real backend is broken due to a 401 authentication error. This is the main blocker.
+    -   **Social Navigation**: Several links in the social sidebar were broken; placeholder pages have been added, but the features themselves are not built.
 -   **Mocked**:
-    -   The emoji system is in a state of refactor; the user-facing implementation is not yet functional per the new spec.
-    -   The High-Five reaction has no backend functionality.
+    -   The entire BANIBS Connect messaging feature is running on mock data as a temporary workaround for the auth failure.
 
 **Testing status**
--   **Testing agent used after significant changes**: NO
+-   **Testing agent used after significant changes**: YES (for backend API endpoints).
 -   **Troubleshoot agent used after agent stuck in loop**: NO
--   **Test files created**: []
--   **Known regressions**: None, but existing features (theme, post creation) are confirmed to be buggy.
-
-**Credentials to test flow:**
--   **Username:** 
--   **Password:** 
-
-**What agent forgot to execute**
--   The agent has not yet addressed the tasks from the original handoff: running the  script and fixing Playwright tests.
--   The backend integration for the  has not been started.
--   The Business Pages feature (Phase B2+) has been on hold.
-</analysis>
+-   **Test files created**: A backend test script was created and used by the testing agent for the messaging API.
+-   **Known regressions**:
+    -   The message composer UI disappeared for the user after an attempted bug fix.
+    -   Several social navigation links were discovered to be broken.</analysis>
