@@ -29,6 +29,7 @@ export function CreateConversationModal({ isOpen, onClose, onCreateConversation 
     setSearchQuery('');
     setSelectedParticipants([]);
     setIsCreating(false);
+    setError(null);
     onClose();
   };
 
