@@ -19,7 +19,7 @@ export function useMessages(conversationId) {
         // Automatically set direction based on senderId
         const messagesWithDirection = data.map(msg => ({
           ...msg,
-          direction: msg.senderId === mockUser.id ? 'outgoing' as const : 'incoming' as const
+          direction: msg.senderId === mockUser.id ? 'outgoing' : 'incoming'
         }));
         setMessages(messagesWithDirection);
       } catch (err) {
