@@ -10,8 +10,18 @@ const LoginPage = () => {
     email: '',
     password: ''
   });
-  const [error, setError] = useState('');
+  
+  // Check for session expired message
+  const sessionError = sessionStorage.getItem('auth_error');
+  const [error, setError] = useState(sessionError || '');
   const [loading, setLoading] = useState(false);
+  
+  // Clear session error after displaying
+  React.useEffect(() => {
+    if (sessionError) {
+      sessionStorage.removeItem('auth_error');
+    }
+  }, [sessionError]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
