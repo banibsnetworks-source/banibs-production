@@ -34,6 +34,9 @@ export function MessagingHomePage() {
   const [searchResults, setSearchResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState(null);
+  
+  // Create conversation modal
+  const [createModalOpen, setCreateModalOpen] = useState(false);
 
   // Sync URL param with state
   useEffect(() => {
