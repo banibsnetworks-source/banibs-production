@@ -6,6 +6,7 @@ import SocialCommentSection from './SocialCommentSection';
 import ReportPostModal from './ReportPostModal';
 import { ProfileAvatar } from './ProfileAvatar';
 import HighFiveButton from '../emoji/HighFiveButton';
+import PostTextWithEmojis from './PostTextWithEmojis';
 
 /**
  * SocialPostCard - Phase 8.3
