@@ -7,9 +7,11 @@ import ReportPostModal from './ReportPostModal';
 import { ProfileAvatar } from './ProfileAvatar';
 import HighFiveButton from '../emoji/HighFiveButton';
 import PostTextWithEmojis from './PostTextWithEmojis';
+import DropdownMenu, { DropdownMenuItem } from '../common/DropdownMenu';
+import ConfirmModal from '../common/ConfirmModal';
 
 /**
- * SocialPostCard - Phase 8.3
+ * SocialPostCard - Phase 8.3 + Phase 3.3 (Delete functionality)
  * Component for displaying a single social post with engagement actions
  * 
  * @param {boolean} compact - When true, hides author header (for profile pages)
@@ -19,6 +21,8 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
   const [isLiking, setIsLiking] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [localPost, setLocalPost] = useState(post);
 
   const formatTimestamp = (dateString) => {
