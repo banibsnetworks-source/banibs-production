@@ -167,14 +167,70 @@ export function MessagingHomePage() {
               }}
               onSearch={handleSearch}
             />
-            <MessageList
-              messages={messages}
-              loading={messagesLoading}
-              isGroupChat={activeConversation.type === 'group'}
-              currentUserId={user?.id}
-              onDeleteForMe={handleDeleteForMe}
-              onDeleteForEveryone={handleDeleteForEveryone}
-            />
+            
+            {/* Search Results Panel */}
+            {isSearching || searchResults.length > 0 || searchError ? (
+              <div className="flex-1 overflow-y-auto bg-background p-4">
+                <div className="max-w-3xl mx-auto">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-foreground">
+                      Search Results
+                    </h3>
+                    <button
+                      onClick={() => {
+                        setSearchResults([]);
+                        setSearchError(null);
+                      }}
+                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      Clear
+                    </button>
+                  </div>
+                  
+                  {isSearching ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                      Searching...
+                    </div>
+                  ) : searchError ? (
+                    <div className="text-center py-8 text-red-500">
+                      {searchError}
+                    </div>
+                  ) : searchResults.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                      No messages found
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {searchResults.map((message) => (
+                        <div
+                          key={message.id}
+                          className="p-4 bg-card border border-border rounded-lg hover:border-yellow-500 transition-colors cursor-pointer"
+                        >
+                          <div className="flex items-start justify-between mb-2">
+                            <span className="text-xs font-semibold text-muted-foreground">
+                              {new Date(message.created_at).toLocaleString()}
+                            </span>
+                          </div>
+                          <p className="text-sm text-foreground whitespace-pre-wrap">
+                            {message.text}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <MessageList
+                messages={messages}
+                loading={messagesLoading}
+                isGroupChat={activeConversation.type === 'group'}
+                currentUserId={user?.id}
+                onDeleteForMe={handleDeleteForMe}
+                onDeleteForEveryone={handleDeleteForEveryone}
+              />
+            )}
+            
             <MessageComposer
               onSend={handleSendMessage}
               placeholder={`Message ${activeConversation.title || activeConversation.name || 'here'}...`}
