@@ -103,6 +103,7 @@ class MessagingAPITester:
         
         if response.status_code == 201:
             data = response.json()
+            self.log(f"   Response data: {json.dumps(data, indent=2)}")
             required_fields = ["id", "type", "participant_ids", "created_at", "updated_at"]
             
             if all(field in data for field in required_fields):
@@ -112,7 +113,9 @@ class MessagingAPITester:
                 return True
             else:
                 missing = [f for f in required_fields if f not in data]
+                available = list(data.keys())
                 self.log(f"❌ Missing fields: {missing}", "ERROR")
+                self.log(f"   Available fields: {available}", "ERROR")
                 return False
         else:
             self.log(f"❌ Creation failed: {response.status_code} - {response.text}", "ERROR")
