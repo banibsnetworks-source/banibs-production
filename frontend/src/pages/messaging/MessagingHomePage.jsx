@@ -48,13 +48,44 @@ export function MessagingHomePage() {
       <GlobalNavBar />
       <div className="flex h-[calc(100vh-64px)] bg-background">
       {/* Left Sidebar: Conversation List */}
-      <div className="w-full max-w-[360px] border-r border-border bg-muted/40">
-        <ConversationList
-          conversations={conversations}
-          isLoading={conversationsLoading}
-          activeConversationId={activeConversationId}
-          onSelect={handleSelectConversation}
-        />
+      <div className="w-full max-w-[360px] border-r border-border bg-muted/40 flex flex-col">
+        {/* Header with New Conversation Button */}
+        <div className="p-4 border-b border-border">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-semibold">Messages</h2>
+            <button
+              onClick={() => {
+                // For now, create a demo conversation
+                const demoConv = {
+                  id: 'demo-' + Date.now(),
+                  title: 'Demo Chat',
+                  type: 'dm',
+                  last_message_preview: 'Start typing to test messaging...',
+                  last_message_at: new Date().toISOString(),
+                  participant_ids: ['demo-user']
+                };
+                // This is a temporary hack - in Phase 3.3 we'll add proper UI
+                alert('Creating demo conversation...');
+              }}
+              className="p-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-600 transition"
+              title="New conversation"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div className="flex-1 overflow-hidden">
+          <ConversationList
+            conversations={conversations}
+            isLoading={conversationsLoading}
+            activeConversationId={activeConversationId}
+            onSelect={handleSelectConversation}
+          />
+        </div>
       </div>
 
       {/* Right Panel: Message Thread */}
