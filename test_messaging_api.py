@@ -114,6 +114,8 @@ class MessagingAPITester:
                 return True
             else:
                 missing = [f for f in required_fields if f not in data]
+                if id_field not in data:
+                    missing.append("id/_id")
                 available = list(data.keys())
                 self.log(f"❌ Missing fields: {missing}", "ERROR")
                 self.log(f"   Available fields: {available}", "ERROR")
