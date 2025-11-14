@@ -1,17 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { Message } from '../../utils/messaging/mockApi';
 import { MessageBubble } from './MessageBubble';
 import { Loader } from 'lucide-react';
 
-interface MessageListProps {
-  messages: Message[];
-  loading?: boolean;
-  isGroupChat?: boolean;
-}
-
-export function MessageList({ messages, loading = false, isGroupChat = false }: MessageListProps) {
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+export function MessageList({ messages, loading = false, isGroupChat = false }) {
+  const messagesEndRef = useRef(null);
+  const containerRef = useRef(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
