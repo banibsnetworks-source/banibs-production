@@ -16,11 +16,13 @@ const SHEETS_DIR = path.join(__dirname, "frontend", "public", "static", "emojis"
 const OUT_DIR    = path.join(__dirname, "frontend", "public", "static", "emojis", "banibs_full");
 
 // List all sheets we want to process
+// NOTE: Sheets 1-4 are full composite sheets, skip them
+// Only process sheets 5, 6, 7 which have individual emojis
 const SHEETS = [
-  "banibs_sheet_1.png",
-  "banibs_sheet_2.png",
-  "banibs_sheet_3.png",
-  "banibs_sheet_4.png",
+  // "banibs_sheet_1.png",  // SKIP - full sheet
+  // "banibs_sheet_2.png",  // SKIP - full sheet
+  // "banibs_sheet_3.png",  // SKIP - full sheet
+  // "banibs_sheet_4.png",  // SKIP - full sheet
   "banibs_sheet_5.png",
   "banibs_sheet_6.png",
   "banibs_sheet_7.png",
