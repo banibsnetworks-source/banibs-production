@@ -111,10 +111,13 @@ export const realMessagingApi = {
    * @returns {Promise<Object>}
    */
   createConversation: async (conversationData) => {
-    return apiRequest('/conversations', {
+    console.log('🆕 [Messaging API] Creating conversation with data:', conversationData);
+    const result = await apiRequest('/conversations', {
       method: 'POST',
       body: JSON.stringify(conversationData),
     });
+    console.log('✅ [Messaging API] Conversation created successfully:', result);
+    return result;
   },
 
   /**
