@@ -8,6 +8,7 @@ import { MessageList } from '../../components/messaging/MessageList';
 import { MessageComposer } from '../../components/messaging/MessageComposer';
 import GlobalNavBar from '../../components/GlobalNavBar';
 import ConfirmModal from '../../components/common/ConfirmModal';
+import { CreateConversationModal } from '../../components/messaging/CreateConversationModal';
 import { useAuth } from '../../contexts/AuthContext';
 
 export function MessagingHomePage() {
