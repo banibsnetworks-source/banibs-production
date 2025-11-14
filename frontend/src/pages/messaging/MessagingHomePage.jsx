@@ -79,7 +79,7 @@ export function MessagingHomePage() {
             />
             <MessageComposer
               onSend={handleSendMessage}
-              placeholder={`Message ${activeConversation.name}...`}
+              placeholder={`Message ${activeConversation.title || activeConversation.name || 'here'}...`}
               onAttachFile={() => {
                 console.log('Attach file');
                 // TODO: Wire to file upload in Phase 3.3
