@@ -6,6 +6,7 @@ import { ConversationList } from '../../components/messaging/ConversationList';
 import { ConversationHeader } from '../../components/messaging/ConversationHeader';
 import { MessageList } from '../../components/messaging/MessageList';
 import { MessageComposer } from '../../components/messaging/MessageComposer';
+import GlobalNavBar from '../../components/GlobalNavBar';
 
 export function MessagingHomePage() {
   const navigate = useNavigate();
@@ -33,17 +34,19 @@ export function MessagingHomePage() {
     }
   }, [activeConversationId, activeConversation?.unread]);
 
-  const handleSelectConversation = (id: string) => {
+  const handleSelectConversation = (id) => {
     setActiveConversationId(id);
     navigate(`/messages/${id}`);
   };
 
-  const handleSendMessage = (text: string) => {
+  const handleSendMessage = (text) => {
     sendMessage(text);
   };
 
   return (
-    <div className="flex h-[calc(100vh-64px)] bg-background">
+    <>
+      <GlobalNavBar />
+      <div className="flex h-[calc(100vh-64px)] bg-background">
       {/* Left Sidebar: Conversation List */}
       <div className="w-full max-w-[360px] border-r border-border bg-muted/40">
         <ConversationList
