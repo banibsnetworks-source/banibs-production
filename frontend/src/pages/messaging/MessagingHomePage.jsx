@@ -52,6 +52,36 @@ export function MessagingHomePage() {
     sendMessage(text);
   };
 
+  const handleDeleteForMe = (message) => {
+    setMessageToDelete(message);
+    setDeleteMode('me');
+    setDeleteModalOpen(true);
+  };
+
+  const handleDeleteForEveryone = (message) => {
+    setMessageToDelete(message);
+    setDeleteMode('everyone');
+    setDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!messageToDelete || !deleteMode) return;
+    
+    setIsDeleting(true);
+    
+    try {
+      await deleteMessage(messageToDelete.id, deleteMode);
+      setDeleteModalOpen(false);
+      setMessageToDelete(null);
+      setDeleteMode(null);
+    } catch (error) {
+      console.error('Failed to delete message:', error);
+      // Keep modal open to show error
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   return (
     <>
       <GlobalNavBar />
