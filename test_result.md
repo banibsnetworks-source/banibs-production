@@ -918,7 +918,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Emoji Rendering in Comments Testing"
+    - "BANIBS Connect Messaging UI Testing"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
