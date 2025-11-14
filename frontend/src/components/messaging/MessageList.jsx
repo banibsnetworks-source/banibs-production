@@ -85,6 +85,9 @@ export function MessageList({
               key={message.id}
               message={message}
               showSender={isGroupChat}
+              currentUserId={currentUserId}
+              onDeleteForMe={onDeleteForMe}
+              onDeleteForEveryone={onDeleteForEveryone}
             />
           ))}
         </div>
