@@ -193,3 +193,85 @@ async def mark_read_route(
     user_id = current_user["id"]
     await mark_messages_read(conversation_id, user_id)
     return None
+
+
+# ---------- Phase 3 Add-Ons: Search & Delete ----------
+
+@router.get("/messages/search", response_model=List[Message])
+async def search_messages(
+    q: str = Query(..., min_length=1, description="Search query"),
+    conversation_id: Optional[str] = Query(None, description="Optional: limit to specific conversation"),
+    limit: int = Query(50, ge=1, le=100),
+    offset: int = Query(0, ge=0),
+    current_user=Depends(get_current_user),
+):
+    """
+    Search messages by text content.
+    
+    - Only returns messages from conversations user participates in
+    - Respects delete-for-me and delete-for-everyone
+    - Optional conversation filter
+    """
+    from services.messaging_service import search_user_messages
+    
+    user_id = current_user["id"]
+    messages = await search_user_messages(
+        user_id=user_id,
+        query=q,
+        conversation_id=conversation_id,
+        limit=limit,
+        offset=offset
+    )
+    return messages
+
+
+@router.post("/messages/{message_id}/delete-for-me", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_message_for_me(
+    message_id: str,
+    current_user=Depends(get_current_user),
+):
+    """
+    Delete a message for the current user only.
+    Message remains visible to other participants.
+    """
+    from services.messaging_service import delete_message_for_user
+    
+    user_id = current_user["id"]
+    success = await delete_message_for_user(message_id, user_id)
+    
+    if not success:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Message not found or access denied"
+        )
+    
+    return None
+
+
+@router.post("/messages/{message_id}/delete-for-everyone", response_model=Message)
+async def delete_message_for_everyone(
+    message_id: str,
+    current_user=Depends(get_current_user),
+):
+    """
+    Delete a message for everyone (sender only, or moderator/admin).
+    Message is replaced with "This message was deleted" for all participants.
+    """
+    from services.messaging_service import delete_message_for_everyone
+    
+    user_id = current_user["id"]
+    user_role = current_user.get("role", "user")
+    
+    message = await delete_message_for_everyone(
+        message_id=message_id,
+        user_id=user_id,
+        user_role=user_role
+    )
+    
+    if not message:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You can only delete your own messages (or you're not a moderator)"
+        )
+    
+    return message
