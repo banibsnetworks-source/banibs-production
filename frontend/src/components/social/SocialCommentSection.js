@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Loader, Smile } from 'lucide-react';
+import { Send, Loader, Smile, MoreVertical, Trash2 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import EmojiPicker from '../emoji/EmojiPicker.jsx';
 import { applySkinTone } from '../../utils/emojiToneUtils';
 import PostTextWithEmojis from './PostTextWithEmojis';
+import DropdownMenu, { DropdownMenuItem } from '../common/DropdownMenu';
+import ConfirmModal from '../common/ConfirmModal';
 
 /**
  * SocialCommentSection - Phase 8.3 + Emoji Support
