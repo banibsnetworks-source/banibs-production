@@ -147,6 +147,42 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
     }
   };
 
+  // Phase 3.3: Delete post handler
+  const handleDeletePost = async () => {
+    setIsDeleting(true);
+    
+    try {
+      const token = localStorage.getItem('access_token');
+      
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/social/posts/${localPost.id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          credentials: 'include',
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to delete post');
+      }
+
+      // Call parent callback
+      if (onDelete) {
+        onDelete(localPost.id);
+      }
+      
+      setShowDeleteModal(false);
+    } catch (err) {
+      console.error('Error deleting post:', err);
+      alert('Failed to delete post. Please try again.');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   const isAuthor = user?.id === localPost.author.id;
 
   // Determine profile path (handle or ID fallback)
