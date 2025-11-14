@@ -289,8 +289,9 @@ class MessagingAPITester:
         
         headers = {"Authorization": f"Bearer {self.access_token}"}
         
-        # Test invalid conversation ID
-        response = self.make_request("GET", "/messaging/conversations/invalid-id", headers=headers)
+        # Test invalid conversation ID (use valid ObjectId format but non-existent)
+        invalid_id = "507f1f77bcf86cd799439011"  # Valid ObjectId format but doesn't exist
+        response = self.make_request("GET", f"/messaging/conversations/{invalid_id}", headers=headers)
         if response.status_code == 404:
             self.log("   ✅ Invalid conversation returns 404")
         else:
