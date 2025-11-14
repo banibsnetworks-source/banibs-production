@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ConversationListItem } from './ConversationListItem';
 import { Search, Plus } from 'lucide-react';
 
-export function ConversationList({ conversations, activeConversationId, onSelect, isLoading }) {
+export function ConversationList({ conversations, activeConversationId, onSelect, isLoading, onCreateNew }) {
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredConversations = conversations.filter(conv => {
