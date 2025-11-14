@@ -122,15 +122,30 @@ export function MessagingHomePage() {
             />
           </>
         ) : (
-          <div className="flex flex-1 items-center justify-center">
-            <div className="text-center space-y-2">
+          <div className="flex flex-1 items-center justify-center p-8">
+            <div className="text-center space-y-4 max-w-md">
               <div className="text-6xl mb-4">💬</div>
-              <h2 className="text-xl font-semibold text-foreground">
+              <h2 className="text-2xl font-bold text-foreground">
                 BANIBS Connect
               </h2>
-              <p className="text-sm text-muted-foreground max-w-sm">
-                Select a conversation from the left to start messaging
+              <p className="text-muted-foreground">
+                {conversations.length === 0 
+                  ? "You don't have any conversations yet. Start chatting with other BANIBS members!"
+                  : "Select a conversation from the left to start messaging"
+                }
               </p>
+              {conversations.length === 0 && (
+                <div className="mt-6 p-4 bg-muted/50 rounded-lg border border-border">
+                  <p className="text-sm text-muted-foreground mb-3">
+                    <strong>Phase 3.1 Notice:</strong> Messaging is live! To start a conversation, you can:
+                  </p>
+                  <ul className="text-sm text-muted-foreground text-left space-y-2">
+                    <li>• Wait for someone to message you</li>
+                    <li>• Click the + button above to create a conversation</li>
+                    <li>• Phase 3.3 will add user search and contact selection</li>
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         )}
