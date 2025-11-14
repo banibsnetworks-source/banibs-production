@@ -514,68 +514,12 @@
         "Black"
       ],
       "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_banibs_037",
-      "src": "banibs_037.png",
-      "label": "BANIBS Custom 37",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse",
-        "Black"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_banibs_038",
-      "src": "banibs_038.png",
-      "label": "BANIBS Custom 38",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse",
-        "Black"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_banibs_039",
-      "src": "banibs_039.png",
-      "label": "BANIBS Custom 39",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse",
-        "Black"
-      ],
-      "supportsSkinTone": false
-    },
-    {
-      "type": "image",
-      "id": "banibs_full_banibs_040",
-      "src": "banibs_040.png",
-      "label": "BANIBS Custom 40",
-      "category": "people",
-      "tags": [
-        "banibs",
-        "custom",
-        "diverse",
-        "Black"
-      ],
-      "supportsSkinTone": false
     }
   ],
   "metadata": {
     "version": "2.0.0",
     "slicingMethod": "smart-pixel-detection",
-    "totalEmojis": 40,
-    "generatedAt": "2025-11-14T04:22:08.136Z"
+    "totalEmojis": 36,
+    "generatedAt": "2025-11-14T04:45:41.028Z"
   }
 }
