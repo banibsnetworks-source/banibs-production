@@ -349,6 +349,22 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
           )}
         </div>
       </form>
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmModal
+        isOpen={deleteModalOpen}
+        onClose={() => {
+          setDeleteModalOpen(false);
+          setCommentToDelete(null);
+        }}
+        onConfirm={handleDeleteComment}
+        title="Delete Comment"
+        message="Are you sure you want to delete this comment? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
+        destructive
+        isLoading={isDeleting}
+      />
     </div>
   );
 };
