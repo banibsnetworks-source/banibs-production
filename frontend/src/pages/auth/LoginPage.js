@@ -27,10 +27,9 @@ const LoginPage = () => {
       console.log('🔐 Login result:', result);
       
       if (result.success) {
-        console.log('🔐 Login successful, navigating to /hub');
-        // Force navigation to Hub after successful login
-        // Using window.location to ensure navigation happens even if user state is stale
-        window.location.href = '/hub';
+        console.log('🔐 Login successful, navigating to /portal/social');
+        // Navigate to social portal after login
+        navigate('/portal/social');
       } else {
         console.error('🔐 Login failed:', result.error);
         setError(result.error || 'Login failed');
