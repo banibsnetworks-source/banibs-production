@@ -246,9 +246,10 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
         )}
 
         {/* Post Content */}
-        <div className="text-card-foreground text-sm leading-relaxed whitespace-pre-wrap">
-          {localPost.text}
-        </div>
+        <PostTextWithEmojis 
+          text={localPost.text}
+          className="text-card-foreground text-sm leading-relaxed whitespace-pre-wrap"
+        />
 
         {/* Media Grid (Phase 8.1) */}
         {localPost.media && localPost.media.length > 0 && (
