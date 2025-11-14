@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { mockApi, Conversation } from '../utils/messaging/mockApi';
+import { mockApi } from '../utils/messaging/mockApi';
 
 export function useConversations() {
-  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchConversations = async () => {
