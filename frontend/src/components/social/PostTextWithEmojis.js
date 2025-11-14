@@ -26,10 +26,10 @@ const PostTextWithEmojis = ({ text, className = '' }) => {
               key={index}
               src={imageUrl}
               alt={part.id}
-              className="inline-block align-middle mx-0.5"
+              className="inline-block align-middle mx-1"
               style={{
-                width: '28px',
-                height: '28px',
+                width: '40px',
+                height: '40px',
                 objectFit: 'contain',
                 verticalAlign: 'middle'
               }}
