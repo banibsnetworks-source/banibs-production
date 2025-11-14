@@ -90,7 +90,7 @@ async def create_conversation(
     participant_ids: List[str],
     title: Optional[str] = None,
     business_id: Optional[str] = None,
-) -> Conversation:
+) -> Dict[str, Any]:
     """Create a new conversation."""
     now = datetime.utcnow()
     conv = Conversation(
@@ -104,7 +104,7 @@ async def create_conversation(
         updated_at=now,
     )
     await conv.insert()
-    return conv
+    return transform_conversation_for_api(conv)
 
 
 async def send_message(
