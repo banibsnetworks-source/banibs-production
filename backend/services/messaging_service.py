@@ -62,16 +62,19 @@ async def get_messages_for_conversation(
     user_id: str,
     skip: int = 0,
     limit: int = 50,
-) -> List[Message]:
+) -> List[Dict[str, Any]]:
     """Get messages for a conversation (user must be participant)."""
     # Ensure user is in this conversation
     conv = await get_conversation_for_user(conversation_id, user_id)
     if not conv:
         return []
 
-    return await Message.find(
+    messages = await Message.find(
         Message.conversation_id == conversation_id
     ).sort(+Message.created_at).skip(skip).limit(limit).to_list()
+    
+    # Transform for frontend compatibility
+    return [transform_message_for_api(msg) for msg in messages]
 
 
 async def create_conversation(
