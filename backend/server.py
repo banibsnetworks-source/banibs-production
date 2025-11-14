@@ -249,6 +249,10 @@ app.include_router(social_settings_router)
 from routes.media_upload import router as media_upload_router
 app.include_router(media_upload_router)
 
+# Include messaging router (Phase 3.1 - BANIBS Connect)
+from routes.messaging import router as messaging_router
+app.include_router(messaging_router)
+
 # Include business board router FIRST (Phase 8.3 - Business Board)
 # Must come before business profile router to avoid route conflicts
 from routes.business_board import router as business_board_router
