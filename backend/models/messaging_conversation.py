@@ -1,6 +1,6 @@
 # backend/models/messaging_conversation.py
 from datetime import datetime
-from typing import List, Optional, Literal
+from typing import List, Optional, Literal, Any, Dict
 
 from beanie import Document
 from pydantic import Field
@@ -27,3 +27,18 @@ class Conversation(Document):
 
     class Config:
         json_encoders = {ObjectId: str}
+    
+    def dict(self, **kwargs) -> Dict[str, Any]:
+        """Override dict() to replace _id with id for frontend compatibility"""
+        data = super().dict(**kwargs)
+        
+        # Replace _id with id
+        if "_id" in data:
+            data["id"] = str(data["_id"])
+            del data["_id"]
+        
+        # Generate title for DMs if not set
+        if self.type == "dm" and not data.get("title"):
+            data["title"] = "Direct Message"
+        
+        return data
