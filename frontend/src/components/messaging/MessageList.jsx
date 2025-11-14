@@ -2,7 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import { MessageBubble } from './MessageBubble';
 import { Loader } from 'lucide-react';
 
-export function MessageList({ messages, loading = false, isGroupChat = false }) {
+export function MessageList({ 
+  messages, 
+  loading = false, 
+  isGroupChat = false,
+  currentUserId = null,
+  onDeleteForMe = null,
+  onDeleteForEveryone = null
+}) {
   const messagesEndRef = useRef(null);
   const containerRef = useRef(null);
 
