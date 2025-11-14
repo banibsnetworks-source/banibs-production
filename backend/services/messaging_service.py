@@ -47,14 +47,14 @@ async def get_user_conversations(user_id: str) -> List[Dict[str, Any]]:
 async def get_conversation_for_user(
     conversation_id: str,
     user_id: str,
-) -> Optional[Conversation]:
+) -> Optional[Dict[str, Any]]:
     """Get a conversation if user is a participant."""
     conv = await Conversation.get(conversation_id)
     if not conv:
         return None
     if user_id not in conv.participant_ids:
         return None
-    return conv
+    return transform_conversation_for_api(conv)
 
 
 async def get_messages_for_conversation(
