@@ -198,25 +198,29 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
                 <div style={{ position: 'absolute', bottom: '100%', right: 0, marginBottom: '8px', zIndex: 1000 }}>
                   <EmojiPicker
                     onSelect={(emoji) => {
-                      // Apply user's skin tone for unicode emojis
-                      let emojiChar = '';
+                      let emojiContent = '';
+                      
                       if (emoji.type === 'unicode') {
+                        // Unicode emoji: apply user's skin tone
                         const userSkinTone = user?.emoji_identity?.skinTone || 'tone4';
                         const supportsSkinTone = emoji.supportsSkinTone !== undefined ? emoji.supportsSkinTone : false;
-                        emojiChar = supportsSkinTone 
+                        emojiContent = supportsSkinTone 
                           ? applySkinTone(emoji.char, userSkinTone, true)
                           : emoji.char;
+                      } else if (emoji.type === 'image') {
+                        // Image emoji: use placeholder format
+                        emojiContent = `[emoji:${emoji.id}]`;
                       }
                       
                       const input = inputRef.current;
-                      if (input && emojiChar) {
+                      if (input && emojiContent) {
                         const start = input.selectionStart || 0;
                         const end = input.selectionEnd || 0;
-                        const newText = commentText.substring(0, start) + emojiChar + commentText.substring(end);
+                        const newText = commentText.substring(0, start) + emojiContent + commentText.substring(end);
                         setCommentText(newText);
                         setTimeout(() => {
                           input.focus();
-                          input.selectionStart = input.selectionEnd = start + emojiChar.length;
+                          input.selectionStart = input.selectionEnd = start + emojiContent.length;
                         }, 0);
                       }
                       setShowEmojiPicker(false);
