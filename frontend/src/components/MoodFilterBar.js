@@ -38,13 +38,7 @@ const MoodFilterBar = ({ activeMood, onMoodChange, itemCount }) => {
   };
 
   return (
-    <div 
-      className="backdrop-blur-md rounded-xl border p-4 mb-6 shadow-sm"
-      style={{
-        backgroundColor: isDark ? 'rgba(17, 24, 39, 0.5)' : 'rgba(255, 255, 255, 0.9)',
-        borderColor: isDark ? 'rgba(75, 85, 99, 1)' : 'rgba(229, 231, 235, 1)'
-      }}
-    >
+    <div className="backdrop-blur-md rounded-xl border border-border bg-card/95 p-4 mb-6 shadow-sm">
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center space-x-2">
