@@ -33,7 +33,7 @@ export function useMessages(conversationId) {
     fetchMessages();
   }, [conversationId]);
 
-  const sendMessage = async (text: string) => {
+  const sendMessage = async (text) => {
     if (!conversationId || !text.trim()) return;
 
     try {
