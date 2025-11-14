@@ -42,7 +42,7 @@ class MarkReadRequest(BaseModel):
 
 # ---------- Routes ----------
 
-@router.get("/conversations", response_model=List[Conversation])
+@router.get("/conversations")
 async def list_conversations(
     current_user=Depends(get_current_user),
 ):
@@ -56,7 +56,7 @@ async def list_conversations(
     return conversations
 
 
-@router.get("/conversations/{conversation_id}", response_model=Conversation)
+@router.get("/conversations/{conversation_id}")
 async def get_conversation(
     conversation_id: str,
     current_user=Depends(get_current_user),
@@ -76,7 +76,7 @@ async def get_conversation(
     return conv
 
 
-@router.get("/conversations/{conversation_id}/messages", response_model=List[Message])
+@router.get("/conversations/{conversation_id}/messages")
 async def list_messages(
     conversation_id: str,
     page: int = Query(1, ge=1, description="Page number (1-indexed)"),
@@ -100,7 +100,7 @@ async def list_messages(
     return msgs
 
 
-@router.post("/conversations", response_model=Conversation, status_code=status.HTTP_201_CREATED)
+@router.post("/conversations", status_code=status.HTTP_201_CREATED)
 async def create_conversation_route(
     payload: ConversationCreateRequest,
     current_user=Depends(get_current_user),
@@ -141,7 +141,6 @@ async def create_conversation_route(
 
 @router.post(
     "/conversations/{conversation_id}/messages",
-    response_model=Message,
     status_code=status.HTTP_201_CREATED,
 )
 async def create_message_route(
