@@ -196,7 +196,7 @@ async def mark_read_route(
 
 # ---------- Phase 3 Add-Ons: Search & Delete ----------
 
-@router.get("/messages/search", response_model=List[Message])
+@router.get("/messages/search")
 async def search_messages(
     q: str = Query(..., min_length=1, description="Search query"),
     conversation_id: Optional[str] = Query(None, description="Optional: limit to specific conversation"),
