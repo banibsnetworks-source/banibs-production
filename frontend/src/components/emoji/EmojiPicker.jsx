@@ -244,21 +244,39 @@ function EmojiRenderer({ emoji, userSkinTone }) {
 
   if (emoji.type === 'image') {
     // Phase 2: Image-based rendering
-    const style = {
-      width: sizePx,
-      height: sizePx,
-      backgroundImage: `url(${emoji.spriteSheet})`,
-      backgroundPosition: `-${emoji.x}px -${emoji.y}px`,
-      backgroundSize: 'auto',
-    };
+    // Support both sprite sheets and individual image files
+    if (emoji.src) {
+      // Individual image file (BANIBS full pack)
+      return (
+        <img
+          src={emoji.spriteSheet}
+          alt={emoji.label || emoji.id}
+          className="inline-block object-contain"
+          style={{
+            width: sizePx,
+            height: sizePx,
+          }}
+          aria-label={emoji.label || emoji.shortcodes?.[0] || emoji.id}
+        />
+      );
+    } else {
+      // Sprite sheet (legacy format)
+      const style = {
+        width: sizePx,
+        height: sizePx,
+        backgroundImage: `url(${emoji.spriteSheet})`,
+        backgroundPosition: `-${emoji.x}px -${emoji.y}px`,
+        backgroundSize: 'auto',
+      };
 
-    return (
-      <span
-        className="inline-block"
-        style={style}
-        aria-label={emoji.shortcodes?.[0] || emoji.id}
-      />
-    );
+      return (
+        <span
+          className="inline-block"
+          style={style}
+          aria-label={emoji.shortcodes?.[0] || emoji.id}
+        />
+      );
+    }
   }
 
   // Phase 1.1: Unicode with tone application
