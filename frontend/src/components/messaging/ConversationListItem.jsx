@@ -1,15 +1,8 @@
 import React from 'react';
-import { Conversation } from '../../utils/messaging/mockApi';
 import { Users, Briefcase } from 'lucide-react';
 
-interface ConversationListItemProps {
-  conversation: Conversation;
-  isActive: boolean;
-  onClick: () => void;
-}
-
-export function ConversationListItem({ conversation, isActive, onClick }: ConversationListItemProps) {
-  const formatTime = (timestamp: string) => {
+export function ConversationListItem({ conversation, isActive, onClick }) {
+  const formatTime = (timestamp) => {
     const date = new Date(timestamp);
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
