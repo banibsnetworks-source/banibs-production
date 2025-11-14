@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
-import { Conversation } from '../../utils/messaging/mockApi';
 import { ConversationListItem } from './ConversationListItem';
 import { Search, Plus } from 'lucide-react';
 
-interface ConversationListProps {
-  conversations: Conversation[];
-  activeConversationId?: string | null;
-  onSelect: (id: string) => void;
-  isLoading?: boolean;
-}
-
-export function ConversationList({ conversations, activeConversationId, onSelect, isLoading }: ConversationListProps) {
+export function ConversationList({ conversations, activeConversationId, onSelect, isLoading }) {
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredConversations = conversations.filter(conv =>
