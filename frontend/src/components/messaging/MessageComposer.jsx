@@ -5,15 +5,6 @@ import { useAuth } from '../../contexts/AuthContext';
 import { applySkinTone } from '../../utils/emojiToneUtils';
 import PostTextWithEmojis from '../social/PostTextWithEmojis';
 
-interface MessageComposerProps {
-  onSend: (text: string) => void;
-  onAttachFile?: () => void;
-  onStartVoice?: () => void;
-  onStartCall?: (type: 'audio' | 'video') => void;
-  disabled?: boolean;
-  placeholder?: string;
-}
-
 export function MessageComposer({ 
   onSend, 
   onAttachFile, 
@@ -21,11 +12,11 @@ export function MessageComposer({
   onStartCall,
   disabled = false,
   placeholder = 'Type a message...'
-}: MessageComposerProps) {
+}) {
   const { user } = useAuth();
   const [messageText, setMessageText] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const inputRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef(null);
 
   const handleSend = () => {
     if (!messageText.trim() || disabled) return;
@@ -36,7 +27,7 @@ export function MessageComposer({
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
