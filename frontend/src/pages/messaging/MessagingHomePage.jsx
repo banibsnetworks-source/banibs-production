@@ -192,6 +192,27 @@ export function MessagingHomePage() {
           </div>
         )}
       </div>
+      
+      {/* Delete Confirmation Modal */}
+      <ConfirmModal
+        isOpen={deleteModalOpen}
+        onClose={() => {
+          setDeleteModalOpen(false);
+          setMessageToDelete(null);
+          setDeleteMode(null);
+        }}
+        onConfirm={confirmDelete}
+        title={deleteMode === 'everyone' ? 'Delete for Everyone' : 'Delete for Me'}
+        message={
+          deleteMode === 'everyone'
+            ? 'This message will be deleted for all participants. This action cannot be undone.'
+            : 'This message will be hidden from your view only. Other participants can still see it.'
+        }
+        confirmText="Delete"
+        cancelText="Cancel"
+        destructive={deleteMode === 'everyone'}
+        isLoading={isDeleting}
+      />
     </div>
     </>
   );
