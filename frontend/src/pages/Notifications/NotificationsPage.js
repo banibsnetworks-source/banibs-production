@@ -36,7 +36,7 @@ const NotificationsPage = () => {
       ]);
 
       if (!userRes.ok) {
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem('access_token');
         navigate('/login');
         return;
       }
