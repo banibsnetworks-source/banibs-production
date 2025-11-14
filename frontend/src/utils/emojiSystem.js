@@ -165,13 +165,18 @@ async function loadEmojiPacksFromManifests() {
 
   for (const pack of packs) {
     try {
+      console.log(`🎨 Loading emoji pack: ${pack.id} from ${pack.path}`);
       const response = await fetch(pack.path);
       if (response.ok) {
         const manifest = await response.json();
-        loadedPacks.push(normalizeManifest(manifest));
+        const normalized = normalizeManifest(manifest);
+        console.log(`✅ Loaded ${pack.id}: ${normalized.type} pack with ${normalized.emojis?.length || 0} emojis`);
+        loadedPacks.push(normalized);
+      } else {
+        console.warn(`❌ Failed to load ${pack.id}: HTTP ${response.status}`);
       }
     } catch (error) {
-      console.warn(`Failed to load emoji pack: ${pack.id}`, error);
+      console.warn(`❌ Failed to load emoji pack: ${pack.id}`, error);
     }
   }
 
