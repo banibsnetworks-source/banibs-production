@@ -8,13 +8,13 @@ const __dirname = path.dirname(__filename);
 
 // Configuration for each sheet
 // User confirmed sheets 6 & 7 are 1x1 (single hero emojis)
-// Sheets 1-5 are assumed to be 8x8 grids (64 emojis each)
+// CORRECTED: Sheets 1-5 are 4x4 grids (16 emojis each at 256px)
 const SHEETS = [
-  { num: 1, rows: 8, cols: 8, description: 'Main emoji set 1' },
-  { num: 2, rows: 8, cols: 8, description: 'Main emoji set 2' },
-  { num: 3, rows: 8, cols: 8, description: 'Main emoji set 3' },
-  { num: 4, rows: 8, cols: 8, description: 'Main emoji set 4' },
-  { num: 5, rows: 8, cols: 8, description: 'Main emoji set 5' },
+  { num: 1, rows: 4, cols: 4, description: 'Main emoji set 1' },
+  { num: 2, rows: 4, cols: 4, description: 'Main emoji set 2' },
+  { num: 3, rows: 4, cols: 4, description: 'Main emoji set 3' },
+  { num: 4, rows: 4, cols: 4, description: 'Main emoji set 4' },
+  { num: 5, rows: 4, cols: 4, description: 'Main emoji set 5' },
   { num: 6, rows: 1, cols: 1, description: 'Hero emoji 1' },
   { num: 7, rows: 1, cols: 1, description: 'Hero emoji 2' },
 ];
