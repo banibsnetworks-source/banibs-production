@@ -36,7 +36,7 @@ const TopNav = ({ user, onLogout }) => {
 
   const fetchUnreadCount = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       if (!token) return;
 
       const response = await fetch(`${BACKEND_URL}/api/notifications/unread-count`, {
@@ -57,7 +57,7 @@ const TopNav = ({ user, onLogout }) => {
   const fetchNotifications = async () => {
     try {
       setLoadingNotifications(true);
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       if (!token) return;
 
       const response = await fetch(`${BACKEND_URL}/api/notifications?limit=10`, {
@@ -80,7 +80,7 @@ const TopNav = ({ user, onLogout }) => {
   const handleNotificationClick = async (notification) => {
     try {
       // Mark as read
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       await fetch(`${BACKEND_URL}/api/notifications/${notification.id}/read`, {
         method: 'PATCH',
         headers: {
