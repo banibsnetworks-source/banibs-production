@@ -281,5 +281,21 @@ export const mockApi = {
         conv.unread = 0;
       }
       resolve();
+    }),
+
+  deleteMessageForMe: (messageId) =>
+    new Promise(resolve => {
+      // In mock, just resolve (message will be removed from local state)
+      resolve();
+    }),
+
+  deleteMessageForEveryone: (messageId) =>
+    new Promise(resolve => {
+      // In mock, return updated message with deleted text
+      resolve({
+        id: messageId,
+        text: '[This message was deleted]',
+        deleted: true
+      });
     })
 };
