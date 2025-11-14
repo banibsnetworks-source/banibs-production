@@ -56,16 +56,25 @@ export function CreateConversationModal({ isOpen, onClose, onCreateConversation 
     if (conversationType === 'group' && !groupTitle.trim()) return;
 
     setIsCreating(true);
+    setError(null);
+    
+    console.log('[CreateConversationModal] Creating conversation with data:', {
+      type: conversationType,
+      participant_ids: selectedParticipants.map(p => p.id),
+      title: conversationType === 'group' ? groupTitle : null,
+    });
     
     try {
-      await onCreateConversation({
+      const result = await onCreateConversation({
         type: conversationType,
         participant_ids: selectedParticipants.map(p => p.id),
         title: conversationType === 'group' ? groupTitle : null,
       });
+      console.log('[CreateConversationModal] Conversation created successfully:', result);
       handleClose();
     } catch (error) {
-      console.error('Failed to create conversation:', error);
+      console.error('[CreateConversationModal] Failed to create conversation:', error);
+      setError(error.message || 'Failed to create conversation. Please try again.');
       setIsCreating(false);
     }
   };
