@@ -16,12 +16,15 @@ export function ConversationList({ conversations, activeConversationId, onSelect
       <div className="p-4 border-b border-border">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-xl font-bold text-foreground">Messages</h2>
-          <button 
-            className="p-2 hover:bg-muted rounded-lg transition-colors"
-            title="New message"
-          >
-            <Plus className="w-5 h-5 text-foreground" />
-          </button>
+          {onCreateNew && (
+            <button 
+              onClick={onCreateNew}
+              className="p-2 hover:bg-muted rounded-lg transition-colors"
+              title="New message"
+            >
+              <Plus className="w-5 h-5 text-foreground" />
+            </button>
+          )}
         </div>
         
         {/* Search */}
