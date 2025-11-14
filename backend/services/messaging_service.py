@@ -36,9 +36,12 @@ def transform_message_for_api(msg: Message) -> Dict[str, Any]:
 
 async def get_user_conversations(user_id: str) -> List[Dict[str, Any]]:
     """Get all conversations where user is a participant."""
-    return await Conversation.find(
+    conversations = await Conversation.find(
         Conversation.participant_ids == user_id
     ).sort(-Conversation.last_message_at).to_list()
+    
+    # Transform for frontend compatibility
+    return [transform_conversation_for_api(conv) for conv in conversations]
 
 
 async def get_conversation_for_user(
