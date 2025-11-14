@@ -27,7 +27,7 @@ export default defineConfig({
   // Shared settings for all the projects below
   use: {
     // Base URL for tests - using the preview environment
-    baseURL: 'https://banibs-reaction.preview.emergentagent.com',
+    baseURL: 'https://emoji-migration.preview.emergentagent.com',
     
     // Browser context options
     trace: 'retain-on-failure',

@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://banibs-reaction.preview.emergentagent.com/api/auth
+https://emoji-migration.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
