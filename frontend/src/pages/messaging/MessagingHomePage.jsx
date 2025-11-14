@@ -87,6 +87,25 @@ export function MessagingHomePage() {
     }
   };
 
+  const handleSearch = async (query) => {
+    if (!query.trim() || !activeConversationId) return;
+    
+    setIsSearching(true);
+    setSearchError(null);
+    
+    try {
+      const { messagingApi } = await import('../../utils/messaging');
+      const results = await messagingApi.searchMessages(query, activeConversationId);
+      setSearchResults(results);
+    } catch (error) {
+      console.error('Search failed:', error);
+      setSearchError('Failed to search messages');
+      setSearchResults([]);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
   return (
     <>
       <GlobalNavBar />
