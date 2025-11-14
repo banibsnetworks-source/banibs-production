@@ -122,6 +122,41 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
     }
   };
 
+  const handleDeleteComment = async () => {
+    if (!commentToDelete) return;
+    
+    setIsDeleting(true);
+    
+    try {
+      const token = localStorage.getItem('access_token');
+      
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/social/comments/${commentToDelete.id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          credentials: 'include',
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to delete comment');
+      }
+
+      // Remove from local state
+      setComments(comments.filter(c => c.id !== commentToDelete.id));
+      setDeleteModalOpen(false);
+      setCommentToDelete(null);
+    } catch (err) {
+      console.error('Error deleting comment:', err);
+      setError('Failed to delete comment');
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
   const formatTimestamp = (dateString) => {
     try {
       const date = new Date(dateString);
