@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://emoji-migration.preview.emergentagent.com/api/auth
+https://chatflow-95.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

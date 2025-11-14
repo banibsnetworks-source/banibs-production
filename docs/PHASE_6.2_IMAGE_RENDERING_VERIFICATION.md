@@ -186,7 +186,7 @@ for source in RSS_SOURCES:
 
 ### 3.3 Frontend Rendering
 
-**Test**: Visited `https://emoji-migration.preview.emergentagent.com/`
+**Test**: Visited `https://chatflow-95.preview.emergentagent.com/`
 
 **Results**:
 - ✅ Homepage loads successfully

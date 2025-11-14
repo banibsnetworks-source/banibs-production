@@ -49,7 +49,7 @@
 ✅ Hub page rendered with user data: "Welcome back, Social"
 ```
 
-**Final URL**: `https://emoji-migration.preview.emergentagent.com/hub` ✅
+**Final URL**: `https://chatflow-95.preview.emergentagent.com/hub` ✅
 
 ### Status
 **✅ COMPLETE** - Login flow now works correctly. Users can authenticate and access the Hub dashboard.
@@ -101,7 +101,7 @@ cd /app/frontend && yarn add sharp
 - Label: "👨🏿 BANIBS (My Tone)"
 - Style: `image`
 - Total emojis: 322
-- ✅ Manifest accessible at: `https://emoji-migration.preview.emergentagent.com/static/emojis/banibs_full/manifest.json`
+- ✅ Manifest accessible at: `https://chatflow-95.preview.emergentagent.com/static/emojis/banibs_full/manifest.json`
 
 **5. Updated Emoji System**
 - Modified: `/app/frontend/src/utils/emojiSystem.js`
@@ -2493,7 +2493,7 @@ agent_communication:
       ✅ TECHNICAL VERIFICATION:
       - Backend logs show successful GET /api/news/latest - Status: 200
       - No errors or warnings in backend service logs
-      - Endpoint accessible via public URL: https://emoji-migration.preview.emergentagent.com/api/news/latest
+      - Endpoint accessible via public URL: https://chatflow-95.preview.emergentagent.com/api/news/latest
       - Response format: [] (valid empty JSON array)
       
       ✅ REQUIREMENTS COMPLIANCE:
@@ -5264,21 +5264,21 @@ agent_communication:
       
       ✅ PART 1: FEATURE FLAG DISABLED STATE (CURRENT PRODUCTION STATE) - VERIFIED:
       
-      1. **World News Page** (https://emoji-migration.preview.emergentagent.com/world-news):
+      1. **World News Page** (https://chatflow-95.preview.emergentagent.com/world-news):
          - ✅ Page loads correctly with news cards and region filters
          - ✅ NO banners visible anywhere (correct with ui.heavyContentBanner: false)
          - ✅ Region filters functional (Global, Africa, Americas, Europe, Asia, Middle East)
          - ✅ News cards display properly with images and BANIBS branding
          - ✅ Responsive design working (mobile 390x844 viewport tested)
       
-      2. **Resources Page** (https://emoji-migration.preview.emergentagent.com/resources):
+      2. **Resources Page** (https://chatflow-95.preview.emergentagent.com/resources):
          - ✅ Resources list loads correctly with 20 resource links
          - ✅ Resource detail pages load with proper structure and metadata
          - ✅ NO banners visible at top of detail view (correct behavior)
          - ✅ Sentiment badges, metadata, and action buttons working
          - ✅ Responsive design working (tablet 1024x768 viewport tested)
       
-      3. **Hub Activity Feed** (https://emoji-migration.preview.emergentagent.com/hub):
+      3. **Hub Activity Feed** (https://chatflow-95.preview.emergentagent.com/hub):
          - ✅ Hub requires authentication (shows proper login form)
          - ✅ NO inline banners in feed items (correct behavior)
          - ✅ BANIBS branding maintained on authentication pages
@@ -5594,7 +5594,7 @@ agent_communication:
       
       ✅ CRITICAL CORS ISSUE RESOLVED:
       - Updated `/app/backend/.env` CORS_ORIGINS from wildcard "*" to explicit origins:
-        "http://localhost:3000,https://emoji-migration.preview.emergentagent.com"
+        "http://localhost:3000,https://chatflow-95.preview.emergentagent.com"
       - Restarted backend service to apply CORS configuration
       - Verified no CORS policy errors in browser console
       
