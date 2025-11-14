@@ -1,14 +1,7 @@
 import React from 'react';
 import { Phone, Video, Info, Users, Briefcase } from 'lucide-react';
-import { Conversation } from '../../utils/messaging/mockApi';
 
-interface ConversationHeaderProps {
-  conversation: Conversation;
-  onStartCall?: (type: 'audio' | 'video') => void;
-  onShowInfo?: () => void;
-}
-
-export function ConversationHeader({ conversation, onStartCall, onShowInfo }: ConversationHeaderProps) {
+export function ConversationHeader({ conversation, onStartCall, onShowInfo }) {
   return (
     <div className="border-b border-border bg-card px-4 py-3">
       <div className="flex items-center justify-between">
