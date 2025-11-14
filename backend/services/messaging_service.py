@@ -114,7 +114,7 @@ async def send_message(
     text: Optional[str] = None,
     media_url: Optional[str] = None,
     metadata: Optional[dict] = None,
-) -> Optional[Message]:
+) -> Optional[Dict[str, Any]]:
     """
     Send a message to a conversation.
     
@@ -122,7 +122,7 @@ async def send_message(
     - HTTP POST handler calls this
     - WebSocket event handler will also call this (Phase 3.2)
     """
-    conv = await get_conversation_for_user(conversation_id, sender_id)
+    conv = await _get_conversation_raw(conversation_id, sender_id)
     if not conv:
         return None
 
@@ -148,7 +148,7 @@ async def send_message(
     # 🔜 Phase 3.2: emit WebSocket event here
     # socket_manager.emit('message_received', msg, room=conversation_id)
     
-    return msg
+    return transform_message_for_api(msg)
 
 
 async def mark_messages_read(
