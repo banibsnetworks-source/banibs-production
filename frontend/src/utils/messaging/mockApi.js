@@ -297,5 +297,17 @@ export const mockApi = {
         text: '[This message was deleted]',
         deleted: true
       });
+    }),
+
+  searchMessages: (query, conversationId = null) =>
+    new Promise(resolve => {
+      // Mock search: filter messages by query
+      const allMessages = Object.values(mockMessages).flat();
+      const filtered = allMessages.filter(msg => {
+        const matchesQuery = msg.text && msg.text.toLowerCase().includes(query.toLowerCase());
+        const matchesConv = !conversationId || msg.conversationId === conversationId;
+        return matchesQuery && matchesConv;
+      });
+      resolve(filtered);
     })
 };
