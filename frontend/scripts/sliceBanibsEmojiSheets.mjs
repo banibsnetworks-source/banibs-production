@@ -39,7 +39,7 @@ async function sliceSheet(sheetConfig) {
   let emojiCount = 0;
   
   for (let row = 0; row < rows; row++) {
-    for (let col = 0; col: < cols; col++) {
+    for (let col = 0; col < cols; col++) {
       const left = col * tileWidth;
       const top = row * tileHeight;
       
