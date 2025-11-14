@@ -88,7 +88,7 @@ const NotificationsPage = () => {
 
   const handleMarkAllAsRead = async () => {
     try {
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
       await fetch(`${BACKEND_URL}/api/notifications/read-all`, {
         method: 'PATCH',
         headers: { 'Authorization': `Bearer ${token}` }
