@@ -244,7 +244,7 @@ async def delete_message_for_everyone(
     message_id: str,
     user_id: str,
     user_role: str = "user"
-) -> Optional[Message]:
+) -> Optional[Dict[str, Any]]:
     """
     Delete a message for everyone.
     Only sender or moderator/admin can do this.
@@ -269,6 +269,6 @@ async def delete_message_for_everyone(
         # 🔜 Phase 3.2: emit socket event
         # socket_manager.emit('message_deleted', {...}, room=msg.conversation_id)
         
-        return msg
+        return transform_message_for_api(msg)
     except:
         return None
