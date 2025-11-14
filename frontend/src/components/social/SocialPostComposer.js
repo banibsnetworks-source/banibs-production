@@ -126,16 +126,23 @@ const SocialPostComposer = ({ onPostCreated }) => {
               <div style={{ position: 'absolute', bottom: '100%', left: 0, marginBottom: '8px', zIndex: 1000 }}>
                 <EmojiPicker
                   onSelect={(emoji) => {
-                    // Apply user's skin tone for unicode emojis
-                    let emojiChar = '';
+                    let emojiContent = '';
+                    
                     if (emoji.type === 'unicode') {
+                      // Unicode emoji: apply user's skin tone
                       const userSkinTone = user?.emoji_identity?.skinTone || 'tone4';
                       const supportsSkinTone = emoji.supportsSkinTone !== undefined ? emoji.supportsSkinTone : false;
-                      emojiChar = supportsSkinTone 
+                      emojiContent = supportsSkinTone 
                         ? applySkinTone(emoji.char, userSkinTone, true)
                         : emoji.char;
+                    } else if (emoji.type === 'image') {
+                      // Image emoji: for now, use a placeholder marker
+                      // TODO: Implement proper ID-based storage
+                      emojiContent = `[emoji:${emoji.id}]`;
+                      console.warn('Image emoji selected, using placeholder format:', emojiContent);
                     }
-                    setInitialEmoji(emojiChar);
+                    
+                    setInitialEmoji(emojiContent);
                     setShowEmojiPicker(false);
                     setIsModalOpen(true);
                   }}
