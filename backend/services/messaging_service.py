@@ -134,3 +134,99 @@ async def mark_messages_read(
     # socket_manager.emit('messages_read', {...}, room=conversation_id)
     
     return count
+
+
+# ---------- Phase 3 Add-Ons: Search & Delete ----------
+
+async def search_user_messages(
+    user_id: str,
+    query: str,
+    conversation_id: Optional[str] = None,
+    limit: int = 50,
+    offset: int = 0
+) -> List[Message]:
+    """
+    Search messages by text content.
+    Only returns messages from conversations user participates in.
+    Respects deleted_for and deleted_at.
+    """
+    # Build query filters
+    filters = {
+        "text": {"$regex": query, "$options": "i"},  # Case-insensitive search
+        "deleted_at": None,  # Exclude globally deleted
+        "deleted_for": {"$ne": user_id}  # Exclude deleted-for-me
+    }
+    
+    if conversation_id:
+        # Verify user is participant
+        conv = await get_conversation_for_user(conversation_id, user_id)
+        if not conv:
+            return []
+        filters["conversation_id"] = conversation_id
+    else:
+        # Get all user's conversations
+        user_convs = await get_user_conversations(user_id)
+        conv_ids = [str(c.id) for c in user_convs]
+        filters["conversation_id"] = {"$in": conv_ids}
+    
+    # Search messages
+    messages = await Message.find(filters).sort(-Message.created_at).skip(offset).limit(limit).to_list()
+    
+    return messages
+
+
+async def delete_message_for_user(
+    message_id: str,
+    user_id: str
+) -> bool:
+    """
+    Delete a message for a specific user only.
+    Adds user_id to deleted_for array.
+    """
+    try:
+        msg = await Message.get(message_id)
+        if not msg:
+            return False
+        
+        # Add to deleted_for if not already there
+        if user_id not in msg.deleted_for:
+            msg.deleted_for.append(user_id)
+            await msg.save()
+        
+        return True
+    except:
+        return False
+
+
+async def delete_message_for_everyone(
+    message_id: str,
+    user_id: str,
+    user_role: str = "user"
+) -> Optional[Message]:
+    """
+    Delete a message for everyone.
+    Only sender or moderator/admin can do this.
+    """
+    try:
+        msg = await Message.get(message_id)
+        if not msg:
+            return None
+        
+        # Check permissions
+        is_sender = msg.sender_id == user_id
+        is_moderator = user_role in ["moderator", "admin"]
+        
+        if not (is_sender or is_moderator):
+            return None
+        
+        # Mark as deleted for everyone
+        msg.deleted_at = datetime.utcnow()
+        msg.text = "[This message was deleted]"
+        await msg.save()
+        
+        # 🔜 Phase 3.2: emit socket event
+        # socket_manager.emit('message_deleted', {...}, room=msg.conversation_id)
+        
+        return msg
+    except:
+        return None
