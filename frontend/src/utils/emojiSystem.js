@@ -151,26 +151,27 @@ function normalizeManifest(manifest) {
 
 /**
  * Load emoji packs from manifest files
- * Order: BANIBS Standard (default) → BANIBS Gold Spark (premium) → Base Yellow (classic)
+ * Order: BANIBS Full (image, primary) → BANIBS Standard (unicode) → BANIBS Gold Spark (premium) → Base Yellow (classic)
  * @returns {Promise<EmojiPack[]>}
  */
 async function loadEmojiPacksFromManifests() {
-  const packIds = [
-    'banibs_standard',    // BANIBS first - our brand identity
-    'banibs_gold_spark',  // BANIBS premium - gold sparkle
-    'base_yellow'         // Classic yellow - fallback
+  const packs = [
+    { id: 'banibs_full', path: '/static/emojis/banibs_full/manifest.json' },      // NEW: Image-based BANIBS
+    { id: 'banibs_standard', path: '/static/emojis/packs/banibs_standard/manifest.json' },    // Unicode BANIBS
+    { id: 'banibs_gold_spark', path: '/static/emojis/packs/banibs_gold_spark/manifest.json' }, // Unicode premium
+    { id: 'base_yellow', path: '/static/emojis/packs/base_yellow/manifest.json' }              // Classic yellow
   ];
   const loadedPacks = [];
 
-  for (const packId of packIds) {
+  for (const pack of packs) {
     try {
-      const response = await fetch(`/static/emojis/packs/${packId}/manifest.json`);
+      const response = await fetch(pack.path);
       if (response.ok) {
         const manifest = await response.json();
         loadedPacks.push(normalizeManifest(manifest));
       }
     } catch (error) {
-      console.warn(`Failed to load emoji pack: ${packId}`, error);
+      console.warn(`Failed to load emoji pack: ${pack.id}`, error);
     }
   }
 
