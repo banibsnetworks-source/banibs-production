@@ -7554,6 +7554,55 @@ def main():
             self.log(f"💥 {failed} Phase 7.4 test(s) failed")
             return False
 
+    def run_messaging_tests(self) -> bool:
+        """Run BANIBS Connect messaging API tests (Phase 3.1)"""
+        self.log("Starting BANIBS Connect Messaging API Test Suite - Phase 3.1")
+        self.log(f"Testing against: {API_BASE}")
+        self.log("Testing messaging endpoints with Beanie ODM and JWT authentication")
+        
+        tests = [
+            # Authentication Setup
+            ("Messaging Authentication Setup", self.test_messaging_authentication_setup),
+            
+            # Core Messaging Functionality
+            ("Create Conversation", self.test_create_conversation),
+            ("List Conversations", self.test_list_conversations),
+            ("Get Single Conversation", self.test_get_single_conversation),
+            ("Get Non-existent Conversation (404)", self.test_get_nonexistent_conversation),
+            
+            # Message Operations
+            ("Send Messages (with BANIBS emojis)", self.test_send_messages),
+            ("List Messages (with pagination)", self.test_list_messages),
+            ("Mark Messages Read", self.test_mark_messages_read),
+            
+            # Advanced Features
+            ("Conversation Last Message Update", self.test_conversation_last_message_update),
+            
+            # Error Handling
+            ("Messaging Error Handling", self.test_messaging_error_handling),
+        ]
+        
+        passed = 0
+        failed = 0
+        
+        for test_name, test_func in tests:
+            self.log(f"\n--- Running {test_name} ---")
+            try:
+                if test_func():
+                    passed += 1
+                else:
+                    failed += 1
+            except Exception as e:
+                self.log(f"❌ {test_name} failed with exception: {e}", "ERROR")
+                failed += 1
+                
+        self.log(f"\n=== MESSAGING API TEST RESULTS ===")
+        self.log(f"✅ Passed: {passed}")
+        self.log(f"❌ Failed: {failed}")
+        self.log(f"Total: {passed + failed}")
+        
+        return failed == 0
+
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
         self.log("Starting BANIBS Backend API Test Suite - Phase 6.4 Sentiment-Driven Moderation Routing")
