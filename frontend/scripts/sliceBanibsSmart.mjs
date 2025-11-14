@@ -29,7 +29,7 @@ const SHEETS = [
 
 // Tuning parameters
 const ALPHA_THRESHOLD = 10;   // pixel considered "on" if alpha > this
-const MIN_BLOB_SIZE   = 40;   // ignore tiny noise blobs (in pixels)
+const MIN_BLOB_SIZE   = 20;   // ignore tiny noise blobs (in pixels) - REDUCED from 40
 const PADDING         = 16;   // extra pixels around each emoji when cropping
 
 function idx(x, y, width) {
