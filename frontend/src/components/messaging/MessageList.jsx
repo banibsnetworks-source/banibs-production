@@ -24,7 +24,7 @@ export function MessageList({ messages, loading = false, isGroupChat = false }) 
     return groups;
   }, {} as Record<string, Message[]>);
 
-  const formatDateHeader = (dateString: string) => {
+  const formatDateHeader = (dateString) => {
     const date = new Date(dateString);
     const today = new Date().toDateString();
     const yesterday = new Date(Date.now() - 86400000).toDateString();
