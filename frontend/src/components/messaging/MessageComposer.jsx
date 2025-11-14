@@ -77,27 +77,19 @@ export function MessageComposer({
 
         {/* Message Input Area */}
         <div className="flex-1 relative">
-          <div
+          <textarea
             ref={inputRef}
-            contentEditable={!disabled}
-            suppressContentEditableWarning
-            onInput={(e) => {
-              const text = e.currentTarget.textContent || '';
-              setMessageText(text);
-            }}
+            value={messageText}
+            onChange={(e) => setMessageText(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="w-full bg-background text-foreground rounded-lg px-3 py-2 text-sm border border-input focus:border-yellow-500 focus:outline-none focus:ring-1 focus:ring-yellow-500 transition-all min-h-[40px] max-h-[120px] overflow-y-auto"
-            data-placeholder={messageText ? '' : placeholder}
+            placeholder={placeholder}
+            disabled={disabled}
+            className="w-full bg-background text-foreground rounded-lg px-3 py-2 text-sm border border-input focus:border-yellow-500 focus:outline-none focus:ring-1 focus:ring-yellow-500 transition-all min-h-[40px] max-h-[120px] resize-none"
             style={{
               wordBreak: 'break-word',
               whiteSpace: 'pre-wrap'
             }}
-          >
-            <PostTextWithEmojis 
-              text={messageText}
-              className=""
-            />
-          </div>
+          />
         </div>
 
         {/* Action Buttons */}
