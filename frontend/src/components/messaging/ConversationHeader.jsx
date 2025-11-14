@@ -12,7 +12,7 @@ export function ConversationHeader({ conversation, onStartCall, onShowInfo }) {
               {conversation.avatar ? (
                 <img 
                   src={conversation.avatar} 
-                  alt={conversation.name}
+                  alt={conversation.title || conversation.name || 'Conversation'}
                   className="w-full h-full object-cover"
                 />
               ) : conversation.type === 'group' ? (
@@ -21,7 +21,7 @@ export function ConversationHeader({ conversation, onStartCall, onShowInfo }) {
                 <Briefcase className="w-5 h-5 text-yellow-500" />
               ) : (
                 <span className="text-sm font-semibold text-foreground">
-                  {conversation.name[0]}
+                  {(conversation.title || conversation.name || '?')[0]}
                 </span>
               )}
             </div>
@@ -35,7 +35,7 @@ export function ConversationHeader({ conversation, onStartCall, onShowInfo }) {
           {/* Name and Status */}
           <div>
             <h2 className="font-semibold text-foreground">
-              {conversation.name}
+              {conversation.title || conversation.name || 'Conversation'}
             </h2>
             {conversation.type === 'dm' && (
               <p className="text-xs text-muted-foreground">
