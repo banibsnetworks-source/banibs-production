@@ -7,10 +7,13 @@ import { ConversationHeader } from '../../components/messaging/ConversationHeade
 import { MessageList } from '../../components/messaging/MessageList';
 import { MessageComposer } from '../../components/messaging/MessageComposer';
 import GlobalNavBar from '../../components/GlobalNavBar';
+import ConfirmModal from '../../components/common/ConfirmModal';
+import { useAuth } from '../../contexts/AuthContext';
 
 export function MessagingHomePage() {
   const navigate = useNavigate();
   const { conversationId } = useParams();
+  const { user } = useAuth();
   
   const { conversations, loading: conversationsLoading, markAsRead } = useConversations();
   const [activeConversationId, setActiveConversationId] = useState(conversationId || null);
@@ -18,7 +21,13 @@ export function MessagingHomePage() {
   // Find the active conversation object
   const activeConversation = conversations.find(c => c.id === activeConversationId);
   
-  const { messages, loading: messagesLoading, sendMessage } = useMessages(activeConversationId);
+  const { messages, loading: messagesLoading, sendMessage, deleteMessage } = useMessages(activeConversationId);
+  
+  // Delete modal state
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [messageToDelete, setMessageToDelete] = useState(null);
+  const [deleteMode, setDeleteMode] = useState(null); // 'me' or 'everyone'
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Sync URL param with state
   useEffect(() => {
