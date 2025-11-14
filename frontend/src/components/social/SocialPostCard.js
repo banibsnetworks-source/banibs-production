@@ -237,15 +237,26 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
                 </button>
               )}
               
-              {/* More options for authors */}
+              {/* More options for authors - Phase 3.3 */}
               {isAuthor && (
-                <button
-                  type="button"
-                  className="p-1 rounded-lg text-muted-foreground hover:bg-muted transition-colors"
-                  title="Options"
+                <DropdownMenu
+                  trigger={
+                    <button
+                      type="button"
+                      className="p-1 rounded-lg text-muted-foreground hover:bg-muted transition-colors"
+                      title="Options"
+                    >
+                      <MoreHorizontal size={18} />
+                    </button>
+                  }
                 >
-                  <MoreHorizontal size={18} />
-                </button>
+                  <DropdownMenuItem
+                    icon={Trash2}
+                    label="Delete post"
+                    destructive
+                    onClick={() => setShowDeleteModal(true)}
+                  />
+                </DropdownMenu>
               )}
             </div>
           </div>
@@ -272,15 +283,26 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
                 </button>
               )}
               
-              {/* More options for authors */}
+              {/* More options for authors - Phase 3.3 */}
               {isAuthor && (
-                <button
-                  type="button"
-                  className="p-1 rounded-lg text-muted-foreground hover:bg-muted transition-colors"
-                  title="Options"
+                <DropdownMenu
+                  trigger={
+                    <button
+                      type="button"
+                      className="p-1 rounded-lg text-muted-foreground hover:bg-muted transition-colors"
+                      title="Options"
+                    >
+                      <MoreHorizontal size={18} />
+                    </button>
+                  }
                 >
-                  <MoreHorizontal size={18} />
-                </button>
+                  <DropdownMenuItem
+                    icon={Trash2}
+                    label="Delete post"
+                    destructive
+                    onClick={() => setShowDeleteModal(true)}
+                  />
+                </DropdownMenu>
               )}
             </div>
           </div>
