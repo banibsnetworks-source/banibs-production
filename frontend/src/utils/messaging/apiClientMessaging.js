@@ -164,4 +164,26 @@ export const realMessagingApi = {
       }),
     });
   },
+
+  /**
+   * Delete a message for the current user only
+   * @param {string} messageId
+   * @returns {Promise<void>}
+   */
+  deleteMessageForMe: async (messageId) => {
+    return apiRequest(`/messages/${messageId}/delete-for-me`, {
+      method: 'POST',
+    });
+  },
+
+  /**
+   * Delete a message for everyone (sender only)
+   * @param {string} messageId
+   * @returns {Promise<Object>}
+   */
+  deleteMessageForEveryone: async (messageId) => {
+    return apiRequest(`/messages/${messageId}/delete-for-everyone`, {
+      method: 'POST',
+    });
+  },
 };
