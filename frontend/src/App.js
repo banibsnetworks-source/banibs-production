@@ -78,6 +78,8 @@ import BusinessProfileEdit from "./pages/business/BusinessProfileEdit";
 import BusinessProfilePublic from "./pages/business/BusinessProfilePublic";
 // Phase 8.3 - Business Board
 import BusinessBoardPage from "./pages/business/BusinessBoardPage";
+// Phase 3.0 - BANIBS Connect (Messaging)
+import { MessagingHomePage } from "./pages/messaging/MessagingHomePage";
 // High Five Emoji System
 import HighFiveDemo from "./pages/test/HighFiveDemo";
 import EmojiTestPage from "./pages/test/EmojiTestPage";
