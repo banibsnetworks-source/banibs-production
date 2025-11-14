@@ -1,7 +1,9 @@
-import React from 'react';
-import { Phone, Video, Info, Users, Briefcase } from 'lucide-react';
+import React, { useState } from 'react';
+import { Phone, Video, Info, Users, Briefcase, Search, X } from 'lucide-react';
 
-export function ConversationHeader({ conversation, onStartCall, onShowInfo }) {
+export function ConversationHeader({ conversation, onStartCall, onShowInfo, onSearch }) {
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   return (
     <div className="border-b border-border bg-card px-4 py-3">
       <div className="flex items-center justify-between">
