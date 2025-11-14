@@ -3,6 +3,27 @@ from typing import Optional, List
 from services.jwt_service import JWTService  # Phase 6.0 - Unified JWT
 from db.unified_users import get_user_by_id
 
+
+async def get_current_user_from_token(token: str) -> Optional[dict]:
+    """
+    Phase 3.2 - Extract and verify JWT from query parameter (for WebSocket)
+    
+    Args:
+        token: JWT token string
+    
+    Returns:
+        User data dict or None if invalid
+    """
+    # Verify token using JWT service
+    payload = JWTService.verify_token(token, token_type="access")
+    if not payload:
+        return None
+    
+    # Get full user from database
+    user = await get_user_by_id(payload["sub"])
+    return user
+
+
 async def get_current_user(authorization: Optional[str] = Header(None)):
     """
     Phase 6.0 - Extract and verify JWT from Authorization header (Unified Identity)
