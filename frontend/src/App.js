@@ -180,6 +180,8 @@ function App() {
               {/* Phase 3.0 - BANIBS Connect Messaging */}
               <Route path="/messages" element={<MessagingHomePage />} />
               <Route path="/messages/:conversationId" element={<MessagingHomePage />} />
+              <Route path="/portal/social/messages" element={<MessagingHomePage />} />
+              <Route path="/portal/social/messages/:conversationId" element={<MessagingHomePage />} />
               
               {/* Test Pages */}
               <Route path="/test/highfive" element={<HighFiveDemo />} />
