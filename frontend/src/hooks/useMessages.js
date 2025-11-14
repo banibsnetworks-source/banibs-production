@@ -38,9 +38,9 @@ export function useMessages(conversationId) {
     if (!conversationId || !text.trim()) return;
 
     try {
-      const newMessage = await mockApi.sendMessage(conversationId, {
-        text: text.trim(),
-        type: 'text'
+      const newMessage = await messagingApi.sendMessage(conversationId, {
+        type: 'text',
+        text: text.trim()
       });
       
       setMessages(prev => [...prev, newMessage]);
