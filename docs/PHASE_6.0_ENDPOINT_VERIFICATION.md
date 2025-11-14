@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://real-time-chat-2.preview.emergentagent.com/api/auth
+https://chatfix-project.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

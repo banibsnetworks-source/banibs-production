@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://real-time-chat-2.preview.emergentagent.com/api/admin/analytics/sentiment
+https://chatfix-project.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints
