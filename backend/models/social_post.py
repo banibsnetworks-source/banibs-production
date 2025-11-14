@@ -73,7 +73,7 @@ class SocialFeedResponse(BaseModel):
 
 class SocialCommentCreate(BaseModel):
     """Create comment request"""
-    text: str = Field(..., min_length=1, max_length=500, description="Comment text")
+    text: str = Field(..., min_length=1, max_length=2000, description="Comment text (includes emoji placeholders)")
 
 
 class SocialComment(BaseModel):
