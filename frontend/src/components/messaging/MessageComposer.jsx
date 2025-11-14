@@ -150,16 +150,6 @@ export function MessageComposer({
           <Send size={20} />
         </button>
       </div>
-      
-      {/* Inline style for placeholder */}
-      <style>{`
-        [contenteditable][data-placeholder]:empty:before {
-          content: attr(data-placeholder);
-          color: hsl(var(--muted-foreground));
-          pointer-events: none;
-          position: absolute;
-        }
-      `}</style>
     </div>
   );
 }
