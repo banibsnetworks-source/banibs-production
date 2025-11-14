@@ -12,7 +12,7 @@ const NotificationsPage = () => {
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('access_token');
     if (!token) {
       navigate('/login');
       return;
@@ -24,7 +24,7 @@ const NotificationsPage = () => {
   const fetchUserAndNotifications = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('accessToken');
+      const token = localStorage.getItem('access_token');
 
       const [userRes, notifsRes] = await Promise.all([
         fetch(`${BACKEND_URL}/api/auth/me`, {
