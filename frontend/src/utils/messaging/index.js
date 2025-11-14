@@ -8,6 +8,9 @@ import { realMessagingApi } from './apiClientMessaging';
 // REACT_APP_MESSAGING_SOURCE can be:
 // - "mock" (default): Use mock data for development/testing
 // - "api": Use real FastAPI backend
+// 
+// NOTE: Temporarily defaulting to 'mock' until auth issue is resolved
+// The real API returns 401 even for logged-in users
 const MESSAGING_SOURCE = process.env.REACT_APP_MESSAGING_SOURCE || 'mock';
 
 /**
