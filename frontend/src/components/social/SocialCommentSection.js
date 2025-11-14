@@ -176,15 +176,21 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
         {/* Comment Input */}
         <div className="flex-1 relative">
           <div className="flex items-center space-x-1">
-            <input
+            <textarea
               ref={inputRef}
-              type="text"
               value={commentText}
               onChange={(e) => setCommentText(e.target.value)}
               placeholder="Write a comment..."
-              maxLength={500}
+              maxLength={2000}
               disabled={isSubmitting}
-              className="flex-1 bg-background text-foreground rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground border border-input focus:border-yellow-500 focus:outline-none focus:ring-1 focus:ring-yellow-500 transition-all"
+              rows={1}
+              className="flex-1 bg-background text-foreground rounded-lg px-3 py-2 text-sm placeholder:text-muted-foreground border border-input focus:border-yellow-500 focus:outline-none focus:ring-1 focus:ring-yellow-500 transition-all resize-none"
+              style={{ minHeight: '38px', maxHeight: '120px' }}
+              onInput={(e) => {
+                // Auto-resize textarea
+                e.target.style.height = 'auto';
+                e.target.style.height = Math.min(e.target.scrollHeight, 120) + 'px';
+              }}
             />
             <div className="relative">
               <button
