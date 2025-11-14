@@ -102,7 +102,7 @@ export const mockConversations = [
 ];
 
 // --- Messages per Conversation ---
-export const mockMessages: Record<string, Message[]> = {
+export const mockMessages = {
   c_dm_001: [
     {
       id: "m1",
