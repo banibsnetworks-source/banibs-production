@@ -1,0 +1,1 @@
+export { MessagingHomePage } from './MessagingHomePage';
