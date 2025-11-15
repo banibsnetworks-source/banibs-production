@@ -7884,3 +7884,62 @@ The backend was sending datetime objects in the API response, which were being s
 ✅ No "Invalid time" errors appear
 ✅ Console has no timestamp parsing errors
 
+
+---
+## Theme Flicker Fix - Create Conversation (2025-11-15)
+
+**ISSUE REPORTED:**
+User reported that when clicking "Create" in either Direct Message or Group Message modal, the page briefly flashes from dark mode to light mode and back to dark mode. The theme stays dark overall, but there's a momentary flicker during conversation creation.
+
+**ROOT CAUSE:**
+The `handleCreateConversation` function was using `window.location.reload()` to refresh the conversation list after creating a new conversation. This hard reload:
+1. Unmounts all React components
+2. Reloads the entire page
+3. Causes theme initialization to run again
+4. Creates the visible dark → light → dark flash
+
+**SOLUTION IMPLEMENTED:**
+
+### Changes to `/app/frontend/src/hooks/useConversations.js`:
+- Extracted `fetchConversations` function to be reusable
+- Added `refetch` method to the hook's return value
+- This allows components to manually refresh the conversation list without page reload
+
+### Changes to `/app/frontend/src/pages/messaging/MessagingHomePage.jsx`:
+- Destructured `refetch` (renamed to `refetchConversations`) from `useConversations` hook
+- Replaced `window.location.reload()` with `await refetchConversations()`
+- Flow now:
+  1. Create conversation via API
+  2. Refresh conversation list (updates React state)
+  3. Navigate to new conversation
+  4. NO page reload - smooth transition!
+
+**TECHNICAL BENEFITS:**
+- Eliminates page reload, preventing theme flicker
+- Faster UX - no full page refresh needed
+- Maintains React component state
+- Theme context persists throughout
+- More React-idiomatic approach
+
+**TESTING STATUS:**
+- ✅ Frontend service restarted successfully
+- ⏳ Pending user verification
+
+**USER TESTING INSTRUCTIONS:**
+1. Hard refresh browser (Ctrl+Shift+R / Cmd+Shift+R)
+2. Click "+" to create a new conversation
+3. Select Direct Message or Group Chat
+4. Choose participants and create
+5. Observe:
+   - NO dark-to-light-to-dark flash
+   - Smooth transition to new conversation
+   - Conversation appears in list immediately
+   - Theme remains consistent throughout
+
+**EXPECTED BEHAVIOR:**
+✅ Create conversation button works normally
+✅ New conversation appears in list smoothly
+✅ No theme flicker or flash
+✅ No page reload
+✅ Seamless user experience
+
