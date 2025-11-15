@@ -145,7 +145,7 @@ async def create_conversation(
     business_id: Optional[str] = None,
 ) -> Dict[str, Any]:
     """Create a new conversation."""
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     conv = Conversation(
         type=type_,
         participant_ids=participant_ids,
@@ -179,7 +179,7 @@ async def send_message(
     if not conv:
         return None
 
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     msg = Message(
         conversation_id=conversation_id,
         sender_id=sender_id,
