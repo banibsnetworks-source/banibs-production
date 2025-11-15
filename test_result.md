@@ -7755,3 +7755,65 @@ User reported that Create Conversation was working (modal opens, users can be se
 - Old conversations created with mock user IDs may still show "Direct Message" title (database contains invalid participant IDs)
 - Recommend testing with a fresh conversation to verify the fix
 
+
+---
+## Group Participants Display Feature (2025-11-15)
+
+**ISSUE REPORTED:**
+User reported that after creating a group conversation, there was no way to tell who is in the group.
+
+**SOLUTION IMPLEMENTED:**
+
+### Backend Enhancement:
+1. Updated `transform_conversation_for_api()` in `/app/backend/services/messaging_service.py`:
+   - Now fetches ALL participant details from `banibs_users` collection
+   - Adds `participants` array to conversation object containing: id, name, email, avatar_url
+   - Adds `participant_count` field for quick reference
+   - Optimized by fetching all participants in a single database query
+
+### Frontend Updates:
+1. **ConversationHeader.jsx** - Enhanced group conversation display:
+   - Shows participant names inline: "Alice, Bob, Carol (3 members)"
+   - Added "Users" icon button to toggle participant details panel
+   - Created expandable participants panel showing:
+     - Full list of group members
+     - Avatar (initial letter) for each member
+     - Member name and email
+     - Scrollable list (max height 48px) for large groups
+   - Button highlights when panel is open (yellow)
+
+**NEW FEATURES:**
+- **Group Member List:** Click the "Users" icon in the conversation header to see all group members
+- **Inline Member Names:** Group conversation subtitle shows all participant names
+- **Member Count:** Shows "(X members)" count
+- **Visual Avatars:** Each member has a colored avatar with their initial
+
+**TESTING STATUS:**
+- ⏳ Pending user testing
+- Backend service restarted successfully
+- Frontend compiled without errors
+
+**USER TESTING INSTRUCTIONS:**
+1. Hard refresh browser (Ctrl+Shift+R / Cmd+Shift+R)
+2. Open an existing group conversation OR create a new one
+3. Check the conversation header:
+   - Subtitle should show: "Name1, Name2, Name3 (X members)"
+4. Click the "Users" icon (next to search icon)
+5. Verify:
+   - Participant panel slides down
+   - All group members are listed with names and emails
+   - Can close panel by clicking X or Users icon again
+
+**EXPECTED BEHAVIOR:**
+✅ Group conversations show participant names in header
+✅ Users icon button available for groups (not for DMs)
+✅ Clicking Users icon opens/closes member list panel
+✅ Panel shows all participants with avatars, names, emails
+✅ DM conversations continue to show just the other person's name
+
+**TECHNICAL NOTES:**
+- Backend now includes participant details in ALL conversation responses
+- This is efficient as participant data is already needed for DM title generation
+- Frontend gracefully handles missing participant data (shows count only)
+- Panel is scrollable for groups with many members
+
