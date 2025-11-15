@@ -48,16 +48,29 @@ async function apiRequest(endpoint, options = {}) {
     headers,
   });
   
-  // Clone response immediately to avoid "body already used" errors from rrweb recorder
-  const responseClone = response.clone();
-  
   console.log('📥 [Messaging API] Response received:', {
     status: response.status,
     statusText: response.statusText,
     endpoint
   });
   
-  if (response.status === 401) {
+  // Consume response body immediately to avoid rrweb recorder conflicts
+  const status = response.status;
+  const statusText = response.statusText;
+  const ok = response.ok;
+  
+  // Read body as text first (avoids clone issues with rrweb)
+  let responseText = '';
+  if (status !== 204) {
+    try {
+      responseText = await response.text();
+    } catch (error) {
+      console.error('❌ [Messaging API] Failed to read response body:', error);
+      throw new Error('Failed to read response');
+    }
+  }
+  
+  if (status === 401) {
     console.error('🚫 [Messaging API] 401 Unauthorized - Token invalid or missing');
     console.log('🔍 [Messaging API] All localStorage keys:', Object.keys(localStorage));
     console.log('🔍 [Messaging API] Token that was sent:', token ? `${token.substring(0, 50)}...` : 'NONE');
@@ -68,17 +81,28 @@ async function apiRequest(endpoint, options = {}) {
     throw new Error('Unauthorized');
   }
   
-  if (!response.ok) {
-    const error = await responseClone.json().catch(() => ({ detail: 'Unknown error' }));
+  if (!ok) {
+    let error;
+    try {
+      error = JSON.parse(responseText);
+    } catch {
+      error = { detail: 'Unknown error' };
+    }
     console.error('❌ [Messaging API] Request failed:', error);
-    throw new Error(error.detail || `HTTP ${response.status}`);
+    throw new Error(error.detail || `HTTP ${status}`);
   }
   
-  if (response.status === 204) {
+  if (status === 204) {
     return null; // No content
   }
   
-  return responseClone.json();
+  // Parse JSON from text
+  try {
+    return JSON.parse(responseText);
+  } catch (error) {
+    console.error('❌ [Messaging API] Failed to parse JSON:', error);
+    throw new Error('Invalid JSON response');
+  }
 }
 
 /**
