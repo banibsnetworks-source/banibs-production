@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://chatfix-project.preview.emergentagent.com/api/auth
+https://messenger-polish.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
