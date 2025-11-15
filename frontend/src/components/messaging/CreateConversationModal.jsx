@@ -194,7 +194,7 @@ export function CreateConversationModal({ isOpen, onClose, onCreateConversation 
                         key={user.id}
                         className="flex items-center space-x-1 bg-yellow-500 text-black px-2 py-1 rounded-full text-xs font-medium"
                       >
-                        <span>{user.display_name}</span>
+                        <span>{user.name}</span>
                         <button
                           onClick={() => toggleParticipant(user)}
                           className="hover:bg-black/10 rounded-full p-0.5"
