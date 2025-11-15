@@ -180,8 +180,10 @@ export function MessagingHomePage() {
             onSelect={handleSelectConversation}
             onCreateNew={() => setCreateModalOpen(true)}
             onDeselectAll={() => {
+              console.log('[MessagingHomePage] Deselecting conversation, current:', activeConversationId);
               setActiveConversationId(null);
               navigate('/messages');
+              console.log('[MessagingHomePage] Navigated to /messages, activeConversationId set to null');
             }}
           />
         </div>
