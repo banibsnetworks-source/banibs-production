@@ -4,6 +4,7 @@ import { Phone, Video, Info, Users, Briefcase, Search, X, UserCircle } from 'luc
 export function ConversationHeader({ conversation, onStartCall, onShowInfo, onSearch }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showParticipants, setShowParticipants] = useState(false);
   return (
     <div className="border-b border-border bg-card px-4 py-3">
       <div className="flex items-center justify-between">
