@@ -8155,3 +8155,70 @@ Once cache is cleared, user should see:
 **TECHNICAL NOTE:**
 This is a common issue in web development where browser caching can prevent users from seeing updated JavaScript. The code is correct and deployed; it's purely a client-side cache issue.
 
+
+---
+## RRWEB Recorder Conflict - Complete Fix (2025-11-15)
+
+**ISSUE:**
+The rrweb recorder script continues to cause "Response body is already used" errors, preventing conversations from loading even in incognito mode.
+
+**ROOT CAUSE ANALYSIS:**
+The rrweb recorder wraps `window.fetch` to record network activity. When it intercepts fetch responses, it tries to clone them for recording. Response bodies are streams and can only be read once. The conflict occurs because:
+1. rrweb intercepts the fetch
+2. rrweb tries to clone the response to record it
+3. Our code tries to use the response
+4. Body has already been consumed/cloned, causing error
+
+**PREVIOUS FIX ATTEMPT (Failed):**
+Tried cloning the response in our code (`response.clone()`), but this doesn't help because rrweb may have already consumed the body before we get it.
+
+**NEW SOLUTION:**
+Complete rewrite of response handling to consume the body immediately as TEXT before rrweb can interfere:
+
+1. **Read as text first**: `await response.text()` - consumes body immediately
+2. **Store response properties**: Save status, statusText, ok before body is consumed
+3. **Parse JSON manually**: Use `JSON.parse(responseText)` instead of `response.json()`
+4. **No cloning needed**: We work with the text directly
+
+**CHANGES in `/app/frontend/src/utils/messaging/apiClientMessaging.js`:**
+```javascript
+// OLD (using response.json() - conflicts with rrweb)
+const response = await fetch(...);
+const responseClone = response.clone(); // Fails if rrweb already cloned
+return responseClone.json();
+
+// NEW (consuming body as text immediately)
+const response = await fetch(...);
+const responseText = await response.text(); // Consume immediately
+return JSON.parse(responseText); // Parse manually
+```
+
+**WHY THIS WORKS:**
+- Reads response body immediately before rrweb can interfere
+- Text consumption is immediate and doesn't require cloning
+- rrweb can still do its recording on the already-consumed response
+- No "body already used" errors because we consume it first
+
+**TESTING STATUS:**
+- ✅ Frontend service restarted
+- ✅ Code compiled successfully  
+- ⏳ User testing in incognito mode required
+
+**USER TESTING INSTRUCTIONS:**
+1. **Open fresh incognito window** (Ctrl+Shift+N)
+2. Navigate to: https://chatfix-project.preview.emergentagent.com/messages
+3. Open console (F12) - should see NO errors
+4. Log in
+5. Verify conversations load successfully
+6. Verify all new UI elements appear:
+   - Skeleton loaders when page loads
+   - Large yellow chat icon when no conversation selected
+   - "Get Started" card with 3 steps
+   - Enhanced empty states with icons
+
+**EXPECTED RESULTS:**
+✅ No "Response body is already used" errors
+✅ Conversations load normally
+✅ All new loading/empty states visible
+✅ rrweb recorder continues to function
+
