@@ -4,9 +4,10 @@ from typing import List, Optional, Dict, Any
 
 from models.messaging_conversation import Conversation
 from models.messaging_message import Message
+from db.connection import get_db
 
 
-def transform_conversation_for_api(conv: Conversation) -> Dict[str, Any]:
+async def transform_conversation_for_api(conv: Conversation, current_user_id: str) -> Dict[str, Any]:
     """Transform a Conversation document for API response (frontend compatibility)"""
     # Use model_dump to get dict representation
     data = conv.model_dump(by_alias=False)
@@ -18,9 +19,28 @@ def transform_conversation_for_api(conv: Conversation) -> Dict[str, Any]:
     if "_id" in data:
         del data["_id"]
     
-    # Generate title for DMs if not set
+    # Generate title for DMs based on the other participant's name
     if conv.type == "dm" and not data.get("title"):
-        data["title"] = "Direct Message"
+        # Find the other participant (not the current user)
+        other_participant_id = None
+        for p_id in conv.participant_ids:
+            if p_id != current_user_id:
+                other_participant_id = p_id
+                break
+        
+        if other_participant_id:
+            # Fetch the other user's name from database
+            db = await get_db()
+            other_user = await db.banibs_users.find_one(
+                {"id": other_participant_id},
+                {"_id": 0, "name": 1}
+            )
+            if other_user and other_user.get("name"):
+                data["title"] = other_user["name"]
+            else:
+                data["title"] = "Direct Message"
+        else:
+            data["title"] = "Direct Message"
     
     return data
 
