@@ -5,9 +5,6 @@
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API_BASE = `${BACKEND_URL}/api/messaging`;
 
-// Store original fetch to bypass rrweb recorder wrapper
-const originalFetch = window.fetch.bind(window);
-
 /**
  * Get auth token from localStorage
  */
