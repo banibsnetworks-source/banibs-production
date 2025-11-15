@@ -6,6 +6,23 @@ export function useConversations() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const fetchConversations = async () => {
+    try {
+      console.log('📞 [useConversations] Starting to fetch conversations...');
+      setLoading(true);
+      const data = await messagingApi.getConversations();
+      console.log('✅ [useConversations] Conversations fetched successfully:', data?.length || 0, 'conversations');
+      setConversations(data);
+      return data;
+    } catch (err) {
+      console.error('❌ [useConversations] Failed to fetch conversations:', err);
+      setError('Failed to load conversations');
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     console.log('🎣 [useConversations] Hook initialized');
     console.log('🔍 [useConversations] Checking localStorage on mount:', {
@@ -13,21 +30,6 @@ export function useConversations() {
       allKeys: Object.keys(localStorage)
     });
     
-    const fetchConversations = async () => {
-      try {
-        console.log('📞 [useConversations] Starting to fetch conversations...');
-        setLoading(true);
-        const data = await messagingApi.getConversations();
-        console.log('✅ [useConversations] Conversations fetched successfully:', data?.length || 0, 'conversations');
-        setConversations(data);
-      } catch (err) {
-        console.error('❌ [useConversations] Failed to fetch conversations:', err);
-        setError('Failed to load conversations');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchConversations();
   }, []);
 
@@ -38,5 +40,7 @@ export function useConversations() {
     );
   };
 
-  return { conversations, loading, error, markAsRead };
+  const refetch = fetchConversations;
+
+  return { conversations, loading, error, markAsRead, refetch };
 }
