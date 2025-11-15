@@ -17,7 +17,14 @@ export function MessageList({
     messagesCount: messages?.length || 0,
     loading,
     currentUserId,
-    messages: messages?.map(m => ({ id: m.id, text: m.text?.substring(0, 30), direction: m.direction, senderId: m.senderId }))
+    messages: messages?.map(m => ({ 
+      id: m.id, 
+      text: m.text?.substring(0, 30), 
+      direction: m.direction, 
+      senderId: m.senderId,
+      createdAt: m.createdAt,
+      hasTimestamp: !!m.createdAt
+    }))
   });
 
   const scrollToBottom = () => {
