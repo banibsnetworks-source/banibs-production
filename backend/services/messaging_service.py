@@ -1,5 +1,5 @@
 # backend/services/messaging_service.py
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional, Dict, Any
 
 from models.messaging_conversation import Conversation
