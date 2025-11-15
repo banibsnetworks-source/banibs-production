@@ -44,10 +44,17 @@ export function useMessages(conversationId) {
         text: text.trim()
       });
       
-      setMessages(prev => [...prev, newMessage]);
+      // Add direction field based on current user
+      const messageWithDirection = {
+        ...newMessage,
+        direction: newMessage.senderId === user?.id ? 'outgoing' : 'incoming'
+      };
+      
+      console.log('[useMessages] New message sent:', messageWithDirection);
+      setMessages(prev => [...prev, messageWithDirection]);
     } catch (err) {
       setError('Failed to send message');
-      console.error(err);
+      console.error('[useMessages] Send message error:', err);
     }
   };
 
