@@ -76,8 +76,12 @@ async def get_user_conversations(user_id: str) -> List[Dict[str, Any]]:
         Conversation.participant_ids == user_id
     ).sort(-Conversation.last_message_at).to_list()
     
-    # Transform for frontend compatibility
-    return [transform_conversation_for_api(conv) for conv in conversations]
+    # Transform for frontend compatibility with proper titles for DMs
+    transformed = []
+    for conv in conversations:
+        transformed_conv = await transform_conversation_for_api(conv, user_id)
+        transformed.append(transformed_conv)
+    return transformed
 
 
 async def get_conversation_for_user(
