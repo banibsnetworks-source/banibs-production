@@ -133,6 +133,7 @@ async def create_conversation_route(
     conv = await create_conversation(
         type_=payload.type,
         participant_ids=list(participant_ids),
+        creator_user_id=user_id,
         title=payload.title,
         business_id=payload.business_id,
     )
