@@ -22,17 +22,29 @@ export function useMessages(conversationId) {
 
     const fetchMessages = async () => {
       try {
+        console.log('[useMessages] Fetching messages for conversation:', conversationId);
         setLoading(true);
         const data = await messagingApi.getMessages(conversationId);
+        console.log('[useMessages] Received messages from API:', {
+          count: data.length,
+          messages: data
+        });
+        
         // Automatically set direction based on senderId
         const messagesWithDirection = data.map(msg => ({
           ...msg,
           direction: msg.senderId === user?.id ? 'outgoing' : 'incoming'
         }));
+        
+        console.log('[useMessages] Messages with direction:', {
+          userId: user?.id,
+          messagesWithDirection
+        });
+        
         setMessages(messagesWithDirection);
       } catch (err) {
         setError('Failed to load messages');
-        console.error(err);
+        console.error('[useMessages] Fetch error:', err);
       } finally {
         setLoading(false);
       }
