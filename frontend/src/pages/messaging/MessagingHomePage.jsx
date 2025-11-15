@@ -57,8 +57,10 @@ export function MessagingHomePage() {
     navigate(`/messages/${id}`);
   };
 
-  const handleSendMessage = (text) => {
-    sendMessage(text);
+  const handleSendMessage = async (text) => {
+    await sendMessage(text);
+    // Refresh conversations list to update sidebar with new message preview
+    await refetchConversations();
   };
 
   const handleDeleteForMe = (message) => {
