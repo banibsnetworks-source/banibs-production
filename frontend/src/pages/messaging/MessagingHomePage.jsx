@@ -220,16 +220,29 @@ export function MessagingHomePage() {
                   </div>
                   
                   {isSearching ? (
-                    <div className="text-center py-8 text-muted-foreground">
-                      Searching...
+                    <div className="flex flex-col items-center justify-center py-12">
+                      <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                      <p className="text-muted-foreground">Searching messages...</p>
                     </div>
                   ) : searchError ? (
-                    <div className="text-center py-8 text-red-500">
-                      {searchError}
+                    <div className="flex flex-col items-center justify-center py-12">
+                      <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center mb-4">
+                        <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
+                      <p className="text-red-500 font-semibold mb-1">Search Failed</p>
+                      <p className="text-sm text-muted-foreground">{searchError}</p>
                     </div>
                   ) : searchResults.length === 0 ? (
-                    <div className="text-center py-8 text-muted-foreground">
-                      No messages found
+                    <div className="flex flex-col items-center justify-center py-12">
+                      <div className="w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center mb-4">
+                        <svg className="w-8 h-8 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                      </div>
+                      <p className="text-foreground font-semibold mb-1">No messages found</p>
+                      <p className="text-sm text-muted-foreground">Try a different search term</p>
                     </div>
                   ) : (
                     <div className="space-y-3">
