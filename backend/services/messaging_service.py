@@ -4,7 +4,7 @@ from typing import List, Optional, Dict, Any
 
 from models.messaging_conversation import Conversation
 from models.messaging_message import Message
-from db.connection import get_db
+from db.connection import get_db_client
 
 
 async def transform_conversation_for_api(conv: Conversation, current_user_id: str) -> Dict[str, Any]:
@@ -30,7 +30,7 @@ async def transform_conversation_for_api(conv: Conversation, current_user_id: st
         
         if other_participant_id:
             # Fetch the other user's name from database
-            db = await get_db()
+            db = get_db_client()
             other_user = await db.banibs_users.find_one(
                 {"id": other_participant_id},
                 {"_id": 0, "name": 1}
