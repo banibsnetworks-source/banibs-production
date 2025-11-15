@@ -211,4 +211,22 @@ export const realMessagingApi = {
     
     return apiRequest(`/messages/search?${params.toString()}`);
   },
+
+  /**
+   * Search for users to start a conversation with
+   * @param {string} query - Search query for user name or email
+   * @param {number} [limit=20] - Results limit
+   * @returns {Promise<Array>}
+   */
+  searchUsers: async (query = '', limit = 20) => {
+    const params = new URLSearchParams({ limit: limit.toString() });
+    if (query) {
+      params.append('q', query);
+    }
+    console.log('🔍 [Messaging API] Searching users with query:', query);
+    const result = await apiRequest(`/users/search?${params.toString()}`);
+    console.log('✅ [Messaging API] Found users:', result.length);
+    return result;
+  },
+
 };
