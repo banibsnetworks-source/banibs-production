@@ -16,8 +16,11 @@ export function ConversationList({ conversations, activeConversationId, onSelect
       <div className="p-4 border-b border-border">
         <div className="flex items-center justify-between mb-3">
           <button 
-            onClick={onDeselectAll}
-            className="text-xl font-bold text-foreground hover:text-yellow-500 transition-colors cursor-pointer"
+            onClick={() => {
+              console.log('[ConversationList] Messages heading clicked - deselecting all');
+              if (onDeselectAll) onDeselectAll();
+            }}
+            className="text-xl font-bold text-foreground hover:text-yellow-500 transition-colors bg-transparent border-none p-0 text-left"
             title="Back to overview"
           >
             Messages
