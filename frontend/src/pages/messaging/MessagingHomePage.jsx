@@ -179,6 +179,10 @@ export function MessagingHomePage() {
             activeConversationId={activeConversationId}
             onSelect={handleSelectConversation}
             onCreateNew={() => setCreateModalOpen(true)}
+            onDeselectAll={() => {
+              setActiveConversationId(null);
+              navigate('/messages');
+            }}
           />
         </div>
       </div>
