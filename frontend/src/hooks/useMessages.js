@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 import { messagingApi } from '../utils/messaging';
-import { mockUser } from '../utils/messaging/mockApi';
 
 export function useMessages(conversationId) {
+  const { user } = useAuth();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
