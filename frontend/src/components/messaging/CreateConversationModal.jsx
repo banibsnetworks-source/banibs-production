@@ -242,7 +242,8 @@ export function CreateConversationModal({ isOpen, onClose, onCreateConversation 
                         )}
                       </button>
                     );
-                  })}
+                  })
+                  )}
                 </div>
               </div>
             </div>
