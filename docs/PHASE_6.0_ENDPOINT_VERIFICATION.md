@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://messenger-polish.preview.emergentagent.com/api/auth
+https://banibs-connect.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

@@ -190,7 +190,7 @@ CLOUDFRONT_URL="https://cdn.example.com"
 
 **Frontend (`.env`):**
 ```env
-REACT_APP_BACKEND_URL=https://messenger-polish.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://banibs-connect.preview.emergentagent.com
 ```
 
 ---
