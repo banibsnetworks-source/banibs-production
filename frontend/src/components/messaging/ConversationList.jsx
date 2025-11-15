@@ -18,9 +18,24 @@ export function ConversationList({ conversations, activeConversationId, onSelect
           <button 
             onClick={() => {
               console.log('[ConversationList] Messages heading clicked - deselecting all');
-              if (onDeselectAll) onDeselectAll();
+              if (onDeselectAll) {
+                onDeselectAll();
+              } else {
+                console.error('[ConversationList] onDeselectAll is not defined!');
+              }
             }}
-            className="text-xl font-bold text-foreground hover:text-yellow-500 transition-colors bg-transparent border-none p-0 text-left"
+            style={{
+              fontSize: '1.25rem',
+              fontWeight: 'bold',
+              background: 'transparent',
+              border: 'none',
+              padding: 0,
+              textAlign: 'left',
+              cursor: 'pointer',
+              transition: 'color 0.2s'
+            }}
+            onMouseEnter={(e) => e.target.style.color = '#EAB308'} // yellow-500
+            onMouseLeave={(e) => e.target.style.color = ''} // reset to default
             title="Back to overview"
           >
             Messages
