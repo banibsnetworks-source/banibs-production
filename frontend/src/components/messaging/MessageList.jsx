@@ -121,6 +121,15 @@ export function MessageList({
     );
   }
 
+  console.log('[MessageList] Grouped messages:', {
+    groupCount: Object.keys(groupedMessages).length,
+    groups: Object.entries(groupedMessages).map(([date, msgs]) => ({
+      date,
+      messageCount: msgs.length,
+      messageIds: msgs.map(m => m.id)
+    }))
+  });
+
   return (
     <div 
       ref={containerRef}
