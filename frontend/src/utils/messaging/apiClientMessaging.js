@@ -22,7 +22,7 @@ function getAuthToken() {
 }
 
 /**
- * Make authenticated request to messaging API
+ * Make authenticated request to messaging API using XMLHttpRequest to avoid rrweb conflicts
  */
 async function apiRequest(endpoint, options = {}) {
   const token = getAuthToken();
@@ -34,79 +34,96 @@ async function apiRequest(endpoint, options = {}) {
     fullUrl: `${API_BASE}${endpoint}`
   });
   
-  const headers = {
-    'Content-Type': 'application/json',
-    ...options.headers,
-  };
-  
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-    console.log('✅ [Messaging API] Authorization header added');
-  } else {
-    console.warn('⚠️ [Messaging API] NO TOKEN AVAILABLE - Request will fail!');
-  }
-  
-  // Use original fetch to bypass rrweb recorder wrapper
-  const response = await originalFetch(`${API_BASE}${endpoint}`, {
-    ...options,
-    headers,
-  });
-  
-  console.log('📥 [Messaging API] Response received:', {
-    status: response.status,
-    statusText: response.statusText,
-    endpoint
-  });
-  
-  // Consume response body immediately to avoid rrweb recorder conflicts
-  const status = response.status;
-  const statusText = response.statusText;
-  const ok = response.ok;
-  
-  // Read body as text first (avoids clone issues with rrweb)
-  let responseText = '';
-  if (status !== 204) {
-    try {
-      responseText = await response.text();
-    } catch (error) {
-      console.error('❌ [Messaging API] Failed to read response body:', error);
-      throw new Error('Failed to read response');
-    }
-  }
-  
-  if (status === 401) {
-    console.error('🚫 [Messaging API] 401 Unauthorized - Token invalid or missing');
-    console.log('🔍 [Messaging API] All localStorage keys:', Object.keys(localStorage));
-    console.log('🔍 [Messaging API] Token that was sent:', token ? `${token.substring(0, 50)}...` : 'NONE');
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    const method = options.method || 'GET';
+    const url = `${API_BASE}${endpoint}`;
     
-    // Handle unauthorized - redirect to login
-    localStorage.removeItem('access_token');
-    window.location.href = '/login?session_expired=true';
-    throw new Error('Unauthorized');
-  }
-  
-  if (!ok) {
-    let error;
-    try {
-      error = JSON.parse(responseText);
-    } catch {
-      error = { detail: 'Unknown error' };
+    xhr.open(method, url, true);
+    
+    // Set headers
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    if (token) {
+      xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+      console.log('✅ [Messaging API] Authorization header added');
+    } else {
+      console.warn('⚠️ [Messaging API] NO TOKEN AVAILABLE - Request will fail!');
     }
-    console.error('❌ [Messaging API] Request failed:', error);
-    throw new Error(error.detail || `HTTP ${status}`);
-  }
-  
-  if (status === 204) {
-    return null; // No content
-  }
-  
-  // Parse JSON from text
-  try {
-    return JSON.parse(responseText);
-  } catch (error) {
-    console.error('❌ [Messaging API] Failed to parse JSON:', error);
-    throw new Error('Invalid JSON response');
-  }
+    
+    // Set custom headers from options
+    if (options.headers) {
+      Object.keys(options.headers).forEach(key => {
+        if (key !== 'Content-Type') { // Already set
+          xhr.setRequestHeader(key, options.headers[key]);
+        }
+      });
+    }
+    
+    xhr.onload = function() {
+      console.log('📥 [Messaging API] Response received:', {
+        status: xhr.status,
+        statusText: xhr.statusText,
+        endpoint
+      });
+      
+      // Handle 401 Unauthorized
+      if (xhr.status === 401) {
+        console.error('🚫 [Messaging API] 401 Unauthorized - Token invalid or missing');
+        console.log('🔍 [Messaging API] All localStorage keys:', Object.keys(localStorage));
+        console.log('🔍 [Messaging API] Token that was sent:', token ? `${token.substring(0, 50)}...` : 'NONE');
+        
+        localStorage.removeItem('access_token');
+        window.location.href = '/login?session_expired=true';
+        reject(new Error('Unauthorized'));
+        return;
+      }
+      
+      // Handle 204 No Content
+      if (xhr.status === 204) {
+        resolve(null);
+        return;
+      }
+      
+      // Handle error responses
+      if (xhr.status < 200 || xhr.status >= 300) {
+        let error;
+        try {
+          error = JSON.parse(xhr.responseText);
+        } catch {
+          error = { detail: 'Unknown error' };
+        }
+        console.error('❌ [Messaging API] Request failed:', error);
+        reject(new Error(error.detail || `HTTP ${xhr.status}`));
+        return;
+      }
+      
+      // Parse successful response
+      try {
+        const data = JSON.parse(xhr.responseText);
+        resolve(data);
+      } catch (error) {
+        console.error('❌ [Messaging API] Failed to parse JSON:', error);
+        reject(new Error('Invalid JSON response'));
+      }
+    };
+    
+    xhr.onerror = function() {
+      console.error('❌ [Messaging API] Network error');
+      reject(new Error('Network error'));
+    };
+    
+    xhr.ontimeout = function() {
+      console.error('❌ [Messaging API] Request timeout');
+      reject(new Error('Request timeout'));
+    };
+    
+    // Send request
+    if (options.body) {
+      xhr.send(options.body);
+    } else {
+      xhr.send();
+    }
+  });
 }
 
 /**
