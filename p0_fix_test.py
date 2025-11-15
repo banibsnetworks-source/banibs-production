@@ -61,7 +61,7 @@ def test_sidebar_conversation_list_realtime_updates():
     
     # Step 1: Login with test credentials
     test_email = "social_test_user@example.com"
-    test_password = "test_password"
+    test_password = "TestPass123!"
     
     response = make_request("POST", "/auth/login", {
         "email": test_email,
