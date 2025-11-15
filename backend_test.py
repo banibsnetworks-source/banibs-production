@@ -8225,7 +8225,7 @@ def main():
 if __name__ == "__main__":
     tester = BanibsAPITester()
     
-    # Run Phase 3.1 - BANIBS Connect Messaging API tests
-    success = tester.run_messaging_tests()
+    # Run P0 Fix Test - Sidebar conversation list real-time updates
+    success = tester.run_p0_fix_test()
     
     sys.exit(0 if success else 1)
