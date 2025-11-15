@@ -92,7 +92,7 @@ async def get_conversation_for_user(
     conv = await _get_conversation_raw(conversation_id, user_id)
     if not conv:
         return None
-    return transform_conversation_for_api(conv)
+    return await transform_conversation_for_api(conv, user_id)
 
 
 async def get_messages_for_conversation(
