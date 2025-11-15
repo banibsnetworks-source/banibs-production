@@ -8436,3 +8436,79 @@ When user navigates to /messages without selecting a conversation:
 ✅ Clicking returns to empty state overview
 ✅ Can toggle between conversation and overview smoothly
 
+
+---
+## P0/P1 Fixes - Timestamp & Messages Heading (2025-11-15)
+
+**FIXES APPLIED:**
+
+### P0: Server Timestamp Issue
+**Problem:** All timestamps showing "Just now" because server was using `datetime.utcnow()` which creates naive datetime objects 3-4 hours in the future.
+
+**Root Cause:**
+- `datetime.utcnow()` is deprecated and doesn't include timezone info
+- Created timezone-naive datetimes that were interpreted incorrectly
+- ISO serialization without timezone caused client-side confusion
+
+**Solution:**
+- Replaced all `datetime.utcnow()` with `datetime.now(timezone.utc)` in messaging_service.py
+- Added `timezone` import
+- All NEW messages/conversations will have correct timestamps
+
+**Note:** Existing messages in database still have old timestamps. Test with NEW conversations.
+
+### P1: Messages Heading Deselect
+**Problem:** Clicking "Messages" didn't deselect conversation or show empty state. Hover wasn't showing yellow.
+
+**Attempted Fixes:**
+- Changed from `<h2>` to `<button>`
+- Added Tailwind classes for hover:text-yellow-500
+- Issue: Classes might not be applying due to CSS specificity
+
+**New Solution:**
+- Switched to inline styles for guaranteed application
+- Added onMouseEnter/onMouseLeave handlers for yellow hover
+- Added enhanced console logging with error check
+- Explicit style object bypasses any Tailwind/CSS conflicts
+
+**TESTING INSTRUCTIONS:**
+
+### Test Timestamp Fix:
+1. Open incognito window
+2. Navigate to /messages
+3. **CREATE A NEW CONVERSATION** (existing ones have old timestamps)
+4. Send a few messages
+5. Check timestamps - should show:
+   - "Just now" for < 1 min
+   - "Xm ago" for recent
+   - Proper relative times
+6. Refresh page - timestamps should remain accurate
+
+### Test Messages Heading:
+1. Navigate to /messages  
+2. Click into a conversation
+3. **Hover over "Messages" heading** in left sidebar
+   - Should turn yellow (#EAB308)
+4. **Click "Messages" heading**
+5. **Check console** for:
+   ```
+   [ConversationList] Messages heading clicked - deselecting all
+   [MessagingHomePage] Deselecting conversation, current: [id]
+   [MessagingHomePage] Navigated to /messages, activeConversationId set to null
+   ```
+6. Main area should show:
+   - Large yellow chat icon
+   - "BANIBS Connect" heading
+   - "Quick Actions" card with 3 steps
+
+**EXPECTED RESULTS:**
+✅ NEW conversations/messages show correct relative timestamps
+✅ Messages heading turns yellow on hover
+✅ Clicking Messages returns to empty state overview
+✅ Console shows all three log messages
+✅ Can toggle: conversation → overview → conversation
+
+**KNOWN LIMITATIONS:**
+- Old messages (created before this fix) will still show incorrect times
+- Solution: Create fresh conversations for testing
+
