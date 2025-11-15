@@ -46,7 +46,8 @@ async function apiRequest(endpoint, options = {}) {
     console.warn('⚠️ [Messaging API] NO TOKEN AVAILABLE - Request will fail!');
   }
   
-  const response = await fetch(`${API_BASE}${endpoint}`, {
+  // Use original fetch to bypass rrweb recorder wrapper
+  const response = await originalFetch(`${API_BASE}${endpoint}`, {
     ...options,
     headers,
   });
