@@ -16,7 +16,7 @@ export function MessagingHomePage() {
   const { conversationId } = useParams();
   const { user } = useAuth();
   
-  const { conversations, loading: conversationsLoading, markAsRead } = useConversations();
+  const { conversations, loading: conversationsLoading, markAsRead, refetch: refetchConversations } = useConversations();
   const [activeConversationId, setActiveConversationId] = useState(conversationId || null);
   
   // Find the active conversation object
