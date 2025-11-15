@@ -224,7 +224,7 @@ export function CreateConversationModal({ isOpen, onClose, onCreateConversation 
                           {user.name.charAt(0).toUpperCase()}
                         </div>
                         <span className="text-sm font-medium text-foreground">
-                          {user.display_name}
+                          {user.name}
                         </span>
                         {isSelected && (
                           <div className="ml-auto w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center">
