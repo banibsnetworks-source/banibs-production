@@ -118,6 +118,7 @@ async def get_messages_for_conversation(
 async def create_conversation(
     type_: str,
     participant_ids: List[str],
+    creator_user_id: str,
     title: Optional[str] = None,
     business_id: Optional[str] = None,
 ) -> Dict[str, Any]:
@@ -134,7 +135,7 @@ async def create_conversation(
         updated_at=now,
     )
     await conv.insert()
-    return transform_conversation_for_api(conv)
+    return await transform_conversation_for_api(conv, creator_user_id)
 
 
 async def send_message(
