@@ -118,14 +118,14 @@ export function MessagingHomePage() {
       const newConversation = await messagingApi.createConversation(conversationData);
       console.log('[MessagingHomePage] New conversation created:', newConversation);
       
+      // Refresh conversations list to show the new conversation
+      console.log('[MessagingHomePage] Refreshing conversation list...');
+      await refetchConversations();
+      
       // Navigate to the new conversation
       setActiveConversationId(newConversation.id);
       console.log('[MessagingHomePage] Navigating to:', `/messages/${newConversation.id}`);
       navigate(`/messages/${newConversation.id}`);
-      
-      // Refresh conversations list (in a real app, this would update automatically)
-      console.log('[MessagingHomePage] Reloading page to refresh conversation list...');
-      window.location.reload();
     } catch (error) {
       console.error('[MessagingHomePage] Failed to create conversation:', error);
       console.error('[MessagingHomePage] Error details:', {
