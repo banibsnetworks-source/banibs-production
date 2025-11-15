@@ -7817,3 +7817,70 @@ User reported that after creating a group conversation, there was no way to tell
 - Frontend gracefully handles missing participant data (shows count only)
 - Panel is scrollable for groups with many members
 
+
+---
+## Timestamp Display Fix - "Invalid time" Issue (2025-11-15)
+
+**ISSUE REPORTED:**
+User reported seeing "Invalid time" instead of actual timestamps in the conversation UI after the group participant display was implemented.
+
+**ROOT CAUSE:**
+The backend was sending datetime objects in the API response, which were being serialized by Beanie's `model_dump()` in a format that JavaScript's `Date()` constructor couldn't parse correctly.
+
+**FIXES IMPLEMENTED:**
+
+### Backend Changes (`/app/backend/services/messaging_service.py`):
+1. **`transform_conversation_for_api()`**:
+   - Added conversion of `last_message_at`, `created_at`, and `updated_at` to ISO format strings
+   - Uses `.isoformat()` method for consistent date serialization
+
+2. **`transform_message_for_api()`**:
+   - Added conversion of `created_at`, `updated_at`, and `deletedAt` to ISO format strings
+   - Ensures all datetime fields are properly serialized
+
+### Frontend Changes:
+1. **`ConversationListItem.jsx`** - Enhanced `formatTime()` function:
+   - Added null/undefined check
+   - Added date validity check with `isNaN(date.getTime())`
+   - Improved error handling with try-catch
+   - Enhanced relative time formatting:
+     - "Just now" for < 1 minute
+     - "Xm ago" for < 1 hour
+     - "Xh ago" for < 24 hours
+     - "Today" / "Yesterday" labels
+     - "Month Day" format for older messages
+   - Added console error logging for debugging
+
+2. **`MessageBubble.jsx`** - Enhanced `formatTime()` function:
+   - Added null/undefined check
+   - Added date validity check
+   - Added error handling with try-catch
+   - Logs errors to console for debugging
+
+**TECHNICAL DETAILS:**
+- ISO 8601 format (`.isoformat()`) produces strings like: "2025-11-15T00:30:00.123456"
+- JavaScript's `new Date()` can reliably parse ISO 8601 strings
+- Frontend now gracefully handles invalid timestamps instead of crashing
+
+**TESTING STATUS:**
+- ✅ Backend services restarted successfully
+- ✅ Frontend compiled without errors
+- ⏳ Pending user verification
+
+**USER TESTING INSTRUCTIONS:**
+1. Hard refresh browser (Ctrl+Shift+R / Cmd+Shift+R)
+2. Check conversation list timestamps:
+   - Should show "Just now", "Xm ago", "Xh ago", "Today", "Yesterday", or date
+   - NO "Invalid time" errors
+3. Open a conversation and check message timestamps:
+   - Should show proper time (e.g., "2:30 PM")
+   - NO "Invalid time" errors
+4. Open browser console (F12) - should see no timestamp-related errors
+
+**EXPECTED BEHAVIOR:**
+✅ Conversation list shows relative timestamps (e.g., "5m ago", "2h ago", "Yesterday")
+✅ Message bubbles show exact times (e.g., "2:30 PM")
+✅ All timestamps are properly formatted
+✅ No "Invalid time" errors appear
+✅ Console has no timestamp parsing errors
+
