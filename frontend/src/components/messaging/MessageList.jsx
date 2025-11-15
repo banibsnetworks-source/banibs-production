@@ -30,20 +30,24 @@ export function MessageList({
 
   // Group messages by date
   const groupedMessages = messages.reduce((groups, message) => {
-    // Validate timestamp before creating date
+    // Use current time as fallback for messages without timestamp
+    let dateString;
+    
     if (!message.createdAt) {
-      console.warn('Message missing createdAt:', message);
-      return groups;
+      console.warn('Message missing createdAt, using fallback:', message);
+      // Use "Today" for messages without timestamp
+      dateString = new Date().toDateString();
+    } else {
+      const date = new Date(message.createdAt);
+      // Check if date is valid
+      if (isNaN(date.getTime())) {
+        console.warn('Invalid date in message, using fallback:', message.createdAt, message);
+        dateString = new Date().toDateString();
+      } else {
+        dateString = date.toDateString();
+      }
     }
     
-    const date = new Date(message.createdAt);
-    // Check if date is valid
-    if (isNaN(date.getTime())) {
-      console.warn('Invalid date in message:', message.createdAt, message);
-      return groups;
-    }
-    
-    const dateString = date.toDateString();
     if (!groups[dateString]) {
       groups[dateString] = [];
     }
