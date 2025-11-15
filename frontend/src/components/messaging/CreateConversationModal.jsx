@@ -208,7 +208,16 @@ export function CreateConversationModal({ isOpen, onClose, onCreateConversation 
 
                 {/* User List */}
                 <div className="space-y-1 max-h-64 overflow-y-auto">
-                  {filteredUsers.map(user => {
+                  {isLoadingUsers ? (
+                    <div className="flex items-center justify-center py-8 text-muted-foreground text-sm">
+                      Loading users...
+                    </div>
+                  ) : filteredUsers.length === 0 ? (
+                    <div className="flex items-center justify-center py-8 text-muted-foreground text-sm">
+                      No users found
+                    </div>
+                  ) : (
+                    filteredUsers.map(user => {
                     const isSelected = selectedParticipants.find(p => p.id === user.id);
                     return (
                       <button
