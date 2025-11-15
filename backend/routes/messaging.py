@@ -100,6 +100,41 @@ async def list_messages(
     return msgs
 
 
+
+@router.get("/users/search")
+async def search_users_for_messaging(
+    q: Optional[str] = Query(None, description="Search query for user name or email"),
+    limit: int = Query(20, le=100),
+    current_user=Depends(get_current_user),
+):
+    """
+    Search for users to start a conversation with.
+    Returns users excluding the current user.
+    """
+    from db.connection import get_db_client
+    
+    db = get_db_client()
+    current_user_id = current_user["id"]
+    
+    # Build query
+    query = {"id": {"$ne": current_user_id}}  # Exclude current user
+    
+    if q:
+        # Search by name or email (case-insensitive)
+        query["$or"] = [
+            {"name": {"$regex": q, "$options": "i"}},
+            {"email": {"$regex": q, "$options": "i"}}
+        ]
+    
+    # Fetch users
+    users = await db.banibs_users.find(
+        query,
+        {"_id": 0, "id": 1, "name": 1, "email": 1, "avatar_url": 1}
+    ).limit(limit).to_list(limit)
+    
+    return users
+
+
 @router.post("/conversations", status_code=status.HTTP_201_CREATED)
 async def create_conversation_route(
     payload: ConversationCreateRequest,
