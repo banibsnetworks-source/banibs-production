@@ -43,12 +43,32 @@ export function ConversationList({ conversations, activeConversationId, onSelect
       {/* Conversation List */}
       <div className="flex-1 overflow-y-auto">
         {isLoading ? (
-          <div className="p-8 text-center text-muted-foreground">
-            Loading conversations...
+          // Skeleton Loading State
+          <div className="space-y-0">
+            {[1, 2, 3, 4, 5].map(i => (
+              <div key={i} className="px-4 py-3 flex items-start space-x-3 animate-pulse">
+                <div className="w-10 h-10 rounded-full bg-muted flex-shrink-0"></div>
+                <div className="flex-1 space-y-2">
+                  <div className="h-4 bg-muted rounded w-3/4"></div>
+                  <div className="h-3 bg-muted rounded w-1/2"></div>
+                </div>
+              </div>
+            ))}
           </div>
         ) : filteredConversations.length === 0 ? (
-          <div className="p-8 text-center text-muted-foreground">
-            {searchQuery ? 'No conversations found' : 'No messages yet'}
+          // Empty State
+          <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+            <div className="w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center mb-4">
+              <Search className="w-8 h-8 text-muted-foreground" />
+            </div>
+            <h3 className="text-lg font-semibold text-foreground mb-2">
+              {searchQuery ? 'No conversations found' : 'No conversations yet'}
+            </h3>
+            <p className="text-sm text-muted-foreground max-w-xs">
+              {searchQuery 
+                ? 'Try searching with a different keyword' 
+                : 'Start a new conversation by clicking the + button above'}
+            </p>
           </div>
         ) : (
           filteredConversations.map(conversation => (
