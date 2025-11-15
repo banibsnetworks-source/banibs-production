@@ -1275,6 +1275,162 @@ class BanibsAPITester:
     # PHASE 3.1 - BANIBS CONNECT MESSAGING API TESTING
     # ==========================================
     
+    def test_sidebar_conversation_list_realtime_updates(self) -> bool:
+        """
+        P0 FIX TEST: Sidebar conversation list real-time updates
+        
+        Tests the critical bug fix where the left sidebar conversation list was NOT updating 
+        after sending a new message. The fix was to add `await refetchConversations()` 
+        after `sendMessage()` in the `handleSendMessage` function.
+        
+        This test verifies that the backend correctly updates the parent Conversation document
+        with last_message_preview, last_message_at, and updated_at when a message is sent.
+        """
+        self.log("🎯 TESTING P0 FIX: Sidebar conversation list real-time updates")
+        
+        # Step 1: Login with test credentials
+        test_email = "social_test_user@example.com"
+        test_password = "test_password"
+        
+        response = self.make_request("POST", "/auth/login", {
+            "email": test_email,
+            "password": test_password
+        })
+        
+        if response.status_code != 200:
+            self.log(f"❌ Login failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        data = response.json()
+        if "access_token" not in data:
+            self.log("❌ Login response missing access_token", "ERROR")
+            return False
+        
+        access_token = data["access_token"]
+        user_id = data.get("user", {}).get("id")
+        self.log(f"✅ Login successful - User ID: {user_id}")
+        
+        headers = {"Authorization": f"Bearer {access_token}"}
+        
+        # Step 2: Get existing conversations list
+        self.log("📋 Step 2: Getting initial conversations list...")
+        response = self.make_request("GET", "/messaging/conversations", headers=headers)
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to get conversations: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        conversations = response.json()
+        self.log(f"✅ Found {len(conversations)} existing conversations")
+        
+        # Step 3: If no conversations exist, create a new DM conversation
+        target_conversation = None
+        if len(conversations) == 0:
+            self.log("📝 Step 3: No conversations found, creating new DM conversation...")
+            
+            # Create conversation with another test user
+            response = self.make_request("POST", "/messaging/conversations", {
+                "type": "dm",
+                "participant_ids": ["test_participant_456"]  # Mock participant
+            }, headers=headers)
+            
+            if response.status_code != 201:
+                self.log(f"❌ Failed to create conversation: {response.status_code} - {response.text}", "ERROR")
+                return False
+            
+            target_conversation = response.json()
+            self.log(f"✅ Created new conversation: {target_conversation['id']}")
+        else:
+            # Use the first existing conversation
+            target_conversation = conversations[0]
+            self.log(f"✅ Using existing conversation: {target_conversation['id']}")
+        
+        conversation_id = target_conversation["id"]
+        
+        # Step 4: Record initial state
+        initial_preview = target_conversation.get("lastMessagePreview", "")
+        initial_timestamp = target_conversation.get("lastMessageAt", "")
+        
+        self.log(f"📊 Step 4: Initial conversation state:")
+        self.log(f"   Last Message Preview: '{initial_preview}'")
+        self.log(f"   Last Message At: {initial_timestamp}")
+        
+        # Step 5: Send a new message
+        test_message = f"P0 Fix Test Message - {int(time.time())}"
+        self.log(f"📤 Step 5: Sending new message: '{test_message}'")
+        
+        response = self.make_request("POST", f"/messaging/conversations/{conversation_id}/messages", {
+            "text": test_message
+        }, headers=headers)
+        
+        if response.status_code != 201:
+            self.log(f"❌ Failed to send message: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        message_data = response.json()
+        self.log(f"✅ Message sent successfully: {message_data['id']}")
+        
+        # Step 6: Immediately fetch conversations list again to verify update
+        self.log("🔄 Step 6: Fetching conversations list to verify real-time update...")
+        
+        response = self.make_request("GET", "/messaging/conversations", headers=headers)
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to refetch conversations: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        updated_conversations = response.json()
+        
+        # Find our conversation in the updated list
+        updated_conversation = None
+        for conv in updated_conversations:
+            if conv["id"] == conversation_id:
+                updated_conversation = conv
+                break
+        
+        if not updated_conversation:
+            self.log(f"❌ Conversation {conversation_id} not found in updated list", "ERROR")
+            return False
+        
+        # Step 7: Verify the updates
+        updated_preview = updated_conversation.get("lastMessagePreview", "")
+        updated_timestamp = updated_conversation.get("lastMessageAt", "")
+        
+        self.log(f"📊 Step 7: Updated conversation state:")
+        self.log(f"   Last Message Preview: '{updated_preview}'")
+        self.log(f"   Last Message At: {updated_timestamp}")
+        
+        # Verify preview was updated
+        expected_preview = test_message[:100]  # Backend takes first 100 chars
+        if updated_preview != expected_preview:
+            self.log(f"❌ Preview not updated correctly", "ERROR")
+            self.log(f"   Expected: '{expected_preview}'")
+            self.log(f"   Got: '{updated_preview}'")
+            return False
+        
+        # Verify timestamp was updated (should be newer than initial)
+        if updated_timestamp == initial_timestamp:
+            self.log(f"❌ Timestamp not updated", "ERROR")
+            self.log(f"   Initial: {initial_timestamp}")
+            self.log(f"   Updated: {updated_timestamp}")
+            return False
+        
+        # Verify conversation is at the top of the list (sorted by lastMessageAt descending)
+        if updated_conversations[0]["id"] != conversation_id:
+            self.log(f"❌ Updated conversation not at top of list", "ERROR")
+            self.log(f"   Expected first: {conversation_id}")
+            self.log(f"   Got first: {updated_conversations[0]['id']}")
+            return False
+        
+        # Step 8: Success verification
+        self.log("🎉 Step 8: P0 Fix verification complete!")
+        self.log("✅ Backend correctly updates conversation document")
+        self.log("✅ Fresh GET request returns updated conversation with new preview and timestamp")
+        self.log("✅ Conversation moved to top of list (sorted by lastMessageAt descending)")
+        self.log("✅ This proves the backend is working - frontend just needs to refetch")
+        
+        return True
+    
     def test_messaging_authentication_setup(self) -> bool:
         """Test authentication setup for messaging API using existing test user"""
         self.log("Testing messaging authentication setup...")
