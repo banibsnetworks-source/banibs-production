@@ -15,7 +15,13 @@ export function ConversationList({ conversations, activeConversationId, onSelect
       {/* Header */}
       <div className="p-4 border-b border-border">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-xl font-bold text-foreground">Messages</h2>
+          <button 
+            onClick={onDeselectAll}
+            className="text-xl font-bold text-foreground hover:text-yellow-500 transition-colors cursor-pointer"
+            title="Back to overview"
+          >
+            Messages
+          </button>
           {onCreateNew && (
             <button 
               onClick={onCreateNew}
