@@ -23,26 +23,52 @@ export function MessageList({
 
   // Group messages by date
   const groupedMessages = messages.reduce((groups, message) => {
-    const date = new Date(message.createdAt).toDateString();
-    if (!groups[date]) {
-      groups[date] = [];
+    // Validate timestamp before creating date
+    if (!message.createdAt) {
+      console.warn('Message missing createdAt:', message);
+      return groups;
     }
-    groups[date].push(message);
+    
+    const date = new Date(message.createdAt);
+    // Check if date is valid
+    if (isNaN(date.getTime())) {
+      console.warn('Invalid date in message:', message.createdAt, message);
+      return groups;
+    }
+    
+    const dateString = date.toDateString();
+    if (!groups[dateString]) {
+      groups[dateString] = [];
+    }
+    groups[dateString].push(message);
     return groups;
   }, {});
 
   const formatDateHeader = (dateString) => {
-    const date = new Date(dateString);
-    const today = new Date().toDateString();
-    const yesterday = new Date(Date.now() - 86400000).toDateString();
-    
-    if (dateString === today) return 'Today';
-    if (dateString === yesterday) return 'Yesterday';
-    return date.toLocaleDateString('en-US', { 
-      weekday: 'short', 
-      month: 'short', 
-      day: 'numeric' 
-    });
+    try {
+      const date = new Date(dateString);
+      
+      // Validate date
+      if (isNaN(date.getTime())) {
+        console.error('Invalid date string for header:', dateString);
+        return 'Recent';
+      }
+      
+      const today = new Date().toDateString();
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      
+      if (dateString === today) return 'Today';
+      if (dateString === yesterday) return 'Yesterday';
+      
+      return date.toLocaleDateString('en-US', { 
+        weekday: 'short', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    } catch (error) {
+      console.error('Error formatting date header:', dateString, error);
+      return 'Recent';
+    }
   };
 
   if (loading) {
