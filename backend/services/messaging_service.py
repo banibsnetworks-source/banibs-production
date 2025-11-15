@@ -19,6 +19,14 @@ async def transform_conversation_for_api(conv: Conversation, current_user_id: st
     if "_id" in data:
         del data["_id"]
     
+    # Convert datetime objects to ISO strings for frontend compatibility
+    if data.get("last_message_at"):
+        data["last_message_at"] = data["last_message_at"].isoformat()
+    if data.get("created_at"):
+        data["created_at"] = data["created_at"].isoformat()
+    if data.get("updated_at"):
+        data["updated_at"] = data["updated_at"].isoformat()
+    
     # Fetch participant details from database
     db = get_db_client()
     participant_details = []
