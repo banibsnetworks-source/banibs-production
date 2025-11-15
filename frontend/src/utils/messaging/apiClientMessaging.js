@@ -48,6 +48,9 @@ async function apiRequest(endpoint, options = {}) {
     headers,
   });
   
+  // Clone response immediately to avoid "body already used" errors from rrweb recorder
+  const responseClone = response.clone();
+  
   console.log('📥 [Messaging API] Response received:', {
     status: response.status,
     statusText: response.statusText,
@@ -66,7 +69,7 @@ async function apiRequest(endpoint, options = {}) {
   }
   
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ detail: 'Unknown error' }));
+    const error = await responseClone.json().catch(() => ({ detail: 'Unknown error' }));
     console.error('❌ [Messaging API] Request failed:', error);
     throw new Error(error.detail || `HTTP ${response.status}`);
   }
@@ -75,7 +78,7 @@ async function apiRequest(endpoint, options = {}) {
     return null; // No content
   }
   
-  return response.json();
+  return responseClone.json();
 }
 
 /**
