@@ -99,6 +99,15 @@ export function ConversationHeader({ conversation, onStartCall, onShowInfo, onSe
               </button>
             </>
           )}
+          {conversation.type === 'group' && conversation.participants && conversation.participants.length > 0 && (
+            <button
+              onClick={() => setShowParticipants(!showParticipants)}
+              className={`p-2 hover:bg-muted rounded-lg transition-colors ${showParticipants ? 'text-yellow-500 bg-muted' : 'text-muted-foreground hover:text-foreground'}`}
+              title="Show group members"
+            >
+              <Users size={20} />
+            </button>
+          )}
           {onShowInfo && (
             <button
               onClick={onShowInfo}
@@ -110,6 +119,37 @@ export function ConversationHeader({ conversation, onStartCall, onShowInfo, onSe
           )}
         </div>
       </div>
+      
+      {/* Group Participants Panel */}
+      {showParticipants && conversation.type === 'group' && conversation.participants && (
+        <div className="px-4 py-3 border-t border-border bg-muted/20">
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-sm font-semibold text-foreground">Group Members ({conversation.participant_count})</h3>
+            <button
+              onClick={() => setShowParticipants(false)}
+              className="p-1 hover:bg-muted rounded transition-colors"
+            >
+              <X size={16} className="text-muted-foreground" />
+            </button>
+          </div>
+          <div className="space-y-2 max-h-48 overflow-y-auto">
+            {conversation.participants.map((participant) => (
+              <div
+                key={participant.id}
+                className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted/50 transition-colors"
+              >
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                  {participant.name ? participant.name.charAt(0).toUpperCase() : '?'}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-foreground truncate">{participant.name || 'Unknown User'}</p>
+                  <p className="text-xs text-muted-foreground truncate">{participant.email || ''}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       
       {/* Search Panel */}
       {searchOpen && (
