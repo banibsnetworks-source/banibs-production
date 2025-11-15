@@ -7759,6 +7759,23 @@ def main():
         
         return failed == 0
 
+    def run_p0_fix_test(self) -> bool:
+        """Run P0 fix test for sidebar conversation list real-time updates"""
+        self.log("🎯 STARTING P0 FIX TEST - Sidebar Conversation List Real-Time Updates")
+        self.log(f"Testing against: {API_BASE}")
+        self.log("Testing the critical bug fix where sidebar conversation list was NOT updating after sending messages")
+        
+        try:
+            if self.test_sidebar_conversation_list_realtime_updates():
+                self.log("\n🎉 P0 FIX TEST PASSED - Backend correctly updates conversation list")
+                return True
+            else:
+                self.log("\n❌ P0 FIX TEST FAILED - Backend not updating conversation list correctly")
+                return False
+        except Exception as e:
+            self.log(f"\n❌ P0 FIX TEST FAILED with exception: {e}", "ERROR")
+            return False
+
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
         self.log("Starting BANIBS Backend API Test Suite - Phase 6.4 Sentiment-Driven Moderation Routing")
