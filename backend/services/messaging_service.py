@@ -21,11 +21,25 @@ async def transform_conversation_for_api(conv: Conversation, current_user_id: st
     
     # Convert datetime objects to ISO strings for frontend compatibility
     if data.get("last_message_at"):
-        data["last_message_at"] = data["last_message_at"].isoformat()
+        data["lastMessageAt"] = data["last_message_at"].isoformat()
+        del data["last_message_at"]
     if data.get("created_at"):
-        data["created_at"] = data["created_at"].isoformat()
+        data["createdAt"] = data["created_at"].isoformat()
+        del data["created_at"]
     if data.get("updated_at"):
-        data["updated_at"] = data["updated_at"].isoformat()
+        data["updatedAt"] = data["updated_at"].isoformat()
+        del data["updated_at"]
+    
+    # Convert snake_case field names to camelCase for frontend
+    if "participant_ids" in data:
+        data["participantIds"] = data["participant_ids"]
+        del data["participant_ids"]
+    if "business_id" in data:
+        data["businessId"] = data["business_id"]
+        del data["business_id"]
+    if "last_message_preview" in data:
+        data["lastMessagePreview"] = data["last_message_preview"]
+        del data["last_message_preview"]
     
     # Fetch participant details from database
     db = get_db_client()
@@ -40,7 +54,7 @@ async def transform_conversation_for_api(conv: Conversation, current_user_id: st
     
     # Add participant details to response
     data["participants"] = participant_details
-    data["participant_count"] = len(participant_details)
+    data["participantCount"] = len(participant_details)
     
     # Generate title for DMs based on the other participant's name
     if conv.type == "dm" and not data.get("title"):
