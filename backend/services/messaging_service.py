@@ -71,6 +71,14 @@ def transform_message_for_api(msg: Message) -> Dict[str, Any]:
     if "_id" in data:
         del data["_id"]
     
+    # Convert datetime objects to ISO strings for frontend compatibility
+    if data.get("created_at"):
+        data["created_at"] = data["created_at"].isoformat()
+    if data.get("updated_at"):
+        data["updated_at"] = data["updated_at"].isoformat()
+    if data.get("deletedAt"):
+        data["deletedAt"] = data["deletedAt"].isoformat()
+    
     return data
 
 
