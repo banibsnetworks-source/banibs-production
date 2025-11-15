@@ -8364,3 +8364,75 @@ When user navigates to /messages without selecting a conversation:
    - "BANIBS Connect" heading ✅
    - Card with "Quick Actions" (if you have conversations) ✅
 
+
+---
+## Invalid Date Fix + Deselect Conversation Feature (2025-11-15)
+
+**ISSUES FIXED:**
+
+### 1. "Invalid Date" Display Issue
+**Problem:** "Invalid date" text appeared in the main conversation area after clicking into a conversation.
+
+**Root Cause:** 
+- MessageList component groups messages by date using `new Date(message.createdAt)`
+- If `createdAt` is missing or invalid, creates "Invalid Date" string
+- Date dividers displayed this invalid string between messages
+
+**Solution:**
+- Added validation before creating Date objects
+- Check if `createdAt` exists and is valid timestamp
+- Skip messages with invalid timestamps (with console warning)
+- Added try-catch in `formatDateHeader()` with fallback to "Recent"
+- Now handles edge cases gracefully
+
+### 2. Deselect Conversation Feature
+**Enhancement:** Added ability to return to empty state overview after selecting a conversation.
+
+**Implementation:**
+- Made "Messages" heading clickable in conversation list
+- Clicking "Messages" deselects current conversation and shows empty state
+- Added hover effect (text turns yellow) to indicate it's clickable
+- Added tooltip: "Back to overview"
+
+**User Flow:**
+1. User selects a conversation → conversation opens
+2. User clicks "Messages" heading → returns to empty state
+3. Empty state shows: icon + heading + Quick Actions card
+
+**CHANGES MADE:**
+
+**`MessageList.jsx`:**
+- Added validation for `message.createdAt` before grouping
+- Added `isNaN()` check for date validity
+- Added fallback "Recent" label for invalid dates
+- Added console warnings for debugging
+
+**`ConversationList.jsx`:**
+- Changed "Messages" from `<h2>` to `<button>`
+- Added `onDeselectAll` prop
+- Added hover styling and click handler
+
+**`MessagingHomePage.jsx`:**
+- Added `onDeselectAll` handler to ConversationList
+- Handler sets `activeConversationId` to null
+- Navigates to `/messages` (no conversation ID)
+
+**TESTING STATUS:**
+- ✅ Frontend service restarted
+- ✅ Code compiled successfully
+- ⏳ User verification required
+
+**USER TESTING:**
+1. Navigate to /messages
+2. Click into a conversation
+3. Check: NO "Invalid date" should appear
+4. Click "Messages" heading (should turn yellow on hover)
+5. Verify: Returns to empty state with icon + card
+6. Can repeat: select conversation → click Messages → back to overview
+
+**EXPECTED BEHAVIOR:**
+✅ No "Invalid date" displays anywhere
+✅ "Messages" heading is clickable
+✅ Clicking returns to empty state overview
+✅ Can toggle between conversation and overview smoothly
+
