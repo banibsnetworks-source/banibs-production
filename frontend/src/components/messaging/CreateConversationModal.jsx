@@ -221,7 +221,7 @@ export function CreateConversationModal({ isOpen, onClose, onCreateConversation 
                         }`}
                       >
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex items-center justify-center text-white text-xs font-bold">
-                          {user.display_name.charAt(0).toUpperCase()}
+                          {user.name.charAt(0).toUpperCase()}
                         </div>
                         <span className="text-sm font-medium text-foreground">
                           {user.display_name}
