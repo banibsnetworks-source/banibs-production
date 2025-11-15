@@ -73,11 +73,31 @@ def transform_message_for_api(msg: Message) -> Dict[str, Any]:
     
     # Convert datetime objects to ISO strings for frontend compatibility
     if data.get("created_at"):
-        data["created_at"] = data["created_at"].isoformat()
+        data["createdAt"] = data["created_at"].isoformat()
+        del data["created_at"]  # Remove snake_case version
     if data.get("updated_at"):
-        data["updated_at"] = data["updated_at"].isoformat()
-    if data.get("deletedAt"):
-        data["deletedAt"] = data["deletedAt"].isoformat()
+        data["updatedAt"] = data["updated_at"].isoformat()
+        del data["updated_at"]
+    if data.get("deleted_at"):
+        data["deletedAt"] = data["deleted_at"].isoformat()
+        del data["deleted_at"]
+    
+    # Convert snake_case field names to camelCase for frontend
+    if "sender_id" in data:
+        data["senderId"] = data["sender_id"]
+        del data["sender_id"]
+    if "conversation_id" in data:
+        data["conversationId"] = data["conversation_id"]
+        del data["conversation_id"]
+    if "media_url" in data:
+        data["mediaUrl"] = data["media_url"]
+        del data["media_url"]
+    if "read_by" in data:
+        data["readBy"] = data["read_by"]
+        del data["read_by"]
+    if "deleted_for" in data:
+        data["deletedFor"] = data["deleted_for"]
+        del data["deleted_for"]
     
     return data
 
