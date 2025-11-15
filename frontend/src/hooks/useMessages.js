@@ -7,6 +7,12 @@ export function useMessages(conversationId) {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  
+  console.log('[useMessages] Hook called with:', { 
+    conversationId, 
+    userId: user?.id,
+    messagesCount: messages.length 
+  });
 
   useEffect(() => {
     if (!conversationId) {
