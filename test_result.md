@@ -8307,3 +8307,60 @@ return new Promise((resolve, reject) => {
 **TECHNICAL NOTE:**
 This is a definitive solution. XMLHttpRequest completely avoids the fetch/rrweb conflict by using a different API that rrweb doesn't intercept.
 
+
+---
+## Empty State Logic Fix (2025-11-15)
+
+**ISSUE IDENTIFIED:**
+User saw "BANIBS Connect" heading but NOT the chat icon or "Get Started" card. Investigation revealed a logic flaw in the empty state rendering.
+
+**ROOT CAUSE:**
+The "Get Started" card had a condition: `{conversations.length === 0 && (...)}` 
+- This meant it ONLY showed when user had zero conversations
+- If user had conversations but none selected, the card didn't appear
+- User reported seeing the heading but not the full empty state
+
+**FIX APPLIED:**
+Removed the conditional check - the card now ALWAYS shows when no conversation is selected:
+- Icon: Always visible
+- Heading: Always visible  
+- Card: Always visible (changes title based on context)
+- Card title: "Get Started" if no conversations, "Quick Actions" if conversations exist
+- Last bullet point adapts to context
+
+**CHANGES:**
+```jsx
+// BEFORE (only showed card if no conversations)
+{conversations.length === 0 && (
+  <div className="mt-6...">Get Started card</div>
+)}
+
+// AFTER (always shows, adapts content)
+<div className="mt-6...">
+  <p>{conversations.length === 0 ? 'Get Started' : 'Quick Actions'}</p>
+  ...
+</div>
+```
+
+**EXPECTED BEHAVIOR:**
+When user navigates to /messages without selecting a conversation:
+✅ Large yellow chat icon displays
+✅ "BANIBS Connect" heading displays
+✅ Card displays with contextual title and actions
+✅ If no conversations: "Get Started" with creation instructions
+✅ If conversations exist: "Quick Actions" with selection guidance
+
+**TESTING STATUS:**
+- ✅ Frontend service restarted
+- ✅ Code compiled successfully
+- ⏳ User verification required
+
+**USER TESTING:**
+1. Open fresh incognito window
+2. Go to /messages (may redirect to /portal/social first)
+3. Navigate to Messages
+4. Should see:
+   - Large yellow chat icon ✅
+   - "BANIBS Connect" heading ✅
+   - Card with "Quick Actions" (if you have conversations) ✅
+
