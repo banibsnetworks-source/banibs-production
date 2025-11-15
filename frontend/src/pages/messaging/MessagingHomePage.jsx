@@ -292,11 +292,14 @@ export function MessagingHomePage() {
         ) : (
           <div className="flex flex-1 items-center justify-center p-8 bg-muted/20">
             <div className="text-center space-y-6 max-w-md">
+              {/* Large Chat Icon */}
               <div className="w-24 h-24 rounded-full bg-yellow-500/10 flex items-center justify-center mx-auto">
                 <svg className="w-12 h-12 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                 </svg>
               </div>
+              
+              {/* Heading and Description */}
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-2">
                   BANIBS Connect
@@ -308,27 +311,27 @@ export function MessagingHomePage() {
                   }
                 </p>
               </div>
-              {conversations.length === 0 && (
-                <div className="mt-6 p-5 bg-card rounded-lg border border-border shadow-sm">
-                  <p className="text-sm font-semibold text-foreground mb-3">
-                    Get Started
-                  </p>
-                  <ul className="text-sm text-muted-foreground text-left space-y-2">
-                    <li className="flex items-start">
-                      <span className="text-yellow-500 mr-2">→</span>
-                      <span>Click the <strong>+</strong> button to create a new conversation</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-yellow-500 mr-2">→</span>
-                      <span>Start a Direct Message or Group Chat</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-yellow-500 mr-2">→</span>
-                      <span>Connect with BANIBS community members</span>
-                    </li>
-                  </ul>
-                </div>
-              )}
+              
+              {/* Get Started Card - Always show when no conversation selected */}
+              <div className="mt-6 p-5 bg-card rounded-lg border border-border shadow-sm">
+                <p className="text-sm font-semibold text-foreground mb-3">
+                  {conversations.length === 0 ? 'Get Started' : 'Quick Actions'}
+                </p>
+                <ul className="text-sm text-muted-foreground text-left space-y-2">
+                  <li className="flex items-start">
+                    <span className="text-yellow-500 mr-2">→</span>
+                    <span>Click the <strong>+</strong> button to create a new conversation</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-yellow-500 mr-2">→</span>
+                    <span>Start a Direct Message or Group Chat</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-yellow-500 mr-2">→</span>
+                    <span>{conversations.length === 0 ? 'Connect with BANIBS community members' : 'Or select a conversation from the left'}</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         )}
