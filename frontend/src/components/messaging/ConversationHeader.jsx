@@ -44,9 +44,16 @@ export function ConversationHeader({ conversation, onStartCall, onShowInfo, onSe
                 {conversation.online ? 'Online' : 'Offline'}
               </p>
             )}
-            {conversation.type === 'group' && conversation.members && (
+            {conversation.type === 'group' && (
               <p className="text-xs text-muted-foreground">
-                {conversation.members} members
+                {conversation.participants && conversation.participants.length > 0 ? (
+                  <>
+                    {conversation.participants.map((p, idx) => p.name).join(', ')}
+                    {' '}({conversation.participant_count || conversation.participants.length} members)
+                  </>
+                ) : (
+                  `${conversation.participant_count || 0} members`
+                )}
               </p>
             )}
             {conversation.type === 'business' && conversation.tag && (
