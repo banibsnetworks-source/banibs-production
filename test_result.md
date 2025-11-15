@@ -7692,3 +7692,66 @@ function normalizeManifest(manifest) {
       - PostTextWithEmojis component handles 40px emoji rendering
       - EmojiPicker integration exists in comment section
       - Need authenticated session to verify actual functionality
+
+---
+## Create Conversation Feature - Title Fix (2025-11-15)
+
+**ISSUE IDENTIFIED:**
+User reported that Create Conversation was working (modal opens, users can be selected, conversations are created) BUT conversation titles were showing as generic "Direct Message" instead of the participant's actual name.
+
+**ROOT CAUSE:**
+1. Backend transformation logic was setting a hardcoded "Direct Message" title for DMs instead of fetching the other participant's name
+2. Frontend modal was using mock user IDs (user_2, user_3, etc.) that didn't exist in the database, so even after fixing the backend, the lookup would fail
+
+**FIXES IMPLEMENTED:**
+
+### Backend Changes:
+1. Modified `transform_conversation_for_api()` in `/app/backend/services/messaging_service.py`:
+   - Made function async to support database queries
+   - Added `current_user_id` parameter to identify which participant's perspective to use
+   - For DM conversations, now fetches the OTHER participant's name from `banibs_users` collection
+   - Only falls back to "Direct Message" if user lookup fails
+
+2. Updated `create_conversation()` to accept and pass `creator_user_id` parameter
+
+3. Created new endpoint `GET /api/messaging/users/search` in `/app/backend/routes/messaging.py`:
+   - Searches users by name or email (case-insensitive)
+   - Excludes current user from results
+   - Returns: id, name, email, avatar_url
+   - Supports pagination (default limit: 20)
+
+### Frontend Changes:
+1. Updated `CreateConversationModal.jsx` to fetch REAL users from the database:
+   - Removed hardcoded mock user data
+   - Added `useEffect` hooks to fetch users when modal opens
+   - Implemented debounced search (300ms delay) as user types
+   - Added loading state: "Loading users..." message
+   - Added empty state: "No users found" message
+   - Changed all `display_name` references to `name` to match backend schema
+
+2. Added `searchUsers()` method to `/app/frontend/src/utils/messaging/apiClientMessaging.js`:
+   - Calls `GET /api/messaging/users/search`
+   - Supports optional search query parameter
+   - Returns array of user objects
+
+**TESTING STATUS:**
+- ⏳ Pending user testing
+- Backend services restarted successfully
+- Frontend compiled without errors
+- Need Raymond to:
+  1. Hard refresh browser (Ctrl+Shift+R)
+  2. Click "+" button
+  3. Verify real user names appear in the list
+  4. Create a new conversation
+  5. Verify conversation title shows participant's name, not "Direct Message"
+
+**EXPECTED BEHAVIOR AFTER FIX:**
+- Modal should show list of real users from database
+- Search should filter users by name/email
+- New DM conversations should display: "{Other Person's Name}" not "Direct Message"
+- Group conversations should display the group title as entered
+
+**NOTES:**
+- Old conversations created with mock user IDs may still show "Direct Message" title (database contains invalid participant IDs)
+- Recommend testing with a fresh conversation to verify the fix
+
