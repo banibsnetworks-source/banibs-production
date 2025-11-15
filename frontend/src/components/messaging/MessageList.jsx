@@ -12,6 +12,13 @@ export function MessageList({
 }) {
   const messagesEndRef = useRef(null);
   const containerRef = useRef(null);
+  
+  console.log('[MessageList] Rendering with:', {
+    messagesCount: messages?.length || 0,
+    loading,
+    currentUserId,
+    messages: messages?.map(m => ({ id: m.id, text: m.text?.substring(0, 30), direction: m.direction, senderId: m.senderId }))
+  });
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
