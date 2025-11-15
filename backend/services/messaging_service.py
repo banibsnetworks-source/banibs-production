@@ -19,26 +19,32 @@ async def transform_conversation_for_api(conv: Conversation, current_user_id: st
     if "_id" in data:
         del data["_id"]
     
+    # Fetch participant details from database
+    db = get_db_client()
+    participant_details = []
+    
+    if conv.participant_ids:
+        users = await db.banibs_users.find(
+            {"id": {"$in": conv.participant_ids}},
+            {"_id": 0, "id": 1, "name": 1, "email": 1, "avatar_url": 1}
+        ).to_list(100)
+        participant_details = users
+    
+    # Add participant details to response
+    data["participants"] = participant_details
+    data["participant_count"] = len(participant_details)
+    
     # Generate title for DMs based on the other participant's name
     if conv.type == "dm" and not data.get("title"):
         # Find the other participant (not the current user)
-        other_participant_id = None
-        for p_id in conv.participant_ids:
-            if p_id != current_user_id:
-                other_participant_id = p_id
+        other_participant = None
+        for participant in participant_details:
+            if participant.get("id") != current_user_id:
+                other_participant = participant
                 break
         
-        if other_participant_id:
-            # Fetch the other user's name from database
-            db = get_db_client()
-            other_user = await db.banibs_users.find_one(
-                {"id": other_participant_id},
-                {"_id": 0, "name": 1}
-            )
-            if other_user and other_user.get("name"):
-                data["title"] = other_user["name"]
-            else:
-                data["title"] = "Direct Message"
+        if other_participant and other_participant.get("name"):
+            data["title"] = other_participant["name"]
         else:
             data["title"] = "Direct Message"
     
