@@ -9,18 +9,41 @@ export function CreateConversationModal({ isOpen, onClose, onCreateConversation 
   const [selectedParticipants, setSelectedParticipants] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState(null);
-  
-  // Mock users - in production, this would come from an API
-  const [availableUsers] = useState([
-    { id: 'user_2', display_name: 'Alice Johnson', avatar: null },
-    { id: 'user_3', display_name: 'Bob Smith', avatar: null },
-    { id: 'user_4', display_name: 'Carol Williams', avatar: null },
-    { id: 'user_5', display_name: 'David Brown', avatar: null },
-  ]);
+  const [availableUsers, setAvailableUsers] = useState([]);
+  const [isLoadingUsers, setIsLoadingUsers] = useState(false);
 
-  const filteredUsers = availableUsers.filter(user =>
-    user.display_name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Fetch users from API when modal opens and user is on step 2
+  React.useEffect(() => {
+    if (isOpen && step === 2 && availableUsers.length === 0) {
+      fetchUsers();
+    }
+  }, [isOpen, step]);
+
+  // Debounced search
+  React.useEffect(() => {
+    if (step === 2) {
+      const timer = setTimeout(() => {
+        fetchUsers(searchQuery);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [searchQuery, step]);
+
+  const fetchUsers = async (query = '') => {
+    setIsLoadingUsers(true);
+    try {
+      const { messagingApi } = await import('../../utils/messaging');
+      const users = await messagingApi.searchUsers(query);
+      setAvailableUsers(users);
+    } catch (err) {
+      console.error('Failed to fetch users:', err);
+      setError('Failed to load users. Please try again.');
+    } finally {
+      setIsLoadingUsers(false);
+    }
+  };
+
+  const filteredUsers = availableUsers;
 
   const handleClose = () => {
     setStep(1);
