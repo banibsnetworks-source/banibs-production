@@ -524,29 +524,42 @@ agent_communication:
       Main agent should prioritize fixing the horizontal scroll issue on the Saved page and investigate the missing routes for Groups and Live pages. The authentication flow also needs mobile viewport compatibility testing.
 
 user_problem_statement: |
-  **S5 - Mobile Responsiveness QA for BANIBS Social**
+  **Phase 7.1.1 - BIA Dashboard Frontend Comprehensive Testing**
 
-  **Objective:** Test and verify mobile responsiveness on key features at common mobile viewport sizes.
+  **Objective:** Test the complete Business Insights Analytics Dashboard UI/UX comprehensively across all features and viewport sizes.
 
-  **TEST PARAMETERS:**
-  - Viewport Sizes: 360px width (Samsung Galaxy S8), 414px width (iPhone Plus), Height: 800px for both
-  
-  **Key Areas to Test:**
-  1. Social Feed (/portal/social) - Post composer, post cards, media grid layouts
-  2. Profile Page - Avatar sizing, tab navigation, profile info
-  3. Post Composer Modal - Modal fit, text area usability, media upload buttons
-  4. Media Viewer - Fullscreen viewer, close button, navigation arrows
-  5. ComingSoon Pages (Groups, Live, Saved) - Icon/text centering, button stacking
-  
-  **Critical Issues to Look For:**
-  - Horizontal scrolling (major red flag)
-  - Text too small to read comfortably  
-  - Buttons too small to tap accurately (min 44×44px touch targets)
-  - Images overflowing containers
-  - Fixed-width elements breaking layout
-  - Spacing too tight (elements touching)
-  - Touch targets overlapping
-  
+  **TEST ENVIRONMENT:**
+  - Frontend URL: https://banibsjobs.preview.emergentagent.com
+  - Test User: social_test_user@example.com / TestPass123!
+  - Viewport Sizes: Desktop (1920x800), Tablet (768x1024), Mobile (375x667)
+
+  **TEST SCENARIOS:**
+  1. Navigation & Access - Navigate to BIA Dashboard from ConnectLeftRail
+  2. Business Mode Detection - Verify business mode requirement
+  3. Date Range Filters - Test 3 buttons: "Last 7 Days", "Last 30 Days", "Last 90 Days"
+  4. KPI Summary Cards - Verify 6 KPI cards display with proper data and trends
+  5. Traffic & Reach Chart - Line chart for profile views over time
+  6. Top Performing Posts Table - Posts table with export button
+  7. Discovery Sources Pie Chart - Discovery breakdown visualization
+  8. Job Performance Section - Job metrics display
+  9. Ratings & Reviews Analytics - Rating display and distribution
+  10. Activity Log - Recent activity display
+  11. Recommendations Panel - AI recommendations display
+  12. Responsive Design Testing - Desktop, tablet, mobile layouts
+  13. Empty States Testing - Dashboard with no data
+  14. Console Error Check - Monitor for JavaScript errors
+
+  **SUCCESS CRITERIA:**
+  - Navigation works from ConnectLeftRail
+  - All 3 date ranges work and update data
+  - All 6 KPI cards render with correct data and trends
+  - Charts (line, pie, bar) render correctly
+  - Tables display with proper formatting
+  - CSV exports trigger downloads
+  - Responsive design works on all viewports
+  - Graceful empty state handling
+  - Zero critical console errors
+
   **Test Credentials:** social_test_user@example.com / TestPass123!
 
 backend:
