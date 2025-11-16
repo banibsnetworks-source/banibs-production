@@ -47,11 +47,13 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
       if (response.ok) {
         const data = await response.json();
         setLinkMeta(data);
-        setShowLinkInput(false);
       }
+      // Always hide input and keep the URL (even if preview failed)
+      setShowLinkInput(false);
     } catch (error) {
       console.error('Failed to fetch link preview:', error);
-      alert('Failed to fetch link preview');
+      // Keep the URL even if preview fails - hide input
+      setShowLinkInput(false);
     } finally {
       setIsFetchingLink(false);
     }
