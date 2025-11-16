@@ -315,38 +315,8 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
           className="text-card-foreground text-sm leading-relaxed whitespace-pre-wrap"
         />
 
-        {/* Media Grid (Phase 8.1) */}
-        {localPost.media && localPost.media.length > 0 && (
-          <div className={`mt-3 grid gap-1 rounded-lg overflow-hidden ${
-            localPost.media.length === 1 ? 'grid-cols-1' :
-            localPost.media.length === 2 ? 'grid-cols-2' :
-            localPost.media.length === 3 ? 'grid-cols-2' :
-            'grid-cols-2'
-          }`}>
-            {localPost.media.map((item, index) => (
-              <div 
-                key={index} 
-                className={`relative ${
-                  localPost.media.length === 3 && index === 0 ? 'col-span-2' : ''
-                }`}
-              >
-                {item.type === 'image' ? (
-                  <img
-                    src={`${process.env.REACT_APP_BACKEND_URL}${item.url}`}
-                    alt={`Post media ${index + 1}`}
-                    className="w-full h-full object-cover aspect-video"
-                  />
-                ) : (
-                  <video
-                    src={`${process.env.REACT_APP_BACKEND_URL}${item.url}`}
-                    controls
-                    className="w-full h-full object-cover aspect-video"
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-        )}
+        {/* Media Grid - BANIBS Social Media Upgrade Spec v1.0 */}
+        <SocialPostMediaGrid mediaUrls={localPost.media_urls || []} />
 
         {/* Link Preview (Phase 8.1) */}
         {localPost.link_meta && (
