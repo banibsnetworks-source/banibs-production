@@ -61,31 +61,34 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
     return (
       <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl overflow-hidden bg-muted">
         {/* Left: Large Image */}
-        <div className="relative h-80">
+        <div className="relative h-80 cursor-pointer hover:opacity-95 transition-opacity">
           <img
             src={mediaUrls[0]}
             alt="Post media 1"
             className="w-full h-full object-cover"
             loading="lazy"
+            onClick={() => openViewer(mediaUrls, 0)}
           />
         </div>
 
         {/* Right: Two Stacked Images */}
         <div className="flex flex-col gap-1">
-          <div className="relative h-[calc(50%-2px)]">
+          <div className="relative h-[calc(50%-2px)] cursor-pointer hover:opacity-95 transition-opacity">
             <img
               src={mediaUrls[1]}
               alt="Post media 2"
               className="w-full h-full object-cover"
               loading="lazy"
+              onClick={() => openViewer(mediaUrls, 1)}
             />
           </div>
-          <div className="relative h-[calc(50%-2px)]">
+          <div className="relative h-[calc(50%-2px)] cursor-pointer hover:opacity-95 transition-opacity">
             <img
               src={mediaUrls[2]}
               alt="Post media 3"
               className="w-full h-full object-cover"
               loading="lazy"
+              onClick={() => openViewer(mediaUrls, 2)}
             />
           </div>
         </div>
