@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 
 /**
  * useMediaViewer - Global Media Viewer State Management
@@ -10,59 +10,61 @@ import { create } from 'zustand';
  * - Current index
  * - Navigation (next/prev)
  */
-const useMediaViewerStore = create((set) => ({
-  isOpen: false,
-  mediaUrls: [],
-  currentIndex: 0,
-  
-  openViewer: (urls, startIndex = 0) => {
-    set({
-      isOpen: true,
-      mediaUrls: urls || [],
-      currentIndex: startIndex,
-    });
-  },
-  
-  closeViewer: () => {
-    set({
-      isOpen: false,
-      mediaUrls: [],
-      currentIndex: 0,
-    });
-  },
-  
-  goNext: () => {
-    set((state) => ({
-      currentIndex: Math.min(state.currentIndex + 1, state.mediaUrls.length - 1),
-    }));
-  },
-  
-  goPrev: () => {
-    set((state) => ({
-      currentIndex: Math.max(state.currentIndex - 1, 0),
-    }));
-  },
-  
-  setIndex: (index) => {
-    set({ currentIndex: index });
-  },
-}));
+const MediaViewerContext = createContext(null);
+
+export const MediaViewerProvider = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [mediaUrls, setMediaUrls] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const openViewer = useCallback((urls, startIndex = 0) => {
+    setMediaUrls(urls || []);
+    setCurrentIndex(startIndex);
+    setIsOpen(true);
+  }, []);
+
+  const closeViewer = useCallback(() => {
+    setIsOpen(false);
+    setTimeout(() => {
+      setMediaUrls([]);
+      setCurrentIndex(0);
+    }, 300); // Delay cleanup for smooth animation
+  }, []);
+
+  const goNext = useCallback(() => {
+    setCurrentIndex((prev) => Math.min(prev + 1, mediaUrls.length - 1));
+  }, [mediaUrls.length]);
+
+  const goPrev = useCallback(() => {
+    setCurrentIndex((prev) => Math.max(prev - 1, 0));
+  }, []);
+
+  const value = {
+    isOpen,
+    mediaUrls,
+    currentIndex,
+    currentImage: mediaUrls[currentIndex],
+    totalImages: mediaUrls.length,
+    openViewer,
+    closeViewer,
+    goNext,
+    goPrev,
+    setIndex: setCurrentIndex,
+    hasNext: currentIndex < mediaUrls.length - 1,
+    hasPrev: currentIndex > 0,
+  };
+
+  return (
+    <MediaViewerContext.Provider value={value}>
+      {children}
+    </MediaViewerContext.Provider>
+  );
+};
 
 export const useMediaViewer = () => {
-  const store = useMediaViewerStore();
-  
-  return {
-    isOpen: store.isOpen,
-    mediaUrls: store.mediaUrls,
-    currentIndex: store.currentIndex,
-    currentImage: store.mediaUrls[store.currentIndex],
-    totalImages: store.mediaUrls.length,
-    openViewer: store.openViewer,
-    closeViewer: store.closeViewer,
-    goNext: store.goNext,
-    goPrev: store.goPrev,
-    setIndex: store.setIndex,
-    hasNext: store.currentIndex < store.mediaUrls.length - 1,
-    hasPrev: store.currentIndex > 0,
-  };
+  const context = useContext(MediaViewerContext);
+  if (!context) {
+    throw new Error('useMediaViewer must be used within MediaViewerProvider');
+  }
+  return context;
 };
