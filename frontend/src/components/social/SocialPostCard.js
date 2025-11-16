@@ -9,6 +9,7 @@ import HighFiveButton from '../emoji/HighFiveButton';
 import PostTextWithEmojis from './PostTextWithEmojis';
 import DropdownMenu, { DropdownMenuItem } from '../common/DropdownMenu';
 import ConfirmModal from '../common/ConfirmModal';
+import { SocialPostMediaGrid } from './SocialPostMediaGrid';
 
 /**
  * SocialPostCard - Phase 8.3 + Phase 3.3 (Delete functionality)
