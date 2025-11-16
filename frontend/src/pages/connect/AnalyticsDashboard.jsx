@@ -157,7 +157,13 @@ const AnalyticsDashboard = () => {
           <div className="bg-card border border-border rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-foreground">Top Performing Posts</h2>
-              <button className="text-sm text-yellow-600 hover:underline">Export CSV</button>
+              <button 
+                onClick={() => handleExport('top-posts')}
+                className="flex items-center gap-2 text-sm text-yellow-600 hover:underline"
+              >
+                <Download className="w-4 h-4" />
+                Export CSV
+              </button>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full">
