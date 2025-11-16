@@ -193,7 +193,8 @@ function App() {
               <Route path="/portal/social" element={<SocialPortal />} />
               
               {/* Phase 8.2 - Business Profile Routes (must come BEFORE /portal/business) */}
-              <Route path="/portal/business/profile/edit" element={<BusinessProfileEdit />} />
+              {/* Redirect old edit route to Command Center via business profile */}
+              <Route path="/portal/business/profile/edit" element={<Navigate to="/portal/business" replace />} />
               <Route path="/portal/business/board" element={<BusinessBoardPage />} />
               <Route path="/portal/business/:businessId" element={<BusinessProfilePublic />} />
               
