@@ -100,17 +100,20 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
   return (
     <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl overflow-hidden bg-muted">
       {mediaUrls.slice(0, 4).map((url, index) => (
-        <div key={index} className="relative h-40 md:h-48">
+        <div key={index} className="relative h-40 md:h-48 cursor-pointer hover:opacity-95 transition-opacity">
           <img
             src={url}
             alt={`Post media ${index + 1}`}
             className="w-full h-full object-cover"
             loading="lazy"
+            onClick={() => openViewer(mediaUrls, index)}
           />
 
           {/* +N Overlay on 4th image if more than 4 images */}
           {index === 3 && mediaUrls.length > 4 && (
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center">
+            <div 
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center pointer-events-none"
+            >
               <span className="text-white font-bold text-2xl">
                 +{mediaUrls.length - 4}
               </span>
