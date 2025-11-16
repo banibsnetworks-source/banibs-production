@@ -457,27 +457,30 @@ agent_communication:
       **RECOMMENDATION:** No further fixes needed - both critical user flows are working correctly.
 
 user_problem_statement: |
-  **Critical Test: Link Posting User Flow (Raymond's Bug Report)**
+  **S5 - Mobile Responsiveness QA for BANIBS Social**
 
-  **Objective:** Test the complete link posting flow from a user's perspective to verify Raymond's reported bug is fixed.
+  **Objective:** Test and verify mobile responsiveness on key features at common mobile viewport sizes.
 
-  **Raymond reported:** When he creates a link post through the UI:
-  1. Clicks "Add Link"
-  2. Pastes a YouTube URL
-  3. Clicks "Add" or hits Enter
-  4. Types post text
-  5. Clicks "Post"
-  6. Gets success toast ✅
-  7. **BUT:** Link completely disappears from the feed (no preview, no URL) ❌
-
-  **Root Cause Found:** 
-  - Frontend was only sending `link_url` when `linkMeta` (preview) exists
-  - If preview fetch failed, `link_url` became null even though user entered a URL
-
-  **Fix Applied:**
-  - Line 76 in MediaComposerModal.js: Changed `link_url: linkMeta?.url || null` to `link_url: linkMeta?.url || linkUrl || null`
-  - Added fallback display in composer showing the URL when preview fails
-  - Improved UX to always hide input and keep URL (even if preview fails)
+  **TEST PARAMETERS:**
+  - Viewport Sizes: 360px width (Samsung Galaxy S8), 414px width (iPhone Plus), Height: 800px for both
+  
+  **Key Areas to Test:**
+  1. Social Feed (/portal/social) - Post composer, post cards, media grid layouts
+  2. Profile Page - Avatar sizing, tab navigation, profile info
+  3. Post Composer Modal - Modal fit, text area usability, media upload buttons
+  4. Media Viewer - Fullscreen viewer, close button, navigation arrows
+  5. ComingSoon Pages (Groups, Live, Saved) - Icon/text centering, button stacking
+  
+  **Critical Issues to Look For:**
+  - Horizontal scrolling (major red flag)
+  - Text too small to read comfortably  
+  - Buttons too small to tap accurately (min 44×44px touch targets)
+  - Images overflowing containers
+  - Fixed-width elements breaking layout
+  - Spacing too tight (elements touching)
+  - Touch targets overlapping
+  
+  **Test Credentials:** social_test_user@example.com / TestPass123!
 
 backend:
   - task: "Phase 1 - Featured News API Fix"
