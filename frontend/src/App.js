@@ -97,6 +97,8 @@ import JobsDashboard from "./pages/connect/JobsDashboard";
 import JobForm from "./pages/connect/JobForm";
 import JobsBrowser from "./pages/social/JobsBrowser";
 import JobDetailPage from "./pages/social/JobDetailPage";
+// Phase 7.1.1 - Business Insights Analytics
+import AnalyticsDashboard from "./pages/connect/AnalyticsDashboard";
 // High Five Emoji System
 import HighFiveDemo from "./pages/test/HighFiveDemo";
 import EmojiTestPage from "./pages/test/EmojiTestPage";
