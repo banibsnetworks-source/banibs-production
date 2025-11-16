@@ -296,13 +296,16 @@ const BusinessDirectory = () => {
                   </div>
                 </div>
                 
-                <div className=\"flex flex-col gap-2\">
+                <div className=\"flex flex-col gap-3\">
                   <Link
                     to={`/portal/business/${business.handle}`}
                     className=\"px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 text-center whitespace-nowrap\"
                   >
                     View Profile
                   </Link>
+                  
+                  {/* Phase 8.2 - Navigation Buttons */}
+                  <NavigationButtons business={business} />
                 </div>
               </div>
             </div>
