@@ -202,11 +202,42 @@ async def update_business(
 ):
     """
     Update business profile (owner only)
+    Phase 8.2: Includes automatic geocoding when structured address is provided
     """
     # Convert services to dicts if provided
     updates = profile_data.dict(exclude_unset=True)
     if "services" in updates and updates["services"] is not None:
         updates["services"] = [s if isinstance(s, dict) else s.dict() for s in updates["services"]]
+    
+    # Phase 8.2: Auto-geocode if structured address fields are provided
+    if all(k in updates for k in ['address_line1', 'city', 'state', 'postal_code']):
+        try:
+            coords = await geocode_address(
+                address_line1=updates['address_line1'],
+                city=updates['city'],
+                state=updates['state'],
+                postal_code=updates['postal_code'],
+                country=updates.get('country', 'US'),
+                address_line2=updates.get('address_line2')
+            )
+            
+            if coords:
+                updates['latitude'] = coords[0]
+                updates['longitude'] = coords[1]
+                # Also update legacy address field for backwards compatibility
+                address_parts = [updates['address_line1']]
+                if updates.get('address_line2'):
+                    address_parts.append(updates['address_line2'])
+                address_parts.extend([updates['city'], updates['state'], updates['postal_code']])
+                updates['address'] = ", ".join(filter(None, address_parts))
+            else:
+                # Geocoding failed but don't block the update
+                updates['latitude'] = None
+                updates['longitude'] = None
+        except Exception as e:
+            # Log the error but don't block the save
+            import logging
+            logging.error(f"Geocoding error for business {business_id}: {e}")
     
     profile = await db_business.update_business_profile(
         business_id=business_id,
