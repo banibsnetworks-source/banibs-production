@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { MessageBubble } from './MessageBubble';
 import { Loader } from 'lucide-react';
+import { Skeleton } from '../common/Skeleton';
 
 export function MessageList({ 
   messages, 
