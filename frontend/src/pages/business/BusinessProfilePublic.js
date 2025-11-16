@@ -186,7 +186,7 @@ const BusinessProfilePublic = () => {
           <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
             {business.name}
           </h1>
-          {business.verified_status && (
+          {business.verified_status === 'verified' && (
             <div className="flex items-center gap-1 px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm">
               <Check className="w-4 h-4" />
               <span>Verified</span>
