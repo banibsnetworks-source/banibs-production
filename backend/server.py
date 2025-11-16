@@ -246,6 +246,9 @@ app.include_router(social_profile_media_router)
 from routes.social_settings import router as social_settings_router
 app.include_router(social_settings_router)
 
+# Include jobs router (Phase 7.1 - BANIBS Jobs & Opportunities)
+app.include_router(jobs_router)
+
 # Include media upload router (Phase 8.1 - Media Composer)
 from routes.media_upload import router as media_upload_router
 app.include_router(media_upload_router)
