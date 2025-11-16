@@ -64,15 +64,27 @@ async def get_business_profile_by_id(business_id: str):
 
 
 async def get_business_profile_by_owner(owner_user_id: str):
-    """Get business profile by owner user ID"""
+    """Get first business profile by owner user ID (legacy - for backward compatibility)"""
     db = await get_db()
     
     profile = await db.business_profiles.find_one(
-        {"owner_user_id": owner_user_id},
+        {"owner_user_id": owner_user_id, "is_active": True},
         {"_id": 0}
     )
     
     return profile
+
+
+async def get_all_business_profiles_by_owner(owner_user_id: str):
+    """Get ALL business profiles for a user (Dual-Layout System: Mode Switcher)"""
+    db = await get_db()
+    
+    profiles = await db.business_profiles.find(
+        {"owner_user_id": owner_user_id, "is_active": True},
+        {"_id": 0}
+    ).sort("created_at", -1).to_list(length=100)  # Max 100 business profiles per user
+    
+    return profiles
 
 
 async def update_business_profile(business_id: str, owner_user_id: str, **updates):
