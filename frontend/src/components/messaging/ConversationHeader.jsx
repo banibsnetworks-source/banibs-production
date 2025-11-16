@@ -9,12 +9,55 @@ export function ConversationHeader({ conversation, onStartCall, onShowInfo, onSe
     <div className="border-b border-border bg-card px-4 py-3">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          {/* Avatar - Enhanced size and presence */}
+          {/* Avatar Section - Enhanced with dual avatars for DMs */}
           <div className="relative flex-shrink-0">
-            {conversation.type === 'group' && conversation.participants && conversation.participants.length > 1 ? (
-              // Stacked avatars for group chats
-              <div className="relative w-12 h-12">
-                <div className="absolute left-0 top-0 w-9 h-9 rounded-full border-2 border-card bg-muted flex items-center justify-center overflow-hidden">
+            {conversation.type === 'dm' && conversation.participants && conversation.participants.length > 0 ? (
+              // DM: Show both participants side-by-side
+              <div className="flex items-center gap-2">
+                {/* Current User Avatar */}
+                {conversation.currentUserAvatar ? (
+                  <div className="w-14 h-14 rounded-full border-2 border-yellow-500/30 overflow-hidden">
+                    <img src={conversation.currentUserAvatar} alt="You" className="w-full h-full object-cover" />
+                  </div>
+                ) : (
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 border-2 border-yellow-500/30 flex items-center justify-center">
+                    <span className="text-lg font-bold text-gray-900">You</span>
+                  </div>
+                )}
+                
+                {/* Arrow/Separator */}
+                <div className="text-muted-foreground px-1">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                  </svg>
+                </div>
+                
+                {/* Other User Avatar */}
+                <div className="relative">
+                  <div className="w-14 h-14 rounded-full border-2 border-border overflow-hidden bg-muted flex items-center justify-center">
+                    {conversation.participants[0]?.avatar_url ? (
+                      <img 
+                        src={conversation.participants[0].avatar_url} 
+                        alt={conversation.participants[0]?.name || 'User'}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-lg font-bold text-foreground">
+                        {(conversation.participants[0]?.name || '?')[0].toUpperCase()}
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* Online indicator */}
+                  {conversation.online && (
+                    <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-card" />
+                  )}
+                </div>
+              </div>
+            ) : conversation.type === 'group' && conversation.participants && conversation.participants.length > 1 ? (
+              // Group: Stacked avatars
+              <div className="relative w-14 h-14">
+                <div className="absolute left-0 top-0 w-11 h-11 rounded-full border-2 border-card bg-muted flex items-center justify-center overflow-hidden">
                   {conversation.participants[0]?.avatar_url ? (
                     <img src={conversation.participants[0].avatar_url} alt="" className="w-full h-full object-cover" />
                   ) : (
@@ -23,7 +66,7 @@ export function ConversationHeader({ conversation, onStartCall, onShowInfo, onSe
                     </span>
                   )}
                 </div>
-                <div className="absolute right-0 bottom-0 w-9 h-9 rounded-full border-2 border-card bg-muted flex items-center justify-center overflow-hidden">
+                <div className="absolute right-0 bottom-0 w-11 h-11 rounded-full border-2 border-card bg-muted flex items-center justify-center overflow-hidden">
                   {conversation.participants[1]?.avatar_url ? (
                     <img src={conversation.participants[1].avatar_url} alt="" className="w-full h-full object-cover" />
                   ) : (
@@ -34,35 +77,24 @@ export function ConversationHeader({ conversation, onStartCall, onShowInfo, onSe
                 </div>
               </div>
             ) : (
-              // Single avatar for DM or business
-              <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center overflow-hidden">
-                {conversation.participants && conversation.participants.length > 0 && conversation.participants[0]?.avatar_url ? (
-                  <img 
-                    src={conversation.participants[0].avatar_url} 
-                    alt={conversation.title || conversation.name || 'User'}
-                    className="w-full h-full object-cover"
-                  />
-                ) : conversation.avatar ? (
+              // Fallback single avatar
+              <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center overflow-hidden border-2 border-border">
+                {conversation.avatar ? (
                   <img 
                     src={conversation.avatar} 
                     alt={conversation.title || conversation.name || 'Conversation'}
                     className="w-full h-full object-cover"
                   />
                 ) : conversation.type === 'group' ? (
-                  <Users className="w-6 h-6 text-muted-foreground" />
+                  <Users className="w-7 h-7 text-muted-foreground" />
                 ) : conversation.type === 'business' ? (
-                  <Briefcase className="w-6 h-6 text-yellow-500" />
+                  <Briefcase className="w-7 h-7 text-yellow-500" />
                 ) : (
-                  <span className="text-lg font-semibold text-foreground">
+                  <span className="text-xl font-semibold text-foreground">
                     {(conversation.title || conversation.name || '?')[0].toUpperCase()}
                   </span>
                 )}
               </div>
-            )}
-            
-            {/* Online indicator for DMs */}
-            {conversation.type === 'dm' && conversation.online && (
-              <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-card" />
             )}
           </div>
 
