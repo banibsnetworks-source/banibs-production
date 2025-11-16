@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wrench, TrendingUp, Users, DollarSign, FileText, Lightbulb, Award } from 'lucide-react';
+import { Wrench, TrendingUp, Users, DollarSign, FileText, Lightbulb, Award, Briefcase } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import NewsBeat from '../common/NewsBeat';
 
