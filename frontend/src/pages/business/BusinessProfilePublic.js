@@ -13,6 +13,8 @@ const BusinessProfilePublic = () => {
   const [error, setError] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
   const [commandCenterOpen, setCommandCenterOpen] = useState(false);
+  const [businessDraft, setBusinessDraft] = useState(null);
+  const [isSavingProfile, setIsSavingProfile] = useState(false);
 
   useEffect(() => {
     loadBusinessProfile();
