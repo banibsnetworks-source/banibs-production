@@ -323,7 +323,7 @@ const BusinessProfilePublic = () => {
               // Update backend via business profile endpoint
               const token = localStorage.getItem('access_token');
               const response = await fetch(
-                `${process.env.REACT_APP_BACKEND_URL}/api/business/${businessId}`,
+                `${process.env.REACT_APP_BACKEND_URL}/api/business/${business.id}`,
                 {
                   method: 'PATCH',
                   headers: {
@@ -331,9 +331,18 @@ const BusinessProfilePublic = () => {
                     'Content-Type': 'application/json',
                   },
                   body: JSON.stringify({
+                    tagline: businessDraft.tagline,
                     profile_picture_url: businessDraft.profile_picture_url,
                     banner_image_url: businessDraft.banner_image_url,
                     accent_color: businessDraft.accent_color,
+                    secondary_color: businessDraft.secondary_color,
+                    header_style: businessDraft.header_style,
+                    font_style: businessDraft.font_style,
+                    address: businessDraft.address,
+                    phone: businessDraft.phone,
+                    website_url: businessDraft.website_url,
+                    hours: businessDraft.hours,
+                    services: businessDraft.services,
                   }),
                 }
               );
