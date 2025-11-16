@@ -92,6 +92,11 @@ import SocialLivesPage from "./pages/portals/SocialLivesPage";
 import SocialSubscriptionsPage from "./pages/portals/SocialSubscriptionsPage";
 // Dual-Layout System: BANIBS Connect
 import ConnectHome from "./pages/portals/ConnectHome";
+// Phase 7.1 - Jobs & Opportunities + Rating System
+import JobsDashboard from "./pages/connect/JobsDashboard";
+import JobForm from "./pages/connect/JobForm";
+import JobsBrowser from "./pages/social/JobsBrowser";
+import JobDetailPage from "./pages/social/JobDetailPage";
 // High Five Emoji System
 import HighFiveDemo from "./pages/test/HighFiveDemo";
 import EmojiTestPage from "./pages/test/EmojiTestPage";
