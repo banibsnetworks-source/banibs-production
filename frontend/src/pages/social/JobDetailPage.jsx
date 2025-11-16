@@ -80,6 +80,11 @@ const JobDetailPage = () => {
         alert('Application submitted successfully!');
         setShowApplicationModal(false);
         setApplicationData({ cover_message: '', resume_url: '' });
+        
+        // Track job application for BIA
+        if (job.business_profile_id) {
+          trackBIAJobApplication(job.business_profile_id, jobId);
+        }
       } else {
         const data = await response.json();
         alert(data.detail || 'Failed to submit application');
