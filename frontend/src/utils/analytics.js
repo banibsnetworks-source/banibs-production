@@ -102,6 +102,105 @@ export const trackJobApplication = (jobCategory) => {
   trackEvent('job_application_submitted', { job_category: jobCategory });
 };
 
+// =============================================================================
+// PHASE 7.1.1 - BUSINESS INSIGHTS ANALYTICS (BIA)
+// =============================================================================
+
+/**
+ * Track BIA event to backend
+ * Separate from PostHog - this is for business owner analytics dashboard
+ */
+const trackBIAEvent = async (eventData) => {
+  try {
+    const token = localStorage.getItem('access_token');
+    if (!token) return;
+
+    await fetch(`${BACKEND_URL}/api/business-analytics/track`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(eventData)
+    });
+  } catch (error) {
+    // Fail silently - tracking should never block UX
+    console.debug('BIA tracking failed:', error);
+  }
+};
+
+/**
+ * Track business profile view
+ */
+export const trackBIAProfileView = (businessProfileId, source = 'direct') => {
+  trackBIAEvent({
+    business_profile_id: businessProfileId,
+    event_type: 'profile_view',
+    source,
+    meta: {}
+  });
+};
+
+/**
+ * Track post view/impression
+ */
+export const trackBIAPostView = (businessProfileId, postId) => {
+  trackBIAEvent({
+    business_profile_id: businessProfileId,
+    event_type: 'post_view',
+    source: 'feed',
+    meta: { post_id: postId }
+  });
+};
+
+/**
+ * Track job view
+ */
+export const trackBIAJobView = (businessProfileId, jobId) => {
+  trackBIAEvent({
+    business_profile_id: businessProfileId,
+    event_type: 'job_view',
+    source: 'job_board',
+    meta: { job_id: jobId }
+  });
+};
+
+/**
+ * Track job application (BIA)
+ */
+export const trackBIAJobApplication = (businessProfileId, jobId) => {
+  trackBIAEvent({
+    business_profile_id: businessProfileId,
+    event_type: 'job_apply',
+    source: 'job_board',
+    meta: { job_id: jobId }
+  });
+};
+
+/**
+ * Track search result click
+ */
+export const trackBIASearchClick = (businessProfileId, query) => {
+  trackBIAEvent({
+    business_profile_id: businessProfileId,
+    event_type: 'search_click',
+    source: 'search',
+    meta: { query }
+  });
+};
+
+/**
+ * Track category browse click
+ */
+export const trackBIACategoryClick = (businessProfileId, category) => {
+  trackBIAEvent({
+    business_profile_id: businessProfileId,
+    event_type: 'category_click',
+    source: 'category',
+    meta: { category }
+  });
+};
+
 /**
  * Track directory search
  */
