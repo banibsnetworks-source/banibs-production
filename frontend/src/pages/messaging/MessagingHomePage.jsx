@@ -273,15 +273,15 @@ export function MessagingHomePage() {
             <div className="text-center space-y-6 max-w-md">
               {/* User Profile Section */}
               <div className="flex flex-col items-center space-y-3">
-                {/* User Avatar */}
+                {/* User Avatar - Large and prominent */}
                 {user?.profile?.avatar_url || user?.avatar_url ? (
                   <img 
                     src={user.profile?.avatar_url || user.avatar_url} 
                     alt={user.name}
-                    className="w-20 h-20 rounded-full object-cover border-4 border-yellow-500/20 shadow-lg"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-yellow-500/20 shadow-lg"
                   />
                 ) : (
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-gray-900 text-2xl font-bold border-4 border-yellow-500/20 shadow-lg">
+                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-gray-900 text-3xl font-bold border-4 border-yellow-500/20 shadow-lg">
                     {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                   </div>
                 )}
