@@ -61,9 +61,17 @@ const SocialPostComposer = ({ onPostCreated }) => {
         {/* Header */}
         <div className="flex items-center space-x-3 mb-3">
           {/* Avatar */}
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-gray-900 font-bold">
-            {user?.name?.charAt(0)?.toUpperCase() || 'U'}
-          </div>
+          {user?.profile?.avatar_url || user?.avatar_url ? (
+            <img 
+              src={user.profile?.avatar_url || user.avatar_url} 
+              alt={user.name}
+              className="w-10 h-10 rounded-full object-cover"
+            />
+          ) : (
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-gray-900 font-bold">
+              {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+            </div>
+          )}
           
           {/* User Info */}
           <div>
