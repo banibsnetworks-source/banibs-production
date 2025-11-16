@@ -210,7 +210,7 @@ const BusinessProfilePublic = () => {
         )}
         
         <div 
-          className="h-1 w-24 rounded-full"
+          className="h-1 w-24 rounded-full mb-4"
           style={{ backgroundColor: business.accent_color || '#EAB308' }}
         />
       </div>
