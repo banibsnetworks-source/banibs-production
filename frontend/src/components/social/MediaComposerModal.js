@@ -119,9 +119,27 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
           {/* Media Uploader */}
           <MediaUploader media={media} setMedia={setMedia} />
 
-          {/* Link Preview */}
+          {/* Link Preview - Rich preview when metadata exists */}
           {linkMeta && (
             <LinkPreviewCard linkMeta={linkMeta} onRemove={handleRemoveLink} />
+          )}
+
+          {/* Link Preview Fallback - Show URL when no metadata but URL exists */}
+          {!linkMeta && linkUrl && !showLinkInput && (
+            <div className="mt-3 flex items-center justify-between p-3 bg-muted border border-border rounded-lg">
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-muted-foreground mb-1">Link</p>
+                <p className="text-sm text-blue-500 truncate">{linkUrl}</p>
+                <p className="text-xs text-muted-foreground mt-1">Preview unavailable - link will be posted as URL</p>
+              </div>
+              <button
+                onClick={handleRemoveLink}
+                className="ml-3 p-1 hover:bg-background rounded transition-colors"
+                title="Remove link"
+              >
+                <X size={18} className="text-muted-foreground" />
+              </button>
+            </div>
           )}
 
           {/* Link Input */}
