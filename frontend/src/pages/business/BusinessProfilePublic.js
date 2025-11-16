@@ -218,7 +218,7 @@ const BusinessProfilePublic = () => {
         <NavigationButtons business={business} className="mt-4" />
       </div>
 
-      {/* Main Content */}}
+      {/* Main Content */}
       <div className="business-content max-w-5xl mx-auto px-4 space-y-6">
         {/* Business Info Panel - Phase 8.1 Stage 2 */}
         <BusinessInfoPanel 
