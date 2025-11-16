@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Navigation, Search, Loader2 } from 'lucide-react';
 import GlobalNavBar from '../../components/GlobalNavBar';
+import NavigationButtons from '../../components/business/NavigationButtons';
 
 /**
  * BusinessDirectory - Phase 8.2.3
