@@ -5,12 +5,7 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
-/**
- * BannerUploader - Phase 8.1 Stage 1
- * Upload and crop banner image with 3:1 aspect ratio
- */
-
-const BannerUploader = ({ currentBannerUrl, onSave, onCancel }) => {
+const BannerUploader = ({ currentUrl, onChange }) => {
   const [imageSrc, setImageSrc] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -26,13 +21,11 @@ const BannerUploader = ({ currentBannerUrl, onSave, onCancel }) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file type
     if (!file.type.startsWith('image/')) {
       setError('Please select an image file');
       return;
     }
 
-    // Validate file size (max 10MB for banner)
     if (file.size > 10 * 1024 * 1024) {
       setError('Image must be less than 10MB');
       return;
@@ -60,7 +53,6 @@ const BannerUploader = ({ currentBannerUrl, onSave, onCancel }) => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
 
-    // Set canvas size to cropped area
     canvas.width = pixelCrop.width;
     canvas.height = pixelCrop.height;
 
@@ -83,7 +75,7 @@ const BannerUploader = ({ currentBannerUrl, onSave, onCancel }) => {
     });
   };
 
-  const handleSave = async () => {
+  const handleUpload = async () => {
     if (!imageSrc || !croppedAreaPixels) {
       setError('Please select and crop an image');
       return;
@@ -93,20 +85,15 @@ const BannerUploader = ({ currentBannerUrl, onSave, onCancel }) => {
     setError(null);
 
     try {
-      // Get cropped image blob
       const croppedBlob = await getCroppedImg(imageSrc, croppedAreaPixels);
-
-      // Create FormData
       const formData = new FormData();
       formData.append('file', croppedBlob, 'banner.jpg');
 
-      // Get auth token
       const token = localStorage.getItem('access_token');
       if (!token) {
         throw new Error('Authentication required');
       }
 
-      // Upload to backend
       const response = await axios.post(
         `${API_URL}/api/profile/media/upload-banner`,
         formData,
@@ -118,8 +105,11 @@ const BannerUploader = ({ currentBannerUrl, onSave, onCancel }) => {
         }
       );
 
-      // Call parent callback with new URL
-      onSave(response.data.url);
+      onChange(response.data.url);
+      
+      setImageSrc(null);
+      setCrop({ x: 0, y: 0 });
+      setZoom(1);
     } catch (err) {
       console.error('Upload error:', err);
       setError(err.response?.data?.detail || err.message || 'Upload failed');
@@ -129,64 +119,42 @@ const BannerUploader = ({ currentBannerUrl, onSave, onCancel }) => {
   };
 
   return (
-    <div className="space-y-4">
-      <div>
-        <h3 className="text-lg font-semibold text-foreground mb-2">Cover Banner</h3>
-        <p className="text-sm text-muted-foreground">Upload a wide banner image for your profile header</p>
-      </div>
-
+    <div className="space-y-3">
       {error && (
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded-lg">
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-3 py-2 rounded-lg text-sm">
           {error}
         </div>
       )}
 
       {!imageSrc ? (
-        <div className="space-y-4">
-          {/* Current banner preview */}
-          {currentBannerUrl && (
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-foreground">Current Banner</p>
-              <div className="w-full aspect-[3/1] rounded-lg overflow-hidden border border-border">
-                <img
-                  src={currentBannerUrl}
-                  alt="Current banner"
-                  className="w-full h-full object-cover"
-                />
-              </div>
+        <div className="space-y-3">
+          {currentUrl && (
+            <div className="w-full aspect-[3/1] rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700">
+              <img
+                src={currentUrl.startsWith('http') ? currentUrl : `${API_URL}${currentUrl}`}
+                alt="Current banner"
+                className="w-full h-full object-cover"
+              />
             </div>
           )}
 
-          {/* Upload button */}
-          <div>
-            <label className="block">
-              <div className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:bg-muted transition-colors">
-                <Upload className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-                <p className="text-foreground font-medium mb-1">Click to upload banner</p>
-                <p className="text-sm text-muted-foreground">PNG, JPG up to 10MB (3:1 ratio recommended)</p>
-              </div>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileSelect}
-                className="hidden"
-              />
-            </label>
-          </div>
-
-          <div className="flex gap-3">
-            <button
-              onClick={onCancel}
-              className="flex-1 px-4 py-2 border border-border text-foreground rounded-lg hover:bg-muted transition-colors"
-            >
-              Cancel
-            </button>
-          </div>
+          <label className="block">
+            <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 rounded-lg p-6 text-center cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors">
+              <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
+              <p className="text-slate-700 dark:text-slate-300 text-sm font-medium mb-1">Upload banner (3:1 ratio)</p>
+              <p className="text-xs text-slate-500">PNG, JPG up to 10MB</p>
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileSelect}
+              className="hidden"
+            />
+          </label>
         </div>
       ) : (
-        <div className="space-y-4">
-          {/* Crop area */}
-          <div className="relative w-full h-80 bg-black rounded-lg overflow-hidden">
+        <div className="space-y-3">
+          <div className="relative w-full h-64 bg-black rounded-lg overflow-hidden">
             <Cropper
               image={imageSrc}
               crop={crop}
@@ -198,9 +166,8 @@ const BannerUploader = ({ currentBannerUrl, onSave, onCancel }) => {
             />
           </div>
 
-          {/* Zoom slider */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">Zoom</label>
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-slate-600 dark:text-slate-400">Zoom</label>
             <input
               type="range"
               min={1}
@@ -212,8 +179,7 @@ const BannerUploader = ({ currentBannerUrl, onSave, onCancel }) => {
             />
           </div>
 
-          {/* Action buttons */}
-          <div className="flex gap-3">
+          <div className="flex gap-2">
             <button
               onClick={() => {
                 setImageSrc(null);
@@ -222,14 +188,14 @@ const BannerUploader = ({ currentBannerUrl, onSave, onCancel }) => {
                 setError(null);
               }}
               disabled={isUploading}
-              className="flex-1 px-4 py-2 border border-border text-foreground rounded-lg hover:bg-muted transition-colors disabled:opacity-50"
+              className="flex-1 px-3 py-2 text-sm border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-md hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors disabled:opacity-50"
             >
               Change Image
             </button>
             <button
-              onClick={handleSave}
+              onClick={handleUpload}
               disabled={isUploading}
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+              className="flex-1 px-3 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {isUploading ? (
                 <>
@@ -237,7 +203,7 @@ const BannerUploader = ({ currentBannerUrl, onSave, onCancel }) => {
                   Uploading...
                 </>
               ) : (
-                'Save Banner'
+                'Upload'
               )}
             </button>
           </div>
