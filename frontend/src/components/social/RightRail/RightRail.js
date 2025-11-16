@@ -43,6 +43,11 @@ const RightRail = () => {
 
   return (
     <aside className="right-rail">
+      {/* NewsBeat - Dual-Layout System */}
+      <div className="mb-4">
+        <NewsBeat variant="desktop" limit={5} />
+      </div>
+
       {/* Live Now Section */}
       <div className="right-rail-section">
         <div className="right-rail-section-header">
