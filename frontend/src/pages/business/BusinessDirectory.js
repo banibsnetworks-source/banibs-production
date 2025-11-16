@@ -118,23 +118,23 @@ const BusinessDirectory = () => {
     <div className="min-h-screen bg-slate-950">
       <GlobalNavBar />
       
-      <div className=\"container mx-auto px-4 py-8 max-w-6xl\">
-        <h1 className=\"text-4xl font-bold text-white mb-8\">
+      <div className='container mx-auto px-4 py-8 max-w-6xl'>
+        <h1 className='text-4xl font-bold text-white mb-8'>
           Business Directory
         </h1>
         
         {/* Search Filters */}
-        <div className=\"bg-slate-900 rounded-lg border border-slate-800 p-6 mb-8\">
-          <div className=\"grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4\">
+        <div className='bg-slate-900 rounded-lg border border-slate-800 p-6 mb-8'>
+          <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4'>
             {/* Category */}
             <div>
-              <label className=\"block text-sm font-medium text-slate-300 mb-2\">
+              <label className='block text-sm font-medium text-slate-300 mb-2'>
                 Category
               </label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className=\"w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white\"
+                className='w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white'
               >
                 {categories.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -144,72 +144,72 @@ const BusinessDirectory = () => {
             
             {/* Zip Code */}
             <div>
-              <label className=\"block text-sm font-medium text-slate-300 mb-2\">
+              <label className='block text-sm font-medium text-slate-300 mb-2'>
                 Zip Code
               </label>
               <input
-                type=\"text\"
+                type='text'
                 value={zipCode}
                 onChange={(e) => {
                   setZipCode(e.target.value);
                   setUseLocation(false);
                 }}
-                placeholder=\"30303\"
+                placeholder='30303'
                 disabled={useLocation}
-                className=\"w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white disabled:opacity-50\"
+                className='w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white disabled:opacity-50'
               />
             </div>
             
             {/* City */}
             <div>
-              <label className=\"block text-sm font-medium text-slate-300 mb-2\">
+              <label className='block text-sm font-medium text-slate-300 mb-2'>
                 City
               </label>
               <input
-                type=\"text\"
+                type='text'
                 value={city}
                 onChange={(e) => {
                   setCity(e.target.value);
                   setUseLocation(false);
                 }}
-                placeholder=\"Atlanta\"
+                placeholder='Atlanta'
                 disabled={useLocation}
-                className=\"w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white disabled:opacity-50\"
+                className='w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white disabled:opacity-50'
               />
             </div>
             
             {/* State */}
             <div>
-              <label className=\"block text-sm font-medium text-slate-300 mb-2\">
+              <label className='block text-sm font-medium text-slate-300 mb-2'>
                 State
               </label>
               <input
-                type=\"text\"
+                type='text'
                 value={state}
                 onChange={(e) => {
                   setState(e.target.value.toUpperCase());
                   setUseLocation(false);
                 }}
-                placeholder=\"GA\"
+                placeholder='GA'
                 maxLength={2}
                 disabled={useLocation}
-                className=\"w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white uppercase disabled:opacity-50\"
+                className='w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white uppercase disabled:opacity-50'
               />
             </div>
           </div>
           
-          <div className=\"flex flex-wrap gap-3 items-center\">
+          <div className='flex flex-wrap gap-3 items-center'>
             <button
               onClick={handleUseMyLocation}
               disabled={loading}
-              className=\"flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50\"
+              className='flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50'
             >
-              <Navigation className=\"w-4 h-4\" />
+              <Navigation className='w-4 h-4' />
               Use My Location
             </button>
             
             {useLocation && userCoords && (
-              <span className=\"text-sm text-green-400\">
+              <span className='text-sm text-green-400'>
                 ✓ Using your location
               </span>
             )}
@@ -217,19 +217,19 @@ const BusinessDirectory = () => {
             <button
               onClick={searchBusinesses}
               disabled={loading}
-              className=\"flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 disabled:opacity-50\"
+              className='flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 disabled:opacity-50'
             >
-              {loading ? <Loader2 className=\"w-4 h-4 animate-spin\" /> : <Search className=\"w-4 h-4\" />}
+              {loading ? <Loader2 className='w-4 h-4 animate-spin' /> : <Search className='w-4 h-4' />}
               Search
             </button>
             
             {(useLocation || zipCode || city) && (
               <div>
-                <label className=\"text-sm text-slate-400 mr-2\">Radius:</label>
+                <label className='text-sm text-slate-400 mr-2'>Radius:</label>
                 <select
                   value={radiusKm}
                   onChange={(e) => setRadiusKm(Number(e.target.value))}
-                  className=\"px-3 py-1 bg-slate-800 border border-slate-700 rounded text-white text-sm\"
+                  className='px-3 py-1 bg-slate-800 border border-slate-700 rounded text-white text-sm'
                 >
                   <option value={5}>5 miles</option>
                   <option value={10}>10 miles</option>
@@ -242,16 +242,16 @@ const BusinessDirectory = () => {
           </div>
           
           {error && (
-            <div className=\"mt-4 p-3 bg-red-900/20 border border-red-800 rounded-lg text-red-400 text-sm\">
+            <div className='mt-4 p-3 bg-red-900/20 border border-red-800 rounded-lg text-red-400 text-sm'>
               {error}
             </div>
           )}
         </div>
         
         {/* Results */}
-        <div className=\"space-y-4\">
-          <div className=\"flex items-center justify-between mb-4\">
-            <h2 className=\"text-xl font-semibold text-white\">
+        <div className='space-y-4'>
+          <div className='flex items-center justify-between mb-4'>
+            <h2 className='text-xl font-semibold text-white'>
               {loading ? 'Searching...' : `${businesses.length} businesses found`}
             </h2>
           </div>
@@ -259,47 +259,47 @@ const BusinessDirectory = () => {
           {businesses.map((business) => (
             <div
               key={business.id}
-              className=\"bg-slate-900 border border-slate-800 rounded-lg p-6 hover:border-slate-700 transition-colors\"
+              className='bg-slate-900 border border-slate-800 rounded-lg p-6 hover:border-slate-700 transition-colors'
             >
-              <div className=\"flex items-start justify-between gap-4\">
-                <div className=\"flex-1\">
+              <div className='flex items-start justify-between gap-4'>
+                <div className='flex-1'>
                   <Link
                     to={`/portal/business/${business.handle}`}
-                    className=\"text-xl font-semibold text-white hover:text-yellow-400\"
+                    className='text-xl font-semibold text-white hover:text-yellow-400'
                   >
                     {business.name}
                   </Link>
                   
                   {business.tagline && (
-                    <p className=\"text-slate-400 mt-1\">{business.tagline}</p>
+                    <p className='text-slate-400 mt-1'>{business.tagline}</p>
                   )}
                   
-                  <div className=\"flex items-center gap-4 mt-3 text-sm text-slate-400\">
+                  <div className='flex items-center gap-4 mt-3 text-sm text-slate-400'>
                     {business.industry && (
-                      <span className=\"px-2 py-1 bg-yellow-900/30 text-yellow-400 rounded\">
+                      <span className='px-2 py-1 bg-yellow-900/30 text-yellow-400 rounded'>
                         {business.industry}
                       </span>
                     )}
                     
                     {business.city && business.state && (
-                      <span className=\"flex items-center gap-1\">
-                        <MapPin className=\"w-4 h-4\" />
+                      <span className='flex items-center gap-1'>
+                        <MapPin className='w-4 h-4' />
                         {business.city}, {business.state}
                       </span>
                     )}
                     
                     {business.distance_miles != null && (
-                      <span className=\"text-blue-400 font-medium\">
+                      <span className='text-blue-400 font-medium'>
                         {business.distance_miles} miles away
                       </span>
                     )}
                   </div>
                 </div>
                 
-                <div className=\"flex flex-col gap-3\">
+                <div className='flex flex-col gap-3'>
                   <Link
                     to={`/portal/business/${business.handle}`}
-                    className=\"px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 text-center whitespace-nowrap\"
+                    className='px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 text-center whitespace-nowrap'
                   >
                     View Profile
                   </Link>
@@ -312,8 +312,8 @@ const BusinessDirectory = () => {
           ))}
           
           {!loading && businesses.length === 0 && (
-            <div className=\"text-center py-12\">
-              <p className=\"text-slate-400\">
+            <div className='text-center py-12'>
+              <p className='text-slate-400'>
                 No businesses found. Try adjusting your search filters.
               </p>
             </div>
