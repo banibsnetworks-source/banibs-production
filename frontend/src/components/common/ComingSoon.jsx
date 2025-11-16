@@ -1,5 +1,5 @@
 import React from 'react';
-import { Broadcast, Users, Briefcase, Play, Sparkles } from 'lucide-react';
+import { Radio, Users, Briefcase, Play, Sparkles } from 'lucide-react';
 
 /**
  * ComingSoon Component - S-FINAL S4
