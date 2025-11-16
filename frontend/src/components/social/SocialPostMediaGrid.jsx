@@ -46,7 +46,7 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
             <img
               src={url}
               alt={`Post media ${index + 1}`}
-              className="w-full h-full object-cover object-top"
+              className="w-full h-full object-cover object-center"
               loading="lazy"
               onClick={() => openViewer(mediaUrls, index)}
             />
