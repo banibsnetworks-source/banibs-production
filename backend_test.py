@@ -8214,6 +8214,42 @@ def main():
             self.log(f"\n❌ P0 FIX TEST FAILED with exception: {e}", "ERROR")
             return False
 
+    def run_phase_7_1_tests(self) -> bool:
+        """Run Phase 7.1 Jobs & Opportunities + Business Rating System tests"""
+        self.log("🎯 STARTING PHASE 7.1 TESTING: Jobs & Opportunities + Business Rating System")
+        self.log(f"Testing against: {API_BASE}")
+        self.log("Comprehensive testing of Jobs API and Business Reviews API")
+        
+        tests = [
+            ("Phase 7.1 Jobs & Ratings Comprehensive Test", self.test_phase_7_1_jobs_and_ratings_comprehensive),
+        ]
+        
+        passed = 0
+        failed = 0
+        
+        for test_name, test_func in tests:
+            self.log(f"\n--- Running {test_name} ---")
+            try:
+                if test_func():
+                    passed += 1
+                else:
+                    failed += 1
+            except Exception as e:
+                self.log(f"❌ {test_name} failed with exception: {e}", "ERROR")
+                failed += 1
+                
+        self.log(f"\n=== PHASE 7.1 TEST RESULTS ===")
+        self.log(f"✅ Passed: {passed}")
+        self.log(f"❌ Failed: {failed}")
+        self.log(f"Total: {passed + failed}")
+        
+        if failed == 0:
+            self.log("🎉 All Phase 7.1 tests passed!")
+            return True
+        else:
+            self.log(f"💥 {failed} Phase 7.1 test(s) failed")
+            return False
+
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
         self.log("Starting BANIBS Backend API Test Suite - Phase 6.4 Sentiment-Driven Moderation Routing")
