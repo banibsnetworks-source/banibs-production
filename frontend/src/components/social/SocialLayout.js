@@ -26,16 +26,19 @@ const SocialLayoutContent = ({ children }) => {
           position: 'relative'
         }}
       >
-        {/* Left Rail - Fixed width, collapsible */}
-        <div style={{ 
-          width: isCollapsed ? '72px' : '260px',
-          transition: 'width 200ms cubic-bezier(0.4, 0, 0.2, 1)',
-          flexShrink: 0
-        }}>
+        {/* Left Rail - Hidden on mobile (< 1024px), fixed width on desktop */}
+        <div 
+          className="hidden lg:block"
+          style={{ 
+            width: isCollapsed ? '72px' : '260px',
+            transition: 'width 200ms cubic-bezier(0.4, 0, 0.2, 1)',
+            flexShrink: 0
+          }}
+        >
           <LeftRail />
         </div>
         
-        {/* Main Content Area - Flexible, Scrollable */}
+        {/* Main Content Area - Full width on mobile, flexible on desktop */}
         <main 
           className="social-main bg-background"
           style={{
@@ -43,17 +46,21 @@ const SocialLayoutContent = ({ children }) => {
             overflowY: 'auto',
             overflowX: 'hidden',
             position: 'relative',
-            minWidth: 0
+            minWidth: 0,
+            width: '100%'
           }}
         >
           {children}
         </main>
 
-        {/* Right Rail - Fixed width */}
-        <div style={{ 
-          width: '320px',
-          flexShrink: 0
-        }}>
+        {/* Right Rail - Hidden on mobile and tablet (< 1280px), fixed width on desktop */}
+        <div 
+          className="hidden xl:block"
+          style={{ 
+            width: '320px',
+            flexShrink: 0
+          }}
+        >
           <RightRail />
         </div>
       </div>
