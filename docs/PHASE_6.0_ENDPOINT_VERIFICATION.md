@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://banibsjobs.preview.emergentagent.com/api/auth
+https://brand-center-1.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

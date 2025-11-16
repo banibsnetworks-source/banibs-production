@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://banibsjobs.preview.emergentagent.com"
+BACKEND_URL="https://brand-center-1.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output
