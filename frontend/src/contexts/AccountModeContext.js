@@ -34,6 +34,17 @@ export const AccountModeProvider = ({ children }) => {
     fetchBusinessProfiles();
   }, []);
 
+  // Apply theme class to body based on mode
+  useEffect(() => {
+    const themeClass = mode === 'business' ? 'theme-connect' : 'theme-social';
+    document.body.classList.remove('theme-social', 'theme-connect');
+    document.body.classList.add(themeClass);
+    
+    return () => {
+      document.body.classList.remove('theme-social', 'theme-connect');
+    };
+  }, [mode]);
+
   /**
    * Load saved account mode from localStorage
    */
