@@ -1,12 +1,14 @@
 import React from 'react';
 import SocialComingSoon from './SocialComingSoon';
+import { Bookmark } from 'lucide-react';
 
 export default function SocialSavedPage() {
   return (
     <SocialComingSoon
-      title="Saved & Bookmarks"
-      description="Access your saved posts, bookmarked content, and favorites."
-      phase="Coming in Phase 10.4"
+      section="default"
+      title="Saved Posts"
+      description="Bookmark and organize your favorite posts. Coming soon as part of BANIBS Connect's next phase."
+      customIcon={Bookmark}
     />
   );
 }
