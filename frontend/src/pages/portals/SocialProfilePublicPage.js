@@ -585,15 +585,56 @@ const SocialProfilePublicPage = () => {
       {isOwnProfile && (
         <ProfileCommandCenter
           isOpen={commandCenterOpen}
-          onClose={() => setCommandCenterOpen(false)}
-          currentUser={currentUserData}
-          onProfileUpdate={(updates) => {
-            // Refresh profile to show new image/banner/color
-            setProfile(prev => ({ ...prev, ...updates }));
-            if (user) {
-              setCurrentUserData({ ...user, ...updates });
+          onClose={() => {
+            setCommandCenterOpen(false);
+            setProfileDraft(null);
+          }}
+          mode="social"
+          profile={profileDraft || profile}
+          onProfileChange={setProfileDraft}
+          onSave={async () => {
+            if (!profileDraft) {
+              setCommandCenterOpen(false);
+              return;
+            }
+            
+            try {
+              setIsSavingProfile(true);
+              
+              // Update backend via unified auth profile endpoint
+              const token = localStorage.getItem('access_token');
+              const response = await fetch(
+                `${process.env.REACT_APP_BACKEND_URL}/api/auth/profile`,
+                {
+                  method: 'PATCH',
+                  headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    profile_picture_url: profileDraft.profile_picture_url,
+                    banner_image_url: profileDraft.banner_image_url,
+                    accent_color: profileDraft.accent_color,
+                  }),
+                }
+              );
+              
+              if (response.ok) {
+                // Update local state
+                setProfile(prev => ({ ...prev, ...profileDraft }));
+                setProfileDraft(null);
+                setCommandCenterOpen(false);
+              } else {
+                alert('Failed to save profile changes');
+              }
+            } catch (error) {
+              console.error('Error saving profile:', error);
+              alert('Failed to save profile changes');
+            } finally {
+              setIsSavingProfile(false);
             }
           }}
+          isSaving={isSavingProfile}
         />
       )}
     </SocialLayout>
