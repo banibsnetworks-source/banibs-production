@@ -400,22 +400,27 @@ agent_communication:
       **RECOMMENDATION:** P0 fix is production-ready. Media post functionality is fully restored and working as expected.
 
 user_problem_statement: |
-  Phase 7.x Continuation - Homepage Content + Business Directory Performance + Testing Cleanup:
-  
-  Phase 1 - Homepage Content Fixes (PRIORITY):
-  1. Fix Featured Stories section - ensure /api/news/featured returns valid data with image_url and link
-  2. Fix BANIBS TV section - ensure /api/media/featured returns media or graceful fallback
-  3. Frontend components should handle empty states properly
-  
-  Phase 2 - Business Directory Performance:
-  1. Investigate slow /api/business/directory endpoint (~20s response time)
-  2. Optimize MongoDB queries and indexes
-  3. Consider pagination and caching
-  
-  Phase 3 - Playwright Testing Cleanup:
-  1. Align selectors with current UI (buttons, cards, etc.)
-  2. Add data-testid attributes where needed
-  3. Ensure tests pass reliably
+  **Critical Test: Link Posting User Flow (Raymond's Bug Report)**
+
+  **Objective:** Test the complete link posting flow from a user's perspective to verify Raymond's reported bug is fixed.
+
+  **Raymond reported:** When he creates a link post through the UI:
+  1. Clicks "Add Link"
+  2. Pastes a YouTube URL
+  3. Clicks "Add" or hits Enter
+  4. Types post text
+  5. Clicks "Post"
+  6. Gets success toast ✅
+  7. **BUT:** Link completely disappears from the feed (no preview, no URL) ❌
+
+  **Root Cause Found:** 
+  - Frontend was only sending `link_url` when `linkMeta` (preview) exists
+  - If preview fetch failed, `link_url` became null even though user entered a URL
+
+  **Fix Applied:**
+  - Line 76 in MediaComposerModal.js: Changed `link_url: linkMeta?.url || null` to `link_url: linkMeta?.url || linkUrl || null`
+  - Added fallback display in composer showing the URL when preview fails
+  - Improved UX to always hide input and keep URL (even if preview fails)
 
 backend:
   - task: "Phase 1 - Featured News API Fix"
