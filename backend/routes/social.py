@@ -58,15 +58,9 @@ async def create_post(
     Create a new social post (Phase 8.1: with media and link support)
     Requires authentication
     """
-    # DEBUG LOG: Check incoming data
-    print(f"🔍 [Route] post_data.media: {post_data.media}")
-    print(f"🔍 [Route] post_data.text: {post_data.text}")
-    
     # Convert Pydantic models to dicts for DB
     media_list = [m.dict() for m in post_data.media] if post_data.media else []
     link_meta_dict = post_data.link_meta.dict() if post_data.link_meta else None
-    
-    print(f"🔍 [Route] media_list after conversion: {media_list}")
     
     post = await db_social.create_post(
         author_id=current_user["id"],
