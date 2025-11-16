@@ -57,14 +57,14 @@ export function ConversationList({ conversations, activeConversationId, onSelect
       {/* Conversation List */}
       <div className="flex-1 overflow-y-auto">
         {isLoading ? (
-          // Skeleton Loading State
+          // BANIBS Skeleton Loading State
           <div className="space-y-0">
-            {[1, 2, 3, 4, 5].map(i => (
-              <div key={i} className="px-4 py-3 flex items-start space-x-3 animate-pulse">
-                <div className="w-10 h-10 rounded-full bg-muted flex-shrink-0"></div>
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="px-4 py-3 flex items-start gap-3">
+                <Skeleton className="w-10 h-10 rounded-full flex-shrink-0" />
                 <div className="flex-1 space-y-2">
-                  <div className="h-4 bg-muted rounded w-3/4"></div>
-                  <div className="h-3 bg-muted rounded w-1/2"></div>
+                  <Skeleton className="h-4 w-32 rounded-lg" />
+                  <Skeleton className="h-3 w-48 rounded-lg" />
                 </div>
               </div>
             ))}
