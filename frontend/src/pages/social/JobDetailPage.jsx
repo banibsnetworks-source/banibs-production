@@ -4,6 +4,7 @@ import SocialLayout from '../../components/social/SocialLayout';
 import { ArrowLeft, MapPin, DollarSign, Briefcase, Clock, ExternalLink, Star, Users } from 'lucide-react';
 import BusinessRating from '../../components/common/BusinessRating';
 import ReviewsList from '../../components/common/ReviewsList';
+import { trackBIAJobView, trackBIAJobApplication } from '../../utils/analytics';
 
 /**
  * JobDetailPage - Public Job Details (Social Mode)
