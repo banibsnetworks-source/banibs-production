@@ -213,9 +213,12 @@ const BusinessProfilePublic = () => {
           className="h-1 w-24 rounded-full mb-4"
           style={{ backgroundColor: business.accent_color || '#EAB308' }}
         />
+        
+        {/* Phase 8.2 - Navigation Buttons */}
+        <NavigationButtons business={business} className="mt-4" />
       </div>
 
-      {/* Main Content */}
+      {/* Main Content */}}
       <div className="business-content max-w-5xl mx-auto px-4 space-y-6">
         {/* Business Info Panel - Phase 8.1 Stage 2 */}
         <BusinessInfoPanel 
