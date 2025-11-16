@@ -119,12 +119,30 @@ const SocialFeed = ({ newPost }) => {
     setPosts(posts.filter(p => p.id !== postId));
   };
 
-  // Loading state
+  // BANIBS Skeleton Loading State
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-12">
-        <Loader className="animate-spin text-yellow-500 mb-3" size={32} />
-        <p className="text-muted-foreground text-sm">Loading your feed...</p>
+      <div className="space-y-6">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="rounded-2xl border border-border p-4 space-y-4 bg-card">
+            {/* Post Header */}
+            <div className="flex items-center gap-3">
+              <Skeleton className="w-12 h-12 rounded-full" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-40" />
+                <Skeleton className="h-3 w-24" />
+              </div>
+            </div>
+            {/* Post Content */}
+            <div className="space-y-2">
+              <Skeleton className="h-3 w-11/12" />
+              <Skeleton className="h-3 w-10/12" />
+              <Skeleton className="h-3 w-7/12" />
+            </div>
+            {/* Post Image Placeholder */}
+            <Skeleton className="h-56 w-full rounded-xl" />
+          </div>
+        ))}
       </div>
     );
   }
