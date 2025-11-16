@@ -16,14 +16,15 @@ class BusinessService(BaseModel):
 
 class BusinessProfileCreate(BaseModel):
     """Create business profile request"""
-    name: str = Field(..., min_length=1, max_length=100, description="Business name")
-    handle: Optional[str] = Field(None, min_length=3, max_length=50, description="URL handle (auto-generated if not provided)")
-    tagline: Optional[str] = Field(None, max_length=200, description="Short business tagline")
-    bio: Optional[str] = Field(None, max_length=1000, description="Business description")
-    website: Optional[str] = Field(None, description="Business website URL")
-    email: Optional[str] = Field(None, description="Business contact email")
-    phone: Optional[str] = Field(None, max_length=20, description="Business phone number")
-    location: Optional[str] = Field(None, max_length=200, description="Business location")
+    name: str = Field(..., min_length=1, max_length=100, description="Business/brand name")
+    handle: Optional[str] = Field(None, min_length=3, max_length=50, description="URL handle like @banibsnews")
+    tagline: Optional[str] = Field(None, max_length=200, description="One-liner tagline")
+    bio: Optional[str] = Field(None, max_length=1000, description="Longer About section")
+    industry: Optional[str] = Field(None, max_length=100, description="Category (Media, Real Estate, Finance, etc.)")
+    website: Optional[str] = Field(None, description="External website URL")
+    email: Optional[str] = Field(None, description="Public contact email")
+    phone: Optional[str] = Field(None, max_length=20, description="Contact phone")
+    location: Optional[str] = Field(None, max_length=200, description="City/State/Country")
     services: list[BusinessService] = Field(default=[], description="Services offered")
 
 
