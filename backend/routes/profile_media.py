@@ -12,7 +12,7 @@ from uuid import uuid4
 from db.connection import get_db
 import os
 
-router = APIRouter(prefix="/api/profile-media", tags=["Profile Media"])
+router = APIRouter(prefix="/api/profile/media", tags=["Profile Media"])
 
 # Upload directories
 UPLOAD_DIR = Path(__file__).parent.parent / "uploads"
