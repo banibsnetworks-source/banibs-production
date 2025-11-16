@@ -70,7 +70,7 @@ async def upload_profile_picture(
     
     # Update user profile in database
     db = await get_db()
-    profile_picture_url = f"/api/profile-media/profile-pictures/{unique_filename}"
+    profile_picture_url = f"/api/profile/media/profile-pictures/{unique_filename}"
     
     await db.users.update_one(
         {"id": current_user["id"]},
