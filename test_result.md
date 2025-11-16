@@ -372,7 +372,8 @@ metadata:
 test_plan:
   current_focus:
     - "Phase 8.1 Stage 1 - Profile Command Center"
-  stuck_tasks: []
+  stuck_tasks:
+    - "Phase 8.1 Stage 1 - Profile Command Center"
   test_all: false
   test_priority: "high_first"
 
