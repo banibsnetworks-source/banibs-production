@@ -452,33 +452,89 @@ const SocialProfilePublicPage = () => {
                 </div>
               )}
 
-              {/* Business Tab - Coming Soon */}
+              {/* Business Tab - BBN Integration CTA */}
               {activeTab === 'business' && (
-                <div className="text-center py-16">
-                  <div className="w-20 h-20 rounded-full bg-yellow-500/10 flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground mb-2">Business Profile</h3>
-                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                    Connect your social presence to your BANIBS Business Profile. Showcase your business, services, and connect with customers.
-                  </p>
-                  <div className="space-y-4">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted rounded-lg text-sm text-muted-foreground">
-                      <span className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span>
-                      Coming Soon
+                <div>
+                  {/* Check if user has business profile (future: profile.businessProfileId) */}
+                  {false ? (
+                    // Future: When user has a business profile
+                    <div className="bg-card border border-border rounded-2xl p-6">
+                      <div className="flex items-start gap-4">
+                        <div className="w-16 h-16 rounded-lg bg-yellow-500/10 flex items-center justify-center flex-shrink-0">
+                          <svg className="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                          </svg>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-lg font-bold text-foreground mb-1">Business Name</h3>
+                          <p className="text-sm text-muted-foreground mb-3">Category • Location</p>
+                          <a href="/business/profile/123" className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500 text-black font-semibold rounded-lg hover:bg-yellow-600 transition-colors text-sm">
+                            View Business Profile →
+                          </a>
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-sm text-muted-foreground max-w-sm mx-auto">
-                      <strong className="text-foreground">Future Features:</strong>
-                      <ul className="mt-2 space-y-1 text-left">
-                        <li>→ Link to your Business Directory listing</li>
-                        <li>→ Display business hours & contact info</li>
-                        <li>→ Showcase products & services</li>
-                        <li>→ Create business profile if you don't have one</li>
-                      </ul>
+                  ) : (
+                    // CTA for users without business profile
+                    <div className="text-center py-16">
+                      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-yellow-500/20 to-yellow-600/20 flex items-center justify-center mx-auto mb-6">
+                        <svg className="w-12 h-12 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      
+                      <h3 className="text-2xl font-bold text-foreground mb-3">
+                        {profile.user_id === user?.id 
+                          ? "Turn Your BANIBS Profile Into a Business Presence"
+                          : "No Business Profile Yet"}
+                      </h3>
+                      
+                      <p className="text-muted-foreground mb-8 max-w-lg mx-auto leading-relaxed">
+                        {profile.user_id === user?.id 
+                          ? "Connect your social presence to the BANIBS Business Network. Showcase your business, get discovered by customers, and build trust through verified business signals."
+                          : "This user hasn't created a business profile yet. Once they do, you'll be able to view their business information, services, and contact details here."}
+                      </p>
+                      
+                      {profile.user_id === user?.id && (
+                        <div className="space-y-6">
+                          <button
+                            onClick={() => {
+                              // Future: Navigate to BBN business profile creation
+                              alert('Business profile creation coming soon! This will connect to the BANIBS Business Network.');
+                            }}
+                            className="inline-flex items-center gap-2 px-8 py-3 bg-yellow-500 text-black font-bold rounded-xl hover:bg-yellow-600 transition-all shadow-lg hover:shadow-xl"
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                            </svg>
+                            Create Business Profile
+                          </button>
+                          
+                          <div className="bg-muted/50 rounded-xl p-6 max-w-md mx-auto text-left">
+                            <p className="text-sm font-semibold text-foreground mb-3">What you'll get:</p>
+                            <ul className="space-y-2 text-sm text-muted-foreground">
+                              <li className="flex items-start gap-2">
+                                <span className="text-yellow-500 font-bold">✓</span>
+                                <span>Business listing in BANIBS Directory</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-yellow-500 font-bold">✓</span>
+                                <span>Verified business badge and signals</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-yellow-500 font-bold">✓</span>
+                                <span>Showcase services, hours, and contact info</span>
+                              </li>
+                              <li className="flex items-start gap-2">
+                                <span className="text-yellow-500 font-bold">✓</span>
+                                <span>Connect with customers in your community</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  </div>
+                  )}
                 </div>
               )}
             </div>
