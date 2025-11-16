@@ -174,13 +174,6 @@ const BusinessProfilePublic = () => {
                 <Settings size={18} />
                 Customize
               </button>
-              <button
-                className="edit-btn"
-                onClick={() => navigate('/portal/business/profile/edit')}
-              >
-                <Edit size={18} />
-                Edit Info
-              </button>
             </div>
           )}
         </div>
