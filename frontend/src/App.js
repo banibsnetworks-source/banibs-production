@@ -299,6 +299,7 @@ function App() {
         </div>
       </ContributorAuthProvider>
     </AuthProvider>
+      </ToastProvider>
   </ThemeProvider>
   );
 }
