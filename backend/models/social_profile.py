@@ -32,6 +32,10 @@ class SocialProfile(BaseModel):
     interests: List[str] = Field(default_factory=list, description="Tags for discovery & recommendations")
     is_public: bool = Field(default=True, description="Profile visibility setting")
     theme: Optional[ProfileTheme] = Field(default=None, description="Profile theme customization")
+    # Phase 8.1 - Profile Command Center
+    profile_picture_url: Optional[str] = Field(None, description="Custom profile picture URL")
+    banner_image_url: Optional[str] = Field(None, description="Profile banner/cover image URL")
+    accent_color: str = Field(default="#3B82F6", description="User's chosen accent color")
     
     class Config:
         json_schema_extra = {
