@@ -231,35 +231,61 @@ const SocialProfilePublicPage = () => {
             </div>
           </div>
 
-          {/* Tabs - Phase 9.1 */}
-          <div className="bg-gray-800 rounded-2xl border border-gray-700 overflow-hidden">
+          {/* Tabs - Enhanced with Media & Business */}
+          <div className="bg-card rounded-2xl border border-border overflow-hidden">
             {/* Tab Navigation */}
-            <div className="flex border-b border-gray-700">
-              <button
-                onClick={() => {
-                  setActiveTab('about');
-                  setSearchParams({});
-                }}
-                className={`px-6 py-3 font-medium transition-colors ${
-                  activeTab === 'about'
-                    ? 'text-amber-400 border-b-2 border-amber-400'
-                    : 'text-gray-400 hover:text-white'
-                }`}
-              >
-                About
-              </button>
+            <div className="flex border-b border-border overflow-x-auto">
               <button
                 onClick={() => {
                   setActiveTab('posts');
                   setSearchParams({ tab: 'posts' });
                 }}
-                className={`px-6 py-3 font-medium transition-colors ${
+                className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
                   activeTab === 'posts'
-                    ? 'text-amber-400 border-b-2 border-amber-400'
-                    : 'text-gray-400 hover:text-white'
+                    ? 'text-yellow-500 border-b-2 border-yellow-500'
+                    : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 Posts {profile.post_count !== undefined && `(${profile.post_count})`}
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab('media');
+                  setSearchParams({ tab: 'media' });
+                }}
+                className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
+                  activeTab === 'media'
+                    ? 'text-yellow-500 border-b-2 border-yellow-500'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                Media
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab('business');
+                  setSearchParams({ tab: 'business' });
+                }}
+                className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
+                  activeTab === 'business'
+                    ? 'text-yellow-500 border-b-2 border-yellow-500'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                Business
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab('about');
+                  setSearchParams({});
+                }}
+                className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
+                  activeTab === 'about'
+                    ? 'text-yellow-500 border-b-2 border-yellow-500'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                About
               </button>
             </div>
 
