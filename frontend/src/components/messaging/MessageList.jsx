@@ -92,16 +92,24 @@ export function MessageList({
 
   if (loading) {
     return (
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {/* Skeleton loading for messages */}
-        {[1, 2, 3, 4].map((i) => (
-          <div key={i} className={`flex ${i % 2 === 0 ? 'justify-end' : 'justify-start'} animate-pulse`}>
-            <div className={`max-w-[70%] space-y-2 ${i % 2 === 0 ? 'items-end' : 'items-start'} flex flex-col`}>
-              <div className="h-3 bg-muted rounded w-16"></div>
-              <div className={`h-16 bg-muted rounded-2xl ${i % 2 === 0 ? 'rounded-br-sm' : 'rounded-bl-sm'} w-48`}></div>
-            </div>
-          </div>
-        ))}
+      <div className="flex-1 overflow-y-auto p-6 space-y-4">
+        {/* BANIBS Skeleton Loading for Messages */}
+        {/* Incoming message */}
+        <div className="flex justify-start">
+          <Skeleton className="h-6 w-2/3 rounded-2xl rounded-bl-md" />
+        </div>
+        {/* Outgoing message */}
+        <div className="flex justify-end">
+          <Skeleton className="h-6 w-1/2 rounded-2xl rounded-br-md" />
+        </div>
+        {/* Incoming message */}
+        <div className="flex justify-start">
+          <Skeleton className="h-6 w-1/3 rounded-2xl rounded-bl-md" />
+        </div>
+        {/* Outgoing message */}
+        <div className="flex justify-end">
+          <Skeleton className="h-8 w-3/5 rounded-2xl rounded-br-md" />
+        </div>
       </div>
     );
   }
