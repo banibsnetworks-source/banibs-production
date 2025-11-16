@@ -28,7 +28,7 @@ class LinkMetadata(BaseModel):
 
 class SocialPostCreate(BaseModel):
     """Create social post request"""
-    text: str = Field(..., min_length=1, max_length=1000, description="Post content")
+    text: str = Field(default="", max_length=1000, description="Post content (optional for media/link posts)")
     media: Optional[list[MediaItem]] = Field(default=[], description="Media attachments (max 4 images or 1 video)")
     link_url: Optional[str] = Field(None, description="Optional link URL")
     link_meta: Optional[LinkMetadata] = Field(None, description="Link preview metadata")
