@@ -297,8 +297,8 @@ const SocialProfilePublicPage = () => {
                   {/* Bio */}
                   {profile.bio && (
                     <div>
-                      <h3 className="text-white font-semibold mb-3">Bio</h3>
-                      <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">
+                      <h3 className="text-foreground font-semibold mb-3">Bio</h3>
+                      <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
                         {profile.bio}
                       </p>
                     </div>
@@ -307,12 +307,12 @@ const SocialProfilePublicPage = () => {
                   {/* Interests */}
                   {profile.interests && profile.interests.length > 0 && (
                     <div>
-                      <h3 className="text-white font-semibold mb-3">Interests</h3>
+                      <h3 className="text-foreground font-semibold mb-3">Interests</h3>
                       <div className="flex flex-wrap gap-2">
                         {profile.interests.map((interest, idx) => (
                           <span 
                             key={idx}
-                            className="px-3 py-1 bg-amber-600/20 text-amber-400 rounded-full text-sm font-medium"
+                            className="px-3 py-1 bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 rounded-full text-sm font-medium"
                           >
                             {interest}
                           </span>
@@ -325,7 +325,7 @@ const SocialProfilePublicPage = () => {
                   {!profile.bio && (!profile.interests || profile.interests.length === 0) && (
                     <div className="text-center py-8">
                       <div className="text-4xl mb-3">📝</div>
-                      <p className="text-gray-400 text-sm">
+                      <p className="text-muted-foreground text-sm">
                         No bio or interests added yet
                       </p>
                     </div>
