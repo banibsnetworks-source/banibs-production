@@ -9687,15 +9687,18 @@ The Phase 7.1 Jobs & Opportunities and Business Rating System backend implementa
 frontend:
   - task: "Phase 7.1 - Connect Mode Jobs Dashboard"
     implemented: true
-    working: "NA"
+    working: false
     file: "frontend/src/pages/connect/JobsDashboard.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "Starting comprehensive Phase 7.1 frontend testing. Testing Connect Mode employer dashboard with stats cards, filtering, job management, and navigation to job creation form."
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL ISSUE: Connect Mode dashboard not accessible. URL /portal/connect/jobs redirects to /portal/social instead of showing employer dashboard. Expected 'Your Job Listings' page with stats cards and 'Post a Job' button not found. Business mode switching appears to not be working correctly. This blocks the entire employer workflow."
 
   - task: "Phase 7.1 - Connect Mode Job Creation Form"
     implemented: true
