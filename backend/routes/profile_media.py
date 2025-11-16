@@ -121,7 +121,7 @@ async def upload_banner(
     
     return {
         "success": True,
-        "banner_url": banner_url,
+        "url": banner_url,
         "filename": unique_filename
     }
 
@@ -172,7 +172,7 @@ async def upload_business_banner(
     
     return {
         "success": True,
-        "banner_url": banner_url,
+        "url": banner_url,
         "filename": unique_filename
     }
 
