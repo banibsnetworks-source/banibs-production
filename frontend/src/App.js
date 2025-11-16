@@ -303,6 +303,7 @@ function App() {
                 } 
               />
             </Routes>
+                  </AccountModeProvider>
           </BrowserRouter>
         </div>
       </ContributorAuthProvider>
