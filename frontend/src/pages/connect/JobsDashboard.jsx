@@ -24,11 +24,10 @@ const JobsDashboard = () => {
   const [filter, setFilter] = useState('all'); // all, open, closed, draft
 
   useEffect(() => {
-    if (!isBusinessMode) {
-      navigate('/portal/social');
-      return;
+    // Allow access but show setup message if no business profile
+    if (isBusinessMode) {
+      fetchJobs();
     }
-    fetchJobs();
   }, [filter, isBusinessMode]);
 
   const fetchJobs = async () => {
