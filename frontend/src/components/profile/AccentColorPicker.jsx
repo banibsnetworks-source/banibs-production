@@ -19,71 +19,39 @@ const BUSINESS_COLORS = [
   { name: 'Minimal White', hex: '#F8FAFC', desc: 'Clean' }
 ];
 
-const AccentColorPicker = ({ currentColor, isBusinessMode = false, onSave, onCancel }) => {
-  const [selected, setSelected] = useState(currentColor || (isBusinessMode ? '#EAB308' : '#3B82F6'));
-  const [saving, setSaving] = useState(false);
-
+const AccentColorPicker = ({ value, onChange, isBusinessMode = false }) => {
+  const [selected, setSelected] = useState(value || (isBusinessMode ? '#EAB308' : '#3B82F6'));
   const colors = isBusinessMode ? BUSINESS_COLORS : SOCIAL_COLORS;
 
-  const handleSave = async () => {
-    try {
-      setSaving(true);
-      const token = localStorage.getItem('access_token');
-      const formData = new FormData();
-      formData.append('accent_color', selected);
-
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/profile-media/update-accent-color`,
-        {
-          method: 'PATCH',
-          headers: { 'Authorization': `Bearer ${token}` },
-          body: formData
-        }
-      );
-
-      if (response.ok) {
-        onSave(selected);
-      } else {
-        alert('Failed to update accent color');
-      }
-    } catch (error) {
-      console.error('Update error:', error);
-      alert('Failed to update accent color');
-    } finally {
-      setSaving(false);
-    }
+  const handleSelect = (hex) => {
+    setSelected(hex);
+    onChange(hex);
   };
 
   return (
-    <div className="bg-card border border-border rounded-lg p-6">
-      <div className="flex items-center gap-2 mb-4">
-        <Palette className="w-5 h-5 text-foreground" />
-        <h3 className="text-lg font-semibold text-foreground">
-          Choose Accent Color
-        </h3>
-      </div>
-
-      <p className="text-sm text-muted-foreground mb-4">
+    <div className="space-y-4">
+      <p className="text-sm text-slate-500 dark:text-slate-400">
         This color will appear on buttons, highlights, and profile accents
       </p>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-2 gap-3">
         {colors.map((color) => (
           <button
             key={color.hex}
-            onClick={() => setSelected(color.hex)}
-            className={`relative p-4 rounded-lg border-2 transition-all ${
+            type="button"
+            onClick={() => handleSelect(color.hex)}
+            className={`relative p-3 rounded-lg border-2 transition-all text-left ${
               selected === color.hex
                 ? 'border-blue-600 shadow-md'
-                : 'border-border hover:border-muted-foreground'
+                : 'border-slate-300 dark:border-slate-700 hover:border-slate-400'
             }`}
           >
             <div
-              className="w-full h-12 rounded mb-2"
+              className="w-full h-10 rounded mb-2"
               style={{ backgroundColor: color.hex }}
             />
-            <p className="text-sm font-medium text-foreground">{color.name}</p>
-            <p className="text-xs text-muted-foreground">{color.desc}</p>
+            <p className="text-sm font-medium text-slate-900 dark:text-slate-100">{color.name}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{color.desc}</p>
             {selected === color.hex && (
               <div className="absolute top-2 right-2 bg-blue-600 rounded-full p-1">
                 <Check className="w-3 h-3 text-white" />
@@ -94,44 +62,27 @@ const AccentColorPicker = ({ currentColor, isBusinessMode = false, onSave, onCan
       </div>
 
       {/* Preview */}
-      <div className="mb-6 p-4 border border-border rounded-lg">
-        <p className="text-sm font-medium text-foreground mb-3">Preview</p>
-        <div className="flex gap-2 flex-wrap">
+      <div className="p-3 border border-slate-200 dark:border-slate-800 rounded-lg">
+        <p className="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">Preview</p>
+        <div className="flex gap-2 flex-wrap items-center">
           <button
-            className="px-4 py-2 rounded-lg text-white"
+            type="button"
+            className="px-3 py-1.5 rounded-lg text-white text-sm"
             style={{ backgroundColor: selected }}
           >
-            Primary Button
+            Button
           </button>
           <div
-            className="px-3 py-1 rounded-full text-sm"
+            className="px-2 py-1 rounded-full text-xs"
             style={{ backgroundColor: selected + '20', color: selected }}
           >
             Badge
           </div>
           <div
-            className="w-12 h-12 rounded-full border-4"
+            className="w-10 h-10 rounded-full border-4"
             style={{ borderColor: selected }}
           />
         </div>
-      </div>
-
-      <div className="flex gap-3">
-        {onCancel && (
-          <button
-            onClick={onCancel}
-            className="flex-1 px-4 py-2 border border-border rounded-lg text-foreground hover:bg-muted"
-          >
-            Cancel
-          </button>
-        )}
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-50"
-        >
-          {saving ? 'Saving...' : 'Save Color'}
-        </button>
       </div>
     </div>
   );
