@@ -158,12 +158,12 @@ const SocialProfileEditPage = () => {
 
   return (
     <SocialLayout>
-      <div className="min-h-screen" style={{ paddingTop: '20px', background: '#0B0B0B' }}>
+      <div className="min-h-screen pt-5 bg-background">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-3xl mx-auto space-y-6">
           {/* Header */}
           <div className="flex items-center justify-between flex-wrap gap-3">
-            <h1 className="text-3xl font-bold text-white">Edit Profile</h1>
+            <h1 className="text-3xl font-bold text-foreground">Edit Profile</h1>
             <div className="flex items-center gap-3">
               {profile?.handle && (
                 <>
