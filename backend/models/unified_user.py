@@ -111,6 +111,7 @@ class UserPublic(BaseModel):
     created_at: str
     preferred_portal: str = "news"  # Phase 8.1
     emoji_identity: Optional[Dict[str, Any]] = None  # Phase 10.0
+    profile: Optional[Dict[str, Any]] = None  # Full profile object for compatibility
 
 
 class UserCreate(BaseModel):
