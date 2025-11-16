@@ -15,10 +15,10 @@ from uuid import uuid4
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/api/business", tags=["business-search"])
+router = APIRouter(tags=["business-search"])
 
 
-@router.get("/search", response_model=List[BusinessProfilePublic])
+@router.get("/api/business/search", response_model=List[BusinessProfilePublic])
 async def search_businesses(
     q: Optional[str] = Query(None, description="Search query (name, keywords)"),
     category: Optional[str] = Query(None, description="Business category/industry"),
