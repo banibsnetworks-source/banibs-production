@@ -18,7 +18,8 @@ from db.business_members import BusinessMembersDB
 from db.follows import FollowsDB
 from db.connection import get_db
 from utils.handle_generator import generate_handle, validate_handle, make_handle_unique
-from services.geocoding import geocode_address
+from services.geocoding import geocode_address, km_to_miles
+from typing import List
 
 
 router = APIRouter(prefix="/api/business", tags=["business"])
