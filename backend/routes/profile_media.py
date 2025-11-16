@@ -163,7 +163,7 @@ async def upload_business_banner(
         raise HTTPException(status_code=500, detail=f"Failed to save file: {str(e)}")
     
     # Update business profile in database
-    banner_url = f"/api/profile-media/banners/{unique_filename}"
+    banner_url = f"/api/profile/media/banners/{unique_filename}"
     
     await db.business_profiles.update_one(
         {"id": business_profile_id},
