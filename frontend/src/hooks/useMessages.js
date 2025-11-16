@@ -75,6 +75,7 @@ export function useMessages(conversationId) {
     } catch (err) {
       setError('Failed to send message');
       console.error('[useMessages] Send message error:', err);
+      toast.error('Failed to send message. Please try again.');
     }
   };
 
