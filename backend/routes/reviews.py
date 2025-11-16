@@ -9,7 +9,7 @@ from models.business_review import (
     BusinessReviewCreate, BusinessReview, BusinessRatingStats
 )
 from db import business_reviews as db_reviews
-from auth.jwt_handler import require_role
+from middleware.auth_guard import require_role
 
 router = APIRouter(prefix="/api/reviews", tags=["Business Reviews"])
 
