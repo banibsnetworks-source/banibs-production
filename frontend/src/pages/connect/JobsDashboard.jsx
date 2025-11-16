@@ -105,6 +105,36 @@ const JobsDashboard = () => {
     return labels[type] || type;
   };
 
+  // Show business mode setup prompt if not in business mode
+  if (!isBusinessMode || !selectedBusinessProfile) {
+    return (
+      <ConnectLayout>
+        <div className="max-w-2xl mx-auto mt-12 text-center">
+          <Briefcase className="w-16 h-16 text-yellow-600 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-foreground mb-3">Switch to Business Mode</h2>
+          <p className="text-muted-foreground mb-6">
+            To post jobs and manage applications, you need to switch to Business mode.
+          </p>
+          <div className="bg-muted border border-border rounded-lg p-6 text-left space-y-3">
+            <p className="text-sm text-foreground font-medium">How to switch:</p>
+            <ol className="list-decimal list-inside space-y-2 text-sm text-muted-foreground">
+              <li>Click your profile icon in the top-right corner</li>
+              <li>Select "Switch to Business Mode" from the dropdown</li>
+              <li>Create or select a business profile</li>
+              <li>Return here to start posting jobs</li>
+            </ol>
+          </div>
+          <Link
+            to="/portal/connect"
+            className="inline-block mt-6 px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-gray-900 rounded-lg font-medium"
+          >
+            Go to Connect Home
+          </Link>
+        </div>
+      </ConnectLayout>
+    );
+  }
+
   return (
     <ConnectLayout>
       <div className="space-y-6">
