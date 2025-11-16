@@ -87,7 +87,7 @@ async def create_business(
     if not profile:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail="User already has a business profile or handle is taken"
+            detail="Handle is already taken"
         )
     
     # Create BusinessMember record with owner role
