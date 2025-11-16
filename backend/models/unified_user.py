@@ -126,6 +126,9 @@ class UserPublic(BaseModel):
     preferred_portal: str = "news"  # Phase 8.1
     emoji_identity: Optional[Dict[str, Any]] = None  # Phase 10.0
     profile: Optional[Dict[str, Any]] = None  # Full profile object for compatibility
+    profile_picture_url: Optional[str] = None  # Phase 8.1
+    banner_image_url: Optional[str] = None  # Phase 8.1
+    accent_color: Optional[str] = "#3B82F6"  # Phase 8.1
 
 
 class UserCreate(BaseModel):
