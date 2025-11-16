@@ -98,6 +98,18 @@ class BusinessProfilePublic(BaseModel):
     secondary_color: Optional[str] = "#d4af37"
     header_style: str = "clean"
     font_style: str = "default"
+    # Phase 8.2 - Geo-Enabled Search
+    address_line1: Optional[str] = None
+    address_line2: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+    postal_code: Optional[str] = None
+    country: str = "US"
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    service_radius_km: Optional[float] = None
+    distance_km: Optional[float] = Field(None, description="Distance from search origin (computed)")
+    distance_miles: Optional[float] = Field(None, description="Distance in miles (computed)")
     
     class Config:
         json_encoders = {
