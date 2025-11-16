@@ -7,6 +7,7 @@ import SocialLayout from '../../components/social/SocialLayout';
 
 const SocialProfilePublicPage = () => {
   const { handle } = useParams();
+  const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
