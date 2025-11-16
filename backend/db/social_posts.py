@@ -5,6 +5,7 @@ Social Posts Database Operations - Phase 8.3
 from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import datetime, timezone
 import uuid
+import os
 from typing import Optional
 
 from db.connection import get_db
