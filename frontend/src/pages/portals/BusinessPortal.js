@@ -39,12 +39,12 @@ const BusinessPortal = () => {
             <h2 className="text-2xl font-bold text-white mb-4">Business Owner Tools</h2>
             <div className="grid md:grid-cols-2 gap-6">
               <Link
-                to="/portal/business/profile/edit"
+                to="/portal/business/me"
                 className="bg-yellow-900/20 border-2 border-yellow-500/50 rounded-xl p-6 text-center hover:bg-yellow-900/30 hover:border-yellow-500 transition-all"
               >
                 <Building2 className="mx-auto mb-3 text-yellow-400" size={40} />
                 <h3 className="text-lg font-bold text-white mb-2">Manage My Business</h3>
-                <p className="text-gray-300 text-sm">Create or edit your business profile, branding, and services</p>
+                <p className="text-gray-300 text-sm">View and customize your business profile, branding, and services</p>
               </Link>
 
               <Link
