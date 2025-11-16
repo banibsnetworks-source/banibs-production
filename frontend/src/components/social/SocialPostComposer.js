@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Send, Image as ImageIcon, Video, Link2, Smile } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useToast } from '../../contexts/ToastContext';
 import MediaComposerModal from './MediaComposerModal';
 import EmojiPicker from '../emoji/EmojiPicker.jsx';
 import { applySkinTone } from '../../utils/emojiToneUtils';
