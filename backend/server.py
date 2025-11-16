@@ -40,6 +40,7 @@ from routes.feedback import router as feedback_router  # Phase 7.5.3 - User Feed
 from routes.social import router as social_router  # Phase 8.3 - BANIBS Social Portal
 from routes.jobs import router as jobs_router  # Phase 7.1 - BANIBS Jobs & Opportunities
 from routes.reviews import router as reviews_router  # Phase 7.1 - Business Rating System
+from routes.business_analytics import router as business_analytics_router  # Phase 7.1.1 - BIA Dashboard
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
