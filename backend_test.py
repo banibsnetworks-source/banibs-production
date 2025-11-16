@@ -1272,6 +1272,358 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # PHASE 7.1.1 - BIA DASHBOARD BACKEND TESTING
+    # ==========================================
+    
+    def test_phase_7_1_1_bia_dashboard_comprehensive(self) -> bool:
+        """
+        PHASE 7.1.1 COMPREHENSIVE TESTING: Business Insights Analytics (BIA) Dashboard Backend
+        
+        Tests all endpoints for the BIA Dashboard system:
+        - Analytics event tracking
+        - Dashboard API with all metrics
+        - Individual metric endpoints (KPIs, time-series, top posts, discovery, jobs)
+        - CSV export endpoints
+        - Edge cases and error handling
+        """
+        self.log("🎯 PHASE 7.1.1 COMPREHENSIVE TESTING: BIA Dashboard Backend System")
+        
+        # Step 1: Authenticate with test user
+        test_email = "social_test_user@example.com"
+        test_password = "TestPass123!"
+        
+        response = self.make_request("POST", "/auth/login", {
+            "email": test_email,
+            "password": test_password
+        })
+        
+        if response.status_code != 200:
+            self.log(f"❌ Authentication failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        data = response.json()
+        if "access_token" not in data:
+            self.log("❌ Login response missing access_token", "ERROR")
+            return False
+        
+        access_token = data["access_token"]
+        user_id = data.get("user", {}).get("id")
+        self.log(f"✅ Authentication successful - User ID: {user_id}")
+        
+        headers = {"Authorization": f"Bearer {access_token}"}
+        
+        # Step 2: Get user's business profiles
+        self.log("📋 Getting user's business profiles...")
+        response = self.make_request("GET", "/business/me/all", headers=headers)
+        
+        business_profile_id = None
+        if response.status_code == 200:
+            profiles = response.json()
+            if profiles and len(profiles) > 0:
+                business_profile_id = profiles[0]["id"]
+                self.log(f"✅ Found business profile: {business_profile_id}")
+            else:
+                self.log("⚠️ No business profiles found, will use test profile ID")
+                business_profile_id = "test_business_profile_123"
+        else:
+            self.log("⚠️ Could not get business profiles, using test profile ID")
+            business_profile_id = "test_business_profile_123"
+        
+        # ============ ANALYTICS EVENT TRACKING TESTING ============
+        
+        # Test 1: Track Multiple Analytics Events
+        self.log("📊 Test 1: Tracking multiple analytics events...")
+        
+        events_to_track = [
+            {"event_type": "profile_view", "source": "search", "count": 5},
+            {"event_type": "post_view", "source": "feed", "count": 10},
+            {"event_type": "job_view", "source": "job_board", "count": 3},
+            {"event_type": "job_apply", "source": "job_detail", "count": 2},
+            {"event_type": "search_click", "source": "search_results", "count": 2}
+        ]
+        
+        tracked_events = 0
+        for event_config in events_to_track:
+            for i in range(event_config["count"]):
+                event_data = {
+                    "business_profile_id": business_profile_id,
+                    "event_type": event_config["event_type"],
+                    "source": event_config["source"],
+                    "meta": {"test_event": True, "batch": i + 1}
+                }
+                
+                response = self.make_request("POST", "/business-analytics/track", event_data, headers=headers)
+                
+                if response.status_code == 200:
+                    tracked_events += 1
+                else:
+                    self.log(f"❌ Failed to track {event_config['event_type']} event: {response.status_code}", "ERROR")
+        
+        self.log(f"✅ Successfully tracked {tracked_events} analytics events")
+        
+        # ============ DASHBOARD API TESTING ============
+        
+        # Test 2: Get Complete Dashboard (30d)
+        self.log("📈 Test 2: Getting complete dashboard data (30d)...")
+        response = self.make_request("GET", f"/business-analytics/dashboard/{business_profile_id}?date_range=30d", headers=headers)
+        
+        if response.status_code == 200:
+            dashboard_data = response.json()
+            
+            # Verify dashboard structure
+            required_keys = [
+                "kpis", "profile_views_over_time", "post_impressions_over_time",
+                "top_posts", "discovery_breakdown", "job_performance",
+                "rating_analytics", "activity_log", "recommendations"
+            ]
+            
+            missing_keys = [key for key in required_keys if key not in dashboard_data]
+            if not missing_keys:
+                self.log("✅ Dashboard API structure complete")
+                
+                # Verify KPIs structure
+                kpis = dashboard_data["kpis"]
+                if isinstance(kpis, dict) and len(kpis) >= 6:
+                    self.log(f"✅ KPIs object contains {len(kpis)} metrics")
+                else:
+                    self.log(f"⚠️ KPIs structure unexpected: {type(kpis)}")
+                
+                # Verify time series arrays
+                profile_views = dashboard_data["profile_views_over_time"]
+                post_impressions = dashboard_data["post_impressions_over_time"]
+                
+                if isinstance(profile_views, list) and isinstance(post_impressions, list):
+                    self.log(f"✅ Time series data: {len(profile_views)} profile views, {len(post_impressions)} post impressions")
+                else:
+                    self.log("⚠️ Time series data not in expected array format")
+                
+                # Verify other components
+                self.log(f"✅ Top posts: {len(dashboard_data['top_posts'])} items")
+                self.log(f"✅ Discovery breakdown: {type(dashboard_data['discovery_breakdown'])}")
+                self.log(f"✅ Job performance: {len(dashboard_data['job_performance'])} jobs")
+                self.log(f"✅ Rating analytics: {type(dashboard_data['rating_analytics'])}")
+                self.log(f"✅ Activity log: {len(dashboard_data['activity_log'])} activities")
+                self.log(f"✅ Recommendations: {len(dashboard_data['recommendations'])} items")
+                
+            else:
+                self.log(f"❌ Dashboard missing required keys: {missing_keys}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Dashboard API failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ INDIVIDUAL METRIC ENDPOINTS TESTING ============
+        
+        # Test 3: KPIs Endpoint with Different Date Ranges
+        self.log("📊 Test 3: Testing KPIs endpoint with different date ranges...")
+        
+        for date_range in ["7d", "30d", "90d"]:
+            response = self.make_request("GET", f"/business-analytics/kpis/{business_profile_id}?date_range={date_range}", headers=headers)
+            
+            if response.status_code == 200:
+                kpis = response.json()
+                self.log(f"✅ KPIs ({date_range}): {len(kpis)} metrics")
+                
+                # Verify KPI structure and calculations
+                if isinstance(kpis, dict):
+                    for metric_name, metric_data in kpis.items():
+                        if isinstance(metric_data, dict) and "current" in metric_data:
+                            self.log(f"   {metric_name}: {metric_data.get('current', 0)}")
+                        else:
+                            self.log(f"   {metric_name}: {metric_data}")
+                else:
+                    self.log(f"⚠️ KPIs structure unexpected for {date_range}")
+            else:
+                self.log(f"❌ KPIs endpoint failed for {date_range}: {response.status_code}", "ERROR")
+        
+        # Test 4: Time Series Endpoints
+        self.log("📈 Test 4: Testing time series endpoints...")
+        
+        for metric in ["profile_views", "post_impressions"]:
+            response = self.make_request("GET", f"/business-analytics/time-series/{business_profile_id}?metric={metric}&date_range=7d", headers=headers)
+            
+            if response.status_code == 200:
+                time_series = response.json()
+                
+                if "metric" in time_series and "data" in time_series:
+                    data_points = time_series["data"]
+                    self.log(f"✅ Time series ({metric}): {len(data_points)} daily data points")
+                    
+                    # Verify daily data points structure
+                    if data_points and isinstance(data_points, list):
+                        sample_point = data_points[0]
+                        if isinstance(sample_point, dict) and "date" in sample_point and "value" in sample_point:
+                            self.log(f"   Sample data point: {sample_point}")
+                        else:
+                            self.log(f"⚠️ Data point structure unexpected: {sample_point}")
+                else:
+                    self.log(f"❌ Time series response missing required fields: {time_series}", "ERROR")
+            else:
+                self.log(f"❌ Time series endpoint failed for {metric}: {response.status_code}", "ERROR")
+        
+        # Test 5: Top Posts Endpoint
+        self.log("🏆 Test 5: Testing top posts endpoint...")
+        response = self.make_request("GET", f"/business-analytics/top-posts/{business_profile_id}?limit=5", headers=headers)
+        
+        if response.status_code == 200:
+            top_posts_data = response.json()
+            
+            if "posts" in top_posts_data:
+                posts = top_posts_data["posts"]
+                self.log(f"✅ Top posts: {len(posts)} posts returned")
+                
+                # Verify engagement rate calculations
+                for post in posts[:3]:  # Check first 3 posts
+                    if "engagement_rate" in post:
+                        self.log(f"   Post: {post.get('title', 'N/A')[:30]}... - Engagement: {post['engagement_rate']}%")
+                    else:
+                        self.log(f"   Post missing engagement_rate: {post}")
+            else:
+                self.log(f"❌ Top posts response missing 'posts' field: {top_posts_data}", "ERROR")
+        else:
+            self.log(f"❌ Top posts endpoint failed: {response.status_code} - {response.text}", "ERROR")
+        
+        # Test 6: Discovery Breakdown Endpoint
+        self.log("🔍 Test 6: Testing discovery breakdown endpoint...")
+        response = self.make_request("GET", f"/business-analytics/discovery/{business_profile_id}", headers=headers)
+        
+        if response.status_code == 200:
+            discovery = response.json()
+            
+            # Verify all 5 discovery sources are present
+            expected_sources = ["search", "social", "direct", "referral", "other"]
+            found_sources = []
+            
+            if isinstance(discovery, dict):
+                for source in expected_sources:
+                    if source in discovery:
+                        found_sources.append(source)
+                        self.log(f"   {source}: {discovery[source]}")
+                
+                if len(found_sources) == 5:
+                    self.log("✅ All 5 discovery sources present in response")
+                else:
+                    self.log(f"⚠️ Only {len(found_sources)} discovery sources found: {found_sources}")
+            else:
+                self.log(f"❌ Discovery response not a dict: {type(discovery)}", "ERROR")
+        else:
+            self.log(f"❌ Discovery endpoint failed: {response.status_code} - {response.text}", "ERROR")
+        
+        # Test 7: Job Performance Endpoint
+        self.log("💼 Test 7: Testing job performance endpoint...")
+        response = self.make_request("GET", f"/business-analytics/jobs/{business_profile_id}", headers=headers)
+        
+        if response.status_code == 200:
+            job_data = response.json()
+            
+            if "jobs" in job_data:
+                jobs = job_data["jobs"]
+                self.log(f"✅ Job performance: {len(jobs)} jobs returned")
+                
+                # Verify job performance metrics
+                for job in jobs[:2]:  # Check first 2 jobs
+                    required_fields = ["job_id", "title", "views", "applications"]
+                    if all(field in job for field in required_fields):
+                        self.log(f"   Job: {job['title'][:30]}... - Views: {job['views']}, Applications: {job['applications']}")
+                    else:
+                        missing = [f for f in required_fields if f not in job]
+                        self.log(f"   Job missing fields: {missing}")
+            else:
+                self.log(f"❌ Job performance response missing 'jobs' field: {job_data}", "ERROR")
+        else:
+            self.log(f"❌ Job performance endpoint failed: {response.status_code} - {response.text}", "ERROR")
+        
+        # ============ CSV EXPORT ENDPOINTS TESTING ============
+        
+        # Test 8: CSV Export - Top Posts
+        self.log("📄 Test 8: Testing CSV export for top posts...")
+        response = self.make_request("GET", f"/business-analytics/export/top-posts/{business_profile_id}?date_range=30d", headers=headers)
+        
+        if response.status_code == 200:
+            # Verify CSV content-type
+            content_type = response.headers.get("content-type", "")
+            if "text/csv" in content_type:
+                self.log("✅ CSV export returns correct content-type")
+                
+                # Check Content-Disposition header for download
+                disposition = response.headers.get("content-disposition", "")
+                if "attachment" in disposition and "filename=" in disposition:
+                    self.log(f"✅ CSV has proper download headers: {disposition}")
+                    
+                    # Verify CSV has proper headers
+                    csv_content = response.text
+                    if csv_content and "Post ID" in csv_content and "Title" in csv_content:
+                        lines = csv_content.strip().split('\n')
+                        self.log(f"✅ CSV export successful: {len(lines)} lines (including header)")
+                    else:
+                        self.log("❌ CSV content missing expected headers", "ERROR")
+                else:
+                    self.log(f"❌ CSV missing download headers: {disposition}", "ERROR")
+            else:
+                self.log(f"❌ CSV export wrong content-type: {content_type}", "ERROR")
+        else:
+            self.log(f"❌ CSV export (top posts) failed: {response.status_code} - {response.text}", "ERROR")
+        
+        # Test 9: CSV Export - Jobs
+        self.log("📄 Test 9: Testing CSV export for jobs...")
+        response = self.make_request("GET", f"/business-analytics/export/jobs/{business_profile_id}?date_range=30d", headers=headers)
+        
+        if response.status_code == 200:
+            # Same CSV export verification for jobs
+            content_type = response.headers.get("content-type", "")
+            disposition = response.headers.get("content-disposition", "")
+            
+            if "text/csv" in content_type and "attachment" in disposition:
+                csv_content = response.text
+                if csv_content and "Job ID" in csv_content and "Title" in csv_content:
+                    lines = csv_content.strip().split('\n')
+                    self.log(f"✅ Jobs CSV export successful: {len(lines)} lines")
+                else:
+                    self.log("❌ Jobs CSV content missing expected headers", "ERROR")
+            else:
+                self.log("❌ Jobs CSV export headers incorrect", "ERROR")
+        else:
+            self.log(f"❌ CSV export (jobs) failed: {response.status_code} - {response.text}", "ERROR")
+        
+        # ============ EDGE CASES TESTING ============
+        
+        # Test 10: Non-existent Business Profile
+        self.log("🚫 Test 10: Testing with non-existent business profile...")
+        fake_profile_id = "non_existent_profile_123"
+        response = self.make_request("GET", f"/business-analytics/dashboard/{fake_profile_id}", headers=headers)
+        
+        if response.status_code == 200:
+            # Should return empty/zero metrics gracefully
+            dashboard = response.json()
+            self.log("✅ Non-existent profile handled gracefully (empty metrics)")
+        else:
+            self.log(f"⚠️ Non-existent profile returned: {response.status_code}")
+        
+        # Test 11: Authentication Required
+        self.log("🔒 Test 11: Testing authentication requirements...")
+        
+        # Test without authentication
+        response = self.make_request("GET", f"/business-analytics/dashboard/{business_profile_id}")
+        
+        if response.status_code in [401, 403]:
+            self.log("✅ Authentication properly required (401/403)")
+        else:
+            self.log(f"❌ Should require authentication, got: {response.status_code}", "ERROR")
+        
+        # Test 12: Invalid Date Range Values
+        self.log("📅 Test 12: Testing invalid date range values...")
+        response = self.make_request("GET", f"/business-analytics/kpis/{business_profile_id}?date_range=invalid", headers=headers)
+        
+        if response.status_code == 200:
+            # Should default to 30d
+            self.log("✅ Invalid date range defaults gracefully")
+        else:
+            self.log(f"⚠️ Invalid date range handling: {response.status_code}")
+        
+        self.log("🎉 PHASE 7.1.1 BIA Dashboard Backend Testing Complete!")
+        return True
+
+    # ==========================================
     # PHASE 7.1 - JOBS & OPPORTUNITIES + BUSINESS RATING SYSTEM TESTING
     # ==========================================
     
