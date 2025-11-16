@@ -36,15 +36,17 @@ const SocialPostComposer = ({ onPostCreated }) => {
         body: JSON.stringify(postData)
       });
       
+      // Parse response once
+      const responseData = await response.json();
+      
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
         if (response.status === 401) {
           throw new Error('Your session has expired. Please log in again.');
         }
-        throw new Error(errorData.detail || 'Failed to create post');
+        throw new Error(responseData.detail || 'Failed to create post');
       }
       
-      const newPost = await response.json();
+      const newPost = responseData;
       
       if (onPostCreated) {
         onPostCreated(newPost);
