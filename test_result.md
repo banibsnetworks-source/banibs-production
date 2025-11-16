@@ -456,6 +456,38 @@ agent_communication:
       2. Post links that display properly (either rich preview or fallback URL)
       
       **RECOMMENDATION:** No further fixes needed - both critical user flows are working correctly.
+  - agent: "testing"
+    message: |
+      🎯 S5 MOBILE RESPONSIVENESS QA - STARTING COMPREHENSIVE TESTING
+      
+      **TESTING SCOPE:**
+      Testing BANIBS Social mobile responsiveness across key user flows:
+      
+      **1. VIEWPORT TESTING:**
+      - 360px width (Samsung Galaxy S8 - common Android)
+      - 414px width (iPhone Plus models)
+      - 800px height for both viewports
+      
+      **2. KEY AREAS TO TEST:**
+      - Social Feed (/portal/social): Post composer, post cards, media layouts
+      - Profile Page: Avatar sizing, tab navigation, profile info display
+      - Post Composer Modal: Modal fit, text area usability, media upload controls
+      - Media Viewer: Fullscreen functionality, navigation controls
+      - ComingSoon Pages: Groups, Live, Saved pages layout
+      
+      **3. CRITICAL ISSUES TO IDENTIFY:**
+      - Horizontal scrolling (major red flag)
+      - Touch targets < 44×44px (accessibility issue)
+      - Text readability without zooming
+      - Image/container overflow
+      - Fixed-width layout breaks
+      - Cramped spacing/overlapping elements
+      
+      **4. TEST CREDENTIALS:**
+      - Email: social_test_user@example.com
+      - Password: TestPass123!
+      
+      Will test both portrait and landscape orientations with focus on portrait as primary mobile experience.
 
 user_problem_statement: |
   **S5 - Mobile Responsiveness QA for BANIBS Social**
