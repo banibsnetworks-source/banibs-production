@@ -107,7 +107,7 @@ export function ConversationListItem({ conversation, isActive, onClick }) {
             )}
           </div>
           <span className="text-xs text-muted-foreground flex-shrink-0 ml-2">
-            {conversation.last_message_at ? formatTime(conversation.last_message_at) : ''}
+            {conversation.lastMessageAt ? formatTime(conversation.lastMessageAt) : ''}
           </span>
         </div>
 
