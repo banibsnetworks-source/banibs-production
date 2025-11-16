@@ -3,8 +3,8 @@ Business Profile Models - Phase 8.2
 Business accounts and branding system
 """
 
-from pydantic import BaseModel, Field, HttpUrl
-from typing import Optional, Literal
+from pydantic import BaseModel, Field, HttpUrl, field_validator
+from typing import Optional, Literal, Union
 from datetime import datetime
 
 
