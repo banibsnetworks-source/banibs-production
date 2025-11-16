@@ -90,8 +90,21 @@ async def get_feed(page: int = 1, page_size: int = 20, viewer_id: Optional[str] 
         # Extract profile data
         profile = author.get("profile", {}) or {}
         
+        # Extract media URLs from media array for S-MEDIA compatibility
+        media_urls = []
+        if post.get("media"):
+            for item in post["media"]:
+                if isinstance(item, dict) and item.get("url"):
+                    # If URL is relative, make it absolute
+                    url = item["url"]
+                    if not url.startswith('http'):
+                        backend_url = os.environ.get('REACT_APP_BACKEND_URL', '')
+                        url = f"{backend_url}{url}"
+                    media_urls.append(url)
+        
         enriched_posts.append({
             **post,
+            "media_urls": media_urls,  # S-MEDIA v1.0 compatibility
             "author": {
                 "id": author["id"],
                 "display_name": author.get("name", "Unknown User"),
@@ -386,8 +399,21 @@ async def get_user_posts(user_id: str, page: int = 1, page_size: int = 20, viewe
         # Extract profile data
         profile = author.get("profile", {}) or {}
         
+        # Extract media URLs from media array for S-MEDIA compatibility
+        media_urls = []
+        if post.get("media"):
+            for item in post["media"]:
+                if isinstance(item, dict) and item.get("url"):
+                    # If URL is relative, make it absolute
+                    url = item["url"]
+                    if not url.startswith('http'):
+                        backend_url = os.environ.get('REACT_APP_BACKEND_URL', '')
+                        url = f"{backend_url}{url}"
+                    media_urls.append(url)
+        
         enriched_posts.append({
             **post,
+            "media_urls": media_urls,  # S-MEDIA v1.0 compatibility
             "author": {
                 "id": author["id"],
                 "display_name": author.get("name", "Unknown User"),
