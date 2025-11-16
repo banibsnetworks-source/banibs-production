@@ -79,11 +79,20 @@ export function MediaViewer() {
     }
   };
 
-  // Double-tap to zoom
+  // Double-tap to zoom in
   const handleDoubleClick = () => {
     if (zoom === 1) {
       setZoom(2);
     } else {
+      setZoom(1);
+      setPosition({ x: 0, y: 0 });
+    }
+  };
+
+  // Single click to reset zoom when zoomed in
+  const handleImageClick = (e) => {
+    e.stopPropagation(); // Prevent backdrop click
+    if (zoom > 1) {
       setZoom(1);
       setPosition({ x: 0, y: 0 });
     }
