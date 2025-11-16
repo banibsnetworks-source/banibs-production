@@ -194,8 +194,9 @@ export function MediaViewer() {
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         onDoubleClick={handleDoubleClick}
+        onClick={handleImageClick}
         onMouseDown={handleMouseDown}
-        style={{ cursor: zoom > 1 ? 'grab' : 'default' }}
+        style={{ cursor: zoom > 1 ? (isDragging ? 'grabbing' : 'zoom-out') : 'default' }}
       >
         {isVideo ? (
           // Video Placeholder (Phase 2B)
