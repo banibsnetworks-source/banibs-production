@@ -37,6 +37,11 @@ const JobDetailPage = () => {
       if (response.ok) {
         const data = await response.json();
         setJob(data);
+        
+        // Track job view for BIA
+        if (data.business_profile_id) {
+          trackBIAJobView(data.business_profile_id, jobId);
+        }
       } else {
         navigate('/portal/social/jobs');
       }
