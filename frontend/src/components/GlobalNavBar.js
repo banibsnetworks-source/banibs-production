@@ -198,6 +198,7 @@ const GlobalNavBar = () => {
                     </button>
                   </div>
                 )}
+                </div>
               </div>
             )}
           </div>
