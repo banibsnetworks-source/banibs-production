@@ -81,7 +81,9 @@ class BusinessProfilePublic(BaseModel):
     phone: Optional[str] = None  # Optional phone
     location: Optional[str] = None  # City/State/Country
     services: list[BusinessService] = []
-    verified_status: bool = False
+    verified_status: str = "unverified"  # unverified | pending | verified | rejected
+    verified_at: Optional[datetime] = None
+    verified_by: Optional[str] = None  # Admin user ID who verified
     status: str = "active"  # active | suspended | draft
     follower_count: int = 0
     is_following: bool = False  # Whether current user follows this business
