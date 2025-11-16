@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RefreshCw, Loader, AlertCircle, LogIn } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import SocialPostCard from './SocialPostCard';
+import { Skeleton } from '../common/Skeleton';
 
 /**
  * SocialFeed - Phase 8.3
