@@ -23,6 +23,30 @@ const ConnectRightRail = () => {
       {/* NewsBeat */}
       <NewsBeat variant="desktop" limit={5} />
 
+      {/* Jobs & Hiring */}
+      <div className="bg-card border border-blue-200 dark:border-blue-800 rounded-lg overflow-hidden">
+        <div className="px-4 py-3 bg-gradient-to-r from-blue-500/10 to-blue-600/10 border-b border-border">
+          <div className="flex items-center gap-2">
+            <Briefcase className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            <h3 className="font-bold text-sm text-foreground">Jobs & Hiring</h3>
+          </div>
+        </div>
+        <div className="p-4 space-y-2">
+          <Link to="/portal/connect/jobs" className="block text-sm text-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+            💼 Manage Job Postings
+          </Link>
+          <Link to="/portal/connect/jobs/new" className="block text-sm text-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+            ➕ Post a New Job
+          </Link>
+          <Link to="/portal/social/jobs" className="block text-sm text-foreground hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+            🔍 Browse Talent Pool
+          </Link>
+          <Link to="/portal/connect/jobs" className="block text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline mt-3">
+            View applicants →
+          </Link>
+        </div>
+      </div>
+
       {/* Business Tools Hub */}
       <div className="bg-card border border-yellow-200 dark:border-yellow-800 rounded-lg overflow-hidden">
         <div className="px-4 py-3 bg-gradient-to-r from-yellow-500/10 to-yellow-600/10 border-b border-border">
