@@ -379,6 +379,55 @@ const SocialProfilePublicPage = () => {
                   )}
                 </div>
               )}
+
+              {/* Media Tab - Coming Soon */}
+              {activeTab === 'media' && (
+                <div className="text-center py-16">
+                  <div className="w-20 h-20 rounded-full bg-yellow-500/10 flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-2">Media Gallery</h3>
+                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                    Coming soon! Your photos and videos will appear here in a beautiful grid layout.
+                  </p>
+                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted rounded-lg text-sm text-muted-foreground">
+                    <span className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span>
+                    In Development
+                  </div>
+                </div>
+              )}
+
+              {/* Business Tab - Coming Soon */}
+              {activeTab === 'business' && (
+                <div className="text-center py-16">
+                  <div className="w-20 h-20 rounded-full bg-yellow-500/10 flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-2">Business Profile</h3>
+                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                    Connect your social presence to your BANIBS Business Profile. Showcase your business, services, and connect with customers.
+                  </p>
+                  <div className="space-y-4">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted rounded-lg text-sm text-muted-foreground">
+                      <span className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span>
+                      Coming Soon
+                    </div>
+                    <div className="text-sm text-muted-foreground max-w-sm mx-auto">
+                      <strong className="text-foreground">Future Features:</strong>
+                      <ul className="mt-2 space-y-1 text-left">
+                        <li>→ Link to your Business Directory listing</li>
+                        <li>→ Display business hours & contact info</li>
+                        <li>→ Showcase products & services</li>
+                        <li>→ Create business profile if you don't have one</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
