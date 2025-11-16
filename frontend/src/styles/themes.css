@@ -1,0 +1,209 @@
+/**
+ * BANIBS Dual-Layout Theme System
+ * Phase 7.1: P1 - Social Blue & Connect Gold Themes
+ * 
+ * Theme Classes:
+ * - .theme-social → BANIBS Social (Blue)
+ * - .theme-connect → BANIBS Connect (Gold)
+ */
+
+/* ============================================
+   SOCIAL THEME (Blue - Personal Mode)
+   ============================================ */
+.theme-social {
+  /* Primary brand color - Blue */
+  --theme-primary: 217 91% 60%;           /* Blue 500 */
+  --theme-primary-foreground: 0 0% 100%;
+  --theme-primary-hover: 217 91% 50%;     /* Blue 600 */
+  --theme-primary-light: 217 91% 95%;     /* Blue 50 */
+  
+  /* Accent colors */
+  --theme-accent: 217 91% 60%;
+  --theme-accent-foreground: 0 0% 100%;
+  --theme-accent-hover: 217 91% 50%;
+  
+  /* UI Elements */
+  --theme-nav-bg: 217 91% 60%;
+  --theme-nav-text: 0 0% 100%;
+  --theme-nav-hover: 217 91% 50%;
+  
+  /* Highlights & Focus */
+  --theme-highlight: 217 91% 60%;
+  --theme-focus-ring: 217 91% 60%;
+  
+  /* Buttons */
+  --theme-button-primary: 217 91% 60%;
+  --theme-button-primary-hover: 217 91% 50%;
+  --theme-button-primary-text: 0 0% 100%;
+  
+  /* Links */
+  --theme-link: 217 91% 60%;
+  --theme-link-hover: 217 91% 50%;
+  
+  /* Badges & Tags */
+  --theme-badge-bg: 217 91% 95%;
+  --theme-badge-text: 217 91% 40%;
+  
+  /* Borders & Dividers */
+  --theme-border-accent: 217 91% 90%;
+}
+
+/* ============================================
+   CONNECT THEME (Gold - Business Mode)
+   ============================================ */
+.theme-connect {
+  /* Primary brand color - Gold */
+  --theme-primary: 45 93% 47%;            /* Gold 500 */
+  --theme-primary-foreground: 0 0% 10%;   /* Dark text on gold */
+  --theme-primary-hover: 45 93% 40%;      /* Gold 600 */
+  --theme-primary-light: 45 93% 95%;      /* Gold 50 */
+  
+  /* Accent colors */
+  --theme-accent: 45 93% 47%;
+  --theme-accent-foreground: 0 0% 10%;
+  --theme-accent-hover: 45 93% 40%;
+  
+  /* UI Elements */
+  --theme-nav-bg: 45 93% 47%;
+  --theme-nav-text: 0 0% 10%;
+  --theme-nav-hover: 45 93% 40%;
+  
+  /* Highlights & Focus */
+  --theme-highlight: 45 93% 47%;
+  --theme-focus-ring: 45 93% 47%;
+  
+  /* Buttons */
+  --theme-button-primary: 45 93% 47%;
+  --theme-button-primary-hover: 45 93% 40%;
+  --theme-button-primary-text: 0 0% 10%;
+  
+  /* Links */
+  --theme-link: 45 93% 40%;
+  --theme-link-hover: 45 93% 35%;
+  
+  /* Badges & Tags */
+  --theme-badge-bg: 45 93% 95%;
+  --theme-badge-text: 45 93% 30%;
+  
+  /* Borders & Dividers */
+  --theme-border-accent: 45 93% 90%;
+}
+
+/* ============================================
+   LIGHT MODE OVERRIDES
+   ============================================ */
+:root {
+  /* Social Theme (default for light mode) */
+  --theme-primary: 217 91% 60%;
+  --theme-primary-foreground: 0 0% 100%;
+  --theme-primary-hover: 217 91% 50%;
+  --theme-primary-light: 217 91% 95%;
+  --theme-accent: 217 91% 60%;
+  --theme-accent-foreground: 0 0% 100%;
+  --theme-nav-bg: 217 91% 60%;
+  --theme-nav-text: 0 0% 100%;
+  --theme-button-primary: 217 91% 60%;
+  --theme-button-primary-hover: 217 91% 50%;
+  --theme-button-primary-text: 0 0% 100%;
+  --theme-link: 217 91% 60%;
+  --theme-link-hover: 217 91% 50%;
+  --theme-badge-bg: 217 91% 95%;
+  --theme-badge-text: 217 91% 40%;
+  --theme-border-accent: 217 91% 90%;
+}
+
+/* ============================================
+   DARK MODE OVERRIDES
+   ============================================ */
+.dark .theme-social {
+  /* Adjust blue for dark mode */
+  --theme-primary: 217 91% 65%;
+  --theme-primary-hover: 217 91% 55%;
+  --theme-primary-light: 217 91% 15%;
+  --theme-badge-bg: 217 91% 15%;
+  --theme-badge-text: 217 91% 70%;
+  --theme-border-accent: 217 91% 20%;
+}
+
+.dark .theme-connect {
+  /* Adjust gold for dark mode */
+  --theme-primary: 45 93% 55%;
+  --theme-primary-hover: 45 93% 45%;
+  --theme-primary-light: 45 93% 15%;
+  --theme-badge-bg: 45 93% 15%;
+  --theme-badge-text: 45 93% 70%;
+  --theme-border-accent: 45 93% 20%;
+  --theme-button-primary-text: 0 0% 10%;
+}
+
+/* ============================================
+   UTILITY CLASSES FOR THEMED ELEMENTS
+   ============================================ */
+
+/* Themed buttons */
+.btn-theme-primary {
+  background-color: hsl(var(--theme-button-primary));
+  color: hsl(var(--theme-button-primary-text));
+}
+
+.btn-theme-primary:hover {
+  background-color: hsl(var(--theme-button-primary-hover));
+}
+
+/* Themed links */
+.link-theme {
+  color: hsl(var(--theme-link));
+}
+
+.link-theme:hover {
+  color: hsl(var(--theme-link-hover));
+}
+
+/* Themed badges */
+.badge-theme {
+  background-color: hsl(var(--theme-badge-bg));
+  color: hsl(var(--theme-badge-text));
+}
+
+/* Themed borders */
+.border-theme-accent {
+  border-color: hsl(var(--theme-border-accent));
+}
+
+/* Themed backgrounds */
+.bg-theme-primary {
+  background-color: hsl(var(--theme-primary));
+  color: hsl(var(--theme-primary-foreground));
+}
+
+.bg-theme-light {
+  background-color: hsl(var(--theme-primary-light));
+}
+
+/* Themed text */
+.text-theme-primary {
+  color: hsl(var(--theme-primary));
+}
+
+/* Themed focus rings */
+.focus-theme:focus {
+  outline: 2px solid hsl(var(--theme-focus-ring));
+  outline-offset: 2px;
+}
+
+/* ============================================
+   SMOOTH THEME TRANSITIONS
+   ============================================ */
+.theme-social,
+.theme-connect {
+  transition: background-color 0.3s ease,
+              color 0.3s ease,
+              border-color 0.3s ease;
+}
+
+.theme-social *,
+.theme-connect * {
+  transition: background-color 0.3s ease,
+              color 0.3s ease,
+              border-color 0.3s ease;
+}
