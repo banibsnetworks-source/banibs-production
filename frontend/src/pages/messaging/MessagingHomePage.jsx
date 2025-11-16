@@ -271,6 +271,28 @@ export function MessagingHomePage() {
         ) : (
           <div className="flex flex-1 items-center justify-center p-8 bg-muted/20">
             <div className="text-center space-y-6 max-w-md">
+              {/* User Profile Section */}
+              <div className="flex flex-col items-center space-y-3">
+                {/* User Avatar */}
+                {user?.profile?.avatar_url || user?.avatar_url ? (
+                  <img 
+                    src={user.profile?.avatar_url || user.avatar_url} 
+                    alt={user.name}
+                    className="w-20 h-20 rounded-full object-cover border-4 border-yellow-500/20 shadow-lg"
+                  />
+                ) : (
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-gray-900 text-2xl font-bold border-4 border-yellow-500/20 shadow-lg">
+                    {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                  </div>
+                )}
+                
+                {/* User Info */}
+                <div>
+                  <p className="text-sm text-muted-foreground">You're signed in as</p>
+                  <h3 className="text-lg font-semibold text-foreground">{user?.name || 'User'}</h3>
+                </div>
+              </div>
+              
               {/* Large Chat Icon */}
               <div className="w-24 h-24 rounded-full bg-yellow-500/10 flex items-center justify-center mx-auto">
                 <svg className="w-12 h-12 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
