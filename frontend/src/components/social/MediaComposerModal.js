@@ -70,15 +70,16 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
   };
 
   const handlePost = async () => {
+    // Require at least one of: text, media, or link
     if (!text.trim() && media.length === 0 && !linkMeta && !linkUrl) {
-      alert('Please add some content to your post');
+      alert('Please add some content to your post (text, image, or link)');
       return;
     }
 
     setIsPosting(true);
     try {
       await onSubmit({
-        text: text.trim(),
+        text: text.trim() || "", // Send empty string if no text (media-only or link-only posts)
         media,
         link_url: linkMeta?.url || linkUrl || null,
         link_meta: linkMeta
