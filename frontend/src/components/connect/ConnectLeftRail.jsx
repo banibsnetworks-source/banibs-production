@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, Activity, Briefcase, Calendar, Tag, MessageSquare, Building } from 'lucide-react';
+import { Users, Activity, Briefcase, Calendar, Tag, MessageSquare, Building, BarChart3 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAccountMode } from '../../contexts/AccountModeContext';
 
