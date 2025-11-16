@@ -132,15 +132,25 @@ const BusinessProfilePublic = () => {
             )}
           </div>
 
-          {/* Edit Button (Owner Only) */}
+          {/* Edit Button (Owner Only) - Phase 8.1 Enhanced */}
           {isOwner && (
-            <button
-              className="edit-btn"
-              onClick={() => navigate('/portal/business/profile/edit')}
-            >
-              <Edit size={18} />
-              Edit Profile
-            </button>
+            <div className="flex gap-2">
+              <button
+                className="edit-btn"
+                onClick={() => setCommandCenterOpen(true)}
+                style={{ backgroundColor: business.accent_color || '#EAB308' }}
+              >
+                <Settings size={18} />
+                Customize
+              </button>
+              <button
+                className="edit-btn"
+                onClick={() => navigate('/portal/business/profile/edit')}
+              >
+                <Edit size={18} />
+                Edit Info
+              </button>
+            </div>
           )}
         </div>
       </div>
