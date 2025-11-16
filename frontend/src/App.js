@@ -80,6 +80,7 @@ import SocialProfileTheme from "./pages/portals/SocialProfileTheme";
 // Phase 8.2 - Business Profiles
 import BusinessProfileEdit from "./pages/business/BusinessProfileEdit";
 import BusinessProfilePublic from "./pages/business/BusinessProfilePublic";
+import MyBusinessRedirect from "./pages/business/MyBusinessRedirect";
 // Phase 8.3 - Business Board
 import BusinessBoardPage from "./pages/business/BusinessBoardPage";
 // Phase 3.0 - BANIBS Connect (Messaging)
