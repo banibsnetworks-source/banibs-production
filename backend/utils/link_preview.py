@@ -116,3 +116,40 @@ def _get_title_tag(soup: BeautifulSoup) -> Optional[str]:
     if title_tag:
         return title_tag.get_text().strip()
     return None
+
+
+def _fetch_youtube_preview(url: str) -> dict:
+    """
+    Fetch YouTube video metadata using oEmbed API
+    YouTube's oEmbed API is public and doesn't require auth
+    """
+    try:
+        oembed_url = f"https://www.youtube.com/oembed?url={url}&format=json"
+        response = requests.get(oembed_url, timeout=5)
+        response.raise_for_status()
+        
+        data = response.json()
+        
+        result = {
+            "title": data.get("title", "YouTube Video"),
+            "description": f"By {data.get('author_name', 'Unknown')}" if data.get('author_name') else None,
+            "image": data.get("thumbnail_url"),
+            "site": "YouTube",
+            "url": url
+        }
+        
+        # Cache result
+        _cache[url] = (result, datetime.now())
+        
+        return result
+        
+    except Exception as e:
+        # Fallback to generic preview if oEmbed fails
+        print(f"YouTube oEmbed failed: {e}")
+        return {
+            "title": "YouTube Video",
+            "description": None,
+            "image": None,
+            "site": "YouTube",
+            "url": url
+        }
