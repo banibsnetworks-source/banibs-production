@@ -129,14 +129,26 @@ export function MediaViewer() {
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
     >
-      {/* Close Button */}
+      {/* Close Button - Enhanced visibility */}
       <button
         onClick={closeViewer}
-        className="absolute top-4 right-4 z-10 p-2 bg-black/50 hover:bg-black/70 rounded-full text-white transition-colors"
+        className="absolute top-4 right-4 z-10 p-3 bg-black/70 hover:bg-black/90 rounded-lg text-white transition-all hover:scale-105 shadow-xl border border-white/10"
         aria-label="Close viewer"
       >
-        <X className="w-6 h-6" />
+        <X className="w-7 h-7" />
       </button>
+
+      {/* ESC Hint - Top Left */}
+      <div className="absolute top-4 left-4 z-10 px-3 py-2 bg-black/60 backdrop-blur-sm rounded-lg text-white text-xs font-medium border border-white/10">
+        Press <kbd className="px-1.5 py-0.5 bg-white/20 rounded text-xs font-semibold">ESC</kbd> to close
+      </div>
+
+      {/* Zoom Hint - Only show when zoomed */}
+      {zoom > 1 && (
+        <div className="absolute top-16 left-4 z-10 px-3 py-2 bg-black/60 backdrop-blur-sm rounded-lg text-white text-xs font-medium border border-white/10">
+          Click image to reset zoom
+        </div>
+      )}
 
       {/* Image Counter */}
       {totalImages > 1 && (
