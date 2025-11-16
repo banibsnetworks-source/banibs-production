@@ -92,14 +92,17 @@ const BusinessProfilePublic = () => {
       <GlobalNavBar />
       {/* Cover Section */}
       <div className="business-cover">
-        {business.cover ? (
+        {(business.banner_image_url || business.cover) ? (
           <img
-            src={`${process.env.REACT_APP_BACKEND_URL}${business.cover}`}
+            src={business.banner_image_url ? 
+              (business.banner_image_url.startsWith('http') ? business.banner_image_url : `${process.env.REACT_APP_BACKEND_URL}${business.banner_image_url}`) :
+              `${process.env.REACT_APP_BACKEND_URL}${business.cover}`
+            }
             alt={`${business.name} cover`}
             className="cover-image"
           />
         ) : (
-          <div className="cover-placeholder" style={{background: `linear-gradient(135deg, ${business.accent_color}20, ${business.accent_color}40)`}} />
+          <div className="cover-placeholder" style={{background: `linear-gradient(135deg, ${business.accent_color || '#EAB308'}20, ${business.accent_color || '#EAB308'}40)`}} />
         )}
       </div>
 
