@@ -52,10 +52,12 @@ const BusinessProfilePublic = () => {
 
           if (myBusinessResponse.ok) {
             const myBusiness = await myBusinessResponse.json();
-            setIsOwner(myBusiness.id === businessId);
+            // Compare with the loaded business ID, not the URL parameter
+            setIsOwner(myBusiness.id === data.id);
           }
         } catch (err) {
           // User doesn't have a business profile
+          console.log('User does not own a business profile');
         }
       }
     } catch (err) {
