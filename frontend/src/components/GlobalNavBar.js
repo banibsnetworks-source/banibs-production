@@ -146,11 +146,19 @@ const GlobalNavBar = () => {
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   className="flex items-center space-x-2 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shadow-sm">
-                    <span className="text-sm font-bold text-gray-900">
-                      {user?.name?.charAt(0)?.toUpperCase() || 'U'}
-                    </span>
-                  </div>
+                  {user?.profile?.avatar_url || user?.avatar_url ? (
+                    <img 
+                      src={user.profile?.avatar_url || user.avatar_url} 
+                      alt={user.name}
+                      className="w-8 h-8 rounded-full object-cover shadow-sm"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shadow-sm">
+                      <span className="text-sm font-bold text-gray-900">
+                        {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                      </span>
+                    </div>
+                  )}
                   <span className="text-sm font-medium">{user?.name}</span>
                   <ChevronDown size={16} />
                 </button>
