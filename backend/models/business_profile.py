@@ -65,6 +65,8 @@ class BusinessProfilePublic(BaseModel):
     status: str = "active"  # active | suspended | draft
     follower_count: int = 0
     is_following: bool = False  # Whether current user follows this business
+    average_rating: float = 0.0  # Phase 7.1 - Rating System
+    total_reviews: int = 0  # Phase 7.1 - Rating System
     created_at: datetime
     updated_at: datetime
     
