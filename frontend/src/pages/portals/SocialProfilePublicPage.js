@@ -180,31 +180,52 @@ const SocialProfilePublicPage = () => {
           </Link>
 
           {/* Profile Header with Cover Image */}
-          <div className="bg-gray-800 rounded-2xl border border-gray-700 overflow-hidden">
-            {/* Cover Image */}
-            {profile.cover_url && (
+          <div className="bg-gray-800 rounded-2xl border border-gray-700 overflow-hidden relative">
+            {/* Cover Image - Phase 8.1 Enhanced */}
+            {(profile.banner_image_url || profile.cover_url) && (
               <div className="w-full h-48 sm:h-60 md:h-72 overflow-hidden bg-gray-900">
                 <img 
-                  src={`${process.env.REACT_APP_BACKEND_URL}${profile.cover_url}`}
-                  alt="Profile cover" 
+                  src={profile.banner_image_url ? `${process.env.REACT_APP_BACKEND_URL}${profile.banner_image_url}` : `${process.env.REACT_APP_BACKEND_URL}${profile.cover_url}`}
+                  alt="Profile banner" 
                   className="w-full h-full object-cover"
                 />
               </div>
             )}
             
-            {/* Profile Info - S3 Polished */}
+            {/* Edit Profile Button - Phase 8.1 */}
+            {isOwnProfile && (
+              <button
+                onClick={() => setCommandCenterOpen(true)}
+                className="absolute top-4 right-4 z-10 flex items-center gap-2 px-4 py-2 bg-gray-900/80 hover:bg-gray-900 backdrop-blur-sm text-white rounded-lg transition-all shadow-lg border border-gray-700"
+              >
+                <Settings className="w-4 h-4" />
+                <span className="hidden sm:inline">Edit Profile</span>
+              </button>
+            )}
+            
+            {/* Profile Info - Phase 8.1 Enhanced */}
             <div className="px-6 pt-8 pb-6">
               <div className="flex items-start gap-6 flex-col sm:flex-row">
-                {/* Avatar - S3 Enhanced: 144px, shadow, border */}
-                <div className={profile.cover_url ? "-mt-16 sm:-mt-20" : ""}>
-                  {profile.avatar_url ? (
-                    <img
-                      src={profile.avatar_url}
-                      alt={profile.display_name}
-                      className="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover border-4 border-card shadow-lg"
-                    />
+                {/* Avatar - Phase 8.1 with Accent Ring */}
+                <div className={profile.cover_url || profile.banner_image_url ? "-mt-16 sm:-mt-20" : ""}>
+                  {(profile.profile_picture_url || profile.avatar_url) ? (
+                    <div className="relative">
+                      <img
+                        src={profile.profile_picture_url ? `${process.env.REACT_APP_BACKEND_URL}${profile.profile_picture_url}` : profile.avatar_url}
+                        alt={profile.display_name}
+                        className="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover shadow-lg"
+                        style={{
+                          border: `4px solid ${profile.accent_color || '#3B82F6'}`
+                        }}
+                      />
+                    </div>
                   ) : (
-                    <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-gray-900 text-4xl sm:text-5xl font-bold border-4 border-card shadow-lg">
+                    <div 
+                      className="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-gray-900 text-4xl sm:text-5xl font-bold shadow-lg"
+                      style={{
+                        border: `4px solid ${profile.accent_color || '#3B82F6'}`
+                      }}
+                    >
                       {(profile.display_name || '?')[0].toUpperCase()}
                     </div>
                   )}
