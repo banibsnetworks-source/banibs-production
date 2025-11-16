@@ -220,11 +220,56 @@ const BusinessProfilePublic = () => {
       {isOwner && (
         <ProfileCommandCenter
           isOpen={commandCenterOpen}
-          onClose={() => setCommandCenterOpen(false)}
-          currentUser={{ ...business, id: businessId }}
-          onProfileUpdate={(updates) => {
-            setBusiness(prev => ({ ...prev, ...updates }));
+          onClose={() => {
+            setCommandCenterOpen(false);
+            setBusinessDraft(null);
           }}
+          mode="business"
+          profile={businessDraft || business}
+          onProfileChange={setBusinessDraft}
+          onSave={async () => {
+            if (!businessDraft) {
+              setCommandCenterOpen(false);
+              return;
+            }
+            
+            try {
+              setIsSavingProfile(true);
+              
+              // Update backend via business profile endpoint
+              const token = localStorage.getItem('access_token');
+              const response = await fetch(
+                `${process.env.REACT_APP_BACKEND_URL}/api/business/${businessId}`,
+                {
+                  method: 'PATCH',
+                  headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    profile_picture_url: businessDraft.profile_picture_url,
+                    banner_image_url: businessDraft.banner_image_url,
+                    accent_color: businessDraft.accent_color,
+                  }),
+                }
+              );
+              
+              if (response.ok) {
+                // Update local state
+                setBusiness(prev => ({ ...prev, ...businessDraft }));
+                setBusinessDraft(null);
+                setCommandCenterOpen(false);
+              } else {
+                alert('Failed to save business profile changes');
+              }
+            } catch (error) {
+              console.error('Error saving business profile:', error);
+              alert('Failed to save business profile changes');
+            } finally {
+              setIsSavingProfile(false);
+            }
+          }}
+          isSaving={isSavingProfile}
         />
       )}
     </div>
