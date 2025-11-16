@@ -160,15 +160,22 @@ async def get_post_by_id(post_id: str, viewer_id: Optional[str] = None):
     
     # Extract media URLs from media array for S-MEDIA compatibility
     media_urls = []
+    print(f"🔍 [DB get_post_by_id] post.get('media'): {post.get('media')}")
     if post.get("media"):
         for item in post["media"]:
+            print(f"🔍 [DB get_post_by_id] Processing media item: {item}")
+            print(f"🔍 [DB get_post_by_id] isinstance check: {isinstance(item, dict)}, has url: {item.get('url') if isinstance(item, dict) else 'N/A'}")
             if isinstance(item, dict) and item.get("url"):
                 # If URL is relative, make it absolute
                 url = item["url"]
                 if not url.startswith('http'):
                     backend_url = os.environ.get('REACT_APP_BACKEND_URL', '')
+                    print(f"🔍 [DB get_post_by_id] backend_url from env: '{backend_url}'")
                     url = f"{backend_url}{url}"
+                print(f"🔍 [DB get_post_by_id] Final URL to append: '{url}'")
                 media_urls.append(url)
+    
+    print(f"🔍 [DB get_post_by_id] Final media_urls array: {media_urls}")
     
     return {
         **post,
