@@ -110,14 +110,17 @@ const BusinessProfilePublic = () => {
       <div className="business-header">
         <div className="business-header-content">
           {/* Logo */}
-          <div className="business-logo">
-            {business.logo ? (
+          <div className="business-logo" style={{borderColor: business.accent_color || '#EAB308', borderWidth: '4px', borderStyle: 'solid'}}>
+            {(business.profile_picture_url || business.logo) ? (
               <img
-                src={`${process.env.REACT_APP_BACKEND_URL}${business.logo}`}
+                src={business.profile_picture_url ? 
+                  (business.profile_picture_url.startsWith('http') ? business.profile_picture_url : `${process.env.REACT_APP_BACKEND_URL}${business.profile_picture_url}`) :
+                  `${process.env.REACT_APP_BACKEND_URL}${business.logo}`
+                }
                 alt={`${business.name} logo`}
               />
             ) : (
-              <div className="logo-placeholder" style={{background: business.accent_color}}>
+              <div className="logo-placeholder" style={{background: business.accent_color || '#EAB308'}}>
                 {business.name.charAt(0).toUpperCase()}
               </div>
             )}
