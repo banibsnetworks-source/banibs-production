@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { MapPin, Globe, Mail, Phone, Edit, Loader2, ExternalLink } from 'lucide-react';
+import { MapPin, Globe, Mail, Phone, Edit, Loader2, ExternalLink, Settings } from 'lucide-react';
 import GlobalNavBar from '../../components/GlobalNavBar';
+import ProfileCommandCenter from '../../components/profile/ProfileCommandCenter';
 import './BusinessProfilePublic.css';
 
 const BusinessProfilePublic = () => {
