@@ -10,8 +10,9 @@ from datetime import datetime
 
 class BusinessService(BaseModel):
     """Individual service offered by business"""
+    id: Optional[int] = None
     title: str = Field(..., min_length=1, max_length=100)
-    description: str = Field(..., min_length=1, max_length=500)
+    description: Optional[str] = Field(None, max_length=500)
 
 
 class BusinessProfileCreate(BaseModel):
