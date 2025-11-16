@@ -52,6 +52,16 @@ class BusinessProfileUpdate(BaseModel):
     secondary_color: Optional[str] = Field(None, pattern=r'^#[0-9A-Fa-f]{6}$', description="Secondary theme color")
     header_style: Optional[str] = Field(None, pattern=r'^(clean|carded|minimal)$')
     font_style: Optional[str] = Field(None, pattern=r'^(default|modern|serif)$')
+    # Phase 8.2 - Geo-Enabled Search
+    address_line1: Optional[str] = Field(None, max_length=200)
+    address_line2: Optional[str] = Field(None, max_length=200)
+    city: Optional[str] = Field(None, max_length=100)
+    state: Optional[str] = Field(None, max_length=50)
+    postal_code: Optional[str] = Field(None, max_length=20)
+    country: Optional[str] = Field(None, max_length=2, description="2-letter country code")
+    latitude: Optional[float] = Field(None, ge=-90, le=90)
+    longitude: Optional[float] = Field(None, ge=-180, le=180)
+    service_radius_km: Optional[float] = Field(None, ge=0, description="Service area radius in kilometers")
 
 
 class BusinessProfilePublic(BaseModel):
