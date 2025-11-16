@@ -48,19 +48,21 @@ class BusinessProfilePublic(BaseModel):
     """Public business profile response"""
     id: str
     owner_user_id: str
-    name: str
-    handle: str
-    tagline: Optional[str] = None
-    bio: Optional[str] = None
-    logo: Optional[str] = None
-    cover: Optional[str] = None
-    accent_color: str = "#d4af37"  # Default gold
-    website: Optional[str] = None
-    email: Optional[str] = None
-    phone: Optional[str] = None
-    location: Optional[str] = None
+    name: str  # Business/brand name
+    handle: str  # @banibsnews style handle
+    tagline: Optional[str] = None  # One-liner (e.g. "Black America News, Business & Opportunity")
+    bio: Optional[str] = None  # Longer About section
+    logo: Optional[str] = None  # logo_url
+    cover: Optional[str] = None  # cover_image_url (optional header banner)
+    accent_color: str = "#d4af37"  # Default gold for business
+    industry: Optional[str] = None  # Category (Media, Real Estate, Finance, etc.)
+    website: Optional[str] = None  # External site
+    email: Optional[str] = None  # Public contact email
+    phone: Optional[str] = None  # Optional phone
+    location: Optional[str] = None  # City/State/Country
     services: list[BusinessService] = []
     verified_status: bool = False
+    status: str = "active"  # active | suspended | draft
     follower_count: int = 0
     is_following: bool = False  # Whether current user follows this business
     created_at: datetime
