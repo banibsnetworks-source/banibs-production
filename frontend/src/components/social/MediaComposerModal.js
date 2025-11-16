@@ -70,12 +70,18 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
 
     setIsPosting(true);
     try {
-      await onSubmit({
+      const payload = {
         text: text.trim(),
         media,
         link_url: linkMeta?.url || null,
         link_meta: linkMeta
-      });
+      };
+      
+      // DEBUG LOG: Check payload before submission
+      console.log('🔍 [MediaComposerModal] Payload before API call:', payload);
+      console.log('🔍 [MediaComposerModal] Media array:', media);
+      
+      await onSubmit(payload);
 
       // Reset form
       setText('');
