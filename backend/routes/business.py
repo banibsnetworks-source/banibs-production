@@ -145,6 +145,83 @@ async def get_current_user_optional():
         return None
 
 
+# Phase 8.2 - Geo Search Endpoint (MUST come before /{handle_or_id} route)
+@router.get("/search", response_model=List[BusinessProfilePublic])
+async def search_businesses(
+    q: Optional[str] = Query(None, description="Search query"),
+    category: Optional[str] = Query(None, description="Category filter"),
+    zip: Optional[str] = Query(None, alias="zip", description="Zip code"),
+    city: Optional[str] = Query(None),
+    state: Optional[str] = Query(None),
+    lat: Optional[float] = Query(None, ge=-90, le=90),
+    lng: Optional[float] = Query(None, ge=-180, le=180),
+    radius_km: float = Query(25, ge=0, le=500),
+    sort: str = Query("distance", regex="^(distance|name|relevance)$"),
+    limit: int = Query(50, ge=1, le=100)
+):
+    """Geo-enabled business search"""
+    from services.geocoding import calculate_distance_km, km_to_miles, geocode_address
+    from models.search_analytics import BusinessSearchEvent
+    from uuid import uuid4
+    
+    db = await get_db()
+    query_filter = {"status": "active"}
+    
+    if q:
+        query_filter["$or"] = [
+            {"name": {"$regex": q, "$options": "i"}},
+            {"tagline": {"$regex": q, "$options": "i"}}
+        ]
+    if category:
+        query_filter["industry"] = category
+    
+    # Geocode location if needed
+    search_lat, search_lng = lat, lng
+    if not (search_lat and search_lng):
+        if zip:
+            coords = await geocode_address("", "", "", zip, "US")
+            if coords:
+                search_lat, search_lng = coords
+        elif city and state:
+            coords = await geocode_address("", city, state, "", "US")
+            if coords:
+                search_lat, search_lng = coords
+    
+    businesses = await db.business_profiles.find(query_filter, {"_id": 0}).to_list(limit * 2)
+    
+    results = []
+    for biz in businesses:
+        biz_data = BusinessProfilePublic(**biz)
+        if search_lat and search_lng and biz.get("latitude") and biz.get("longitude"):
+            distance_km = calculate_distance_km(search_lat, search_lng, biz["latitude"], biz["longitude"])
+            if distance_km <= radius_km:
+                biz_data.distance_km = round(distance_km, 2)
+                biz_data.distance_miles = round(km_to_miles(distance_km), 2)
+                results.append(biz_data)
+        else:
+            results.append(biz_data)
+    
+    if sort == "distance" and search_lat and search_lng:
+        results.sort(key=lambda x: x.distance_km if x.distance_km else float('inf'))
+    elif sort == "name":
+        results.sort(key=lambda x: x.name.lower())
+    
+    # Log analytics
+    try:
+        location_type = "coords" if (lat and lng) else ("zip" if zip else ("city_state" if (city and state) else "none"))
+        await db.business_search_analytics.insert_one(
+            BusinessSearchEvent(
+                id=str(uuid4()), query_text=q, category=category, location_type=location_type,
+                search_city=city, search_state=state, search_zip=zip,
+                radius_km=radius_km if (search_lat and search_lng) else None,
+                sort_method=sort, results_count=len(results[:limit])
+            ).dict()
+        )
+    except: pass
+    
+    return results[:limit]
+
+
 @router.get("/{handle_or_id}", response_model=BusinessProfilePublic)
 async def get_business(
     handle_or_id: str,
