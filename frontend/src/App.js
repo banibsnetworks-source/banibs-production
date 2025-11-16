@@ -195,6 +195,7 @@ function App() {
               {/* Phase 8.2 - Business Profile Routes (must come BEFORE /portal/business) */}
               {/* Redirect old edit route to Command Center via business profile */}
               <Route path="/portal/business/profile/edit" element={<Navigate to="/portal/business" replace />} />
+              <Route path="/portal/business/me" element={<MyBusinessRedirect />} />
               <Route path="/portal/business/board" element={<BusinessBoardPage />} />
               <Route path="/portal/business/:businessId" element={<BusinessProfilePublic />} />
               
