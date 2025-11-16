@@ -191,7 +191,8 @@ const SocialProfilePublicPage = () => {
             {isOwnProfile && (
               <button
                 onClick={() => setCommandCenterOpen(true)}
-                className="absolute top-4 right-4 z-10 flex items-center gap-2 px-4 py-2 bg-gray-900/80 hover:bg-gray-900 backdrop-blur-sm text-white rounded-lg transition-all shadow-lg border border-gray-700"
+                className="absolute top-4 right-4 z-10 flex items-center gap-2 px-4 py-2 text-white rounded-full transition-all shadow-lg"
+                style={{ backgroundColor: profile.accent_color || '#3B82F6' }}
               >
                 <Settings className="w-4 h-4" />
                 <span className="hidden sm:inline">Edit Profile</span>
