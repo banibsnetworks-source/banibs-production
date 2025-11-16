@@ -585,6 +585,22 @@ const SocialProfilePublicPage = () => {
         </div>
       </div>
       </div>
+      
+      {/* Phase 8.1 - Profile Command Center */}
+      {isOwnProfile && (
+        <ProfileCommandCenter
+          isOpen={commandCenterOpen}
+          onClose={() => setCommandCenterOpen(false)}
+          currentUser={currentUserData}
+          onProfileUpdate={(updates) => {
+            // Refresh profile to show new image/banner/color
+            setProfile(prev => ({ ...prev, ...updates }));
+            if (user) {
+              setCurrentUserData({ ...user, ...updates });
+            }
+          }}
+        />
+      )}
     </SocialLayout>
   );
 };
