@@ -9,7 +9,8 @@ export function MessageList({
   isGroupChat = false,
   currentUserId = null,
   onDeleteForMe = null,
-  onDeleteForEveryone = null
+  onDeleteForEveryone = null,
+  conversation = null
 }) {
   const messagesEndRef = useRef(null);
   const containerRef = useRef(null);
