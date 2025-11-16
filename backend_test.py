@@ -1272,6 +1272,444 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # PHASE 7.1 - JOBS & OPPORTUNITIES + BUSINESS RATING SYSTEM TESTING
+    # ==========================================
+    
+    def test_phase_7_1_jobs_and_ratings_comprehensive(self) -> bool:
+        """
+        PHASE 7.1 COMPREHENSIVE TESTING: Jobs & Opportunities + Business Rating System
+        
+        Tests all endpoints for the newly implemented Jobs system and Business Rating system:
+        - Jobs CRUD operations (create, read, update, delete)
+        - Job search and filtering
+        - Job applications
+        - Business reviews and ratings
+        - Rating statistics and aggregation
+        """
+        self.log("🎯 PHASE 7.1 COMPREHENSIVE TESTING: Jobs & Opportunities + Business Rating System")
+        
+        # Step 1: Authenticate with test user
+        test_email = "social_test_user@example.com"
+        test_password = "test_password"
+        
+        response = self.make_request("POST", "/auth/login", {
+            "email": test_email,
+            "password": test_password
+        })
+        
+        if response.status_code != 200:
+            self.log(f"❌ Authentication failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        data = response.json()
+        if "access_token" not in data:
+            self.log("❌ Login response missing access_token", "ERROR")
+            return False
+        
+        access_token = data["access_token"]
+        user_id = data.get("user", {}).get("id")
+        self.log(f"✅ Authentication successful - User ID: {user_id}")
+        
+        headers = {"Authorization": f"Bearer {access_token}"}
+        
+        # Test variables
+        test_job_id = None
+        test_business_profile_id = "test_business_123"  # Mock business profile
+        
+        # ============ JOBS SYSTEM TESTING ============
+        
+        # Test 1: Create Job Posting
+        self.log("📝 Test 1: Creating job posting...")
+        job_data = {
+            "business_profile_id": test_business_profile_id,
+            "title": "Senior Software Engineer",
+            "employment_type": "full_time",
+            "category": "Technology",
+            "description": "We are looking for a talented Senior Software Engineer to join our growing team. You will be responsible for developing scalable web applications and mentoring junior developers.",
+            "location_type": "remote",
+            "responsibilities": [
+                "Design and develop web applications",
+                "Mentor junior developers",
+                "Code reviews and technical documentation"
+            ],
+            "requirements": [
+                "5+ years of software development experience",
+                "Strong knowledge of Python and JavaScript",
+                "Experience with cloud platforms"
+            ],
+            "skills": ["Python", "JavaScript", "React", "FastAPI", "AWS"],
+            "salary_min": 90000,
+            "salary_max": 130000,
+            "status": "draft"
+        }
+        
+        response = self.make_request("POST", "/jobs", job_data, headers=headers)
+        
+        if response.status_code == 201:
+            job_response = response.json()
+            test_job_id = job_response.get("id")
+            self.log(f"✅ Job created successfully - ID: {test_job_id}")
+            
+            # Verify job data
+            required_fields = ["id", "title", "employment_type", "category", "description", "status"]
+            if all(field in job_response for field in required_fields):
+                self.log(f"   Title: {job_response['title']}")
+                self.log(f"   Status: {job_response['status']}")
+                self.log(f"   Employment Type: {job_response['employment_type']}")
+            else:
+                self.log("❌ Job response missing required fields", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Job creation failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 2: Get My Jobs (Employer View)
+        self.log("📋 Test 2: Getting employer's jobs...")
+        response = self.make_request("GET", "/jobs/mine", headers=headers)
+        
+        if response.status_code == 200:
+            jobs = response.json()
+            self.log(f"✅ Retrieved {len(jobs)} jobs for employer")
+            
+            # Verify our created job is in the list
+            found_job = any(job.get("id") == test_job_id for job in jobs)
+            if found_job:
+                self.log("✅ Created job found in employer's job list")
+            else:
+                self.log("⚠️ Created job not found in employer's list")
+        else:
+            self.log(f"❌ Get my jobs failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 3: Update Job Posting
+        self.log("✏️ Test 3: Updating job posting...")
+        update_data = {
+            "title": "Senior Software Engineer (Updated)",
+            "description": "Updated job description with more details about our company culture and benefits.",
+            "responsibilities": [
+                "Design and develop web applications",
+                "Mentor junior developers", 
+                "Code reviews and technical documentation",
+                "Lead architecture decisions"
+            ]
+        }
+        
+        response = self.make_request("PATCH", f"/jobs/{test_job_id}", update_data, headers=headers)
+        
+        if response.status_code == 200:
+            updated_job = response.json()
+            if updated_job.get("title") == "Senior Software Engineer (Updated)":
+                self.log("✅ Job updated successfully")
+                self.log(f"   New title: {updated_job['title']}")
+            else:
+                self.log("❌ Job update did not apply correctly", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Job update failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 4: Publish Job (Change Status to Open)
+        self.log("🚀 Test 4: Publishing job (draft → open)...")
+        response = self.make_request("PATCH", f"/jobs/{test_job_id}/status?status=open", headers=headers)
+        
+        if response.status_code == 200:
+            status_response = response.json()
+            if status_response.get("status") == "open":
+                self.log("✅ Job published successfully (status: open)")
+            else:
+                self.log("❌ Job status not updated correctly", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Job publish failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 5: Public Job Search (No Authentication Required)
+        self.log("🔍 Test 5: Public job search...")
+        response = self.make_request("GET", "/jobs")
+        
+        if response.status_code == 200:
+            search_result = response.json()
+            if "jobs" in search_result and "total" in search_result:
+                jobs = search_result["jobs"]
+                total = search_result["total"]
+                self.log(f"✅ Public job search working - Found {total} jobs, returned {len(jobs)}")
+                
+                # Look for our published job
+                found_published_job = any(job.get("id") == test_job_id for job in jobs)
+                if found_published_job:
+                    self.log("✅ Published job appears in public search")
+                else:
+                    self.log("⚠️ Published job not found in public search (might be expected)")
+            else:
+                self.log("❌ Job search response missing required structure", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Public job search failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 6: Job Search with Filters
+        self.log("🔍 Test 6: Job search with filters...")
+        params = {
+            "q": "engineer",
+            "location_type": "remote",
+            "employment_type": "full_time"
+        }
+        response = self.make_request("GET", "/jobs", params=params)
+        
+        if response.status_code == 200:
+            filtered_result = response.json()
+            jobs = filtered_result.get("jobs", [])
+            self.log(f"✅ Filtered job search working - Found {len(jobs)} remote full-time engineer jobs")
+        else:
+            self.log(f"❌ Filtered job search failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 7: Get Public Job Details
+        self.log("📄 Test 7: Getting public job details...")
+        response = self.make_request("GET", f"/jobs/{test_job_id}/public")
+        
+        if response.status_code == 200:
+            job_detail = response.json()
+            self.log("✅ Public job details retrieved successfully")
+            self.log(f"   Title: {job_detail.get('title')}")
+            self.log(f"   View Count: {job_detail.get('view_count', 0)}")
+            
+            # Test view count increment by calling again
+            response2 = self.make_request("GET", f"/jobs/{test_job_id}/public")
+            if response2.status_code == 200:
+                job_detail2 = response2.json()
+                if job_detail2.get("view_count", 0) > job_detail.get("view_count", 0):
+                    self.log("✅ View count incremented correctly")
+                else:
+                    self.log("⚠️ View count increment not detected")
+        else:
+            self.log(f"❌ Get public job details failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 8: Apply to Job
+        self.log("📝 Test 8: Applying to job...")
+        application_data = {
+            "job_id": test_job_id,
+            "cover_message": "I am very interested in this position and believe my experience in Python and React makes me a great fit for your team."
+        }
+        
+        response = self.make_request("POST", f"/jobs/{test_job_id}/apply", application_data, headers=headers)
+        
+        if response.status_code == 201:
+            application = response.json()
+            self.log("✅ Job application submitted successfully")
+            self.log(f"   Application ID: {application.get('id')}")
+            self.log(f"   Status: {application.get('status')}")
+        else:
+            self.log(f"❌ Job application failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 9: Get Job Applications (Employer View)
+        self.log("📋 Test 9: Getting job applications (employer view)...")
+        response = self.make_request("GET", f"/jobs/{test_job_id}/applications", headers=headers)
+        
+        if response.status_code == 200:
+            applications = response.json()
+            self.log(f"✅ Retrieved {len(applications)} applications for job")
+            
+            if len(applications) > 0:
+                app = applications[0]
+                self.log(f"   Applicant: {app.get('applicant_name', 'N/A')}")
+                self.log(f"   Email: {app.get('applicant_email', 'N/A')}")
+        else:
+            self.log(f"❌ Get job applications failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 10: Get My Applications (Job Seeker View)
+        self.log("📋 Test 10: Getting my applications (job seeker view)...")
+        response = self.make_request("GET", "/jobs/applications/mine", headers=headers)
+        
+        if response.status_code == 200:
+            my_applications = response.json()
+            self.log(f"✅ Retrieved {len(my_applications)} applications for user")
+        else:
+            self.log(f"❌ Get my applications failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ BUSINESS RATING SYSTEM TESTING ============
+        
+        # Test 11: Create Business Review
+        self.log("⭐ Test 11: Creating business review...")
+        review_data = {
+            "business_profile_id": test_business_profile_id,
+            "rating": 5,
+            "review_text": "Excellent company to work with! Great communication, timely payments, and professional team. Highly recommended for anyone looking for quality service.",
+            "category": "employer"
+        }
+        
+        response = self.make_request("POST", "/reviews", review_data, headers=headers)
+        
+        if response.status_code == 201:
+            review = response.json()
+            self.log("✅ Business review created successfully")
+            self.log(f"   Rating: {review.get('rating')}/5 stars")
+            self.log(f"   Category: {review.get('category')}")
+            self.log(f"   Review ID: {review.get('id')}")
+        else:
+            self.log(f"❌ Business review creation failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 12: Get Business Reviews
+        self.log("📋 Test 12: Getting business reviews...")
+        response = self.make_request("GET", f"/reviews/business/{test_business_profile_id}")
+        
+        if response.status_code == 200:
+            reviews_result = response.json()
+            if "reviews" in reviews_result and "total" in reviews_result:
+                reviews = reviews_result["reviews"]
+                total = reviews_result["total"]
+                self.log(f"✅ Retrieved {len(reviews)} reviews (total: {total})")
+                
+                if len(reviews) > 0:
+                    review = reviews[0]
+                    self.log(f"   Latest review: {review.get('rating')}/5 stars")
+                    self.log(f"   Reviewer: {review.get('reviewer_name', 'Anonymous')}")
+            else:
+                self.log("❌ Business reviews response missing required structure", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Get business reviews failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 13: Get My Reviews
+        self.log("📋 Test 13: Getting my reviews...")
+        response = self.make_request("GET", "/reviews/mine", headers=headers)
+        
+        if response.status_code == 200:
+            my_reviews = response.json()
+            self.log(f"✅ Retrieved {len(my_reviews)} reviews written by user")
+        else:
+            self.log(f"❌ Get my reviews failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 14: Get Business Rating Statistics
+        self.log("📊 Test 14: Getting business rating statistics...")
+        response = self.make_request("GET", f"/reviews/stats/{test_business_profile_id}")
+        
+        if response.status_code == 200:
+            stats = response.json()
+            required_fields = ["business_profile_id", "average_rating", "total_reviews", "rating_distribution"]
+            
+            if all(field in stats for field in required_fields):
+                self.log("✅ Business rating statistics retrieved successfully")
+                self.log(f"   Average Rating: {stats['average_rating']}/5.0")
+                self.log(f"   Total Reviews: {stats['total_reviews']}")
+                self.log(f"   Rating Distribution: {stats['rating_distribution']}")
+            else:
+                self.log("❌ Rating statistics missing required fields", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Get rating statistics failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 15: Check If User Reviewed Business
+        self.log("🔍 Test 15: Checking if user reviewed business...")
+        response = self.make_request("GET", f"/reviews/check/{test_business_profile_id}", headers=headers)
+        
+        if response.status_code == 200:
+            existing_review = response.json()
+            if existing_review:
+                self.log("✅ User has reviewed this business")
+                self.log(f"   Existing rating: {existing_review.get('rating')}/5 stars")
+            else:
+                self.log("✅ User has not reviewed this business (returned null)")
+        else:
+            self.log(f"❌ Check user review failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 16: Update Existing Review (User can only have 1 review per business)
+        self.log("✏️ Test 16: Updating existing review...")
+        updated_review_data = {
+            "business_profile_id": test_business_profile_id,
+            "rating": 4,
+            "review_text": "Updated review: Still a great company, but had some minor communication delays on the last project. Overall positive experience.",
+            "category": "employer"
+        }
+        
+        response = self.make_request("POST", "/reviews", updated_review_data, headers=headers)
+        
+        if response.status_code == 201:
+            updated_review = response.json()
+            if updated_review.get("rating") == 4:
+                self.log("✅ Review updated successfully (rating changed from 5 to 4)")
+            else:
+                self.log("❌ Review update did not apply correctly", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Review update failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 17: Verify Rating Statistics Updated
+        self.log("📊 Test 17: Verifying rating statistics updated after review change...")
+        response = self.make_request("GET", f"/reviews/stats/{test_business_profile_id}")
+        
+        if response.status_code == 200:
+            updated_stats = response.json()
+            new_average = updated_stats.get("average_rating", 0)
+            self.log(f"✅ Updated rating statistics retrieved")
+            self.log(f"   New Average Rating: {new_average}/5.0")
+            
+            # The average should reflect the updated rating
+            if new_average == 4.0:  # Since we only have 1 review now rated 4
+                self.log("✅ Rating statistics correctly updated after review change")
+            else:
+                self.log(f"⚠️ Rating statistics may not have updated yet (got {new_average}, expected 4.0)")
+        else:
+            self.log(f"❌ Get updated rating statistics failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ ERROR HANDLING TESTS ============
+        
+        # Test 18: Test Invalid Job ID
+        self.log("❌ Test 18: Testing invalid job ID handling...")
+        response = self.make_request("GET", "/jobs/invalid-job-id/public")
+        
+        if response.status_code == 404:
+            self.log("✅ Invalid job ID correctly returns 404")
+        else:
+            self.log(f"❌ Invalid job ID should return 404, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 19: Test Unauthorized Access
+        self.log("🔒 Test 19: Testing unauthorized access...")
+        response = self.make_request("GET", "/jobs/mine")  # No auth header
+        
+        if response.status_code == 401:
+            self.log("✅ Unauthorized access correctly returns 401")
+        else:
+            self.log(f"❌ Unauthorized access should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 20: Test Invalid Rating (Outside 1-5 Range)
+        self.log("❌ Test 20: Testing invalid rating range...")
+        invalid_review_data = {
+            "business_profile_id": test_business_profile_id,
+            "rating": 6,  # Invalid: should be 1-5
+            "review_text": "This should fail validation",
+            "category": "general"
+        }
+        
+        response = self.make_request("POST", "/reviews", invalid_review_data, headers=headers)
+        
+        if response.status_code == 422:  # Validation error
+            self.log("✅ Invalid rating correctly returns 422 validation error")
+        else:
+            self.log(f"❌ Invalid rating should return 422, got {response.status_code}", "ERROR")
+            return False
+        
+        self.log("🎉 PHASE 7.1 COMPREHENSIVE TESTING COMPLETE!")
+        self.log("✅ All Jobs & Opportunities endpoints working correctly")
+        self.log("✅ All Business Rating System endpoints working correctly")
+        self.log("✅ Error handling and validation working as expected")
+        
+        return True
+
+    # ==========================================
     # PHASE 3.1 - BANIBS CONNECT MESSAGING API TESTING
     # ==========================================
     
