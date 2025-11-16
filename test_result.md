@@ -370,7 +370,8 @@ metadata:
   test_sequence: 1
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Phase 7.1.1 - BIA Dashboard Frontend"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
