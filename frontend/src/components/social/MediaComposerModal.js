@@ -134,19 +134,28 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
 
           {/* Link Preview Fallback - Show URL when no metadata but URL exists */}
           {!linkMeta && linkUrl && !showLinkInput && (
-            <div className="mt-3 flex items-center justify-between p-3 bg-muted border border-border rounded-lg">
-              <div className="flex-1 min-w-0">
-                <p className="text-xs text-muted-foreground mb-1">Link</p>
-                <p className="text-sm text-blue-500 truncate">{linkUrl}</p>
-                <p className="text-xs text-muted-foreground mt-1">Preview unavailable - link will be posted as URL</p>
-              </div>
+            <div className="mt-3 relative border border-border rounded-lg overflow-hidden bg-muted">
               <button
                 onClick={handleRemoveLink}
-                className="ml-3 p-1 hover:bg-background rounded transition-colors"
+                className="absolute top-2 right-2 z-10 p-1.5 bg-background/90 hover:bg-background rounded-full border border-border transition-colors"
                 title="Remove link"
               >
-                <X size={18} className="text-muted-foreground" />
+                <X size={16} className="text-muted-foreground" />
               </button>
+              <div className="p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                    <span className="text-lg">🔗</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-medium text-muted-foreground mb-1">Link Added</p>
+                    <p className="text-sm text-foreground font-medium truncate">{linkUrl}</p>
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground bg-background/50 p-2 rounded">
+                  Preview unavailable - link will be posted as clickable URL
+                </p>
+              </div>
             </div>
           )}
 
