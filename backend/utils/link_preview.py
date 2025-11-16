@@ -32,6 +32,10 @@ def fetch_link_preview(url: str) -> dict:
         if datetime.now() - cached_time < CACHE_DURATION:
             return cached_data
     
+    # YouTube-specific handling using oEmbed API
+    if 'youtube.com' in url or 'youtu.be' in url:
+        return _fetch_youtube_preview(url)
+    
     # Fetch and parse
     try:
         # Use a full browser User-Agent to avoid being blocked
