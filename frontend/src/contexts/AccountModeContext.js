@@ -147,7 +147,8 @@ export const AccountModeProvider = ({ children }) => {
     switchToBusiness,
     refreshBusinessProfiles,
     isPersonalMode: mode === 'personal',
-    isBusinessMode: mode === 'business'
+    isBusinessMode: mode === 'business',
+    currentTheme: mode === 'business' ? 'connect' : 'social' // For theme CSS classes
   };
 
   return (
