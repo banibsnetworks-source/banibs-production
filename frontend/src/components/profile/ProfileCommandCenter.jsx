@@ -95,7 +95,7 @@ const ProfileCommandCenter = ({
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex">
+    <div className="fixed inset-0 flex" style={{ zIndex: 10000 }}>
       {/* Backdrop */}
       <div
         className="flex-1 bg-black/40"
