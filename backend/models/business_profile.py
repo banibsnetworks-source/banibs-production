@@ -79,6 +79,15 @@ class BusinessProfilePublic(BaseModel):
     total_reviews: int = 0  # Phase 7.1 - Rating System
     created_at: datetime
     updated_at: datetime
+    # Phase 8.1 Stage 2 - Profile Command Center
+    profile_picture_url: Optional[str] = None
+    banner_image_url: Optional[str] = None
+    address: Optional[str] = None
+    website_url: Optional[str] = None
+    hours: Optional[str] = None
+    secondary_color: Optional[str] = "#d4af37"
+    header_style: str = "clean"
+    font_style: str = "default"
     
     class Config:
         json_encoders = {
