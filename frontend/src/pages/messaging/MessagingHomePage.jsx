@@ -252,6 +252,7 @@ export function MessagingHomePage() {
                 currentUserId={user?.id}
                 onDeleteForMe={handleDeleteForMe}
                 onDeleteForEveryone={handleDeleteForEveryone}
+                conversation={activeConversation}
               />
             )}
             
