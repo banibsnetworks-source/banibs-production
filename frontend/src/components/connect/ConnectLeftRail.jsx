@@ -22,6 +22,13 @@ const ConnectLeftRail = () => {
 
   const navItems = [
     {
+      icon: BarChart3,
+      label: 'Business Analytics',
+      href: '/portal/connect/analytics',
+      description: 'Insights & Performance',
+      highlight: true
+    },
+    {
       icon: Users,
       label: 'My Network',
       count: '1.2K',
