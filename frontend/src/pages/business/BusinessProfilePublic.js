@@ -165,8 +165,63 @@ const BusinessProfilePublic = () => {
         </div>
       </div>
 
+      {/* Phase 8.1 Stage 2 - Branding Block */}
+      <div className="max-w-5xl mx-auto px-4 py-6">
+        <div className="flex items-center gap-3 mb-2">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
+            {business.name}
+          </h1>
+          {business.verified_status && (
+            <div className="flex items-center gap-1 px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm">
+              <Check className="w-4 h-4" />
+              <span>Verified</span>
+            </div>
+          )}
+        </div>
+        
+        {business.industry && (
+          <span 
+            className="inline-block px-3 py-1 rounded-full text-sm font-medium text-white mb-2"
+            style={{ backgroundColor: business.secondary_color || business.accent_color || '#EAB308' }}
+          >
+            {business.industry}
+          </span>
+        )}
+        
+        {business.tagline && (
+          <p className="text-lg text-slate-600 dark:text-slate-400 mb-3">
+            {business.tagline}
+          </p>
+        )}
+        
+        <div 
+          className="h-1 w-24 rounded-full"
+          style={{ backgroundColor: business.accent_color || '#EAB308' }}
+        />
+      </div>
+
       {/* Main Content */}
-      <div className="business-content">
+      <div className="business-content max-w-5xl mx-auto px-4 space-y-6">
+        {/* Business Info Panel - Phase 8.1 Stage 2 */}
+        <BusinessInfoPanel 
+          business={business}
+          isOwner={isOwner}
+          onEdit={() => {
+            setCommandCenterOpen(true);
+            // Set initial tab to 'info' when opening from this button
+          }}
+        />
+
+        {/* Services - Phase 8.1 Stage 2 */}
+        <BusinessServicesList
+          services={business.services || []}
+          isOwner={isOwner}
+          onEdit={() => {
+            setCommandCenterOpen(true);
+            // Set initial tab to 'services'
+          }}
+        />
+
         {/* About Section */}
         {business.bio && (
           <section className="content-section">
