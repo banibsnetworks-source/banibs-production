@@ -29,12 +29,16 @@ async def create_business(
     current_user=Depends(require_role("user", "member"))
 ):
     """
-    Create a business profile (one per user)
-    Requires authentication
+    Create a business profile
+    
+    Dual-Layout System: Users can have multiple business profiles
+    Each profile requires a unique handle
     
     Handle generation:
     - If handle provided, validate and check uniqueness
     - If not provided, auto-generate from business name
+    
+    Requires authentication
     """
     db = await get_db()
     
