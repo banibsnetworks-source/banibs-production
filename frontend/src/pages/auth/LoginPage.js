@@ -7,6 +7,7 @@ import GlobalNavBar from '../../components/GlobalNavBar';
 const LoginPage = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
+  const toast = useToast();
   const [formData, setFormData] = useState({
     email: '',
     password: ''
