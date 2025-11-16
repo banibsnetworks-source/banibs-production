@@ -193,8 +193,8 @@ const SocialProfileEditPage = () => {
           </div>
 
           {/* Profile Preview */}
-          <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl border border-gray-700 p-6">
-            <h2 className="text-white font-semibold mb-4">Profile Preview</h2>
+          <div className="bg-card rounded-2xl border border-border p-6">
+            <h2 className="text-foreground font-semibold mb-4">Profile Preview</h2>
             <div className="flex items-start gap-4">
               <ProfileAvatar 
                 name={formData.display_name || 'BANIBS Member'} 
@@ -203,18 +203,18 @@ const SocialProfileEditPage = () => {
               />
               <div className="flex-1 space-y-2">
                 <div>
-                  <div className="text-xl font-bold text-white">
+                  <div className="text-xl font-bold text-foreground">
                     {formData.display_name || 'Your Name'}
                   </div>
                   {formData.handle && (
-                    <div className="text-amber-400 text-sm">@{formData.handle}</div>
+                    <div className="text-yellow-600 dark:text-yellow-400 text-sm">@{formData.handle}</div>
                   )}
                 </div>
                 {formData.headline && (
-                  <div className="text-gray-300 text-sm">{formData.headline}</div>
+                  <div className="text-muted-foreground text-sm">{formData.headline}</div>
                 )}
                 {formData.location && (
-                  <div className="text-gray-400 text-sm">📍 {formData.location}</div>
+                  <div className="text-muted-foreground text-sm">📍 {formData.location}</div>
                 )}
               </div>
             </div>
