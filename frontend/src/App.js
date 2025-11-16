@@ -197,8 +197,10 @@ function App() {
               
               {/* Phase 10.x - Social Portal Pages */}
               <Route path="/portal/social/u/:handle" element={<SocialMyPostsPage />} />
+              <Route path="/portal/social/groups" element={<SocialGroupsPage />} />
               <Route path="/portal/social/groups/mine" element={<SocialGroupsPage />} />
               <Route path="/portal/social/saved" element={<SocialSavedPage />} />
+              <Route path="/portal/social/live" element={<SocialLivesPage />} />
               <Route path="/portal/social/lives" element={<SocialLivesPage />} />
               <Route path="/portal/social/subscriptions" element={<SocialSubscriptionsPage />} />
               
