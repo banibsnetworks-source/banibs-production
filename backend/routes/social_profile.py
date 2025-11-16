@@ -30,6 +30,10 @@ def get_profile_from_user_doc(user_doc: dict) -> dict:
         "interests": profile.get("interests", []),
         "is_public": profile.get("is_public", True),
         "joined_at": user_doc.get("created_at"),
+        # Phase 8.1 - Profile Command Center fields
+        "profile_picture_url": user_doc.get("profile_picture_url") or profile.get("profile_picture_url"),
+        "banner_image_url": user_doc.get("banner_image_url") or profile.get("banner_image_url"),
+        "accent_color": user_doc.get("accent_color") or profile.get("accent_color") or "#3B82F6",
     }
 
 
