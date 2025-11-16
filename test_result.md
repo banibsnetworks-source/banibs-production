@@ -1260,8 +1260,8 @@ frontend:
 
   - task: "S5 - Mobile Responsiveness QA for BANIBS Social"
     implemented: true
-    working: false
-    file: "frontend/src/pages/portals/SocialPortal.js, frontend/src/components/social/SocialLayout.js, frontend/src/components/social/MediaComposerModal.js"
+    working: true
+    file: "frontend/src/pages/portals/SocialPortal.js, frontend/src/components/social/SocialLayout.js, frontend/src/pages/portals/SocialGroupsPage.jsx, frontend/src/pages/portals/SocialLivesPage.jsx, frontend/src/pages/portals/SocialSavedPage.jsx"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
