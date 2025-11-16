@@ -8699,7 +8699,7 @@ def main():
 if __name__ == "__main__":
     tester = BanibsAPITester()
     
-    # Run P0 Fix Test - Sidebar conversation list real-time updates
-    success = tester.run_p0_fix_test()
+    # Run Phase 7.1 Tests - Jobs & Opportunities + Business Rating System
+    success = tester.run_phase_7_1_tests()
     
     sys.exit(0 if success else 1)
