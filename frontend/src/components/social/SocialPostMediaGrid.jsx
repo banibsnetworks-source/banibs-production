@@ -42,12 +42,13 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
     return (
       <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl overflow-hidden bg-muted">
         {mediaUrls.map((url, index) => (
-          <div key={index} className="relative h-64 md:h-72">
+          <div key={index} className="relative h-64 md:h-72 cursor-pointer hover:opacity-95 transition-opacity">
             <img
               src={url}
               alt={`Post media ${index + 1}`}
               className="w-full h-full object-cover"
               loading="lazy"
+              onClick={() => openViewer(mediaUrls, index)}
             />
           </div>
         ))}
