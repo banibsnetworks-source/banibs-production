@@ -5,6 +5,7 @@ import GlobalNavBar from '../../components/GlobalNavBar';
 import ProfileCommandCenter from '../../components/profile/ProfileCommandCenter';
 import BusinessInfoPanel from '../../components/business/BusinessInfoPanel';
 import BusinessServicesList from '../../components/business/BusinessServicesList';
+import NavigationButtons from '../../components/business/NavigationButtons';
 import './BusinessProfilePublic.css';
 
 const BusinessProfilePublic = () => {
