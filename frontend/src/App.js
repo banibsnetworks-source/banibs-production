@@ -224,6 +224,9 @@ function App() {
               <Route path="/portal/connect/jobs/new" element={<JobForm />} />
               <Route path="/portal/connect/jobs/:jobId/edit" element={<JobForm />} />
               
+              {/* Phase 7.1.1 - Business Insights Analytics */}
+              <Route path="/portal/connect/analytics" element={<AnalyticsDashboard />} />
+              
               {/* Phase 7.1 - Jobs & Opportunities (Social Mode - Job Seeker) */}
               <Route path="/portal/social/jobs" element={<JobsBrowser />} />
               <Route path="/portal/social/jobs/:jobId" element={<JobDetailPage />} />
