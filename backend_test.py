@@ -1290,7 +1290,7 @@ class BanibsAPITester:
         
         # Step 1: Authenticate with test user
         test_email = "social_test_user@example.com"
-        test_password = "test_password"
+        test_password = "TestPass123!"
         
         response = self.make_request("POST", "/auth/login", {
             "email": test_email,
