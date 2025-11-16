@@ -371,7 +371,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Phase 7.1.1 - BIA Dashboard Frontend"
+    - "Phase 8.1 Stage 1 - Profile Command Center"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
