@@ -5,6 +5,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import MoodMeter from './MoodMeter';
 import AuthModal from './AuthModal';
+import AccountModeSwitcher from './common/AccountModeSwitcher';
 
 /**
  * Global BANIBS Navigation Bar
