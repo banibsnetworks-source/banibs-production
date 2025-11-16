@@ -12,6 +12,7 @@ import { applySkinTone } from '../../utils/emojiToneUtils';
  */
 const SocialPostComposer = ({ onPostCreated }) => {
   const { user } = useAuth();
+  const toast = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [initialEmoji, setInitialEmoji] = useState('');
