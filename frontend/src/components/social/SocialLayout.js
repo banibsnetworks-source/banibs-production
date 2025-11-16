@@ -19,7 +19,7 @@ const SocialLayoutContent = ({ children }) => {
     <>
       <GlobalNavBar />
       <div 
-        className="bg-background"
+        className="theme-social bg-background"
         style={{ 
           display: 'flex',
           height: 'calc(100vh - 56px)',
