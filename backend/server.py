@@ -254,6 +254,9 @@ app.include_router(jobs_router)
 # Include reviews router (Phase 7.1 - Business Rating System)
 app.include_router(reviews_router)
 
+# Include business analytics router (Phase 7.1.1 - BIA Dashboard)
+app.include_router(business_analytics_router)
+
 # Include media upload router (Phase 8.1 - Media Composer)
 from routes.media_upload import router as media_upload_router
 app.include_router(media_upload_router)
