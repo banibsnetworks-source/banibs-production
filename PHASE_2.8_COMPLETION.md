@@ -306,7 +306,7 @@ INITIAL_ADMIN_PASSWORD="BanibsAdmin#2025"
 
 ### Frontend Configuration
 ```env
-REACT_APP_BACKEND_URL="https://message-hub-335.preview.emergentagent.com"
+REACT_APP_BACKEND_URL="https://banibsjobs.preview.emergentagent.com"
 ```
 
 ---

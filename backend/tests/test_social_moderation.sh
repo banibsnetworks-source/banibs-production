@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://message-hub-335.preview.emergentagent.com"
+BACKEND_URL="https://banibsjobs.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output

@@ -10,7 +10,7 @@ import sys
 from datetime import datetime
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://message-hub-335.preview.emergentagent.com"
+BACKEND_URL = "https://banibsjobs.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 class Phase63Tester:

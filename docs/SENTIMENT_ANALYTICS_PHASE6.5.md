@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://message-hub-335.preview.emergentagent.com/api/admin/analytics/sentiment
+https://banibsjobs.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints

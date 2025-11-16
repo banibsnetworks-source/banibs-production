@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://message-hub-335.preview.emergentagent.com/api/auth
+https://banibsjobs.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
