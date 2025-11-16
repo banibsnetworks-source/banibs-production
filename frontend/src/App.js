@@ -90,6 +90,8 @@ import SocialGroupsPage from "./pages/portals/SocialGroupsPage";
 import SocialSavedPage from "./pages/portals/SocialSavedPage";
 import SocialLivesPage from "./pages/portals/SocialLivesPage";
 import SocialSubscriptionsPage from "./pages/portals/SocialSubscriptionsPage";
+// Dual-Layout System: BANIBS Connect
+import ConnectHome from "./pages/portals/ConnectHome";
 // High Five Emoji System
 import HighFiveDemo from "./pages/test/HighFiveDemo";
 import EmojiTestPage from "./pages/test/EmojiTestPage";
