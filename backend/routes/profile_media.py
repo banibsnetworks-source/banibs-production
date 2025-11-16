@@ -112,7 +112,7 @@ async def upload_banner(
     
     # Update user profile in database
     db = await get_db()
-    banner_url = f"/api/profile-media/banners/{unique_filename}"
+    banner_url = f"/api/profile/media/banners/{unique_filename}"
     
     await db.users.update_one(
         {"id": current_user["id"]},
