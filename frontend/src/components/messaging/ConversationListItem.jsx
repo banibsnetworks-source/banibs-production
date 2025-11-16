@@ -113,7 +113,7 @@ export function ConversationListItem({ conversation, isActive, onClick }) {
 
         <div className="flex items-center justify-between">
           <p className="text-sm text-muted-foreground truncate">
-            {conversation.last_message_preview || 'No messages yet'}
+            {conversation.lastMessagePreview || 'No messages yet'}
           </p>
           {conversation.unread > 0 && (
             <span className="flex-shrink-0 ml-2 min-w-[20px] h-5 px-1.5 bg-yellow-500 text-black text-xs font-bold rounded-full flex items-center justify-center">
