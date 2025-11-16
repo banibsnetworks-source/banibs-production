@@ -45,15 +45,20 @@ const LoginPage = () => {
           allKeys: Object.keys(localStorage)
         });
         console.log('🔐 Navigating to /portal/social');
+        toast.success('Welcome back!');
         // Navigate to social portal after login
         navigate('/portal/social');
       } else {
         console.error('🔐 Login failed:', result.error);
-        setError(result.error || 'Login failed');
+        const errorMsg = result.error || 'Login failed';
+        setError(errorMsg);
+        toast.error(errorMsg);
       }
     } catch (err) {
       console.error('🔐 Login error:', err);
-      setError(err.message || 'Login failed');
+      const errorMsg = err.message || 'Login failed';
+      setError(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
