@@ -49,10 +49,14 @@ const SocialPostComposer = ({ onPostCreated }) => {
       if (onPostCreated) {
         onPostCreated(newPost);
       }
+      
+      // Show success toast
+      toast.success('Post created successfully!');
     } catch (err) {
       console.error('Error creating post:', err);
       const errorMessage = err.message || 'Failed to create post. Please try again.';
       setError(errorMessage);
+      toast.error(errorMessage);
       throw err;
     }
   };
