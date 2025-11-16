@@ -213,6 +213,18 @@ const BusinessProfilePublic = () => {
           </section>
         )}
       </div>
+      
+      {/* Phase 8.1 - Profile Command Center */}
+      {isOwner && (
+        <ProfileCommandCenter
+          isOpen={commandCenterOpen}
+          onClose={() => setCommandCenterOpen(false)}
+          currentUser={{ ...business, id: businessId }}
+          onProfileUpdate={(updates) => {
+            setBusiness(prev => ({ ...prev, ...updates }));
+          }}
+        />
+      )}
     </div>
   );
 };
