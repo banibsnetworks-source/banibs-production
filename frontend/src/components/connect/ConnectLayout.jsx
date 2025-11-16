@@ -19,7 +19,7 @@ import NewsBeat from '../common/NewsBeat';
 
 const ConnectLayout = ({ children }) => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="theme-connect min-h-screen bg-background">
       {/* Global Nav */}
       <GlobalNavBar />
       
