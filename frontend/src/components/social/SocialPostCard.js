@@ -318,7 +318,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
         {/* Media Grid - BANIBS Social Media Upgrade Spec v1.0 */}
         <SocialPostMediaGrid mediaUrls={localPost.media_urls || []} />
 
-        {/* Link Preview (Phase 8.1) */}
+        {/* Link Preview (Phase 8.1) - Rich preview when metadata exists */}
         {localPost.link_meta && (
           <a
             href={localPost.link_meta.url}
@@ -346,6 +346,18 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
                 </p>
               )}
             </div>
+          </a>
+        )}
+
+        {/* Fallback: Show plain link if no metadata but link_url exists */}
+        {!localPost.link_meta && localPost.link_url && (
+          <a
+            href={localPost.link_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 block text-sm text-blue-500 hover:text-blue-400 hover:underline break-all"
+          >
+            {localPost.link_url}
           </a>
         )}
 
