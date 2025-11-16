@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ConversationListItem } from './ConversationListItem';
 import { Search, Plus } from 'lucide-react';
+import { Skeleton } from '../common/Skeleton';
 
 export function ConversationList({ conversations, activeConversationId, onSelect, isLoading, onCreateNew, onDeselectAll }) {
   const [searchQuery, setSearchQuery] = useState('');
