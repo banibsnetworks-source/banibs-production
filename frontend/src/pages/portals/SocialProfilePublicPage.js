@@ -178,37 +178,43 @@ const SocialProfilePublicPage = () => {
               </div>
             )}
             
-            {/* Profile Info */}
-            <div className="p-6 sm:p-8">
+            {/* Profile Info - S3 Polished */}
+            <div className="px-6 pt-8 pb-6">
               <div className="flex items-start gap-6 flex-col sm:flex-row">
-                {/* Avatar overlaps cover if cover exists */}
+                {/* Avatar - S3 Enhanced: 144px, shadow, border */}
                 <div className={profile.cover_url ? "-mt-16 sm:-mt-20" : ""}>
-                  <ProfileAvatar 
-                    name={profile.display_name} 
-                    avatarUrl={profile.avatar_url}
-                    size="xl"
-                  />
+                  {profile.avatar_url ? (
+                    <img
+                      src={profile.avatar_url}
+                      alt={profile.display_name}
+                      className="w-28 h-28 sm:w-36 sm:h-36 rounded-full object-cover border-4 border-card shadow-lg"
+                    />
+                  ) : (
+                    <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-gray-900 text-4xl sm:text-5xl font-bold border-4 border-card shadow-lg">
+                      {(profile.display_name || '?')[0].toUpperCase()}
+                    </div>
+                  )}
                 </div>
                 
                 <div className="flex-1 space-y-3">
                   <div>
-                    <h1 className="text-3xl font-bold text-white mb-1">
+                    <h1 className="text-3xl font-bold text-foreground mb-1">
                       {profile.display_name}
                     </h1>
                     {profile.handle && (
-                      <div className="text-amber-400 text-sm">
+                      <div className="text-yellow-600 dark:text-yellow-400 text-sm">
                         @{profile.handle}
                       </div>
                     )}
                   </div>
                   
                   {profile.headline && (
-                    <div className="text-gray-300 font-medium">
+                    <div className="text-muted-foreground font-medium">
                       {profile.headline}
                     </div>
                   )}
                   
-                  <div className="flex flex-wrap gap-4 text-sm text-gray-400">
+                  <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
                     {profile.location && (
                       <div className="flex items-center gap-1">
                         <span>📍</span>
