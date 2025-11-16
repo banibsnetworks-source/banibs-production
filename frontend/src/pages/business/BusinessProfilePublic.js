@@ -89,8 +89,27 @@ const BusinessProfilePublic = () => {
     );
   }
 
+  // Get font family based on font_style
+  const getFontFamily = () => {
+    switch(business?.font_style) {
+      case 'modern':
+        return "'Inter', 'Helvetica Neue', sans-serif";
+      case 'serif':
+        return "'Georgia', 'Times New Roman', serif";
+      default:
+        return "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+    }
+  };
+
   return (
-    <div className="business-profile-container" style={{'--accent-color': business.accent_color}}>
+    <div 
+      className="business-profile-container" 
+      style={{
+        '--accent-color': business.accent_color || '#EAB308',
+        '--secondary-color': business.secondary_color || business.accent_color || '#EAB308',
+        fontFamily: getFontFamily()
+      }}
+    >
       <GlobalNavBar />
       {/* Cover Section */}
       <div className="business-cover">
