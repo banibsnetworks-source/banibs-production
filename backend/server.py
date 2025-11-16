@@ -258,6 +258,9 @@ app.include_router(reviews_router)
 # Include business analytics router (Phase 7.1.1 - BIA Dashboard)
 app.include_router(business_analytics_router)
 
+# Include profile media router (Phase 8.1 - Profile Command Center)
+app.include_router(profile_media_router)
+
 # Include media upload router (Phase 8.1 - Media Composer)
 from routes.media_upload import router as media_upload_router
 app.include_router(media_upload_router)
