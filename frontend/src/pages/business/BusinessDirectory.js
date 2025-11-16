@@ -96,14 +96,25 @@ const BusinessDirectory = () => {
         `${process.env.REACT_APP_BACKEND_URL}/api/business/search?${params.toString()}`
       );
       
+      // Read response body once and only once
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        throw new Error('Failed to parse search results');
+      }
+      
       if (response.ok) {
-        const data = await response.json();
-        setBusinesses(data);
+        setBusinesses(Array.isArray(data) ? data : []);
       } else {
-        setError('Failed to search businesses');
+        const errorMsg = data?.detail || data?.message || 'Failed to search businesses';
+        setError(errorMsg);
+        setBusinesses([]);
       }
     } catch (err) {
-      setError('Error searching businesses: ' + err.message);
+      console.error('Search error:', err);
+      setError(err.message || 'An error occurred while searching. Please try again.');
+      setBusinesses([]);
     } finally {
       setLoading(false);
     }
