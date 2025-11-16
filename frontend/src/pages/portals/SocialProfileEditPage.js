@@ -147,7 +147,7 @@ const SocialProfileEditPage = () => {
           <div className="container mx-auto px-4 py-8">
             <div className="max-w-3xl mx-auto">
               <div className="flex items-center justify-center py-12">
-                <div className="text-gray-400">Loading profile...</div>
+                <div className="text-muted-foreground">Loading profile...</div>
               </div>
             </div>
           </div>
@@ -173,14 +173,14 @@ const SocialProfileEditPage = () => {
                   >
                     🎨 Profile Theme
                   </Link>
-                  <span className="text-gray-600">•</span>
+                  <span className="text-muted-foreground">•</span>
                   <Link 
                     to={`/portal/social/u/${profile.handle}?tab=posts`}
                     className="text-amber-400 hover:text-amber-300 text-sm flex items-center gap-1"
                   >
                     📝 My Posts
                   </Link>
-                  <span className="text-gray-600">•</span>
+                  <span className="text-muted-foreground">•</span>
                   <Link 
                     to={`/portal/social/u/${profile.handle}`}
                     className="text-amber-400 hover:text-amber-300 text-sm"
@@ -238,7 +238,7 @@ const SocialProfileEditPage = () => {
 
             {/* Avatar Upload */}
             <div>
-              <label className="block text-white font-medium mb-3">
+              <label className="block text-foreground font-medium mb-3">
                 Profile Photo
               </label>
               <AvatarUploader
@@ -272,7 +272,7 @@ const SocialProfileEditPage = () => {
 
             {/* Cover Image Upload */}
             <div>
-              <label className="block text-white font-medium mb-3">
+              <label className="block text-foreground font-medium mb-3">
                 Cover Image (Banner)
               </label>
               <CoverUploader
@@ -305,7 +305,7 @@ const SocialProfileEditPage = () => {
 
             {/* Display Name */}
             <div>
-              <label className="block text-white font-medium mb-2">
+              <label className="block text-foreground font-medium mb-2">
                 Display Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -315,18 +315,18 @@ const SocialProfileEditPage = () => {
                 onChange={handleInputChange}
                 required
                 maxLength={50}
-                className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-4 py-2 bg-input border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500"
                 placeholder="Your full name"
               />
             </div>
 
             {/* Handle */}
             <div>
-              <label className="block text-white font-medium mb-2">
+              <label className="block text-foreground font-medium mb-2">
                 Handle (Username)
               </label>
               <div className="flex items-center">
-                <span className="text-gray-400 mr-2">@</span>
+                <span className="text-muted-foreground mr-2">@</span>
                 <input
                   type="text"
                   name="handle"
@@ -334,18 +334,18 @@ const SocialProfileEditPage = () => {
                   onChange={handleInputChange}
                   maxLength={30}
                   pattern="[a-zA-Z0-9_]+"
-                  className="flex-1 px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="flex-1 px-4 py-2 bg-input border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500"
                   placeholder="your_username"
                 />
               </div>
-              <p className="text-gray-500 text-xs mt-1">
+              <p className="text-muted-foreground text-xs mt-1">
                 Letters, numbers, and underscores only. This will be your profile URL.
               </p>
             </div>
 
             {/* Headline */}
             <div>
-              <label className="block text-white font-medium mb-2">
+              <label className="block text-foreground font-medium mb-2">
                 Headline
               </label>
               <input
@@ -354,17 +354,17 @@ const SocialProfileEditPage = () => {
                 value={formData.headline}
                 onChange={handleInputChange}
                 maxLength={100}
-                className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-4 py-2 bg-input border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500"
                 placeholder="e.g., Founder • BANIBS"
               />
-              <p className="text-gray-500 text-xs mt-1">
+              <p className="text-muted-foreground text-xs mt-1">
                 A short one-liner about you
               </p>
             </div>
 
             {/* Bio */}
             <div>
-              <label className="block text-white font-medium mb-2">
+              <label className="block text-foreground font-medium mb-2">
                 Bio
               </label>
               <textarea
@@ -373,17 +373,17 @@ const SocialProfileEditPage = () => {
                 onChange={handleInputChange}
                 maxLength={300}
                 rows={4}
-                className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-4 py-2 bg-input border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500"
                 placeholder="Tell the community about yourself..."
               />
-              <p className="text-gray-500 text-xs mt-1">
+              <p className="text-muted-foreground text-xs mt-1">
                 {formData.bio.length}/300 characters
               </p>
             </div>
 
             {/* Location */}
             <div>
-              <label className="block text-white font-medium mb-2">
+              <label className="block text-foreground font-medium mb-2">
                 Location
               </label>
               <input
@@ -392,14 +392,14 @@ const SocialProfileEditPage = () => {
                 value={formData.location}
                 onChange={handleInputChange}
                 maxLength={100}
-                className="w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full px-4 py-2 bg-input border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500"
                 placeholder="e.g., Atlanta, GA"
               />
             </div>
 
             {/* Interests */}
             <div>
-              <label className="block text-white font-medium mb-2">
+              <label className="block text-foreground font-medium mb-2">
                 Interests & Tags
               </label>
               <div className="flex gap-2 mb-2">
@@ -408,13 +408,13 @@ const SocialProfileEditPage = () => {
                   value={interestInput}
                   onChange={(e) => setInterestInput(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleAddInterest(e)}
-                  className="flex-1 px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="flex-1 px-4 py-2 bg-input border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500"
                   placeholder="Add an interest..."
                 />
                 <button
                   type="button"
                   onClick={handleAddInterest}
-                  className="px-4 py-2 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors"
+                  className="px-4 py-2 bg-amber-600 text-foreground rounded-lg hover:bg-amber-700 transition-colors"
                 >
                   Add
                 </button>
@@ -448,9 +448,9 @@ const SocialProfileEditPage = () => {
                 name="is_public"
                 checked={formData.is_public}
                 onChange={handleInputChange}
-                className="w-5 h-5 text-amber-600 bg-gray-900 border-gray-700 rounded focus:ring-amber-500"
+                className="w-5 h-5 text-amber-600 bg-input border-border rounded focus:ring-amber-500"
               />
-              <label htmlFor="is_public" className="text-white">
+              <label htmlFor="is_public" className="text-foreground">
                 Make profile public
               </label>
             </div>
@@ -460,13 +460,13 @@ const SocialProfileEditPage = () => {
               <button
                 type="submit"
                 disabled={saving || !formData.display_name}
-                className="flex-1 px-6 py-3 bg-amber-600 text-white font-semibold rounded-lg hover:bg-amber-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-6 py-3 bg-amber-600 text-foreground font-semibold rounded-lg hover:bg-amber-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? 'Saving...' : 'Save Profile'}
               </button>
               <Link
                 to="/portal/social"
-                className="px-6 py-3 bg-gray-700 text-white font-semibold rounded-lg hover:bg-gray-600 transition-colors text-center"
+                className="px-6 py-3 bg-muted text-foreground font-semibold rounded-lg hover:bg-gray-600 transition-colors text-center"
               >
                 Cancel
               </Link>
