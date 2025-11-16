@@ -1191,6 +1191,18 @@ frontend:
         agent: "testing"
         comment: "✅ TESTED: Admin login working with credentials admin@banibs.com / BanibsAdmin#2025. Successfully redirects to admin dashboard. Dashboard displays pending opportunities with moderation buttons (Approve/Reject). Filters and tabs (Pending/Approved/Featured) working correctly."
 
+  - task: "S5 - Mobile Responsiveness QA for BANIBS Social"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/portals/SocialPortal.js, frontend/src/components/social/SocialLayout.js, frontend/src/components/social/MediaComposerModal.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Starting S5 Mobile Responsiveness QA testing for BANIBS Social. Testing viewport sizes 360px and 414px width at 800px height. Key areas: Social Feed, Profile Page, Post Composer Modal, Media Viewer, ComingSoon Pages. Looking for horizontal scrolling, touch target sizes, text readability, layout breaks."
+
   # Phase 5.1 - Paid Sponsored Placement Backend
   - task: "Stripe checkout endpoint"
     implemented: true
