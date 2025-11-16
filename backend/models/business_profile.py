@@ -81,10 +81,17 @@ class BusinessProfilePublic(BaseModel):
     phone: Optional[str] = None  # Optional phone
     location: Optional[str] = None  # City/State/Country
     services: list[BusinessService] = []
-    verified_status: str = "unverified"  # unverified | pending | verified | rejected
+    verified_status: str = "unverified"  # unverified | pending | verified | rejected (backwards compat: accepts bool)
     verified_at: Optional[datetime] = None
     verified_by: Optional[str] = None  # Admin user ID who verified
     status: str = "active"  # active | suspended | draft
+    
+    @classmethod
+    def from_db(cls, data: dict):
+        """Handle backwards compatibility for verified_status"""
+        if 'verified_status' in data and isinstance(data['verified_status'], bool):
+            data['verified_status'] = 'verified' if data['verified_status'] else 'unverified'
+        return cls(**data)
     follower_count: int = 0
     is_following: bool = False  # Whether current user follows this business
     average_rating: float = 0.0  # Phase 7.1 - Rating System
