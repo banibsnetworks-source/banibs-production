@@ -76,6 +76,20 @@ class UnifiedUser(BaseModel):
         description="User's personalized emoji identity (skin tone, hair, accessories)"
     )
     
+    # Phase 8.1 - Profile Command Center
+    profile_picture_url: Optional[str] = Field(
+        default=None,
+        description="Custom profile picture URL"
+    )
+    banner_image_url: Optional[str] = Field(
+        default=None,
+        description="Profile banner/cover image URL"
+    )
+    accent_color: Optional[str] = Field(
+        default="#3B82F6",
+        description="User's chosen accent color for profile theming"
+    )
+    
     class Config:
         json_schema_extra = {
             "example": {
