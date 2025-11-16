@@ -43,6 +43,31 @@ const AnalyticsDashboard = () => {
     }
   };
 
+  const handleExport = async (exportType) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/business-analytics/export/${exportType}/${selectedBusinessProfile.id}?date_range=${dateRange}`,
+        { headers: { 'Authorization': `Bearer ${token}` } }
+      );
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${exportType}_${dateRange}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }
+    } catch (error) {
+      console.error('Failed to export:', error);
+      alert('Export failed. Please try again.');
+    }
+  };
+
   if (!isBusinessMode || !selectedBusinessProfile) {
     return (
       <ConnectLayout>
