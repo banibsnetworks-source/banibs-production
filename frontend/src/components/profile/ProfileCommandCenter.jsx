@@ -183,17 +183,102 @@ const ProfileCommandCenter = ({
           {/* Business Info Tab */}
           {activeTab === 'info' && mode === "business" && (
             <>
+              {/* Phase 8.2 - Structured Address */}
               <section>
-                <label className="block text-sm font-medium text-slate-700 dark:text-slate-100 mb-2">
-                  Address
-                </label>
-                <textarea
-                  value={profile?.address || ''}
-                  onChange={(e) => handleInfoChange('address', e.target.value)}
-                  placeholder="123 Main St, City, State ZIP"
-                  rows={3}
-                  className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100"
-                />
+                <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-100 mb-3">
+                  Business Address
+                </h4>
+                
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+                      Street Address <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={profile?.address_line1 || ''}
+                      onChange={(e) => handleInfoChange('address_line1', e.target.value)}
+                      placeholder="123 Main Street"
+                      className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+                      Apt, Suite, Building (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={profile?.address_line2 || ''}
+                      onChange={(e) => handleInfoChange('address_line2', e.target.value)}
+                      placeholder="Suite 200"
+                      className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100"
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+                        City <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={profile?.city || ''}
+                        onChange={(e) => handleInfoChange('city', e.target.value)}
+                        placeholder="Atlanta"
+                        className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+                        State <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={profile?.state || ''}
+                        onChange={(e) => handleInfoChange('state', e.target.value)}
+                        placeholder="GA"
+                        maxLength={2}
+                        className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100 uppercase"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+                        Zip Code <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={profile?.postal_code || ''}
+                        onChange={(e) => handleInfoChange('postal_code', e.target.value)}
+                        placeholder="30303"
+                        maxLength={10}
+                        className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+                        Country
+                      </label>
+                      <select
+                        value={profile?.country || 'US'}
+                        onChange={(e) => handleInfoChange('country', e.target.value)}
+                        className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-slate-100"
+                      >
+                        <option value="US">United States</option>
+                        <option value="CA">Canada</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
+                  💡 Your address will be geocoded for location-based search
+                </p>
               </section>
 
               <section>
