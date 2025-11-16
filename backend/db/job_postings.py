@@ -6,7 +6,7 @@ BANIBS Jobs & Opportunities System
 from datetime import datetime, timezone
 from uuid import uuid4
 from typing import Optional, List
-from backend.db.connection import get_db
+from db.connection import get_db
 
 
 async def create_job_posting(
