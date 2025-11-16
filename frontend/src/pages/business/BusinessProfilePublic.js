@@ -353,7 +353,9 @@ const BusinessProfilePublic = () => {
                 setBusinessDraft(null);
                 setCommandCenterOpen(false);
               } else {
-                alert('Failed to save business profile changes');
+                const errorData = await response.json().catch(() => ({}));
+                console.error('Save failed:', errorData);
+                alert(`Failed to save: ${errorData.detail || 'Unknown error'}`);
               }
             } catch (error) {
               console.error('Error saving business profile:', error);
