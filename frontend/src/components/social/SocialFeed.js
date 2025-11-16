@@ -37,7 +37,7 @@ const SocialFeed = ({ newPost }) => {
   // Add new post to top of feed
   useEffect(() => {
     if (newPost) {
-      setPosts([newPost, ...posts]);
+      setPosts(prevPosts => [newPost, ...prevPosts]);
     }
   }, [newPost]);
 
