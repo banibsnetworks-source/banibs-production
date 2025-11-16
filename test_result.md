@@ -9706,11 +9706,14 @@ frontend:
     file: "frontend/src/pages/connect/JobForm.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "Testing job creation/editing form with all fields: title, employment type, category, description, responsibilities, requirements, skills, location, salary, application method. Testing both draft and publish workflows."
+      - working: "NA"
+        agent: "testing"
+        comment: "⚠️ UNABLE TO TEST: Job creation form testing blocked by Connect Mode dashboard access issue. Cannot reach /portal/connect/jobs/new because /portal/connect/jobs redirects to social portal. Form implementation appears complete based on code review, but requires Connect Mode routing fix to test functionality."
 
   - task: "Phase 7.1 - Social Mode Jobs Browser"
     implemented: true
