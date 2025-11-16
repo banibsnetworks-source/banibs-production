@@ -11,17 +11,11 @@ from db.connection import get_db
 
 
 async def create_business_profile(owner_user_id: str, name: str, handle: str, **kwargs):
-    """Create a new business profile with unique handle"""
+    """Create a new business profile with unique handle
+    
+    Note: Users can have multiple business profiles (Dual-Layout System requirement)
+    """
     db = await get_db()
-    
-    # Check if user already has a business profile
-    existing = await db.business_profiles.find_one(
-        {"owner_user_id": owner_user_id},
-        {"_id": 0}
-    )
-    
-    if existing:
-        return None  # User already has a business profile
     
     # Check if handle is already taken
     handle_taken = await db.business_profiles.find_one(
