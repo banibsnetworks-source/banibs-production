@@ -52,41 +52,41 @@ const NavigationButtons = ({ business, className = '' }) => {
       {/* Waze - Always first and prominent */}
       <a
         href={getWazeUrl()}
-        target=\"_blank\"
-        rel=\"noopener noreferrer\"
-        className=\"flex items-center justify-center gap-2 px-4 py-2 bg-[#33CCFF] hover:bg-[#00B3E6] text-white rounded-lg transition-colors font-medium\"
-        title=\"Navigate with Waze\"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 px-4 py-2 bg-[#33CCFF] hover:bg-[#00B3E6] text-white rounded-lg transition-colors font-medium"
+        title="Navigate with Waze"
       >
-        <Navigation className=\"w-4 h-4\" />
-        <span className=\"hidden sm:inline\">Waze</span>
+        <Navigation className="w-4 h-4" />
+        <span className="hidden sm:inline">Waze</span>
       </a>
       
       {/* Google Maps */}
       <a
         href={getGoogleMapsUrl()}
-        target=\"_blank\"
-        rel=\"noopener noreferrer\"
-        className=\"flex items-center justify-center gap-2 px-4 py-2 bg-[#4285F4] hover:bg-[#357AE8] text-white rounded-lg transition-colors\"
-        title=\"Navigate with Google Maps\"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 px-4 py-2 bg-[#4285F4] hover:bg-[#357AE8] text-white rounded-lg transition-colors"
+        title="Navigate with Google Maps"
       >
-        <Map className=\"w-4 h-4\" />
-        <span className=\"hidden sm:inline\">Google</span>
+        <Map className="w-4 h-4" />
+        <span className="hidden sm:inline">Google</span>
       </a>
       
       {/* Apple Maps - Show prominently on iOS */}
       <a
         href={getAppleMapsUrl()}
-        target=\"_blank\"
-        rel=\"noopener noreferrer\"
+        target="_blank"
+        rel="noopener noreferrer"
         className={`flex items-center justify-center gap-2 px-4 py-2 ${
           isIOS 
             ? 'bg-[#007AFF] hover:bg-[#0051D5]' 
             : 'bg-slate-700 hover:bg-slate-600'
         } text-white rounded-lg transition-colors`}
-        title=\"Navigate with Apple Maps\"
+        title="Navigate with Apple Maps"
       >
-        <MapPin className=\"w-4 h-4\" />
-        <span className=\"hidden sm:inline\">Apple</span>
+        <MapPin className="w-4 h-4" />
+        <span className="hidden sm:inline">Apple</span>
       </a>
     </div>
   );
