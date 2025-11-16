@@ -24,19 +24,8 @@ export function ConversationList({ conversations, activeConversationId, onSelect
                 console.error('[ConversationList] onDeselectAll is not defined!');
               }
             }}
-            style={{
-              fontSize: '1.25rem',
-              fontWeight: 'bold',
-              background: 'transparent',
-              border: 'none',
-              padding: 0,
-              textAlign: 'left',
-              cursor: 'pointer',
-              transition: 'color 0.2s'
-            }}
-            onMouseEnter={(e) => e.target.style.color = '#EAB308'} // yellow-500
-            onMouseLeave={(e) => e.target.style.color = ''} // reset to default
-            title="Back to overview"
+            className="text-xl font-bold text-foreground hover:text-yellow-500 transition-colors cursor-pointer bg-transparent border-none p-0 text-left"
+            title="Click to deselect conversation"
           >
             Messages
           </button>
