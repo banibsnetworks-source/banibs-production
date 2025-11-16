@@ -370,7 +370,8 @@ metadata:
   test_sequence: 1
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "S5 - Mobile Responsiveness QA for BANIBS Social"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
