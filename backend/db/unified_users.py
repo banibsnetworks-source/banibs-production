@@ -312,15 +312,27 @@ def sanitize_user_response(user: dict) -> UserPublic:
     portal = user.get("preferred_portal", "news")
     print(f"🔍 sanitize_user_response: email={user.get('email')}, preferred_portal={portal}")
     
+    # Get avatar_url from either top level or nested in profile
+    avatar_url = user.get("avatar_url")
+    if not avatar_url and user.get("profile"):
+        avatar_url = user.get("profile", {}).get("avatar_url")
+    
+    # Get profile object for compatibility
+    profile = user.get("profile", {})
+    if profile and not profile.get("avatar_url") and avatar_url:
+        # Ensure avatar_url is in profile too
+        profile["avatar_url"] = avatar_url
+    
     return UserPublic(
         id=user["id"],
         email=user["email"],
         name=user["name"],
-        avatar_url=user.get("avatar_url"),
+        avatar_url=avatar_url,
         bio=user.get("bio"),
         roles=user["roles"],
         membership_level=user["membership_level"],
         email_verified=user["email_verified"],
         created_at=created_at,
-        preferred_portal=portal  # Phase 8.1
+        preferred_portal=portal,  # Phase 8.1
+        profile=profile if profile else None  # Include profile object
     )
