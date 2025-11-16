@@ -1,11 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, TrendingUp, Radio } from 'lucide-react';
+import NewsBeat from '../../common/NewsBeat';
 import './RightRail.css';
 
 /**
- * BANIBS Social Right Rail - Phase 10.1
- * Discovery, Lives, Groups, and Trending
+ * BANIBS Social Right Rail - Dual-Layout System
+ * - NewsBeat (Headlines moving our people)
+ * - Discovery, Lives, Groups, and Trending
  * Currently using mock data - will be replaced with real API calls in Phase 10.2+
  */
 
