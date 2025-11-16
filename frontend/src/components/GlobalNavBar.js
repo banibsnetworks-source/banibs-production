@@ -150,11 +150,11 @@ const GlobalNavBar = () => {
                     <img 
                       src={user.profile?.avatar_url || user.avatar_url} 
                       alt={user.name}
-                      className="w-8 h-8 rounded-full object-cover shadow-sm"
+                      className="w-10 h-10 rounded-full object-cover shadow-sm"
                     />
                   ) : (
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shadow-sm">
-                      <span className="text-sm font-bold text-gray-900">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shadow-sm">
+                      <span className="text-base font-bold text-gray-900">
                         {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                       </span>
                     </div>
