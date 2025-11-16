@@ -158,6 +158,9 @@ class UserUpdate(BaseModel):
     avatar_url: Optional[str] = None
     preferred_portal: Optional[str] = None  # Phase 8.1
     emoji_identity: Optional[Dict[str, Any]] = None  # Phase 10.0
+    profile_picture_url: Optional[str] = None  # Phase 8.1
+    banner_image_url: Optional[str] = None  # Phase 8.1
+    accent_color: Optional[str] = None  # Phase 8.1
 
 
 class PasswordResetRequest(BaseModel):
