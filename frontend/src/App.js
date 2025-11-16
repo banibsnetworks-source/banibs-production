@@ -205,6 +205,10 @@ function App() {
               <Route path="/portal/social/live" element={<SocialLivesPage />} />
               <Route path="/portal/social/lives" element={<SocialLivesPage />} />
               <Route path="/portal/social/subscriptions" element={<SocialSubscriptionsPage />} />
+
+              {/* Dual-Layout System: BANIBS Connect (Business Network) */}
+              <Route path="/portal/connect" element={<ConnectHome />} />
+              <Route path="/connect" element={<ConnectHome />} />
               
               {/* Test Pages */}
               <Route path="/test/highfive" element={<HighFiveDemo />} />
