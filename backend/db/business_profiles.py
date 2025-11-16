@@ -36,12 +36,14 @@ async def create_business_profile(owner_user_id: str, name: str, handle: str, **
         "logo": kwargs.get("logo"),
         "cover": kwargs.get("cover"),
         "accent_color": kwargs.get("accent_color", "#d4af37"),
+        "industry": kwargs.get("industry"),  # Category (Media, Real Estate, etc.)
         "website": kwargs.get("website"),
         "email": kwargs.get("email"),
         "phone": kwargs.get("phone"),
         "location": kwargs.get("location"),
         "services": kwargs.get("services", []),
         "verified_status": False,
+        "status": "active",  # active | suspended | draft
         "is_active": True,
         "created_at": datetime.now(timezone.utc),
         "updated_at": datetime.now(timezone.utc)
