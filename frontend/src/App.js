@@ -267,7 +267,7 @@ function App() {
               <Route path="/education" element={<EducationPage />} />
               <Route path="/youth" element={<YouthPage />} />
               <Route path="/opportunities" element={<OpportunitiesPage />} />
-              <Route path="/jobs/:id" element={<JobDetailPage />} />
+              <Route path="/jobs/:id" element={<BusinessJobDetailPage />} />
               <Route path="/opportunities/dashboard" element={<RecruiterDashboard />} />
               
               {/* Candidate Routes - Phase 7.1 Cycle 1.3 */}
