@@ -1,197 +1,124 @@
-import React, { useState } from 'react';
-import { X, User, Image, Palette, Lock, Bell, Settings } from 'lucide-react';
-import ProfilePictureUploader from './ProfilePictureUploader';
-import BannerUploader from './BannerUploader';
-import AccentColorPicker from './AccentColorPicker';
+import React from "react";
+import ProfilePictureUploader from "./ProfilePictureUploader";
+import BannerUploader from "./BannerUploader";
+import AccentColorPicker from "./AccentColorPicker";
 
-/**
- * ProfileCommandCenter - Phase 8.1 Stage 1
- * Slide-out panel for profile customization
- */
-
-const ProfileCommandCenter = ({ isOpen, onClose, currentUser, onProfileUpdate }) => {
-  const [activeTab, setActiveTab] = useState('picture');
-
+const ProfileCommandCenter = ({
+  isOpen,
+  onClose,
+  mode = "social",
+  profile,
+  onProfileChange,
+  onSave,
+  isSaving = false,
+}) => {
   if (!isOpen) return null;
 
-  const handleProfilePictureSave = (url) => {
-    onProfileUpdate({ profile_picture_url: url });
-    setActiveTab('main');
+  const handleProfilePictureChange = (url) => {
+    onProfileChange({
+      ...profile,
+      profile_picture_url: url,
+    });
   };
 
-  const handleBannerSave = (url) => {
-    onProfileUpdate({ banner_image_url: url });
-    setActiveTab('main');
+  const handleBannerChange = (url) => {
+    onProfileChange({
+      ...profile,
+      banner_image_url: url,
+    });
   };
 
-  const handleAccentColorSave = (color) => {
-    onProfileUpdate({ accent_color: color });
-    setActiveTab('main');
+  const handleAccentColorChange = (color) => {
+    onProfileChange({
+      ...profile,
+      accent_color: color,
+    });
   };
+
+  const title =
+    mode === "business" ? "Customize Business Profile" : "Edit Profile";
 
   return (
-    <>
-      {/* Overlay */}
+    <div className="fixed inset-0 z-50 flex">
+      {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/50 z-40"
+        className="flex-1 bg-black/40"
         onClick={onClose}
+        aria-hidden="true"
       />
 
-      {/* Slide-out Panel */}
-      <div className="fixed right-0 top-0 h-full w-full md:w-[480px] bg-background shadow-2xl z-50 overflow-y-auto">
+      {/* Slide-out panel */}
+      <aside className="w-full max-w-md bg-white dark:bg-slate-950 shadow-2xl border-l border-slate-200 dark:border-slate-800 flex flex-col">
         {/* Header */}
-        <div className="sticky top-0 bg-background border-b border-border px-6 py-4 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-foreground">Profile Command Center</h2>
+        <div className="flex items-center justify-between px-4 py-3 border-b border-slate-200 dark:border-slate-800">
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-50">
+            {title}
+          </h2>
           <button
+            type="button"
             onClick={onClose}
-            className="p-2 hover:bg-muted rounded-lg transition-colors"
+            className="text-slate-500 hover:text-slate-900 dark:hover:text-slate-100"
           >
-            <X className="w-5 h-5 text-foreground" />
+            ✕
           </button>
         </div>
 
-        {/* Content */}
-        <div className="p-6 space-y-4">
-          {activeTab === 'main' && (
-            <>
-              <div className="space-y-2">
-                <button
-                  onClick={() => setActiveTab('picture')}
-                  className="w-full flex items-center gap-3 p-4 bg-card border border-border rounded-lg hover:bg-muted transition-colors text-left"
-                >
-                  <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
-                    <User className="w-5 h-5 text-blue-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-foreground">Profile Picture</p>
-                    <p className="text-sm text-muted-foreground">Upload or change your photo</p>
-                  </div>
-                </button>
+        {/* Body */}
+        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-6">
+          {/* Profile Picture */}
+          <section>
+            <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-100 mb-2">
+              Profile Picture
+            </h3>
+            <ProfilePictureUploader
+              currentUrl={profile?.profile_picture_url || ""}
+              onChange={handleProfilePictureChange}
+            />
+          </section>
 
-                <button
-                  onClick={() => setActiveTab('banner')}
-                  className="w-full flex items-center gap-3 p-4 bg-card border border-border rounded-lg hover:bg-muted transition-colors text-left"
-                >
-                  <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
-                    <Image className="w-5 h-5 text-purple-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-foreground">Cover Banner</p>
-                    <p className="text-sm text-muted-foreground">Customize your profile banner</p>
-                  </div>
-                </button>
+          {/* Banner */}
+          <section>
+            <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-100 mb-2">
+              Banner Image
+            </h3>
+            <BannerUploader
+              currentUrl={profile?.banner_image_url || ""}
+              onChange={handleBannerChange}
+            />
+          </section>
 
-                <button
-                  onClick={() => setActiveTab('color')}
-                  className="w-full flex items-center gap-3 p-4 bg-card border border-border rounded-lg hover:bg-muted transition-colors text-left"
-                >
-                  <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center">
-                    <Palette className="w-5 h-5 text-yellow-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-foreground">Accent Color</p>
-                    <p className="text-sm text-muted-foreground">Choose your theme color</p>
-                  </div>
-                </button>
-
-                <button
-                  className="w-full flex items-center gap-3 p-4 bg-card border border-border rounded-lg hover:bg-muted transition-colors text-left opacity-50 cursor-not-allowed"
-                  disabled
-                >
-                  <div className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
-                    <Lock className="w-5 h-5 text-gray-500" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-foreground">Privacy Settings</p>
-                    <p className="text-sm text-muted-foreground">Coming in Stage 3</p>
-                  </div>
-                </button>
-
-                <button
-                  className="w-full flex items-center gap-3 p-4 bg-card border border-border rounded-lg hover:bg-muted transition-colors text-left opacity-50 cursor-not-allowed"
-                  disabled
-                >
-                  <div className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
-                    <Bell className="w-5 h-5 text-gray-500" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-foreground">Notifications</p>
-                    <p className="text-sm text-muted-foreground">Manage your alerts</p>
-                  </div>
-                </button>
-
-                <button
-                  className="w-full flex items-center gap-3 p-4 bg-card border border-border rounded-lg hover:bg-muted transition-colors text-left opacity-50 cursor-not-allowed"
-                  disabled
-                >
-                  <div className="w-10 h-10 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
-                    <Settings className="w-5 h-5 text-gray-500" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-foreground">Account Settings</p>
-                    <p className="text-sm text-muted-foreground">Password, email, etc.</p>
-                  </div>
-                </button>
-              </div>
-
-              <div className="pt-4 border-t border-border">
-                <p className="text-xs text-muted-foreground text-center">
-                  Phase 8.1 Stage 1 - More features coming soon
-                </p>
-              </div>
-            </>
-          )}
-
-          {activeTab === 'picture' && (
-            <>
-              <button
-                onClick={() => setActiveTab('main')}
-                className="text-sm text-blue-600 hover:underline mb-4"
-              >
-                ← Back to menu
-              </button>
-              <ProfilePictureUploader
-                currentImageUrl={currentUser?.profile_picture_url}
-                onSave={handleProfilePictureSave}
-                onCancel={() => setActiveTab('main')}
-              />
-            </>
-          )}
-
-          {activeTab === 'banner' && (
-            <>
-              <button
-                onClick={() => setActiveTab('main')}
-                className="text-sm text-blue-600 hover:underline mb-4"
-              >
-                ← Back to menu
-              </button>
-              <BannerUploader
-                currentBannerUrl={currentUser?.banner_image_url}
-                onSave={handleBannerSave}
-                onCancel={() => setActiveTab('main')}
-              />
-            </>
-          )}
-
-          {activeTab === 'color' && (
-            <>
-              <button
-                onClick={() => setActiveTab('main')}
-                className="text-sm text-blue-600 hover:underline mb-4"
-              >
-                ← Back to menu
-              </button>
-              <AccentColorPicker
-                currentColor={currentUser?.accent_color}
-                onSave={handleAccentColorSave}
-                onCancel={() => setActiveTab('main')}
-              />
-            </>
-          )}
+          {/* Accent Color */}
+          <section>
+            <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-100 mb-2">
+              Accent Color
+            </h3>
+            <AccentColorPicker
+              value={profile?.accent_color || "#2563EB"}
+              onChange={handleAccentColorChange}
+            />
+          </section>
         </div>
-      </div>
-    </>
+
+        {/* Footer */}
+        <div className="px-4 py-3 border-t border-slate-200 dark:border-slate-800 flex justify-end gap-2">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-3 py-1.5 text-sm rounded-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-900"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={onSave}
+            disabled={isSaving}
+            className="px-3 py-1.5 text-sm rounded-md font-medium bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {isSaving ? "Saving..." : "Save Changes"}
+          </button>
+        </div>
+      </aside>
+    </div>
   );
 };
 
