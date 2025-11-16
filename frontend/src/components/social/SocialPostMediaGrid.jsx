@@ -24,12 +24,13 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
   if (mediaUrls.length === 1) {
     return (
       <div className="mt-3 rounded-xl overflow-hidden bg-muted">
-        <div className="relative h-64 md:h-80 lg:h-96">
+        <div className="relative h-64 md:h-80 lg:h-96 cursor-pointer hover:opacity-95 transition-opacity">
           <img
             src={mediaUrls[0]}
             alt="Post media"
             className="w-full h-full object-cover"
             loading="lazy"
+            onClick={() => openViewer(mediaUrls, 0)}
           />
         </div>
       </div>
