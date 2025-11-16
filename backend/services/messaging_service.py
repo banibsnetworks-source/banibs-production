@@ -48,8 +48,17 @@ async def transform_conversation_for_api(conv: Conversation, current_user_id: st
     if conv.participant_ids:
         users = await db.banibs_users.find(
             {"id": {"$in": conv.participant_ids}},
-            {"_id": 0, "id": 1, "name": 1, "email": 1, "avatar_url": 1}
+            {"_id": 0, "id": 1, "name": 1, "email": 1, "avatar_url": 1, "profile.avatar_url": 1}
         ).to_list(100)
+        
+        # Extract avatar_url from profile if not at top level
+        for user in users:
+            if not user.get("avatar_url") and user.get("profile", {}) and user["profile"].get("avatar_url"):
+                user["avatar_url"] = user["profile"]["avatar_url"]
+            # Clean up nested profile object from response
+            if "profile" in user:
+                del user["profile"]
+        
         participant_details = users
     
     # Add participant details to response
