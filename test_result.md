@@ -9796,13 +9796,10 @@ metadata:
   test_sequence: 2
 
 test_plan:
-  current_focus:
+  current_focus: []
+  stuck_tasks:
     - "Phase 7.1 - Connect Mode Jobs Dashboard"
-    - "Phase 7.1 - Connect Mode Job Creation Form"
-    - "Phase 7.1 - Social Mode Jobs Browser"
-    - "Phase 7.1 - Social Mode Job Details & Application"
-    - "Phase 7.1 - Business Rating System"
-  stuck_tasks: []
+    - "Phase 7.1 - Right Rail Integration"
   test_all: false
   test_priority: "high_first"
 
