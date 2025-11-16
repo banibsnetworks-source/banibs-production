@@ -380,22 +380,75 @@ const SocialProfilePublicPage = () => {
                 </div>
               )}
 
-              {/* Media Tab - Coming Soon */}
+              {/* Media Tab - Filtered Posts with Media */}
               {activeTab === 'media' && (
-                <div className="text-center py-16">
-                  <div className="w-20 h-20 rounded-full bg-yellow-500/10 flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-                  <h3 className="text-xl font-bold text-foreground mb-2">Media Gallery</h3>
-                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                    Coming soon! Your photos and videos will appear here in a beautiful grid layout.
-                  </p>
-                  <div className="inline-flex items-center gap-2 px-4 py-2 bg-muted rounded-lg text-sm text-muted-foreground">
-                    <span className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span>
-                    In Development
-                  </div>
+                <div className="space-y-4">
+                  {(() => {
+                    // Filter posts that have media (images or videos)
+                    const mediaPosts = posts.filter(post => 
+                      post.media_urls && post.media_urls.length > 0
+                    );
+                    
+                    if (postsLoading && mediaPosts.length === 0) {
+                      return (
+                        <div className="text-center py-12">
+                          <div className="animate-spin rounded-full h-8 w-8 border-2 border-yellow-500 border-t-transparent mx-auto mb-3"></div>
+                          <p className="text-muted-foreground text-sm">Loading media...</p>
+                        </div>
+                      );
+                    }
+                    
+                    if (mediaPosts.length === 0) {
+                      return (
+                        <div className="text-center py-16">
+                          <div className="w-20 h-20 rounded-full bg-yellow-500/10 flex items-center justify-center mx-auto mb-4">
+                            <svg className="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                          <h3 className="text-xl font-bold text-foreground mb-2">No Media Yet</h3>
+                          <p className="text-muted-foreground">
+                            {profile.user_id === user?.id 
+                              ? "You haven't shared any media yet. Add images or videos to your posts to see them here."
+                              : "This user hasn't shared any media yet."}
+                          </p>
+                        </div>
+                      );
+                    }
+                    
+                    return (
+                      <>
+                        {mediaPosts.map(post => (
+                          <SocialPostCard
+                            key={post.id}
+                            post={post}
+                            compact={true}
+                            onUpdate={(updatedPost) => {
+                              setPosts(prev => prev.map(p => 
+                                p.id === updatedPost.id ? updatedPost : p
+                              ));
+                            }}
+                          />
+                        ))}
+                        
+                        {/* Show hint if there are more posts to load */}
+                        {postsPage < postsTotalPages && mediaPosts.length < posts.length && (
+                          <div className="text-center pt-4">
+                            <button
+                              onClick={handleLoadMore}
+                              disabled={postsLoading}
+                              className="px-6 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              {postsLoading ? 'Loading...' : 'Load More Posts'}
+                            </button>
+                            <p className="text-xs text-muted-foreground mt-2">
+                              Loading more posts may reveal more media
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    );
+                  })()}
                 </div>
               )}
 
