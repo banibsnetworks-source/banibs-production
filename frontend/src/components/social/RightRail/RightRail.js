@@ -87,6 +87,44 @@ const RightRail = () => {
         )}
       </div>
 
+      {/* Jobs & Opportunities Section */}
+      <div className="right-rail-section">
+        <div className="right-rail-section-header">
+          <div className="right-rail-section-title">
+            <Briefcase size={18} style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }} />
+            Jobs & Opportunities
+          </div>
+          <a 
+            href="/portal/social/jobs" 
+            onClick={(e) => { e.preventDefault(); navigate('/portal/social/jobs'); }}
+            className="right-rail-section-link"
+          >
+            Browse all
+          </a>
+        </div>
+        <div className="right-rail-card" style={{ padding: '12px', textAlign: 'center' }}>
+          <p style={{ fontSize: '14px', color: 'var(--text-secondary)', marginBottom: '8px' }}>
+            Discover opportunities in the Black business community
+          </p>
+          <button
+            onClick={() => navigate('/portal/social/jobs')}
+            style={{
+              width: '100%',
+              padding: '8px 16px',
+              backgroundColor: 'var(--blue-600)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px',
+              fontSize: '14px',
+              fontWeight: '600',
+              cursor: 'pointer'
+            }}
+          >
+            View Jobs
+          </button>
+        </div>
+      </div>
+
       {/* Suggested Groups Section */}
       <div className="right-rail-section">
         <div className="right-rail-section-header">
