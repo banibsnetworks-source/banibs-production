@@ -24,15 +24,10 @@ const SocialProfilePublicPage = () => {
   
   // Phase 8.1 - Profile Command Center
   const [commandCenterOpen, setCommandCenterOpen] = useState(false);
-  const [currentUserData, setCurrentUserData] = useState(null);
+  const [profileDraft, setProfileDraft] = useState(null);
+  const [isSavingProfile, setIsSavingProfile] = useState(false);
   
   const isOwnProfile = user && profile && user.id === profile.user_id;
-  
-  useEffect(() => {
-    if (isOwnProfile && user) {
-      setCurrentUserData(user);
-    }
-  }, [isOwnProfile, user]);
 
   useEffect(() => {
     const loadProfile = async () => {
