@@ -1226,15 +1226,54 @@ frontend:
 
   - task: "S5 - Mobile Responsiveness QA for BANIBS Social"
     implemented: true
-    working: "NA"
+    working: false
     file: "frontend/src/pages/portals/SocialPortal.js, frontend/src/components/social/SocialLayout.js, frontend/src/components/social/MediaComposerModal.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "Starting S5 Mobile Responsiveness QA testing for BANIBS Social. Testing viewport sizes 360px and 414px width at 800px height. Key areas: Social Feed, Profile Page, Post Composer Modal, Media Viewer, ComingSoon Pages. Looking for horizontal scrolling, touch target sizes, text readability, layout breaks."
+      - working: false
+        agent: "testing"
+        comment: |
+          ❌ S5 MOBILE RESPONSIVENESS QA - CRITICAL ISSUES FOUND
+          
+          🎯 **COMPREHENSIVE TESTING RESULTS:**
+          
+          **✅ SIGN-IN PAGE MOBILE RESPONSIVENESS - PASSED**
+          - Samsung Galaxy S8 (360px): ✅ No horizontal scroll, touch-friendly buttons
+          - iPhone Plus (414px): ✅ No horizontal scroll, touch-friendly buttons
+          - Hero section displays correctly on both viewports
+          - Action buttons (Join BANIBS Social, Sign In) meet 44x44px touch target requirements
+          - Community grid has minor overflow but doesn't cause horizontal scroll
+          
+          **❌ AUTHENTICATED SOCIAL PORTAL - TESTING BLOCKED**
+          - Unable to test authenticated features due to Sign In button visibility issues
+          - Authentication flow needs investigation for mobile viewport compatibility
+          - Post composer modal, left rail navigation, and feed layout remain untested
+          
+          **❌ COMING SOON PAGES - CRITICAL HORIZONTAL SCROLL ISSUE**
+          - Groups page: ❌ Route not found (/portal/social/groups)
+          - Live page: ❌ Route not found (/portal/social/live)  
+          - Saved page: ❌ CRITICAL - Horizontal scroll detected (580px width on 360px viewport)
+          
+          **🚨 CRITICAL ISSUES IDENTIFIED:**
+          1. **Horizontal Scrolling**: Saved page has 220px overflow on mobile (580px vs 360px viewport)
+          2. **Missing Routes**: Groups and Live pages return "No routes matched" errors
+          3. **Authentication Flow**: Sign In button not accessible on mobile viewports
+          
+          **📊 MOBILE RESPONSIVENESS STATUS:**
+          - Sign-in page: ✅ RESPONSIVE
+          - Authenticated portal: ⚠️ UNTESTED (blocked by auth issues)
+          - Coming Soon pages: ❌ NEEDS FIXES (horizontal scroll + missing routes)
+          
+          **🔧 RECOMMENDED FIXES:**
+          1. Fix horizontal scroll on Saved page (likely left rail width issue)
+          2. Add missing routes for Groups and Live pages
+          3. Investigate Sign In button visibility/accessibility on mobile
+          4. Test authenticated portal after auth flow is fixed
 
   # Phase 5.1 - Paid Sponsored Placement Backend
   - task: "Stripe checkout endpoint"
