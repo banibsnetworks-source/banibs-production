@@ -79,7 +79,7 @@ async def upload_profile_picture(
     
     return {
         "success": True,
-        "profile_picture_url": profile_picture_url,
+        "url": profile_picture_url,
         "filename": unique_filename
     }
 
