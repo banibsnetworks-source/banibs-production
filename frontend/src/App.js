@@ -303,6 +303,7 @@ function App() {
         </div>
       </ContributorAuthProvider>
     </AuthProvider>
+        </MediaViewerProvider>
       </ToastProvider>
   </ThemeProvider>
   );
