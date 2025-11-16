@@ -77,6 +77,7 @@ async def create_business(
         handle=handle,
         tagline=profile_data.tagline,
         bio=profile_data.bio,
+        industry=profile_data.industry,
         website=profile_data.website,
         email=profile_data.email,
         phone=profile_data.phone,
