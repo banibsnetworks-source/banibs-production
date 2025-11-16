@@ -5,6 +5,7 @@ import { messagingApi } from '../utils/messaging';
 
 export function useMessages(conversationId) {
   const { user } = useAuth();
+  const toast = useToast();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
