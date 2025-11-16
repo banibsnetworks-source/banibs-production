@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, TrendingUp, Radio } from 'lucide-react';
+import { Users, TrendingUp, Radio, Briefcase } from 'lucide-react';
 import NewsBeat from '../../common/NewsBeat';
 import './RightRail.css';
 
