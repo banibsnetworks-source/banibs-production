@@ -5,12 +5,12 @@ Unified job posting and application system
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from typing import Optional, List
-from backend.models.job_posting import (
+from models.job_posting import (
     JobPostingCreate, JobPostingUpdate, JobPosting,
     JobApplicationCreate, JobApplication
 )
-from backend.db import job_postings as db_jobs
-from backend.auth.jwt_handler import require_role
+from db import job_postings as db_jobs
+from auth.jwt_handler import require_role
 
 router = APIRouter(prefix="/api/jobs", tags=["Jobs & Opportunities"])
 
