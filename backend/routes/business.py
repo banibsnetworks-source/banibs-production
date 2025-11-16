@@ -103,7 +103,8 @@ async def get_my_business(
     current_user=Depends(require_role("user", "member"))
 ):
     """
-    Get current user's business profile
+    Get current user's first business profile (legacy endpoint)
+    For backward compatibility
     """
     profile = await db_business.get_business_profile_by_owner(current_user["id"])
     
@@ -114,6 +115,18 @@ async def get_my_business(
         )
     
     return profile
+
+
+@router.get("/me/all", response_model=list[BusinessProfileOwner])
+async def get_my_all_businesses(
+    current_user=Depends(require_role("user", "member"))
+):
+    """
+    Get ALL business profiles for current user
+    Used by Mode Switcher in Dual-Layout System
+    """
+    profiles = await db_business.get_all_business_profiles_by_owner(current_user["id"])
+    return profiles
 
 
 async def get_current_user_optional():
