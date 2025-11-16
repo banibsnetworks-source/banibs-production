@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* BANIBS Dual-Layout Theme System */
+@import './styles/themes.css';
+
 body {
     margin: 0;
     font-family:
