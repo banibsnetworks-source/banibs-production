@@ -1,7 +1,8 @@
 import React from 'react';
+import { useMediaViewer } from '../../hooks/useMediaViewer';
 
 /**
- * SocialPostMediaGrid - BANIBS Social Media Upgrade Spec v1.0
+ * SocialPostMediaGrid - BANIBS Social Media Upgrade Spec v1.0 + S-MEDIA-P2
  * Handles single and multi-image layouts for social posts
  * 
  * Layouts:
@@ -9,8 +10,11 @@ import React from 'react';
  * - 2 images: Side-by-side grid
  * - 3 images: 1 big left + 2 stacked right
  * - 4+ images: 2x2 grid with +N overlay
+ * 
+ * S-MEDIA-P2: Click to open fullscreen HD viewer
  */
 export function SocialPostMediaGrid({ mediaUrls = [] }) {
+  const { openViewer } = useMediaViewer();
   // No media - don't render anything
   if (!mediaUrls || mediaUrls.length === 0) {
     return null;
