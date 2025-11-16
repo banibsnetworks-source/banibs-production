@@ -282,6 +282,10 @@ app.include_router(business_board_router)
 from routes.business import router as business_router
 app.include_router(business_router)
 
+# Include business search router (Phase 8.2 - Geo Search)
+from routes.business_search import router as business_search_router
+app.include_router(business_search_router)
+
 # Include follow router (Phase B1 - Follow System)
 from routes.follow import api_router as follow_router
 app.include_router(follow_router)
