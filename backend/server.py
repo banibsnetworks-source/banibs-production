@@ -401,6 +401,13 @@ async def startup_event():
     # Initialize scheduler
     init_scheduler()
     logger.info("BANIBS RSS scheduler initialized")
+    
+    # Phase 8.2 - Ensure database indices for performance
+    from db.indices import ensure_all_indices
+    try:
+        await ensure_all_indices()
+    except Exception as e:
+        logger.error(f"Failed to create indices: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
