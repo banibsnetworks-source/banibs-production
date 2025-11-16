@@ -221,7 +221,7 @@ const SocialProfileEditPage = () => {
           </div>
 
           {/* Edit Form */}
-          <form onSubmit={handleSubmit} className="bg-gray-800 rounded-2xl border border-gray-700 p-6 space-y-6">
+          <form onSubmit={handleSubmit} className="bg-card rounded-2xl border border-border p-6 space-y-6">
             {/* Success Message */}
             {success && (
               <div className="bg-green-900/30 border border-green-700 rounded-lg p-4 text-green-400 text-sm">
