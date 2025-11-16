@@ -43,6 +43,15 @@ class BusinessProfileUpdate(BaseModel):
     phone: Optional[str] = None
     location: Optional[str] = None
     services: Optional[list[BusinessService]] = None
+    # Phase 8.1 Stage 2 - Profile Command Center
+    profile_picture_url: Optional[str] = None
+    banner_image_url: Optional[str] = None
+    address: Optional[str] = Field(None, max_length=300)
+    website_url: Optional[str] = None
+    hours: Optional[str] = Field(None, max_length=200)
+    secondary_color: Optional[str] = Field(None, pattern=r'^#[0-9A-Fa-f]{6}$', description="Secondary theme color")
+    header_style: Optional[str] = Field(None, pattern=r'^(clean|carded|minimal)$')
+    font_style: Optional[str] = Field(None, pattern=r'^(default|modern|serif)$')
 
 
 class BusinessProfilePublic(BaseModel):
