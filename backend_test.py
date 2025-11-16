@@ -9047,7 +9047,6 @@ def main():
             self.log(f"💥 {failed} social portal test(s) failed")
             return False
 
-
     def run_phase_7_1_1_bia_tests(self) -> bool:
         """Run Phase 7.1.1 - BIA Dashboard Backend tests"""
         self.log("=" * 80)
