@@ -116,4 +116,35 @@ async def search_businesses(
     # relevance sorting could be added later with more sophisticated ranking
     
     # Limit results
-    return results[:limit]
+    final_results = results[:limit]
+    
+    # Phase 8.2 - Log search analytics (async, non-blocking)
+    try:
+        location_type = "none"
+        if lat and lng:
+            location_type = "coords"
+        elif zip:
+            location_type = "zip"
+        elif city and state:
+            location_type = "city_state"
+        
+        search_event = BusinessSearchEvent(
+            id=str(uuid4()),
+            query_text=q,
+            category=category,
+            location_type=location_type,
+            search_city=city,
+            search_state=state,
+            search_zip=zip,
+            radius_km=radius_km if (lat and lng) or zip or (city and state) else None,
+            sort_method=sort,
+            results_count=len(final_results),
+            user_location_opt_in=bool(lat and lng and not zip and not city)
+        )
+        
+        # Store in analytics collection (fire and forget)
+        await db.business_search_analytics.insert_one(search_event.dict())
+    except Exception as e:
+        logger.warning(f"Failed to log search analytics: {e}")
+    
+    return final_results
