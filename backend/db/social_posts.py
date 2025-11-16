@@ -21,6 +21,10 @@ async def create_post(
     """Create a new social post with media and link support (Phase 8.1)"""
     db = await get_db()
     
+    # DEBUG LOG: Check incoming media parameter
+    print(f"🔍 [DB Layer] Incoming media parameter: {media}")
+    print(f"🔍 [DB Layer] Media type: {type(media)}")
+    
     post = {
         "id": str(uuid.uuid4()),
         "author_id": author_id,
@@ -40,6 +44,8 @@ async def create_post(
         "moderation_reason": None,
         "moderation_updated_at": None
     }
+    
+    print(f"🔍 [DB Layer] Post document before insert: {post}")
     
     await db.social_posts.insert_one(post)
     return post
