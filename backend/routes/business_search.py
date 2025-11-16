@@ -8,8 +8,10 @@ from typing import Optional, List
 import logging
 
 from models.business_profile import BusinessProfilePublic
+from models.search_analytics import BusinessSearchEvent
 from db.connection import get_db
 from services.geocoding import calculate_distance_km, km_to_miles, geocode_address
+from uuid import uuid4
 
 logger = logging.getLogger(__name__)
 
