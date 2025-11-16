@@ -63,7 +63,7 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
   };
 
   const handlePost = async () => {
-    if (!text.trim() && media.length === 0 && !linkMeta) {
+    if (!text.trim() && media.length === 0 && !linkMeta && !linkUrl) {
       alert('Please add some content to your post');
       return;
     }
@@ -73,7 +73,7 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
       await onSubmit({
         text: text.trim(),
         media,
-        link_url: linkMeta?.url || null,
+        link_url: linkMeta?.url || linkUrl || null,
         link_meta: linkMeta
       });
 
