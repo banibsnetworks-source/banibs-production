@@ -10,7 +10,7 @@ from models.job_posting import (
     JobApplicationCreate, JobApplication
 )
 from db import job_postings as db_jobs
-from auth.jwt_handler import require_role
+from middleware.auth_guard import require_role
 
 router = APIRouter(prefix="/api/jobs", tags=["Jobs & Opportunities"])
 
