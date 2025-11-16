@@ -5,11 +5,11 @@ BANIBS Professional Reputation Layer
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from typing import Optional, List
-from backend.models.business_review import (
+from models.business_review import (
     BusinessReviewCreate, BusinessReview, BusinessRatingStats
 )
-from backend.db import business_reviews as db_reviews
-from backend.auth.jwt_handler import require_role
+from db import business_reviews as db_reviews
+from auth.jwt_handler import require_role
 
 router = APIRouter(prefix="/api/reviews", tags=["Business Reviews"])
 
