@@ -65,7 +65,7 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
           <img
             src={mediaUrls[0]}
             alt="Post media 1"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
             loading="lazy"
             onClick={() => openViewer(mediaUrls, 0)}
           />
@@ -77,7 +77,7 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
             <img
               src={mediaUrls[1]}
               alt="Post media 2"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-top"
               loading="lazy"
               onClick={() => openViewer(mediaUrls, 1)}
             />
@@ -86,7 +86,7 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
             <img
               src={mediaUrls[2]}
               alt="Post media 3"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-top"
               loading="lazy"
               onClick={() => openViewer(mediaUrls, 2)}
             />
