@@ -114,6 +114,7 @@ const ConnectLeftRail = () => {
               block px-4 py-3 hover:bg-muted transition-colors
               ${index !== 0 ? 'border-t border-border' : ''}
               ${item.comingSoon ? 'opacity-50 cursor-not-allowed' : ''}
+              ${item.highlight ? 'bg-yellow-50 dark:bg-yellow-900/10' : ''}
             `}
             onClick={(e) => item.comingSoon && e.preventDefault()}
           >
