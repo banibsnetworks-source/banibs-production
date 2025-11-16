@@ -254,7 +254,16 @@ const AnalyticsDashboard = () => {
           {/* Jobs Performance */}
           {dashboard.job_performance && dashboard.job_performance.length > 0 && (
             <div className="bg-card border border-border rounded-lg p-6">
-              <h2 className="text-lg font-semibold text-foreground mb-4">Job Performance</h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-semibold text-foreground">Job Performance</h2>
+                <button 
+                  onClick={() => handleExport('jobs')}
+                  className="flex items-center gap-2 text-sm text-yellow-600 hover:underline"
+                >
+                  <Download className="w-4 h-4" />
+                  Export CSV
+                </button>
+              </div>
               <div className="space-y-3">
                 {dashboard.job_performance.slice(0, 5).map((job, idx) => (
                   <div key={idx} className="flex items-center justify-between p-3 bg-muted rounded-lg">
