@@ -166,6 +166,7 @@ function App() {
               <div className="App">
                 <MediaViewer />
                 <BrowserRouter>
+                  <AccountModeProvider>
             <Routes>
               {/* Phase 7.6.2 - New CNN-Style News Homepage */}
               <Route path="/" element={<NewsHomePage />} />
