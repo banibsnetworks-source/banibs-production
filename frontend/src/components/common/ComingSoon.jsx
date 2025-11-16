@@ -12,7 +12,7 @@ import { Radio, Users, Briefcase, Play, Sparkles } from 'lucide-react';
 const SECTION_ICONS = {
   groups: Users,
   marketplace: Briefcase,
-  live: Broadcast,
+  live: Radio,
   watch: Play,
   default: Sparkles
 };
