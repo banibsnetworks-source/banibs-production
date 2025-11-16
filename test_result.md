@@ -9337,3 +9337,168 @@ agent_communication:
       🎉 **CONCLUSION:**
       The P0 fix is confirmed working on the backend side. The frontend just needs to call `refetchConversations()` after sending a message to get the updated conversation list. The backend correctly updates and persists conversation metadata in real-time.
 
+
+---
+
+# Phase 7.1: Jobs & Opportunities + Business Rating System - Testing
+
+## Date: $(date)
+## Agent: Fork Agent (E1)
+## Status: ⚠️ PENDING COMPREHENSIVE TESTING
+
+### Features Implemented
+
+#### ✅ Backend Complete
+1. **Jobs & Opportunities System**
+   - Models: JobPosting, JobApplication, JobPostingCreate, JobPostingUpdate
+   - DB Operations: create_job_posting, get_job_posting_by_id, get_jobs_by_owner, search_job_postings, update_job_posting, create_job_application, get_applications_for_job, get_user_applications
+   - API Routes: /api/jobs (POST, GET, PATCH) - Full CRUD + Search + Applications
+   - File locations:
+     * `/app/backend/models/job_posting.py`
+     * `/app/backend/db/job_postings.py`
+     * `/app/backend/routes/jobs.py`
+
+2. **Business Rating & Scoring System**
+   - Models: BusinessReview, BusinessReviewCreate, BusinessRatingStats
+   - DB Operations: create_business_review, get_reviews_for_business, get_reviews_by_user, get_rating_stats, update_business_rating_stats, check_user_reviewed
+   - API Routes: /api/reviews (POST, GET) - Full review management
+   - Business Profile Enhanced: Added average_rating and total_reviews fields
+   - File locations:
+     * `/app/backend/models/business_review.py`
+     * `/app/backend/db/business_reviews.py`
+     * `/app/backend/routes/reviews.py`
+     * `/app/backend/models/business_profile.py` (updated)
+
+#### ✅ Frontend Complete
+1. **Connect Mode (Employer Side)**
+   - JobsDashboard: Full job management UI with stats, filtering, status toggles
+   - JobForm: Comprehensive job creation/editing form with all fields
+   - Routes added:
+     * `/portal/connect/jobs` - Dashboard
+     * `/portal/connect/jobs/new` - Create job
+     * `/portal/connect/jobs/:jobId/edit` - Edit job
+   - File locations:
+     * `/app/frontend/src/pages/connect/JobsDashboard.jsx`
+     * `/app/frontend/src/pages/connect/JobForm.jsx`
+
+2. **Social Mode (Job Seeker Side)**
+   - JobsBrowser: Public job board with search, filters, pagination
+   - JobDetailPage: Complete job details with application modal
+   - Routes added:
+     * `/portal/social/jobs` - Browse jobs
+     * `/portal/social/jobs/:jobId` - Job details
+   - File locations:
+     * `/app/frontend/src/pages/social/JobsBrowser.jsx`
+     * `/app/frontend/src/pages/social/JobDetailPage.jsx`
+
+3. **Rating & Review Components**
+   - BusinessRating: Star display with average rating
+   - ReviewForm: Create/edit reviews with 1-5 stars + text
+   - ReviewsList: Display all reviews with pagination
+   - File locations:
+     * `/app/frontend/src/components/common/BusinessRating.jsx`
+     * `/app/frontend/src/components/common/ReviewForm.jsx`
+     * `/app/frontend/src/components/common/ReviewsList.jsx`
+
+4. **Integration Updates**
+   - ConnectRightRail: Added Jobs & Hiring section (priority position)
+   - SocialRightRail: Added Jobs & Opportunities section
+   - App.js: All routes registered
+   - server.py: Both routers registered
+
+### Test Checklist
+
+#### Backend API Tests (Recommended: Use backend testing agent)
+- [ ] **Jobs Endpoints**
+  - [ ] POST /api/jobs - Create job posting
+  - [ ] GET /api/jobs/mine - Get employer's jobs (filtered by status)
+  - [ ] GET /api/jobs - Public job search (with filters)
+  - [ ] GET /api/jobs/{job_id}/public - Public job details
+  - [ ] PATCH /api/jobs/{job_id} - Update job
+  - [ ] PATCH /api/jobs/{job_id}/status - Toggle job status
+  - [ ] POST /api/jobs/{job_id}/apply - Submit application
+  - [ ] GET /api/jobs/{job_id}/applications - Get job applications (employer only)
+  - [ ] GET /api/jobs/applications/mine - Get user's applications
+
+- [ ] **Review Endpoints**
+  - [ ] POST /api/reviews - Create/update review
+  - [ ] GET /api/reviews/business/{business_id} - Get business reviews (paginated)
+  - [ ] GET /api/reviews/mine - Get user's reviews
+  - [ ] GET /api/reviews/stats/{business_id} - Get rating statistics
+  - [ ] GET /api/reviews/check/{business_id} - Check if user reviewed
+
+#### Frontend UI Tests (Recommended: Use frontend testing agent)
+- [ ] **Connect Mode - Employer Flow**
+  - [ ] Jobs dashboard loads with stats
+  - [ ] Filter tabs work (all, open, closed, draft)
+  - [ ] "Post a Job" button navigates to form
+  - [ ] Job creation form validation works
+  - [ ] Form saves as draft
+  - [ ] Form publishes job (status=open)
+  - [ ] Job list updates after creation
+  - [ ] Edit job works (loads data, saves changes)
+  - [ ] Toggle job status (open/closed) works
+  - [ ] View on Social link works
+  - [ ] Responsive design on mobile
+
+- [ ] **Social Mode - Job Seeker Flow**
+  - [ ] Job browser loads with jobs
+  - [ ] Search functionality works
+  - [ ] Filters work (location, type, category)
+  - [ ] Pagination works
+  - [ ] Job card click navigates to details
+  - [ ] Job details page loads correctly
+  - [ ] Application modal opens
+  - [ ] Application form submission works
+  - [ ] Business rating displays on job
+  - [ ] Reviews section shows on job details
+  - [ ] External apply URL works (if applicable)
+  - [ ] Responsive design on mobile
+
+- [ ] **Rating & Review System**
+  - [ ] BusinessRating component displays stars correctly
+  - [ ] Review form allows star selection (1-5)
+  - [ ] Review form validates required fields
+  - [ ] Review submission works
+  - [ ] Reviews list displays correctly
+  - [ ] Pagination works in reviews list
+  - [ ] Existing review loads for editing
+  - [ ] Rating stats calculate correctly
+
+- [ ] **Integration Points**
+  - [ ] Connect Right Rail shows Jobs section
+  - [ ] Social Right Rail shows Jobs section
+  - [ ] Links navigate correctly
+  - [ ] Jobs integrate with business profiles
+  - [ ] Ratings show on job listings
+
+### End-to-End Flows to Test
+1. **Employer Flow**
+   - Switch to business mode → Navigate to jobs dashboard → Create new job → Publish → View on social
+
+2. **Job Seeker Flow**
+   - Browse jobs → Search for specific role → View job details → Submit application
+
+3. **Rating Flow**
+   - View business profile → Submit review → See rating update on profile → See rating on job listings
+
+### Known Issues
+- None reported yet (first implementation)
+
+### Test User Credentials
+- Email: social_test_user@example.com
+- Password: test_password
+
+### Next Steps for Testing
+1. ✅ Backend verified running (curl test successful)
+2. ⏳ NEXT: Use `deep_testing_backend_v2` for comprehensive backend testing
+3. ⏳ NEXT: Use `auto_frontend_testing_agent` for comprehensive UI testing
+4. ⏳ NEXT: Manual verification of integration points
+5. ⏳ NEXT: Screenshot verification
+
+### Notes for Testing Agent
+- This is a large, multi-faceted feature with two distinct user flows (employer + job seeker)
+- Rating system is integrated across multiple pages
+- Test both authenticated and public access
+- Verify permission gating (only business mode can access employer routes)
+- Check empty states and error handling
