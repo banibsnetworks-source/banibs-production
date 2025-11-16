@@ -1,15 +1,17 @@
 .link-preview-card {
   position: relative;
   border: 1px solid var(--border-color, #e5e7eb);
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
   background: var(--bg-card, #fff);
-  margin-top: 16px;
-  transition: box-shadow 0.2s;
+  margin-top: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
 }
 
 .link-preview-card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-color: var(--border-hover, #d1d5db);
 }
 
 .link-remove-btn {
