@@ -48,6 +48,7 @@ class SocialPost(BaseModel):
     author: SocialPostAuthor
     text: str
     media: list[MediaItem] = []
+    media_urls: list[str] = []  # S-MEDIA v1.0 compatibility - extracted media URLs
     link_url: Optional[str] = None
     link_meta: Optional[LinkMetadata] = None
     created_at: datetime
