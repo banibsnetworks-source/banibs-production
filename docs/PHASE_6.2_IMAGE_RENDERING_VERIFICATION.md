@@ -186,7 +186,7 @@ for source in RSS_SOURCES:
 
 ### 3.3 Frontend Rendering
 
-**Test**: Visited `https://banibs-connect.preview.emergentagent.com/`
+**Test**: Visited `https://message-hub-335.preview.emergentagent.com/`
 
 **Results**:
 - ✅ Homepage loads successfully

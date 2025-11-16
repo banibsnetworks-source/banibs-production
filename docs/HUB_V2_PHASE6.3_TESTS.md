@@ -11,7 +11,7 @@
 
 ### 1. GET /api/news → items contain sentiment fields ✅
 
-**Test:** `curl https://banibs-connect.preview.emergentagent.com/api/news/latest?limit=2`
+**Test:** `curl https://message-hub-335.preview.emergentagent.com/api/news/latest?limit=2`
 
 **Result:** PASS ✅
 - All news items include `sentiment_score` (-1.0 to 1.0)
@@ -31,7 +31,7 @@
 
 ### 2. GET /api/resources → items contain sentiment fields ✅
 
-**Test:** `curl https://banibs-connect.preview.emergentagent.com/api/resources?limit=2`
+**Test:** `curl https://message-hub-335.preview.emergentagent.com/api/resources?limit=2`
 
 **Result:** PASS ✅
 - All resources include sentiment fields
@@ -111,7 +111,7 @@
 
 ### 6. Call POST /api/sentiment/recalculate as non-admin → 403 ✅
 
-**Test:** `curl -X POST https://banibs-connect.preview.emergentagent.com/api/sentiment/recalculate`
+**Test:** `curl -X POST https://message-hub-335.preview.emergentagent.com/api/sentiment/recalculate`
 
 **Expected Result:** 403 Forbidden
 
