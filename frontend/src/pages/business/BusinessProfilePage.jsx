@@ -150,7 +150,9 @@ const BusinessProfilePage = () => {
   // Has business profile - show it wrapped in BusinessLayout
   return (
     <BusinessLayout>
-      <BusinessProfilePublic businessId={businessId} hideNavBar={true} />
+      <div style={{ width: '100%', minHeight: 'auto' }}>
+        <BusinessProfilePublic businessId={businessId} hideNavBar={true} />
+      </div>
     </BusinessLayout>
   );
 };
