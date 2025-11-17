@@ -105,6 +105,26 @@ const SocialProfilePublicPage = () => {
     }
   };
 
+  // Phase 8.3 - Load supported businesses when Business tab is active
+  useEffect(() => {
+    if (activeTab === 'business' && profile?.user_id) {
+      loadSupportedBusinesses();
+    }
+  }, [activeTab, profile]);
+
+  const loadSupportedBusinesses = async () => {
+    setSupportedBusinessesLoading(true);
+    
+    try {
+      const businesses = await businessSupportApi.getUserSupportedBusinesses(profile.user_id);
+      setSupportedBusinesses(businesses);
+    } catch (error) {
+      console.error('Failed to load supported businesses:', error);
+    } finally {
+      setSupportedBusinessesLoading(false);
+    }
+  };
+
   const loadUserPosts = async (page) => {
     setPostsLoading(true);
     
