@@ -4,6 +4,7 @@ import { ArrowLeft, Upload, X, Loader2 } from 'lucide-react';
 import BusinessLayout from '../../components/business/BusinessLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useAuth } from '../../contexts/AuthContext';
+import xhrRequest from '../../utils/xhrRequest';
 
 /**
  * HelpingHandsCreate - Phase 10.0
