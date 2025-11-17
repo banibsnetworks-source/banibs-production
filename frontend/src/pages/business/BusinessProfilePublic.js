@@ -118,7 +118,7 @@ const BusinessProfilePublic = ({ businessId: propBusinessId, hideNavBar = false 
         fontFamily: getFontFamily()
       }}
     >
-      <GlobalNavBar />
+      {!hideNavBar && <GlobalNavBar />}
       {/* Cover Section */}
       <div className="business-cover">
         {(business.banner_image_url || business.cover) ? (
