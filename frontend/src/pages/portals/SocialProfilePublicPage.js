@@ -396,7 +396,7 @@ const SocialProfilePublicPage = () => {
                     : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
-                My Peoples {peoplesCount > 0 && `(${peoplesCount})`}
+                {isOwnProfile ? 'My Peoples' : 'Peoples'} {peoplesCount > 0 && `(${peoplesCount})`}
               </button>
               <button
                 onClick={() => {
