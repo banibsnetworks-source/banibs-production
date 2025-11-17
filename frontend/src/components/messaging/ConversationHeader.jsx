@@ -161,22 +161,47 @@ export function ConversationHeader({ conversation, onStartCall, onShowInfo, onSe
               <Search size={20} />
             </button>
           )}
-          {conversation.type === 'dm' && onStartCall && (
+          {conversation.type === 'dm' && (
             <>
-              <button
-                onClick={() => onStartCall('audio')}
-                className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
-                title="Audio call"
-              >
-                <Phone size={20} />
-              </button>
-              <button
-                onClick={() => onStartCall('video')}
-                className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
-                title="Video call"
-              >
-                <Video size={20} />
-              </button>
+              {/* Phase 8.3 - Social Actions */}
+              {otherUserId && (
+                <>
+                  <button
+                    onClick={handleViewProfile}
+                    className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                    title="View Profile"
+                  >
+                    <UserCircle size={20} />
+                  </button>
+                  <button
+                    onClick={() => navigate(`/portal/social/id/${otherUserId}?action=add-to-peoples`)}
+                    className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                    title="Add to My Peoples"
+                  >
+                    <UserPlus size={20} />
+                  </button>
+                </>
+              )}
+              
+              {/* Call buttons */}
+              {onStartCall && (
+                <>
+                  <button
+                    onClick={() => onStartCall('audio')}
+                    className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                    title="Audio call"
+                  >
+                    <Phone size={20} />
+                  </button>
+                  <button
+                    onClick={() => onStartCall('video')}
+                    className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors"
+                    title="Video call"
+                  >
+                    <Video size={20} />
+                  </button>
+                </>
+              )}
             </>
           )}
           {conversation.type === 'group' && conversation.participants && conversation.participants.length > 0 && (
