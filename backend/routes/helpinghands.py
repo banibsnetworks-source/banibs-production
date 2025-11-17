@@ -107,7 +107,7 @@ async def list_campaigns(
     """
     List campaigns with filters
     """
-    db = await get_database()
+    db = await get_db()
     
     # Build query
     query = {}
@@ -149,7 +149,7 @@ async def get_campaign(campaign_id: str):
     """
     Get single campaign details
     """
-    db = await get_database()
+    db = await get_db()
     
     campaign = await db.helpinghands_campaigns.find_one(
         {"id": campaign_id},
@@ -166,12 +166,12 @@ async def get_campaign(campaign_id: str):
 async def update_campaign(
     campaign_id: str,
     updates: CampaignUpdateRequest,
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(require_role("user", "member"))
 ):
     """
     Update campaign (owner only)
     """
-    db = await get_database()
+    db = await get_db()
     
     # Verify ownership
     campaign = await db.helpinghands_campaigns.find_one({"id": campaign_id})
@@ -237,7 +237,7 @@ async def create_support_checkout(
     if not stripe:
         raise HTTPException(status_code=500, detail="Stripe not configured")
     
-    db = await get_database()
+    db = await get_db()
     
     # Verify campaign exists and is active
     campaign = await db.helpinghands_campaigns.find_one({"id": campaign_id})
@@ -328,7 +328,7 @@ async def stripe_webhook(request):
         # Get amount (convert from cents)
         amount = session['amount_total'] / 100.0
         
-        db = await get_database()
+        db = await get_db()
         
         # Create support record
         support_id = str(uuid4())
@@ -372,12 +372,12 @@ async def stripe_webhook(request):
 async def report_campaign(
     campaign_id: str,
     report_data: ReportCampaignRequest,
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(require_role("user", "member"))
 ):
     """
     Report a campaign for moderation
     """
-    db = await get_database()
+    db = await get_db()
     
     # Verify campaign exists
     campaign = await db.helpinghands_campaigns.find_one({"id": campaign_id})
@@ -410,7 +410,7 @@ async def report_campaign(
 @router.post("/admin/campaigns/{campaign_id}/pause")
 async def admin_pause_campaign(
     campaign_id: str,
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(require_role("user", "member"))
 ):
     """
     Admin: Pause a campaign
@@ -419,7 +419,7 @@ async def admin_pause_campaign(
     if not current_user.get("is_admin"):
         raise HTTPException(status_code=403, detail="Admin access required")
     
-    db = await get_database()
+    db = await get_db()
     
     await db.helpinghands_campaigns.update_one(
         {"id": campaign_id},
@@ -434,7 +434,7 @@ async def admin_pause_campaign(
 
 @router.get("/admin/reports")
 async def admin_list_reports(
-    current_user: dict = Depends(get_current_user),
+    current_user: dict = Depends(require_role("user", "member")),
     reviewed: Optional[bool] = Query(None)
 ):
     """
@@ -444,7 +444,7 @@ async def admin_list_reports(
     if not current_user.get("is_admin"):
         raise HTTPException(status_code=403, detail="Admin access required")
     
-    db = await get_database()
+    db = await get_db()
     
     query = {}
     if reviewed is not None:
