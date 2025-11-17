@@ -10,7 +10,7 @@ import { peoplesApi, businessSupportApi } from '../../services/phase83Api';
 import { Settings } from 'lucide-react';
 
 const SocialProfilePublicPage = () => {
-  const { handle } = useParams();
+  const { handle, userId } = useParams();
   const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [profile, setProfile] = useState(null);
