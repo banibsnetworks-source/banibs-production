@@ -9509,7 +9509,7 @@ def main():
 if __name__ == "__main__":
     tester = BanibsAPITester()
     
-    # Run Phase 7.1.1 Tests - BIA Dashboard Backend
-    success = tester.run_phase_7_1_1_bia_tests()
+    # Run Phase 8.3 Tests - Peoples, Business Support, and Business Knowledge Flags
+    success = tester.run_phase_8_3_tests()
     
     sys.exit(0 if success else 1)
