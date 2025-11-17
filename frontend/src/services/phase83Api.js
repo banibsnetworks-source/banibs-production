@@ -188,18 +188,15 @@ export const businessKnowledgeApi = {
       params.append('media_url', media_url);
     }
     
-    const response = await fetch(`${API_BASE}/api/business/knowledge?${params.toString()}`, {
-      method: 'POST',
-      headers: getAuthHeaders(),
-      credentials: 'include'
-    });
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || 'Failed to create knowledge flag');
+    try {
+      const response = await xhrRequest(`${API_BASE}/api/business/knowledge?${params.toString()}`, {
+        method: 'POST',
+        headers: getAuthHeaders()
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.data?.detail || 'Failed to create knowledge flag');
     }
-    
-    return response.json();
   },
 
   /**
@@ -215,17 +212,15 @@ export const businessKnowledgeApi = {
       params.append('type', type);
     }
     
-    const response = await fetch(`${API_BASE}/api/business/knowledge?${params.toString()}`, {
-      method: 'GET',
-      headers: getAuthHeaders(),
-      credentials: 'include'
-    });
-    
-    if (!response.ok) {
+    try {
+      const response = await xhrRequest(`${API_BASE}/api/business/knowledge?${params.toString()}`, {
+        method: 'GET',
+        headers: getAuthHeaders()
+      });
+      return response.data;
+    } catch (error) {
       throw new Error('Failed to load knowledge flags');
     }
-    
-    return response.json();
   },
 
   /**
@@ -236,17 +231,14 @@ export const businessKnowledgeApi = {
       vote_type: voteType
     });
     
-    const response = await fetch(`${API_BASE}/api/business/knowledge/${flagId}/vote?${params.toString()}`, {
-      method: 'POST',
-      headers: getAuthHeaders(),
-      credentials: 'include'
-    });
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || 'Failed to vote');
+    try {
+      const response = await xhrRequest(`${API_BASE}/api/business/knowledge/${flagId}/vote?${params.toString()}`, {
+        method: 'POST',
+        headers: getAuthHeaders()
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.data?.detail || 'Failed to vote');
     }
-    
-    return response.json();
   }
 };
