@@ -113,22 +113,29 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
     try {
       const token = localStorage.getItem('access_token');
       
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/social/posts/${postId}/highfive`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          credentials: 'include',
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to toggle high five');
-      }
-
-      const result = await response.json();
+      // Use XMLHttpRequest to bypass rrweb "Response body already used" error
+      const result = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `${process.env.REACT_APP_BACKEND_URL}/api/social/posts/${postId}/highfive`, true);
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              const data = JSON.parse(xhr.responseText);
+              resolve(data);
+            } catch (e) {
+              reject(new Error('Failed to parse response'));
+            }
+          } else {
+            reject(new Error('Failed to toggle high five'));
+          }
+        };
+        
+        xhr.onerror = () => reject(new Error('Network error'));
+        xhr.send();
+      });
       
       // Update local state
       const updatedPost = {
