@@ -13,11 +13,24 @@ const HelpingHandsCampaignCard = ({ campaign, compact = false }) => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   
+  // Debug: Log campaign object
+  console.log('Campaign card rendered:', campaign);
+  
   const handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log('Campaign card clicked, ID:', campaign.id);
+    console.log('🎯 Campaign card clicked!');
+    console.log('Campaign object:', campaign);
+    console.log('Campaign ID:', campaign.id);
+    console.log('Full campaign:', JSON.stringify(campaign, null, 2));
     console.log('Navigating to:', `/portal/helping-hands/campaign/${campaign.id}`);
+    
+    if (!campaign.id) {
+      console.error('❌ Campaign ID is missing!');
+      alert('Error: Campaign ID is missing. Cannot open campaign.');
+      return;
+    }
+    
     navigate(`/portal/helping-hands/campaign/${campaign.id}`);
   };
   
