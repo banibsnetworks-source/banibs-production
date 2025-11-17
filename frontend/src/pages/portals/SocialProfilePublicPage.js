@@ -188,8 +188,8 @@ const SocialProfilePublicPage = () => {
               </div>
             )}
             
-            {/* Edit Profile Button - Phase 8.1 */}
-            {isOwnProfile && (
+            {/* Action Buttons - Phase 8.1 & Phase 8.3 */}
+            {isOwnProfile ? (
               <button
                 onClick={() => setCommandCenterOpen(true)}
                 className="absolute top-4 right-4 z-10 flex items-center gap-2 px-4 py-2 text-white rounded-full transition-all shadow-lg"
@@ -198,6 +198,13 @@ const SocialProfilePublicPage = () => {
                 <Settings className="w-4 h-4" />
                 <span className="hidden sm:inline">Edit Profile</span>
               </button>
+            ) : user && profile.user_id && (
+              <div className="absolute top-4 right-4 z-10">
+                <AddToPeoplesButton 
+                  targetUserId={profile.user_id}
+                  accentColor={profile.accent_color || '#3B82F6'}
+                />
+              </div>
             )}
             
             {/* Profile Info - Phase 8.1 Enhanced */}
