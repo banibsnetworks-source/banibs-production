@@ -29,7 +29,7 @@ from models.helpinghands import (
     ReportReason
 )
 from middleware.auth_guard import require_role
-from db import get_db
+from db.connection import get_db_client
 
 router = APIRouter(prefix="/api/helping-hands", tags=["Helping Hands"])
 
