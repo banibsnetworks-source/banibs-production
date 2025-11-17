@@ -341,6 +341,19 @@ const SocialProfilePublicPage = () => {
               </button>
               <button
                 onClick={() => {
+                  setActiveTab('peoples');
+                  setSearchParams({ tab: 'peoples' });
+                }}
+                className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
+                  activeTab === 'peoples'
+                    ? 'text-yellow-500 border-b-2 border-yellow-500'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                My Peoples {peoplesCount > 0 && `(${peoplesCount})`}
+              </button>
+              <button
+                onClick={() => {
                   setActiveTab('business');
                   setSearchParams({ tab: 'business' });
                 }}
