@@ -588,43 +588,67 @@ agent_communication:
       Main agent should prioritize fixing the horizontal scroll issue on the Saved page and investigate the missing routes for Groups and Live pages. The authentication flow also needs mobile viewport compatibility testing.
 
 user_problem_statement: |
-  **Phase 7.1.1 - BIA Dashboard Frontend Comprehensive Testing**
+  **Phase 8.3 Backend API Endpoints - Peoples, Business Support, and Business Knowledge Flags**
 
-  **Objective:** Test the complete Business Insights Analytics Dashboard UI/UX comprehensively across all features and viewport sizes.
+  **Context:**
+  Testing Phase 8.3 implementation which includes three new systems:
+  1. Peoples System (User → User connections)
+  2. Business Support System (User → Business support)
+  3. Business Knowledge Flags (Business → Business knowledge sharing with anonymity)
 
-  **TEST ENVIRONMENT:**
-  - Frontend URL: https://social-business-hub.preview.emergentagent.com
-  - Test User: social_test_user@example.com / TestPass123!
-  - Viewport Sizes: Desktop (1920x800), Tablet (768x1024), Mobile (375x667)
+  **Test Credentials:**
+  - Email: testprofile@example.com
+  - Password: testpass123
+  - Business ID: 9c1933dd-e207-4e0c-845e-766bc4706f1d
 
-  **TEST SCENARIOS:**
-  1. Navigation & Access - Navigate to BIA Dashboard from ConnectLeftRail
-  2. Business Mode Detection - Verify business mode requirement
-  3. Date Range Filters - Test 3 buttons: "Last 7 Days", "Last 30 Days", "Last 90 Days"
-  4. KPI Summary Cards - Verify 6 KPI cards display with proper data and trends
-  5. Traffic & Reach Chart - Line chart for profile views over time
-  6. Top Performing Posts Table - Posts table with export button
-  7. Discovery Sources Pie Chart - Discovery breakdown visualization
-  8. Job Performance Section - Job metrics display
-  9. Ratings & Reviews Analytics - Rating display and distribution
-  10. Activity Log - Recent activity display
-  11. Recommendations Panel - AI recommendations display
-  12. Responsive Design Testing - Desktop, tablet, mobile layouts
-  13. Empty States Testing - Dashboard with no data
-  14. Console Error Check - Monitor for JavaScript errors
+  **API Endpoints to Test:**
 
-  **SUCCESS CRITERIA:**
-  - Navigation works from ConnectLeftRail
-  - All 3 date ranges work and update data
-  - All 6 KPI cards render with correct data and trends
-  - Charts (line, pie, bar) render correctly
-  - Tables display with proper formatting
-  - CSV exports trigger downloads
-  - Responsive design works on all viewports
-  - Graceful empty state handling
-  - Zero critical console errors
+  **1. Peoples System (/api/social/peoples):**
+  - POST /api/social/peoples/{target_user_id} - Add user to peoples
+  - DELETE /api/social/peoples/{target_user_id} - Remove from peoples
+  - GET /api/social/peoples/{user_id} - List user's peoples
+  - GET /api/social/peoples/{user_id}/stats - Get peoples count and stats
 
-  **Test Credentials:** social_test_user@example.com / TestPass123!
+  **2. Business Support System (/api/business/{business_id}/support):**
+  - POST /api/business/{business_id}/support - Support a business
+  - DELETE /api/business/{business_id}/support - Remove support
+  - GET /api/business/{business_id}/supporters - List business supporters
+  - GET /api/business/{business_id}/support/stats - Get support stats
+  - GET /api/business/user/{user_id}/supported-businesses - List businesses user supports
+
+  **3. Business Knowledge Flags (/api/business/knowledge):**
+  - POST /api/business/knowledge - Create flag (with parameters: type, title, description, anonymous, tags, media_url)
+    * Test minimum character requirement (80 chars for description)
+    * Test rate limiting (max 5 flags per 24 hours)
+    * Test anonymous vs non-anonymous flags
+    * Test both "pitfall" and "plus" flag types
+  - GET /api/business/knowledge - List flags
+    * Verify anonymous flags show "Anonymous Business Owner"
+    * Verify non-anonymous flags show business name
+    * Test filtering by type (pitfall/plus)
+  - POST /api/business/knowledge/{flag_id}/vote - Vote on flag
+    * Test "helpful" and "not_accurate" vote types
+    * Test vote toggle (same vote removes it)
+    * Test vote change (different vote updates it)
+    * Test that user cannot vote on own flags
+    * Test that only business owners can vote
+
+  **Special Test Cases:**
+  1. **Anonymity Verification:** Create both anonymous and non-anonymous flags, verify the business name is hidden for anonymous ones but still stored in database for admin tracking
+  2. **Rate Limiting:** Try to create 6 flags within 24 hours, verify 6th one is rejected
+  3. **Minimum Content Length:** Try to create flag with <80 character description, verify it's rejected
+  4. **Cross-User Testing:** If possible, create a second test user to test:
+     - Adding them to peoples
+     - Voting on their knowledge flags
+     - Supporting their business
+
+  **Expected Behaviors:**
+  - All endpoints should require authentication
+  - Business Knowledge endpoints should only be accessible to business owners
+  - Anonymous flags should hide business identity from API responses (but author_business_id is stored in DB)
+  - Voting should increment/decrement vote counts correctly
+  - Cannot vote on own flags
+  - Cannot add yourself to your peoples
 
 backend:
   - task: "Phase 7.1.1 - BIA Dashboard Backend"
