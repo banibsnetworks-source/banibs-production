@@ -104,6 +104,7 @@ const BusinessLeftRail = () => {
       label: 'GROW',
       items: [
         { icon: BarChart3, label: 'Analytics', path: '/portal/business/analytics' },
+        { icon: Heart, label: 'Helping Hands', path: '/portal/helping-hands' },
         { icon: Bell, label: 'Notifications', path: '/portal/business/notifications' },
         { icon: GraduationCap, label: 'Business Lessons', path: '/portal/business/lessons' }
       ]
