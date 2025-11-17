@@ -371,9 +371,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Phase 8.3 - Peoples System API"
-    - "Phase 8.3 - Business Support System API"
-    - "Phase 8.3 - Business Knowledge Flags API"
+    - "Phase 8.3 - Peoples System Frontend"
+    - "Phase 8.3 - Business Support System Frontend"
+    - "Phase 8.3 - Business Knowledge Flags Frontend"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
