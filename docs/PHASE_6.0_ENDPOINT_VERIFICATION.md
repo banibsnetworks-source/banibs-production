@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://social-business-hub.preview.emergentagent.com/api/auth
+https://banibs-connect-1.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

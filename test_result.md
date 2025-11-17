@@ -49,7 +49,7 @@
 ✅ Hub page rendered with user data: "Welcome back, Social"
 ```
 
-**Final URL**: `https://social-business-hub.preview.emergentagent.com/hub` ✅
+**Final URL**: `https://banibs-connect-1.preview.emergentagent.com/hub` ✅
 
 ### Status
 **✅ COMPLETE** - Login flow now works correctly. Users can authenticate and access the Hub dashboard.
@@ -101,7 +101,7 @@ cd /app/frontend && yarn add sharp
 - Label: "👨🏿 BANIBS (My Tone)"
 - Style: `image`
 - Total emojis: 322
-- ✅ Manifest accessible at: `https://social-business-hub.preview.emergentagent.com/static/emojis/banibs_full/manifest.json`
+- ✅ Manifest accessible at: `https://banibs-connect-1.preview.emergentagent.com/static/emojis/banibs_full/manifest.json`
 
 **5. Updated Emoji System**
 - Modified: `/app/frontend/src/utils/emojiSystem.js`
@@ -1469,7 +1469,7 @@ frontend:
           
           **8. FRONTEND CONFIGURATION VERIFICATION** ✅ PASSED
           - REACT_APP_MESSAGING_SOURCE=api (confirmed in .env)
-          - REACT_APP_BACKEND_URL=https://social-business-hub.preview.emergentagent.com
+          - REACT_APP_BACKEND_URL=https://banibs-connect-1.preview.emergentagent.com
           - Frontend correctly configured to use real API instead of mock data
           - API calls working from frontend JavaScript context
           
@@ -1578,8 +1578,8 @@ frontend:
           - ❌ 401 Unauthorized errors when accessing messaging endpoints without valid token
           
           **4. Test Environment Issues:**
-          - Frontend URL https://social-business-hub.preview.emergentagent.com/messages loads but requires authentication
-          - Backend URL https://social-business-hub.preview.emergentagent.com/api working but credentials invalid
+          - Frontend URL https://banibs-connect-1.preview.emergentagent.com/messages loads but requires authentication
+          - Backend URL https://banibs-connect-1.preview.emergentagent.com/api working but credentials invalid
           - Test credentials `social_test_user@example.com / test_password` not working
           
           **📊 BACKEND CONFIRMATION:**
@@ -2577,7 +2577,7 @@ frontend:
           
           **2. FRONTEND CONFIGURATION** ✅ PASSED
           - REACT_APP_MESSAGING_SOURCE=api (confirmed in .env)
-          - REACT_APP_BACKEND_URL=https://social-business-hub.preview.emergentagent.com
+          - REACT_APP_BACKEND_URL=https://banibs-connect-1.preview.emergentagent.com
           - Real API client properly implemented in apiClientMessaging.js
           - JWT token handling working correctly
           
@@ -4383,7 +4383,7 @@ agent_communication:
       ✅ TECHNICAL VERIFICATION:
       - Backend logs show successful GET /api/news/latest - Status: 200
       - No errors or warnings in backend service logs
-      - Endpoint accessible via public URL: https://social-business-hub.preview.emergentagent.com/api/news/latest
+      - Endpoint accessible via public URL: https://banibs-connect-1.preview.emergentagent.com/api/news/latest
       - Response format: [] (valid empty JSON array)
       
       ✅ REQUIREMENTS COMPLIANCE:
@@ -7181,21 +7181,21 @@ agent_communication:
       
       ✅ PART 1: FEATURE FLAG DISABLED STATE (CURRENT PRODUCTION STATE) - VERIFIED:
       
-      1. **World News Page** (https://social-business-hub.preview.emergentagent.com/world-news):
+      1. **World News Page** (https://banibs-connect-1.preview.emergentagent.com/world-news):
          - ✅ Page loads correctly with news cards and region filters
          - ✅ NO banners visible anywhere (correct with ui.heavyContentBanner: false)
          - ✅ Region filters functional (Global, Africa, Americas, Europe, Asia, Middle East)
          - ✅ News cards display properly with images and BANIBS branding
          - ✅ Responsive design working (mobile 390x844 viewport tested)
       
-      2. **Resources Page** (https://social-business-hub.preview.emergentagent.com/resources):
+      2. **Resources Page** (https://banibs-connect-1.preview.emergentagent.com/resources):
          - ✅ Resources list loads correctly with 20 resource links
          - ✅ Resource detail pages load with proper structure and metadata
          - ✅ NO banners visible at top of detail view (correct behavior)
          - ✅ Sentiment badges, metadata, and action buttons working
          - ✅ Responsive design working (tablet 1024x768 viewport tested)
       
-      3. **Hub Activity Feed** (https://social-business-hub.preview.emergentagent.com/hub):
+      3. **Hub Activity Feed** (https://banibs-connect-1.preview.emergentagent.com/hub):
          - ✅ Hub requires authentication (shows proper login form)
          - ✅ NO inline banners in feed items (correct behavior)
          - ✅ BANIBS branding maintained on authentication pages
@@ -7582,7 +7582,7 @@ agent_communication:
       
       ✅ CRITICAL CORS ISSUE RESOLVED:
       - Updated `/app/backend/.env` CORS_ORIGINS from wildcard "*" to explicit origins:
-        "http://localhost:3000,https://social-business-hub.preview.emergentagent.com"
+        "http://localhost:3000,https://banibs-connect-1.preview.emergentagent.com"
       - Restarted backend service to apply CORS configuration
       - Verified no CORS policy errors in browser console
       
@@ -9692,7 +9692,7 @@ The issue is on the browser side. User needs to perform these steps IN ORDER:
 
 **Option 2 - Incognito Mode (FASTEST TEST):**
 1. Open Incognito/Private window (Ctrl+Shift+N)
-2. Navigate to: https://social-business-hub.preview.emergentagent.com/messages
+2. Navigate to: https://banibs-connect-1.preview.emergentagent.com/messages
 3. Log in
 4. Check if new UI appears
 
@@ -9773,7 +9773,7 @@ return JSON.parse(responseText); // Parse manually
 
 **USER TESTING INSTRUCTIONS:**
 1. **Open fresh incognito window** (Ctrl+Shift+N)
-2. Navigate to: https://social-business-hub.preview.emergentagent.com/messages
+2. Navigate to: https://banibs-connect-1.preview.emergentagent.com/messages
 3. Open console (F12) - should see NO errors
 4. Log in
 5. Verify conversations load successfully
@@ -9853,7 +9853,7 @@ return new Promise((resolve, reject) => {
 
 **USER TESTING INSTRUCTIONS:**
 1. **Open NEW incognito window** (close old one first)
-2. Navigate to: https://social-business-hub.preview.emergentagent.com/messages
+2. Navigate to: https://banibs-connect-1.preview.emergentagent.com/messages
 3. **Check console** (F12) - should be CLEAN, no errors
 4. Log in
 5. Conversations should load without errors
@@ -10389,7 +10389,7 @@ agent_communication:
 - ✅ Error handling and validation working
 - ✅ Real-time updates and statistics working
 
-**Backend URL**: `https://social-business-hub.preview.emergentagent.com/api`  
+**Backend URL**: `https://banibs-connect-1.preview.emergentagent.com/api`  
 **Test File**: `/app/backend_test.py` (Phase 7.1 comprehensive test)  
 **Test Runner**: `/app/run_phase_7_1_tests.py`
 
@@ -10416,7 +10416,7 @@ The Phase 7.1 Jobs & Opportunities and Business Rating System backend implementa
 ### Test Plan Overview
 
 **Test Environment:**
-- Frontend URL: `https://social-business-hub.preview.emergentagent.com`
+- Frontend URL: `https://banibs-connect-1.preview.emergentagent.com`
 - Test User: `social_test_user@example.com` / `TestPass123!`
 - Browser Config: 1920x800 viewport, quality=20 screenshots, force clicks enabled
 
@@ -10598,7 +10598,7 @@ agent_communication:
       6. **Edge Cases:** Empty states, validation, error handling
       
       **TEST ENVIRONMENT:**
-      - URL: https://social-business-hub.preview.emergentagent.com
+      - URL: https://banibs-connect-1.preview.emergentagent.com
       - User: social_test_user@example.com / TestPass123!
       - Viewport: 1920x800 (desktop primary)
       
