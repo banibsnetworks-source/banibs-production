@@ -44,22 +44,33 @@ export const ThemeProvider = ({ children }) => {
         const token = localStorage.getItem('access_token');
         if (!token) return;
 
-        const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/api/social/settings`,
-          {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            },
-            credentials: 'include'
-          }
-        );
+        // Use XHR to bypass rrweb interference
+        const settings = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', `${process.env.REACT_APP_BACKEND_URL}/api/social/settings`, true);
+          xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+          xhr.withCredentials = true;
+          
+          xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              try {
+                resolve(JSON.parse(xhr.responseText));
+              } catch (e) {
+                reject(new Error('Failed to parse settings'));
+              }
+            } else {
+              // Silently fail on 401/403 - user may not be logged in
+              resolve(null);
+            }
+          };
+          
+          xhr.onerror = () => resolve(null);
+          xhr.send();
+        });
 
-        if (response.ok) {
-          const settings = await response.json();
-          if (settings.theme && settings.theme !== theme) {
-            setThemeState(settings.theme);
-            localStorage.setItem('banibs_theme', settings.theme);
-          }
+        if (settings && settings.theme && settings.theme !== theme) {
+          setThemeState(settings.theme);
+          localStorage.setItem('banibs_theme', settings.theme);
         }
       } catch (err) {
         console.error('Error loading theme from server:', err);
