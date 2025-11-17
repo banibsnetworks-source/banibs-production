@@ -107,7 +107,7 @@ async def get_user_peoples(
     target_ids = [conn["target_user_id"] for conn in connections]
     
     # Fetch user details
-    users = await db.users.find(
+    users = await db.banibs_users.find(
         {"id": {"$in": target_ids}},
         {"_id": 0, "id": 1, "name": 1, "avatar_url": 1, "bio": 1}
     ).to_list(500)
