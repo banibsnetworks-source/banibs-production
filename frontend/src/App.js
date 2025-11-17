@@ -216,11 +216,25 @@ function App() {
               {/* Base social portal route (catch-all for /portal/social) */}
               <Route path="/portal/social" element={<SocialPortal />} />
               
-              {/* Phase 8.2 - Business Profile Routes (must come BEFORE /portal/business) */}
-              {/* Redirect old edit route to Command Center via business profile */}
-              <Route path="/portal/business/profile/edit" element={<Navigate to="/portal/business" replace />} />
-              <Route path="/portal/business/me" element={<MyBusinessRedirect />} />
+              {/* Phase 8.4 - Business Mode Routes */}
+              {/* Business Owner Tools */}
+              <Route path="/portal/business/profile" element={<BusinessProfilePage />} />
               <Route path="/portal/business/board" element={<BusinessBoardPage />} />
+              <Route path="/portal/business/posts" element={<BusinessPostsPage />} />
+              <Route path="/portal/business/team" element={<BusinessTeamPage />} />
+              <Route path="/portal/business/services" element={<BusinessServicesPage />} />
+              <Route path="/portal/business/events" element={<BusinessEventsPage />} />
+              <Route path="/portal/business/payments" element={<BusinessPaymentsPage />} />
+              <Route path="/portal/business/analytics" element={<BusinessAnalyticsPage />} />
+              <Route path="/portal/business/notifications" element={<BusinessNotificationsPage />} />
+              <Route path="/portal/business/lessons" element={<BusinessLessonsPage />} />
+              <Route path="/portal/business/settings" element={<BusinessSettingsPage />} />
+              
+              {/* Legacy redirects */}
+              <Route path="/portal/business/profile/edit" element={<Navigate to="/portal/business/profile" replace />} />
+              <Route path="/portal/business/me" element={<MyBusinessRedirect />} />
+              
+              {/* Public business profile */}
               <Route path="/portal/business/:businessId" element={<BusinessProfilePublic />} />
               
               {/* Base business portal route */}
