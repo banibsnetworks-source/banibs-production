@@ -12,8 +12,9 @@ const BusinessLessonsPage = () => {
     <BusinessLayout>
       <BusinessPlaceholder
         title="Business Lessons"
-        description="Access business education, courses, and learning resources."
+        description="Access business education, courses, and learning resources to grow your skills."
         icon={GraduationCap}
+        imageSrc="/images/business/placeholders/lessons.jpg"
       />
     </BusinessLayout>
   );

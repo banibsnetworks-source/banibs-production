@@ -14,6 +14,7 @@ const BusinessEventsPage = () => {
         title="Events & Bookings"
         description="Create and manage business events, appointments, and bookings."
         icon={Calendar}
+        imageSrc="/images/business/placeholders/events.jpg"
       />
     </BusinessLayout>
   );

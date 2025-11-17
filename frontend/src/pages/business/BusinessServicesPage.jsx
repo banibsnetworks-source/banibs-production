@@ -14,6 +14,7 @@ const BusinessServicesPage = () => {
         title="Services & Offerings"
         description="Manage the services and products your business offers."
         icon={Target}
+        imageSrc="/images/business/placeholders/services.jpg"
       />
     </BusinessLayout>
   );

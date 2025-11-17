@@ -14,6 +14,7 @@ const BusinessTeamPage = () => {
         title="Team & Staff"
         description="Manage your business team members, roles, and permissions."
         icon={Users}
+        imageSrc="/images/business/placeholders/team.jpg"
       />
     </BusinessLayout>
   );
