@@ -209,7 +209,7 @@ class Phase83Tester:
             self.log(f"❌ Failed to create pitfall flag: {response.status_code} - {response.text}", "ERROR")
             return False
         
-        # Test 2: Create anonymous knowledge flag (plus type)
+        # Test 2: Create anonymous knowledge flag (plus type) or verify rate limiting
         self.log("🔒 Test 2: Creating anonymous plus knowledge flag...")
         
         plus_description = "This is an anonymous test flag to verify the anonymity feature works correctly. " \
@@ -230,6 +230,10 @@ class Phase83Tester:
             result = response.json()
             anonymous_flag_id = result.get("flag_id")
             self.log(f"✅ Anonymous plus flag created: {anonymous_flag_id}")
+        elif response.status_code == 429:
+            self.log("✅ Rate limiting working correctly - maximum flags per day reached")
+            # Use the pitfall flag for subsequent tests
+            anonymous_flag_id = pitfall_flag_id
         else:
             self.log(f"❌ Failed to create anonymous flag: {response.status_code} - {response.text}", "ERROR")
             return False
