@@ -24,7 +24,8 @@ const BusinessProfilePage = () => {
     try {
       const token = localStorage.getItem('access_token');
       if (!token) {
-        setError('Please log in to view your business profile');
+        console.log('No token found, showing create profile');
+        setBusinessId(null);
         setLoading(false);
         return;
       }
@@ -38,18 +39,25 @@ const BusinessProfilePage = () => {
         }
       );
 
+      console.log('Business API response status:', response.status);
+
       if (response.ok) {
         const data = await response.json();
+        console.log('Business profile found:', data.id);
         setBusinessId(data.id);
       } else if (response.status === 404) {
         // No business profile exists
+        console.log('No business profile found (404)');
         setBusinessId(null);
       } else {
-        throw new Error('Failed to load business profile');
+        console.error('Business API error:', response.status);
+        // Still show create option on error
+        setBusinessId(null);
       }
     } catch (err) {
       console.error('Error loading business:', err);
-      setError('Failed to load business profile');
+      // On error, still show create option
+      setBusinessId(null);
     } finally {
       setLoading(false);
     }
