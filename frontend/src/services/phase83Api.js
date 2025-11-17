@@ -92,87 +92,75 @@ export const businessSupportApi = {
    * Support a business
    */
   async supportBusiness(businessId) {
-    const response = await fetch(`${API_BASE}/api/business/${businessId}/support`, {
-      method: 'POST',
-      headers: getAuthHeaders(),
-      credentials: 'include'
-    });
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || 'Failed to support business');
+    try {
+      const response = await xhrRequest(`${API_BASE}/api/business/${businessId}/support`, {
+        method: 'POST',
+        headers: getAuthHeaders()
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.data?.detail || 'Failed to support business');
     }
-    
-    return response.json();
   },
 
   /**
    * Remove support from a business
    */
   async unsupportBusiness(businessId) {
-    const response = await fetch(`${API_BASE}/api/business/${businessId}/support`, {
-      method: 'DELETE',
-      headers: getAuthHeaders(),
-      credentials: 'include'
-    });
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || 'Failed to remove support');
+    try {
+      const response = await xhrRequest(`${API_BASE}/api/business/${businessId}/support`, {
+        method: 'DELETE',
+        headers: getAuthHeaders()
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.data?.detail || 'Failed to remove support');
     }
-    
-    return response.json();
   },
 
   /**
    * Get business supporters
    */
   async getBusinessSupporters(businessId) {
-    const response = await fetch(`${API_BASE}/api/business/${businessId}/supporters`, {
-      method: 'GET',
-      headers: getAuthHeaders(),
-      credentials: 'include'
-    });
-    
-    if (!response.ok) {
+    try {
+      const response = await xhrRequest(`${API_BASE}/api/business/${businessId}/supporters`, {
+        method: 'GET',
+        headers: getAuthHeaders()
+      });
+      return response.data;
+    } catch (error) {
       throw new Error('Failed to load supporters');
     }
-    
-    return response.json();
   },
 
   /**
    * Get business support stats
    */
   async getBusinessSupportStats(businessId) {
-    const response = await fetch(`${API_BASE}/api/business/${businessId}/support/stats`, {
-      method: 'GET',
-      headers: getAuthHeaders(),
-      credentials: 'include'
-    });
-    
-    if (!response.ok) {
+    try {
+      const response = await xhrRequest(`${API_BASE}/api/business/${businessId}/support/stats`, {
+        method: 'GET',
+        headers: getAuthHeaders()
+      });
+      return response.data;
+    } catch (error) {
       throw new Error('Failed to load support stats');
     }
-    
-    return response.json();
   },
 
   /**
    * Get businesses a user supports
    */
   async getUserSupportedBusinesses(userId) {
-    const response = await fetch(`${API_BASE}/api/business/user/${userId}/supported-businesses`, {
-      method: 'GET',
-      headers: getAuthHeaders(),
-      credentials: 'include'
-    });
-    
-    if (!response.ok) {
+    try {
+      const response = await xhrRequest(`${API_BASE}/api/business/user/${userId}/supported-businesses`, {
+        method: 'GET',
+        headers: getAuthHeaders()
+      });
+      return response.data;
+    } catch (error) {
       throw new Error('Failed to load supported businesses');
     }
-    
-    return response.json();
   }
 };
 
