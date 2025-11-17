@@ -366,6 +366,6 @@ export function MessagingHomePage() {
         onCreateConversation={handleCreateConversation}
       />
     </div>
-    </>
+    </SocialLayout>
   );
 }
