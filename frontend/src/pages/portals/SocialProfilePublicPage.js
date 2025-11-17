@@ -387,7 +387,7 @@ const SocialProfilePublicPage = () => {
                     : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
-                Business
+                Businesses I Support {supportedBusinesses.length > 0 && `(${supportedBusinesses.length})`}
               </button>
               <button
                 onClick={() => {
