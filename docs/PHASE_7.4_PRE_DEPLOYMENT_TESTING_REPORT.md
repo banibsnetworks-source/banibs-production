@@ -41,7 +41,7 @@ All critical testing has been completed with excellent results:
 ### Backend API Testing (10/10 Passed)
 
 **Test Environment:**
-- Base URL: https://banibs-business.preview.emergentagent.com
+- Base URL: https://handsconnect.preview.emergentagent.com
 - Test Suite: phase7_4_test.py
 - Test Duration: ~2 minutes
 

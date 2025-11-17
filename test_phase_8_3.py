@@ -12,7 +12,7 @@ from datetime import datetime
 from typing import Optional, Dict, Any
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://banibs-business.preview.emergentagent.com"
+BACKEND_URL = "https://handsconnect.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 class Phase83Tester:

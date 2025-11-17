@@ -880,7 +880,7 @@ print(f"Threshold: {get_feature('moderation.threshold')}")
 **Debug:**
 ```bash
 # Decode JWT to check roles
-curl https://banibs-business.preview.emergentagent.com/api/auth/me \
+curl https://handsconnect.preview.emergentagent.com/api/auth/me \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
