@@ -1,7 +1,11 @@
 /**
  * Phase 8.3 API Service
  * Peoples, Business Support & Business Knowledge Flags
+ * 
+ * Uses XMLHttpRequest to bypass rrweb "Response body already used" error
  */
+
+import { xhrRequest } from '../utils/xhrRequest';
 
 const API_BASE = process.env.REACT_APP_BACKEND_URL;
 
