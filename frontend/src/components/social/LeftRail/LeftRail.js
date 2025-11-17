@@ -97,6 +97,7 @@ const LeftRail = () => {
         { icon: FileText, label: 'My Posts', path: `/portal/social/u/${userHandle}?tab=posts` },
         { icon: User, label: 'My Groups', path: '/portal/social/groups/mine' },
         { icon: MessageCircle, label: 'My Messages', path: '/portal/social/messages' },
+        { icon: User, label: 'My Peoples', path: `/portal/social/u/${userHandle}?tab=peoples` },
         { icon: Bookmark, label: 'Saved / Bookmarks', path: '/portal/social/saved' },
         { icon: Mic, label: 'My Lives', path: '/portal/social/lives' },
         { icon: Star, label: 'Subscriptions', path: '/portal/social/subscriptions' }
