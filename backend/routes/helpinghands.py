@@ -55,7 +55,7 @@ async def create_campaign(
     """
     Create a new Helping Hands campaign
     """
-    db = await get_db()
+    db = get_db_client()
     
     # Generate campaign ID
     campaign_id = str(uuid4())
@@ -107,7 +107,7 @@ async def list_campaigns(
     """
     List campaigns with filters
     """
-    db = await get_db()
+    db = get_db_client()
     
     # Build query
     query = {}
@@ -149,7 +149,7 @@ async def get_campaign(campaign_id: str):
     """
     Get single campaign details
     """
-    db = await get_db()
+    db = get_db_client()
     
     campaign = await db.helpinghands_campaigns.find_one(
         {"id": campaign_id},
@@ -171,7 +171,7 @@ async def update_campaign(
     """
     Update campaign (owner only)
     """
-    db = await get_db()
+    db = get_db_client()
     
     # Verify ownership
     campaign = await db.helpinghands_campaigns.find_one({"id": campaign_id})
@@ -237,7 +237,7 @@ async def create_support_checkout(
     if not stripe:
         raise HTTPException(status_code=500, detail="Stripe not configured")
     
-    db = await get_db()
+    db = get_db_client()
     
     # Verify campaign exists and is active
     campaign = await db.helpinghands_campaigns.find_one({"id": campaign_id})
@@ -328,7 +328,7 @@ async def stripe_webhook(request):
         # Get amount (convert from cents)
         amount = session['amount_total'] / 100.0
         
-        db = await get_db()
+        db = get_db_client()
         
         # Create support record
         support_id = str(uuid4())
@@ -377,7 +377,7 @@ async def report_campaign(
     """
     Report a campaign for moderation
     """
-    db = await get_db()
+    db = get_db_client()
     
     # Verify campaign exists
     campaign = await db.helpinghands_campaigns.find_one({"id": campaign_id})
@@ -419,7 +419,7 @@ async def admin_pause_campaign(
     if not current_user.get("is_admin"):
         raise HTTPException(status_code=403, detail="Admin access required")
     
-    db = await get_db()
+    db = get_db_client()
     
     await db.helpinghands_campaigns.update_one(
         {"id": campaign_id},
@@ -444,7 +444,7 @@ async def admin_list_reports(
     if not current_user.get("is_admin"):
         raise HTTPException(status_code=403, detail="Admin access required")
     
-    db = await get_db()
+    db = get_db_client()
     
     query = {}
     if reviewed is not None:
