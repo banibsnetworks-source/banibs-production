@@ -50,12 +50,12 @@ except ImportError:
 @router.post("/campaigns", response_model=HelpingHandsCampaign)
 async def create_campaign(
     campaign_data: CampaignCreateRequest,
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(require_role("user", "member"))
 ):
     """
     Create a new Helping Hands campaign
     """
-    db = await get_database()
+    db = await get_db()
     
     # Generate campaign ID
     campaign_id = str(uuid4())
