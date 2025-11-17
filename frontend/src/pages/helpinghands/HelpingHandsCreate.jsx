@@ -437,18 +437,23 @@ const HelpingHandsCreate = () => {
                 className="block text-sm font-semibold mb-2"
                 style={{ color: isDark ? '#D1D5DB' : '#374151' }}
               >
-                Cover Image <span className="text-xs font-normal">(Coming soon - Phase 10.1)</span>
+                Cover Image <span className="text-xs font-normal" style={{ color: '#9CA3AF' }}>(Coming soon - Phase 10.1)</span>
               </label>
               <div 
                 className="border-2 border-dashed rounded-lg p-8 text-center transition-colors"
                 style={{
-                  borderColor: isDark ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
-                  background: isDark ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 0, 0, 0.02)'
+                  borderColor: isDark ? 'rgba(156, 163, 175, 0.3)' : 'rgba(156, 163, 175, 0.4)',
+                  background: isDark ? 'rgba(156, 163, 175, 0.05)' : 'rgba(156, 163, 175, 0.08)',
+                  opacity: 0.6,
+                  cursor: 'not-allowed'
                 }}
               >
-                <Upload size={48} className="mx-auto mb-3" style={{ color: isDark ? '#6B7280' : '#9CA3AF' }} />
-                <p style={{ color: isDark ? '#9CA3AF' : '#6B7280' }}>
-                  Image upload coming in Phase 10.1
+                <Upload size={48} className="mx-auto mb-3" style={{ color: '#9CA3AF' }} />
+                <p className="font-medium mb-1" style={{ color: '#9CA3AF' }}>
+                  Image Upload Disabled
+                </p>
+                <p className="text-sm" style={{ color: '#9CA3AF' }}>
+                  Cover image support will be available in Phase 10.1
                 </p>
               </div>
             </div>
