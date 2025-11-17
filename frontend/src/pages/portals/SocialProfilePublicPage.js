@@ -435,7 +435,7 @@ const SocialProfilePublicPage = () => {
                       {peoples.map((person) => (
                         <Link
                           key={person.user_id}
-                          to={`/social/profile/u/${person.user_id}`}
+                          to={`/portal/social/id/${person.user_id}`}
                           className="bg-background border border-border rounded-lg p-4 hover:border-yellow-500 transition-colors"
                         >
                           <div className="flex items-center gap-3">
