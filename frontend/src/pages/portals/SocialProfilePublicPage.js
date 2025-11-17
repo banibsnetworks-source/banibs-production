@@ -626,8 +626,72 @@ const SocialProfilePublicPage = () => {
                 </div>
               )}
 
-              {/* Business Tab - BBN Integration CTA */}
+              {/* Business Tab - Phase 8.3 Supported Businesses */}
               {activeTab === 'business' && (
+                <div className="space-y-4">
+                  {supportedBusinessesLoading ? (
+                    <div className="text-center py-12">
+                      <div className="animate-spin rounded-full h-8 w-8 border-2 border-yellow-500 border-t-transparent mx-auto mb-3"></div>
+                      <p className="text-muted-foreground text-sm">Loading supported businesses...</p>
+                    </div>
+                  ) : supportedBusinesses.length === 0 ? (
+                    <div className="text-center py-16">
+                      <div className="w-20 h-20 rounded-full bg-yellow-500/10 flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-foreground mb-2">No Supported Businesses Yet</h3>
+                      <p className="text-muted-foreground">
+                        {isOwnProfile 
+                          ? "You haven't supported any businesses yet. Show support for Black-owned businesses!"
+                          : "This user hasn't supported any businesses yet."}
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {supportedBusinesses.map((business) => (
+                        <a
+                          key={business.business_id}
+                          href={`/business/${business.business_id}`}
+                          className="bg-background border border-border rounded-lg p-4 hover:border-yellow-500 transition-colors"
+                        >
+                          <div className="flex items-center gap-3">
+                            {business.logo ? (
+                              <img
+                                src={business.logo}
+                                alt={business.name}
+                                className="w-12 h-12 rounded-lg object-cover"
+                              />
+                            ) : (
+                              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-white text-lg font-bold">
+                                {business.name[0].toUpperCase()}
+                              </div>
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <div className="font-semibold text-foreground truncate">{business.name}</div>
+                              {business.industry && (
+                                <div className="text-xs text-muted-foreground">{business.industry}</div>
+                              )}
+                              {(business.city || business.state) && (
+                                <div className="text-xs text-muted-foreground">
+                                  {business.city}{business.city && business.state && ', '}{business.state}
+                                </div>
+                              )}
+                              <div className="text-xs text-muted-foreground mt-1">
+                                Supporting since {new Date(business.supported_at).toLocaleDateString()}
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Old Business Tab CTA (Deprecated) */}
+              {false && activeTab === 'business' && (
                 <div>
                   {/* Check if user has business profile (future: profile.businessProfileId) */}
                   {false ? (
