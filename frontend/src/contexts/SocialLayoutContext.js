@@ -21,8 +21,9 @@ export const useSocialLayout = () => {
 
 export const SocialLayoutProvider = ({ children }) => {
   const { user } = useAuth();
+  // Always start expanded to avoid layout issues
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Load collapse state from user preferences on mount
   useEffect(() => {
