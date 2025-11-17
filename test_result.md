@@ -967,6 +967,43 @@ backend:
           
           **DEPLOYMENT READINESS: 100% COMPLETE**
 
+frontend:
+  - task: "Phase 8.3 - Peoples System Frontend"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/social/AddToPeoplesButton.jsx, frontend/src/pages/portals/SocialProfilePublicPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Starting Phase 8.3 Peoples System frontend testing. Testing Add to My Peoples button functionality, peoples tab display, and user-to-user connections in social profiles."
+
+  - task: "Phase 8.3 - Business Support System Frontend"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/business/SupportBusinessButton.jsx, frontend/src/pages/business/BusinessProfilePublic.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Starting Phase 8.3 Business Support System frontend testing. Testing Support This Business button functionality, supporter counts, and businesses I support tab in social profiles."
+
+  - task: "Phase 8.3 - Business Knowledge Flags Frontend"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/business/BusinessKnowledgeSection.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Starting Phase 8.3 Business Knowledge Flags frontend testing. Testing knowledge flag creation, anonymity, voting system, rate limiting, and content validation in business profiles."
+
   - task: "Phase 1 - Featured News API Fix"
     implemented: true
     working: true
