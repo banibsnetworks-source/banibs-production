@@ -97,95 +97,96 @@ const BusinessBoardPage = () => {
   };
 
   return (
-    <div className="business-board-container">
-      <GlobalNavBar />
-      {/* Header */}
-      <div className="board-header">
-        <div className="header-content">
-          <div className="header-text">
-            <h1>Business Board</h1>
-            <p>Connect, collaborate, and grow your business</p>
-          </div>
-          {hasBusiness && (
-            <button
-              className="create-post-btn"
-              onClick={() => setShowComposer(true)}
-            >
-              <Plus size={20} />
-              Create Post
-            </button>
-          )}
-          {!hasBusiness && (
-            <button
-              className="create-business-btn"
-              onClick={() => navigate('/portal/business/profile/edit')}
-            >
-              Create Business Profile
-            </button>
-          )}
-        </div>
-
-        {/* Category Filter */}
-        <div className="category-filter">
-          <Filter size={18} />
-          <div className="category-pills">
-            {CATEGORIES.map((cat) => (
+    <BusinessLayout>
+      <div className="business-board-container">
+        {/* Header */}
+        <div className="board-header">
+          <div className="header-content">
+            <div className="header-text">
+              <h1>Business Board</h1>
+              <p>Connect, collaborate, and grow your business</p>
+            </div>
+            {hasBusiness && (
               <button
-                key={cat.value}
-                className={`category-pill ${selectedCategory === cat.value ? 'active' : ''}`}
-                onClick={() => handleCategoryChange(cat.value)}
+                className="create-post-btn"
+                onClick={() => setShowComposer(true)}
               >
-                {cat.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Posts Feed */}
-      <div className="board-feed">
-        {loading && posts.length === 0 ? (
-          <div className="loading-state">
-            <Loader2 size={32} className="spinner" />
-            <p>Loading posts...</p>
-          </div>
-        ) : posts.length === 0 ? (
-          <div className="empty-state">
-            <h3>No posts yet</h3>
-            <p>Be the first to share an opportunity on the Business Board!</p>
-          </div>
-        ) : (
-          <>
-            {posts.map((post) => (
-              <BusinessBoardPostCard key={post.id} post={post} />
-            ))}
-
-            {hasMore && (
-              <button
-                className="load-more-btn"
-                onClick={() => loadPosts(page + 1)}
-                disabled={loading}
-              >
-                {loading ? (
-                  <><Loader2 size={18} className="spinner" /> Loading...</>
-                ) : (
-                  'Load More'
-                )}
+                <Plus size={20} />
+                Create Post
               </button>
             )}
-          </>
+            {!hasBusiness && (
+              <button
+                className="create-business-btn"
+                onClick={() => navigate('/portal/business/profile/edit')}
+              >
+                Create Business Profile
+              </button>
+            )}
+          </div>
+
+          {/* Category Filter */}
+          <div className="category-filter">
+            <Filter size={18} />
+            <div className="category-pills">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat.value}
+                  className={`category-pill ${selectedCategory === cat.value ? 'active' : ''}`}
+                  onClick={() => handleCategoryChange(cat.value)}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Posts Feed */}
+        <div className="board-feed">
+          {loading && posts.length === 0 ? (
+            <div className="loading-state">
+              <Loader2 size={32} className="spinner" />
+              <p>Loading posts...</p>
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="empty-state">
+              <h3>No posts yet</h3>
+              <p>Be the first to share an opportunity on the Business Board!</p>
+            </div>
+          ) : (
+            <>
+              {posts.map((post) => (
+                <BusinessBoardPostCard key={post.id} post={post} />
+              ))}
+
+              {hasMore && (
+                <button
+                  className="load-more-btn"
+                  onClick={() => loadPosts(page + 1)}
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <><Loader2 size={18} className="spinner" /> Loading...</>
+                  ) : (
+                    'Load More'
+                  )}
+                </button>
+              )}
+            </>
+          )}
+        </div>
+
+        {/* Composer Modal */}
+        {showComposer && (
+          <BusinessBoardComposer
+            isOpen={showComposer}
+            onClose={() => setShowComposer(false)}
+            onPostCreated={handlePostCreated}
+          />
         )}
       </div>
-
-      {/* Composer Modal */}
-      {showComposer && (
-        <BusinessBoardComposer
-          isOpen={showComposer}
-          onClose={() => setShowComposer(false)}
-          onPostCreated={handlePostCreated}
-        />
-      )}
-    </div>
+    </BusinessLayout>
   );
 };
 
