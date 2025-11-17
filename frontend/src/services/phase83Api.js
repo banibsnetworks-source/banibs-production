@@ -26,70 +26,60 @@ export const peoplesApi = {
    * Add user to My Peoples
    */
   async addToPeoples(targetUserId) {
-    const response = await fetch(`${API_BASE}/api/social/peoples/${targetUserId}`, {
-      method: 'POST',
-      headers: getAuthHeaders(),
-      credentials: 'include'
-    });
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || 'Failed to add to peoples');
+    try {
+      const response = await xhrRequest(`${API_BASE}/api/social/peoples/${targetUserId}`, {
+        method: 'POST',
+        headers: getAuthHeaders()
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.data?.detail || 'Failed to add to peoples');
     }
-    
-    return response.json();
   },
 
   /**
    * Remove user from My Peoples
    */
   async removeFromPeoples(targetUserId) {
-    const response = await fetch(`${API_BASE}/api/social/peoples/${targetUserId}`, {
-      method: 'DELETE',
-      headers: getAuthHeaders(),
-      credentials: 'include'
-    });
-    
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.detail || 'Failed to remove from peoples');
+    try {
+      const response = await xhrRequest(`${API_BASE}/api/social/peoples/${targetUserId}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders()
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(error.data?.detail || 'Failed to remove from peoples');
     }
-    
-    return response.json();
   },
 
   /**
    * Get user's peoples list
    */
   async getUserPeoples(userId) {
-    const response = await fetch(`${API_BASE}/api/social/peoples/${userId}`, {
-      method: 'GET',
-      headers: getAuthHeaders(),
-      credentials: 'include'
-    });
-    
-    if (!response.ok) {
+    try {
+      const response = await xhrRequest(`${API_BASE}/api/social/peoples/${userId}`, {
+        method: 'GET',
+        headers: getAuthHeaders()
+      });
+      return response.data;
+    } catch (error) {
       throw new Error('Failed to load peoples');
     }
-    
-    return response.json();
   },
 
   /**
    * Get peoples stats for a user
    */
   async getPeoplesStats(userId) {
-    const response = await fetch(`${API_BASE}/api/social/peoples/${userId}/stats`, {
-      method: 'GET',
-      headers: getAuthHeaders(),
-      credentials: 'include'
-    });
-    
-    if (!response.ok) {
+    try {
+      const response = await xhrRequest(`${API_BASE}/api/social/peoples/${userId}/stats`, {
+        method: 'GET',
+        headers: getAuthHeaders()
+      });
+      return response.data;
+    } catch (error) {
       throw new Error('Failed to load peoples stats');
     }
-    
-    return response.json();
   }
 };
 
