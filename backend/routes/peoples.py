@@ -33,7 +33,7 @@ async def add_to_peoples(
         )
     
     # Check if target user exists
-    target_user = await db.users.find_one({"id": target_user_id}, {"_id": 0})
+    target_user = await db.banibs_users.find_one({"id": target_user_id}, {"_id": 0})
     if not target_user:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
