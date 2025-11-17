@@ -3,9 +3,20 @@ import { Phone, Video, Info, Users, Briefcase, Search, X, UserCircle, UserPlus }
 import { useNavigate } from 'react-router-dom';
 
 export function ConversationHeader({ conversation, onStartCall, onShowInfo, onSearch }) {
+  const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [showParticipants, setShowParticipants] = useState(false);
+  
+  // Get the other user's ID for DM conversations
+  const otherUserId = conversation.type === 'dm' && conversation.participants?.[0]?.user_id;
+  
+  const handleViewProfile = () => {
+    if (otherUserId) {
+      navigate(`/portal/social/id/${otherUserId}`);
+    }
+  };
+  
   return (
     <div className="border-b border-border bg-card px-4 py-3">
       <div className="flex items-center justify-between">
