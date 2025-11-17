@@ -13,7 +13,11 @@ const HelpingHandsCampaignCard = ({ campaign, compact = false }) => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('Campaign card clicked, ID:', campaign.id);
+    console.log('Navigating to:', `/portal/helping-hands/campaign/${campaign.id}`);
     navigate(`/portal/helping-hands/campaign/${campaign.id}`);
   };
   
