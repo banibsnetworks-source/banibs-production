@@ -72,6 +72,10 @@ import BusinessPortal from "./pages/portals/BusinessPortal";
 import TVPortal from "./pages/portals/TVPortal";
 import SearchPortal from "./pages/portals/SearchPortal";
 import MarketplacePortal from "./pages/portals/MarketplacePortal";
+// Phase 10.0 - BANIBS Helping Hands
+import HelpingHandsHome from "./pages/helpinghands/HelpingHandsHome";
+import HelpingHandsCreate from "./pages/helpinghands/HelpingHandsCreate";
+import HelpingHandsCampaignDetail from "./pages/helpinghands/HelpingHandsCampaignDetail";
 // Phase 9.0 - Social Profiles
 import SocialProfileEditPage from "./pages/portals/SocialProfileEditPage";
 import SocialProfilePublicPage from "./pages/portals/SocialProfilePublicPage";
