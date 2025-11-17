@@ -18,6 +18,12 @@ router = APIRouter(prefix="/api/social/profile", tags=["social-profile"])
 def get_profile_from_user_doc(user_doc: dict) -> dict:
     """Extract profile data from user document"""
     profile = user_doc.get("profile", {}) or {}
+    
+    # Convert datetime to ISO string if needed
+    joined_at = user_doc.get("created_at")
+    if joined_at and not isinstance(joined_at, str):
+        joined_at = joined_at.isoformat() if hasattr(joined_at, 'isoformat') else str(joined_at)
+    
     return {
         "user_id": user_doc.get("id"),
         "display_name": user_doc.get("name") or profile.get("display_name") or "BANIBS Member",
@@ -29,7 +35,7 @@ def get_profile_from_user_doc(user_doc: dict) -> dict:
         "location": profile.get("location"),
         "interests": profile.get("interests", []),
         "is_public": profile.get("is_public", True),
-        "joined_at": user_doc.get("created_at"),
+        "joined_at": joined_at,
         # Phase 8.1 - Profile Command Center fields
         "profile_picture_url": user_doc.get("profile_picture_url") or profile.get("profile_picture_url"),
         "banner_image_url": user_doc.get("banner_image_url") or profile.get("banner_image_url"),
