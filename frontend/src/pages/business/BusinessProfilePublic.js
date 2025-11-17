@@ -247,6 +247,11 @@ const BusinessProfilePublic = () => {
           }}
         />
 
+        {/* Phase 8.3 - Business Knowledge Flags */}
+        <section className="content-section">
+          <BusinessKnowledgeSection isOwner={isOwner} />
+        </section>
+
         {/* About Section */}
         {business.bio && (
           <section className="content-section">
