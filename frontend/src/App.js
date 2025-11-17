@@ -191,6 +191,12 @@ function App() {
               <Route path="/portal/social/id/:userId" element={<SocialProfilePublicPage />} />
               <Route path="/portal/social/settings/display" element={<SocialSettingsDisplay />} />
               
+              {/* Phase 8.3+ - Community & Safety Settings (Placeholders) */}
+              <Route path="/portal/social/settings/privacy" element={<PrivacySettings />} />
+              <Route path="/portal/social/settings/blocked" element={<HiddenBlockedSettings />} />
+              <Route path="/portal/social/settings/security" element={<SecuritySettings />} />
+              <Route path="/portal/social/settings/language" element={<LanguageSettings />} />
+              
               {/* Base social portal route (catch-all for /portal/social) */}
               <Route path="/portal/social" element={<SocialPortal />} />
               
