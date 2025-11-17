@@ -128,6 +128,32 @@ async def toggle_like_post(
     return result
 
 
+@router.post("/posts/{post_id}/highfive")
+async def toggle_highfive_post(
+    post_id: str,
+    current_user=Depends(require_role("user", "member"))
+):
+    """
+    Toggle High Five on a post (BANIBS branded like system)
+    Alias for /like endpoint with High Five response format
+    """
+    # Check if post exists
+    post = await db_social.get_post_by_id(post_id)
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Post not found"
+        )
+    
+    result = await db_social.toggle_like(post_id, current_user["id"])
+    
+    # Map response to High Five format for frontend compatibility
+    return {
+        "highfived": result["liked"],
+        "highfive_count": result["like_count"]
+    }
+
+
 # ==========================================
 # COMMENTS
 # ==========================================
