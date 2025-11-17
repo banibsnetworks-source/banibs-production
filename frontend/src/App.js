@@ -225,10 +225,15 @@ function App() {
               <Route path="/portal/business/services" element={<BusinessServicesPage />} />
               <Route path="/portal/business/events" element={<BusinessEventsPage />} />
               <Route path="/portal/business/payments" element={<BusinessPaymentsPage />} />
-              <Route path="/portal/business/analytics" element={<BusinessAnalyticsPage />} />
               <Route path="/portal/business/notifications" element={<BusinessNotificationsPage />} />
               <Route path="/portal/business/lessons" element={<BusinessLessonsPage />} />
               <Route path="/portal/business/settings" element={<BusinessSettingsPage />} />
+              
+              {/* Business Analytics & Jobs (migrated from /portal/connect) */}
+              <Route path="/portal/business/analytics" element={<AnalyticsDashboard />} />
+              <Route path="/portal/business/jobs" element={<JobsDashboard />} />
+              <Route path="/portal/business/jobs/new" element={<JobForm />} />
+              <Route path="/portal/business/jobs/:jobId/edit" element={<JobForm />} />
               
               {/* Legacy redirects */}
               <Route path="/portal/business/profile/edit" element={<Navigate to="/portal/business/profile" replace />} />
