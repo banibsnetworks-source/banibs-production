@@ -382,6 +382,65 @@ const SocialProfilePublicPage = () => {
 
             {/* Tab Content */}
             <div className="p-6">
+              {/* Peoples Tab - Phase 8.3 */}
+              {activeTab === 'peoples' && (
+                <div className="space-y-4">
+                  {peoplesLoading ? (
+                    <div className="text-center py-12">
+                      <div className="animate-spin rounded-full h-8 w-8 border-2 border-yellow-500 border-t-transparent mx-auto mb-3"></div>
+                      <p className="text-muted-foreground text-sm">Loading peoples...</p>
+                    </div>
+                  ) : peoples.length === 0 ? (
+                    <div className="text-center py-16">
+                      <div className="w-20 h-20 rounded-full bg-yellow-500/10 flex items-center justify-center mx-auto mb-4">
+                        <svg className="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-foreground mb-2">No Peoples Yet</h3>
+                      <p className="text-muted-foreground">
+                        {isOwnProfile 
+                          ? "You haven't added anyone to your peoples yet. Connect with others in the community!"
+                          : "This user hasn't added anyone to their peoples yet."}
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {peoples.map((person) => (
+                        <Link
+                          key={person.user_id}
+                          to={`/social/profile/u/${person.user_id}`}
+                          className="bg-background border border-border rounded-lg p-4 hover:border-yellow-500 transition-colors"
+                        >
+                          <div className="flex items-center gap-3">
+                            {person.avatar_url ? (
+                              <img
+                                src={person.avatar_url}
+                                alt={person.name}
+                                className="w-12 h-12 rounded-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-white text-lg font-bold">
+                                {person.name[0].toUpperCase()}
+                              </div>
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <div className="font-semibold text-foreground truncate">{person.name}</div>
+                              {person.bio && (
+                                <div className="text-xs text-muted-foreground truncate">{person.bio}</div>
+                              )}
+                              <div className="text-xs text-muted-foreground mt-1">
+                                Added {new Date(person.added_at).toLocaleDateString()}
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* About Tab */}
               {activeTab === 'about' && (
                 <div className="space-y-6">
