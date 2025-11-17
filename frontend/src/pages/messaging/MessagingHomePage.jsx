@@ -6,7 +6,7 @@ import { ConversationList } from '../../components/messaging/ConversationList';
 import { ConversationHeader } from '../../components/messaging/ConversationHeader';
 import { MessageList } from '../../components/messaging/MessageList';
 import { MessageComposer } from '../../components/messaging/MessageComposer';
-import GlobalNavBar from '../../components/GlobalNavBar';
+import SocialLayout from '../../components/social/SocialLayout';
 import ConfirmModal from '../../components/common/ConfirmModal';
 import { CreateConversationModal } from '../../components/messaging/CreateConversationModal';
 import { useAuth } from '../../contexts/AuthContext';
