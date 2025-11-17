@@ -28,14 +28,28 @@ const HelpingHandsHome = () => {
     setLoading(true);
     try {
       const params = new URLSearchParams();
-      params.append('status', 'active');
+      
+      // For "My Campaigns", show all statuses (including drafts)
+      if (activeTab !== 'my-campaigns') {
+        params.append('status', 'active');
+      }
       
       if (activeTab === 'featured') {
         params.append('featured', 'true');
       }
       
+      // Add auth header for "My Campaigns" to filter by owner
+      const headers = {};
+      if (activeTab === 'my-campaigns') {
+        const token = localStorage.getItem('access_token');
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+      }
+      
       const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/helping-hands/campaigns?${params.toString()}`
+        `${process.env.REACT_APP_BACKEND_URL}/api/helping-hands/campaigns?${params.toString()}`,
+        { headers }
       );
       
       if (response.ok) {
