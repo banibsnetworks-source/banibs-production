@@ -223,6 +223,10 @@ function App() {
               <Route path="/portal/social/settings/blocked" element={<HiddenBlockedSettings />} />
               <Route path="/portal/social/settings/security" element={<SecuritySettings />} />
               <Route path="/portal/social/settings/language" element={<LanguageSettings />} />
+              <Route path="/portal/social/settings/anonymous" element={<AnonymousPostingSettings />} />
+              <Route path="/portal/social/settings/video" element={<AutoplaySettings />} />
+              <Route path="/portal/social/discover/people" element={<SocialDiscoverPeoplePage />} />
+              <Route path="/portal/social/watch" element={<CommunityWatchPage />} />
               
               {/* Base social portal route (catch-all for /portal/social) */}
               <Route path="/portal/social" element={<SocialPortal />} />
