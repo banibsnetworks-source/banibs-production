@@ -970,39 +970,126 @@ backend:
 frontend:
   - task: "Phase 8.3 - Peoples System Frontend"
     implemented: true
-    working: "NA"
+    working: false
     file: "frontend/src/components/social/AddToPeoplesButton.jsx, frontend/src/pages/portals/SocialProfilePublicPage.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "Starting Phase 8.3 Peoples System frontend testing. Testing Add to My Peoples button functionality, peoples tab display, and user-to-user connections in social profiles."
+      - working: false
+        agent: "testing"
+        comment: |
+          ❌ PEOPLES SYSTEM FRONTEND - CRITICAL AUTHENTICATION ISSUE
+          
+          **IMPLEMENTATION STATUS:**
+          ✅ Components implemented: AddToPeoplesButton.jsx exists and renders
+          ✅ API service: phase83Api.js properly configured
+          ❌ Missing UI elements: "My Peoples" tab not found on social profile page
+          ❌ Authentication: All API calls return 401 Unauthorized
+          
+          **SPECIFIC ISSUES:**
+          1. Social profile page missing "My Peoples" tab - tab navigation not rendering
+          2. Login system not working - users cannot authenticate properly
+          3. API calls failing: /api/social/peoples/* endpoints return 401
+          4. AddToPeoplesButton component exists but cannot function without auth
+          
+          **BACKEND LOGS CONFIRM:**
+          - Business profile API working (200 OK)
+          - Phase 8.3 APIs all returning 401 Unauthorized
+          - Authentication middleware rejecting all requests
+          
+          **REQUIRED FIXES:**
+          1. Fix login/authentication system
+          2. Add "My Peoples" tab to social profile page
+          3. Ensure proper JWT token handling in frontend
 
   - task: "Phase 8.3 - Business Support System Frontend"
     implemented: true
-    working: "NA"
+    working: false
     file: "frontend/src/components/business/SupportBusinessButton.jsx, frontend/src/pages/business/BusinessProfilePublic.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "Starting Phase 8.3 Business Support System frontend testing. Testing Support This Business button functionality, supporter counts, and businesses I support tab in social profiles."
+      - working: false
+        agent: "testing"
+        comment: |
+          ❌ BUSINESS SUPPORT SYSTEM FRONTEND - CRITICAL AUTHENTICATION ISSUE
+          
+          **IMPLEMENTATION STATUS:**
+          ✅ Components implemented: SupportBusinessButton.jsx exists and renders correctly
+          ✅ Button visible: "Support This Business" button found on business profile
+          ✅ UI integration: Button properly integrated in BusinessProfilePublic.js
+          ❌ Functionality blocked: Button clicks fail due to 401 authentication errors
+          ❌ Missing UI elements: "Businesses I Support" tab not found on social profile
+          
+          **SPECIFIC ISSUES:**
+          1. Button renders but API calls fail: /api/business/{id}/support/stats returns 401
+          2. Support action fails: /api/business/{id}/support POST returns 401
+          3. Social profile missing "Businesses I Support" tab
+          4. Authentication preventing all Phase 8.3 functionality
+          
+          **BACKEND LOGS CONFIRM:**
+          - Support API endpoints exist but return 401 Unauthorized
+          - Authentication middleware blocking all requests
+          - Button UI working but backend integration failing
+          
+          **REQUIRED FIXES:**
+          1. Fix authentication system for Phase 8.3 APIs
+          2. Add "Businesses I Support" tab to social profile page
+          3. Ensure proper JWT token validation
 
   - task: "Phase 8.3 - Business Knowledge Flags Frontend"
     implemented: true
-    working: "NA"
+    working: false
     file: "frontend/src/components/business/BusinessKnowledgeSection.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "Starting Phase 8.3 Business Knowledge Flags frontend testing. Testing knowledge flag creation, anonymity, voting system, rate limiting, and content validation in business profiles."
+      - working: false
+        agent: "testing"
+        comment: |
+          ❌ BUSINESS KNOWLEDGE FLAGS FRONTEND - CRITICAL AUTHENTICATION ISSUE
+          
+          **IMPLEMENTATION STATUS:**
+          ✅ Components implemented: BusinessKnowledgeSection.jsx exists and renders perfectly
+          ✅ UI elements working: All tabs found (All Knowledge, ⚠️ Pitfalls, 🏆 Plus Flags)
+          ✅ Section integration: Business Knowledge section properly integrated in business profile
+          ✅ Tab navigation: All knowledge flag tabs clickable and functional
+          ❌ Data loading blocked: All API calls return 401 Unauthorized
+          ❌ No knowledge flags displayed: Empty state due to authentication failure
+          
+          **SPECIFIC ISSUES:**
+          1. Knowledge flags API failing: /api/business/knowledge returns 401
+          2. Tab filtering not working: All filtered requests return 401
+          3. Cannot test flag creation: "Share Knowledge" button not visible (likely due to auth)
+          4. Cannot test voting: No flags loaded due to authentication issues
+          
+          **BACKEND LOGS CONFIRM:**
+          - All knowledge API endpoints return 401 Unauthorized
+          - Authentication middleware blocking business owner verification
+          - UI components working but backend integration failing
+          
+          **POSITIVE FINDINGS:**
+          - BusinessKnowledgeSection component renders correctly
+          - Tab system working (All Knowledge, Pitfalls, Plus Flags)
+          - Empty state displays properly when no data available
+          - Component integration in business profile working
+          
+          **REQUIRED FIXES:**
+          1. Fix authentication for business knowledge APIs
+          2. Ensure business owner verification works
+          3. Test flag creation and voting once auth is fixed
 
   - task: "Phase 1 - Featured News API Fix"
     implemented: true
