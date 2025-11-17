@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import BusinessLayout from '../../components/business/BusinessLayout';
 import SEO from '../../components/SEO';
-import { Briefcase, Users, TrendingUp, Search, Building2, MessageSquare } from 'lucide-react';
+import { Briefcase, Users, TrendingUp, Search, Building2, MessageSquare, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -9,12 +9,55 @@ import { useTheme } from '../../contexts/ThemeContext';
 /**
  * BusinessPortal - Phase 8.4
  * BANIBS Business Portal landing page with business owner tools
- * Now wrapped in BusinessLayout for consistent navigation
+ * Features rotating hero carousel with real Black business imagery
  */
 const BusinessPortal = () => {
   const { user } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  
+  // Hero carousel state
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  const heroImages = [
+    {
+      src: '/images/business/hero/hero-1.jpg',
+      title: 'Grow Your Black-Owned Business',
+      subtitle: 'Connect with customers, partners, and opportunities'
+    },
+    {
+      src: '/images/business/hero/hero-2.jpg',
+      title: 'Build Your Business Network',
+      subtitle: 'Join thousands of Black entrepreneurs and business owners'
+    },
+    {
+      src: '/images/business/hero/hero-3.jpg',
+      title: 'Access Resources & Capital',
+      subtitle: 'Find funding, mentorship, and tools to scale your business'
+    },
+    {
+      src: '/images/business/hero/hero-4.jpg',
+      title: 'Hire Top Black Talent',
+      subtitle: 'Post jobs and connect with skilled professionals in our community'
+    }
+  ];
+  
+  // Auto-rotate carousel
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+    }, 5000); // Change slide every 5 seconds
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % heroImages.length);
+  };
+  
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length);
+  };
 
   return (
     <BusinessLayout>
