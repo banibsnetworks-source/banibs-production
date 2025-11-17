@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Briefcase, Handshake, MapPin, Clock, DollarSign, ChevronRight } from 'lucide-react';
+import BusinessLayout from '../../../components/business/BusinessLayout';
 import JobsFilters from './JobsFilters';
 import SEO from '../../../components/SEO';
 
