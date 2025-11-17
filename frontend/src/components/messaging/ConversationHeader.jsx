@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Phone, Video, Info, Users, Briefcase, Search, X, UserCircle } from 'lucide-react';
+import { Phone, Video, Info, Users, Briefcase, Search, X, UserCircle, UserPlus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export function ConversationHeader({ conversation, onStartCall, onShowInfo, onSearch }) {
   const [searchOpen, setSearchOpen] = useState(false);
