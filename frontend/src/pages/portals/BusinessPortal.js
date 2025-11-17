@@ -23,79 +23,190 @@ const BusinessPortal = () => {
         description="Discover Black-owned businesses, find opportunities, and grow your network."
       />
 
-      {/* Hero */}
-      <div className="bg-gradient-to-br from-yellow-900/30 to-gray-900 py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold text-white mb-4">
-            BANIBS Business Portal
-          </h1>
-          <p className="text-xl text-gray-300 mb-8">
-            Directory • Marketplace • Jobs • Resources
-          </p>
-        </div>
-      </div>
-
-      {/* Business Owner Tools - Show if user is logged in */}
-      {user && (
-        <div className="container mx-auto px-4 pb-8">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold text-white mb-4">Business Owner Tools</h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              <Link
-                to="/portal/business/me"
-                className="bg-yellow-900/20 border-2 border-yellow-500/50 rounded-xl p-6 text-center hover:bg-yellow-900/30 hover:border-yellow-500 transition-all"
-              >
-                <Building2 className="mx-auto mb-3 text-yellow-400" size={40} />
-                <h3 className="text-lg font-bold text-white mb-2">Manage My Business</h3>
-                <p className="text-gray-300 text-sm">View and customize your business profile, branding, and services</p>
-              </Link>
-
-              <Link
-                to="/portal/business/board"
-                className="bg-green-900/20 border-2 border-green-500/50 rounded-xl p-6 text-center hover:bg-green-900/30 hover:border-green-500 transition-all"
-              >
-                <MessageSquare className="mx-auto mb-3 text-green-400" size={40} />
-                <h3 className="text-lg font-bold text-white mb-2">Business Board</h3>
-                <p className="text-gray-300 text-sm">Post opportunities and connect with other businesses</p>
-              </Link>
-            </div>
+      <div style={{ 
+        minHeight: 'calc(100vh - 56px)',
+        background: isDark 
+          ? 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)'
+          : 'linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%)'
+      }}>
+        {/* Hero */}
+        <div 
+          style={{
+            background: isDark
+              ? 'linear-gradient(135deg, rgba(232, 182, 87, 0.15) 0%, rgba(10, 10, 10, 0.9) 100%)'
+              : 'linear-gradient(135deg, rgba(232, 182, 87, 0.2) 0%, rgba(249, 250, 251, 0.95) 100%)',
+            padding: '80px 0'
+          }}
+        >
+          <div className="container mx-auto px-4 text-center">
+            <h1 
+              className="text-5xl font-bold mb-4"
+              style={{ color: isDark ? '#F9F9F9' : '#1a1a1a' }}
+            >
+              BANIBS Business Portal
+            </h1>
+            <p 
+              className="text-xl mb-8"
+              style={{ color: isDark ? '#9CA3AF' : '#6B7280' }}
+            >
+              Directory • Marketplace • Jobs • Resources
+            </p>
           </div>
         </div>
-      )}
 
-      {/* Quick Links */}
-      <div className="container mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold text-white mb-6 max-w-5xl mx-auto">Explore</h2>
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          <Link
-            to="/business-directory"
-            className="bg-gray-800 rounded-xl p-8 text-center hover:bg-gray-700 transition-colors border border-gray-700"
-          >
-            <Briefcase className="mx-auto mb-4 text-yellow-400" size={48} />
-            <h3 className="text-xl font-bold text-white mb-2">Business Directory</h3>
-            <p className="text-gray-400">Find Black-owned businesses near you</p>
-          </Link>
+        {/* Business Owner Tools - Show if user is logged in */}
+        {user && (
+          <div className="container mx-auto px-4 py-8">
+            <div className="max-w-5xl mx-auto">
+              <h2 
+                className="text-2xl font-bold mb-4"
+                style={{ color: isDark ? '#F9F9F9' : '#1a1a1a' }}
+              >
+                Business Owner Tools
+              </h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                <Link
+                  to="/portal/business/profile"
+                  className="rounded-xl p-6 text-center transition-all"
+                  style={{
+                    background: isDark ? 'rgba(232, 182, 87, 0.1)' : 'rgba(232, 182, 87, 0.15)',
+                    border: `2px solid ${isDark ? 'rgba(232, 182, 87, 0.3)' : 'rgba(232, 182, 87, 0.4)'}`,
+                  }}
+                >
+                  <Building2 
+                    className="mx-auto mb-3" 
+                    size={40} 
+                    style={{ color: isDark ? '#E8B657' : '#D4A446' }}
+                  />
+                  <h3 
+                    className="text-lg font-bold mb-2"
+                    style={{ color: isDark ? '#F9F9F9' : '#1a1a1a' }}
+                  >
+                    Manage My Business
+                  </h3>
+                  <p 
+                    className="text-sm"
+                    style={{ color: isDark ? '#9CA3AF' : '#6B7280' }}
+                  >
+                    View and customize your business profile, branding, and services
+                  </p>
+                </Link>
 
-          <Link
-            to="/opportunities"
-            className="bg-gray-800 rounded-xl p-8 text-center hover:bg-gray-700 transition-colors border border-gray-700"
-          >
-            <TrendingUp className="mx-auto mb-4 text-green-400" size={48} />
-            <h3 className="text-xl font-bold text-white mb-2">Job Opportunities</h3>
-            <p className="text-gray-400">Explore careers and grants</p>
-          </Link>
+                <Link
+                  to="/portal/business/board"
+                  className="rounded-xl p-6 text-center transition-all"
+                  style={{
+                    background: isDark ? 'rgba(34, 197, 94, 0.1)' : 'rgba(34, 197, 94, 0.1)',
+                    border: `2px solid ${isDark ? 'rgba(34, 197, 94, 0.3)' : 'rgba(34, 197, 94, 0.4)'}`,
+                  }}
+                >
+                  <MessageSquare 
+                    className="mx-auto mb-3" 
+                    size={40} 
+                    style={{ color: isDark ? '#22C55E' : '#16A34A' }}
+                  />
+                  <h3 
+                    className="text-lg font-bold mb-2"
+                    style={{ color: isDark ? '#F9F9F9' : '#1a1a1a' }}
+                  >
+                    Business Board
+                  </h3>
+                  <p 
+                    className="text-sm"
+                    style={{ color: isDark ? '#9CA3AF' : '#6B7280' }}
+                  >
+                    Post opportunities and connect with other businesses
+                  </p>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
 
-          <Link
-            to="/resources"
-            className="bg-gray-800 rounded-xl p-8 text-center hover:bg-gray-700 transition-colors border border-gray-700"
+        {/* Quick Links */}
+        <div className="container mx-auto px-4 py-12">
+          <h2 
+            className="text-2xl font-bold mb-6 max-w-5xl mx-auto"
+            style={{ color: isDark ? '#F9F9F9' : '#1a1a1a' }}
           >
-            <Users className="mx-auto mb-4 text-blue-400" size={48} />
-            <h3 className="text-xl font-bold text-white mb-2">Resources</h3>
-            <p className="text-gray-400">Tools and guides for growth</p>
-          </Link>
+            Explore
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <Link
+              to="/business-directory"
+              className="rounded-xl p-8 text-center transition-colors"
+              style={{
+                background: isDark ? 'rgba(31, 41, 55, 0.5)' : 'rgba(255, 255, 255, 0.8)',
+                border: `1px solid ${isDark ? 'rgba(75, 85, 99, 0.3)' : 'rgba(209, 213, 219, 0.5)'}`
+              }}
+            >
+              <Briefcase 
+                className="mx-auto mb-4" 
+                size={48}
+                style={{ color: isDark ? '#E8B657' : '#D4A446' }}
+              />
+              <h3 
+                className="text-xl font-bold mb-2"
+                style={{ color: isDark ? '#F9F9F9' : '#1a1a1a' }}
+              >
+                Business Directory
+              </h3>
+              <p style={{ color: isDark ? '#9CA3AF' : '#6B7280' }}>
+                Find Black-owned businesses near you
+              </p>
+            </Link>
+
+            <Link
+              to="/opportunities"
+              className="rounded-xl p-8 text-center transition-colors"
+              style={{
+                background: isDark ? 'rgba(31, 41, 55, 0.5)' : 'rgba(255, 255, 255, 0.8)',
+                border: `1px solid ${isDark ? 'rgba(75, 85, 99, 0.3)' : 'rgba(209, 213, 219, 0.5)'}`
+              }}
+            >
+              <TrendingUp 
+                className="mx-auto mb-4" 
+                size={48}
+                style={{ color: '#22C55E' }}
+              />
+              <h3 
+                className="text-xl font-bold mb-2"
+                style={{ color: isDark ? '#F9F9F9' : '#1a1a1a' }}
+              >
+                Job Opportunities
+              </h3>
+              <p style={{ color: isDark ? '#9CA3AF' : '#6B7280' }}>
+                Explore careers and grants
+              </p>
+            </Link>
+
+            <Link
+              to="/resources"
+              className="rounded-xl p-8 text-center transition-colors"
+              style={{
+                background: isDark ? 'rgba(31, 41, 55, 0.5)' : 'rgba(255, 255, 255, 0.8)',
+                border: `1px solid ${isDark ? 'rgba(75, 85, 99, 0.3)' : 'rgba(209, 213, 219, 0.5)'}`
+              }}
+            >
+              <Users 
+                className="mx-auto mb-4" 
+                size={48}
+                style={{ color: '#3B82F6' }}
+              />
+              <h3 
+                className="text-xl font-bold mb-2"
+                style={{ color: isDark ? '#F9F9F9' : '#1a1a1a' }}
+              >
+                Resources
+              </h3>
+              <p style={{ color: isDark ? '#9CA3AF' : '#6B7280' }}>
+                Tools and guides for growth
+              </p>
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </BusinessLayout>
   );
 };
 
