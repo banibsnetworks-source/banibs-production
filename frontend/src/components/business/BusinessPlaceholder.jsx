@@ -6,12 +6,14 @@ import { useTheme } from '../../contexts/ThemeContext';
 /**
  * BusinessPlaceholder - Phase 8.4
  * Reusable placeholder component for Business Mode features under development
+ * Now supports contextual imagery for a more polished look
  */
 const BusinessPlaceholder = ({ 
   title = 'Coming Soon',
   description = 'This feature is currently under development and will be available soon.',
   icon: Icon = Construction,
-  showBackButton = true
+  showBackButton = true,
+  imageSrc = null // Optional: path to contextual image (e.g., '/images/business/placeholders/analytics.jpg')
 }) => {
   const navigate = useNavigate();
   const { theme } = useTheme();
@@ -26,25 +28,48 @@ const BusinessPlaceholder = ({
           : 'linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%)'
       }}
     >
-      <div className="text-center px-4 max-w-md">
-        {/* Icon */}
-        <div 
-          className="mx-auto mb-6 rounded-full flex items-center justify-center"
-          style={{
-            width: '120px',
-            height: '120px',
-            background: isDark
-              ? 'linear-gradient(135deg, rgba(232, 182, 87, 0.1) 0%, rgba(232, 182, 87, 0.05) 100%)'
-              : 'linear-gradient(135deg, rgba(232, 182, 87, 0.15) 0%, rgba(232, 182, 87, 0.08) 100%)',
-            border: `2px solid ${isDark ? 'rgba(232, 182, 87, 0.3)' : 'rgba(232, 182, 87, 0.4)'}`
-          }}
-        >
-          <Icon 
-            size={56} 
-            style={{ color: isDark ? '#E8B657' : '#D4A446' }}
-            strokeWidth={1.5}
-          />
-        </div>
+      <div className="text-center px-4 max-w-2xl">
+        {/* Contextual Image (if provided) */}
+        {imageSrc && (
+          <div className="mb-8">
+            <img
+              src={imageSrc}
+              alt={title}
+              className="w-full rounded-2xl shadow-2xl"
+              style={{
+                height: '300px',
+                objectFit: 'cover',
+                border: `3px solid ${isDark ? 'rgba(232, 182, 87, 0.3)' : 'rgba(232, 182, 87, 0.4)'}`,
+                filter: isDark ? 'brightness(0.85)' : 'brightness(0.95)'
+              }}
+              onError={(e) => {
+                // Fallback to icon if image fails to load
+                e.target.style.display = 'none';
+              }}
+            />
+          </div>
+        )}
+        
+        {/* Icon (shown if no image or as fallback) */}
+        {!imageSrc && (
+          <div 
+            className="mx-auto mb-6 rounded-full flex items-center justify-center"
+            style={{
+              width: '120px',
+              height: '120px',
+              background: isDark
+                ? 'linear-gradient(135deg, rgba(232, 182, 87, 0.1) 0%, rgba(232, 182, 87, 0.05) 100%)'
+                : 'linear-gradient(135deg, rgba(232, 182, 87, 0.15) 0%, rgba(232, 182, 87, 0.08) 100%)',
+              border: `2px solid ${isDark ? 'rgba(232, 182, 87, 0.3)' : 'rgba(232, 182, 87, 0.4)'}`
+            }}
+          >
+            <Icon 
+              size={56} 
+              style={{ color: isDark ? '#E8B657' : '#D4A446' }}
+              strokeWidth={1.5}
+            />
+          </div>
+        )}
 
         {/* Title */}
         <h1 
