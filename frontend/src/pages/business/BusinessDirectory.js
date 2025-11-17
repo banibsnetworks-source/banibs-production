@@ -332,7 +332,8 @@ const BusinessDirectory = () => {
           )}
         </div>
       </div>
-    </div>
+      </div>
+    </BusinessLayout>
   );
 };
 
