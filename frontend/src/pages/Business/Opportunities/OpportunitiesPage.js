@@ -410,7 +410,8 @@ function OpportunitiesPage() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </BusinessLayout>
   );
 }
 
