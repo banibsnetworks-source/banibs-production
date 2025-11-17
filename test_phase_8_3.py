@@ -246,10 +246,11 @@ class Phase83Tester:
             "anonymous": False
         })
         
-        if response.status_code == 400:
+        if response.status_code in [400, 422]:  # 422 is also valid for validation errors
             self.log("✅ Correctly rejected short description")
         else:
             self.log(f"❌ Should reject short description, got {response.status_code}", "ERROR")
+            self.log(f"Response: {response.text}")
             return False
         
         # Test 4: Get knowledge flags (verify anonymity)
