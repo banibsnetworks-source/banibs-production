@@ -188,6 +188,7 @@ function App() {
               <Route path="/portal/social/profile/theme" element={<SocialProfileTheme />} />
               <Route path="/portal/social/profile" element={<SocialProfileEditPage />} />
               <Route path="/portal/social/u/:handle" element={<SocialProfilePublicPage />} />
+              <Route path="/portal/social/id/:userId" element={<SocialProfilePublicPage />} />
               <Route path="/portal/social/settings/display" element={<SocialSettingsDisplay />} />
               
               {/* Base social portal route (catch-all for /portal/social) */}
