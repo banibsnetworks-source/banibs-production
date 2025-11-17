@@ -252,6 +252,11 @@ function App() {
               {/* Base business portal route */}
               <Route path="/portal/business" element={<BusinessPortal />} />
               
+              {/* Phase 10.0 - BANIBS Helping Hands */}
+              <Route path="/portal/helping-hands" element={<HelpingHandsHome />} />
+              <Route path="/portal/helping-hands/create" element={<HelpingHandsCreate />} />
+              <Route path="/portal/helping-hands/campaign/:campaignId" element={<HelpingHandsCampaignDetail />} />
+              
               {/* Phase 3.0 - BANIBS Connect Messaging */}
               <Route path="/messages" element={<MessagingHomePage />} />
               <Route path="/messages/:conversationId" element={<MessagingHomePage />} />
