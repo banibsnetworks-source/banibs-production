@@ -69,34 +69,47 @@ export const AccountModeProvider = ({ children }) => {
 
   /**
    * Fetch user's business profiles
+   * Uses XHR to bypass rrweb interference
    */
   const fetchBusinessProfiles = async () => {
     try {
       const token = localStorage.getItem('access_token');
       if (!token) return;
 
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/business/me/all`,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`
+      // Use XMLHttpRequest to bypass rrweb "Response body already used" error
+      const profiles = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `${process.env.REACT_APP_BACKEND_URL}/api/business/me/all`, true);
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+        xhr.withCredentials = true;
+        
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              const data = JSON.parse(xhr.responseText);
+              resolve(data);
+            } catch (e) {
+              reject(new Error('Failed to parse business profiles'));
+            }
+          } else {
+            reject(new Error(`Failed to load business profiles: ${xhr.status}`));
           }
-        }
-      );
+        };
+        
+        xhr.onerror = () => reject(new Error('Network error loading business profiles'));
+        xhr.send();
+      });
 
-      if (response.ok) {
-        const profiles = await response.json();
-        setBusinessProfiles(profiles);
+      setBusinessProfiles(profiles);
 
-        // If there's a pending profile ID, select it
-        const pendingId = sessionStorage.getItem('pending_business_profile_id');
-        if (pendingId) {
-          const profile = profiles.find(p => p.id === pendingId);
-          if (profile) {
-            setSelectedBusinessProfile(profile);
-          }
-          sessionStorage.removeItem('pending_business_profile_id');
+      // If there's a pending profile ID, select it
+      const pendingId = sessionStorage.getItem('pending_business_profile_id');
+      if (pendingId) {
+        const profile = profiles.find(p => p.id === pendingId);
+        if (profile) {
+          setSelectedBusinessProfile(profile);
         }
+        sessionStorage.removeItem('pending_business_profile_id');
       }
     } catch (error) {
       console.error('Failed to fetch business profiles:', error);
