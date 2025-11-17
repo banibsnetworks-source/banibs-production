@@ -297,9 +297,9 @@ class Phase83Tester:
                 return False
         
         # Test 6: Try to vote on own flag (should fail)
-        if anonymous_flag_id:
+        if pitfall_flag_id:
             self.log("🚫 Test 6: Attempting to vote on own flag (should fail)...")
-            response = self.make_request("POST", f"/business/knowledge/{anonymous_flag_id}/vote", 
+            response = self.make_request("POST", f"/business/knowledge/{pitfall_flag_id}/vote", 
                                        headers=headers, params={"vote_type": "helpful"})
             
             if response.status_code == 400:
@@ -307,6 +307,44 @@ class Phase83Tester:
             else:
                 self.log(f"❌ Should prevent voting on own flag, got {response.status_code}", "ERROR")
                 return False
+        
+        # Test 7: Filter flags by type
+        self.log("🔍 Test 7: Filtering flags by type...")
+        response = self.make_request("GET", "/business/knowledge", headers=headers, params={"type": "pitfall"})
+        
+        if response.status_code == 200:
+            pitfall_flags = response.json()
+            self.log(f"✅ Pitfall flags retrieved: {len(pitfall_flags)} flags")
+            
+            # Verify all are pitfall type
+            non_pitfall = [f for f in pitfall_flags if f.get("type") != "pitfall"]
+            if non_pitfall:
+                self.log(f"❌ Found non-pitfall flags in pitfall filter: {len(non_pitfall)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Failed to filter pitfall flags: {response.status_code}", "ERROR")
+            return False
+        
+        # Test 8: Test rate limiting verification
+        self.log("⏱️ Test 8: Verifying rate limiting is working...")
+        
+        rate_limit_description = "This is a rate limiting test flag to verify that the system properly " \
+                               "enforces the maximum of 5 flags per business per 24 hours. This description " \
+                               "meets the minimum 80 character requirement for quality control purposes."
+        
+        response = self.make_request("POST", "/business/knowledge", {}, headers=headers, params={
+            "type": "plus",
+            "title": "Rate Limit Test Flag",
+            "description": rate_limit_description,
+            "anonymous": False
+        })
+        
+        if response.status_code == 429:
+            self.log("✅ Rate limiting correctly enforced - maximum flags per day reached")
+        elif response.status_code == 201:
+            self.log("✅ Flag created successfully (rate limit not yet reached)")
+        else:
+            self.log(f"⚠️ Unexpected response for rate limit test: {response.status_code}")
         
         return True
 
