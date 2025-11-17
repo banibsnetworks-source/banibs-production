@@ -135,11 +135,12 @@ const HelpingHandsCreate = () => {
         navigate(`/portal/helping-hands/campaign/${data.id}`);
       } else {
         const error = await response.json();
-        alert(error.detail || 'Failed to create campaign');
+        console.error('Campaign creation failed:', error);
+        alert(JSON.stringify(error.detail || error || 'Failed to create campaign'));
       }
     } catch (err) {
       console.error('Error creating campaign:', err);
-      alert('An error occurred. Please try again.');
+      alert(`An error occurred: ${err.message || 'Please try again.'}`);
     } finally {
       setLoading(false);
     }
