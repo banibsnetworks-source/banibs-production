@@ -118,7 +118,8 @@ const HelpingHandsCreate = () => {
         status: publishImmediately ? 'active' : 'draft'
       };
       
-      const response = await fetch(
+      // Use xhrRequest instead of fetch to avoid rrweb conflict
+      const response = await xhrRequest(
         `${process.env.REACT_APP_BACKEND_URL}/api/helping-hands/campaigns`,
         {
           method: 'POST',
@@ -131,17 +132,15 @@ const HelpingHandsCreate = () => {
       );
       
       if (response.ok) {
-        const data = await response.json();
         // Navigate to the created campaign
-        navigate(`/portal/helping-hands/campaign/${data.id}`);
+        navigate(`/portal/helping-hands/campaign/${response.data.id}`);
       } else {
-        const error = await response.json();
-        console.error('Campaign creation failed:', error);
-        alert(JSON.stringify(error.detail || error || 'Failed to create campaign'));
+        console.error('Campaign creation failed:', response.data);
+        alert(JSON.stringify(response.data.detail || response.data || 'Failed to create campaign'));
       }
     } catch (err) {
       console.error('Error creating campaign:', err);
-      alert(`An error occurred: ${err.message || 'Please try again.'}`);
+      alert(`An error occurred: ${err.data?.detail || err.message || 'Please try again.'}`);
     } finally {
       setLoading(false);
     }
