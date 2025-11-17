@@ -46,10 +46,12 @@ const SocialProfilePublicPage = () => {
       setError(null);
       
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/u/${handle}`,
-          { credentials: 'include' }
-        );
+        // Determine which endpoint to use based on available parameter
+        const endpoint = handle 
+          ? `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/u/${handle}`
+          : `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/id/${userId}`;
+        
+        const response = await fetch(endpoint, { credentials: 'include' });
         
         if (!response.ok) {
           if (response.status === 404) {
@@ -68,10 +70,10 @@ const SocialProfilePublicPage = () => {
       }
     };
     
-    if (handle) {
+    if (handle || userId) {
       loadProfile();
     }
-  }, [handle]);
+  }, [handle, userId]);
 
   // Phase 9.1 - Load user posts when Posts tab is active
   useEffect(() => {
