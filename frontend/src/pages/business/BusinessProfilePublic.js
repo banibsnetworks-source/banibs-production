@@ -165,9 +165,9 @@ const BusinessProfilePublic = () => {
             )}
           </div>
 
-          {/* Edit Button (Owner Only) - Phase 8.1 Enhanced */}
-          {isOwner && (
-            <div className="flex gap-2">
+          {/* Action Buttons - Phase 8.1 & Phase 8.3 */}
+          <div className="flex gap-2">
+            {isOwner ? (
               <button
                 className="edit-btn"
                 onClick={() => setCommandCenterOpen(true)}
@@ -176,8 +176,13 @@ const BusinessProfilePublic = () => {
                 <Settings size={18} />
                 Customize
               </button>
-            </div>
-          )}
+            ) : (
+              <SupportBusinessButton 
+                businessId={business.id}
+                accentColor={business.accent_color || '#EAB308'}
+              />
+            )}
+          </div>
         </div>
       </div>
 
