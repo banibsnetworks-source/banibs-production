@@ -17,6 +17,16 @@ export function ConversationHeader({ conversation, onStartCall, onShowInfo, onSe
     conversation.participant_id
   ) : null;
   
+  // Debug logging
+  if (conversation.type === 'dm' && !otherUserId) {
+    console.warn('[ConversationHeader] DM conversation but no user ID found:', {
+      participants: conversation.participants,
+      other_user_id: conversation.other_user_id,
+      participant_id: conversation.participant_id,
+      fullConversation: conversation
+    });
+  }
+  
   const handleViewProfile = () => {
     if (otherUserId) {
       console.log('[ConversationHeader] Navigating to profile:', otherUserId);
