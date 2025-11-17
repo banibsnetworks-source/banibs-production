@@ -37,6 +37,10 @@ const BusinessKnowledgeSection = ({ isOwner }) => {
       setFlags(data);
     } catch (error) {
       console.error('Failed to load flags:', error);
+      // If error is 403, user is not a business owner - show empty state
+      if (error.message.includes('403') || error.message.includes('business owner')) {
+        setFlags([]);
+      }
     } finally {
       setLoading(false);
     }
