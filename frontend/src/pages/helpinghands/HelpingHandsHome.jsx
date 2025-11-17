@@ -111,28 +111,32 @@ const HelpingHandsHome = () => {
               Support Black-owned businesses, families, and community causes
             </p>
             
-            {user && (
-              <button
-                onClick={() => navigate('/portal/helping-hands/create')}
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold text-lg transition-all"
-                style={{
-                  background: 'linear-gradient(135deg, #E8B657 0%, #D4A446 100%)',
-                  color: '#0a0a0a',
-                  boxShadow: '0 4px 12px rgba(232, 182, 87, 0.3)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 6px 16px rgba(232, 182, 87, 0.4)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(232, 182, 87, 0.3)';
-                }}
-              >
-                <Plus size={24} />
-                Start a Campaign
-              </button>
-            )}
+            <button
+              onClick={() => {
+                if (!user) {
+                  navigate('/login?redirect=/portal/helping-hands/create');
+                } else {
+                  navigate('/portal/helping-hands/create');
+                }
+              }}
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold text-lg transition-all"
+              style={{
+                background: 'linear-gradient(135deg, #E8B657 0%, #D4A446 100%)',
+                color: '#0a0a0a',
+                boxShadow: '0 4px 12px rgba(232, 182, 87, 0.3)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 16px rgba(232, 182, 87, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(232, 182, 87, 0.3)';
+              }}
+            >
+              <Plus size={24} />
+              Start a Campaign
+            </button>
             
             {/* Disclaimer */}
             <p 
