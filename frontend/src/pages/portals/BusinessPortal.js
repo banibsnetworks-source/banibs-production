@@ -1,24 +1,27 @@
 import React from 'react';
-import GlobalNavBar from '../../components/GlobalNavBar';
+import BusinessLayout from '../../components/business/BusinessLayout';
 import SEO from '../../components/SEO';
 import { Briefcase, Users, TrendingUp, Search, Building2, MessageSquare } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { useTheme } from '../../contexts/ThemeContext';
 
 /**
- * BusinessPortal - Phase 8.2
+ * BusinessPortal - Phase 8.4
  * BANIBS Business Portal landing page with business owner tools
+ * Now wrapped in BusinessLayout for consistent navigation
  */
 const BusinessPortal = () => {
   const { user } = useAuth();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <BusinessLayout>
       <SEO
         title="BANIBS Business Portal - Directory, Marketplace, Jobs"
         description="Discover Black-owned businesses, find opportunities, and grow your network."
       />
-      <GlobalNavBar />
 
       {/* Hero */}
       <div className="bg-gradient-to-br from-yellow-900/30 to-gray-900 py-20">
