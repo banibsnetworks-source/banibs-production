@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://banibs-connect-1.preview.emergentagent.com"
+BACKEND_URL="https://banibs-business.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output

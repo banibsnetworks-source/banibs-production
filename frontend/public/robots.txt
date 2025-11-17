@@ -5,7 +5,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://banibs-connect-1.preview.emergentagent.com/sitemap.xml
+Sitemap: https://banibs-business.preview.emergentagent.com/sitemap.xml
 
 # Disallow admin and auth pages
 Disallow: /admin/

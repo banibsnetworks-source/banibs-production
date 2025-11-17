@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://banibs-connect-1.preview.emergentagent.com/api/auth
+https://banibs-business.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
