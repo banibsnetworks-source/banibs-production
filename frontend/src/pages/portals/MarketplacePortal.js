@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
-import GlobalNavBar from '../../components/GlobalNavBar';
+import SocialLayout from '../../components/social/SocialLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 
 const MarketplacePortal = () => {
@@ -13,10 +13,10 @@ const MarketplacePortal = () => {
   };
 
   return (
-    <div className="min-h-screen" style={{ 
-      backgroundColor: isDark ? 'rgb(10, 10, 12)' : 'rgb(249, 250, 251)' 
-    }}>
-      <GlobalNavBar />
+    <SocialLayout>
+      <div className="min-h-full" style={{ 
+        backgroundColor: isDark ? 'rgb(10, 10, 12)' : 'rgb(249, 250, 251)' 
+      }}>
       {/* Marketplace Hero */}
       <div className="py-20" style={{
         background: isDark
