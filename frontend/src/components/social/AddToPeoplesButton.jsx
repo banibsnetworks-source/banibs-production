@@ -28,26 +28,39 @@ const AddToPeoplesButton = ({ targetUserId, accentColor = '#3B82F6', className =
   };
 
   const handleTogglePeoples = async () => {
+    console.log('[AddToPeoples] Button clicked. Current state:', {
+      isInPeoples,
+      targetUserId,
+      isProcessing
+    });
+    
     setIsProcessing(true);
     
     try {
       if (isInPeoples) {
-        await peoplesApi.removeFromPeoples(targetUserId);
+        console.log('[AddToPeoples] Removing from peoples...');
+        const result = await peoplesApi.removeFromPeoples(targetUserId);
+        console.log('[AddToPeoples] Remove result:', result);
         setIsInPeoples(false);
       } else {
-        await peoplesApi.addToPeoples(targetUserId);
+        console.log('[AddToPeoples] Adding to peoples...');
+        const result = await peoplesApi.addToPeoples(targetUserId);
+        console.log('[AddToPeoples] Add result:', result);
         setIsInPeoples(true);
       }
+      
+      console.log('[AddToPeoples] State updated. New isInPeoples:', !isInPeoples);
       
       // Notify parent component of status change
       if (onStatusChange) {
         onStatusChange(!isInPeoples);
       }
     } catch (error) {
-      console.error('Failed to toggle peoples status:', error);
+      console.error('[AddToPeoples] Error:', error);
       alert(error.message || 'Failed to update peoples status');
     } finally {
       setIsProcessing(false);
+      console.log('[AddToPeoples] Processing complete');
     }
   };
 
