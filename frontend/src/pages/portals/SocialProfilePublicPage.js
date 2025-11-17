@@ -76,6 +76,31 @@ const SocialProfilePublicPage = () => {
     }
   }, [activeTab, profile]);
 
+  // Phase 8.3 - Load user peoples when Peoples tab is active
+  useEffect(() => {
+    if (activeTab === 'peoples' && profile?.user_id) {
+      loadUserPeoples();
+    }
+  }, [activeTab, profile]);
+
+  const loadUserPeoples = async () => {
+    setPeoplesLoading(true);
+    
+    try {
+      const [peoplesList, stats] = await Promise.all([
+        peoplesApi.getUserPeoples(profile.user_id),
+        peoplesApi.getPeoplesStats(profile.user_id)
+      ]);
+      
+      setPeoples(peoplesList);
+      setPeoplesCount(stats.peoples_count);
+    } catch (error) {
+      console.error('Failed to load peoples:', error);
+    } finally {
+      setPeoplesLoading(false);
+    }
+  };
+
   const loadUserPosts = async (page) => {
     setPostsLoading(true);
     
