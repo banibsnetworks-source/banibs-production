@@ -255,17 +255,10 @@ function App() {
               <Route path="/portal/social/lives" element={<SocialLivesPage />} />
               <Route path="/portal/social/subscriptions" element={<SocialSubscriptionsPage />} />
 
-              {/* Dual-Layout System: BANIBS Connect (Business Network) */}
-              <Route path="/portal/connect" element={<ConnectHome />} />
-              <Route path="/connect" element={<ConnectHome />} />
-              
-              {/* Phase 7.1 - Jobs & Opportunities (Connect Mode - Employer) */}
-              <Route path="/portal/connect/jobs" element={<JobsDashboard />} />
-              <Route path="/portal/connect/jobs/new" element={<JobForm />} />
-              <Route path="/portal/connect/jobs/:jobId/edit" element={<JobForm />} />
-              
-              {/* Phase 7.1.1 - Business Insights Analytics */}
-              <Route path="/portal/connect/analytics" element={<AnalyticsDashboard />} />
+              {/* Phase 8.4 - Redirect legacy /portal/connect to /portal/business */}
+              <Route path="/portal/connect" element={<Navigate to="/portal/business" replace />} />
+              <Route path="/portal/connect/*" element={<Navigate to="/portal/business" replace />} />
+              <Route path="/connect" element={<Navigate to="/portal/business" replace />} />
               
               {/* Phase 7.1 - Jobs & Opportunities (Social Mode - Job Seeker) */}
               <Route path="/portal/social/jobs" element={<JobsBrowser />} />
