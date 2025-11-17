@@ -42,6 +42,7 @@ from routes.jobs import router as jobs_router  # Phase 7.1 - BANIBS Jobs & Oppor
 from routes.reviews import router as reviews_router  # Phase 7.1 - Business Rating System
 from routes.business_analytics import router as business_analytics_router  # Phase 7.1.1 - BIA Dashboard
 from routes.profile_media import router as profile_media_router  # Phase 8.1 - Profile Command Center
+from routes.helpinghands import router as helpinghands_router  # Phase 10.0 - BANIBS Helping Hands
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
