@@ -127,6 +127,13 @@ const SocialProfilePublicPage = () => {
     }
   };
 
+  // Phase 8.3 - Load peoples when Peoples tab is active
+  useEffect(() => {
+    if (activeTab === 'peoples' && profile?.user_id) {
+      loadUserPeoples();
+    }
+  }, [activeTab, profile]);
+
   // Phase 8.3 - Load supported businesses when Business tab is active
   useEffect(() => {
     if (activeTab === 'business' && profile?.user_id) {
