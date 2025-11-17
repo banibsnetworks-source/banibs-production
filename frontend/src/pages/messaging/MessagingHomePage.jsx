@@ -140,9 +140,8 @@ export function MessagingHomePage() {
   };
 
   return (
-    <>
-      <GlobalNavBar />
-      <div className="flex h-[calc(100vh-64px)] bg-background">
+    <SocialLayout>
+      <div className="flex h-full bg-background">
       {/* Left Sidebar: Conversation List */}
       <div className="w-full max-w-[360px] border-r border-border bg-muted/40 flex flex-col">
         <div className="flex-1 overflow-hidden">
