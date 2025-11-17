@@ -107,6 +107,7 @@ const MarketplacePortal = () => {
         </Routes>
       </div>
     </div>
+    </SocialLayout>
   );
 };
 
