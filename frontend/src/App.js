@@ -99,6 +99,9 @@ import BusinessAnalyticsPage from "./pages/business/BusinessAnalyticsPage";
 import BusinessNotificationsPage from "./pages/business/BusinessNotificationsPage";
 import BusinessLessonsPage from "./pages/business/BusinessLessonsPage";
 import BusinessSettingsPage from "./pages/business/BusinessSettingsPage";
+import BusinessAnalyticsDashboard from "./pages/business/BusinessAnalyticsDashboard";
+import BusinessJobsDashboard from "./pages/business/BusinessJobsDashboard";
+import BusinessJobForm from "./pages/business/BusinessJobForm";
 // Phase 3.0 - BANIBS Connect (Messaging)
 import { MessagingHomePage } from "./pages/messaging/MessagingHomePage.jsx";
 // Phase 10.x - Social Portal Pages
