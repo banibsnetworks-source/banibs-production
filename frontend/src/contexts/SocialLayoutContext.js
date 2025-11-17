@@ -38,22 +38,34 @@ export const SocialLayoutProvider = ({ children }) => {
         // Then fetch from server if authenticated
         if (user) {
           const token = localStorage.getItem('access_token');
-          const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/api/social/settings`,
-            {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              },
-              credentials: 'include'
-            }
-          );
+          
+          // Use XHR to bypass rrweb interference
+          const settings = await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `${process.env.REACT_APP_BACKEND_URL}/api/social/settings`, true);
+            xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+            xhr.withCredentials = true;
+            
+            xhr.onload = () => {
+              if (xhr.status >= 200 && xhr.status < 300) {
+                try {
+                  resolve(JSON.parse(xhr.responseText));
+                } catch (e) {
+                  reject(new Error('Failed to parse settings'));
+                }
+              } else {
+                // Silently fail on auth errors
+                resolve(null);
+              }
+            };
+            
+            xhr.onerror = () => resolve(null);
+            xhr.send();
+          });
 
-          if (response.ok) {
-            const settings = await response.json();
-            if (settings.left_rail_collapsed !== undefined) {
-              setIsCollapsed(settings.left_rail_collapsed);
-              localStorage.setItem('banibs_left_rail_collapsed', settings.left_rail_collapsed);
-            }
+          if (settings && settings.left_rail_collapsed !== undefined) {
+            setIsCollapsed(settings.left_rail_collapsed);
+            localStorage.setItem('banibs_left_rail_collapsed', settings.left_rail_collapsed);
           }
         }
       } catch (err) {
