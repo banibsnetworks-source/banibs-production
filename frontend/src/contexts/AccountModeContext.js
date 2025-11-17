@@ -151,8 +151,8 @@ export const AccountModeProvider = ({ children }) => {
       businessProfileId: businessProfile.id
     }));
 
-    // Navigate to Connect home
-    navigate('/portal/connect');
+    // Navigate to Business home (Phase 8.4)
+    navigate('/portal/business');
   };
 
   /**
