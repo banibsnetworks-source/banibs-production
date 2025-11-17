@@ -34,6 +34,10 @@ const SocialProfilePublicPage = () => {
   const [peoplesLoading, setPeoplesLoading] = useState(false);
   const [peoplesCount, setPeoplesCount] = useState(0);
   
+  // Phase 8.3 - Supported Businesses Tab
+  const [supportedBusinesses, setSupportedBusinesses] = useState([]);
+  const [supportedBusinessesLoading, setSupportedBusinessesLoading] = useState(false);
+  
   const isOwnProfile = user && profile && user.id === profile.user_id;
 
   useEffect(() => {
