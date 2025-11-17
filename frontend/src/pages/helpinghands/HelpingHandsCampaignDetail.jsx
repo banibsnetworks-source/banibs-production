@@ -221,7 +221,7 @@ const HelpingHandsCampaignDetail = () => {
                   </button>
                   <button
                     className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                    style=
+                    style={{
                       background: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
                       color: isDark ? '#9CA3AF' : '#6B7280'
                     }}
