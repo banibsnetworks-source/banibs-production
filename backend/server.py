@@ -295,13 +295,11 @@ app.include_router(business_search_router)
 from routes.follow import api_router as follow_router
 app.include_router(follow_router)
 
-# Include Phase 8.3 - Peoples, Business Support & Business Knowledge routers
+# Include Phase 8.3 - Peoples & Business Support routers
 from routes.peoples import router as peoples_router
 from routes.business_support import router as business_support_router
-from routes.business_knowledge import router as business_knowledge_router
 app.include_router(peoples_router)
 app.include_router(business_support_router)
-app.include_router(business_knowledge_router)
 
 
 
