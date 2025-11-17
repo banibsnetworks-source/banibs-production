@@ -30,28 +30,45 @@ const SupportBusinessButton = ({ businessId, accentColor = '#3B82F6', className 
   };
 
   const handleToggleSupport = async () => {
+    console.log('[SupportBusiness] Button clicked. Current state:', {
+      isSupported,
+      businessId,
+      supportersCount,
+      isProcessing
+    });
+    
     setIsProcessing(true);
     
     try {
       if (isSupported) {
-        await businessSupportApi.unsupportBusiness(businessId);
+        console.log('[SupportBusiness] Removing support...');
+        const result = await businessSupportApi.unsupportBusiness(businessId);
+        console.log('[SupportBusiness] Remove result:', result);
         setIsSupported(false);
         setSupportersCount(prev => Math.max(0, prev - 1));
       } else {
-        await businessSupportApi.supportBusiness(businessId);
+        console.log('[SupportBusiness] Adding support...');
+        const result = await businessSupportApi.supportBusiness(businessId);
+        console.log('[SupportBusiness] Add result:', result);
         setIsSupported(true);
         setSupportersCount(prev => prev + 1);
       }
+      
+      console.log('[SupportBusiness] State updated. New state:', {
+        isSupported: !isSupported,
+        supportersCount
+      });
       
       // Notify parent component of status change
       if (onStatusChange) {
         onStatusChange(!isSupported);
       }
     } catch (error) {
-      console.error('Failed to toggle support status:', error);
+      console.error('[SupportBusiness] Error:', error);
       alert(error.message || 'Failed to update support status');
     } finally {
       setIsProcessing(false);
+      console.log('[SupportBusiness] Processing complete');
     }
   };
 
