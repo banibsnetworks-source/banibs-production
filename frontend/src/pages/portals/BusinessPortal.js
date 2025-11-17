@@ -72,28 +72,168 @@ const BusinessPortal = () => {
           ? 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)'
           : 'linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%)'
       }}>
-        {/* Hero */}
+        {/* Hero Carousel */}
         <div 
           style={{
-            background: isDark
-              ? 'linear-gradient(135deg, rgba(232, 182, 87, 0.15) 0%, rgba(10, 10, 10, 0.9) 100%)'
-              : 'linear-gradient(135deg, rgba(232, 182, 87, 0.2) 0%, rgba(249, 250, 251, 0.95) 100%)',
-            padding: '80px 0'
+            position: 'relative',
+            height: '500px',
+            overflow: 'hidden'
           }}
         >
-          <div className="container mx-auto px-4 text-center">
-            <h1 
-              className="text-5xl font-bold mb-4"
-              style={{ color: isDark ? '#F9F9F9' : '#1a1a1a' }}
+          {/* Carousel Images */}
+          {heroImages.map((image, index) => (
+            <div
+              key={index}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                opacity: currentSlide === index ? 1 : 0,
+                transition: 'opacity 1s ease-in-out',
+                pointerEvents: currentSlide === index ? 'auto' : 'none'
+              }}
             >
-              BANIBS Business Portal
-            </h1>
-            <p 
-              className="text-xl mb-8"
-              style={{ color: isDark ? '#9CA3AF' : '#6B7280' }}
-            >
-              Directory • Marketplace • Jobs • Resources
-            </p>
+              {/* Background Image */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  backgroundImage: `url(${image.src})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  filter: 'brightness(0.6)'
+                }}
+              />
+              
+              {/* Gradient Overlay */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  background: isDark
+                    ? 'linear-gradient(135deg, rgba(232, 182, 87, 0.2) 0%, rgba(10, 10, 10, 0.8) 100%)'
+                    : 'linear-gradient(135deg, rgba(232, 182, 87, 0.3) 0%, rgba(10, 10, 10, 0.6) 100%)'
+                }}
+              />
+              
+              {/* Content */}
+              <div
+                className="container mx-auto px-4 h-full flex items-center justify-center"
+                style={{ position: 'relative', zIndex: 10 }}
+              >
+                <div className="text-center max-w-4xl">
+                  <h1 
+                    className="text-5xl md:text-6xl font-bold mb-4 text-white"
+                    style={{
+                      textShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
+                      animation: currentSlide === index ? 'slideInUp 0.8s ease-out' : 'none'
+                    }}
+                  >
+                    {image.title}
+                  </h1>
+                  <p 
+                    className="text-xl md:text-2xl text-gray-100"
+                    style={{
+                      textShadow: '0 2px 8px rgba(0, 0, 0, 0.5)',
+                      animation: currentSlide === index ? 'slideInUp 0.8s ease-out 0.2s both' : 'none'
+                    }}
+                  >
+                    {image.subtitle}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+          
+          {/* Navigation Arrows */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20"
+            style={{
+              background: 'rgba(232, 182, 87, 0.9)',
+              color: '#0a0a0a',
+              borderRadius: '50%',
+              width: '48px',
+              height: '48px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(232, 182, 87, 1)';
+              e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(232, 182, 87, 0.9)';
+              e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+            }}
+          >
+            <ChevronLeft size={24} />
+          </button>
+          
+          <button
+            onClick={nextSlide}
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20"
+            style={{
+              background: 'rgba(232, 182, 87, 0.9)',
+              color: '#0a0a0a',
+              borderRadius: '50%',
+              width: '48px',
+              height: '48px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(232, 182, 87, 1)';
+              e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(232, 182, 87, 0.9)';
+              e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
+            }}
+          >
+            <ChevronRight size={24} />
+          </button>
+          
+          {/* Slide Indicators */}
+          <div
+            className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-2 z-20"
+          >
+            {heroImages.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                style={{
+                  width: currentSlide === index ? '32px' : '12px',
+                  height: '12px',
+                  borderRadius: '6px',
+                  background: currentSlide === index 
+                    ? 'rgba(232, 182, 87, 1)' 
+                    : 'rgba(255, 255, 255, 0.5)',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)'
+                }}
+              />
+            ))}
           </div>
         </div>
 
