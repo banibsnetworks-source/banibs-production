@@ -278,6 +278,11 @@ app.include_router(messaging_ws_router)
 from routes.business_board import router as business_board_router
 app.include_router(business_board_router)
 
+# Include Phase 8.3 Business Knowledge router BEFORE business profile router
+# to avoid route conflicts with /{handle_or_id} catching /knowledge
+from routes.business_knowledge import router as business_knowledge_router
+app.include_router(business_knowledge_router)
+
 # Include business profile router (Phase 8.2 - Business Accounts)
 from routes.business import router as business_router
 app.include_router(business_router)
