@@ -7,6 +7,7 @@ import BusinessInfoPanel from '../../components/business/BusinessInfoPanel';
 import BusinessServicesList from '../../components/business/BusinessServicesList';
 import NavigationButtons from '../../components/business/NavigationButtons';
 import SupportBusinessButton from '../../components/business/SupportBusinessButton';
+import BusinessKnowledgeSection from '../../components/business/BusinessKnowledgeSection';
 import './BusinessProfilePublic.css';
 
 const BusinessProfilePublic = () => {
