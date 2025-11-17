@@ -175,17 +175,24 @@ async def get_profile_by_user_id(user_id: str):
     """
     db = get_db_client()
     user_doc = await db.banibs_users.find_one(
-        {
-            "id": user_id,
-            "profile.is_public": True
-        },
+        {"id": user_id},
         {"_id": 0}
     )
     
     if not user_doc:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="Profile not found or not public"
+            detail="Profile not found"
+        )
+    
+    # Check if profile exists and is private
+    profile = user_doc.get("profile", {})
+    is_public = profile.get("is_public", True)  # Default to public if not set
+    
+    if not is_public:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="This profile is private"
         )
     
     profile_data = get_profile_from_user_doc(user_doc)
