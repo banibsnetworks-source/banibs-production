@@ -291,7 +291,7 @@ class Phase83Tester:
             self.log(f"❌ Failed to get knowledge flags: {response.status_code}", "ERROR")
             return False
         
-        # Test 5: Vote on knowledge flag (helpful)
+        # Test 5: Vote on knowledge flag (helpful) - should fail if it's our own flag
         if pitfall_flag_id:
             self.log("👍 Test 5: Voting 'helpful' on knowledge flag...")
             response = self.make_request("POST", f"/business/knowledge/{pitfall_flag_id}/vote", 
@@ -300,6 +300,8 @@ class Phase83Tester:
             if response.status_code == 200:
                 result = response.json()
                 self.log(f"✅ Vote recorded: {result.get('action', 'unknown')}")
+            elif response.status_code == 400 and "Cannot vote on your own" in response.text:
+                self.log("✅ Correctly prevented voting on own flag")
             else:
                 self.log(f"❌ Failed to vote on flag: {response.status_code} - {response.text}", "ERROR")
                 return False
