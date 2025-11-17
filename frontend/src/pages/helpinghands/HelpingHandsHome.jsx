@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, TrendingUp, Clock, Star, Loader2 } from 'lucide-react';
+import { Plus, TrendingUp, Clock, Star, Loader2, Users } from 'lucide-react';
 import BusinessLayout from '../../components/business/BusinessLayout';
 import HelpingHandsCampaignCard from '../../components/helpinghands/HelpingHandsCampaignCard';
 import { useTheme } from '../../contexts/ThemeContext';
