@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Loader2, Plus, Filter } from 'lucide-react';
-import GlobalNavBar from '../../components/GlobalNavBar';
+import BusinessLayout from '../../components/business/BusinessLayout';
 import BusinessBoardComposer from '../../components/business/BusinessBoardComposer';
 import BusinessBoardPostCard from '../../components/business/BusinessBoardPostCard';
 import './BusinessBoardPage.css';
