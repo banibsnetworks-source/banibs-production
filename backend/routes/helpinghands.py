@@ -18,7 +18,7 @@ import os
 from models.helpinghands import (
     HelpingHandsCampaign,
     CampaignCreateRequest,
-    CamtmlUpdateRequest,
+    CampaignUpdateRequest,
     CampaignListResponse,
     CampaignStatus,
     CampaignCategory,
