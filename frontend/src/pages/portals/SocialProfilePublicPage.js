@@ -28,6 +28,11 @@ const SocialProfilePublicPage = () => {
   const [profileDraft, setProfileDraft] = useState(null);
   const [isSavingProfile, setIsSavingProfile] = useState(false);
   
+  // Phase 8.3 - Peoples Tab
+  const [peoples, setPeoples] = useState([]);
+  const [peoplesLoading, setPeoplesLoading] = useState(false);
+  const [peoplesCount, setPeoplesCount] = useState(0);
+  
   const isOwnProfile = user && profile && user.id === profile.user_id;
 
   useEffect(() => {
