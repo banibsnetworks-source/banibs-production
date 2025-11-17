@@ -105,7 +105,7 @@ async def get_business_supporters(
     user_ids = [sup["user_id"] for sup in supports]
     
     # Fetch user details
-    users = await db.users.find(
+    users = await db.banibs_users.find(
         {"id": {"$in": user_ids}},
         {"_id": 0, "id": 1, "name": 1, "avatar_url": 1}
     ).to_list(1000)
