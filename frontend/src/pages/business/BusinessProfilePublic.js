@@ -10,8 +10,9 @@ import SupportBusinessButton from '../../components/business/SupportBusinessButt
 import BusinessKnowledgeSection from '../../components/business/BusinessKnowledgeSection';
 import './BusinessProfilePublic.css';
 
-const BusinessProfilePublic = () => {
-  const { businessId } = useParams();
+const BusinessProfilePublic = ({ businessId: propBusinessId, hideNavBar = false }) => {
+  const { businessId: paramBusinessId } = useParams();
+  const businessId = propBusinessId || paramBusinessId; // Use prop if provided, otherwise URL param
   const navigate = useNavigate();
   const [business, setBusiness] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,7 +23,9 @@ const BusinessProfilePublic = () => {
   const [isSavingProfile, setIsSavingProfile] = useState(false);
 
   useEffect(() => {
-    loadBusinessProfile();
+    if (businessId) {
+      loadBusinessProfile();
+    }
   }, [businessId]);
 
   const loadBusinessProfile = async () => {
