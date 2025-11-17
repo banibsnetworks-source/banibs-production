@@ -139,9 +139,12 @@ const BusinessProfilePage = () => {
     );
   }
 
-  // Has business profile - show it
-  // We need to remove the GlobalNavBar from BusinessProfilePublic since BusinessLayout already has it
-  return <BusinessProfilePublic businessId={businessId} hideNavBar={true} />;
+  // Has business profile - show it wrapped in BusinessLayout
+  return (
+    <BusinessLayout>
+      <BusinessProfilePublic businessId={businessId} hideNavBar={true} />
+    </BusinessLayout>
+  );
 };
 
 export default BusinessProfilePage;
