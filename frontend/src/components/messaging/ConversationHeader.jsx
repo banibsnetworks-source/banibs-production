@@ -9,11 +9,20 @@ export function ConversationHeader({ conversation, onStartCall, onShowInfo, onSe
   const [showParticipants, setShowParticipants] = useState(false);
   
   // Get the other user's ID for DM conversations
-  const otherUserId = conversation.type === 'dm' && conversation.participants?.[0]?.user_id;
+  // Try multiple possible field names for compatibility
+  const otherUserId = conversation.type === 'dm' ? (
+    conversation.participants?.[0]?.user_id || 
+    conversation.participants?.[0]?.id ||
+    conversation.other_user_id ||
+    conversation.participant_id
+  ) : null;
   
   const handleViewProfile = () => {
     if (otherUserId) {
+      console.log('[ConversationHeader] Navigating to profile:', otherUserId);
       navigate(`/portal/social/id/${otherUserId}`);
+    } else {
+      console.warn('[ConversationHeader] No user ID found. Conversation:', conversation);
     }
   };
   
