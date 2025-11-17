@@ -248,6 +248,9 @@ app.include_router(social_profile_media_router)
 
 # Include social settings router (Phase 10.0 - Left Rail)
 from routes.social_settings import router as social_settings_router
+
+# Include Helping Hands router (Phase 10.0 - BANIBS Helping Hands)
+app.include_router(helpinghands_router)
 app.include_router(social_settings_router)
 
 # Include jobs router (Phase 7.1 - BANIBS Jobs & Opportunities)
