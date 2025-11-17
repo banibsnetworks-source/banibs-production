@@ -27,7 +27,7 @@ export default defineConfig({
   // Shared settings for all the projects below
   use: {
     // Base URL for tests - using the preview environment
-    baseURL: 'https://brand-center-1.preview.emergentagent.com',
+    baseURL: 'https://social-business-hub.preview.emergentagent.com',
     
     // Browser context options
     trace: 'retain-on-failure',

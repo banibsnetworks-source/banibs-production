@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://brand-center-1.preview.emergentagent.com/api/auth
+https://social-business-hub.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
