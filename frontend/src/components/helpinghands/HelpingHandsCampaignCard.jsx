@@ -139,6 +139,28 @@ const HelpingHandsCampaignCard = ({ campaign, compact = false }) => {
             </div>
           )}
         </div>
+        
+        {/* DEBUG: Direct navigation button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            console.log('Direct button clicked for campaign:', campaign.id);
+            navigate(`/portal/helping-hands/campaign/${campaign.id}`);
+          }}
+          style={{
+            marginTop: '12px',
+            padding: '8px 16px',
+            background: '#E8B657',
+            color: '#0a0a0a',
+            borderRadius: '8px',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '14px',
+            fontWeight: '600'
+          }}
+        >
+          View Campaign (Debug)
+        </button>
       </div>
     </div>
   );
