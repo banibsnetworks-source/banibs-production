@@ -268,6 +268,11 @@ class Phase83Tester:
             flags = response.json()
             self.log(f"✅ Knowledge flags retrieved: {len(flags)} flags")
             
+            # Use first flag for testing if we don't have a specific one
+            if not pitfall_flag_id and flags:
+                pitfall_flag_id = flags[0].get("id")
+                self.log(f"Using existing flag for testing: {pitfall_flag_id}")
+            
             # Verify anonymity handling
             anonymous_flags = [f for f in flags if f.get("anonymous")]
             non_anonymous_flags = [f for f in flags if not f.get("anonymous")]
