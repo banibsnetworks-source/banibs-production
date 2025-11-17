@@ -53,7 +53,8 @@ const HelpingHandsHome = () => {
     { id: 'featured', label: 'Featured', icon: Star },
     { id: 'trending', label: 'Trending', icon: TrendingUp },
     { id: 'new', label: 'New', icon: Plus },
-    { id: 'ending', label: 'Ending Soon', icon: Clock }
+    { id: 'ending', label: 'Ending Soon', icon: Clock },
+    { id: 'my-campaigns', label: 'My Campaigns', icon: Users, authRequired: true }
   ];
   
   return (
