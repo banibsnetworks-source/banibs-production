@@ -287,13 +287,22 @@ const HelpingHandsCreate = () => {
                   onChange={(e) => handleChange('category', e.target.value)}
                   className="w-full px-4 py-3 rounded-lg transition-colors"
                   style={{
-                    background: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
+                    background: isDark ? 'rgba(255, 255, 255, 0.05)' : '#ffffff',
                     border: `2px solid ${isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
                     color: isDark ? '#F9F9F9' : '#1a1a1a'
                   }}
                 >
                   {categories.map(cat => (
-                    <option key={cat.value} value={cat.value}>{cat.label}</option>
+                    <option 
+                      key={cat.value} 
+                      value={cat.value}
+                      style={{
+                        background: isDark ? '#1a1a1a' : '#ffffff',
+                        color: isDark ? '#F9F9F9' : '#1a1a1a'
+                      }}
+                    >
+                      {cat.label}
+                    </option>
                   ))}
                 </select>
               </div>
