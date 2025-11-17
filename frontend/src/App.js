@@ -88,6 +88,17 @@ import BusinessProfilePublic from "./pages/business/BusinessProfilePublic";
 import MyBusinessRedirect from "./pages/business/MyBusinessRedirect";
 // Phase 8.3 - Business Board
 import BusinessBoardPage from "./pages/business/BusinessBoardPage";
+// Phase 8.4 - Business Mode Pages
+import BusinessProfilePage from "./pages/business/BusinessProfilePage";
+import BusinessPostsPage from "./pages/business/BusinessPostsPage";
+import BusinessTeamPage from "./pages/business/BusinessTeamPage";
+import BusinessServicesPage from "./pages/business/BusinessServicesPage";
+import BusinessEventsPage from "./pages/business/BusinessEventsPage";
+import BusinessPaymentsPage from "./pages/business/BusinessPaymentsPage";
+import BusinessAnalyticsPage from "./pages/business/BusinessAnalyticsPage";
+import BusinessNotificationsPage from "./pages/business/BusinessNotificationsPage";
+import BusinessLessonsPage from "./pages/business/BusinessLessonsPage";
+import BusinessSettingsPage from "./pages/business/BusinessSettingsPage";
 // Phase 3.0 - BANIBS Connect (Messaging)
 import { MessagingHomePage } from "./pages/messaging/MessagingHomePage.jsx";
 // Phase 10.x - Social Portal Pages
