@@ -54,7 +54,14 @@ const HelpingHandsHome = () => {
       
       if (response.ok) {
         const data = await response.json();
-        setCampaigns(data.campaigns || []);
+        let filteredCampaigns = data.campaigns || [];
+        
+        // Filter for user's own campaigns if on "My Campaigns" tab
+        if (activeTab === 'my-campaigns' && user) {
+          filteredCampaigns = filteredCampaigns.filter(c => c.owner_id === user.id);
+        }
+        
+        setCampaigns(filteredCampaigns);
       }
     } catch (err) {
       console.error('Error loading campaigns:', err);
