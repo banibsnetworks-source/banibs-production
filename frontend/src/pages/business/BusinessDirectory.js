@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Navigation, Search, Loader2 } from 'lucide-react';
-import GlobalNavBar from '../../components/GlobalNavBar';
+import BusinessLayout from '../../components/business/BusinessLayout';
 import NavigationButtons from '../../components/business/NavigationButtons';
 
 /**
- * BusinessDirectory - Phase 8.2.3
+ * BusinessDirectory - Phase 8.4 (P0 Fix)
  * Geo-enabled business search with filters and "Use My Location"
+ * Now wrapped in BusinessLayout for consistent navigation
  */
 
 const BusinessDirectory = () => {
