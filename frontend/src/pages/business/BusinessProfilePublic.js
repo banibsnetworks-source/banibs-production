@@ -6,6 +6,7 @@ import ProfileCommandCenter from '../../components/profile/ProfileCommandCenter'
 import BusinessInfoPanel from '../../components/business/BusinessInfoPanel';
 import BusinessServicesList from '../../components/business/BusinessServicesList';
 import NavigationButtons from '../../components/business/NavigationButtons';
+import SupportBusinessButton from '../../components/business/SupportBusinessButton';
 import './BusinessProfilePublic.css';
 
 const BusinessProfilePublic = () => {
