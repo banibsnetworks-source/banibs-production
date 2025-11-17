@@ -16,7 +16,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Wallet,
-  GraduationCap
+  GraduationCap,
+  Heart
 } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useBusinessLayout } from '../../../contexts/BusinessLayoutContext';
