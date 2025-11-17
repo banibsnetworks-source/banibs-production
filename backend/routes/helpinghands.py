@@ -18,7 +18,7 @@ import os
 from models.helpinghands import (
     HelpingHandsCampaign,
     CampaignCreateRequest,
-    CampaignUpdateRequest,
+    CamtmlUpdateRequest,
     CampaignListResponse,
     CampaignStatus,
     CampaignCategory,
@@ -28,8 +28,8 @@ from models.helpinghands import (
     HelpingHandsReport,
     ReportReason
 )
-from utils.auth import get_current_user
-from database import get_database
+from middleware.auth_guard import require_role
+from db import get_db
 
 router = APIRouter(prefix="/api/helping-hands", tags=["Helping Hands"])
 
