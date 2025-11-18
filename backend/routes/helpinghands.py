@@ -130,7 +130,10 @@ async def list_campaigns(
     skip = (page - 1) * limit
     cursor = db.helpinghands_campaigns.find(query).sort("created_at", -1).skip(skip).limit(limit)
     
-    campaigns = await cursor.to_list(length=limit)
+    campaigns_raw = await cursor.to_list(length=limit)
+    
+    # Convert to Pydantic models to handle _id -> id aliasing
+    campaigns = [HelpingHandsCampaign(**c) for c in campaigns_raw]
     
     return {
         "campaigns": campaigns,
