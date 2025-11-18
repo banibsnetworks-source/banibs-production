@@ -34,8 +34,8 @@ const RegisterPage = () => {
         formData.password
       );
       
-      // Successful registration - redirect to social mode
-      navigate('/portal/social');
+      // Successful registration - hard redirect to ensure auth state is loaded
+      window.location.href = '/portal/social';
     } catch (err) {
       setError(err.message || 'Registration failed. Please try again.');
     } finally {
