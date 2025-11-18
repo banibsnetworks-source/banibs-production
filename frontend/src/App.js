@@ -250,8 +250,10 @@ function App() {
               <Route path="/portal/business/jobs/new" element={<BusinessJobForm />} />
               <Route path="/portal/business/jobs/:jobId/edit" element={<BusinessJobForm />} />
               
+              {/* Business Profile Edit */}
+              <Route path="/portal/business/profile/edit" element={<BusinessProfileEdit />} />
+              
               {/* Legacy redirects */}
-              <Route path="/portal/business/profile/edit" element={<Navigate to="/portal/business/profile" replace />} />
               <Route path="/portal/business/me" element={<MyBusinessRedirect />} />
               
               {/* Public business profile */}
