@@ -31,7 +31,7 @@ const BusinessProfilePage = () => {
         return;
       }
 
-      const response = await fetch(
+      const response = await xhrRequest(
         `${process.env.REACT_APP_BACKEND_URL}/api/business/me`,
         {
           headers: {
@@ -43,9 +43,8 @@ const BusinessProfilePage = () => {
       console.log('Business API response status:', response.status);
 
       if (response.ok) {
-        const data = await response.json();
-        console.log('Business profile found:', data.id);
-        setBusinessId(data.id);
+        console.log('Business profile found:', response.data.id);
+        setBusinessId(response.data.id);
       } else if (response.status === 404) {
         // No business profile exists
         console.log('No business profile found (404)');
