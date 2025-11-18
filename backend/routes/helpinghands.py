@@ -131,10 +131,12 @@ async def list_campaigns(
     skip = (page - 1) * limit
     cursor = db.helpinghands_campaigns.find(query).sort("created_at", -1).skip(skip).limit(limit)
     
-    campaigns_raw = await cursor.to_list(length=limit)
+    campaigns = await cursor.to_list(length=limit)
     
-    # Convert to Pydantic models (FastAPI will serialize with by_alias=False from model Config)
-    campaigns = [HelpingHandsCampaign(**c) for c in campaigns_raw]
+    # Ensure 'id' field exists for frontend compatibility
+    for camp in campaigns:
+        if 'id' not in camp and '_id' in camp:
+            camp['id'] = camp['_id']
     
     return {
         "campaigns": campaigns,
