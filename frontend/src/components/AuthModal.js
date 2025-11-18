@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Mail, Lock, User, AlertCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -11,6 +11,14 @@ const AuthModal = ({ isOpen, onClose, onSuccess, defaultTab = 'signin' }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const { login, register } = useAuth();
+  
+  // Sync activeTab with defaultTab when modal opens or defaultTab changes
+  useEffect(() => {
+    if (isOpen) {
+      setActiveTab(defaultTab);
+      setError(''); // Clear any previous errors
+    }
+  }, [isOpen, defaultTab]);
 
   // Sign In form
   const [signInEmail, setSignInEmail] = useState('');
