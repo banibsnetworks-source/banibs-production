@@ -48,7 +48,7 @@ const BusinessProfileEdit = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch(
+      const response = await xhrRequest(
         `${process.env.REACT_APP_BACKEND_URL}/api/business/me`,
         {
           headers: {
@@ -58,20 +58,19 @@ const BusinessProfileEdit = () => {
       );
 
       if (response.ok) {
-        const data = await response.json();
-        setBusinessId(data.id);
+        setBusinessId(response.data.id);
         setFormData({
-          name: data.name || '',
-          tagline: data.tagline || '',
-          bio: data.bio || '',
-          logo: data.logo || '',
-          cover: data.cover || '',
-          accent_color: data.accent_color || '#d4af37',
-          website: data.website || '',
-          email: data.email || '',
-          phone: data.phone || '',
-          location: data.location || '',
-          services: data.services || []
+          name: response.data.name || '',
+          tagline: response.data.tagline || '',
+          bio: response.data.bio || '',
+          logo: response.data.logo || '',
+          cover: response.data.cover || '',
+          accent_color: response.data.accent_color || '#d4af37',
+          website: response.data.website || '',
+          email: response.data.email || '',
+          phone: response.data.phone || '',
+          location: response.data.location || '',
+          services: response.data.services || []
         });
       } else if (response.status === 404) {
         // No business profile yet
