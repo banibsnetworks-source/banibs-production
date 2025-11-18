@@ -151,16 +151,36 @@ const AccountModeSwitcher = () => {
             </button>
 
             {/* Business Profiles */}
-            {businessProfiles.map((profile) => (
+            {businessProfiles.length === 0 ? (
+              /* Show "Create Business" option for users with no businesses */
               <button
-                key={profile.id}
-                onClick={() => handleBusinessClick(profile)}
-                className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-muted transition-colors text-left ${
-                  isBusinessMode && selectedBusinessProfile?.id === profile.id 
-                    ? 'bg-yellow-50 dark:bg-yellow-950' 
-                    : ''
-                }`}
+                onClick={() => {
+                  console.log('🏢 [AccountModeSwitcher] Create Business clicked');
+                  setIsOpen(false);
+                  window.location.href = '/portal/business/profile';
+                }}
+                className="w-full px-4 py-3 flex items-center gap-3 hover:bg-muted transition-colors text-left border-t border-border"
               >
+                <div className="w-10 h-10 rounded-full bg-yellow-500 text-white flex items-center justify-center">
+                  <Plus size={20} />
+                </div>
+                <div className="flex-1">
+                  <p className="font-medium text-sm">Create Business Profile</p>
+                  <p className="text-xs text-muted-foreground">Start your business on BANIBS</p>
+                </div>
+              </button>
+            ) : (
+              /* Show existing business profiles */
+              businessProfiles.map((profile) => (
+                <button
+                  key={profile.id}
+                  onClick={() => handleBusinessClick(profile)}
+                  className={`w-full px-4 py-3 flex items-center gap-3 hover:bg-muted transition-colors text-left ${
+                    isBusinessMode && selectedBusinessProfile?.id === profile.id 
+                      ? 'bg-yellow-50 dark:bg-yellow-950' 
+                      : ''
+                  }`}
+                >
                 <div className={`w-10 h-10 rounded-full flex items-center justify-center overflow-hidden ${
                   isBusinessMode && selectedBusinessProfile?.id === profile.id
                     ? 'bg-yellow-500 text-white' 
