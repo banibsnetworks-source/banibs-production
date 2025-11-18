@@ -31,11 +31,16 @@ async def create_user(user_data: UserCreate) -> str:
     
     user_id = str(uuid.uuid4())
     
+    # Construct full name from first_name + last_name
+    full_name = f"{user_data.first_name} {user_data.last_name}".strip()
+    
     user_doc = {
         "id": user_id,
         "email": user_data.email.lower(),  # Normalize email
         "password_hash": password_hash,
-        "name": user_data.name,
+        "name": full_name,  # Constructed from first + last
+        "first_name": user_data.first_name,  # New field
+        "last_name": user_data.last_name,   # New field
         "avatar_url": None,
         "bio": None,
         "roles": ["user"],
