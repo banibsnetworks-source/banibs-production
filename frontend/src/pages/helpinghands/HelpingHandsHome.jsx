@@ -5,6 +5,7 @@ import BusinessLayout from '../../components/business/BusinessLayout';
 import HelpingHandsCampaignCard from '../../components/helpinghands/HelpingHandsCampaignCard';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useAuth } from '../../contexts/AuthContext';
+import { xhrRequest } from '../../utils/xhrRequest';
 
 /**
  * HelpingHandsHome - Phase 10.0
