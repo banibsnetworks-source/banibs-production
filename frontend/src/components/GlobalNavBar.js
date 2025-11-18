@@ -128,19 +128,13 @@ const GlobalNavBar = () => {
               /* Signed Out */
               <>
                 <button
-                  onClick={() => {
-                    setAuthModalMode('signin');
-                    setAuthModalOpen(true);
-                  }}
+                  onClick={() => window.location.href = '/auth/signin'}
                   className="px-4 py-2 text-sm font-medium text-foreground hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors"
                 >
                   Sign In
                 </button>
                 <button
-                  onClick={() => {
-                    setAuthModalMode('register');
-                    setAuthModalOpen(true);
-                  }}
+                  onClick={() => window.location.href = '/auth/register'}
                   className="px-4 py-2 text-sm font-bold bg-yellow-500 text-gray-900 rounded-lg hover:bg-yellow-400 transition-colors shadow-sm"
                 >
                   Join BANIBS
