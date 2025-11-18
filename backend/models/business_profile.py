@@ -66,6 +66,8 @@ class BusinessProfileUpdate(BaseModel):
     latitude: Optional[float] = Field(None, ge=-90, le=90)
     longitude: Optional[float] = Field(None, ge=-180, le=180)
     service_radius_km: Optional[float] = Field(None, ge=0, description="Service area radius in kilometers")
+    # Phase 10.0 - Black-owned business confirmation
+    is_black_owned_confirmed: Optional[bool] = Field(None, description="User confirms this is a Black-owned business")
 
 
 class BusinessProfilePublic(BaseModel):
