@@ -152,7 +152,7 @@ async def list_campaigns(
     }
 
 
-@router.get("/campaigns/{campaign_id}", response_model=HelpingHandsCampaign)
+@router.get("/campaigns/{campaign_id}", response_model=HelpingHandsCampaign, response_model_by_alias=False)
 async def get_campaign(campaign_id: str):
     """
     Get single campaign details
