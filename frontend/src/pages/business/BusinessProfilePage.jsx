@@ -122,7 +122,7 @@ const BusinessProfilePage = () => {
 
             {/* Create Button */}
             <button
-              onClick={() => navigate('/portal/business/profile/edit')}
+              onClick={() => navigate('/portal/business/profile/create')}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-medium transition-all text-lg"
               style={{
                 background: 'linear-gradient(135deg, #E8B657 0%, #D4A446 100%)',
