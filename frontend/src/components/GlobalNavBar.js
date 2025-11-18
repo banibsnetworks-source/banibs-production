@@ -268,6 +268,7 @@ const GlobalNavBar = () => {
                     <button
                       onClick={() => {
                         setMobileMenuOpen(false);
+                        setAuthModalMode('signin');
                         setAuthModalOpen(true);
                       }}
                       className="px-4 py-3 text-sm font-medium text-foreground hover:bg-muted rounded-lg text-left"
@@ -277,6 +278,7 @@ const GlobalNavBar = () => {
                     <button
                       onClick={() => {
                         setMobileMenuOpen(false);
+                        setAuthModalMode('register');
                         setAuthModalOpen(true);
                       }}
                       className="px-4 py-3 text-sm font-bold bg-yellow-500 text-gray-900 rounded-lg hover:bg-yellow-400 text-center"
