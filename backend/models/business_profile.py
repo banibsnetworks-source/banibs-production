@@ -27,6 +27,10 @@ class BusinessProfileCreate(BaseModel):
     phone: Optional[str] = Field(None, max_length=20, description="Contact phone")
     location: Optional[str] = Field(None, max_length=200, description="City/State/Country")
     services: list[BusinessService] = Field(default=[], description="Services offered")
+    # Phase 10.0 - Black-owned business confirmation (BANIBS requirement)
+    is_black_owned_confirmed: bool = Field(..., description="User confirms this is a Black-owned business")
+    city: Optional[str] = Field(None, max_length=100, description="City")
+    state: Optional[str] = Field(None, max_length=50, description="State")
 
 
 class BusinessProfileUpdate(BaseModel):
