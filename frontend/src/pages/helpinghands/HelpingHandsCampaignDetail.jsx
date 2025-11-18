@@ -6,6 +6,7 @@ import HelpingHandsProgressBar from '../../components/helpinghands/HelpingHandsP
 import HelpingHandsSupportButton from '../../components/helpinghands/HelpingHandsSupportButton';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useAuth } from '../../contexts/AuthContext';
+import { xhrRequest } from '../../utils/xhrRequest';
 
 /**
  * HelpingHandsCampaignDetail - Phase 10.0
