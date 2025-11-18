@@ -317,7 +317,7 @@ const GlobalNavBar = () => {
       {/* Phase 8.1 - Auth Modal */}
       <AuthModal
         isOpen={authModalOpen}
-        initialMode={authModalMode}
+        defaultTab={authModalMode}
         onClose={() => setAuthModalOpen(false)}
         onSuccess={handleAuthSuccess}
       />
