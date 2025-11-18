@@ -210,10 +210,7 @@ async def update_campaign(
     )
     
     # Fetch updated campaign
-    updated_campaign = await db.helpinghands_campaigns.find_one(
-        {"id": campaign_id},
-        {"_id": 0}
-    )
+    updated_campaign = await db.helpinghands_campaigns.find_one({"id": campaign_id})
     
     return updated_campaign
 
