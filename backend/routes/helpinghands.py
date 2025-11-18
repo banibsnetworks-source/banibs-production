@@ -93,8 +93,8 @@ async def create_campaign(
     # if campaign_data.status == CampaignStatus.ACTIVE:
     #     await create_social_post_for_campaign(campaign)
     
-    # Convert to Pydantic model to handle _id -> id aliasing
-    return HelpingHandsCampaign(**campaign)
+    # Campaign already has both _id and id fields from construction above
+    return campaign
 
 
 @router.get("/campaigns", response_model=CampaignListResponse, response_model_by_alias=False)
