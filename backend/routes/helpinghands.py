@@ -216,7 +216,10 @@ async def update_campaign(
     )
     
     # Fetch updated campaign
-    updated_campaign = await db.helpinghands_campaigns.find_one({"id": campaign_id})
+    updated_campaign_raw = await db.helpinghands_campaigns.find_one({"id": campaign_id})
+    
+    # Convert to Pydantic model to handle _id -> id aliasing
+    updated_campaign = HelpingHandsCampaign(**updated_campaign_raw)
     
     return updated_campaign
 
