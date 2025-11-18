@@ -128,14 +128,19 @@ const BusinessProfilePage = () => {
 
             {/* Create Button */}
             <button
-              onClick={() => navigate('/portal/business/profile/create')}
+              onClick={() => {
+                console.log('🚀 [CREATE BUTTON CLICKED] Navigating to business profile create...');
+                navigate('/portal/business/profile/create');
+              }}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-lg font-medium transition-all text-lg"
               style={{
                 background: 'linear-gradient(135deg, #E8B657 0%, #D4A446 100%)',
                 color: '#0a0a0a',
                 boxShadow: '0 4px 12px rgba(232, 182, 87, 0.3)',
-                cursor: 'pointer',
-                pointerEvents: 'auto'
+                cursor: 'pointer !important',
+                pointerEvents: 'auto',
+                position: 'relative',
+                zIndex: 9999
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-2px)';
