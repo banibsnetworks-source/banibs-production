@@ -441,9 +441,6 @@ async def admin_list_reports(
     if reviewed is not None:
         query["reviewed"] = reviewed
     
-    reports = await db.helpinghands_reports.find(
-        query,
-        {"_id": 0}
-    ).sort("reported_at", -1).to_list(length=100)
+    reports = await db.helpinghands_reports.find(query).sort("reported_at", -1).to_list(length=100)
     
     return {"reports": reports}
