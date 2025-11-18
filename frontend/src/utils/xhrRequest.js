@@ -6,10 +6,13 @@
  * the "Response body already used" error.
  */
 
-export function xhrRequest(url, { method = "GET", headers = {}, body = null } = {}) {
+export function xhrRequest(url, { method = "GET", headers = {}, body = null, timeout = 30000 } = {}) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open(method, url, true);
+    
+    // Set timeout (default 30 seconds)
+    xhr.timeout = timeout;
 
     // Set headers
     Object.entries(headers).forEach(([key, value]) => {
