@@ -16,7 +16,7 @@ const BusinessLayoutContent = ({ children }) => {
 
   return (
     <>
-      <GlobalNavBar />
+      <GlobalNavBar data-layout="business" />
       <div 
         className="theme-business bg-background"
         style={{ 
