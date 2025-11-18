@@ -84,6 +84,7 @@ class HelpingHandsCampaign(BaseModel):
     
     class Config:
         populate_by_name = True
+        by_alias = False  # Use field names (id) not aliases (_id) in responses
 
 
 class CampaignCreateRequest(BaseModel):
@@ -144,6 +145,7 @@ class HelpingHandsSupport(BaseModel):
     
     class Config:
         populate_by_name = True
+        by_alias = False  # Use field names (id) not aliases (_id) in responses
 
 
 class SupportRequest(BaseModel):
@@ -188,6 +190,7 @@ class HelpingHandsReport(BaseModel):
     
     class Config:
         populate_by_name = True
+        by_alias = False  # Use field names (id) not aliases (_id) in responses
 
 
 class ReportCampaignRequest(BaseModel):
