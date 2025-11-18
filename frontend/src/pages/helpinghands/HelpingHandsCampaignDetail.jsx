@@ -31,13 +31,12 @@ const HelpingHandsCampaignDetail = () => {
   const loadCampaign = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
+      const response = await xhrRequest(
         `${process.env.REACT_APP_BACKEND_URL}/api/helping-hands/campaigns/${campaignId}`
       );
       
       if (response.ok) {
-        const data = await response.json();
-        setCampaign(data);
+        setCampaign(response.data);
       } else {
         navigate('/portal/helping-hands');
       }
