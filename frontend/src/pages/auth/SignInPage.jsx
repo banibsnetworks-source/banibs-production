@@ -27,8 +27,8 @@ const SignInPage = () => {
     try {
       const userData = await login(formData.email, formData.password);
       
-      // Successful login - redirect to social mode
-      navigate('/portal/social');
+      // Successful login - hard redirect to ensure auth state is loaded
+      window.location.href = '/portal/social';
     } catch (err) {
       setError(err.message || 'Sign in failed. Please check your credentials.');
     } finally {
