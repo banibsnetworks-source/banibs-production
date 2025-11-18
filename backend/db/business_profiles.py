@@ -45,6 +45,10 @@ async def create_business_profile(owner_user_id: str, name: str, handle: str, **
         "verified_status": False,
         "status": "active",  # active | suspended | draft
         "is_active": True,
+        # Phase 10.0 - Black-owned business confirmation & geo fields
+        "is_black_owned_confirmed": kwargs.get("is_black_owned_confirmed", False),
+        "city": kwargs.get("city"),
+        "state": kwargs.get("state"),
         "created_at": datetime.now(timezone.utc),
         "updated_at": datetime.now(timezone.utc)
     }
