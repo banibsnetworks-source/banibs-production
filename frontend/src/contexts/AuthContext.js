@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (first_name, last_name, email, password) => {
-    try:
+    try {
       console.log('🔐 [AuthContext] Starting registration for:', email);
       const response = await axios.post(`${BACKEND_URL}/api/auth/register`, {
         first_name,
