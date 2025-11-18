@@ -251,7 +251,8 @@ function App() {
               <Route path="/portal/business/jobs/new" element={<BusinessJobForm />} />
               <Route path="/portal/business/jobs/:jobId/edit" element={<BusinessJobForm />} />
               
-              {/* Business Profile Edit */}
+              {/* Business Profile Create & Edit */}
+              <Route path="/portal/business/profile/create" element={<BusinessProfileCreate />} />
               <Route path="/portal/business/profile/edit" element={<BusinessProfileEdit />} />
               
               {/* Legacy redirects */}
