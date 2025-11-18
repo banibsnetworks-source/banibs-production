@@ -97,7 +97,7 @@ async def create_campaign(
     return HelpingHandsCampaign(**campaign)
 
 
-@router.get("/campaigns", response_model=CampaignListResponse)
+@router.get("/campaigns", response_model=CampaignListResponse, response_model_by_alias=False)
 async def list_campaigns(
     status: Optional[CampaignStatus] = Query(None),
     category: Optional[CampaignCategory] = Query(None),
