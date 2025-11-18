@@ -154,13 +154,14 @@ async def get_campaign(campaign_id: str):
     """
     db = get_db_client()
     
-    campaign_raw = await db.helpinghands_campaigns.find_one({"id": campaign_id})
+    campaign = await db.helpinghands_campaigns.find_one({"id": campaign_id})
     
-    if not campaign_raw:
+    if not campaign:
         raise HTTPException(status_code=404, detail="Campaign not found")
     
-    # Convert to Pydantic model to handle _id -> id aliasing
-    campaign = HelpingHandsCampaign(**campaign_raw)
+    # Ensure 'id' field exists for frontend compatibility
+    if 'id' not in campaign and '_id' in campaign:
+        campaign['id'] = campaign['_id']
     
     return campaign
 
