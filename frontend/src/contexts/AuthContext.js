@@ -85,7 +85,8 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.post(`${BACKEND_URL}/api/auth/register`, {
         name,
         email,
-        password
+        password,
+        accepted_terms: true
       });
 
       console.log('🔐 [AuthContext] Registration API response received');
