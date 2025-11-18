@@ -84,7 +84,11 @@ async def create_business(
         email=profile_data.email,
         phone=profile_data.phone,
         location=profile_data.location,
-        services=services_list
+        services=services_list,
+        # Phase 10.0 - Black-owned business confirmation & location
+        is_black_owned_confirmed=profile_data.is_black_owned_confirmed,
+        city=profile_data.city,
+        state=profile_data.state
     )
     
     if not profile:
