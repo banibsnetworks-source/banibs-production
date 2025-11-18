@@ -137,8 +137,12 @@ class UserCreate(BaseModel):
     """
     email: EmailStr
     password: str = Field(..., min_length=8, description="Minimum 8 characters")
-    name: str = Field(..., min_length=2)
+    first_name: str = Field(..., min_length=1, description="First name")
+    last_name: str = Field(..., min_length=1, description="Last name")
     accepted_terms: bool = Field(..., description="Must accept terms of service")
+    
+    # Legacy support - can be removed later
+    name: Optional[str] = Field(None, description="Full name (legacy, auto-constructed)")
 
 
 class UserLogin(BaseModel):
