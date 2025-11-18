@@ -148,10 +148,7 @@ async def get_campaign(campaign_id: str):
     """
     db = get_db_client()
     
-    campaign = await db.helpinghands_campaigns.find_one(
-        {"id": campaign_id},
-        {"_id": 0}
-    )
+    campaign = await db.helpinghands_campaigns.find_one({"id": campaign_id})
     
     if not campaign:
         raise HTTPException(status_code=404, detail="Campaign not found")
