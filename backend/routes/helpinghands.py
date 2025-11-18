@@ -220,10 +220,11 @@ async def update_campaign(
     )
     
     # Fetch updated campaign
-    updated_campaign_raw = await db.helpinghands_campaigns.find_one({"id": campaign_id})
+    updated_campaign = await db.helpinghands_campaigns.find_one({"id": campaign_id})
     
-    # Convert to Pydantic model to handle _id -> id aliasing
-    updated_campaign = HelpingHandsCampaign(**updated_campaign_raw)
+    # Ensure 'id' field exists for frontend compatibility
+    if updated_campaign and 'id' not in updated_campaign and '_id' in updated_campaign:
+        updated_campaign['id'] = updated_campaign['_id']
     
     return updated_campaign
 
