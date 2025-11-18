@@ -28,7 +28,8 @@ const RegisterPage = () => {
     
     try {
       const userData = await register(
-        formData.name,
+        formData.first_name,
+        formData.last_name,
         formData.email,
         formData.password
       );
