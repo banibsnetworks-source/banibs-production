@@ -92,7 +92,7 @@ const BusinessProfileEdit = () => {
       const formDataUpload = new FormData();
       formDataUpload.append('file', file);
 
-      const response = await fetch(
+      const response = await xhrRequest(
         `${process.env.REACT_APP_BACKEND_URL}/api/media/upload`,
         {
           method: 'POST',
@@ -104,10 +104,9 @@ const BusinessProfileEdit = () => {
       );
 
       if (response.ok) {
-        const data = await response.json();
         setFormData(prev => ({
           ...prev,
-          [type]: data.url
+          [type]: response.data.url
         }));
       } else {
         alert('Failed to upload image');
