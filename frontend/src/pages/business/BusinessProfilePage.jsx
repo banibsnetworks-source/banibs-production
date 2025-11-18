@@ -130,6 +130,26 @@ const BusinessProfilePage = () => {
               Set up your business profile to start posting jobs, connecting with customers, and growing your network.
             </p>
 
+            {/* DEBUG TEST BUTTON - SIMPLE */}
+            <button
+              onClick={() => console.log('✅ TEST BUTTON CLICKED!')}
+              style={{
+                padding: '20px 40px',
+                backgroundColor: 'red',
+                color: 'white',
+                border: '5px solid yellow',
+                fontSize: '20px',
+                cursor: 'pointer',
+                position: 'relative',
+                zIndex: 99999,
+                pointerEvents: 'auto',
+                display: 'block',
+                margin: '20px auto'
+              }}
+            >
+              TEST BUTTON - CLICK ME
+            </button>
+
             {/* Create Button */}
             <button
               onClick={() => {
