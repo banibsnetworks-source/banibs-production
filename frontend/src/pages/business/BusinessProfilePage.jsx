@@ -21,44 +21,50 @@ const BusinessProfilePage = () => {
   }, []);
 
   const loadMyBusiness = async () => {
+    console.log('🏢 [BusinessProfilePage] Starting loadMyBusiness...');
     setLoading(true);
     try {
       const token = localStorage.getItem('access_token');
+      console.log('🏢 [BusinessProfilePage] Token exists:', !!token);
+      
       if (!token) {
-        console.log('No token found, showing create profile');
+        console.log('🏢 [BusinessProfilePage] No token found, showing create profile');
         setBusinessId(null);
         setLoading(false);
         return;
       }
 
+      console.log('🏢 [BusinessProfilePage] Calling /api/business/me...');
       const response = await xhrRequest(
         `${process.env.REACT_APP_BACKEND_URL}/api/business/me`,
         {
           headers: {
             'Authorization': `Bearer ${token}`
-          }
+          },
+          timeout: 5000  // 5 second timeout
         }
       );
 
-      console.log('Business API response status:', response.status);
+      console.log('🏢 [BusinessProfilePage] Response status:', response.status);
 
       if (response.ok) {
-        console.log('Business profile found:', response.data.id);
+        console.log('🏢 [BusinessProfilePage] Business profile found:', response.data.id);
         setBusinessId(response.data.id);
       } else if (response.status === 404) {
-        // No business profile exists
-        console.log('No business profile found (404)');
+        // No business profile exists - this is EXPECTED for new users
+        console.log('🏢 [BusinessProfilePage] No business profile found (404) - showing create option');
         setBusinessId(null);
       } else {
-        console.error('Business API error:', response.status);
+        console.error('🏢 [BusinessProfilePage] Business API error:', response.status, response.data);
         // Still show create option on error
         setBusinessId(null);
       }
     } catch (err) {
-      console.error('Error loading business:', err);
+      console.error('🏢 [BusinessProfilePage] Error loading business:', err);
       // On error, still show create option
       setBusinessId(null);
     } finally {
+      console.log('🏢 [BusinessProfilePage] Setting loading to false');
       setLoading(false);
     }
   };
