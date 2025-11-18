@@ -133,8 +133,8 @@ async def list_campaigns(
     
     campaigns_raw = await cursor.to_list(length=limit)
     
-    # Convert to Pydantic models to handle _id -> id aliasing
-    campaigns = [HelpingHandsCampaign(**c) for c in campaigns_raw]
+    # Convert to Pydantic models and serialize with field names (not aliases)
+    campaigns = [HelpingHandsCampaign(**c).model_dump(by_alias=False) for c in campaigns_raw]
     
     return {
         "campaigns": campaigns,
