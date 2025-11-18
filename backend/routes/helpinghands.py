@@ -128,10 +128,7 @@ async def list_campaigns(
     
     # Fetch campaigns
     skip = (page - 1) * limit
-    cursor = db.helpinghands_campaigns.find(
-        query,
-        {"_id": 0}
-    ).sort("created_at", -1).skip(skip).limit(limit)
+    cursor = db.helpinghands_campaigns.find(query).sort("created_at", -1).skip(skip).limit(limit)
     
     campaigns = await cursor.to_list(length=limit)
     
