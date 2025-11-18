@@ -60,7 +60,7 @@ const HelpingHandsCampaignDetail = () => {
   const handleConfirmSupport = async () => {
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch(
+      const response = await xhrRequest(
         `${process.env.REACT_APP_BACKEND_URL}/api/helping-hands/campaigns/${campaignId}/support`,
         {
           method: 'POST',
@@ -79,9 +79,8 @@ const HelpingHandsCampaignDetail = () => {
       );
       
       if (response.ok) {
-        const data = await response.json();
         // Redirect to Stripe Checkout
-        window.location.href = data.checkout_url;
+        window.location.href = response.data.checkout_url;
       } else {
         alert('Failed to initiate support. Please try again.');
       }
