@@ -181,6 +181,7 @@ export const AuthProvider = ({ children }) => {
     accessToken,
     refreshToken,
     login,
+    register,
     logout,
     refreshAccessToken,
     updateUserProfile,
