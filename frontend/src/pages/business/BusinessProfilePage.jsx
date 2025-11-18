@@ -70,6 +70,7 @@ const BusinessProfilePage = () => {
   };
 
   if (loading) {
+    console.log('🏢 [RENDER] Showing LOADING state');
     return (
       <BusinessLayout>
         <div className="flex items-center justify-center min-h-screen">
@@ -82,8 +83,11 @@ const BusinessProfilePage = () => {
     );
   }
 
+  console.log('🏢 [RENDER] Loading complete. businessId:', businessId);
+
   // No business profile - show create option
   if (!businessId) {
+    console.log('🏢 [RENDER] Showing CREATE BUSINESS button (no businessId)');
     return (
       <BusinessLayout>
         <div 
