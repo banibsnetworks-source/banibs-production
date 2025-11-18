@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Loader2, Plus } from 'lucide-react';
 import BusinessLayout from '../../components/business/BusinessLayout';
 import BusinessProfilePublic from './BusinessProfilePublic';
+import { xhrRequest } from '../../utils/xhrRequest';
 
 /**
  * BusinessProfilePage - Phase 8.4 (P0 Fix)
