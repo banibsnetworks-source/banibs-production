@@ -92,6 +92,7 @@ import SocialDiscoverPeoplePage from "./pages/social/SocialDiscoverPeoplePage";
 import CommunityWatchPage from "./pages/social/CommunityWatchPage";
 // Phase 8.2 - Business Profiles
 import BusinessProfileEdit from "./pages/business/BusinessProfileEdit";
+import BusinessProfileCreate from "./pages/business/BusinessProfileCreate";
 import BusinessProfilePublic from "./pages/business/BusinessProfilePublic";
 import MyBusinessRedirect from "./pages/business/MyBusinessRedirect";
 // Phase 8.3 - Business Board
