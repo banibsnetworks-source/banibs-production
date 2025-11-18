@@ -57,6 +57,15 @@ export function xhrRequest(url, { method = "GET", headers = {}, body = null, tim
         error: "Network error" 
       });
     };
+    
+    xhr.ontimeout = () => {
+      reject({ 
+        status: 0, 
+        data: null,
+        ok: false,
+        error: "Request timeout" 
+      });
+    };
 
     // Send request
     xhr.send(body);
