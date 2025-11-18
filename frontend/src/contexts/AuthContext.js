@@ -79,6 +79,38 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const register = async (name, email, password) => {
+    try {
+      console.log('🔐 [AuthContext] Starting registration for:', email);
+      const response = await axios.post(`${BACKEND_URL}/api/auth/register`, {
+        name,
+        email,
+        password
+      });
+
+      console.log('🔐 [AuthContext] Registration API response received');
+      const { access_token, refresh_token, user: userData } = response.data;
+
+      // Store tokens and user data (auto-login after registration)
+      setAccessToken(access_token);
+      setRefreshToken(refresh_token);
+      setUser(userData);
+
+      // Persist to localStorage
+      localStorage.setItem('access_token', access_token);
+      localStorage.setItem('refresh_token', refresh_token);
+      localStorage.setItem('user', JSON.stringify(userData));
+      localStorage.setItem('adminToken', access_token);
+
+      console.log('🔐 [AuthContext] Registration successful, user logged in');
+      return userData;
+    } catch (error) {
+      console.error('🔐 [AuthContext] Registration error:', error);
+      const errorMessage = error.response?.data?.detail || 'Registration failed';
+      throw new Error(errorMessage);
+    }
+  };
+
   const logout = () => {
     // Clear state
     setAccessToken(null);
