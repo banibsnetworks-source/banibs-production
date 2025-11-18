@@ -138,6 +138,11 @@ async def list_campaigns(
         if 'id' not in camp and '_id' in camp:
             camp['id'] = camp['_id']
     
+    # Debug: Check what we're returning
+    if campaigns:
+        print(f"DEBUG: First campaign keys: {list(campaigns[0].keys())[:10]}")
+        print(f"DEBUG: Has 'id': {'id' in campaigns[0]}")
+    
     return {
         "campaigns": campaigns,
         "total": total,
