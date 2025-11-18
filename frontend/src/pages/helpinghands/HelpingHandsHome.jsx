@@ -48,14 +48,13 @@ const HelpingHandsHome = () => {
         }
       }
       
-      const response = await fetch(
+      const response = await xhrRequest(
         `${process.env.REACT_APP_BACKEND_URL}/api/helping-hands/campaigns?${params.toString()}`,
         { headers }
       );
       
       if (response.ok) {
-        const data = await response.json();
-        let filteredCampaigns = data.campaigns || [];
+        let filteredCampaigns = response.data.campaigns || [];
         
         // Filter for user's own campaigns if on "My Campaigns" tab
         if (activeTab === 'my-campaigns' && user) {
