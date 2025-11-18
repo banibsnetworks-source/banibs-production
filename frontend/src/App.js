@@ -208,6 +208,10 @@ function App() {
                 <BrowserRouter>
                   <AccountModeProvider>
             <Routes>
+              {/* Phase 10.0 - Full-Page Auth Routes (P0 Blocker Fix) */}
+              <Route path="/auth/register" element={<RegisterPageNew />} />
+              <Route path="/auth/signin" element={<SignInPage />} />
+              
               {/* Phase 7.6.2 - New CNN-Style News Homepage */}
               <Route path="/" element={<NewsHomePage />} />
               
