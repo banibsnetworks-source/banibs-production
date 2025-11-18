@@ -47,7 +47,7 @@ except ImportError:
 
 # ============= Campaign Routes =============
 
-@router.post("/campaigns", response_model=HelpingHandsCampaign)
+@router.post("/campaigns", response_model=HelpingHandsCampaign, response_model_by_alias=False)
 async def create_campaign(
     campaign_data: CampaignCreateRequest,
     current_user: dict = Depends(require_role("user", "member"))
