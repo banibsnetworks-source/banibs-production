@@ -124,6 +124,8 @@ class BusinessProfilePublic(BaseModel):
     latitude: Optional[float] = None
     longitude: Optional[float] = None
     service_radius_km: Optional[float] = None
+    # Phase 10.0 - Black-owned business confirmation
+    is_black_owned_confirmed: bool = False
     distance_km: Optional[float] = Field(None, description="Distance from search origin (computed)")
     distance_miles: Optional[float] = Field(None, description="Distance in miles (computed)")
     
