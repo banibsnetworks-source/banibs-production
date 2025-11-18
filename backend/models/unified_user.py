@@ -117,6 +117,8 @@ class UserPublic(BaseModel):
     id: str
     email: str
     name: str
+    first_name: Optional[str] = None  # Phase 10.0 - Structured name
+    last_name: Optional[str] = None   # Phase 10.0 - Structured name
     avatar_url: Optional[str] = None
     bio: Optional[str] = None
     roles: List[str]
