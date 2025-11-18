@@ -155,7 +155,7 @@ const BusinessProfileEdit = () => {
       
       const method = businessId ? 'PATCH' : 'POST';
 
-      const response = await fetch(url, {
+      const response = await xhrRequest(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
@@ -165,13 +165,11 @@ const BusinessProfileEdit = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        setBusinessId(data.id);
+        setBusinessId(response.data.id);
         alert('Business profile saved successfully!');
-        navigate(`/portal/business/${data.id}`);
+        navigate(`/portal/business/${response.data.id}`);
       } else {
-        const errorData = await response.json();
-        setError(errorData.detail || 'Failed to save business profile');
+        setError(response.data.detail || 'Failed to save business profile');
       }
     } catch (err) {
       console.error('Save error:', err);
