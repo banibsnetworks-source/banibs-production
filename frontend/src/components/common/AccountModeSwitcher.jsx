@@ -72,8 +72,13 @@ const AccountModeSwitcher = () => {
   };
 
   const handleBusinessClick = (profile) => {
+    console.log('🏢 [AccountModeSwitcher] Business profile clicked:', profile);
     switchToBusiness(profile);
     setIsOpen(false);
+    
+    // Navigate to business profile page
+    console.log('🏢 [AccountModeSwitcher] Navigating to /portal/business/profile');
+    window.location.href = '/portal/business/profile';
   };
 
   return (
