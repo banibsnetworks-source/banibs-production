@@ -127,7 +127,9 @@ const BusinessProfilePage = () => {
               style={{
                 background: 'linear-gradient(135deg, #E8B657 0%, #D4A446 100%)',
                 color: '#0a0a0a',
-                boxShadow: '0 4px 12px rgba(232, 182, 87, 0.3)'
+                boxShadow: '0 4px 12px rgba(232, 182, 87, 0.3)',
+                cursor: 'pointer',
+                pointerEvents: 'auto'
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-2px)';
