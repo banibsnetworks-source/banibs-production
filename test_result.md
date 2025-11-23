@@ -697,9 +697,7 @@ test_plan:
   current_focus:
     - "MarketplaceCheckoutPage - Real Wallet Payment Integration"
     - "MarketplaceSellerDashboardPage - Seller Payout Dashboard"
-  stuck_tasks:
-    - "MarketplaceCheckoutPage - Real Wallet Payment Integration"
-    - "MarketplaceSellerDashboardPage - Seller Payout Dashboard"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
