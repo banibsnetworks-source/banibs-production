@@ -30,8 +30,12 @@ const HelpingHandsHome = () => {
     try {
       const params = new URLSearchParams();
       
-      // For "My Campaigns", show all statuses (including drafts)
-      if (activeTab !== 'my-campaigns') {
+      // Handle "My Campaigns" tab with backend filter
+      if (activeTab === 'my-campaigns') {
+        params.append('filter', 'mine');
+        // No status filter - show all user's campaigns (draft, active, completed, cancelled)
+      } else {
+        // For other tabs, show only active campaigns
         params.append('status', 'active');
       }
       
@@ -39,13 +43,11 @@ const HelpingHandsHome = () => {
         params.append('featured', 'true');
       }
       
-      // Add auth header for "My Campaigns" to filter by owner
+      // Add auth header for authenticated requests
       const headers = {};
-      if (activeTab === 'my-campaigns') {
-        const token = localStorage.getItem('access_token');
-        if (token) {
-          headers['Authorization'] = `Bearer ${token}`;
-        }
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
       }
       
       const response = await xhrRequest(
@@ -54,14 +56,8 @@ const HelpingHandsHome = () => {
       );
       
       if (response.ok) {
-        let filteredCampaigns = response.data.campaigns || [];
-        
-        // Filter for user's own campaigns if on "My Campaigns" tab
-        if (activeTab === 'my-campaigns' && user) {
-          filteredCampaigns = filteredCampaigns.filter(c => c.owner_id === user.id);
-        }
-        
-        setCampaigns(filteredCampaigns);
+        const campaigns = response.data.campaigns || [];
+        setCampaigns(campaigns);
       }
     } catch (err) {
       console.error('Error loading campaigns:', err);
