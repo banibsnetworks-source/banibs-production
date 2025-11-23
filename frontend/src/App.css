@@ -84,3 +84,34 @@
 .spiritual-gradient-soft {
   background: linear-gradient(to bottom, rgba(139, 92, 246, 0.05), transparent);
 }
+
+/* Phase 11.1 - Beauty & Wellness Portal Theme */
+.theme-beauty {
+  --primary: #EC4899; /* Pink */
+  --primary-hover: #DB2777;
+  --accent: #F9A8D4;
+  --background: #FAFAFA;
+  --card: #FFFFFF;
+  --border: #E5E7EB;
+  --foreground: #111827;
+  --muted-foreground: #6B7280;
+  --muted: #F3F4F6;
+}
+
+.theme-beauty.dark {
+  --background: #0A0A0A;
+  --card: #1A1A1A;
+  --border: rgba(236, 72, 153, 0.2);
+  --foreground: #F9FAFB;
+  --muted-foreground: #9CA3AF;
+  --muted: #1F2937;
+}
+
+/* Beauty-specific gradients */
+.beauty-gradient {
+  background: linear-gradient(135deg, #EC4899 0%, #F9A8D4 100%);
+}
+
+.beauty-gradient-soft {
+  background: linear-gradient(to bottom, rgba(236, 72, 153, 0.05), transparent);
+}
