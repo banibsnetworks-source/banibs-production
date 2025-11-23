@@ -1,6 +1,7 @@
 """
 Seed data for BANIBS Ability Network
-Phase 11.5.1
+Phase 11.5.1 - Resources
+Phase 11.5.2 - Providers
 """
 
 import asyncio
