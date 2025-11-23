@@ -459,6 +459,14 @@ function App() {
               <Route path="/portal/diaspora/learn" element={<DiasporaLearnPage />} />
               <Route path="/portal/diaspora/snapshot" element={<DiasporaSnapshotPage />} />
               
+              {/* Phase 13.0 - BANIBS Academy */}
+              <Route path="/portal/academy" element={<AcademyHomePage />} />
+              <Route path="/portal/academy/courses" element={<AcademyCoursesPage />} />
+              <Route path="/portal/academy/mentorship" element={<AcademyMentorshipPage />} />
+              <Route path="/portal/academy/lifeskills" element={<AcademyLifeSkillsPage />} />
+              <Route path="/portal/academy/history" element={<AcademyHistoryPage />} />
+              <Route path="/portal/academy/opportunities" element={<AcademyOpportunitiesPage />} />
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
               <Route path="/portal/academy" element={<YouthAcademyPlaceholder />} />
               <Route path="/portal/wallet" element={<WalletPlaceholder />} />
