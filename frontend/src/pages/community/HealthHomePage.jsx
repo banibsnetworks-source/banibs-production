@@ -62,27 +62,36 @@ export default function HealthHomePage() {
 
       {/* Quick Actions */}
       <div className="grid md:grid-cols-3 gap-4 mb-8">
-        <button className="flex items-center gap-3 p-4 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-teal-500/50 transition text-left">
+        <Link
+          to="/portal/community/health/providers"
+          className="flex items-center gap-3 p-4 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-teal-500/50 transition text-left"
+        >
           <Search className="text-teal-400" size={20} />
           <div>
             <div className="text-sm font-semibold text-slate-100">Find Providers</div>
             <div className="text-xs text-slate-400">Search by specialty & location</div>
           </div>
-        </button>
-        <button className="flex items-center gap-3 p-4 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-teal-500/50 transition text-left">
+        </Link>
+        <Link
+          to="/portal/community/health/providers?black_owned=true"
+          className="flex items-center gap-3 p-4 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-teal-500/50 transition text-left"
+        >
           <MapPin className="text-teal-400" size={20} />
           <div>
-            <div className="text-sm font-semibold text-slate-100">Local Clinics</div>
-            <div className="text-xs text-slate-400">Community health centers</div>
+            <div className="text-sm font-semibold text-slate-100">Black-Owned Providers</div>
+            <div className="text-xs text-slate-400">Community-centered care</div>
           </div>
-        </button>
-        <button className="flex items-center gap-3 p-4 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-teal-500/50 transition text-left">
+        </Link>
+        <Link
+          to="/portal/community/health/providers?sliding_scale=true"
+          className="flex items-center gap-3 p-4 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-teal-500/50 transition text-left"
+        >
           <DollarSign className="text-teal-400" size={20} />
           <div>
-            <div className="text-sm font-semibold text-slate-100">Cost Assistance</div>
-            <div className="text-xs text-slate-400">Programs & grants</div>
+            <div className="text-sm font-semibold text-slate-100">Affordable Care</div>
+            <div className="text-xs text-slate-400">Sliding scale & uninsured</div>
           </div>
-        </button>
+        </Link>
       </div>
 
       {/* Health Resources */}
