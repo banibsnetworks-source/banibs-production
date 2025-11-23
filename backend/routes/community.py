@@ -235,6 +235,62 @@ async def get_fitness_coach_detail(coach_id: str):
     return coach
 
 
+@router.post("/fitness/programs/{program_id}/enroll")
+async def enroll_in_program(
+    program_id: str, 
+    request: Request,
+    current_user: dict = Depends(get_current_user_dependency)
+):
+    """Enroll in a fitness program - Phase 11.6.2 (P1)"""
+    db = get_db_client()
+    community_db = CommunityDB(db)
+    
+    # Verify program exists
+    program = await community_db.fitness_programs.find_one(
+        {"$or": [{"id": program_id}, {"slug": program_id}]}, 
+        {"_id": 0}
+    )
+    
+    if not program:
+        raise HTTPException(status_code=404, detail="Program not found")
+    
+    # Check if already enrolled
+    existing = await community_db.program_enrollments.find_one({
+        "user_id": current_user["id"],
+        "program_id": program["id"]
+    }, {"_id": 0})
+    
+    if existing:
+        raise HTTPException(status_code=400, detail="Already enrolled in this program")
+    
+    # Create enrollment record
+    enrollment = {
+        "id": f"enroll-{uuid4().hex[:8]}",
+        "program_id": program["id"],
+        "user_id": current_user["id"],
+        "user_name": current_user.get("name", ""),
+        "user_email": current_user.get("email", ""),
+        "status": "enrolled",
+        "enrolled_at": datetime.now(timezone.utc),
+        "progress": 0,
+        "notes": None
+    }
+    
+    await community_db.program_enrollments.insert_one(enrollment)
+    
+    # Increment participant count on program
+    await community_db.fitness_programs.update_one(
+        {"id": program["id"]},
+        {"$inc": {"participants_count": 1}}
+    )
+    
+    return {
+        "success": True,
+        "message": "Successfully enrolled in program",
+        "enrollment_id": enrollment["id"]
+    }
+
+
 # ==================== FOOD & CULTURE ENDPOINTS ====================
 
 @router.get("/food/recipes", response_model=RecipesResponse)
