@@ -164,6 +164,26 @@ export const MODULE_REGISTRY = {
     ]
   },
   
+  BANIBS_ACADEMY: {
+    id: 'academy',
+    name: 'BANIBS Academy',
+    route: '/portal/academy',
+    enabled: true, // ✅ Phase 13.0 Complete
+    layout: 'AcademyLayout',
+    theme: 'academy',
+    color: '#3B82F6', // Royal Blue
+    permissions: ['public'], // Public access
+    phase: '13.0',
+    description: 'Educating a Generation Built on Legacy, Wealth, Knowledge & Power',
+    subModules: [
+      'learning_tracks',
+      'mentorship_network',
+      'life_skills',
+      'black_history',
+      'opportunities'
+    ]
+  },
+  
   CULTURAL_MESSAGING: {
     id: 'cultural_messaging',
     name: 'Cultural Network',
