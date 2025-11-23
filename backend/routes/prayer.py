@@ -14,7 +14,7 @@ from models.prayer import (
     PrayerPostsResponse,
     AmenCreate
 )
-from middleware.auth_guard import require_role, get_current_user
+from middleware.auth_guard import require_role, get_current_user_optional
 from db.prayer import (
     get_active_rooms,
     get_room_by_id,
