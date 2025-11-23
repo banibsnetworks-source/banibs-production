@@ -138,7 +138,6 @@ import EmojiIdentitySettingsPanel from "./components/settings/EmojiIdentitySetti
 import EmojiRenderTest from "./pages/test/EmojiRenderTest";
 // Phase 11+ Portal Placeholders
 import {
-  BeautyMarketplacePlaceholder,
   SneakerFashionPlaceholder,
   DiasporaPlaceholder,
   YouthAcademyPlaceholder,
@@ -147,6 +146,12 @@ import {
 // Phase 11.0 - Prayer Rooms (Real Implementation)
 import PrayerLobbyPage from "./pages/prayer/PrayerLobbyPage";
 import PrayerRoomPage from "./pages/prayer/PrayerRoomPage";
+// Phase 11.1 - Beauty & Wellness (Real Implementation)
+import BeautyHomePage from "./pages/beauty/BeautyHomePage";
+import BeautyProviderDirectory from "./pages/beauty/BeautyProviderDirectory";
+import BeautyEducationPage from "./pages/beauty/BeautyEducationPage";
+import BeautyBoardPage from "./pages/beauty/BeautyBoardPage";
+import BeautyCostCalculator from "./pages/beauty/BeautyCostCalculator";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
