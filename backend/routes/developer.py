@@ -28,7 +28,7 @@ from models.developer import (
     ServiceStatus
 )
 from db.developer import DeveloperDB
-from middleware import get_current_user
+from middleware.auth_guard import get_current_user
 from database import get_db
 
 router = APIRouter(prefix="/developer", tags=["BANIBS OS"])
