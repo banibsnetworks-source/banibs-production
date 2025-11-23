@@ -470,6 +470,10 @@ function App() {
               <Route path="/portal/academy/history" element={<AcademyHistoryPage />} />
               <Route path="/portal/academy/opportunities" element={<AcademyOpportunitiesPage />} />
               
+              {/* Phase 14.0 - BANIBS Wallet (AUTH ONLY) */}
+              <Route path="/portal/wallet" element={<WalletHomePage />} />
+              <Route path="/portal/wallet/*" element={<WalletHomePage />} />
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
               <Route path="/portal/academy" element={<YouthAcademyPlaceholder />} />
               <Route path="/portal/wallet" element={<WalletPlaceholder />} />
