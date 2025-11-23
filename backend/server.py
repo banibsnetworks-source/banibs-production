@@ -305,6 +305,10 @@ from routes.business_support import router as business_support_router
 app.include_router(peoples_router)
 app.include_router(business_support_router)
 
+# Include Phase 11.0 - Prayer Rooms router
+from routes.prayer import router as prayer_router
+app.include_router(prayer_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
