@@ -313,6 +313,10 @@ app.include_router(prayer_router)
 from routes.beauty import router as beauty_router
 app.include_router(beauty_router)
 
+# Include Phase 11.2 - Fashion & Sneakers router
+from routes.fashion import router as fashion_router
+app.include_router(fashion_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
