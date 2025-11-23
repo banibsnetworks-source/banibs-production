@@ -329,6 +329,10 @@ app.include_router(academy_router)
 from routes.wallet import router as wallet_router
 app.include_router(wallet_router)
 
+# Include Phase 15.0 - BANIBS OS / Developer Platform router
+from routes.developer import router as developer_router
+app.include_router(developer_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
