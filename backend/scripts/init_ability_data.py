@@ -11,7 +11,7 @@ import os
 
 # MongoDB connection
 MONGO_URL = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
-DB_NAME = 'banibs'
+DB_NAME = 'test_database'
 
 
 async def seed_ability_data():
