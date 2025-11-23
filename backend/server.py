@@ -341,6 +341,10 @@ app.include_router(marketplace_router)
 from routes.marketplace_payouts import router as marketplace_payouts_router
 app.include_router(marketplace_payouts_router)
 
+# Include Phase 11.6-11.9 - Community Life Hub
+from routes.community import router as community_router
+app.include_router(community_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
