@@ -339,6 +339,60 @@ async def get_recipe(slug: str):
     return recipe
 
 
+@router.post("/food/recipes/submit")
+async def submit_recipe(
+    recipe_data: dict,
+    current_user: dict = Depends(get_current_user_dependency)
+):
+    """Submit a recipe for review - Phase 11.6.3"""
+    db = get_db_client()
+    community_db = CommunityDB(db)
+    
+    # Create slug from title
+    slug = recipe_data["title"].lower().replace(" ", "-").replace("'", "")
+    
+    # Create recipe record with pending_review status
+    recipe = {
+        "id": f"recipe-{uuid4().hex[:8]}",
+        "title": recipe_data["title"],
+        "slug": slug,
+        "origin_region": recipe_data["origin_region"],
+        "category": recipe_data["category"],
+        "difficulty": recipe_data.get("difficulty", "moderate"),
+        "traditional_instructions_md": recipe_data["traditional_instructions_md"],
+        "healthier_version_md": recipe_data.get("healthier_version_md"),
+        "ingredients_traditional": recipe_data.get("ingredients_traditional", []),
+        "ingredients_healthier": recipe_data.get("ingredients_healthier"),
+        "cook_time_minutes": recipe_data["cook_time_minutes"],
+        "prep_time_minutes": recipe_data.get("prep_time_minutes"),
+        "servings": recipe_data.get("servings"),
+        "nutrition_level": recipe_data.get("nutrition_level", "medium"),
+        "dietary_notes": recipe_data.get("dietary_notes", []),
+        "is_family_submitted": True,
+        "submitted_by_user_id": current_user["id"],
+        "submitted_by_name": current_user.get("name", current_user.get("email", "Unknown")),
+        "chef_id": None,
+        "image_url": recipe_data.get("image_url"),
+        "video_url": None,
+        "tags": recipe_data.get("tags", []),
+        "is_featured": False,
+        "is_approved": False,  # Pending review
+        "view_count": 0,
+        "saved_count": 0,
+        "rating": None,
+        "created_at": datetime.now(timezone.utc),
+        "updated_at": datetime.now(timezone.utc)
+    }
+    
+    await community_db.recipes.insert_one(recipe)
+    
+    return {
+        "success": True,
+        "message": "Recipe submitted successfully and is pending review",
+        "recipe_id": recipe["id"]
+    }
+
+
 # ==================== ALTERNATIVE SCHOOLING ENDPOINTS ====================
 
 @router.get("/school/resources", response_model=SchoolResourcesResponse)
