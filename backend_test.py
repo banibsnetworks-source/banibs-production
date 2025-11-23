@@ -1272,6 +1272,435 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # PHASE 12.0 - DIASPORA CONNECT PORTAL TESTING
+    # ==========================================
+    
+    def test_phase_12_0_diaspora_comprehensive(self) -> bool:
+        """
+        PHASE 12.0 COMPREHENSIVE TESTING: Diaspora Connect Portal
+        
+        Tests all diaspora endpoints:
+        1. Regions endpoints (GET /api/diaspora/regions, GET /api/diaspora/regions/{id})
+        2. Stories endpoints (GET /api/diaspora/stories, POST /api/diaspora/stories, DELETE /api/diaspora/stories/{id})
+        3. Businesses endpoints (GET /api/diaspora/businesses, GET /api/diaspora/businesses/{id})
+        4. Education endpoints (GET /api/diaspora/education, GET /api/diaspora/education/{id})
+        5. Snapshot endpoints (POST /api/diaspora/snapshot, GET /api/diaspora/snapshot/{user_id})
+        """
+        self.log("🌍 PHASE 12.0 COMPREHENSIVE TESTING: Diaspora Connect Portal")
+        
+        # ============ REGIONS ENDPOINTS TESTING ============
+        
+        self.log("🗺️ Testing Regions Endpoints...")
+        
+        # Test 1: Get all regions (should return 7 regions)
+        self.log("📊 Test 1: Getting all diaspora regions...")
+        response = self.make_request("GET", "/diaspora/regions")
+        
+        if response.status_code == 200:
+            data = response.json()
+            regions = data.get("regions", [])
+            total = data.get("total", 0)
+            
+            if total == 7 and len(regions) == 7:
+                self.log(f"✅ Found {total} regions as expected")
+                
+                # Verify expected regions
+                expected_regions = [
+                    "North America", "Caribbean", "West Africa", "East Africa", 
+                    "Central & Southern Africa", "Europe", "Latin America"
+                ]
+                
+                region_names = [r.get("name") for r in regions]
+                missing_regions = [name for name in expected_regions if name not in region_names]
+                
+                if not missing_regions:
+                    self.log("✅ All expected regions found")
+                    
+                    # Verify region structure
+                    first_region = regions[0]
+                    required_fields = ["name", "slug", "description", "countries", "highlight_cities"]
+                    
+                    if all(field in first_region for field in required_fields):
+                        self.log("✅ Region structure correct")
+                        self.log(f"   Sample region: {first_region['name']} ({first_region['slug']})")
+                        self.log(f"   Countries: {len(first_region.get('countries', []))}")
+                        self.log(f"   Highlight cities: {len(first_region.get('highlight_cities', []))}")
+                    else:
+                        missing_fields = [field for field in required_fields if field not in first_region]
+                        self.log(f"❌ Region missing fields: {missing_fields}", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Missing expected regions: {missing_regions}", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Expected 7 regions, got {total}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Failed to get regions: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 2: Get specific region by ID
+        self.log("🎯 Test 2: Getting specific region by ID...")
+        if regions:
+            test_region = regions[0]
+            region_id = test_region.get("id")
+            
+            if region_id:
+                response = self.make_request("GET", f"/diaspora/regions/{region_id}")
+                
+                if response.status_code == 200:
+                    region_data = response.json()
+                    if region_data.get("name") == test_region.get("name"):
+                        self.log(f"✅ Retrieved specific region: {region_data['name']}")
+                    else:
+                        self.log("❌ Retrieved region data doesn't match", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Failed to get specific region: {response.status_code}", "ERROR")
+                    return False
+        
+        # Test 3: Get invalid region ID (should return 404)
+        self.log("❌ Test 3: Testing invalid region ID...")
+        response = self.make_request("GET", "/diaspora/regions/invalid-id")
+        
+        if response.status_code == 404:
+            self.log("✅ Invalid region ID correctly returns 404")
+        else:
+            self.log(f"❌ Invalid region ID should return 404, got {response.status_code}", "ERROR")
+            return False
+        
+        # ============ STORIES ENDPOINTS TESTING ============
+        
+        self.log("📖 Testing Stories Endpoints...")
+        
+        # Test 4: Get all stories (should return 3 seeded stories)
+        self.log("📚 Test 4: Getting all diaspora stories...")
+        response = self.make_request("GET", "/diaspora/stories")
+        
+        if response.status_code == 200:
+            data = response.json()
+            stories = data.get("stories", [])
+            total = data.get("total", 0)
+            
+            if total >= 3:
+                self.log(f"✅ Found {total} stories (expected at least 3)")
+                
+                # Verify story structure
+                if stories:
+                    first_story = stories[0]
+                    required_fields = ["id", "title", "content", "created_at"]
+                    
+                    if all(field in first_story for field in required_fields):
+                        self.log("✅ Story structure correct")
+                        self.log(f"   Sample story: {first_story['title'][:50]}...")
+                        
+                        # Check for author info or anonymous flag
+                        if first_story.get("anonymous"):
+                            self.log("   Anonymous story detected")
+                        elif first_story.get("author_name"):
+                            self.log(f"   Author: {first_story['author_name']}")
+                    else:
+                        missing_fields = [field for field in required_fields if field not in first_story]
+                        self.log(f"❌ Story missing fields: {missing_fields}", "ERROR")
+                        return False
+            else:
+                self.log(f"❌ Expected at least 3 stories, got {total}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Failed to get stories: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 5: Get stories with origin_region_id filter
+        self.log("🔍 Test 5: Testing stories with origin_region_id filter...")
+        if regions:
+            test_region_id = regions[0].get("id")
+            response = self.make_request("GET", f"/diaspora/stories?origin_region_id={test_region_id}")
+            
+            if response.status_code == 200:
+                data = response.json()
+                filtered_stories = data.get("stories", [])
+                self.log(f"✅ Origin region filter working - Found {len(filtered_stories)} stories")
+            else:
+                self.log(f"❌ Origin region filter failed: {response.status_code}", "ERROR")
+                return False
+        
+        # Test 6: Get stories with current_region_id filter
+        self.log("🔍 Test 6: Testing stories with current_region_id filter...")
+        if regions:
+            test_region_id = regions[1].get("id") if len(regions) > 1 else regions[0].get("id")
+            response = self.make_request("GET", f"/diaspora/stories?current_region_id={test_region_id}")
+            
+            if response.status_code == 200:
+                data = response.json()
+                filtered_stories = data.get("stories", [])
+                self.log(f"✅ Current region filter working - Found {len(filtered_stories)} stories")
+            else:
+                self.log(f"❌ Current region filter failed: {response.status_code}", "ERROR")
+                return False
+        
+        # Test 7: Create story without auth (should return 401)
+        self.log("🔒 Test 7: Testing story creation without auth...")
+        response = self.make_request("POST", "/diaspora/stories", {
+            "title": "Test Story",
+            "content": "This is a test story content that should be long enough to meet requirements.",
+            "origin_region_id": regions[0].get("id") if regions else "test-id",
+            "current_region_id": regions[1].get("id") if len(regions) > 1 else "test-id",
+            "anonymous": True
+        })
+        
+        if response.status_code == 401:
+            self.log("✅ Story creation correctly requires authentication")
+        else:
+            self.log(f"❌ Story creation should require auth, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 8: Delete story without auth (should return 401)
+        self.log("🔒 Test 8: Testing story deletion without auth...")
+        response = self.make_request("DELETE", "/diaspora/stories/test-story-id")
+        
+        if response.status_code == 401:
+            self.log("✅ Story deletion correctly requires authentication")
+        else:
+            self.log(f"❌ Story deletion should require auth, got {response.status_code}", "ERROR")
+            return False
+        
+        # ============ BUSINESSES ENDPOINTS TESTING ============
+        
+        self.log("🏢 Testing Businesses Endpoints...")
+        
+        # Test 9: Get all businesses (should return 6 seeded businesses)
+        self.log("🏪 Test 9: Getting all diaspora businesses...")
+        response = self.make_request("GET", "/diaspora/businesses")
+        
+        if response.status_code == 200:
+            data = response.json()
+            businesses = data.get("businesses", [])
+            total = data.get("total", 0)
+            
+            if total >= 6:
+                self.log(f"✅ Found {total} businesses (expected at least 6)")
+                
+                # Verify business structure
+                if businesses:
+                    first_business = businesses[0]
+                    required_fields = ["name", "type", "location", "website"]
+                    
+                    if all(field in first_business for field in required_fields):
+                        self.log("✅ Business structure correct")
+                        self.log(f"   Sample business: {first_business['name']}")
+                        self.log(f"   Type: {first_business['type']}")
+                        self.log(f"   Location: {first_business['location']}")
+                        
+                        # Check for expected business types
+                        business_types = [b.get("type") for b in businesses]
+                        expected_types = ["tour", "lodging", "food", "service", "culture", "shop"]
+                        found_types = [t for t in expected_types if t in business_types]
+                        
+                        if len(found_types) >= 4:  # Allow some flexibility
+                            self.log(f"✅ Found business types: {found_types}")
+                        else:
+                            self.log(f"⚠️ Limited business type variety: {found_types}")
+                    else:
+                        missing_fields = [field for field in required_fields if field not in first_business]
+                        self.log(f"❌ Business missing fields: {missing_fields}", "ERROR")
+                        return False
+            else:
+                self.log(f"❌ Expected at least 6 businesses, got {total}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Failed to get businesses: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 10: Get businesses with region_id filter
+        self.log("🔍 Test 10: Testing businesses with region_id filter...")
+        if regions:
+            test_region_id = regions[0].get("id")
+            response = self.make_request("GET", f"/diaspora/businesses?region_id={test_region_id}")
+            
+            if response.status_code == 200:
+                data = response.json()
+                filtered_businesses = data.get("businesses", [])
+                self.log(f"✅ Region filter working - Found {len(filtered_businesses)} businesses")
+            else:
+                self.log(f"❌ Region filter failed: {response.status_code}", "ERROR")
+                return False
+        
+        # Test 11: Get businesses with type filter
+        self.log("🔍 Test 11: Testing businesses with type filter...")
+        response = self.make_request("GET", "/diaspora/businesses?type=food")
+        
+        if response.status_code == 200:
+            data = response.json()
+            filtered_businesses = data.get("businesses", [])
+            self.log(f"✅ Type filter working - Found {len(filtered_businesses)} food businesses")
+            
+            # Verify all returned businesses are food type
+            non_food = [b for b in filtered_businesses if b.get("type") != "food"]
+            if non_food:
+                self.log(f"❌ Found {len(non_food)} non-food businesses in food filter", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Type filter failed: {response.status_code}", "ERROR")
+            return False
+        
+        # Test 12: Get businesses with country filter
+        self.log("🔍 Test 12: Testing businesses with country filter...")
+        response = self.make_request("GET", "/diaspora/businesses?country=Ghana")
+        
+        if response.status_code == 200:
+            data = response.json()
+            filtered_businesses = data.get("businesses", [])
+            self.log(f"✅ Country filter working - Found {len(filtered_businesses)} businesses in Ghana")
+        else:
+            self.log(f"❌ Country filter failed: {response.status_code}", "ERROR")
+            return False
+        
+        # Test 13: Get specific business by ID
+        self.log("🎯 Test 13: Getting specific business by ID...")
+        if businesses:
+            test_business = businesses[0]
+            business_id = test_business.get("id")
+            
+            if business_id:
+                response = self.make_request("GET", f"/diaspora/businesses/{business_id}")
+                
+                if response.status_code == 200:
+                    business_data = response.json()
+                    if business_data.get("name") == test_business.get("name"):
+                        self.log(f"✅ Retrieved specific business: {business_data['name']}")
+                    else:
+                        self.log("❌ Retrieved business data doesn't match", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Failed to get specific business: {response.status_code}", "ERROR")
+                    return False
+        
+        # Test 14: Get invalid business ID (should return 404)
+        self.log("❌ Test 14: Testing invalid business ID...")
+        response = self.make_request("GET", "/diaspora/businesses/invalid-id")
+        
+        if response.status_code == 404:
+            self.log("✅ Invalid business ID correctly returns 404")
+        else:
+            self.log(f"❌ Invalid business ID should return 404, got {response.status_code}", "ERROR")
+            return False
+        
+        # ============ EDUCATION ENDPOINTS TESTING ============
+        
+        self.log("📚 Testing Education Endpoints...")
+        
+        # Test 15: Get all education articles (should return 4 seeded articles)
+        self.log("📖 Test 15: Getting all education articles...")
+        response = self.make_request("GET", "/diaspora/education")
+        
+        if response.status_code == 200:
+            data = response.json()
+            articles = data.get("articles", [])
+            total = data.get("total", 0)
+            
+            if total >= 4:
+                self.log(f"✅ Found {total} articles (expected at least 4)")
+                
+                # Verify article structure
+                if articles:
+                    first_article = articles[0]
+                    required_fields = ["title", "content", "tags"]
+                    
+                    if all(field in first_article for field in required_fields):
+                        self.log("✅ Article structure correct")
+                        self.log(f"   Sample article: {first_article['title']}")
+                        
+                        # Check for expected articles
+                        article_titles = [a.get("title") for a in articles]
+                        expected_titles = [
+                            "Understanding the Global Black Diaspora",
+                            "The Great Migration",
+                            "The Caribbean Diaspora",
+                            "Return to Africa"
+                        ]
+                        
+                        found_titles = [title for title in expected_titles if title in article_titles]
+                        if len(found_titles) >= 3:  # Allow some flexibility
+                            self.log(f"✅ Found expected articles: {found_titles}")
+                        else:
+                            self.log(f"⚠️ Limited expected articles found: {found_titles}")
+                    else:
+                        missing_fields = [field for field in required_fields if field not in first_article]
+                        self.log(f"❌ Article missing fields: {missing_fields}", "ERROR")
+                        return False
+            else:
+                self.log(f"❌ Expected at least 4 articles, got {total}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Failed to get articles: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 16: Get specific article by ID
+        self.log("🎯 Test 16: Getting specific article by ID...")
+        if articles:
+            test_article = articles[0]
+            article_id = test_article.get("id")
+            
+            if article_id:
+                response = self.make_request("GET", f"/diaspora/education/{article_id}")
+                
+                if response.status_code == 200:
+                    article_data = response.json()
+                    if article_data.get("title") == test_article.get("title"):
+                        self.log(f"✅ Retrieved specific article: {article_data['title']}")
+                    else:
+                        self.log("❌ Retrieved article data doesn't match", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Failed to get specific article: {response.status_code}", "ERROR")
+                    return False
+        
+        # Test 17: Get invalid article ID (should return 404)
+        self.log("❌ Test 17: Testing invalid article ID...")
+        response = self.make_request("GET", "/diaspora/education/invalid-id")
+        
+        if response.status_code == 404:
+            self.log("✅ Invalid article ID correctly returns 404")
+        else:
+            self.log(f"❌ Invalid article ID should return 404, got {response.status_code}", "ERROR")
+            return False
+        
+        # ============ SNAPSHOT ENDPOINTS TESTING ============
+        
+        self.log("📸 Testing Snapshot Endpoints...")
+        
+        # Test 18: Create snapshot without auth (should return 401)
+        self.log("🔒 Test 18: Testing snapshot creation without auth...")
+        response = self.make_request("POST", "/diaspora/snapshot", {
+            "current_region_id": regions[0].get("id") if regions else "test-id"
+        })
+        
+        if response.status_code == 401:
+            self.log("✅ Snapshot creation correctly requires authentication")
+        else:
+            self.log(f"❌ Snapshot creation should require auth, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 19: Get snapshot without auth (should return 401)
+        self.log("🔒 Test 19: Testing snapshot retrieval without auth...")
+        response = self.make_request("GET", "/diaspora/snapshot/test-user-id")
+        
+        if response.status_code == 401:
+            self.log("✅ Snapshot retrieval correctly requires authentication")
+        else:
+            self.log(f"❌ Snapshot retrieval should require auth, got {response.status_code}", "ERROR")
+            return False
+        
+        self.log("🎉 PHASE 12.0 DIASPORA CONNECT PORTAL TESTING COMPLETE!")
+        self.log("✅ All public endpoints working correctly")
+        self.log("✅ Authentication requirements properly enforced")
+        self.log("✅ Error handling working (404 for invalid IDs)")
+        self.log("✅ Filtering functionality working")
+        self.log("✅ Data structure validation passed")
+        
+        return True
+
+    # ==========================================
     # PHASE 8.3 - PEOPLES, BUSINESS SUPPORT, AND BUSINESS KNOWLEDGE FLAGS TESTING
     # ==========================================
     
