@@ -1,12 +1,12 @@
 """
 BANIBS Global Marketplace - API Routes
-Phase 16.0
+Phase 16.0 & 16.1
 """
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from fastapi.responses import FileResponse
 from typing import List, Optional
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import shutil
 
@@ -29,11 +29,20 @@ from models.marketplace import (
     MarketplaceOrderCreate,
     MarketplaceOrdersResponse,
     MarketplaceOrderWithItems,
+    OrderEvent,
     Region
 )
 from db.marketplace import MarketplaceDB
+from db.wallet import WalletDB  # Phase 16.1
 from middleware.auth_guard import get_current_user
 from db.connection import get_db_client
+from utils.marketplace_payments import (  # Phase 16.1
+    calculate_order_fees,
+    get_refund_window_days,
+    validate_wallet_balance,
+    generate_idempotency_key,
+    PLATFORM_WALLET_ACCOUNT_ID
+)
 
 router = APIRouter(prefix="/api/marketplace", tags=["Marketplace"])
 
