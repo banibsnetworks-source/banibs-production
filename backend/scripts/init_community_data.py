@@ -513,6 +513,8 @@ Same as traditional, but:
             "tags": ["co_op", "atlanta", "community", "in_person"],
             "is_verified": True,
             "is_featured": False,
+            "is_approved": True,  # Phase 11.6.4
+            "is_user_submitted": False,  # Phase 11.6.4
             "total_reviews": 0,
             "created_at": datetime.utcnow().isoformat(),
             "updated_at": datetime.utcnow().isoformat()
