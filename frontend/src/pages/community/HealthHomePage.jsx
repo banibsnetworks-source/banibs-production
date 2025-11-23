@@ -122,12 +122,21 @@ export default function HealthHomePage() {
       </div>
 
       {/* Healthcare Providers */}
-      <div>
-        <h2 className="text-xl font-bold text-slate-100 mb-4">Healthcare Providers</h2>
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-slate-100">Featured Providers</h2>
+          <Link
+            to="/portal/community/health/providers"
+            className="text-sm font-semibold text-teal-400 hover:text-teal-300 transition"
+          >
+            View All →
+          </Link>
+        </div>
         <div className="grid md:grid-cols-2 gap-4">
           {providers.map((provider) => (
-            <div
+            <Link
               key={provider.id}
+              to={`/portal/community/health/providers/${provider.slug || provider.id}`}
               className="rounded-xl bg-slate-900/50 border border-slate-800 p-5 hover:border-teal-500/50 transition"
             >
               <div className="flex items-start justify-between mb-3">
@@ -154,11 +163,13 @@ export default function HealthHomePage() {
                     Telehealth
                   </span>
                 )}
-                <span className="px-2 py-1 rounded-md bg-slate-800 border border-slate-700 text-slate-300">
-                  {provider.typical_price_range}
-                </span>
+                {provider.sliding_scale && (
+                  <span className="px-2 py-1 rounded-md bg-green-500/10 border border-green-500/30 text-green-300">
+                    Sliding Scale
+                  </span>
+                )}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
