@@ -66,7 +66,7 @@ async def list_room_posts(
     room_slug: str,
     page: int = Query(1, ge=1),
     limit: int = Query(50, ge=1, le=100),
-    current_user: Optional[dict] = Depends(get_current_user)
+    current_user: Optional[dict] = Depends(get_current_user_optional)
 ):
     """
     Get recent posts for a prayer room (last 14 days)
