@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import ConnectLayout from '../../components/connect/ConnectLayout';
-import { useAccountMode } from '../../contexts/AccountModeContext';
-import { 
-  TrendingUp, Eye, Heart, Briefcase, Star, Calendar,
-  Download, Users, Target, Award, Activity
-} from 'lucide-react';
-import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import AnalyticsContent from '../../components/business/AnalyticsContent';
 
+/**
+ * AnalyticsDashboard - Connect Layout wrapper for analytics
+ * Now uses the shared AnalyticsContent component
+ */
 const AnalyticsDashboard = () => {
+  return (
+    <ConnectLayout>
+      <AnalyticsContent />
+    </ConnectLayout>
+  );
+};
+
+export default AnalyticsDashboard;
   const navigate = useNavigate();
   const { selectedBusinessProfile, isBusinessMode } = useAccountMode();
   const [loading, setLoading] = useState(true);
