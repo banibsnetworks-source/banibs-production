@@ -245,9 +245,17 @@ export default function MarketplaceSellerDashboardPage() {
             <div className="text-3xl font-bold text-emerald-100 mb-2">
               ${availablePayout.toFixed(2)}
             </div>
-            <p className="text-xs text-emerald-300/70">
+            <p className="text-xs text-emerald-300/70 mb-4">
               Ready to transfer to your bank account
             </p>
+            <button
+              onClick={() => setShowPayoutModal(true)}
+              disabled={availablePayout < 20}
+              className="w-full px-4 py-2 rounded-lg bg-emerald-500 text-white text-sm font-semibold hover:bg-emerald-600 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              <Download size={16} />
+              Request Payout
+            </button>
           </div>
         </div>
 
