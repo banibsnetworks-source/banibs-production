@@ -103,17 +103,23 @@ class CommunityDB:
     async def get_health_providers(
         self,
         type: Optional[str] = None,
+        service_types: Optional[List[str]] = None,
         region: Optional[str] = None,
         city: Optional[str] = None,
         telehealth: Optional[bool] = None,
         black_owned: Optional[bool] = None,
+        accepts_uninsured: Optional[bool] = None,
+        sliding_scale: Optional[bool] = None,
+        ability_friendly: Optional[bool] = None,
         limit: int = 50
     ) -> List[Dict]:
-        """Get health providers with filters"""
+        """Get health providers with filters - Phase 11.6.1 enhanced"""
         query = {}
         
         if type:
             query["type"] = type
+        if service_types:
+            query["service_types"] = {"$in": service_types}
         if region:
             query["region"] = region
         if city:
@@ -122,13 +128,32 @@ class CommunityDB:
             query["telehealth"] = telehealth
         if black_owned is not None:
             query["is_black_owned"] = black_owned
+        if accepts_uninsured is not None:
+            query["accepts_uninsured"] = accepts_uninsured
+        if sliding_scale is not None:
+            query["sliding_scale"] = sliding_scale
+        if ability_friendly is not None:
+            query["ability_friendly"] = ability_friendly
+        
+        # Sort: Black-owned first if black_owned filter is True, then by name
+        sort_order = [("is_black_owned", -1), ("name", 1)] if black_owned else [("name", 1)]
         
         providers = await self.health_providers.find(
             query,
             {"_id": 0}
-        ).sort("name", 1).limit(limit).to_list(limit)
+        ).sort(sort_order).limit(limit).to_list(limit)
         
         return providers
+    
+    async def get_health_provider_by_id(self, provider_id: str) -> Optional[Dict]:
+        """Get health provider by ID"""
+        provider = await self.health_providers.find_one({"id": provider_id}, {"_id": 0})
+        return provider
+    
+    async def get_health_provider_by_slug(self, slug: str) -> Optional[Dict]:
+        """Get health provider by slug"""
+        provider = await self.health_providers.find_one({"slug": slug}, {"_id": 0})
+        return provider
     
     # ==================== FITNESS OPERATIONS ====================
     
