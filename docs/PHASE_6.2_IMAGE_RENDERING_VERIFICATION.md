@@ -186,7 +186,7 @@ for source in RSS_SOURCES:
 
 ### 3.3 Frontend Rendering
 
-**Test**: Visited `https://market-payments.preview.emergentagent.com/`
+**Test**: Visited `https://health-directory.preview.emergentagent.com/`
 
 **Results**:
 - ✅ Homepage loads successfully

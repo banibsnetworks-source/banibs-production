@@ -306,7 +306,7 @@ INITIAL_ADMIN_PASSWORD="BanibsAdmin#2025"
 
 ### Frontend Configuration
 ```env
-REACT_APP_BACKEND_URL="https://market-payments.preview.emergentagent.com"
+REACT_APP_BACKEND_URL="https://health-directory.preview.emergentagent.com"
 ```
 
 ---

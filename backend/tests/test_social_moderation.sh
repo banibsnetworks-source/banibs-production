@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://market-payments.preview.emergentagent.com"
+BACKEND_URL="https://health-directory.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output

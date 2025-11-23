@@ -46,8 +46,8 @@
 | `/api/opportunities/{id}/feature` | PATCH | ✅ 200 | ✅ Yes |
 
 **Total Endpoints:** 8/8 Active ✅  
-**Swagger UI:** https://market-payments.preview.emergentagent.com/docs ✅  
-**ReDoc:** https://market-payments.preview.emergentagent.com/redoc ✅
+**Swagger UI:** https://health-directory.preview.emergentagent.com/docs ✅  
+**ReDoc:** https://health-directory.preview.emergentagent.com/redoc ✅
 
 ---
 
@@ -84,7 +84,7 @@ def check_admin(x_api_key: str = Header(None)):
 
 **Frontend Environment:**
 ```env
-REACT_APP_BACKEND_URL=https://market-payments.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://health-directory.preview.emergentagent.com
 ```
 
 **Status:** ✅ Frontend is pointed at the live backend

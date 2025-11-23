@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://market-payments.preview.emergentagent.com/api/auth
+https://health-directory.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
