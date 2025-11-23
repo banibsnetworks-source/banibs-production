@@ -90,7 +90,7 @@ export const MODULE_REGISTRY = {
     id: 'prayer_rooms',
     name: 'Prayer Rooms',
     route: '/portal/prayer',
-    enabled: false, // Feature flag - enable when ready
+    enabled: true, // ✅ Phase 11.0 Complete
     layout: 'SpiritualLayout',
     theme: 'spiritual',
     color: '#8B5CF6', // Purple
