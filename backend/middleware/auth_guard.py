@@ -95,19 +95,11 @@ async def get_current_user_optional(authorization: Optional[str] = Header(None))
     # Verify token using new JWT service
     payload = JWTService.verify_token(token, token_type="access")
     if not payload:
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid or expired token",
-            headers={"WWW-Authenticate": "Bearer"}
-        )
+        return None  # Invalid token, return None instead of raising
     
     # Get full user from database
     user = await get_user_by_id(payload["sub"])
-    if not user:
-        raise HTTPException(
-            status_code=401,
-            detail="User not found"
-        )
+    return user  # Return user or None if not found
     
     return user
 
