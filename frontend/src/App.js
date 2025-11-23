@@ -177,6 +177,14 @@ import AcademyOpportunitiesPage from "./pages/academy/AcademyOpportunitiesPage";
 // Phase 14.0 - BANIBS Wallet
 import WalletHomePage from "./pages/wallet/WalletHomePage";
 
+// Phase 15.0 - BANIBS OS / Developer Platform
+import DevLayout from "./pages/developer/DevLayout";
+import DevDashboardPage from "./pages/developer/DevDashboardPage";
+import DevApiKeysPage from "./pages/developer/DevApiKeysPage";
+import DevAppsPage from "./pages/developer/DevAppsPage";
+import DevWebhooksPage from "./pages/developer/DevWebhooksPage";
+import DevDocsPage from "./pages/developer/DevDocsPage";
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
