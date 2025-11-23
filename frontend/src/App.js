@@ -416,8 +416,14 @@ function App() {
               <Route path="/portal/prayer" element={<PrayerLobbyPage />} />
               <Route path="/portal/prayer/room/:roomSlug" element={<PrayerRoomPage />} />
               
+              {/* Phase 11.1 - Beauty & Wellness (Real Implementation) */}
+              <Route path="/portal/beauty" element={<BeautyHomePage />} />
+              <Route path="/portal/beauty/providers" element={<BeautyProviderDirectory />} />
+              <Route path="/portal/beauty/education" element={<BeautyEducationPage />} />
+              <Route path="/portal/beauty/board" element={<BeautyBoardPage />} />
+              <Route path="/portal/beauty/cost" element={<BeautyCostCalculator />} />
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
-              <Route path="/portal/beauty" element={<BeautyMarketplacePlaceholder />} />
               <Route path="/portal/fashion" element={<SneakerFashionPlaceholder />} />
               <Route path="/portal/diaspora" element={<DiasporaPlaceholder />} />
               <Route path="/portal/academy" element={<YouthAcademyPlaceholder />} />
