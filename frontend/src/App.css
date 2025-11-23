@@ -115,3 +115,34 @@
 .beauty-gradient-soft {
   background: linear-gradient(to bottom, rgba(236, 72, 153, 0.05), transparent);
 }
+
+/* Phase 11.2 - Sneakers & Fashion Portal Theme */
+.theme-fashion {
+  --primary: #3B82F6; /* Blue */
+  --primary-hover: #2563EB;
+  --accent: #60A5FA;
+  --background: #FAFAFA;
+  --card: #FFFFFF;
+  --border: #E5E7EB;
+  --foreground: #111827;
+  --muted-foreground: #6B7280;
+  --muted: #F3F4F6;
+}
+
+.theme-fashion.dark {
+  --background: #0A0A0A;
+  --card: #1A1A1A;
+  --border: rgba(59, 130, 246, 0.2);
+  --foreground: #F9FAFB;
+  --muted-foreground: #9CA3AF;
+  --muted: #1F2937;
+}
+
+/* Fashion-specific gradients */
+.fashion-gradient {
+  background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
+}
+
+.fashion-gradient-soft {
+  background: linear-gradient(to bottom, rgba(59, 130, 246, 0.05), transparent);
+}
