@@ -164,7 +164,9 @@ class HealthProvider(BaseModel):
     """Healthcare provider listing"""
     id: str
     name: str
+    slug: Optional[str] = None  # Phase 11.6.1: For detail pages
     type: ProviderType
+    service_types: List[str] = []  # Phase 11.6.1: Multiple service types
     is_black_owned: bool = False
     cultural_competence_notes: Optional[str] = None
     address: Optional[str] = None
@@ -174,10 +176,16 @@ class HealthProvider(BaseModel):
     country: str = "USA"
     region: str
     telehealth: bool = False
+    accepts_uninsured: bool = False  # Phase 11.6.1
+    sliding_scale: bool = False  # Phase 11.6.1
+    ability_friendly: bool = False  # Phase 11.6.1: Wheelchair accessible, etc.
+    ability_notes: Optional[str] = None  # Phase 11.6.1
     insurances_accepted: List[str] = []
+    insurance_notes: Optional[str] = None  # Phase 11.6.1
     typical_price_range: CostRange
     contact_phone: Optional[str] = None
     contact_website: Optional[str] = None
+    contact_email: Optional[str] = None  # Phase 11.6.1
     hours: Optional[str] = None
     specialties: List[str] = []
     languages: List[str] = []
