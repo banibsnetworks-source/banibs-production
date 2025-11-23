@@ -205,6 +205,8 @@ import FitnessProgramDetailPage from "./pages/community/FitnessProgramDetailPage
 import FitnessCoachesPage from "./pages/community/FitnessCoachesPage";
 import FitnessCoachDetailPage from "./pages/community/FitnessCoachDetailPage";
 import FoodHomePage from "./pages/community/FoodHomePage";
+import RecipeDetailPage from "./pages/community/RecipeDetailPage";
+import RecipeSubmitPage from "./pages/community/RecipeSubmitPage";
 import SchoolHomePage from "./pages/community/SchoolHomePage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
