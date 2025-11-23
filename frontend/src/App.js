@@ -428,8 +428,14 @@ function App() {
               <Route path="/portal/beauty/board" element={<BeautyBoardPage />} />
               <Route path="/portal/beauty/cost" element={<BeautyCostCalculator />} />
               
+              {/* Phase 11.2 - Sneakers & Fashion (Real Implementation) */}
+              <Route path="/portal/fashion" element={<FashionHomePage />} />
+              <Route path="/portal/fashion/brands" element={<FashionBrandDirectory />} />
+              <Route path="/portal/fashion/education" element={<FashionEducationPage />} />
+              <Route path="/portal/fashion/board" element={<FashionBoardPage />} />
+              <Route path="/portal/fashion/spend" element={<FashionSpendToolPage />} />
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
-              <Route path="/portal/fashion" element={<SneakerFashionPlaceholder />} />
               <Route path="/portal/diaspora" element={<DiasporaPlaceholder />} />
               <Route path="/portal/academy" element={<YouthAcademyPlaceholder />} />
               <Route path="/portal/wallet" element={<WalletPlaceholder />} />
