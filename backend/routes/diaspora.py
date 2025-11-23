@@ -162,18 +162,19 @@ async def get_business(business_id: str):
 
 @router.get("/education", response_model=DiasporaEducationResponse)
 async def get_education_articles(
-    limit: int = Query(50, ge=1, le=100),
-    db=Depends(get_db)
+    limit: int = Query(50, ge=1, le=100)
 ):
     """Get education articles (public access)"""
+    db = get_db_client()
     diaspora_db = DiasporaDB(db)
     articles = await diaspora_db.get_education_articles(limit=limit)
     return {"articles": articles, "total": len(articles)}
 
 
 @router.get("/education/{article_id}")
-async def get_education_article(article_id: str, db=Depends(get_db)):
+async def get_education_article(article_id: str):
     """Get a specific education article by ID (public access)"""
+    db = get_db_client()
     diaspora_db = DiasporaDB(db)
     article = await diaspora_db.get_education_article_by_id(article_id)
     
