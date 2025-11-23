@@ -211,14 +211,14 @@ async def create_snapshot(
 @router.get("/snapshot/{user_id}", response_model=DiasporaSnapshot)
 async def get_snapshot(
     user_id: str,
-    current_user: dict = Depends(get_current_user),
-    db=Depends(get_db)
+    current_user: dict = Depends(get_current_user)
 ):
     """Get a user's diaspora snapshot (requires authentication, owner only)"""
     # Only allow users to view their own snapshot
     if user_id != current_user["id"] and current_user.get("role") != "admin":
         raise HTTPException(status_code=403, detail="Not authorized to view this snapshot")
     
+    db = get_db_client()
     diaspora_db = DiasporaDB(db)
     snapshot = await diaspora_db.get_snapshot_by_user_id(user_id)
     
