@@ -151,7 +151,7 @@ const HelpingHandsHome = () => {
         {/* Tabs */}
         <div className="container mx-auto max-w-6xl px-4 py-8">
           <div className="flex gap-2 mb-8 overflow-x-auto">
-            {tabs.filter(tab => !tab.authRequired || user).map((tab) => {
+            {tabs.filter(tab => !tab.authRequired || (!authLoading && isAuthenticated)).map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
               
