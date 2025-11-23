@@ -66,6 +66,43 @@ async def get_current_user(authorization: Optional[str] = Header(None)):
     
     # Get full user from database
     user = await get_user_by_id(payload["sub"])
+    return user
+
+
+async def get_current_user_optional(authorization: Optional[str] = Header(None)):
+    """
+    Phase 11.0 - Optional authentication dependency
+    
+    Returns user data if authenticated, None if not authenticated.
+    Does NOT raise 401 errors - used for endpoints where auth is optional.
+    
+    Args:
+        authorization: Authorization header value (Bearer <token>)
+    
+    Returns:
+        User data from banibs_users collection, or None if not authenticated
+    """
+    if not authorization:
+        return None
+    
+    # Extract token from "Bearer <token>"
+    parts = authorization.split()
+    if len(parts) != 2 or parts[0].lower() != "bearer":
+        return None
+    
+    token = parts[1]
+    
+    # Verify token using new JWT service
+    payload = JWTService.verify_token(token, token_type="access")
+    if not payload:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid or expired token",
+            headers={"WWW-Authenticate": "Bearer"}
+        )
+    
+    # Get full user from database
+    user = await get_user_by_id(payload["sub"])
     if not user:
         raise HTTPException(
             status_code=401,
