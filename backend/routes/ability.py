@@ -18,7 +18,7 @@ from db.ability import AbilityDB
 from db.connection import get_db_client
 from middleware.auth_guard import get_current_user as get_current_user_dependency
 
-router = APIRouter(prefix="/ability", tags=["Ability Network"])
+router = APIRouter(prefix="/api/ability", tags=["Ability Network"])
 
 
 # ==================== RESOURCE ENDPOINTS (Phase 11.5.1) ====================
