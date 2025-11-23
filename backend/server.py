@@ -333,6 +333,10 @@ app.include_router(wallet_router)
 from routes.developer import router as developer_router
 app.include_router(developer_router)
 
+# Include Phase 16.0 - BANIBS Global Marketplace router
+from routes.marketplace import router as marketplace_router
+app.include_router(marketplace_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
