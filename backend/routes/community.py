@@ -5,8 +5,10 @@ Phase 11.6-11.9
 Base path: /api/community/*
 """
 
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException, Depends, Request
 from typing import Optional, List
+from uuid import uuid4
+from datetime import datetime, timezone
 
 from models.community import (
     HealthResourcesResponse,
