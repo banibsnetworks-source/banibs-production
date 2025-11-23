@@ -362,10 +362,15 @@ class CommunityDB:
         format: Optional[str] = None,
         cost_range: Optional[str] = None,
         verified_only: bool = False,
+        approved_only: bool = True,  # Phase 11.6.4 - Only show approved by default
         limit: int = 50
     ) -> List[Dict]:
         """Get school resources with filters"""
         query = {}
+        
+        # Phase 11.6.4 - Filter by approval status
+        if approved_only:
+            query["is_approved"] = True
         
         if verified_only:
             query["is_verified"] = True
