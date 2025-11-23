@@ -31,6 +31,30 @@ class SellerStatus(str, Enum):
     SUSPENDED = "suspended"
 
 
+class PayoutStatus(str, Enum):
+    """Payout request statuses - Phase 16.2"""
+    PENDING = "pending"          # seller requested, awaiting review
+    APPROVED = "approved"        # approved by admin
+    REJECTED = "rejected"        # rejected (reason stored)
+    COMPLETED = "completed"      # money sent out
+    CANCELLED = "cancelled"      # cancelled by seller or system
+
+
+class PayoutMethod(str, Enum):
+    """Payout methods - Phase 16.2"""
+    MANUAL = "manual"            # manual payout (cash, Zelle, etc.)
+    BANK_TRANSFER = "bank_transfer"
+    MOBILE_MONEY = "mobile_money"
+    PAYPAL = "paypal"
+    OTHER = "other"
+
+
+class ClearingStatus(str, Enum):
+    """Order clearing status for T+2 - Phase 16.2"""
+    PENDING = "pending"
+    CLEARED = "cleared"
+
+
 class Region(str, Enum):
     """Global diaspora regions"""
     AFRICA = "Africa"
