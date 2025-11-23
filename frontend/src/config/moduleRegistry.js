@@ -303,6 +303,27 @@ export const MODULE_REGISTRY = {
       'docs',
       'system_status'
     ]
+  },
+
+  GLOBAL_MARKETPLACE: {
+    id: 'marketplace',
+    name: 'Global Marketplace',
+    route: '/portal/marketplace',
+    enabled: true, // ✅ Phase 16.0 Complete
+    layout: 'MarketplaceLayout',
+    theme: 'marketplace',
+    color: '#CD7F32', // Deep Bronze
+    permissions: ['user', 'business_owner', 'admin'], // Open for browsing
+    phase: '16.0',
+    description: 'Buy Black across continents - Products, Art & Digital Goods',
+    subModules: [
+      'home',
+      'regions',
+      'stores',
+      'products',
+      'checkout',
+      'seller_dashboard'
+    ]
   }
 };
 
