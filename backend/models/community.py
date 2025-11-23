@@ -375,6 +375,28 @@ class FitnessProgramsResponse(BaseModel):
     total: int
 
 
+class ProgramEnrollmentRequest(BaseModel):
+    """Request to enroll in a fitness program - Phase 11.6.2"""
+    program_id: str
+    user_name: str
+    user_email: str
+    user_phone: Optional[str] = None
+    notes: Optional[str] = None
+
+
+class ProgramEnrollment(BaseModel):
+    """Fitness program enrollment record - Phase 11.6.2"""
+    id: str
+    program_id: str
+    user_id: str
+    user_name: str
+    user_email: str
+    status: str = "enrolled"  # enrolled, completed, dropped
+    enrolled_at: datetime
+    progress: int = 0  # 0-100 percentage
+    notes: Optional[str] = None
+
+
 class RecipesResponse(BaseModel):
     """Recipes list response"""
     recipes: List[Recipe]
