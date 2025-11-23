@@ -1,5 +1,6 @@
 // pages/community/FoodHomePage.jsx - Phase 11.6
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import CommunityLayout from "../../components/community/CommunityLayout";
 import { ChefHat, Heart, Clock, Users } from "lucide-react";
 
