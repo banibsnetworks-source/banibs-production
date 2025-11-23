@@ -12,7 +12,7 @@ from datetime import datetime
 from typing import Optional, Dict, Any
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://api-platform-5.preview.emergentagent.com"
+BACKEND_URL = "https://market-payments.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 class Phase83Tester:

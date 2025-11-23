@@ -51,7 +51,7 @@ https://www.google.com/maps/search/?api=1&query=33.7490,-84.3880
 
 ### Base URL
 ```
-https://api-platform-5.preview.emergentagent.com/api/business
+https://market-payments.preview.emergentagent.com/api/business
 ```
 
 ### 1. Get Business Directory
@@ -316,17 +316,17 @@ export const getBusinessDirectory = async (filters = {}) => {
 
 **1. Get Directory:**
 ```bash
-curl https://api-platform-5.preview.emergentagent.com/api/business/directory
+curl https://market-payments.preview.emergentagent.com/api/business/directory
 ```
 
 **2. Get Categories:**
 ```bash
-curl https://api-platform-5.preview.emergentagent.com/api/business/categories
+curl https://market-payments.preview.emergentagent.com/api/business/categories
 ```
 
 **3. Create Listing (requires auth):**
 ```bash
-curl -X POST https://api-platform-5.preview.emergentagent.com/api/business/directory \
+curl -X POST https://market-payments.preview.emergentagent.com/api/business/directory \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
   -d '{
