@@ -545,6 +545,9 @@ function App() {
               <Route path="/portal/community/school/resources/:slug" element={<SchoolResourceDetailPage />} />
               <Route path="/portal/community/school/submit" element={<SchoolResourceSubmitPage />} />
               
+              {/* Phase 11.5 - Ability Network */}
+              <Route path="/portal/ability" element={<AbilityHomePage />} />
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
               <Route path="/portal/academy" element={<YouthAcademyPlaceholder />} />
               <Route path="/portal/wallet" element={<WalletPlaceholder />} />
