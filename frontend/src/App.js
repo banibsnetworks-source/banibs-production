@@ -506,6 +506,7 @@ function App() {
               <Route path="/portal/marketplace/store/:storeId" element={<MarketplaceStorePage />} />
               <Route path="/portal/marketplace/product/:productId" element={<MarketplaceProductPage />} />
               <Route path="/portal/marketplace/checkout" element={<MarketplaceCheckoutPage />} />
+              <Route path="/portal/marketplace/orders" element={<MarketplaceOrdersPage />} />
               <Route path="/portal/marketplace/seller/dashboard" element={<MarketplaceSellerDashboardPage />} />
               
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
