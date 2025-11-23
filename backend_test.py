@@ -9892,6 +9892,48 @@ def main():
             self.log(f"💥 {failed} test(s) failed")
             return False
 
+    def run_phase_12_0_tests(self) -> bool:
+        """Run Phase 12.0 - Diaspora Connect Portal tests"""
+        self.log("=" * 80)
+        self.log("🌍 PHASE 12.0 BACKEND API TESTS")
+        self.log("=" * 80)
+        self.log(f"Testing against: {API_BASE}")
+        self.log("Testing Diaspora Connect Portal - Regions, Stories, Businesses, Education, Snapshots")
+        
+        tests = [
+            ("Phase 12.0 Diaspora Comprehensive Test", self.test_phase_12_0_diaspora_comprehensive),
+        ]
+        
+        passed = 0
+        failed = 0
+        
+        for test_name, test_func in tests:
+            self.log(f"\n🧪 Running: {test_name}")
+            try:
+                if test_func():
+                    passed += 1
+                    self.log(f"✅ {test_name} PASSED")
+                else:
+                    failed += 1
+                    self.log(f"❌ {test_name} FAILED")
+            except Exception as e:
+                failed += 1
+                self.log(f"💥 {test_name} ERROR: {e}")
+        
+        self.log("\n" + "=" * 80)
+        self.log("📊 PHASE 12.0 TEST RESULTS")
+        self.log("=" * 80)
+        self.log(f"✅ Passed: {passed}")
+        self.log(f"❌ Failed: {failed}")
+        self.log(f"Total: {passed + failed}")
+        
+        if failed == 0:
+            self.log("🎉 All Phase 12.0 tests passed!")
+            return True
+        else:
+            self.log(f"💥 {failed} test(s) failed")
+            return False
+
     def run_phase_8_3_tests(self) -> bool:
         """Run Phase 8.3 - Peoples, Business Support, and Business Knowledge Flags tests"""
         self.log("=" * 80)
