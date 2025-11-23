@@ -132,7 +132,7 @@ async def get_lifeskill(skill_id: str):
     academy_db = AcademyDB(db)
     skill = await academy_db.get_lifeskill_by_id(skill_id)
     
-    if not course:
+    if not skill:
         raise HTTPException(status_code=404, detail="Life skill not found")
     
     return skill
