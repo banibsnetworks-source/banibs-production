@@ -158,6 +158,14 @@ import FashionEducationPage from "./pages/fashion/FashionEducationPage";
 import FashionBoardPage from "./pages/fashion/FashionBoardPage";
 import FashionSpendToolPage from "./pages/fashion/FashionSpendToolPage";
 
+// Phase 12.0 - Diaspora Connect
+import DiasporaHomePage from "./pages/diaspora/DiasporaHomePage";
+import DiasporaRegionsPage from "./pages/diaspora/DiasporaRegionsPage";
+import DiasporaStoriesPage from "./pages/diaspora/DiasporaStoriesPage";
+import DiasporaBusinessDirectory from "./pages/diaspora/DiasporaBusinessDirectory";
+import DiasporaLearnPage from "./pages/diaspora/DiasporaLearnPage";
+import DiasporaSnapshotPage from "./pages/diaspora/DiasporaSnapshotPage";
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
