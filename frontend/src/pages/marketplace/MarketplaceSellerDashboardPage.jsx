@@ -331,7 +331,7 @@ export default function MarketplaceSellerDashboardPage() {
           <div className="flex items-start gap-3">
             <AlertCircle className="text-blue-400 flex-shrink-0 mt-0.5" size={18} />
             <div className="text-xs text-blue-200/80">
-              <strong className="text-blue-100">Payout Schedule:</strong> Funds from sales are held for T+2 business days before becoming available for payout. This ensures secure transaction processing and buyer protection. Once funds are available, you can request a payout to your connected bank account (coming in Phase 16.2).
+              <strong className="text-blue-100">Payout Schedule:</strong> Funds from sales are held for T+2 business days before becoming available for payout. This ensures secure transaction processing and buyer protection. Once funds are available, you can request a payout using the "Request Payout" button above.
             </div>
           </div>
         </div>
