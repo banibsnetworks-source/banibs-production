@@ -144,6 +144,26 @@ export const MODULE_REGISTRY = {
     ]
   },
   
+  DIASPORA_CONNECT: {
+    id: 'diaspora_connect',
+    name: 'Diaspora Connect',
+    route: '/portal/diaspora',
+    enabled: true, // ✅ Phase 12.0 Complete
+    layout: 'DiasporaLayout',
+    theme: 'diaspora',
+    color: '#D97706', // Deep gold/amber
+    permissions: ['public'], // Public access
+    phase: '12.0',
+    description: 'Connecting the global Black diaspora',
+    subModules: [
+      'regions_and_hubs',
+      'stories_and_journeys',
+      'business_directory',
+      'education_library',
+      'diaspora_snapshot'
+    ]
+  },
+  
   CULTURAL_MESSAGING: {
     id: 'cultural_messaging',
     name: 'Cultural Network',
