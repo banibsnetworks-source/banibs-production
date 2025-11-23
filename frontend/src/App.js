@@ -540,6 +540,8 @@ function App() {
               <Route path="/portal/community/food/recipes/:slug" element={<RecipeDetailPage />} />
               <Route path="/portal/community/food/submit" element={<RecipeSubmitPage />} />
               <Route path="/portal/community/school" element={<SchoolHomePage />} />
+              <Route path="/portal/community/school/resources/:slug" element={<SchoolResourceDetailPage />} />
+              <Route path="/portal/community/school/submit" element={<SchoolResourceSubmitPage />} />
               
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
               <Route path="/portal/academy" element={<YouthAcademyPlaceholder />} />
