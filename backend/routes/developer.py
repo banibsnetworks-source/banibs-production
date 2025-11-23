@@ -29,7 +29,7 @@ from models.developer import (
 )
 from db.developer import DeveloperDB
 from middleware.auth_guard import get_current_user
-from db.connection import get_db_client
+from db.connection import get_db_client_client
 
 router = APIRouter(prefix="/developer", tags=["BANIBS OS"])
 
@@ -39,7 +39,7 @@ router = APIRouter(prefix="/developer", tags=["BANIBS OS"])
 @router.get("/dashboard")
 async def get_developer_dashboard(
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """
     Get developer dashboard metrics
@@ -109,7 +109,7 @@ async def get_developer_dashboard(
 @router.get("/api-keys", response_model=DeveloperAPIKeysResponse)
 async def get_api_keys(
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Get all API keys for the authenticated developer"""
     dev_db = DeveloperDB(db)
@@ -127,7 +127,7 @@ async def get_api_keys(
 async def create_api_key(
     key_data: DeveloperAPIKeyCreate,
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Create a new API key for the authenticated developer"""
     dev_db = DeveloperDB(db)
@@ -148,7 +148,7 @@ async def update_api_key(
     key_id: str,
     updates: DeveloperAPIKeyUpdate,
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Update an API key (label or status only)"""
     dev_db = DeveloperDB(db)
@@ -168,7 +168,7 @@ async def update_api_key(
 async def delete_api_key(
     key_id: str,
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Delete an API key"""
     dev_db = DeveloperDB(db)
@@ -187,7 +187,7 @@ async def delete_api_key(
 @router.get("/apps", response_model=DeveloperAppsResponse)
 async def get_apps(
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Get all apps for the authenticated developer"""
     dev_db = DeveloperDB(db)
@@ -205,7 +205,7 @@ async def get_apps(
 async def get_app_by_id(
     app_id: str,
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Get a specific app by ID"""
     dev_db = DeveloperDB(db)
@@ -223,7 +223,7 @@ async def get_app_by_id(
 async def create_app(
     app_data: DeveloperAppCreate,
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Create a new app for the authenticated developer"""
     dev_db = DeveloperDB(db)
@@ -251,7 +251,7 @@ async def update_app(
     app_id: str,
     updates: DeveloperAppUpdate,
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Update an app"""
     dev_db = DeveloperDB(db)
@@ -271,7 +271,7 @@ async def update_app(
 async def regenerate_app_secret(
     app_id: str,
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Regenerate the client secret for an app"""
     dev_db = DeveloperDB(db)
@@ -292,7 +292,7 @@ async def regenerate_app_secret(
 async def delete_app(
     app_id: str,
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Delete an app"""
     dev_db = DeveloperDB(db)
@@ -311,7 +311,7 @@ async def delete_app(
 @router.get("/webhooks", response_model=WebhookEndpointsResponse)
 async def get_webhooks(
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Get all webhook endpoints for the authenticated developer"""
     dev_db = DeveloperDB(db)
@@ -329,7 +329,7 @@ async def get_webhooks(
 async def create_webhook(
     webhook_data: WebhookEndpointCreate,
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Create a new webhook endpoint for the authenticated developer"""
     dev_db = DeveloperDB(db)
@@ -356,7 +356,7 @@ async def update_webhook(
     webhook_id: str,
     updates: WebhookEndpointUpdate,
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Update a webhook endpoint"""
     dev_db = DeveloperDB(db)
@@ -376,7 +376,7 @@ async def update_webhook(
 async def delete_webhook(
     webhook_id: str,
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Delete a webhook endpoint"""
     dev_db = DeveloperDB(db)
@@ -591,7 +591,7 @@ curl -X POST /api/businesses \\
 @router.get("/status", response_model=SystemStatusResponse)
 async def get_system_status(
     current_user: dict = Depends(get_current_user),
-    db = Depends(get_db)
+    db = Depends(get_db_client)
 ):
     """Get current system status for all BANIBS services"""
     dev_db = DeveloperDB(db)
