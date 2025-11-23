@@ -83,8 +83,9 @@ export const AccountModeProvider = ({ children }) => {
   /**
    * Fetch user's business profiles
    * Uses XHR to bypass rrweb interference
+   * @param {Object} savedData - Optional saved mode data from localStorage
    */
-  const fetchBusinessProfiles = async () => {
+  const fetchBusinessProfiles = async (savedData = null) => {
     try {
       const token = localStorage.getItem('access_token');
       if (!token) return;
@@ -115,14 +116,20 @@ export const AccountModeProvider = ({ children }) => {
 
       setBusinessProfiles(profiles);
 
-      // If there's a pending profile ID, select it
-      const pendingId = sessionStorage.getItem('pending_business_profile_id');
-      if (pendingId) {
-        const profile = profiles.find(p => p.id === pendingId);
+      // If user was in business mode, restore their selected profile
+      if (savedData && savedData.mode === 'business' && savedData.businessProfileId) {
+        const profile = profiles.find(p => p.id === savedData.businessProfileId);
         if (profile) {
           setSelectedBusinessProfile(profile);
+        } else {
+          // Profile not found, switch back to personal mode
+          console.warn('Saved business profile not found, switching to personal mode');
+          setMode('personal');
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            mode: 'personal',
+            businessProfileId: null
+          }));
         }
-        sessionStorage.removeItem('pending_business_profile_id');
       }
     } catch (error) {
       console.error('Failed to fetch business profiles:', error);
