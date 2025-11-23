@@ -578,51 +578,75 @@ agent_communication:
 frontend:
   - task: "MarketplaceOrdersPage - Buyer Order History"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/pages/marketplace/MarketplaceOrdersPage.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "Starting Phase 16.1.5 testing - MarketplaceOrdersPage with order history display, digital downloads, and payment status badges"
+      - working: true
+        agent: "testing"
+        comment: "✅ ORDERS PAGE - WORKING CORRECTLY. Page loads successfully with 'My Orders' title. Shows proper 'No Orders Yet' empty state with package icon and 'Start Shopping' button. Navigation and layout are correct. Ready for orders when purchases are made."
 
   - task: "MarketplaceSellerDashboardPage - Seller Payout Dashboard"
     implemented: true
-    working: "NA"
+    working: false
     file: "frontend/src/pages/marketplace/MarketplaceSellerDashboardPage.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "Starting Phase 16.1.5 testing - MarketplaceSellerDashboardPage with payout balances, T+2 clearing, and sales metrics"
+      - working: false
+        agent: "testing"
+        comment: "❌ SELLER DASHBOARD - CRITICAL API FAILURE. Shows 'Failed to Load Dashboard' error message. Backend API endpoint /api/marketplace/seller/me is failing. User authentication is working (access token present) but seller-specific API calls are not functioning. This blocks all seller functionality including payout balance display, sales metrics, and T+2 clearing information."
 
   - task: "MarketplaceCheckoutPage - Real Wallet Payment Integration"
     implemented: true
-    working: "NA"
+    working: false
     file: "frontend/src/pages/marketplace/MarketplaceCheckoutPage.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "Starting Phase 16.1.5 testing - MarketplaceCheckoutPage with wallet balance display, real payment processing, and insufficient funds handling"
+      - working: false
+        agent: "testing"
+        comment: "❌ CHECKOUT PAGE - WALLET INTEGRATION FAILURE. Page loads correctly with proper UI layout and 'BANIBS Wallet' payment method display. However, shows 'You need a BANIBS Wallet to complete this purchase' warning and 'Set up wallet →' link, indicating wallet API integration is not working. Cart functionality works (shows empty cart message). Cannot test real payment flow without wallet integration."
 
   - task: "MarketplaceLayout - Navigation Integration"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/components/marketplace/MarketplaceLayout.jsx"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
         comment: "Testing marketplace navigation including new 'My Orders' link and proper active state highlighting"
+      - working: true
+        agent: "testing"
+        comment: "✅ NAVIGATION - WORKING PERFECTLY. All 5 navigation links present: Home, Global View, Cart & Checkout, My Orders, Seller Dashboard. 'My Orders' link successfully added to sidebar. Active state highlighting works correctly (amber background). Navigation between pages functions smoothly. Deep bronze/black marketplace theme consistent throughout."
+
+  - task: "MarketplaceHomePage - Product Display & Shopping"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/marketplace/MarketplaceHomePage.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ MARKETPLACE HOME - FULLY FUNCTIONAL. Page loads with proper title 'Buy Black. Across Continents.' and description. Shows 8 featured products with correct pricing (ranging from $12.99 to $49.99). Products display proper categories (Digital/Physical), regions (Africa, Caribbean, North America, etc.), and product types. Mock checkout notice visible. Theme and layout are excellent. Products ready for cart integration once wallet system is fixed."
 
 metadata:
   created_by: "testing_agent"
