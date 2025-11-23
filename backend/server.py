@@ -309,6 +309,10 @@ app.include_router(business_support_router)
 from routes.prayer import router as prayer_router
 app.include_router(prayer_router)
 
+# Include Phase 11.1 - Beauty & Wellness router
+from routes.beauty import router as beauty_router
+app.include_router(beauty_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
