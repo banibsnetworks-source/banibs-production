@@ -138,7 +138,6 @@ import EmojiIdentitySettingsPanel from "./components/settings/EmojiIdentitySetti
 import EmojiRenderTest from "./pages/test/EmojiRenderTest";
 // Phase 11+ Portal Placeholders
 import {
-  SneakerFashionPlaceholder,
   DiasporaPlaceholder,
   YouthAcademyPlaceholder,
   WalletPlaceholder
@@ -152,6 +151,12 @@ import BeautyProviderDirectory from "./pages/beauty/BeautyProviderDirectory";
 import BeautyEducationPage from "./pages/beauty/BeautyEducationPage";
 import BeautyBoardPage from "./pages/beauty/BeautyBoardPage";
 import BeautyCostCalculator from "./pages/beauty/BeautyCostCalculator";
+// Phase 11.2 - Sneakers & Fashion (Real Implementation)
+import FashionHomePage from "./pages/fashion/FashionHomePage";
+import FashionBrandDirectory from "./pages/fashion/FashionBrandDirectory";
+import FashionEducationPage from "./pages/fashion/FashionEducationPage";
+import FashionBoardPage from "./pages/fashion/FashionBoardPage";
+import FashionSpendToolPage from "./pages/fashion/FashionSpendToolPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
