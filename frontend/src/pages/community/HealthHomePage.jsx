@@ -99,8 +99,9 @@ export default function HealthHomePage() {
         <h2 className="text-xl font-bold text-slate-100 mb-4">Health Resources</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {resources.map((resource) => (
-            <div
+            <Link
               key={resource.id}
+              to={`/portal/community/health/resources/${resource.slug}`}
               className="rounded-xl bg-slate-900/50 border border-slate-800 p-5 hover:border-teal-500/50 transition"
             >
               <div className="text-sm font-semibold text-slate-100 mb-2">
@@ -115,7 +116,7 @@ export default function HealthHomePage() {
                 </span>
                 <span className="text-xs text-slate-500">{resource.level}</span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
