@@ -515,6 +515,13 @@ function App() {
               <Route path="/portal/marketplace/checkout" element={<MarketplaceCheckoutPage />} />
               <Route path="/portal/marketplace/orders" element={<MarketplaceOrdersPage />} />
               <Route path="/portal/marketplace/seller/dashboard" element={<MarketplaceSellerDashboardPage />} />
+
+              {/* Phase 11.6-11.9 - Community Life Hub */}
+              <Route path="/portal/community" element={<CommunityHomePage />} />
+              <Route path="/portal/community/health" element={<HealthHomePage />} />
+              <Route path="/portal/community/fitness" element={<FitnessHomePage />} />
+              <Route path="/portal/community/food" element={<FoodHomePage />} />
+              <Route path="/portal/community/school" element={<SchoolHomePage />} />
               
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
               <Route path="/portal/academy" element={<YouthAcademyPlaceholder />} />
