@@ -272,15 +272,22 @@ class MarketplaceOrder(BaseModel):
     total_amount: float
     shipping_cost: float
     tax: float = 0.0
+    platform_fee_amount: float = 0.0  # Phase 16.1 - BANIBS platform fee
+    seller_net_amount: float = 0.0  # Phase 16.1 - Seller receives (after fee)
     grand_total: float
     status: OrderStatus
     payment_method: str = "banibs_wallet"
-    payment_status: str = "pending"
+    payment_status: str = "pending"  # pending, paid, failed, refunded
     wallet_transaction_id: Optional[str] = None
     shipping_address: Optional[dict] = None
     buyer_region: Region
     seller_region: Region
     is_same_region: bool
+    # Phase 16.1 - Refund fields
+    is_refundable: bool = True
+    refund_window_days: int = 30  # Default for physical, override for digital
+    refund_status: str = "none"  # none, requested, approved, rejected, refunded
+    refund_reason: Optional[str] = None
     created_at: datetime
     updated_at: datetime
     
