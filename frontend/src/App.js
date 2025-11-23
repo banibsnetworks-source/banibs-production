@@ -194,6 +194,13 @@ import MarketplaceCheckoutPage from "./pages/marketplace/MarketplaceCheckoutPage
 import MarketplaceOrdersPage from "./pages/marketplace/MarketplaceOrdersPage";
 import MarketplaceSellerDashboardPage from "./pages/marketplace/MarketplaceSellerDashboardPage";
 
+// Phase 11.6-11.9 - Community Life Hub
+import CommunityHomePage from "./pages/community/CommunityHomePage";
+import HealthHomePage from "./pages/community/HealthHomePage";
+import FitnessHomePage from "./pages/community/FitnessHomePage";
+import FoodHomePage from "./pages/community/FoodHomePage";
+import SchoolHomePage from "./pages/community/SchoolHomePage";
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
