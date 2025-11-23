@@ -53,3 +53,34 @@
         opacity: 1;
     }
 }
+
+/* Phase 11.0 - Spiritual Portal Theme */
+.theme-spiritual {
+  --primary: #8B5CF6; /* Purple */
+  --primary-hover: #7C3AED;
+  --accent: #A78BFA;
+  --background: #FAFAFA;
+  --card: #FFFFFF;
+  --border: #E5E7EB;
+  --foreground: #111827;
+  --muted-foreground: #6B7280;
+  --muted: #F3F4F6;
+}
+
+.theme-spiritual.dark {
+  --background: #0A0A0A;
+  --card: #1A1A1A;
+  --border: rgba(139, 92, 246, 0.2);
+  --foreground: #F9FAFB;
+  --muted-foreground: #9CA3AF;
+  --muted: #1F2937;
+}
+
+/* Spiritual-specific gradients */
+.spiritual-gradient {
+  background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);
+}
+
+.spiritual-gradient-soft {
+  background: linear-gradient(to bottom, rgba(139, 92, 246, 0.05), transparent);
+}
