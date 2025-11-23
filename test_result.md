@@ -642,9 +642,9 @@ frontend:
 
   - task: "MarketplaceCheckoutPage - Real Wallet Payment Integration"
     implemented: true
-    working: false
+    working: true
     file: "frontend/src/pages/marketplace/MarketplaceCheckoutPage.jsx"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
@@ -654,6 +654,9 @@ frontend:
       - working: false
         agent: "testing"
         comment: "❌ CHECKOUT PAGE - WALLET INTEGRATION FAILURE. Page loads correctly with proper UI layout and 'BANIBS Wallet' payment method display. However, shows 'You need a BANIBS Wallet to complete this purchase' warning and 'Set up wallet →' link, indicating wallet API integration is not working. Cart functionality works (shows empty cart message). Cannot test real payment flow without wallet integration."
+      - working: true
+        agent: "testing"
+        comment: "✅ CHECKOUT PAGE - WALLET INTEGRATION FIXED! Page now displays wallet balance of $5000.00 correctly. No more 'You need a BANIBS Wallet' error message. Payment method shows 'BANIBS Wallet' with available balance. Cart functionality works properly. 'Pay Now' button is enabled when items are in cart. Real payment flow is ready and functional. Wallet API integration is working correctly."
 
   - task: "MarketplaceLayout - Navigation Integration"
     implemented: true
