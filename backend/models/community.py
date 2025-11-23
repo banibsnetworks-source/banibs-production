@@ -212,7 +212,9 @@ class FitnessProgram(BaseModel):
     """Fitness program or class"""
     id: str
     title: str
+    slug: Optional[str] = None  # Phase 11.6.2: For detail pages
     description: str
+    detailed_description: Optional[str] = None  # Phase 11.6.2: Full program details
     level: FitnessLevel
     focus: List[str]  # "weight_loss", "strength", "mobility", "cardio"
     delivery: str  # "video", "live_online", "in_person", "hybrid"
@@ -222,16 +224,22 @@ class FitnessProgram(BaseModel):
     equipment_needed: List[str] = []
     chronic_friendly: List[str] = []  # "diabetes", "arthritis", "heart_disease"
     intensity: str = "moderate"  # "low", "moderate", "high"
+    what_you_learn: List[str] = []  # Phase 11.6.2: Program benefits
+    schedule: Optional[str] = None  # Phase 11.6.2: When classes happen
     coach_id: Optional[str] = None
     coach_name: Optional[str] = None
+    coach_bio: Optional[str] = None  # Phase 11.6.2
     price: Optional[float] = None
     cost_range: CostRange = CostRange.FREE
+    enrollment_open: bool = True  # Phase 11.6.2
+    max_participants: Optional[int] = None  # Phase 11.6.2
     video_url: Optional[str] = None
     thumbnail_url: Optional[str] = None
     tags: List[str] = []
     is_featured: bool = False
     participants_count: int = 0
     rating: Optional[float] = None
+    total_reviews: int = 0  # Phase 11.6.2
     created_at: datetime
     updated_at: datetime
 
