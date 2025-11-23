@@ -337,6 +337,10 @@ app.include_router(developer_router)
 from routes.marketplace import router as marketplace_router
 app.include_router(marketplace_router)
 
+# Include Phase 16.2 - Marketplace Payout Engine
+from routes.marketplace_payouts import router as marketplace_payouts_router
+app.include_router(marketplace_payouts_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
