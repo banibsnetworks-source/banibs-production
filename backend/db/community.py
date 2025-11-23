@@ -189,6 +189,11 @@ class CommunityDB:
         program = await self.fitness_programs.find_one({"id": program_id}, {"_id": 0})
         return program
     
+    async def get_fitness_program_by_slug(self, slug: str) -> Optional[Dict]:
+        """Get fitness program by slug"""
+        program = await self.fitness_programs.find_one({"slug": slug}, {"_id": 0})
+        return program
+    
     async def create_fitness_program(self, data: dict) -> Dict:
         """Create a new fitness program"""
         program_data = {
@@ -203,6 +208,76 @@ class CommunityDB:
         await self.fitness_programs.insert_one(program_data)
         program_data.pop("_id", None)
         return program_data
+    
+    # ==================== FITNESS COACHES ====================
+    
+    async def get_fitness_coaches(
+        self,
+        region: Optional[str] = None,
+        specialization: Optional[str] = None,
+        online_only: Optional[bool] = None,
+        limit: int = 50
+    ) -> List[Dict]:
+        """Get fitness coaches/trainers"""
+        query = {"pillar_focus": "fitness", "role": {"$in": ["trainer", "coach"]}}
+        
+        if region:
+            query["region"] = region
+        if specialization:
+            query["specializations"] = specialization
+        if online_only is not None:
+            query["online_only"] = online_only
+        
+        coaches = await self.pros.find(
+            query,
+            {"_id": 0}
+        ).sort("name", 1).limit(limit).to_list(limit)
+        
+        return coaches
+    
+    # ==================== ENROLLMENT ====================
+    
+    async def enroll_in_program(self, enrollment_data: dict) -> Dict:
+        """Enroll a user in a fitness program"""
+        enrollment = {
+            "id": f"enrollment-{str(uuid4())[:8]}",
+            **enrollment_data,
+            "status": "enrolled",
+            "enrolled_at": datetime.utcnow().isoformat(),
+            "progress": 0
+        }
+        
+        await self.db.fitness_enrollments.insert_one(enrollment)
+        
+        # Increment participant count
+        await self.fitness_programs.update_one(
+            {"id": enrollment_data["program_id"]},
+            {"$inc": {"participants_count": 1}}
+        )
+        
+        enrollment.pop("_id", None)
+        return enrollment
+    
+    async def get_user_enrollments(self, user_id: str) -> List[Dict]:
+        """Get all fitness program enrollments for a user"""
+        enrollments = await self.db.fitness_enrollments.find(
+            {"user_id": user_id},
+            {"_id": 0}
+        ).sort("enrolled_at", -1).to_list(100)
+        
+        return enrollments
+    
+    async def update_enrollment_progress(self, enrollment_id: str, progress: int) -> Optional[Dict]:
+        """Update progress for an enrollment"""
+        result = await self.db.fitness_enrollments.find_one_and_update(
+            {"id": enrollment_id},
+            {"$set": {"progress": progress}},
+            return_document=True
+        )
+        
+        if result:
+            result.pop("_id", None)
+        return result
     
     # ==================== FOOD OPERATIONS ====================
     
