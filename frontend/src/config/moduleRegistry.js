@@ -283,6 +283,27 @@ export const MODULE_REGISTRY = {
   },
   
   // BANIBS_WALLET duplicate removed - using the enabled version above
+
+  BANIBS_OS: {
+    id: 'developer',
+    name: 'BANIBS OS',
+    route: '/developer',
+    enabled: true, // ✅ Phase 15.0 Complete
+    layout: 'DevLayout',
+    theme: 'developer',
+    color: '#39FF14', // Neon green
+    permissions: ['user', 'business_owner', 'admin'], // AUTH ONLY
+    phase: '15.0',
+    description: 'Developer platform for BANIBS ecosystem',
+    subModules: [
+      'dashboard',
+      'api_keys',
+      'apps',
+      'webhooks',
+      'docs',
+      'system_status'
+    ]
+  }
 };
 
 /**
