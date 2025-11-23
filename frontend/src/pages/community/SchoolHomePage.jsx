@@ -81,12 +81,21 @@ export default function SchoolHomePage() {
 
       {/* Resources Grid */}
       <div>
-        <h2 className="text-xl font-bold text-slate-100 mb-4">Featured Resources</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-slate-100">Featured Resources</h2>
+          <Link
+            to="/portal/community/school/submit"
+            className="px-4 py-2 rounded-lg bg-blue-500 text-white text-sm font-semibold hover:bg-blue-600 transition"
+          >
+            Share a Resource
+          </Link>
+        </div>
         <div className="grid md:grid-cols-2 gap-4">
           {resources.map((resource) => (
-            <div
+            <Link
               key={resource.id}
-              className="rounded-xl bg-slate-900/50 border border-slate-800 p-5 hover:border-blue-500/50 transition"
+              to={`/portal/community/school/resources/${resource.slug}`}
+              className="rounded-xl bg-slate-900/50 border border-slate-800 p-5 hover:border-blue-500/50 transition block"
             >
               <div className="flex items-start justify-between mb-3">
                 <div>
@@ -123,7 +132,7 @@ export default function SchoolHomePage() {
                   </span>
                 )}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
