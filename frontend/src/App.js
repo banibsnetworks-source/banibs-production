@@ -174,6 +174,9 @@ import AcademyLifeSkillsPage from "./pages/academy/AcademyLifeSkillsPage";
 import AcademyHistoryPage from "./pages/academy/AcademyHistoryPage";
 import AcademyOpportunitiesPage from "./pages/academy/AcademyOpportunitiesPage";
 
+// Phase 14.0 - BANIBS Wallet
+import WalletHomePage from "./pages/wallet/WalletHomePage";
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
