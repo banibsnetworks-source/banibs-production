@@ -27,9 +27,14 @@ async def init_developer_data():
     
     print("🔧 Initializing BANIBS OS / Developer Platform data...")
     
-    # Sample user ID (you should have a real user ID from your auth system)
-    # For seeding purposes, we'll create a demo developer user
-    demo_user_id = "demo-developer-user-001"
+    # Get the actual developer user ID
+    developer_user = await db.users.find_one({"email": "developer@banibs.com"})
+    if not developer_user:
+        print("❌ Developer user not found. Please run create_developer_user.py first.")
+        client.close()
+        return
+    
+    demo_user_id = developer_user["id"]
     
     # ==================== SAMPLE API KEY ====================
     
