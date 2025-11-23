@@ -183,16 +183,56 @@ async def get_fitness_programs(
 
 @router.get("/fitness/programs/{program_id}", response_model=FitnessProgram)
 async def get_fitness_program(program_id: str):
-    """Get a specific fitness program"""
+    """Get a specific fitness program by ID or slug"""
     db = get_db_client()
     community_db = CommunityDB(db)
     
+    # Try by ID first, then by slug
     program = await community_db.get_fitness_program_by_id(program_id)
+    if not program:
+        program = await community_db.get_fitness_program_by_slug(program_id)
     
     if not program:
         raise HTTPException(status_code=404, detail="Fitness program not found")
     
     return program
+
+
+@router.get("/fitness/coaches", response_model=CommunityProsResponse)
+async def get_fitness_coaches(
+    region: Optional[str] = None,
+    specialization: Optional[str] = None,
+    online_only: Optional[bool] = None
+):
+    """Get fitness coaches and trainers - Phase 11.6.2"""
+    db = get_db_client()
+    community_db = CommunityDB(db)
+    
+    coaches = await community_db.get_fitness_coaches(
+        region=region,
+        specialization=specialization,
+        online_only=online_only
+    )
+    
+    return {
+        "pros": coaches,
+        "total": len(coaches)
+    }
+
+
+@router.get("/fitness/coaches/{coach_id}", response_model=CommunityPro)
+async def get_fitness_coach_detail(coach_id: str):
+    """Get a specific fitness coach detail"""
+    db = get_db_client()
+    community_db = CommunityDB(db)
+    
+    # Get coach from pros collection
+    coach = await community_db.pros.find_one({"id": coach_id}, {"_id": 0})
+    
+    if not coach:
+        raise HTTPException(status_code=404, detail="Coach not found")
+    
+    return coach
 
 
 # ==================== FOOD & CULTURE ENDPOINTS ====================
