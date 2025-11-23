@@ -52,10 +52,10 @@ async def get_region(region_id: str):
 async def get_stories(
     origin_region_id: Optional[str] = Query(None),
     current_region_id: Optional[str] = Query(None),
-    limit: int = Query(50, ge=1, le=100),
-    db=Depends(get_db)
+    limit: int = Query(50, ge=1, le=100)
 ):
     """Get diaspora stories with optional filters (public access)"""
+    db = get_db_client()
     diaspora_db = DiasporaDB(db)
     stories = await diaspora_db.get_stories(
         origin_region_id=origin_region_id,
@@ -68,10 +68,10 @@ async def get_stories(
 @router.post("/stories", response_model=DiasporaStory)
 async def create_story(
     story_data: DiasporaStoryCreate,
-    current_user: dict = Depends(get_current_user),
-    db=Depends(get_db)
+    current_user: dict = Depends(get_current_user)
 ):
     """Create a new diaspora story (requires authentication)"""
+    db = get_db_client()
     diaspora_db = DiasporaDB(db)
     
     # Prepare author info (only if not anonymous)
