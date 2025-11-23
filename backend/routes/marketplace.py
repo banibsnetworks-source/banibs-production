@@ -591,7 +591,7 @@ async def create_order(
     
     # Use first account (primary wallet)
     buyer_wallet = buyer_accounts[0]
-    buyer_balance = float(buyer_wallet.get("balance", 0))
+    buyer_balance = float(buyer_wallet.get("current_balance", 0))  # Phase 16.1 - use correct field
     
     # Validate sufficient funds
     is_valid, error_msg = validate_wallet_balance(buyer_balance, grand_total)
