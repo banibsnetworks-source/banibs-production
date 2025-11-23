@@ -26,6 +26,7 @@ from models.community import (
 )
 from db.community import CommunityDB
 from db.connection import get_db_client
+from middleware.auth_guard import get_current_user as get_current_user_dependency
 
 
 router = APIRouter(prefix="/api/community", tags=["Community Life Hub"])
