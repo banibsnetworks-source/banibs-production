@@ -7,7 +7,7 @@ import requests
 import json
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://handsconnect.preview.emergentagent.com"
+BACKEND_URL = "https://banibs-stabilize.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 def test_admin_role():

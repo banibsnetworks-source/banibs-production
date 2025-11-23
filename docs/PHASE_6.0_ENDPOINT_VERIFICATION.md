@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://handsconnect.preview.emergentagent.com/api/auth
+https://banibs-stabilize.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
