@@ -23,7 +23,7 @@ router = APIRouter(prefix="/api/ability", tags=["Ability Network"])
 
 # ==================== RESOURCE ENDPOINTS (Phase 11.5.1) ====================
 
-@router.get("/resources", response_model=AbilityResourcesResponse)
+@router.get("/resources")  # response_model=AbilityResourcesResponse
 async def get_ability_resources(
     category: Optional[str] = Query(None, description="Resource category"),
     disability_type: Optional[str] = Query(None, description="Disability type filter"),
