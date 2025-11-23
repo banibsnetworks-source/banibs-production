@@ -55,7 +55,7 @@ export default function FitnessProgramDetailPage() {
     setEnrollmentError(null);
     
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('access_token');
       
       if (!token) {
         setEnrollmentError("Please log in to enroll in programs");
