@@ -656,9 +656,10 @@ metadata:
 test_plan:
   current_focus:
     - "MarketplaceCheckoutPage - Real Wallet Payment Integration"
-    - "MarketplaceOrdersPage - Buyer Order History"
     - "MarketplaceSellerDashboardPage - Seller Payout Dashboard"
-  stuck_tasks: []
+  stuck_tasks:
+    - "MarketplaceCheckoutPage - Real Wallet Payment Integration"
+    - "MarketplaceSellerDashboardPage - Seller Payout Dashboard"
   test_all: false
   test_priority: "high_first"
 
