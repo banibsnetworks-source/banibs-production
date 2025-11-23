@@ -334,20 +334,6 @@ async def get_products_by_category(category_id: str, limit: int = 50):
     }
 
 
-@router.get("/products/featured", response_model=MarketplaceProductsResponse)
-async def get_featured_products(limit: int = 12):
-    """Get featured products"""
-    db = get_db_client()
-    marketplace_db = MarketplaceDB(db)
-    
-    products = await marketplace_db.get_featured_products(limit)
-    
-    return {
-        "products": products,
-        "total": len(products)
-    }
-
-
 @router.put("/products/{product_id}", response_model=MarketplaceProduct)
 async def update_product(
     product_id: str,
