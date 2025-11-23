@@ -460,6 +460,14 @@ export default function MarketplaceSellerDashboardPage() {
           </div>
         )}
       </div>
+
+      {/* Payout Request Modal */}
+      <SellerPayoutRequestModal
+        isOpen={showPayoutModal}
+        onClose={() => setShowPayoutModal(false)}
+        availableBalance={availablePayout}
+        onSuccess={handlePayoutSuccess}
+      />
     </MarketplaceLayout>
   );
 }
