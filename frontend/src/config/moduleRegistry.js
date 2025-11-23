@@ -324,6 +324,28 @@ export const MODULE_REGISTRY = {
       'checkout',
       'seller_dashboard'
     ]
+  },
+  
+  // ============= PHASE 11.6-11.9: COMMUNITY LIFE HUB =============
+  
+  COMMUNITY_LIFE_HUB: {
+    id: 'community',
+    name: 'Community Life Hub',
+    route: '/portal/community',
+    enabled: true, // ✅ Phase 11.6.0 Infrastructure Complete
+    layout: 'CommunityLayout',
+    theme: 'community',
+    color: '#6366F1', // Indigo
+    permissions: ['user'],
+    phase: '11.6-11.9',
+    description: 'Quality of Life OS - Health, Fitness, Food, Education',
+    subModules: [
+      'home',
+      'health',      // Health & Insurance Navigator
+      'fitness',     // Fitness & Wellness Network
+      'food',        // Culinary & Cultural Recipes
+      'school'       // Alternative Schooling Hub
+    ]
   }
 };
 
