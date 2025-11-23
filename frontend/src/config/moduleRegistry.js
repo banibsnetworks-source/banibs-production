@@ -184,6 +184,27 @@ export const MODULE_REGISTRY = {
     ]
   },
   
+  BANIBS_WALLET: {
+    id: 'wallet',
+    name: 'BANIBS Wallet',
+    route: '/portal/wallet',
+    enabled: true, // ✅ Phase 14.0 Complete  
+    layout: 'WalletLayout',
+    theme: 'wallet',
+    color: '#065F46', // Deep emerald green
+    permissions: ['user', 'business_owner', 'admin'], // AUTH ONLY
+    phase: '14.0',
+    description: 'Own the flow of Black money',
+    subModules: [
+      'accounts',
+      'transactions',
+      'goals',
+      'envelopes',
+      'family',
+      'insights'
+    ]
+  },
+  
   CULTURAL_MESSAGING: {
     id: 'cultural_messaging',
     name: 'Cultural Network',
