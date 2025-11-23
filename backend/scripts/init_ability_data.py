@@ -205,12 +205,172 @@ async def seed_ability_data():
     await db.ability_resources.insert_many(resources)
     print(f"   ✅ Inserted {len(resources)} ability resources\n")
     
+    # Phase 11.5.2 - Ability Providers
+    print("👥 Seeding Ability Providers...\n")
+    
+    providers = [
+        {
+            "id": f"provider-{str(uuid4())[:8]}",
+            "name": "Dr. Maya Thompson, SLP",
+            "provider_type": "therapist",
+            "specializations": ["speech_therapy", "language_development", "AAC_devices", "swallowing_disorders"],
+            "disability_types_served": ["cognitive", "neurodivergent", "physical", "all"],
+            "age_groups_served": ["children", "teens", "young_adults", "adults"],
+            "credentials": ["CCC-SLP", "MA Speech Pathology", "AAC Specialist"],
+            "bio": "Dr. Maya Thompson is a certified speech-language pathologist with 15 years of experience working with children and adults with communication challenges. She specializes in augmentative and alternative communication (AAC) devices and has extensive experience supporting autistic individuals and those with cerebral palsy. Dr. Thompson takes a neurodiversity-affirming approach and works closely with families to develop individualized treatment plans.",
+            "organization": "Thompson Speech & Language Center",
+            "region": "Southeast",
+            "city": "Atlanta",
+            "state": "GA",
+            "telehealth_available": True,
+            "in_person_available": True,
+            "languages": ["English", "Spanish"],
+            "accepts_insurance": True,
+            "insurance_accepted": ["Medicaid", "Medicare", "BCBS", "Aetna", "UnitedHealthcare"],
+            "cost_range": "$$",
+            "contact_website": "https://thompsonspeech.example.com",
+            "contact_email": "info@thompsonspeech.example.com",
+            "contact_phone": "(404) 555-0123",
+            "availability": "Mon-Fri 9am-6pm, Sat 10am-2pm",
+            "is_verified": True,
+            "is_black_owned": True,
+            "rating": 4.9,
+            "total_reviews": 47,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        },
+        {
+            "id": f"provider-{str(uuid4())[:8]}",
+            "name": "NeuroSpectrum Support Services",
+            "provider_type": "specialist",
+            "specializations": ["autism_support", "ADHD_coaching", "executive_function", "social_skills", "sensory_integration"],
+            "disability_types_served": ["neurodivergent", "cognitive"],
+            "age_groups_served": ["children", "teens", "young_adults"],
+            "credentials": ["BCBA", "Licensed Clinical Psychologists", "Certified Autism Specialists"],
+            "bio": "NeuroSpectrum Support Services is a Black-owned practice dedicated to supporting neurodivergent individuals and their families. Our team includes board-certified behavior analysts, clinical psychologists, and certified autism specialists who provide comprehensive assessments, individualized therapy, parent coaching, and school consultation. We embrace a strengths-based, neurodiversity-affirming philosophy that honors each person's unique way of being.",
+            "organization": "NeuroSpectrum Support Services",
+            "region": "Mid-Atlantic",
+            "city": "Washington",
+            "state": "DC",
+            "telehealth_available": True,
+            "in_person_available": True,
+            "languages": ["English"],
+            "accepts_insurance": True,
+            "insurance_accepted": ["Medicaid", "BCBS", "Cigna", "Aetna"],
+            "cost_range": "$$",
+            "contact_website": "https://neurospectrum.example.com",
+            "contact_email": "contact@neurospectrum.example.com",
+            "contact_phone": "(202) 555-0456",
+            "availability": "Mon-Sat 8am-8pm",
+            "is_verified": True,
+            "is_black_owned": True,
+            "rating": 4.8,
+            "total_reviews": 89,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        },
+        {
+            "id": f"provider-{str(uuid4())[:8]}",
+            "name": "Mobility & Independence Rehab Center",
+            "provider_type": "therapist",
+            "specializations": ["physical_therapy", "occupational_therapy", "wheelchair_training", "adaptive_equipment", "home_modifications"],
+            "disability_types_served": ["physical", "chronic_condition", "all"],
+            "age_groups_served": ["young_adults", "adults", "seniors"],
+            "credentials": ["Licensed PT", "Licensed OT", "CAPS (Certified Aging-in-Place Specialist)"],
+            "bio": "Mobility & Independence Rehab Center provides comprehensive physical and occupational therapy services focused on maximizing independence and quality of life. Our team specializes in wheelchair training, adaptive equipment assessment, and home modification consultations. We work with individuals recovering from injuries, managing chronic conditions, and aging with disabilities to help them maintain their independence and participate fully in their communities.",
+            "organization": "Mobility & Independence Rehab Center",
+            "region": "Midwest",
+            "city": "Chicago",
+            "state": "IL",
+            "telehealth_available": False,
+            "in_person_available": True,
+            "languages": ["English"],
+            "accepts_insurance": True,
+            "insurance_accepted": ["Medicare", "Medicaid", "BCBS", "Humana", "UnitedHealthcare"],
+            "cost_range": "$$$",
+            "contact_website": "https://mobilityindependence.example.com",
+            "contact_email": "info@mobilityindependence.example.com",
+            "contact_phone": "(312) 555-0789",
+            "availability": "Mon-Fri 7am-7pm",
+            "is_verified": True,
+            "is_black_owned": False,
+            "rating": 4.7,
+            "total_reviews": 124,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        },
+        {
+            "id": f"provider-{str(uuid4())[:8]}",
+            "name": "Justice & Access Legal Advocates",
+            "provider_type": "advocate",
+            "specializations": ["disability_rights", "ADA_compliance", "SSDI_appeals", "special_education", "employment_discrimination"],
+            "disability_types_served": ["all"],
+            "age_groups_served": ["children", "teens", "young_adults", "adults", "seniors"],
+            "credentials": ["Licensed Attorneys", "Disability Rights Specialists", "Special Education Advocates"],
+            "bio": "Justice & Access Legal Advocates is a nonprofit law firm dedicated to protecting the civil rights of individuals with disabilities. Our attorneys and advocates have extensive experience with ADA compliance, SSDI/SSI appeals, special education law (IEPs and 504 plans), employment discrimination, and housing accessibility. We provide free consultations and work on a sliding scale fee structure to ensure access to legal representation for all.",
+            "organization": "Justice & Access Legal Advocates",
+            "region": "West Coast",
+            "city": "Los Angeles",
+            "state": "CA",
+            "telehealth_available": True,
+            "in_person_available": True,
+            "languages": ["English", "Spanish"],
+            "accepts_insurance": False,
+            "insurance_accepted": [],
+            "cost_range": "$",
+            "contact_website": "https://justiceaccess.example.org",
+            "contact_email": "help@justiceaccess.example.org",
+            "contact_phone": "(323) 555-0234",
+            "availability": "Mon-Fri 9am-5pm",
+            "is_verified": True,
+            "is_black_owned": True,
+            "rating": 4.9,
+            "total_reviews": 67,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        },
+        {
+            "id": f"provider-{str(uuid4())[:8]}",
+            "name": "Caregiver Wellness & Support Network",
+            "provider_type": "case_manager",
+            "specializations": ["caregiver_support", "respite_care", "care_coordination", "mental_health", "support_groups"],
+            "disability_types_served": ["all"],
+            "age_groups_served": ["adults", "seniors"],
+            "credentials": ["Licensed Social Workers", "Certified Care Managers", "Mental Health Counselors"],
+            "bio": "Caregiver Wellness & Support Network provides comprehensive support services for family caregivers of individuals with disabilities. Our licensed social workers and care managers help coordinate services, connect families with resources, facilitate support groups, and provide counseling to prevent caregiver burnout. We understand the unique challenges faced by Black families caring for disabled loved ones and offer culturally competent, trauma-informed care.",
+            "organization": "Caregiver Wellness & Support Network",
+            "region": "Southeast",
+            "city": "Houston",
+            "state": "TX",
+            "telehealth_available": True,
+            "in_person_available": True,
+            "languages": ["English", "Spanish"],
+            "accepts_insurance": True,
+            "insurance_accepted": ["Medicaid", "Medicare", "Private insurance"],
+            "cost_range": "$",
+            "contact_website": "https://caregiverwellness.example.org",
+            "contact_email": "support@caregiverwellness.example.org",
+            "contact_phone": "(713) 555-0567",
+            "availability": "Mon-Sun 24/7 hotline, Office hours Mon-Fri 8am-6pm",
+            "is_verified": True,
+            "is_black_owned": True,
+            "rating": 4.8,
+            "total_reviews": 156,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        }
+    ]
+    
+    await db.ability_providers.insert_many(providers)
+    print(f"   ✅ Inserted {len(providers)} ability providers\n")
+    
     print("="*60)
     print("SEED DATA INITIALIZATION COMPLETE")
     print("="*60 + "\n")
     
     print("📊 Data Summary:")
     print(f"   Ability Resources: {len(resources)}")
+    print(f"   Ability Providers: {len(providers)}")
     print("\n✅ Ability Network is ready!\n")
     
     client.close()
