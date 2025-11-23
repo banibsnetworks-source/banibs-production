@@ -499,6 +499,14 @@ function App() {
                 <Route path="docs" element={<DevDocsPage />} />
               </Route>
               
+              {/* Phase 16.0 - Global Marketplace */}
+              <Route path="/portal/marketplace" element={<MarketplaceHomePage />} />
+              <Route path="/portal/marketplace/region/:regionId" element={<MarketplaceRegionPage />} />
+              <Route path="/portal/marketplace/store/:storeId" element={<MarketplaceStorePage />} />
+              <Route path="/portal/marketplace/product/:productId" element={<MarketplaceProductPage />} />
+              <Route path="/portal/marketplace/checkout" element={<MarketplaceCheckoutPage />} />
+              <Route path="/portal/marketplace/seller/dashboard" element={<MarketplaceSellerDashboardPage />} />
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
               <Route path="/portal/academy" element={<YouthAcademyPlaceholder />} />
               <Route path="/portal/wallet" element={<WalletPlaceholder />} />
