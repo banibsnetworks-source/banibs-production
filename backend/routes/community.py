@@ -98,22 +98,32 @@ async def get_health_resource(slug: str):
 @router.get("/health/providers", response_model=HealthProvidersResponse)
 async def get_health_providers(
     type: Optional[str] = None,
+    service_types: Optional[str] = Query(None, description="Comma-separated service types"),
     region: Optional[str] = None,
     city: Optional[str] = None,
     telehealth: Optional[bool] = None,
     black_owned: Optional[bool] = None,
+    accepts_uninsured: Optional[bool] = None,
+    sliding_scale: Optional[bool] = None,
+    ability_friendly: Optional[bool] = None,
     limit: int = Query(50, le=100)
 ):
-    """Get healthcare providers"""
+    """Get healthcare providers - Phase 11.6.1 enhanced filters"""
     db = get_db_client()
     community_db = CommunityDB(db)
     
+    service_types_list = service_types.split(",") if service_types else None
+    
     providers = await community_db.get_health_providers(
         type=type,
+        service_types=service_types_list,
         region=region,
         city=city,
         telehealth=telehealth,
         black_owned=black_owned,
+        accepts_uninsured=accepts_uninsured,
+        sliding_scale=sliding_scale,
+        ability_friendly=ability_friendly,
         limit=limit
     )
     
@@ -121,6 +131,23 @@ async def get_health_providers(
         "providers": providers,
         "total": len(providers)
     }
+
+
+@router.get("/health/providers/{provider_id}", response_model=HealthProvider)
+async def get_health_provider_detail(provider_id: str):
+    """Get a specific healthcare provider by ID or slug"""
+    db = get_db_client()
+    community_db = CommunityDB(db)
+    
+    # Try by ID first, then by slug
+    provider = await community_db.get_health_provider_by_id(provider_id)
+    if not provider:
+        provider = await community_db.get_health_provider_by_slug(provider_id)
+    
+    if not provider:
+        raise HTTPException(status_code=404, detail="Healthcare provider not found")
+    
+    return provider
 
 
 # ==================== FITNESS & WELLNESS ENDPOINTS ====================
