@@ -1,15 +1,16 @@
 import React from 'react';
 import BusinessLayout from '../../components/business/BusinessLayout';
-import AnalyticsDashboard from '../connect/AnalyticsDashboard';
+import AnalyticsContent from '../../components/business/AnalyticsContent';
 
 /**
  * BusinessAnalyticsDashboard - Phase 8.4
- * Wrapper for AnalyticsDashboard with BusinessLayout
+ * Analytics dashboard for Business Mode
+ * Uses pure AnalyticsContent component (no layout wrapper) to avoid duplicate navbar
  */
 const BusinessAnalyticsDashboard = () => {
   return (
     <BusinessLayout>
-      <AnalyticsDashboard />
+      <AnalyticsContent />
     </BusinessLayout>
   );
 };
