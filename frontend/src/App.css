@@ -208,3 +208,34 @@
 .academy-gradient-soft {
   background: linear-gradient(to bottom, rgba(59, 130, 246, 0.08), rgba(59, 130, 246, 0.04));
 }
+
+/* ==================== Phase 14.0: BANIBS Wallet ==================== */
+.theme-wallet {
+  --primary: #065F46; /* Deep emerald green */
+  --primary-hover: #047857;
+  --accent: #FBBF24; /* Gold accent */
+  --background: #F9FAFB;
+  --card: #FFFFFF;
+  --border: #D1D5DB;
+  --foreground: #111827;
+  --muted-foreground: #6B7280;
+  --muted: #F3F4F6;
+}
+
+.theme-wallet.dark {
+  --background: #0F1E1A;
+  --card: #1A2E27;
+  --border: rgba(6, 95, 70, 0.2);
+  --foreground: #F9FAFB;
+  --muted-foreground: #9CA3AF;
+  --muted: #27403A;
+}
+
+/* Wallet-specific gradients */
+.wallet-gradient {
+  background: linear-gradient(135deg, #065F46 0%, #10B981 100%);
+}
+
+.wallet-gradient-soft {
+  background: linear-gradient(to bottom, rgba(6, 95, 70, 0.08), rgba(16, 185, 129, 0.04));
+}
