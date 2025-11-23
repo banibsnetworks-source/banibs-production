@@ -570,18 +570,77 @@ agent_communication:
 
 ## Phase 16.1.5 - Real Payments Frontend Integration Testing
 
-**Date**: $(date +%Y-%m-%d)
+**Date**: 2025-11-14
 **Focus**: Testing complete real payment flow and seller dashboard integration
 
 ### Components to Test:
 
-1. **MarketplaceOrdersPage.jsx** - Buyer order history with digital downloads
-2. **MarketplaceSellerDashboardPage.jsx** - Seller payout balance display
-3. **MarketplaceCheckoutPage.jsx** - Wallet balance & real payment integration
+frontend:
+  - task: "MarketplaceOrdersPage - Buyer Order History"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/marketplace/MarketplaceOrdersPage.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Starting Phase 16.1.5 testing - MarketplaceOrdersPage with order history display, digital downloads, and payment status badges"
+
+  - task: "MarketplaceSellerDashboardPage - Seller Payout Dashboard"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/marketplace/MarketplaceSellerDashboardPage.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Starting Phase 16.1.5 testing - MarketplaceSellerDashboardPage with payout balances, T+2 clearing, and sales metrics"
+
+  - task: "MarketplaceCheckoutPage - Real Wallet Payment Integration"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/marketplace/MarketplaceCheckoutPage.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Starting Phase 16.1.5 testing - MarketplaceCheckoutPage with wallet balance display, real payment processing, and insufficient funds handling"
+
+  - task: "MarketplaceLayout - Navigation Integration"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/marketplace/MarketplaceLayout.jsx"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Testing marketplace navigation including new 'My Orders' link and proper active state highlighting"
+
+metadata:
+  created_by: "testing_agent"
+  version: "1.1"
+  test_sequence: 2
+
+test_plan:
+  current_focus:
+    - "MarketplaceCheckoutPage - Real Wallet Payment Integration"
+    - "MarketplaceOrdersPage - Buyer Order History"
+    - "MarketplaceSellerDashboardPage - Seller Payout Dashboard"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
 
 ### Test Scenarios:
 
-#### Scenario 1: Buyer Payment Flow
+#### Scenario 1: Complete Purchase Flow with Real Payment
 - User logs in and navigates to marketplace
 - User adds products to cart (both physical and digital)
 - User views wallet balance on checkout page
@@ -590,7 +649,7 @@ agent_communication:
 - Digital products show download buttons
 - Payment status badge shows "PAID"
 
-#### Scenario 2: Insufficient Funds
+#### Scenario 2: Insufficient Funds Error Handling
 - User with low wallet balance attempts to checkout
 - System shows insufficient funds error
 - User cannot complete purchase
@@ -604,7 +663,7 @@ agent_communication:
 - Digital products have working download buttons
 - Physical products do not show download buttons
 
-#### Scenario 4: Seller Dashboard
+#### Scenario 4: Seller Dashboard - Payout Balances
 - Seller logs in and views seller dashboard
 - Dashboard shows pending_payout_balance
 - Dashboard shows available_payout_balance
@@ -613,9 +672,15 @@ agent_communication:
 - Dashboard shows number of orders
 - Recent orders list displays with seller net amounts
 
+#### Scenario 5: Navigation & Layout
+- All marketplace navigation works correctly
+- "My Orders" link present in sidebar
+- Active page highlighting works
+- Layout consistent across pages
+
 ### Known Test Users:
+- `social_test_user@example.com` / `TestPass123!` - Primary test user
 - `demo-user-wallet-001` - Has wallet with $2000 balance
-- `social_test_user@example.com` / `TestPass123!`
 
 ### Testing Notes:
 - Backend Phase 16.1 is 100% complete and tested
