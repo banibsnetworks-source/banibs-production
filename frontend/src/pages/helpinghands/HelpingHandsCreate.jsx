@@ -148,19 +148,27 @@ const HelpingHandsCreate = () => {
   
   return (
     <BusinessLayout>
-      {/* CSS Fixes for State Dropdown - P2 Issue */}
+      {/* CSS Fixes for State Dropdown & Form Inputs - P2 Issue */}
       <style>{`
-        /* Override browser autofill styles */
+        /* Override browser autofill styles for all inputs and selects */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
         select:-webkit-autofill,
         select:-webkit-autofill:hover,
-        select:-webkit-autofill:focus {
+        select:-webkit-autofill:focus,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus {
           -webkit-text-fill-color: ${isDark ? '#F9F9F9' : '#1a1a1a'} !important;
-          -webkit-box-shadow: 0 0 0 1000px ${isDark ? 'rgba(255, 255, 255, 0.05)' : '#ffffff'} inset !important;
+          -webkit-box-shadow: 0 0 0 1000px ${isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'} inset !important;
           transition: background-color 5000s ease-in-out 0s;
         }
         
-        /* Consistent focus styles for select */
-        select:focus {
+        /* Consistent focus styles for all form elements */
+        input:focus,
+        select:focus,
+        textarea:focus {
           outline: none !important;
           border-color: #E8B657 !important;
           box-shadow: 0 0 0 3px rgba(232, 182, 87, 0.2) !important;
@@ -175,6 +183,15 @@ const HelpingHandsCreate = () => {
         select option {
           background-color: ${isDark ? '#1a1a1a' : '#ffffff'};
           color: ${isDark ? '#F9F9F9' : '#1a1a1a'};
+        }
+        
+        /* Prevent zoom on iOS when focusing inputs */
+        @media screen and (-webkit-min-device-pixel-ratio: 0) {
+          select,
+          textarea,
+          input {
+            font-size: 16px;
+          }
         }
       `}</style>
       
