@@ -464,6 +464,8 @@ Same as traditional, but:
             "tags": ["black_history", "elementary", "comprehensive", "free"],
             "is_verified": True,
             "is_featured": True,
+            "is_approved": True,  # Phase 11.6.4
+            "is_user_submitted": False,  # Phase 11.6.4
             "total_reviews": 0,
             "created_at": datetime.utcnow().isoformat(),
             "updated_at": datetime.utcnow().isoformat()
@@ -486,6 +488,8 @@ Same as traditional, but:
             "tags": ["finance", "teens", "life_skills", "entrepreneurship"],
             "is_verified": True,
             "is_featured": True,
+            "is_approved": True,  # Phase 11.6.4
+            "is_user_submitted": False,  # Phase 11.6.4
             "total_reviews": 0,
             "created_at": datetime.utcnow().isoformat(),
             "updated_at": datetime.utcnow().isoformat()
