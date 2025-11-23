@@ -371,6 +371,61 @@ export default function MarketplaceSellerDashboardPage() {
           </div>
         </div>
 
+        {/* Payout History */}
+        {payouts.length > 0 && (
+          <div className="rounded-2xl bg-slate-900/50 border border-slate-800 p-6">
+            <h3 className="text-sm font-semibold text-slate-200 mb-4">
+              Payout History ({payouts.length})
+            </h3>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="text-left border-b border-slate-800">
+                    <th className="pb-3 text-xs font-semibold text-slate-400">Reference</th>
+                    <th className="pb-3 text-xs font-semibold text-slate-400">Date</th>
+                    <th className="pb-3 text-xs font-semibold text-slate-400">Amount</th>
+                    <th className="pb-3 text-xs font-semibold text-slate-400">Method</th>
+                    <th className="pb-3 text-xs font-semibold text-slate-400">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {payouts.slice(0, 5).map((payout) => {
+                    const statusColors = {
+                      pending: "text-yellow-400 bg-yellow-500/10 border-yellow-500/30",
+                      approved: "text-blue-400 bg-blue-500/10 border-blue-500/30",
+                      completed: "text-emerald-400 bg-emerald-500/10 border-emerald-500/30",
+                      rejected: "text-rose-400 bg-rose-500/10 border-rose-500/30",
+                      cancelled: "text-slate-400 bg-slate-500/10 border-slate-500/30"
+                    };
+                    
+                    return (
+                      <tr key={payout.id} className="border-b border-slate-800/50 last:border-0">
+                        <td className="py-3 text-xs font-mono text-slate-300">
+                          {payout.reference_code}
+                        </td>
+                        <td className="py-3 text-xs text-slate-400">
+                          {new Date(payout.created_at).toLocaleDateString()}
+                        </td>
+                        <td className="py-3 text-sm font-semibold text-slate-100">
+                          ${payout.amount_requested.toFixed(2)}
+                        </td>
+                        <td className="py-3 text-xs text-slate-400">
+                          {payout.method.replace('_', ' ')}
+                        </td>
+                        <td className="py-3">
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[0.65rem] font-semibold border ${statusColors[payout.status] || statusColors.pending}`}>
+                            {payout.status.toUpperCase()}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
         {/* Recent Orders */}
         {orders.length > 0 && (
           <div className="rounded-2xl bg-slate-900/50 border border-slate-800 p-6">
