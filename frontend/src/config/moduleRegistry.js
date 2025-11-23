@@ -282,24 +282,7 @@ export const MODULE_REGISTRY = {
     ]
   },
   
-  BANIBS_WALLET: {
-    id: 'wallet',
-    name: 'BANIBS Wallet',
-    route: '/portal/wallet',
-    enabled: false,
-    layout: 'FinanceLayout',
-    theme: 'finance',
-    color: '#059669',
-    permissions: ['user', 'verified'],
-    phase: '14.0',
-    description: 'Digital wallet and financial services',
-    subModules: [
-      'payments',
-      'transfers',
-      'savings',
-      'investments'
-    ]
-  }
+  // BANIBS_WALLET duplicate removed - using the enabled version above
 };
 
 /**
