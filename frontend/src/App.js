@@ -535,6 +535,8 @@ function App() {
               <Route path="/portal/community/fitness/coaches" element={<FitnessCoachesPage />} />
               <Route path="/portal/community/fitness/coaches/:coachId" element={<FitnessCoachDetailPage />} />
               <Route path="/portal/community/food" element={<FoodHomePage />} />
+              <Route path="/portal/community/food/recipes/:slug" element={<RecipeDetailPage />} />
+              <Route path="/portal/community/food/submit" element={<RecipeSubmitPage />} />
               <Route path="/portal/community/school" element={<SchoolHomePage />} />
               
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
