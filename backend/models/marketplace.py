@@ -486,3 +486,17 @@ class MarketplaceOrderWithItems(BaseModel):
     """Order with items"""
     order: MarketplaceOrder
     items: List[MarketplaceOrderItem]
+
+
+class PayoutOverview(BaseModel):
+    """Seller payout overview - Phase 16.2"""
+    pending_payout_balance: float
+    available_payout_balance: float
+    lifetime_payouts: float
+    last_payout_at: Optional[datetime] = None
+
+
+class PayoutRequestsResponse(BaseModel):
+    """Response model for listing payout requests"""
+    payouts: List[MarketplacePayoutRequest]
+    total: int
