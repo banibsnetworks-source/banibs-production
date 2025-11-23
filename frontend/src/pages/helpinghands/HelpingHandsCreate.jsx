@@ -148,6 +148,36 @@ const HelpingHandsCreate = () => {
   
   return (
     <BusinessLayout>
+      {/* CSS Fixes for State Dropdown - P2 Issue */}
+      <style>{`
+        /* Override browser autofill styles */
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus {
+          -webkit-text-fill-color: ${isDark ? '#F9F9F9' : '#1a1a1a'} !important;
+          -webkit-box-shadow: 0 0 0 1000px ${isDark ? 'rgba(255, 255, 255, 0.05)' : '#ffffff'} inset !important;
+          transition: background-color 5000s ease-in-out 0s;
+        }
+        
+        /* Consistent focus styles for select */
+        select:focus {
+          outline: none !important;
+          border-color: #E8B657 !important;
+          box-shadow: 0 0 0 3px rgba(232, 182, 87, 0.2) !important;
+        }
+        
+        /* Remove default select arrow in IE */
+        select::-ms-expand {
+          display: none;
+        }
+        
+        /* Ensure option text color is correct */
+        select option {
+          background-color: ${isDark ? '#1a1a1a' : '#ffffff'};
+          color: ${isDark ? '#F9F9F9' : '#1a1a1a'};
+        }
+      `}</style>
+      
       <div 
         className="min-h-screen py-8"
         style={{
