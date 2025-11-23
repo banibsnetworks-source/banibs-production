@@ -344,6 +344,34 @@ class MarketplaceOrderCreate(BaseModel):
     buyer_region: Region
 
 
+# ==================== ORDER EVENTS (AUDIT TRAIL) ====================
+
+class OrderEvent(BaseModel):
+    """Order event for audit trail - Phase 16.1"""
+    id: str
+    order_id: str
+    event_type: str  # payment_initiated, payment_success, payment_failed, payout_pending, payout_cleared, etc.
+    timestamp: datetime
+    actor: str = "system"  # system, user_id, admin_id
+    metadata: Optional[dict] = None  # amount, wallet_ids, error messages, etc.
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "id": "event-001",
+                "order_id": "order-001",
+                "event_type": "payment_success",
+                "timestamp": "2025-01-15T10:30:00Z",
+                "actor": "system",
+                "metadata": {
+                    "amount": 94.99,
+                    "wallet_transaction_id": "wt-12345",
+                    "platform_fee": 9.00
+                }
+            }
+        }
+
+
 # ==================== RESPONSE MODELS ====================
 
 class MarketplaceSellersResponse(BaseModel):
