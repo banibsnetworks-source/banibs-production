@@ -55,6 +55,8 @@ class MarketplaceDB:
             "total_sales": 0.0,
             "total_orders": 0,
             "rating": 0.0,
+            "pending_payout_balance": 0.0,  # Phase 16.1
+            "available_payout_balance": 0.0,  # Phase 16.1
             "created_at": datetime.utcnow()
         }
         await self.sellers.insert_one(seller)
