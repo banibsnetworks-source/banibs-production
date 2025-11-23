@@ -262,6 +262,20 @@ async def create_product(
     return new_product
 
 
+@router.get("/products/featured", response_model=MarketplaceProductsResponse)
+async def get_featured_products(limit: int = 12):
+    """Get featured products"""
+    db = get_db_client()
+    marketplace_db = MarketplaceDB(db)
+    
+    products = await marketplace_db.get_featured_products(limit)
+    
+    return {
+        "products": products,
+        "total": len(products)
+    }
+
+
 @router.get("/products/{product_id}", response_model=MarketplaceProduct)
 async def get_product(product_id: str):
     """Get product details"""
