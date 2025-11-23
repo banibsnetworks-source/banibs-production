@@ -321,6 +321,10 @@ app.include_router(fashion_router)
 from routes.diaspora import router as diaspora_router
 app.include_router(diaspora_router)
 
+# Include Phase 13.0 - BANIBS Academy router
+from routes.academy import router as academy_router
+app.include_router(academy_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
