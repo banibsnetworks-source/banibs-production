@@ -25,16 +25,18 @@ router = APIRouter(prefix="/api/diaspora", tags=["diaspora"])
 # ==================== REGIONS ====================
 
 @router.get("/regions", response_model=DiasporaRegionsResponse)
-async def get_regions(db=Depends(get_db)):
+async def get_regions():
     """Get all diaspora regions (public access)"""
+    db = get_db_client()
     diaspora_db = DiasporaDB(db)
     regions = await diaspora_db.get_regions()
     return {"regions": regions, "total": len(regions)}
 
 
 @router.get("/regions/{region_id}")
-async def get_region(region_id: str, db=Depends(get_db)):
+async def get_region(region_id: str):
     """Get a specific region by ID (public access)"""
+    db = get_db_client()
     diaspora_db = DiasporaDB(db)
     region = await diaspora_db.get_region_by_id(region_id)
     
