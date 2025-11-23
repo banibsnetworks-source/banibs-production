@@ -29,9 +29,26 @@ export const AccountModeProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Load saved mode and business profiles on mount
+  // FIX: Wait for both operations to complete before setting loading=false
   useEffect(() => {
-    loadAccountMode();
-    fetchBusinessProfiles();
+    const initializeAccountMode = async () => {
+      try {
+        setLoading(true);
+        
+        // Step 1: Load saved mode from localStorage
+        const savedData = loadAccountModeData();
+        
+        // Step 2: Fetch business profiles from API
+        await fetchBusinessProfiles(savedData);
+        
+      } catch (error) {
+        console.error('Failed to initialize account mode:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    initializeAccountMode();
   }, []);
 
   // Apply theme class to body based on mode
@@ -46,25 +63,21 @@ export const AccountModeProvider = ({ children }) => {
   }, [mode]);
 
   /**
-   * Load saved account mode from localStorage
+   * Load saved account mode data from localStorage (synchronous)
+   * Returns the saved data without triggering state updates yet
    */
-  const loadAccountMode = () => {
+  const loadAccountModeData = () => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const { mode: savedMode, businessProfileId } = JSON.parse(saved);
         setMode(savedMode);
-        if (savedMode === 'business' && businessProfileId) {
-          // We'll set the selected profile after fetching from API
-          // For now, just store the ID
-          sessionStorage.setItem('pending_business_profile_id', businessProfileId);
-        }
+        return { mode: savedMode, businessProfileId };
       }
     } catch (error) {
       console.error('Failed to load account mode:', error);
-    } finally {
-      setLoading(false);
     }
+    return { mode: 'personal', businessProfileId: null };
   };
 
   /**
