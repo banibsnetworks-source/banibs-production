@@ -129,12 +129,12 @@ export const MODULE_REGISTRY = {
     id: 'sneaker_fashion',
     name: 'Sneakers & Fashion',
     route: '/portal/fashion',
-    enabled: false,
-    layout: 'MarketplaceLayout',
-    theme: 'marketplace',
-    color: '#F59E0B', // Amber
+    enabled: true, // ✅ Phase 11.2 Complete
+    layout: 'FashionLayout',
+    theme: 'fashion',
+    color: '#3B82F6', // Blue
     permissions: ['user'],
-    phase: '11.0',
+    phase: '11.2',
     description: 'Black-owned sneaker and fashion marketplace',
     subModules: [
       'sneaker_marketplace',
