@@ -138,13 +138,15 @@ import EmojiIdentitySettingsPanel from "./components/settings/EmojiIdentitySetti
 import EmojiRenderTest from "./pages/test/EmojiRenderTest";
 // Phase 11+ Portal Placeholders
 import {
-  PrayerRoomsPlaceholder,
   BeautyMarketplacePlaceholder,
   SneakerFashionPlaceholder,
   DiasporaPlaceholder,
   YouthAcademyPlaceholder,
   WalletPlaceholder
 } from "./components/portals/PortalPlaceholder";
+// Phase 11.0 - Prayer Rooms (Real Implementation)
+import PrayerLobbyPage from "./pages/prayer/PrayerLobbyPage";
+import PrayerRoomPage from "./pages/prayer/PrayerRoomPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
