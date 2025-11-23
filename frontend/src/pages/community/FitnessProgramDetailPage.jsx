@@ -21,6 +21,8 @@ export default function FitnessProgramDetailPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [enrolling, setEnrolling] = useState(false);
+  const [enrollmentSuccess, setEnrollmentSuccess] = useState(false);
+  const [enrollmentError, setEnrollmentError] = useState(null);
 
   useEffect(() => {
     fetchProgram();
@@ -48,13 +50,52 @@ export default function FitnessProgramDetailPage() {
     }
   };
 
-  const handleEnroll = () => {
+  const handleEnroll = async () => {
     setEnrolling(true);
-    // Enrollment flow - for MVP, just show success message
-    setTimeout(() => {
-      alert(`Enrollment successful! You'll receive an email with program details at your registered email address.`);
+    setEnrollmentError(null);
+    
+    try {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        setEnrollmentError("Please log in to enroll in programs");
+        setEnrolling(false);
+        return;
+      }
+      
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/community/fitness/programs/${programId}/enroll`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setEnrollmentSuccess(true);
+        // Update the program to show updated participant count
+        setProgram(prev => ({
+          ...prev,
+          participants_count: prev.participants_count + 1
+        }));
+      } else if (response.status === 400) {
+        const data = await response.json();
+        setEnrollmentError(data.detail || "Already enrolled in this program");
+      } else if (response.status === 401) {
+        setEnrollmentError("Please log in to enroll in programs");
+      } else {
+        setEnrollmentError("Failed to enroll. Please try again.");
+      }
+    } catch (err) {
+      console.error("Enrollment error:", err);
+      setEnrollmentError("Failed to enroll. Please try again.");
+    } finally {
       setEnrolling(false);
-    }, 1000);
+    }
   };
 
   if (loading) {
