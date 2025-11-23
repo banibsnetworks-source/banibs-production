@@ -194,7 +194,7 @@ async def add_amen(
     
     if already_amened:
         # Remove amen (toggle off)
-        removed = await remove_amen(amen_data.post_id, current_user["id"])
+        await remove_amen(amen_data.post_id, current_user["id"])
         return {
             "message": "Amen removed",
             "amened": False,
