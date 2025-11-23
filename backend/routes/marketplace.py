@@ -499,19 +499,32 @@ async def create_order(
     order_data: MarketplaceOrderCreate,
     current_user: dict = Depends(get_current_user)
 ):
-    """Create a new order"""
+    """
+    Create a new order with real wallet payment - Phase 16.1
+    
+    This endpoint:
+    1. Validates wallet balance
+    2. Calculates platform fees
+    3. Deducts buyer wallet
+    4. Credits seller (pending_payout)
+    5. Credits platform revenue account
+    6. Creates order with payment_status="paid"
+    """
     db = get_db_client()
     marketplace_db = MarketplaceDB(db)
+    wallet_db = WalletDB(db)
     buyer_id = current_user["id"]
     
     if not order_data.items:
         raise HTTPException(status_code=400, detail="Order must have at least one item")
     
-    # Calculate order totals
+    # ==================== STEP 1: Build Order & Calculate Totals ====================
+    
     total_amount = 0.0
     seller_id = None
     seller_region = None
     order_items_data = []
+    has_digital_products = False
     
     for item in order_data.items:
         product = await marketplace_db.get_product_by_id(item["product_id"])
@@ -521,14 +534,27 @@ async def create_order(
         if not product["is_active"]:
             raise HTTPException(status_code=400, detail=f"Product {product['title']} is not available")
         
-        # Set seller from first product (simplified - assumes single-seller orders)
+        # Check stock for physical products
+        if product["product_type"] == "physical" and product.get("stock_quantity", 0) <= 0:
+            raise HTTPException(status_code=400, detail=f"Product {product['title']} is out of stock")
+        
+        # Set seller from first product
         if seller_id is None:
             seller_id = product["seller_id"]
             seller_region = product["region"]
+        elif seller_id != product["seller_id"]:
+            # Multi-seller cart - For MVP, we'll block this
+            raise HTTPException(
+                status_code=400,
+                detail="Multi-seller carts not supported yet. Please checkout one seller at a time."
+            )
         
         quantity = item.get("quantity", 1)
         item_total = product["price"] * quantity
         total_amount += item_total
+        
+        if product["product_type"] == "digital":
+            has_digital_products = True
         
         order_items_data.append({
             "product_id": product["id"],
@@ -540,7 +566,7 @@ async def create_order(
             "digital_file_id": product.get("digital_file_id")
         })
     
-    # Calculate shipping (based on first product type for simplicity)
+    # Calculate shipping
     first_product_type = order_items_data[0]["product_type"]
     shipping_cost = calculate_shipping_cost(
         order_data.buyer_region.value,
@@ -548,9 +574,35 @@ async def create_order(
         first_product_type
     )
     
+    # Calculate platform fees
+    items_subtotal, platform_fee, seller_net = calculate_order_fees(order_items_data)
+    
     grand_total = total_amount + shipping_cost
     
-    # Create order
+    # ==================== STEP 2: Validate Wallet Balance ====================
+    
+    # Get buyer's wallet accounts
+    buyer_accounts = await wallet_db.get_accounts_for_user(buyer_id)
+    if not buyer_accounts:
+        raise HTTPException(
+            status_code=400,
+            detail="No wallet account found. Please set up your BANIBS Wallet first."
+        )
+    
+    # Use first account (primary wallet)
+    buyer_wallet = buyer_accounts[0]
+    buyer_balance = float(buyer_wallet.get("balance", 0))
+    
+    # Validate sufficient funds
+    is_valid, error_msg = validate_wallet_balance(buyer_balance, grand_total)
+    if not is_valid:
+        raise HTTPException(status_code=402, detail=error_msg)  # 402 Payment Required
+    
+    # ==================== STEP 3: Create Order (Pending Payment) ====================
+    
+    # Determine refund window
+    refund_window = get_refund_window_days(first_product_type)
+    
     new_order = await marketplace_db.create_order(
         buyer_id,
         {
@@ -558,28 +610,152 @@ async def create_order(
             "total_amount": total_amount,
             "shipping_cost": shipping_cost,
             "tax": 0.0,
+            "platform_fee_amount": platform_fee,
+            "seller_net_amount": seller_net,
             "grand_total": grand_total,
             "payment_method": "banibs_wallet",
+            "payment_status": "pending",  # Will update to "paid" after wallet transaction
             "shipping_address": order_data.shipping_address,
             "buyer_region": order_data.buyer_region.value,
             "seller_region": seller_region,
-            "is_same_region": order_data.buyer_region.value == seller_region
+            "is_same_region": order_data.buyer_region.value == seller_region,
+            "is_refundable": True,
+            "refund_window_days": refund_window,
+            "refund_status": "none"
         }
     )
     
+    order_id = new_order["id"]
+    
     # Create order items
     for item_data in order_items_data:
-        await marketplace_db.create_order_item(new_order["id"], item_data)
+        await marketplace_db.create_order_item(order_id, item_data)
     
-    # TODO: In Phase 16.2, integrate with BANIBS Wallet for real payment processing
-    # For now, mark as completed (sandbox mode)
-    await marketplace_db.update_order_payment(
-        new_order["id"],
-        "completed",
-        f"sandbox_txn_{new_order['order_number']}"
-    )
+    # Create order event: payment initiated
+    await marketplace_db.create_order_event({
+        "order_id": order_id,
+        "event_type": "payment_initiated",
+        "actor": "system",
+        "metadata": {
+            "amount": grand_total,
+            "payment_method": "banibs_wallet",
+            "buyer_wallet_id": buyer_wallet["id"]
+        }
+    })
     
-    return new_order
+    # ==================== STEP 4: Process Wallet Payment ====================
+    
+    try:
+        # Generate idempotency key to prevent double-charging
+        idempotency_key = generate_idempotency_key(buyer_id, order_id)
+        
+        # Deduct from buyer wallet
+        await wallet_db.update_account_balance(buyer_wallet["id"], -grand_total)
+        
+        # Create buyer transaction record
+        buyer_txn = await wallet_db.create_transaction(
+            buyer_id,
+            {
+                "account_id": buyer_wallet["id"],
+                "type": "debit",
+                "amount": grand_total,
+                "category": "marketplace_purchase",
+                "description": f"Marketplace Order #{new_order['order_number']}",
+                "merchant": seller_id,
+                "metadata": {
+                    "order_id": order_id,
+                    "order_number": new_order["order_number"],
+                    "platform_fee": platform_fee,
+                    "seller_net": seller_net,
+                    "idempotency_key": idempotency_key
+                }
+            }
+        )
+        
+        wallet_txn_id = buyer_txn["id"]
+        
+        # Credit platform fee to platform revenue account
+        # (Platform wallet account should exist - if not, we create it on demand)
+        platform_accounts = await wallet_db.get_accounts_for_user(PLATFORM_WALLET_ACCOUNT_ID)
+        if not platform_accounts:
+            # Create platform revenue wallet
+            platform_wallet = await wallet_db.create_wallet_account(
+                PLATFORM_WALLET_ACCOUNT_ID,
+                {
+                    "name": "BANIBS Platform Revenue",
+                    "account_type": "platform_revenue",
+                    "balance": 0.0
+                }
+            )
+        else:
+            platform_wallet = platform_accounts[0]
+        
+        # Credit platform fee
+        await wallet_db.update_account_balance(platform_wallet["id"], platform_fee)
+        await wallet_db.create_transaction(
+            PLATFORM_WALLET_ACCOUNT_ID,
+            {
+                "account_id": platform_wallet["id"],
+                "type": "credit",
+                "amount": platform_fee,
+                "category": "platform_fee",
+                "description": f"Platform fee from Order #{new_order['order_number']}",
+                "merchant": seller_id,
+                "metadata": {
+                    "order_id": order_id,
+                    "buyer_id": buyer_id,
+                    "fee_type": "marketplace_commission"
+                }
+            }
+        )
+        
+        # Credit seller pending_payout_balance (T+2 clearing)
+        await marketplace_db.update_seller_payout_balance(seller_id, seller_net, "pending")
+        
+        # Mark order as paid
+        await marketplace_db.mark_order_as_paid(order_id, wallet_txn_id, platform_fee, seller_net)
+        
+        # Create order event: payment success
+        await marketplace_db.create_order_event({
+            "order_id": order_id,
+            "event_type": "payment_success",
+            "actor": "system",
+            "metadata": {
+                "amount": grand_total,
+                "wallet_transaction_id": wallet_txn_id,
+                "platform_fee": platform_fee,
+                "seller_net": seller_net,
+                "payout_clearing_date": (datetime.utcnow() + timedelta(days=2)).isoformat()
+            }
+        })
+        
+        # Update order object to return
+        new_order["payment_status"] = "paid"
+        new_order["wallet_transaction_id"] = wallet_txn_id
+        new_order["platform_fee_amount"] = platform_fee
+        new_order["seller_net_amount"] = seller_net
+        
+        return new_order
+        
+    except Exception as e:
+        # Payment failed - log event
+        await marketplace_db.create_order_event({
+            "order_id": order_id,
+            "event_type": "payment_failed",
+            "actor": "system",
+            "metadata": {
+                "error": str(e),
+                "amount": grand_total
+            }
+        })
+        
+        # Mark order as failed
+        await marketplace_db.update_order_status(order_id, "cancelled")
+        
+        raise HTTPException(
+            status_code=500,
+            detail=f"Payment processing failed: {str(e)}"
+        )
 
 
 @router.get("/orders/my", response_model=MarketplaceOrdersResponse)
