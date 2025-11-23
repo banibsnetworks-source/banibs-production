@@ -105,7 +105,7 @@ async def list_campaigns(
     filter: Optional[str] = Query(None, description="Filter campaigns: 'mine' for user's own campaigns"),
     page: int = Query(1, ge=1),
     limit: int = Query(20, ge=1, le=100),
-    current_user: Optional[dict] = Depends(require_role("user", "member", optional=True))
+    current_user: Optional[dict] = Depends(get_current_user_optional)
 ):
     """
     List campaigns with filters
