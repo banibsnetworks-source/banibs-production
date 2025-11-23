@@ -146,3 +146,34 @@
 .fashion-gradient-soft {
   background: linear-gradient(to bottom, rgba(59, 130, 246, 0.05), transparent);
 }
+
+/* ==================== Phase 12.0: Diaspora Connect ==================== */
+.theme-diaspora {
+  --primary: #D97706; /* Deep gold/amber */
+  --primary-hover: #B45309;
+  --accent: #F59E0B;
+  --background: #FAFAF8;
+  --card: #FFFFFF;
+  --border: #E5E5E0;
+  --foreground: #292524;
+  --muted-foreground: #78716C;
+  --muted: #F5F5F4;
+}
+
+.theme-diaspora.dark {
+  --background: #1C1917;
+  --card: #292524;
+  --border: rgba(217, 119, 6, 0.2);
+  --foreground: #FAFAF9;
+  --muted-foreground: #A8A29E;
+  --muted: #3C3A39;
+}
+
+/* Diaspora-specific gradients */
+.diaspora-gradient {
+  background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+}
+
+.diaspora-gradient-soft {
+  background: linear-gradient(to bottom, rgba(217, 119, 6, 0.08), rgba(180, 130, 50, 0.04));
+}
