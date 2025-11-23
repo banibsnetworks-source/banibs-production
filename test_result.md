@@ -371,6 +371,7 @@ metadata:
 
 test_plan:
   current_focus:
+    - "P0 Business Mode Fixes - COMPLETED"
     - "Phase 8.3 - Peoples System Frontend"
     - "Phase 8.3 - Business Support System Frontend"
     - "Phase 8.3 - Business Knowledge Flags Frontend"
