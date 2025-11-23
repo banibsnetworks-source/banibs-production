@@ -136,6 +136,15 @@ import EmojiTestPage from "./pages/test/EmojiTestPage";
 import EmojiPickerDemo from "./pages/test/EmojiPickerDemo";
 import EmojiIdentitySettingsPanel from "./components/settings/EmojiIdentitySettingsPanel";
 import EmojiRenderTest from "./pages/test/EmojiRenderTest";
+// Phase 11+ Portal Placeholders
+import {
+  PrayerRoomsPlaceholder,
+  BeautyMarketplacePlaceholder,
+  SneakerFashionPlaceholder,
+  DiasporaPlaceholder,
+  YouthAcademyPlaceholder,
+  WalletPlaceholder
+} from "./components/portals/PortalPlaceholder";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
