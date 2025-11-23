@@ -407,8 +407,11 @@ function App() {
                 } 
               />
               
+              {/* Phase 11.0 - Prayer Rooms (Real Implementation) */}
+              <Route path="/portal/prayer" element={<PrayerLobbyPage />} />
+              <Route path="/portal/prayer/room/:roomSlug" element={<PrayerRoomPage />} />
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
-              <Route path="/portal/prayer" element={<PrayerRoomsPlaceholder />} />
               <Route path="/portal/beauty" element={<BeautyMarketplacePlaceholder />} />
               <Route path="/portal/fashion" element={<SneakerFashionPlaceholder />} />
               <Route path="/portal/diaspora" element={<DiasporaPlaceholder />} />
