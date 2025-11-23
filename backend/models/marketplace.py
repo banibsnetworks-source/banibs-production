@@ -304,6 +304,7 @@ class MarketplaceOrder(BaseModel):
     payment_method: str = "banibs_wallet"
     payment_status: str = "pending"  # pending, paid, failed, refunded
     wallet_transaction_id: Optional[str] = None
+    clearing_status: str = "pending"  # Phase 16.2 - pending, cleared (T+2)
     shipping_address: Optional[dict] = None
     buyer_region: Region
     seller_region: Region
