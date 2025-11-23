@@ -71,6 +71,47 @@ export default function MarketplaceSellerDashboardPage() {
     }
   };
 
+  const fetchPayoutOverview = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const res = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/marketplace/payouts/overview`,
+        { headers: { Authorization: `Bearer ${token}` }}
+      );
+
+      if (res.ok) {
+        const data = await res.json();
+        setPayoutOverview(data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch payout overview:", err);
+    }
+  };
+
+  const fetchPayouts = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const res = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/marketplace/payouts/my`,
+        { headers: { Authorization: `Bearer ${token}` }}
+      );
+
+      if (res.ok) {
+        const data = await res.json();
+        setPayouts(data.payouts || []);
+      }
+    } catch (err) {
+      console.error("Failed to fetch payouts:", err);
+    }
+  };
+
+  const handlePayoutSuccess = () => {
+    // Refresh data after successful payout request
+    fetchSellerData();
+    fetchPayoutOverview();
+    fetchPayouts();
+  };
+
   const calculateDaysUntilClearing = () => {
     // T+2 clearing logic
     const now = new Date();
