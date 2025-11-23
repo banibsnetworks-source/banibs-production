@@ -345,6 +345,10 @@ app.include_router(marketplace_payouts_router)
 from routes.community import router as community_router
 app.include_router(community_router)
 
+# Phase 11.5 - Ability Network
+from routes.ability import router as ability_router
+app.include_router(ability_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
