@@ -126,6 +126,9 @@ class HealthResource(BaseModel):
     tags: List[str] = []
     region_focus: List[str] = []
     author: Optional[str] = None
+    next_steps: List[str] = []  # Phase 11.6.1: Actionable next steps
+    related_resources: List[str] = []  # Phase 11.6.1: Related resource IDs
+    is_cost_assistance: bool = False  # Phase 11.6.1: Flag for cost assistance resources
     is_featured: bool = False
     view_count: int = 0
     created_at: datetime
