@@ -6,6 +6,7 @@ const navItems = [
   { to: "/portal/marketplace", label: "Home" },
   { to: "/portal/marketplace/region/global", label: "Global View" },
   { to: "/portal/marketplace/checkout", label: "Cart & Checkout" },
+  { to: "/portal/marketplace/orders", label: "My Orders" },
   { to: "/portal/marketplace/seller/dashboard", label: "Seller Dashboard" },
 ];
 
