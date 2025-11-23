@@ -1,5 +1,6 @@
-// pages/community/HealthHomePage.jsx - Phase 11.6
+// pages/community/HealthHomePage.jsx - Phase 11.6.1
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import CommunityLayout from "../../components/community/CommunityLayout";
 import { Heart, Search, MapPin, DollarSign } from "lucide-react";
 
