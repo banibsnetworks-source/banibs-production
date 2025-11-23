@@ -739,65 +739,82 @@ agent_communication:
       Users can now switch to Business Mode seamlessly without requiring manual page refreshes or encountering duplicate UI elements.
 
 user_problem_statement: |
-  **Phase 8.3 Backend API Endpoints - Peoples, Business Support, and Business Knowledge Flags**
+  **Phase 12.0 - Diaspora Connect Portal - Comprehensive Backend Testing**
 
   **Context:**
-  Testing Phase 8.3 implementation which includes three new systems:
-  1. Peoples System (User → User connections)
-  2. Business Support System (User → Business support)
-  3. Business Knowledge Flags (Business → Business knowledge sharing with anonymity)
+  I've just built the Diaspora Connect Portal (Phase 12.0) with full-stack implementation. All frontend pages are rendering correctly. Now I need comprehensive backend API testing to verify all endpoints are working correctly.
 
-  **Test Credentials:**
-  - Email: testprofile@example.com
-  - Password: testpass123
-  - Business ID: 9c1933dd-e207-4e0c-845e-766bc4706f1d
+  **Backend Endpoints to Test:**
 
-  **API Endpoints to Test:**
+  **1. Regions Endpoints**
+  - **GET /api/diaspora/regions** - Get all regions (should return 7 regions)
+    - Verify each region has: name, slug, description, countries, highlight_cities
+    - Test expected regions: North America, Caribbean, West Africa, East Africa, Central & Southern Africa, Europe, Latin America
 
-  **1. Peoples System (/api/social/peoples):**
-  - POST /api/social/peoples/{target_user_id} - Add user to peoples
-  - DELETE /api/social/peoples/{target_user_id} - Remove from peoples
-  - GET /api/social/peoples/{user_id} - List user's peoples
-  - GET /api/social/peoples/{user_id}/stats - Get peoples count and stats
+  - **GET /api/diaspora/regions/{region_id}** - Get specific region
+    - Test with valid region ID
+    - Test with invalid region ID (should return 404)
 
-  **2. Business Support System (/api/business/{business_id}/support):**
-  - POST /api/business/{business_id}/support - Support a business
-  - DELETE /api/business/{business_id}/support - Remove support
-  - GET /api/business/{business_id}/supporters - List business supporters
-  - GET /api/business/{business_id}/support/stats - Get support stats
-  - GET /api/business/user/{user_id}/supported-businesses - List businesses user supports
+  **2. Stories Endpoints**
+  - **GET /api/diaspora/stories** - Get all stories (should return 3 seeded stories)
+    - Test without filters
+    - Test with origin_region_id filter
+    - Test with current_region_id filter
+    - Verify story fields: id, title, content, author info (or anonymous), region names, timestamps
 
-  **3. Business Knowledge Flags (/api/business/knowledge):**
-  - POST /api/business/knowledge - Create flag (with parameters: type, title, description, anonymous, tags, media_url)
-    * Test minimum character requirement (80 chars for description)
-    * Test rate limiting (max 5 flags per 24 hours)
-    * Test anonymous vs non-anonymous flags
-    * Test both "pitfall" and "plus" flag types
-  - GET /api/business/knowledge - List flags
-    * Verify anonymous flags show "Anonymous Business Owner"
-    * Verify non-anonymous flags show business name
-    * Test filtering by type (pitfall/plus)
-  - POST /api/business/knowledge/{flag_id}/vote - Vote on flag
-    * Test "helpful" and "not_accurate" vote types
-    * Test vote toggle (same vote removes it)
-    * Test vote change (different vote updates it)
-    * Test that user cannot vote on own flags
-    * Test that only business owners can vote
+  - **POST /api/diaspora/stories** - Create story (requires auth)
+    - Test without auth token (should return 401)
+    - Test with auth token and valid data
+    - Test anonymous posting (anonymous: true)
+    - Test non-anonymous posting (anonymous: false, should include author name)
 
-  **Special Test Cases:**
-  1. **Anonymity Verification:** Create both anonymous and non-anonymous flags, verify the business name is hidden for anonymous ones but still stored in database for admin tracking
-  2. **Rate Limiting:** Try to create 6 flags within 24 hours, verify 6th one is rejected
-  3. **Minimum Content Length:** Try to create flag with <80 character description, verify it's rejected
-  4. **Cross-User Testing:** If possible, create a second test user to test:
-     - Adding them to peoples
-     - Voting on their knowledge flags
-     - Supporting their business
+  - **DELETE /api/diaspora/stories/{story_id}** - Delete story (requires auth, owner only)
+    - Test without auth (should return 401)
+    - Test with auth but not owner (should return 403)
 
-  **Expected Behaviors:**
-  - All endpoints should require authentication
-  - Business Knowledge endpoints should only be accessible to business owners
-  - Anonymous flags should hide business identity from API responses (but author_business_id is stored in DB)
-  - Voting should increment/decrement vote counts correctly
+  **3. Businesses Endpoints**
+  - **GET /api/diaspora/businesses** - Get all businesses (should return 6 seeded businesses)
+    - Test without filters
+    - Test with region_id filter
+    - Test with type filter (tour, lodging, food, service, culture, shop)
+    - Test with country filter
+    - Verify business fields: name, type, location, website, social_links, region_name
+
+  - **GET /api/diaspora/businesses/{business_id}** - Get specific business
+    - Test with valid business ID
+    - Test with invalid business ID (should return 404)
+
+  **4. Education Endpoints**
+  - **GET /api/diaspora/education** - Get all articles (should return 4 seeded articles)
+    - Verify article fields: title, content, tags
+    - Check articles: "Understanding the Global Black Diaspora", "The Great Migration", "The Caribbean Diaspora", "Return to Africa"
+
+  - **GET /api/diaspora/education/{article_id}** - Get specific article
+    - Test with valid article ID
+    - Test with invalid article ID (should return 404)
+
+  **5. Snapshot Endpoints**
+  - **POST /api/diaspora/snapshot** - Create/update snapshot (requires auth)
+    - Test without auth (should return 401)
+    - Test with auth and valid data (current_region_id required)
+    - Test creating new snapshot
+    - Test updating existing snapshot
+    - Verify response includes region names
+
+  - **GET /api/diaspora/snapshot/{user_id}** - Get user snapshot (requires auth, owner only)
+    - Test without auth (should return 401)
+    - Test with auth but different user_id (should return 403)
+    - Test with non-existent snapshot (should return 404)
+
+  **Test Data**
+  Use existing seeded data. For authenticated tests, you may need to create a test user first using the existing auth endpoints.
+
+  **Expected Results**
+  - All public endpoints should work without authentication
+  - All POST/DELETE endpoints should require authentication
+  - Filters should work correctly
+  - Error handling should return appropriate status codes (401, 403, 404)
+  - Data should match seeded content
   - Cannot vote on own flags
   - Cannot add yourself to your peoples
 
