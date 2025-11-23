@@ -7,7 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from typing import List, Optional
 from datetime import datetime
 
-from ..models.developer import (
+from models.developer import (
     DeveloperProfile,
     DeveloperProfileCreate,
     DeveloperProfileUpdate,
@@ -27,9 +27,9 @@ from ..models.developer import (
     SystemStatusResponse,
     ServiceStatus
 )
-from ..db.developer import DeveloperDB
-from ..middleware import get_current_user
-from ..database import get_db
+from db.developer import DeveloperDB
+from middleware import get_current_user
+from database import get_db
 
 router = APIRouter(prefix="/developer", tags=["BANIBS OS"])
 
