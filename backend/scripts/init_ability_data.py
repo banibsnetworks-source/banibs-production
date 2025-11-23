@@ -26,7 +26,8 @@ async def seed_ability_data():
     
     # Clear existing data
     await db.ability_resources.delete_many({})
-    print("🗑️  Cleared existing ability resources\n")
+    await db.ability_providers.delete_many({})
+    print("🗑️  Cleared existing ability resources and providers\n")
     
     # Ability Resources
     resources = [
