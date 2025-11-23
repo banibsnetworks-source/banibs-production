@@ -1,7 +1,8 @@
-// pages/marketplace/MarketplaceSellerDashboardPage.jsx - Phase 16.1.5
+// pages/marketplace/MarketplaceSellerDashboardPage.jsx - Phase 16.1.5 & 16.2
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import MarketplaceLayout from "../../components/marketplace/MarketplaceLayout";
+import SellerPayoutRequestModal from "../../components/marketplace/SellerPayoutRequestModal";
 import { 
   Wallet, 
   Package, 
@@ -9,14 +10,18 @@ import {
   Clock, 
   DollarSign,
   ShoppingBag,
-  AlertCircle 
+  AlertCircle,
+  Download
 } from "lucide-react";
 
 export default function MarketplaceSellerDashboardPage() {
   const [sellerData, setSellerData] = useState(null);
   const [orders, setOrders] = useState([]);
+  const [payouts, setPayouts] = useState([]);
+  const [payoutOverview, setPayoutOverview] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showPayoutModal, setShowPayoutModal] = useState(false);
 
   useEffect(() => {
     fetchSellerData();
