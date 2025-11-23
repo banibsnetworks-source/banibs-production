@@ -131,10 +131,10 @@ async def get_businesses(
     region_id: Optional[str] = Query(None),
     type: Optional[str] = Query(None),
     country: Optional[str] = Query(None),
-    limit: int = Query(100, ge=1, le=200),
-    db=Depends(get_db)
+    limit: int = Query(100, ge=1, le=200)
 ):
     """Get diaspora businesses with optional filters (public access)"""
+    db = get_db_client()
     diaspora_db = DiasporaDB(db)
     businesses = await diaspora_db.get_businesses(
         region_id=region_id,
@@ -146,8 +146,9 @@ async def get_businesses(
 
 
 @router.get("/businesses/{business_id}")
-async def get_business(business_id: str, db=Depends(get_db)):
+async def get_business(business_id: str):
     """Get a specific business by ID (public access)"""
+    db = get_db_client()
     diaspora_db = DiasporaDB(db)
     business = await diaspora_db.get_business_by_id(business_id)
     
