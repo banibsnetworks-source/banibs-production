@@ -110,12 +110,12 @@ export const MODULE_REGISTRY = {
     id: 'beauty_marketplace',
     name: 'Beauty & Wellness',
     route: '/portal/beauty',
-    enabled: false,
-    layout: 'MarketplaceLayout',
-    theme: 'marketplace',
+    enabled: true, // ✅ Phase 11.1 Complete
+    layout: 'BeautyLayout',
+    theme: 'beauty',
     color: '#EC4899', // Pink
     permissions: ['user'],
-    phase: '11.0',
+    phase: '11.1',
     description: 'Black-owned beauty products and services',
     subModules: [
       'beauty_directory',
