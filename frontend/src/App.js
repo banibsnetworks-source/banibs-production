@@ -201,6 +201,9 @@ import HealthResourceDetailPage from "./pages/community/HealthResourceDetailPage
 import HealthProvidersPage from "./pages/community/HealthProvidersPage";
 import HealthProviderDetailPage from "./pages/community/HealthProviderDetailPage";
 import FitnessHomePage from "./pages/community/FitnessHomePage";
+import FitnessProgramDetailPage from "./pages/community/FitnessProgramDetailPage";
+import FitnessCoachesPage from "./pages/community/FitnessCoachesPage";
+import FitnessCoachDetailPage from "./pages/community/FitnessCoachDetailPage";
 import FoodHomePage from "./pages/community/FoodHomePage";
 import SchoolHomePage from "./pages/community/SchoolHomePage";
 
