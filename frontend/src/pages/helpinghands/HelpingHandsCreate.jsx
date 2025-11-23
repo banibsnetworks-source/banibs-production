@@ -368,11 +368,18 @@ const HelpingHandsCreate = () => {
                 <select
                   value={formData.state}
                   onChange={(e) => handleChange('state', e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg transition-colors"
+                  className="w-full px-4 py-3 rounded-lg transition-colors cursor-pointer"
                   style={{
                     background: isDark ? 'rgba(255, 255, 255, 0.05)' : '#ffffff',
                     border: `2px solid ${isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
-                    color: isDark ? '#F9F9F9' : '#1a1a1a'
+                    color: isDark ? '#F9F9F9' : '#1a1a1a',
+                    WebkitAppearance: 'none',
+                    MozAppearance: 'none',
+                    appearance: 'none',
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='${isDark ? '%23F9F9F9' : '%231a1a1a'}' d='M1.41 0L6 4.59 10.59 0 12 1.41l-6 6-6-6z'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 12px center',
+                    paddingRight: '40px'
                   }}
                 >
                   <option value="">Select State</option>
