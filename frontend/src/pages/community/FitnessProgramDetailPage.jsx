@@ -266,14 +266,31 @@ export default function FitnessProgramDetailPage() {
               )}
             </div>
             
-            {program.enrollment_open ? (
-              <button
-                onClick={handleEnroll}
-                disabled={enrolling}
-                className="w-full px-4 py-3 rounded-lg bg-green-500 text-white font-semibold hover:bg-green-600 transition disabled:opacity-50"
-              >
-                {enrolling ? "Enrolling..." : "Enroll Now"}
-              </button>
+            {enrollmentSuccess ? (
+              <div className="rounded-lg bg-green-500/20 border border-green-500 p-4 text-center">
+                <CheckCircle className="mx-auto text-green-400 mb-2" size={24} />
+                <p className="text-sm font-semibold text-green-100 mb-1">
+                  Successfully Enrolled!
+                </p>
+                <p className="text-xs text-slate-300">
+                  You'll receive an email with program details
+                </p>
+              </div>
+            ) : program.enrollment_open ? (
+              <>
+                <button
+                  onClick={handleEnroll}
+                  disabled={enrolling}
+                  className="w-full px-4 py-3 rounded-lg bg-green-500 text-white font-semibold hover:bg-green-600 transition disabled:opacity-50"
+                >
+                  {enrolling ? "Enrolling..." : "Enroll Now"}
+                </button>
+                {enrollmentError && (
+                  <div className="mt-3 p-3 rounded-lg bg-rose-500/10 border border-rose-500/30 text-center">
+                    <p className="text-xs text-rose-200">{enrollmentError}</p>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="text-center py-2 text-xs text-slate-400">
                 Enrollment currently closed
