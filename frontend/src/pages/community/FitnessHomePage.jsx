@@ -1,7 +1,8 @@
-// pages/community/FitnessHomePage.jsx - Phase 11.6
+// pages/community/FitnessHomePage.jsx - Phase 11.6.2
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import CommunityLayout from "../../components/community/CommunityLayout";
-import { Dumbbell, Play, Users, Heart } from "lucide-react";
+import { Dumbbell, Play, Users, Heart, Award } from "lucide-react";
 
 export default function FitnessHomePage() {
   const [programs, setPrograms] = useState([]);
