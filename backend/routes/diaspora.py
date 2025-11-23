@@ -189,10 +189,10 @@ async def get_education_article(article_id: str):
 @router.post("/snapshot", response_model=DiasporaSnapshot)
 async def create_snapshot(
     snapshot_data: DiasporaSnapshotCreate,
-    current_user: dict = Depends(get_current_user),
-    db=Depends(get_db)
+    current_user: dict = Depends(get_current_user)
 ):
     """Create or update a user's diaspora snapshot (requires authentication)"""
+    db = get_db_client()
     diaspora_db = DiasporaDB(db)
     
     snapshot = await diaspora_db.create_or_update_snapshot(
