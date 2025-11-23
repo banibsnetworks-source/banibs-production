@@ -31,7 +31,7 @@ from db.developer import DeveloperDB
 from middleware.auth_guard import get_current_user
 from db.connection import get_db_client
 
-router = APIRouter(prefix="/developer", tags=["BANIBS OS"])
+router = APIRouter(prefix="/api/developer", tags=["BANIBS OS"])
 
 
 # ==================== DASHBOARD ====================
