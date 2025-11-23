@@ -395,6 +395,14 @@ function App() {
                   </ProtectedRoute>
                 } 
               />
+              
+              {/* Phase 11+ Portal Routes - Placeholder Pages */}
+              <Route path="/portal/prayer" element={<PrayerRoomsPlaceholder />} />
+              <Route path="/portal/beauty" element={<BeautyMarketplacePlaceholder />} />
+              <Route path="/portal/fashion" element={<SneakerFashionPlaceholder />} />
+              <Route path="/portal/diaspora" element={<DiasporaPlaceholder />} />
+              <Route path="/portal/academy" element={<YouthAcademyPlaceholder />} />
+              <Route path="/portal/wallet" element={<WalletPlaceholder />} />
             </Routes>
                   </AccountModeProvider>
           </BrowserRouter>
