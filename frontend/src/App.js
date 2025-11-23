@@ -191,6 +191,7 @@ import MarketplaceRegionPage from "./pages/marketplace/MarketplaceRegionPage";
 import MarketplaceStorePage from "./pages/marketplace/MarketplaceStorePage";
 import MarketplaceProductPage from "./pages/marketplace/MarketplaceProductPage";
 import MarketplaceCheckoutPage from "./pages/marketplace/MarketplaceCheckoutPage";
+import MarketplaceOrdersPage from "./pages/marketplace/MarketplaceOrdersPage";
 import MarketplaceSellerDashboardPage from "./pages/marketplace/MarketplaceSellerDashboardPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
