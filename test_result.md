@@ -565,3 +565,61 @@ agent_communication:
       4. Verify all CRUD operations work end-to-end
       
       **📊 OVERALL STATUS:** 60% Complete - Core authentication and backend working, frontend integration needs fixes
+
+---
+
+## Phase 16.1.5 - Real Payments Frontend Integration Testing
+
+**Date**: $(date +%Y-%m-%d)
+**Focus**: Testing complete real payment flow and seller dashboard integration
+
+### Components to Test:
+
+1. **MarketplaceOrdersPage.jsx** - Buyer order history with digital downloads
+2. **MarketplaceSellerDashboardPage.jsx** - Seller payout balance display
+3. **MarketplaceCheckoutPage.jsx** - Wallet balance & real payment integration
+
+### Test Scenarios:
+
+#### Scenario 1: Buyer Payment Flow
+- User logs in and navigates to marketplace
+- User adds products to cart (both physical and digital)
+- User views wallet balance on checkout page
+- User successfully completes payment with sufficient funds
+- Order appears immediately in "My Orders" page
+- Digital products show download buttons
+- Payment status badge shows "PAID"
+
+#### Scenario 2: Insufficient Funds
+- User with low wallet balance attempts to checkout
+- System shows insufficient funds error
+- User cannot complete purchase
+- No order is created
+
+#### Scenario 3: Order History & Downloads
+- User views "My Orders" page
+- Orders are displayed newest first
+- Each order shows order number, date, total, and payment status
+- User can expand order to see items
+- Digital products have working download buttons
+- Physical products do not show download buttons
+
+#### Scenario 4: Seller Dashboard
+- Seller logs in and views seller dashboard
+- Dashboard shows pending_payout_balance
+- Dashboard shows available_payout_balance
+- Dashboard shows T+2 clearing countdown
+- Dashboard shows total sales metrics
+- Dashboard shows number of orders
+- Recent orders list displays with seller net amounts
+
+### Known Test Users:
+- `demo-user-wallet-001` - Has wallet with $2000 balance
+- `social_test_user@example.com` / `TestPass123!`
+
+### Testing Notes:
+- Backend Phase 16.1 is 100% complete and tested
+- Frontend checkout page has been updated for real payments
+- Navigation link to "My Orders" has been added
+- All components follow deep bronze + black marketplace theme
+
