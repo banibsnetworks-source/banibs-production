@@ -74,12 +74,21 @@ export default function FoodHomePage() {
 
       {/* Recipes Grid */}
       <div>
-        <h2 className="text-xl font-bold text-slate-100 mb-4">Featured Recipes</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-slate-100">Featured Recipes</h2>
+          <Link
+            to="/portal/community/food/submit"
+            className="px-4 py-2 rounded-lg bg-amber-500 text-white text-sm font-semibold hover:bg-amber-600 transition"
+          >
+            Share Your Recipe
+          </Link>
+        </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {recipes.map((recipe) => (
-            <div
+            <Link
               key={recipe.id}
-              className="rounded-xl bg-slate-900/50 border border-slate-800 overflow-hidden hover:border-amber-500/50 transition"
+              to={`/portal/community/food/recipes/${recipe.slug}`}
+              className="rounded-xl bg-slate-900/50 border border-slate-800 overflow-hidden hover:border-amber-500/50 transition block"
             >
               <div className="aspect-video bg-gradient-to-br from-amber-500/20 to-amber-600/10 flex items-center justify-center">
                 <ChefHat className="text-amber-400/50" size={48} />
@@ -115,7 +124,7 @@ export default function FoodHomePage() {
                   )}
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
