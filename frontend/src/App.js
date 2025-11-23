@@ -529,6 +529,9 @@ function App() {
               <Route path="/portal/community/health/providers" element={<HealthProvidersPage />} />
               <Route path="/portal/community/health/providers/:providerId" element={<HealthProviderDetailPage />} />
               <Route path="/portal/community/fitness" element={<FitnessHomePage />} />
+              <Route path="/portal/community/fitness/programs/:programId" element={<FitnessProgramDetailPage />} />
+              <Route path="/portal/community/fitness/coaches" element={<FitnessCoachesPage />} />
+              <Route path="/portal/community/fitness/coaches/:coachId" element={<FitnessCoachDetailPage />} />
               <Route path="/portal/community/food" element={<FoodHomePage />} />
               <Route path="/portal/community/school" element={<SchoolHomePage />} />
               
