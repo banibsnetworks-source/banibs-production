@@ -9980,7 +9980,7 @@ def main():
 if __name__ == "__main__":
     tester = BanibsAPITester()
     
-    # Run Phase 8.3 Tests - Peoples, Business Support, and Business Knowledge Flags
-    success = tester.run_phase_8_3_tests()
+    # Run Phase 12.0 Tests - Diaspora Connect Portal
+    success = tester.run_phase_12_0_tests()
     
     sys.exit(0 if success else 1)
