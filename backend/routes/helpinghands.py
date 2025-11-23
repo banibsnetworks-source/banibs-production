@@ -102,21 +102,32 @@ async def list_campaigns(
     status: Optional[CampaignStatus] = Query(None),
     category: Optional[CampaignCategory] = Query(None),
     featured: Optional[bool] = Query(None),
+    filter: Optional[str] = Query(None, description="Filter campaigns: 'mine' for user's own campaigns"),
     page: int = Query(1, ge=1),
-    limit: int = Query(20, ge=1, le=100)
+    limit: int = Query(20, ge=1, le=100),
+    current_user: Optional[dict] = Depends(require_role("user", "member", optional=True))
 ):
     """
     List campaigns with filters
+    - Use filter=mine to get only your own campaigns (requires authentication)
     """
     db = get_db_client()
     
     # Build query
     query = {}
-    if status:
-        query["status"] = status
+    
+    # Handle "mine" filter - show user's own campaigns (all statuses)
+    if filter == "mine":
+        if not current_user:
+            raise HTTPException(status_code=401, detail="Authentication required to view your campaigns")
+        query["owner_id"] = current_user["id"]
+        # Don't filter by status for "mine" - show all user's campaigns (draft, active, completed, cancelled)
     else:
-        # Default: only show active campaigns to public
-        query["status"] = CampaignStatus.ACTIVE
+        # Default behavior: only show active campaigns to public
+        if status:
+            query["status"] = status
+        else:
+            query["status"] = CampaignStatus.ACTIVE
     
     if category:
         query["category"] = category
