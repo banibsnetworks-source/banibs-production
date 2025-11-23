@@ -17,11 +17,14 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 async def init_marketplace_data():
     """Initialize sample marketplace data"""
     
-    # Get MongoDB URL from environment
-    mongo_url = os.environ.get("MONGO_URL", "mongodb://localhost:27017/banibs")
+    # Get MongoDB URL and DB name from environment
+    mongo_url = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
+    db_name = os.environ.get("DB_NAME", "test_database")
     
     client = AsyncIOMotorClient(mongo_url)
-    db = client.get_default_database()
+    db = client[db_name]
+    
+    print(f"🔗 Connecting to database: {db_name}")
     
     print("🛒 Initializing BANIBS Global Marketplace data...")
     
