@@ -371,7 +371,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "P1 Issues Testing Complete - Both fixes verified"
+    - "P2 State Dropdown Visual Glitch Fix - Testing Complete"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
