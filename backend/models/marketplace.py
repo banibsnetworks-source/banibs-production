@@ -84,6 +84,7 @@ class MarketplaceSeller(BaseModel):
     rating: float = 0.0
     pending_payout_balance: float = 0.0  # Phase 16.1 - Funds pending T+2 clearing
     available_payout_balance: float = 0.0  # Phase 16.1 - Funds available for payout
+    lifetime_payouts: float = 0.0  # Phase 16.2 - Total paid out historically
     created_at: datetime
     
     class Config:
