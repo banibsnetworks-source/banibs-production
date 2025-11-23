@@ -371,10 +371,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "P0 Business Mode Fixes - COMPLETED"
-    - "Phase 8.3 - Peoples System Frontend"
-    - "Phase 8.3 - Business Support System Frontend"
-    - "Phase 8.3 - Business Knowledge Flags Frontend"
+    - "Phase 11.0 - Prayer Rooms Portal Complete Testing"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
