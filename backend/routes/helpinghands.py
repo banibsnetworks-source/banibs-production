@@ -28,7 +28,7 @@ from models.helpinghands import (
     HelpingHandsReport,
     ReportReason
 )
-from middleware.auth_guard import require_role
+from middleware.auth_guard import require_role, get_current_user_optional
 from db.connection import get_db_client
 
 router = APIRouter(prefix="/api/helping-hands", tags=["Helping Hands"])
