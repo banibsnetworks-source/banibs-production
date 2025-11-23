@@ -29,7 +29,7 @@ from models.developer import (
 )
 from db.developer import DeveloperDB
 from middleware.auth_guard import get_current_user
-from db.connection import get_db_client_client
+from db.connection import get_db_client
 
 router = APIRouter(prefix="/developer", tags=["BANIBS OS"])
 
