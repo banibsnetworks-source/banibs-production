@@ -157,7 +157,7 @@ MONGO_URL=mongodb://localhost:27017
 DB_NAME=test_database
 
 # Frontend
-REACT_APP_BACKEND_URL=https://banibs-hub.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://api-platform-5.preview.emergentagent.com
 ```
 
 ---
