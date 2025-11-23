@@ -101,7 +101,7 @@ async def run_t2_clearing():
             cleared_count += 1
             total_cleared_amount += seller_net_amount
             
-            print(f"  ✅ Cleared successfully")
+            print("  ✅ Cleared successfully")
             print(f"  Seller pending: ${updated_seller['pending_payout_balance']:.2f}")
             print(f"  Seller available: ${updated_seller['available_payout_balance']:.2f}\n")
             
