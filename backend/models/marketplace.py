@@ -376,10 +376,10 @@ class OrderEvent(BaseModel):
     """Order event for audit trail - Phase 16.1"""
     id: str
     order_id: str
-    event_type: str  # payment_initiated, payment_success, payment_failed, payout_pending, payout_cleared, etc.
+    event_type: str  # payment_initiated, payment_success, payment_failed, payout_pending, payout_cleared, payout_requested, payout_approved, payout_rejected, payout_completed
     timestamp: datetime
     actor: str = "system"  # system, user_id, admin_id
-    metadata: Optional[dict] = None  # amount, wallet_ids, error messages, etc.
+    metadata: Optional[dict] = None  # amount, wallet_ids, error messages, payout_id, etc.
     
     class Config:
         json_schema_extra = {
@@ -396,6 +396,58 @@ class OrderEvent(BaseModel):
                 }
             }
         }
+
+
+# ==================== PAYOUT REQUESTS - PHASE 16.2 ====================
+
+class MarketplacePayoutRequest(BaseModel):
+    """Seller payout request - Phase 16.2"""
+    id: str
+    seller_id: str
+    user_id: str                  # owner user id
+    amount_requested: float
+    amount_approved: Optional[float] = None
+    status: PayoutStatus = PayoutStatus.PENDING
+    method: PayoutMethod
+    method_details: Optional[dict] = None   # e.g. {"bank_name": "...", "last4": "1234"}
+    created_at: datetime
+    updated_at: datetime
+    processed_at: Optional[datetime] = None
+    admin_note: Optional[str] = None
+    reference_code: str           # human-friendly code like PAY-2025-000123
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "id": "payout-001",
+                "seller_id": "seller-001",
+                "user_id": "user-001",
+                "amount_requested": 150.00,
+                "amount_approved": 150.00,
+                "status": "completed",
+                "method": "bank_transfer",
+                "method_details": {
+                    "bank_name": "Example Bank",
+                    "last4": "1234"
+                },
+                "reference_code": "PAY-2025-000123",
+                "processed_at": "2025-01-20T15:30:00Z"
+            }
+        }
+
+
+class PayoutRequestCreate(BaseModel):
+    """Request model for creating payout request"""
+    amount: float = Field(..., gt=0)
+    method: PayoutMethod
+    method_details: Optional[dict] = None
+
+
+class PayoutStatusUpdate(BaseModel):
+    """Request model for updating payout status - Admin only"""
+    status: PayoutStatus
+    amount_approved: Optional[float] = None
+    admin_note: Optional[str] = None
 
 
 # ==================== RESPONSE MODELS ====================
