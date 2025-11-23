@@ -197,6 +197,9 @@ import MarketplaceSellerDashboardPage from "./pages/marketplace/MarketplaceSelle
 // Phase 11.6-11.9 - Community Life Hub
 import CommunityHomePage from "./pages/community/CommunityHomePage";
 import HealthHomePage from "./pages/community/HealthHomePage";
+import HealthResourceDetailPage from "./pages/community/HealthResourceDetailPage";
+import HealthProvidersPage from "./pages/community/HealthProvidersPage";
+import HealthProviderDetailPage from "./pages/community/HealthProviderDetailPage";
 import FitnessHomePage from "./pages/community/FitnessHomePage";
 import FoodHomePage from "./pages/community/FoodHomePage";
 import SchoolHomePage from "./pages/community/SchoolHomePage";
