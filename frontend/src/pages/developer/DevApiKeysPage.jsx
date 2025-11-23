@@ -94,7 +94,7 @@ function DevApiKeysPage() {
   };
 
   if (loading) {
-    return <div className=\"flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900\"><div className=\"text-white\">Loading...</div></div>;
+    return <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900"><div className="text-white">Loading...</div></div>;
   }
 
   return (
