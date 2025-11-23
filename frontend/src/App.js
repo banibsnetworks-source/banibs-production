@@ -522,6 +522,9 @@ function App() {
               {/* Phase 11.6-11.9 - Community Life Hub */}
               <Route path="/portal/community" element={<CommunityHomePage />} />
               <Route path="/portal/community/health" element={<HealthHomePage />} />
+              <Route path="/portal/community/health/resources/:slug" element={<HealthResourceDetailPage />} />
+              <Route path="/portal/community/health/providers" element={<HealthProvidersPage />} />
+              <Route path="/portal/community/health/providers/:providerId" element={<HealthProviderDetailPage />} />
               <Route path="/portal/community/fitness" element={<FitnessHomePage />} />
               <Route path="/portal/community/food" element={<FoodHomePage />} />
               <Route path="/portal/community/school" element={<SchoolHomePage />} />
