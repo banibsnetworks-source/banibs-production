@@ -14,7 +14,7 @@ import { xhrRequest } from '../../utils/xhrRequest';
 const HelpingHandsHome = () => {
   const navigate = useNavigate();
   const { theme } = useTheme();
-  const { user } = useAuth();
+  const { user, loading: authLoading, isAuthenticated } = useAuth();
   const isDark = theme === 'dark';
   
   const [campaigns, setCampaigns] = useState([]);
