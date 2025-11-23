@@ -688,14 +688,13 @@ async def create_order(
         else:
             platform_wallet = platform_accounts[0]
         
-        # Credit platform fee
-        await wallet_db.update_account_balance(platform_wallet["id"], platform_fee)
+        # Credit platform fee (create_transaction will update the balance)
         await wallet_db.create_transaction(
             PLATFORM_WALLET_ACCOUNT_ID,
             {
                 "account_id": platform_wallet["id"],
                 "type": "credit",
-                "amount": platform_fee,
+                "amount": platform_fee,  # Positive for credit
                 "category": "platform_fee",
                 "description": f"Platform fee from Order #{new_order['order_number']}",
                 "merchant": seller_id,
