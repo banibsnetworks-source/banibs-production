@@ -649,16 +649,14 @@ async def create_order(
         # Generate idempotency key to prevent double-charging
         idempotency_key = generate_idempotency_key(buyer_id, order_id)
         
-        # Deduct from buyer wallet
-        await wallet_db.update_account_balance(buyer_wallet["id"], -grand_total)
-        
-        # Create buyer transaction record
+        # Create buyer transaction record (this also updates the account balance)
+        # For debit, pass negative amount so create_transaction deducts correctly
         buyer_txn = await wallet_db.create_transaction(
             buyer_id,
             {
                 "account_id": buyer_wallet["id"],
                 "type": "debit",
-                "amount": grand_total,
+                "amount": -grand_total,  # Negative for debit
                 "category": "marketplace_purchase",
                 "description": f"Marketplace Order #{new_order['order_number']}",
                 "merchant": seller_id,
