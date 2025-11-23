@@ -49,6 +49,8 @@ async def get_ability_resources(
         limit=limit
     )
     
+    print(f"[ABILITY] Retrieved {len(resources)} resources from DB")
+    
     return {
         "resources": resources,
         "total": len(resources)
