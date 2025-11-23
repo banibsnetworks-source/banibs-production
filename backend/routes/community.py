@@ -439,3 +439,56 @@ async def get_school_resource(slug: str):
         raise HTTPException(status_code=404, detail="School resource not found")
     
     return resource
+
+
+@router.post("/school/resources/submit")
+async def submit_school_resource(
+    resource_data: dict,
+    current_user: dict = Depends(get_current_user_dependency)
+):
+    """Submit a school resource for review - Phase 11.6.4"""
+    db = get_db_client()
+    community_db = CommunityDB(db)
+    
+    # Create slug from title
+    slug = resource_data["title"].lower().replace(" ", "-").replace("'", "")
+    
+    # Create resource record with pending_review status
+    resource = {
+        "id": f"school-{uuid4().hex[:8]}",
+        "title": resource_data["title"],
+        "slug": slug,
+        "type": resource_data["type"],
+        "subject": resource_data.get("subject", []),
+        "age_range": resource_data["age_range"],
+        "format": resource_data["format"],
+        "description": resource_data["description"],
+        "region": resource_data.get("region"),
+        "provider_name": resource_data["provider_name"],
+        "contact_website": resource_data.get("contact_website"),
+        "contact_email": resource_data.get("contact_email"),
+        "contact_phone": resource_data.get("contact_phone"),
+        "cost_range": resource_data.get("cost_range", "free"),
+        "is_accredited": resource_data.get("is_accredited", False),
+        "is_user_submitted": True,
+        "submitted_by_user_id": current_user["id"],
+        "submitted_by_name": current_user.get("name", current_user.get("email", "Unknown")),
+        "is_approved": False,  # Pending review
+        "grade_levels": resource_data.get("grade_levels", []),
+        "learning_style": resource_data.get("learning_style", []),
+        "tags": resource_data.get("tags", []),
+        "is_verified": False,
+        "is_featured": False,
+        "rating": None,
+        "total_reviews": 0,
+        "created_at": datetime.now(timezone.utc),
+        "updated_at": datetime.now(timezone.utc)
+    }
+    
+    await community_db.school_resources.insert_one(resource)
+    
+    return {
+        "success": True,
+        "message": "Resource submitted successfully and is pending review",
+        "resource_id": resource["id"]
+    }
