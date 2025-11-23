@@ -58,6 +58,8 @@ class MarketplaceSeller(BaseModel):
     total_sales: float = 0.0
     total_orders: int = 0
     rating: float = 0.0
+    pending_payout_balance: float = 0.0  # Phase 16.1 - Funds pending T+2 clearing
+    available_payout_balance: float = 0.0  # Phase 16.1 - Funds available for payout
     created_at: datetime
     
     class Config:
