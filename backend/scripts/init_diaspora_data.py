@@ -306,11 +306,13 @@ async def main():
     """Main seeding function"""
     # Get MongoDB URL from environment
     mongo_url = os.getenv("MONGO_URL", "mongodb://localhost:27017")
+    db_name = os.getenv("DB_NAME", "test_database")
     
     # Connect to MongoDB
     print(f"Connecting to MongoDB at {mongo_url}...")
+    print(f"Using database: {db_name}")
     client = AsyncIOMotorClient(mongo_url)
-    db = client.banibs
+    db = client[db_name]
     
     # Initialize DiasporaDB
     diaspora_db = DiasporaDB(db)
