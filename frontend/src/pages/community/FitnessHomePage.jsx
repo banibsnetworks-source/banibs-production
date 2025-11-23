@@ -83,9 +83,10 @@ export default function FitnessHomePage() {
         <h2 className="text-xl font-bold text-slate-100 mb-4">Featured Programs</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {programs.map((program) => (
-            <div
+            <Link
               key={program.id}
-              className="rounded-xl bg-slate-900/50 border border-slate-800 p-5 hover:border-green-500/50 transition"
+              to={`/portal/community/fitness/programs/${program.slug || program.id}`}
+              className="rounded-xl bg-slate-900/50 border border-slate-800 p-5 hover:border-green-500/50 transition block"
             >
               <div className="text-sm font-semibold text-slate-100 mb-2">
                 {program.title}
@@ -111,7 +112,7 @@ export default function FitnessHomePage() {
                   ✓ {program.chronic_friendly.join(', ')}-friendly
                 </div>
               )}
-            </div>
+            </Link>
           ))}
         </div>
       </div>
