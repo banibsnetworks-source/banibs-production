@@ -22,6 +22,7 @@ class CommunityDB:
         self.health_providers = db.health_providers
         # Fitness
         self.fitness_programs = db.fitness_programs
+        self.program_enrollments = db.program_enrollments
         # Food
         self.recipes = db.recipes
         # School
