@@ -26,6 +26,8 @@ export default function MarketplaceSellerDashboardPage() {
   useEffect(() => {
     fetchSellerData();
     fetchSellerOrders();
+    fetchPayoutOverview();
+    fetchPayouts();
   }, []);
 
   const fetchSellerData = async () => {
