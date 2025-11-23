@@ -98,10 +98,10 @@ async def create_story(
 @router.delete("/stories/{story_id}")
 async def delete_story(
     story_id: str,
-    current_user: dict = Depends(get_current_user),
-    db=Depends(get_db)
+    current_user: dict = Depends(get_current_user)
 ):
     """Delete a diaspora story (only by owner or admin)"""
+    db = get_db_client()
     diaspora_db = DiasporaDB(db)
     
     # Check if story exists and belongs to user
