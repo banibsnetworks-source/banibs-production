@@ -166,6 +166,14 @@ import DiasporaBusinessDirectory from "./pages/diaspora/DiasporaBusinessDirector
 import DiasporaLearnPage from "./pages/diaspora/DiasporaLearnPage";
 import DiasporaSnapshotPage from "./pages/diaspora/DiasporaSnapshotPage";
 
+// Phase 13.0 - BANIBS Academy
+import AcademyHomePage from "./pages/academy/AcademyHomePage";
+import AcademyCoursesPage from "./pages/academy/AcademyCoursesPage";
+import AcademyMentorshipPage from "./pages/academy/AcademyMentorshipPage";
+import AcademyLifeSkillsPage from "./pages/academy/AcademyLifeSkillsPage";
+import AcademyHistoryPage from "./pages/academy/AcademyHistoryPage";
+import AcademyOpportunitiesPage from "./pages/academy/AcademyOpportunitiesPage";
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
