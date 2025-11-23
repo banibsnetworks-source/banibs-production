@@ -1,5 +1,6 @@
 // pages/community/SchoolHomePage.jsx - Phase 11.6
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import CommunityLayout from "../../components/community/CommunityLayout";
 import { GraduationCap, Book, Users, Video, DollarSign } from "lucide-react";
 
