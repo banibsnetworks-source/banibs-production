@@ -443,8 +443,15 @@ function App() {
               <Route path="/portal/fashion/board" element={<FashionBoardPage />} />
               <Route path="/portal/fashion/spend" element={<FashionSpendToolPage />} />
               
+              {/* Phase 12.0 - Diaspora Connect Portal */}
+              <Route path="/portal/diaspora" element={<DiasporaHomePage />} />
+              <Route path="/portal/diaspora/regions" element={<DiasporaRegionsPage />} />
+              <Route path="/portal/diaspora/stories" element={<DiasporaStoriesPage />} />
+              <Route path="/portal/diaspora/businesses" element={<DiasporaBusinessDirectory />} />
+              <Route path="/portal/diaspora/learn" element={<DiasporaLearnPage />} />
+              <Route path="/portal/diaspora/snapshot" element={<DiasporaSnapshotPage />} />
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
-              <Route path="/portal/diaspora" element={<DiasporaPlaceholder />} />
               <Route path="/portal/academy" element={<YouthAcademyPlaceholder />} />
               <Route path="/portal/wallet" element={<WalletPlaceholder />} />
             </Routes>
