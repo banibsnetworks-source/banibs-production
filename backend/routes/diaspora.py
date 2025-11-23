@@ -5,6 +5,7 @@ Phase 12.0
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from typing import Optional
+from db.connection import get_db_client
 from db.diaspora import DiasporaDB
 from models.diaspora import (
     DiasporaRegionsResponse,
@@ -17,7 +18,6 @@ from models.diaspora import (
     DiasporaSnapshotCreate
 )
 from middleware.auth_guard import get_current_user, get_current_user_optional
-from dependencies import get_db
 
 router = APIRouter(prefix="/api/diaspora", tags=["diaspora"])
 
