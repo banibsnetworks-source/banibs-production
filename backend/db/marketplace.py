@@ -343,7 +343,7 @@ class MarketplaceDB:
     
     async def verify_user_purchased_product(self, user_id: str, product_id: str) -> bool:
         """Verify if user has purchased a product (for digital downloads)"""
-        # Find order items with this product where order is completed
+        # Phase 16.1: Check for payment_status == "paid" (not just "completed")
         pipeline = [
             {
                 "$lookup": {
@@ -360,10 +360,66 @@ class MarketplaceDB:
                 "$match": {
                     "product_id": product_id,
                     "order.buyer_id": user_id,
-                    "order.payment_status": "completed"
+                    "order.payment_status": {"$in": ["paid", "mock_paid"]}  # Phase 16.1
                 }
             }
         ]
         
         result = await self.order_items.aggregate(pipeline).to_list(1)
         return len(result) > 0
+    
+    # ==================== PHASE 16.1 - PAYMENT & PAYOUT METHODS ====================
+    
+    async def update_seller_payout_balance(self, seller_id: str, amount: float, balance_type: str) -> bool:
+        """
+        Update seller payout balance
+        
+        Args:
+            seller_id: Seller ID
+            amount: Amount to add/subtract
+            balance_type: "pending" or "available"
+        """
+        field = "pending_payout_balance" if balance_type == "pending" else "available_payout_balance"
+        
+        result = await self.sellers.update_one(
+            {"id": seller_id},
+            {"$inc": {field: amount}}
+        )
+        return result.modified_count > 0
+    
+    async def create_order_event(self, event_data: Dict) -> Dict:
+        """Create an order event for audit trail"""
+        event = {
+            "id": str(uuid4()),
+            **event_data,
+            "timestamp": datetime.utcnow()
+        }
+        await self.db.order_events.insert_one(event)
+        return {k: v for k, v in event.items() if k != "_id"}
+    
+    async def get_order_events(self, order_id: str) -> List[Dict]:
+        """Get all events for an order"""
+        events = await self.db.order_events.find(
+            {"order_id": order_id},
+            {"_id": 0}
+        ).sort("timestamp", 1).to_list(100)
+        return events
+    
+    async def mark_order_as_paid(self, order_id: str, wallet_transaction_id: str, platform_fee: float, seller_net: float) -> Optional[Dict]:
+        """Mark order as paid with real payment details"""
+        result = await self.orders.find_one_and_update(
+            {"id": order_id},
+            {
+                "$set": {
+                    "payment_status": "paid",
+                    "wallet_transaction_id": wallet_transaction_id,
+                    "platform_fee_amount": platform_fee,
+                    "seller_net_amount": seller_net,
+                    "updated_at": datetime.utcnow()
+                }
+            },
+            return_document=True
+        )
+        if result:
+            return {k: v for k, v in result.items() if k != "_id"}
+        return None
