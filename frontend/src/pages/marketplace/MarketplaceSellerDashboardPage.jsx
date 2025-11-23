@@ -260,7 +260,7 @@ export default function MarketplaceSellerDashboardPage() {
         </div>
 
         {/* Sales Metrics */}
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-4 gap-4">
           {/* Total Sales */}
           <div className="rounded-xl bg-slate-900/70 border border-slate-800 p-5">
             <div className="flex items-center gap-2 mb-3">
@@ -306,6 +306,22 @@ export default function MarketplaceSellerDashboardPage() {
             </div>
             <p className="text-[0.65rem] text-slate-500 mt-1">
               Per transaction
+            </p>
+          </div>
+
+          {/* Lifetime Payouts */}
+          <div className="rounded-xl bg-slate-900/70 border border-slate-800 p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <Wallet className="text-teal-400" size={18} />
+              <h4 className="text-xs font-semibold text-slate-300">
+                Total Paid Out
+              </h4>
+            </div>
+            <div className="text-2xl font-bold text-slate-100">
+              ${payoutOverview?.lifetime_payouts?.toFixed(2) || '0.00'}
+            </div>
+            <p className="text-[0.65rem] text-slate-500 mt-1">
+              All-time withdrawals
             </p>
           </div>
         </div>
