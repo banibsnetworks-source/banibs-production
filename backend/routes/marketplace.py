@@ -221,9 +221,15 @@ async def get_my_stores(
 async def get_categories():
     """Get all product categories"""
     db = get_db_client()
-    marketplace_db = MarketplaceDB(db)
+    print(f"DEBUG: db object type: {type(db)}")
+    print(f"DEBUG: db name: {db.name if hasattr(db, 'name') else 'NO NAME'}")
     
+    marketplace_db = MarketplaceDB(db)
     categories = await marketplace_db.get_all_categories()
+    
+    print(f"DEBUG: Found {len(categories)} categories")
+    if categories:
+        print(f"DEBUG: Sample category: {categories[0]}")
     
     return {
         "categories": categories,
