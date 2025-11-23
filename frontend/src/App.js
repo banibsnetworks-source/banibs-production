@@ -208,6 +208,8 @@ import FoodHomePage from "./pages/community/FoodHomePage";
 import RecipeDetailPage from "./pages/community/RecipeDetailPage";
 import RecipeSubmitPage from "./pages/community/RecipeSubmitPage";
 import SchoolHomePage from "./pages/community/SchoolHomePage";
+import SchoolResourceDetailPage from "./pages/community/SchoolResourceDetailPage";
+import SchoolResourceSubmitPage from "./pages/community/SchoolResourceSubmitPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
