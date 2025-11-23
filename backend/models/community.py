@@ -319,6 +319,10 @@ class SchoolResource(BaseModel):
     contact_phone: Optional[str] = None
     cost_range: CostRange
     is_accredited: bool = False
+    is_user_submitted: bool = False  # Phase 11.6.4
+    submitted_by_user_id: Optional[str] = None  # Phase 11.6.4
+    submitted_by_name: Optional[str] = None  # Phase 11.6.4
+    is_approved: bool = True  # Phase 11.6.4 - For moderation
     grade_levels: List[str] = []
     learning_style: List[str] = []  # "visual", "hands_on", "project_based"
     tags: List[str] = []
