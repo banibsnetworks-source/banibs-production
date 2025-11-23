@@ -482,6 +482,15 @@ function App() {
               <Route path="/portal/wallet" element={<WalletHomePage />} />
               <Route path="/portal/wallet/*" element={<WalletHomePage />} />
               
+              {/* Phase 15.0 - BANIBS OS / Developer Platform (AUTH ONLY) */}
+              <Route path="/developer" element={<DevLayout />}>
+                <Route index element={<DevDashboardPage />} />
+                <Route path="api-keys" element={<DevApiKeysPage />} />
+                <Route path="apps" element={<DevAppsPage />} />
+                <Route path="webhooks" element={<DevWebhooksPage />} />
+                <Route path="docs" element={<DevDocsPage />} />
+              </Route>
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
               <Route path="/portal/academy" element={<YouthAcademyPlaceholder />} />
               <Route path="/portal/wallet" element={<WalletPlaceholder />} />
