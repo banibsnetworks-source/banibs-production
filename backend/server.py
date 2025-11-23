@@ -317,6 +317,10 @@ app.include_router(beauty_router)
 from routes.fashion import router as fashion_router
 app.include_router(fashion_router)
 
+# Include Phase 12.0 - Diaspora Connect router
+from routes.diaspora import router as diaspora_router
+app.include_router(diaspora_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
