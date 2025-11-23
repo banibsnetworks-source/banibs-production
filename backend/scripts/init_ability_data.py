@@ -175,7 +175,7 @@ async def seed_ability_data():
             "title": "Home Modification Guide for Accessibility",
             "slug": "home-modification-accessibility-guide",
             "category": "home_modification",
-            "disability_types": ["physical", "visual", "seniors"],
+            "disability_types": ["physical", "visual", "all"],
             "age_groups": ["adults", "seniors"],
             "format": "guide",
             "description": "Practical guide to making your home more accessible. Covers ramps, bathroom modifications, kitchen adaptations, smart home technology, and funding sources including grants and low-interest loans.",
