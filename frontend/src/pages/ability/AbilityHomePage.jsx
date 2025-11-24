@@ -108,7 +108,7 @@ export default function AbilityHomePage() {
             </div>
           </Link>
           <Link
-            to="/portal/ability/submit"
+            to="/portal/ability/resources/submit"
             className="flex items-center gap-4 p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-purple-500/50 transition"
           >
             <Heart className="text-purple-400" size={32} />
