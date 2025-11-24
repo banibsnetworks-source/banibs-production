@@ -212,6 +212,8 @@ import SchoolResourceDetailPage from "./pages/community/SchoolResourceDetailPage
 import SchoolResourceSubmitPage from "./pages/community/SchoolResourceSubmitPage";
 // Phase 11.5 - Ability Network
 import AbilityHomePage from "./pages/ability/AbilityHomePage";
+import AbilityProviderDirectoryPage from "./pages/ability/providers/AbilityProviderDirectoryPage";
+import AbilityProviderDetailPage from "./pages/ability/providers/AbilityProviderDetailPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
