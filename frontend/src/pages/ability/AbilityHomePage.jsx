@@ -86,7 +86,7 @@ export default function AbilityHomePage() {
         </div>
 
         {/* Quick Links */}
-        <div className="mb-10 grid md:grid-cols-2 gap-4">
+        <div className="mb-10 grid md:grid-cols-3 gap-4">
           <Link
             to="/portal/ability/providers"
             className="flex items-center gap-4 p-5 rounded-xl bg-purple-500/10 border border-purple-500/30 hover:border-purple-500 transition"
@@ -94,7 +94,17 @@ export default function AbilityHomePage() {
             <Users className="text-purple-400" size={32} />
             <div>
               <h3 className="text-base font-bold text-slate-100">Find a Provider</h3>
-              <p className="text-sm text-slate-400">Connect with specialists, therapists, and advocates</p>
+              <p className="text-sm text-slate-400">Connect with specialists and therapists</p>
+            </div>
+          </Link>
+          <Link
+            to="/portal/ability/support-groups"
+            className="flex items-center gap-4 p-5 rounded-xl bg-purple-500/10 border border-purple-500/30 hover:border-purple-500 transition"
+          >
+            <Users className="text-purple-400" size={32} />
+            <div>
+              <h3 className="text-base font-bold text-slate-100">Support Groups</h3>
+              <p className="text-sm text-slate-400">You don't have to do this alone</p>
             </div>
           </Link>
           <Link
@@ -104,7 +114,7 @@ export default function AbilityHomePage() {
             <Heart className="text-purple-400" size={32} />
             <div>
               <h3 className="text-base font-bold text-slate-100">Share a Resource</h3>
-              <p className="text-sm text-slate-400">Help others by contributing knowledge</p>
+              <p className="text-sm text-slate-400">Help others by contributing</p>
             </div>
           </Link>
         </div>
