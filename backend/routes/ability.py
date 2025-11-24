@@ -253,3 +253,117 @@ async def submit_ability_provider(
         "message": "Provider submitted successfully and is pending review",
         "provider_id": provider["id"]
     }
+
+
+# ==================== ADMIN MODERATION ENDPOINTS (Phase 11.5.4) ====================
+
+@router.get("/admin/pending/resources")
+async def get_pending_resources(
+    admin_user: dict = Depends(require_admin)
+):
+    """Get all pending resource submissions - Admin only"""
+    db = get_db_client()
+    ability_db = AbilityDB(db)
+    
+    resources = await ability_db.resources.find(
+        {"is_approved": False},
+        {"_id": 0}
+    ).sort("created_at", -1).to_list(100)
+    
+    return {
+        "resources": resources,
+        "total": len(resources)
+    }
+
+
+@router.get("/admin/pending/providers")
+async def get_pending_providers(
+    admin_user: dict = Depends(require_admin)
+):
+    """Get all pending provider submissions - Admin only"""
+    db = get_db_client()
+    ability_db = AbilityDB(db)
+    
+    providers = await ability_db.providers.find(
+        {"is_approved": False},
+        {"_id": 0}
+    ).sort("created_at", -1).to_list(100)
+    
+    return {
+        "providers": providers,
+        "total": len(providers)
+    }
+
+
+@router.post("/admin/resources/{resource_id}/approve")
+async def approve_resource(
+    resource_id: str,
+    admin_user: dict = Depends(require_admin)
+):
+    """Approve a resource submission - Admin only"""
+    db = get_db_client()
+    ability_db = AbilityDB(db)
+    
+    result = await ability_db.resources.update_one(
+        {"id": resource_id},
+        {"$set": {"is_approved": True, "updated_at": datetime.now(timezone.utc)}}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Resource not found")
+    
+    return {"success": True, "message": "Resource approved"}
+
+
+@router.post("/admin/resources/{resource_id}/reject")
+async def reject_resource(
+    resource_id: str,
+    admin_user: dict = Depends(require_admin)
+):
+    """Reject and delete a resource submission - Admin only"""
+    db = get_db_client()
+    ability_db = AbilityDB(db)
+    
+    result = await ability_db.resources.delete_one({"id": resource_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Resource not found")
+    
+    return {"success": True, "message": "Resource rejected and removed"}
+
+
+@router.post("/admin/providers/{provider_id}/approve")
+async def approve_provider(
+    provider_id: str,
+    admin_user: dict = Depends(require_admin)
+):
+    """Approve a provider submission - Admin only"""
+    db = get_db_client()
+    ability_db = AbilityDB(db)
+    
+    result = await ability_db.providers.update_one(
+        {"id": provider_id},
+        {"$set": {"is_approved": True, "updated_at": datetime.now(timezone.utc)}}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Provider not found")
+    
+    return {"success": True, "message": "Provider approved"}
+
+
+@router.post("/admin/providers/{provider_id}/reject")
+async def reject_provider(
+    provider_id: str,
+    admin_user: dict = Depends(require_admin)
+):
+    """Reject and delete a provider submission - Admin only"""
+    db = get_db_client()
+    ability_db = AbilityDB(db)
+    
+    result = await ability_db.providers.delete_one({"id": provider_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Provider not found")
+    
+    return {"success": True, "message": "Provider rejected and removed"}
