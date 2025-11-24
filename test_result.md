@@ -638,7 +638,12 @@ metadata:
   test_sequence: 2
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Phase 11.5.4 - Ability Homepage Quick Links"
+    - "Phase 11.5.4 - Resource Submission Flow"
+    - "Phase 11.5.4 - Provider Submission Flow"
+    - "Phase 11.5.4 - Admin Moderation Dashboard"
+    - "Phase 11.5.4 - Authentication Protection"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
