@@ -219,3 +219,28 @@ def require_membership(*allowed_tiers: str):
         return user
     
     return tier_checker
+
+
+# Phase 11.5.4 - Admin Guard
+async def require_admin(current_user: dict = Depends(get_current_user)):
+    """
+    Require user to be an admin
+    
+    Args:
+        current_user: User from get_current_user dependency
+    
+    Returns:
+        User data if admin
+    
+    Raises:
+        HTTPException 403 if not admin
+    """
+    is_admin = current_user.get("is_admin", False) or current_user.get("role") == "admin"
+    
+    if not is_admin:
+        raise HTTPException(
+            status_code=403,
+            detail="Admin access required"
+        )
+    
+    return current_user
