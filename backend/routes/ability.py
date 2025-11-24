@@ -16,7 +16,7 @@ from models.ability import (
 )
 from db.ability import AbilityDB
 from db.connection import get_db_client
-from middleware.auth_guard import get_current_user as get_current_user_dependency
+from middleware.auth_guard import get_current_user as get_current_user_dependency, require_admin
 
 router = APIRouter(prefix="/api/ability", tags=["Ability Network"])
 
