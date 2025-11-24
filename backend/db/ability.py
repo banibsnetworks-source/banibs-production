@@ -105,10 +105,15 @@ class AbilityDB:
         region: Optional[str] = None,
         telehealth: Optional[bool] = None,
         verified_only: bool = False,
+        approved_only: bool = True,  # Phase 11.5.4 - Filter unapproved
         limit: int = 50
     ) -> List[Dict]:
         """Get ability providers with filters"""
         query = {}
+        
+        # Phase 11.5.4 - Only show approved providers by default
+        if approved_only:
+            query["is_approved"] = True
         
         if verified_only:
             query["is_verified"] = True
