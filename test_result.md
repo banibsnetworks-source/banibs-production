@@ -305,39 +305,108 @@ user_problem_statement: |
   - Authorization is properly enforced
 
 backend:
-  - task: "Phase 15.0 - Developer Platform Backend API"
+  - task: "Phase 11.5.4 - Ability Network User Submission Flow"
     implemented: true
     working: true
-    file: "backend/routes/developer.py, backend/models/developer.py, backend/db/developer.py"
+    file: "backend/routes/ability.py"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
-        comment: "Starting Phase 15.0 Developer Platform backend testing. Created developer user (developer@banibs.com) and seeded sample data including 1 API key, 2 apps, 2 webhooks, and 5 API logs."
+        comment: "Starting Phase 11.5.4 Ability Network submission testing. Testing user submission endpoints for resources and providers with correct enum validation."
       - working: true
         agent: "testing"
         comment: |
-          ✅ DEVELOPER PLATFORM BACKEND - FULLY FUNCTIONAL
+          ✅ USER SUBMISSION FLOW - FULLY FUNCTIONAL
           
-          **BACKEND SETUP COMPLETE:**
-          - Created developer user: developer@banibs.com (ID: c82d7c08-f8f1-4308-9db2-4849b9ae209b)
-          - Seeded sample data: 1 API key, 2 apps, 2 webhooks, 5 API logs
-          - All developer routes registered in server.py
-          - Database collections properly initialized
+          **RESOURCE SUBMISSION:**
+          - POST /api/ability/resources/submit - Working correctly
+          - Accepts correct enum values for disability_types, age_groups, format
+          - Creates pending submissions with is_approved: false
+          - Requires authentication (401 without token)
+          - Returns success response with resource_id
           
-          **API ENDPOINTS AVAILABLE:**
-          - GET /api/developer/dashboard - Dashboard metrics
-          - GET/POST/PUT/DELETE /api/developer/api-keys - API key management
-          - GET/POST/PUT/DELETE /api/developer/apps - OAuth app management
-          - GET/POST/PUT/DELETE /api/developer/webhooks - Webhook management
-          - GET /api/developer/docs - Comprehensive API documentation
-          - GET /api/developer/status - System status
+          **PROVIDER SUBMISSION:**
+          - POST /api/ability/providers/submit - Working correctly
+          - Accepts correct enum values for provider_type, disability_types_served, age_groups_served
+          - Creates pending submissions with is_approved: false
+          - Requires authentication (401 without token)
+          - Returns success response with provider_id
           
-          **AUTHENTICATION:** All endpoints require JWT token authentication
-          **DATA SEEDED:** Production-ready sample data for testing
-          **STATUS:** Backend fully operational and ready for frontend integration
+          **AUTHENTICATION:** All submission endpoints properly require JWT authentication
+          **ENUM VALIDATION:** Correct enum values accepted, invalid values handled appropriately
+          **STATUS:** User submission flow fully operational
+
+  - task: "Phase 11.5.4 - Ability Network Admin Moderation Flow"
+    implemented: true
+    working: true
+    file: "backend/routes/ability.py, backend/middleware/auth_guard.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Testing admin moderation endpoints for pending submissions, approval/rejection workflows, and admin authorization."
+      - working: true
+        agent: "testing"
+        comment: |
+          ✅ ADMIN MODERATION FLOW - FULLY FUNCTIONAL
+          
+          **PENDING SUBMISSIONS:**
+          - GET /api/ability/admin/pending/resources - Working correctly
+          - GET /api/ability/admin/pending/providers - Working correctly
+          - Returns all pending submissions with is_approved: false
+          - Requires admin authentication (401 without token, 403 for non-admin)
+          
+          **APPROVAL WORKFLOW:**
+          - POST /api/ability/admin/resources/{id}/approve - Working correctly
+          - POST /api/ability/admin/providers/{id}/approve - Working correctly
+          - Updates is_approved to true in database
+          - Approved items appear in public endpoints
+          
+          **REJECTION WORKFLOW:**
+          - POST /api/ability/admin/resources/{id}/reject - Working correctly
+          - POST /api/ability/admin/providers/{id}/reject - Working correctly
+          - Deletes rejected submissions from database
+          - Rejected items do not appear in pending or public lists
+          
+          **AUTHORIZATION:** Admin endpoints properly require is_admin: true
+          **STATUS:** Admin moderation flow fully operational
+
+  - task: "Phase 11.5.4 - Ability Network Public Endpoints Integration"
+    implemented: true
+    working: true
+    file: "backend/routes/ability.py, backend/db/ability.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Testing public endpoints to verify approved submissions appear correctly and unapproved submissions are filtered out."
+      - working: true
+        agent: "testing"
+        comment: |
+          ✅ PUBLIC ENDPOINTS INTEGRATION - FULLY FUNCTIONAL
+          
+          **PUBLIC RESOURCES:**
+          - GET /api/ability/resources - Working correctly
+          - Only shows approved resources (is_approved: true)
+          - Filters out pending/unapproved submissions
+          - Returns 11 total resources including approved test submissions
+          
+          **PUBLIC PROVIDERS:**
+          - GET /api/ability/providers - Working correctly
+          - Only shows approved providers (is_approved: true)
+          - Filters out pending/unapproved submissions
+          - Returns 4 total providers including approved test submissions
+          
+          **FILTERING:** Database queries correctly filter by is_approved: true
+          **RESPONSE MODELS:** Pydantic models correctly exclude internal fields like is_approved
+          **STATUS:** Public endpoint integration fully operational
 
 frontend:
   - task: "Phase 15.0 - Developer Dashboard Frontend"
