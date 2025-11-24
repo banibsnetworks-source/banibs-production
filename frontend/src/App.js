@@ -217,6 +217,10 @@ import AbilityProviderDetailPage from "./pages/ability/providers/AbilityProvider
 // Phase 11.5.3 - Support Groups
 import AbilitySupportGroupsPage from "./pages/ability/support-groups/AbilitySupportGroupsPage";
 import AbilitySupportGroupDetailPage from "./pages/ability/support-groups/AbilitySupportGroupDetailPage";
+// Phase 11.5.4 - Submission & Moderation
+import AbilityResourceSubmitPage from "./pages/ability/AbilityResourceSubmitPage";
+import AbilityProviderSubmitPage from "./pages/ability/AbilityProviderSubmitPage";
+import AbilityModerationDashboardPage from "./pages/admin/ability/AbilityModerationDashboardPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
