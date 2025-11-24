@@ -1,8 +1,10 @@
 // pages/admin/ability/AbilityModerationDashboardPage.jsx - Phase 11.5.4
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { CheckCircle, XCircle, AlertCircle, User, FileText, Calendar, Mail } from "lucide-react";
 
 export default function AbilityModerationDashboardPage() {
+  const navigate = useNavigate();
   const [pendingResources, setPendingResources] = useState([]);
   const [pendingProviders, setPendingProviders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,8 +13,16 @@ export default function AbilityModerationDashboardPage() {
   const [activeTab, setActiveTab] = useState("resources"); // "resources" or "providers"
 
   useEffect(() => {
+    // Check authentication on mount
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      // Redirect to login if not authenticated
+      navigate("/auth/signin");
+      return;
+    }
+    
     fetchPendingItems();
-  }, []);
+  }, [navigate]);
 
   const fetchPendingItems = async () => {
     setLoading(true);
