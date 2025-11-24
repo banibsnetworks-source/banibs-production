@@ -366,6 +366,305 @@ async def seed_ability_data():
     await db.ability_providers.insert_many(providers)
     print(f"   ✅ Inserted {len(providers)} ability providers\n")
     
+    # Phase 11.5.3 - Support Groups (Circles)
+    print("👥 Seeding Ability Support Groups...\n")
+    
+    circles = [
+        {
+            "id": f"circle-{str(uuid4())[:8]}",
+            "name": "Autism & ADHD (Adults)",
+            "slug": "autism-adhd-adults",
+            "description": "A neurodiversity-affirming space for autistic and ADHD adults to share experiences, strategies, and support. We celebrate neurodivergent identities and discuss workplace, relationships, daily life, and self-advocacy.",
+            "pillar": "ability",
+            "tags": ["autism", "ADHD", "neurodiversity", "adults"],
+            "primary_disability_type": "neurodivergent",
+            "audience": "self",
+            "privacy_level": "request_to_join",
+            "is_featured_in_ability": True,
+            "safety_notes": "Identity-first language welcomed. No functioning labels or cure talk.",
+            "rules": [
+                "No ableist language or functioning labels",
+                "Respect neurodiversity paradigm",
+                "No unsolicited advice",
+                "Share personal experiences, not medical claims",
+                "Be patient with communication differences"
+            ],
+            "created_by_user_id": "system",
+            "created_by_name": "BANIBS Ability Network",
+            "member_count": 47,
+            "post_count": 289,
+            "last_activity_at": datetime.utcnow(),
+            "is_active": True,
+            "is_verified": True,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        },
+        {
+            "id": f"circle-{str(uuid4())[:8]}",
+            "name": "Black Caregivers Circle",
+            "slug": "black-caregivers-circle",
+            "description": "A dedicated space for Black family caregivers supporting loved ones with disabilities. Share culturally relevant strategies, navigate systems, prevent burnout, and find community. You don't have to do this alone.",
+            "pillar": "ability",
+            "tags": ["caregiver", "Black community", "family support", "respite"],
+            "primary_disability_type": "all",
+            "audience": "caregiver",
+            "privacy_level": "request_to_join",
+            "is_featured_in_ability": True,
+            "safety_notes": "Trauma-aware space. We honor cultural traditions and family structures.",
+            "rules": [
+                "No judgment of caregiving choices",
+                "Respect confidentiality",
+                "Center Black caregiver experiences",
+                "No medical advice",
+                "Support self-care and boundaries"
+            ],
+            "created_by_user_id": "system",
+            "created_by_name": "BANIBS Ability Network",
+            "member_count": 134,
+            "post_count": 567,
+            "last_activity_at": datetime.utcnow(),
+            "is_active": True,
+            "is_verified": True,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        },
+        {
+            "id": f"circle-{str(uuid4())[:8]}",
+            "name": "Living with Chronic Pain",
+            "slug": "living-with-chronic-pain",
+            "description": "For those living with chronic pain conditions. Share coping strategies, medical experiences, pain management techniques, and emotional support. A judgment-free zone for good days and bad.",
+            "pillar": "ability",
+            "tags": ["chronic pain", "chronic illness", "pain management", "self care"],
+            "primary_disability_type": "chronic",
+            "audience": "self",
+            "privacy_level": "request_to_join",
+            "is_featured_in_ability": True,
+            "safety_notes": "No graphic descriptions of pain. Trigger warnings for medical procedures.",
+            "rules": [
+                "No one-size-fits-all advice",
+                "Respect varied pain experiences",
+                "No cure claims or MLM products",
+                "Validate invisible illness",
+                "Content warnings for triggering topics"
+            ],
+            "created_by_user_id": "system",
+            "created_by_name": "BANIBS Ability Network",
+            "member_count": 89,
+            "post_count": 423,
+            "last_activity_at": datetime.utcnow(),
+            "is_active": True,
+            "is_verified": True,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        },
+        {
+            "id": f"circle-{str(uuid4())[:8]}",
+            "name": "Parents of Autistic Children",
+            "slug": "parents-autistic-children",
+            "description": "For parents raising autistic children. Connect with other parents, share resources, discuss IEPs, sensory strategies, and celebrate your child's strengths. Neurodiversity-affirming and accepting.",
+            "pillar": "ability",
+            "tags": ["autism", "parenting", "children", "IEP", "school support"],
+            "primary_disability_type": "neurodivergent",
+            "audience": "caregiver",
+            "privacy_level": "request_to_join",
+            "is_featured_in_ability": True,
+            "safety_notes": "Presuming competence. No ABA debates. Focus on support.",
+            "rules": [
+                "Presume competence in all children",
+                "No cure-seeking discussions",
+                "Respect communication differences",
+                "Share resources, not diagnoses",
+                "Celebrate neurodivergent children"
+            ],
+            "created_by_user_id": "system",
+            "created_by_name": "BANIBS Ability Network",
+            "member_count": 203,
+            "post_count": 1456,
+            "last_activity_at": datetime.utcnow(),
+            "is_active": True,
+            "is_verified": True,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        },
+        {
+            "id": f"circle-{str(uuid4())[:8]}",
+            "name": "Stroke Recovery & Mobility",
+            "slug": "stroke-recovery-mobility",
+            "description": "Supporting individuals recovering from stroke and navigating mobility changes. Share therapy progress, adaptive strategies, emotional journeys, and practical tips for daily living.",
+            "pillar": "ability",
+            "tags": ["stroke", "mobility", "recovery", "physical disability"],
+            "primary_disability_type": "physical",
+            "audience": "both",
+            "privacy_level": "request_to_join",
+            "is_featured_in_ability": False,
+            "safety_notes": "Be patient with communication differences. Aphasia-friendly.",
+            "rules": [
+                "Recovery looks different for everyone",
+                "No pressure to 'get better'",
+                "Share experiences, not medical advice",
+                "Be patient with typing/communication",
+                "Celebrate all progress"
+            ],
+            "created_by_user_id": "system",
+            "created_by_name": "BANIBS Ability Network",
+            "member_count": 62,
+            "post_count": 234,
+            "last_activity_at": datetime.utcnow(),
+            "is_active": True,
+            "is_verified": True,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        },
+        {
+            "id": f"circle-{str(uuid4())[:8]}",
+            "name": "Vision & Hearing Loss Support",
+            "slug": "vision-hearing-loss-support",
+            "description": "For individuals with vision loss, hearing loss, or deafblindness. Share assistive technology tips, navigation strategies, communication preferences, and experiences in a sighted/hearing world.",
+            "pillar": "ability",
+            "tags": ["vision loss", "hearing loss", "Deaf", "blind", "assistive tech"],
+            "primary_disability_type": "sensory",
+            "audience": "both",
+            "privacy_level": "public",
+            "is_featured_in_ability": False,
+            "safety_notes": "Accessible format posts. Describe images. Use captions.",
+            "rules": [
+                "Always describe images in text",
+                "Respect communication preferences",
+                "Deaf culture awareness",
+                "No inspiration porn",
+                "Share accessibility tips freely"
+            ],
+            "created_by_user_id": "system",
+            "created_by_name": "BANIBS Ability Network",
+            "member_count": 34,
+            "post_count": 178,
+            "last_activity_at": datetime.utcnow(),
+            "is_active": True,
+            "is_verified": True,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        },
+        {
+            "id": f"circle-{str(uuid4())[:8]}",
+            "name": "SSDI / SSI Journey Group",
+            "slug": "ssdi-ssi-journey",
+            "description": "Navigating Social Security disability benefits together. Share application tips, appeal experiences, denial support, and celebrate approvals. Practical advice from people who've been through it.",
+            "pillar": "ability",
+            "tags": ["SSDI", "SSI", "benefits", "legal", "advocacy"],
+            "primary_disability_type": "all",
+            "audience": "both",
+            "privacy_level": "request_to_join",
+            "is_featured_in_ability": False,
+            "safety_notes": "No legal advice. Share experiences only.",
+            "rules": [
+                "No legal advice - share experiences only",
+                "No benefit fraud",
+                "Respect privacy about disabilities",
+                "Support through denials",
+                "Celebrate approvals kindly"
+            ],
+            "created_by_user_id": "system",
+            "created_by_name": "BANIBS Ability Network",
+            "member_count": 156,
+            "post_count": 892,
+            "last_activity_at": datetime.utcnow(),
+            "is_active": True,
+            "is_verified": True,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        },
+        {
+            "id": f"circle-{str(uuid4())[:8]}",
+            "name": "Workplace Accommodations & Rights",
+            "slug": "workplace-accommodations-rights",
+            "description": "Discussing workplace disability rights, reasonable accommodations, disclosure, discrimination, and career advancement. Know your rights. Share what works.",
+            "pillar": "ability",
+            "tags": ["employment", "ADA", "accommodations", "workplace", "career"],
+            "primary_disability_type": "all",
+            "audience": "self",
+            "privacy_level": "request_to_join",
+            "is_featured_in_ability": False,
+            "safety_notes": "No identifying employers publicly. General advice only.",
+            "rules": [
+                "No identifying employers in posts",
+                "Know your ADA rights",
+                "No legal advice",
+                "Share successful accommodation strategies",
+                "Respect disclosure choices"
+            ],
+            "created_by_user_id": "system",
+            "created_by_name": "BANIBS Ability Network",
+            "member_count": 78,
+            "post_count": 312,
+            "last_activity_at": datetime.utcnow(),
+            "is_active": True,
+            "is_verified": True,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        },
+        {
+            "id": f"circle-{str(uuid4())[:8]}",
+            "name": "Elder Care at Home",
+            "slug": "elder-care-at-home",
+            "description": "For family members caring for aging parents or relatives with disabilities at home. Share resources for home modifications, in-home care, medical coordination, and emotional support.",
+            "pillar": "ability",
+            "tags": ["elder care", "aging", "home care", "family caregiver"],
+            "primary_disability_type": "all",
+            "audience": "caregiver",
+            "privacy_level": "public",
+            "is_featured_in_ability": False,
+            "safety_notes": "Respect elder dignity. No graphic medical details.",
+            "rules": [
+                "Respect elder privacy and dignity",
+                "No nursing home debates",
+                "Share practical resources",
+                "Support difficult decisions",
+                "Cultural caregiving practices welcomed"
+            ],
+            "created_by_user_id": "system",
+            "created_by_name": "BANIBS Ability Network",
+            "member_count": 112,
+            "post_count": 534,
+            "last_activity_at": datetime.utcnow(),
+            "is_active": True,
+            "is_verified": True,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        },
+        {
+            "id": f"circle-{str(uuid4())[:8]}",
+            "name": "College & Disability",
+            "slug": "college-disability",
+            "description": "For disabled college students and recent graduates. Discuss accommodations, accessibility, self-advocacy, campus life, and transitioning to post-grad life.",
+            "pillar": "ability",
+            "tags": ["college", "education", "young adults", "504", "accommodations"],
+            "primary_disability_type": "all",
+            "audience": "self",
+            "privacy_level": "public",
+            "is_featured_in_ability": True,
+            "safety_notes": "No identifying schools. Share general strategies.",
+            "rules": [
+                "No identifying schools publicly",
+                "Know your Section 504 rights",
+                "Share successful accommodation strategies",
+                "Respect varied college experiences",
+                "Celebrate academic achievements"
+            ],
+            "created_by_user_id": "system",
+            "created_by_name": "BANIBS Ability Network",
+            "member_count": 91,
+            "post_count": 467,
+            "last_activity_at": datetime.utcnow(),
+            "is_active": True,
+            "is_verified": True,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        }
+    ]
+    
+    await db.circles.insert_many(circles)
+    print(f"   ✅ Inserted {len(circles)} support groups\n")
+    
     print("="*60)
     print("SEED DATA INITIALIZATION COMPLETE")
     print("="*60 + "\n")
@@ -373,6 +672,7 @@ async def seed_ability_data():
     print("📊 Data Summary:")
     print(f"   Ability Resources: {len(resources)}")
     print(f"   Ability Providers: {len(providers)}")
+    print(f"   Support Groups: {len(circles)}")
     print("\n✅ Ability Network is ready!\n")
     
     client.close()
