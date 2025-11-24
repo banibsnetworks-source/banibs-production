@@ -307,12 +307,18 @@ class AbilityNetworkTester:
                     if provider.get("is_approved", False):
                         self.log("✅ Approved provider appears in public endpoint")
                     else:
-                        self.log("❌ Provider in public endpoint but not marked as approved", "ERROR")
+                        self.log(f"❌ Provider in public endpoint but not marked as approved: {provider.get('is_approved')}", "ERROR")
+                        # Debug: show the provider data
+                        self.log(f"   Provider data: {provider}", "ERROR")
                         return False
                     break
             
             if not found_approved_provider:
                 self.log("❌ Approved provider not found in public endpoint", "ERROR")
+                # Debug: show all provider IDs
+                provider_ids = [p.get("id") for p in providers]
+                self.log(f"   Available provider IDs: {provider_ids}", "ERROR")
+                self.log(f"   Looking for: {submitted_provider_id}", "ERROR")
                 return False
         else:
             self.log(f"❌ Failed to get public providers: {response.status_code}", "ERROR")
