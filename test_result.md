@@ -284,27 +284,25 @@ cd /app/frontend && yarn add sharp
 #====================================================================================================
 
 user_problem_statement: |
-  **Phase 15.0 - BANIBS OS / Developer Platform - Comprehensive Testing**
+  **Phase 11.5.4 - Ability Network Submission & Moderation MVP Testing**
 
-  Test the complete BANIBS OS / Developer Platform implementation with the following test credentials:
-  - Email: developer@banibs.com
-  - Password: DevPass123!
+  Test the complete Ability Network submission and moderation functionality with the following test credentials:
+  - Email: social_test_user@example.com
+  - Password: TestPass123!
 
   **Tests to perform:**
-  1. Login and Authentication - Navigate to /auth/signin and login with test credentials
-  2. Developer Dashboard (/developer) - Verify page loads with neon green theme and dashboard stats
-  3. API Keys Page (/developer/api-keys) - Test CRUD operations for API keys
-  4. Apps Page (/developer/apps) - Test CRUD operations for OAuth applications
-  5. Webhooks Page (/developer/webhooks) - Test CRUD operations for webhook endpoints
-  6. Documentation Page (/developer/docs) - Verify comprehensive API documentation loads
-  7. Navigation Testing - Test all navigation links and menu items
+  1. User Submission Flow - Submit resources and providers with correct enum values
+  2. Admin Moderation Flow - Get pending submissions, approve/reject items
+  3. Authorization Tests - Verify 401/403 responses for protected endpoints
+  4. Public Endpoint Verification - Confirm approved items appear in public endpoints
+  5. Rejection Flow - Test rejection and deletion of submissions
 
   **Expected Results:**
-  - All pages should load with neon green (#39FF14) accents
-  - Dark theme (gradient from gray-900 via black to gray-900)
-  - All CRUD operations should work
-  - Authentication should be required for all pages
-  - Navigation should be smooth and functional
+  - All submission endpoints work with authentication
+  - Admin endpoints require admin privileges
+  - Approve flow works and items appear publicly
+  - Reject flow works and items are deleted
+  - Authorization is properly enforced
 
 backend:
   - task: "Phase 15.0 - Developer Platform Backend API"
