@@ -86,7 +86,7 @@ export default function AbilityHomePage() {
         </div>
 
         {/* Quick Links */}
-        <div className="mb-10 grid md:grid-cols-3 gap-4">
+        <div className="mb-10 grid md:grid-cols-2 lg:grid-cols-4 gap-4">
           <Link
             to="/portal/ability/providers"
             className="flex items-center gap-4 p-5 rounded-xl bg-purple-500/10 border border-purple-500/30 hover:border-purple-500 transition"
@@ -94,7 +94,7 @@ export default function AbilityHomePage() {
             <Users className="text-purple-400" size={32} />
             <div>
               <h3 className="text-base font-bold text-slate-100">Find a Provider</h3>
-              <p className="text-sm text-slate-400">Connect with specialists and therapists</p>
+              <p className="text-sm text-slate-400">Connect with specialists</p>
             </div>
           </Link>
           <Link
@@ -104,17 +104,27 @@ export default function AbilityHomePage() {
             <Users className="text-purple-400" size={32} />
             <div>
               <h3 className="text-base font-bold text-slate-100">Support Groups</h3>
-              <p className="text-sm text-slate-400">You don't have to do this alone</p>
+              <p className="text-sm text-slate-400">Find your community</p>
             </div>
           </Link>
           <Link
             to="/portal/ability/resources/submit"
             className="flex items-center gap-4 p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-purple-500/50 transition"
           >
-            <Heart className="text-purple-400" size={32} />
+            <Book className="text-purple-400" size={32} />
             <div>
               <h3 className="text-base font-bold text-slate-100">Share a Resource</h3>
-              <p className="text-sm text-slate-400">Help others by contributing</p>
+              <p className="text-sm text-slate-400">Contribute knowledge</p>
+            </div>
+          </Link>
+          <Link
+            to="/portal/ability/providers/submit"
+            className="flex items-center gap-4 p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-purple-500/50 transition"
+          >
+            <Heart className="text-purple-400" size={32} />
+            <div>
+              <h3 className="text-base font-bold text-slate-100">Add a Provider</h3>
+              <p className="text-sm text-slate-400">Recommend a specialist</p>
             </div>
           </Link>
         </div>
