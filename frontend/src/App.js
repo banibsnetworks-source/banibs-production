@@ -560,6 +560,10 @@ function App() {
               <Route path="/portal/ability/providers/:providerId" element={<AbilityProviderDetailPage />} />
               <Route path="/portal/ability/support-groups" element={<AbilitySupportGroupsPage />} />
               <Route path="/portal/ability/support-groups/:circleId" element={<AbilitySupportGroupDetailPage />} />
+              {/* Phase 11.5.4 - Submission & Moderation */}
+              <Route path="/portal/ability/resources/submit" element={<AbilityResourceSubmitPage />} />
+              <Route path="/portal/ability/providers/submit" element={<AbilityProviderSubmitPage />} />
+              <Route path="/portal/admin/ability/moderation" element={<AbilityModerationDashboardPage />} />
               
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
               <Route path="/portal/academy" element={<YouthAcademyPlaceholder />} />
