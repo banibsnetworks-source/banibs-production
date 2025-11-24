@@ -409,12 +409,6 @@ backend:
           **STATUS:** Public endpoint integration fully operational
 
 frontend:
-  - task: "Phase 15.0 - Developer Dashboard Frontend"
-    implemented: true
-    working: false
-    file: "frontend/src/pages/developer/DevDashboardPage.jsx"
-    stuck_count: 1
-    priority: "high"
     needs_retesting: false
     status_history:
       - working: "NA"
