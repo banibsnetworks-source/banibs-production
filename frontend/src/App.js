@@ -214,6 +214,9 @@ import SchoolResourceSubmitPage from "./pages/community/SchoolResourceSubmitPage
 import AbilityHomePage from "./pages/ability/AbilityHomePage";
 import AbilityProviderDirectoryPage from "./pages/ability/providers/AbilityProviderDirectoryPage";
 import AbilityProviderDetailPage from "./pages/ability/providers/AbilityProviderDetailPage";
+// Phase 11.5.3 - Support Groups
+import AbilitySupportGroupsPage from "./pages/ability/support-groups/AbilitySupportGroupsPage";
+import AbilitySupportGroupDetailPage from "./pages/ability/support-groups/AbilitySupportGroupDetailPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
