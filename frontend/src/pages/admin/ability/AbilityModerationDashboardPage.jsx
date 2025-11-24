@@ -72,7 +72,7 @@ export default function AbilityModerationDashboardPage() {
   const handleApproveResource = async (resourceId) => {
     setProcessingId(resourceId);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/ability/admin/resources/${resourceId}/approve`,
         {
@@ -104,7 +104,7 @@ export default function AbilityModerationDashboardPage() {
 
     setProcessingId(resourceId);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/ability/admin/resources/${resourceId}/reject`,
         {
@@ -132,7 +132,7 @@ export default function AbilityModerationDashboardPage() {
   const handleApproveProvider = async (providerId) => {
     setProcessingId(providerId);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/ability/admin/providers/${providerId}/approve`,
         {
@@ -164,7 +164,7 @@ export default function AbilityModerationDashboardPage() {
 
     setProcessingId(providerId);
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/api/ability/admin/providers/${providerId}/reject`,
         {
