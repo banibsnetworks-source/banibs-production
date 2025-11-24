@@ -2,6 +2,7 @@
 Seed data for BANIBS Ability Network
 Phase 11.5.1 - Resources
 Phase 11.5.2 - Providers
+Phase 11.5.3 - Support Groups (Circles)
 """
 
 import asyncio
