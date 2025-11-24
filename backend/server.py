@@ -349,6 +349,10 @@ app.include_router(community_router)
 from routes.ability import router as ability_router
 app.include_router(ability_router)
 
+# Phase 11.5.3 - Circles (Support Groups)
+from routes.circles import router as circles_router
+app.include_router(circles_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
