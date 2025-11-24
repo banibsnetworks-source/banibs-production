@@ -19,7 +19,7 @@ export default function AbilityModerationDashboardPage() {
     setError(null);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       if (!token) {
         setError("Authentication required. Please log in.");
         setLoading(false);
