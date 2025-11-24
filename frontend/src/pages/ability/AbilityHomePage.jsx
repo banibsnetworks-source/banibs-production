@@ -85,17 +85,33 @@ export default function AbilityHomePage() {
           })}
         </div>
 
+        {/* Quick Links */}
+        <div className="mb-10 grid md:grid-cols-2 gap-4">
+          <Link
+            to="/portal/ability/providers"
+            className="flex items-center gap-4 p-5 rounded-xl bg-purple-500/10 border border-purple-500/30 hover:border-purple-500 transition"
+          >
+            <Users className="text-purple-400" size={32} />
+            <div>
+              <h3 className="text-base font-bold text-slate-100">Find a Provider</h3>
+              <p className="text-sm text-slate-400">Connect with specialists, therapists, and advocates</p>
+            </div>
+          </Link>
+          <Link
+            to="/portal/ability/submit"
+            className="flex items-center gap-4 p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-purple-500/50 transition"
+          >
+            <Heart className="text-purple-400" size={32} />
+            <div>
+              <h3 className="text-base font-bold text-slate-100">Share a Resource</h3>
+              <p className="text-sm text-slate-400">Help others by contributing knowledge</p>
+            </div>
+          </Link>
+        </div>
+
         {/* Featured Resources */}
         <div>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-slate-100">Featured Resources</h2>
-            <Link
-              to="/portal/ability/submit"
-              className="px-4 py-2 rounded-lg bg-purple-500 text-white text-sm font-semibold hover:bg-purple-600 transition"
-            >
-              Share a Resource
-            </Link>
-          </div>
+          <h2 className="text-2xl font-bold text-slate-100 mb-6">Featured Resources</h2>
 
           <div className="grid md:grid-cols-2 gap-5">
             {resources.map((resource) => (
