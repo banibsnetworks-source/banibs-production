@@ -28,7 +28,8 @@ async def seed_ability_data():
     # Clear existing data
     await db.ability_resources.delete_many({})
     await db.ability_providers.delete_many({})
-    print("🗑️  Cleared existing ability resources and providers\n")
+    await db.circles.delete_many({"pillar": "ability"})
+    print("🗑️  Cleared existing ability resources, providers, and support groups\n")
     
     # Ability Resources
     resources = [
