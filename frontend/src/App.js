@@ -549,6 +549,8 @@ function App() {
               
               {/* Phase 11.5 - Ability Network */}
               <Route path="/portal/ability" element={<AbilityHomePage />} />
+              <Route path="/portal/ability/providers" element={<AbilityProviderDirectoryPage />} />
+              <Route path="/portal/ability/providers/:providerId" element={<AbilityProviderDetailPage />} />
               
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
               <Route path="/portal/academy" element={<YouthAcademyPlaceholder />} />
