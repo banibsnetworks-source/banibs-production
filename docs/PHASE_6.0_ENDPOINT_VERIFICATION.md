@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://health-directory.preview.emergentagent.com/api/auth
+https://disabilitysupport.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

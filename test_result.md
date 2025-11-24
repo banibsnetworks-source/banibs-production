@@ -49,7 +49,7 @@
 ✅ Hub page rendered with user data: "Welcome back, Social"
 ```
 
-**Final URL**: `https://health-directory.preview.emergentagent.com/hub` ✅
+**Final URL**: `https://disabilitysupport.preview.emergentagent.com/hub` ✅
 
 ### Status
 **✅ COMPLETE** - Login flow now works correctly. Users can authenticate and access the Hub dashboard.
@@ -101,7 +101,7 @@ cd /app/frontend && yarn add sharp
 - Label: "👨🏿 BANIBS (My Tone)"
 - Style: `image`
 - Total emojis: 322
-- ✅ Manifest accessible at: `https://health-directory.preview.emergentagent.com/static/emojis/banibs_full/manifest.json`
+- ✅ Manifest accessible at: `https://disabilitysupport.preview.emergentagent.com/static/emojis/banibs_full/manifest.json`
 
 **5. Updated Emoji System**
 - Modified: `/app/frontend/src/utils/emojiSystem.js`
