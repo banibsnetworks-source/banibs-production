@@ -196,3 +196,60 @@ async def get_ability_provider(provider_id: str):
         raise HTTPException(status_code=404, detail="Provider not found")
     
     return provider
+
+
+@router.post("/providers/submit")
+async def submit_ability_provider(
+    provider_data: dict,
+    current_user: dict = Depends(get_current_user_dependency)
+):
+    """Submit an ability provider for review - Phase 11.5.4"""
+    db = get_db_client()
+    ability_db = AbilityDB(db)
+    
+    # Create slug from name
+    slug = provider_data["name"].lower().replace(" ", "-").replace("'", "")
+    
+    # Create provider record with pending review status
+    provider = {
+        "id": f"provider-{uuid4().hex[:8]}",
+        "name": provider_data["name"],
+        "provider_type": provider_data["provider_type"],
+        "specializations": provider_data.get("specializations", []),
+        "disability_types_served": provider_data.get("disability_types_served", []),
+        "age_groups_served": provider_data.get("age_groups_served", []),
+        "credentials": provider_data.get("credentials", []),
+        "bio": provider_data["bio"],
+        "organization": provider_data.get("organization"),
+        "region": provider_data["region"],
+        "city": provider_data.get("city"),
+        "state": provider_data.get("state"),
+        "telehealth_available": provider_data.get("telehealth_available", False),
+        "in_person_available": provider_data.get("in_person_available", True),
+        "languages": provider_data.get("languages", ["English"]),
+        "accepts_insurance": provider_data.get("accepts_insurance", False),
+        "insurance_accepted": provider_data.get("insurance_accepted", []),
+        "cost_range": provider_data.get("cost_range", "$"),
+        "contact_website": provider_data.get("contact_website"),
+        "contact_email": provider_data.get("contact_email"),
+        "contact_phone": provider_data.get("contact_phone"),
+        "availability": provider_data.get("availability"),
+        "is_verified": False,
+        "is_black_owned": provider_data.get("is_black_owned", False),
+        "is_user_submitted": True,
+        "submitted_by_user_id": current_user["id"],
+        "submitted_by_name": current_user.get("name", current_user.get("email", "Unknown")),
+        "is_approved": False,  # Pending review
+        "rating": None,
+        "total_reviews": 0,
+        "created_at": datetime.now(timezone.utc),
+        "updated_at": datetime.now(timezone.utc)
+    }
+    
+    await ability_db.providers.insert_one(provider)
+    
+    return {
+        "success": True,
+        "message": "Provider submitted successfully and is pending review",
+        "provider_id": provider["id"]
+    }
