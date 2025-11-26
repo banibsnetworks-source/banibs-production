@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://disabilitysupport.preview.emergentagent.com/api/auth
+https://bpoc-rollout.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

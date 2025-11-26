@@ -12,7 +12,7 @@ from datetime import datetime
 from typing import Optional, Dict, Any
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://disabilitysupport.preview.emergentagent.com"
+BACKEND_URL = "https://bpoc-rollout.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 class SocialModerationTester:

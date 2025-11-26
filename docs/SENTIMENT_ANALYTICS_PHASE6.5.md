@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://disabilitysupport.preview.emergentagent.com/api/admin/analytics/sentiment
+https://bpoc-rollout.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints
