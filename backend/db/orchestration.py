@@ -468,6 +468,7 @@ class OrchestrationDB:
                 "code": module["code"],
                 "name": module["name"],
                 "phase": module["phase"],
+                "layer": module.get("layer", "LAYER_2_FOUNDATION"),
                 "category": module["category"],
                 "rollout_stage": module["rollout_stage"],
                 "visibility": module["visibility"],
