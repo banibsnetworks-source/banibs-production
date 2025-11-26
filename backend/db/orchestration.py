@@ -289,10 +289,26 @@ class OrchestrationDB:
     async def check_dependencies_met(self, module_id: str) -> tuple[bool, List[str]]:
         """
         Check if all dependencies are met for a module.
+        Enforces layer-based sequencing: Layer 0 → 1 → 2 → 3 → 4
         Returns (all_met: bool, issues: List[str])
         """
+        module = await self.get_module(module_id)
+        if not module:
+            return (False, ["Module not found"])
+        
         deps = await self.get_module_dependencies(module_id)
         issues = []
+        
+        # Layer-based validation
+        module_layer = module.get("layer", "LAYER_2_FOUNDATION")
+        layer_order = {
+            "LAYER_0_INFRASTRUCTURE": 0,
+            "LAYER_1_GOVERNANCE": 1,
+            "LAYER_2_FOUNDATION": 2,
+            "LAYER_3_SOCIAL": 3,
+            "LAYER_4_HIGH_IMPACT": 4
+        }
+        module_layer_num = layer_order.get(module_layer, 2)
         
         for dep in deps:
             parent = await self.get_module(dep["depends_on_module_id"])
@@ -300,10 +316,20 @@ class OrchestrationDB:
                 issues.append(f"Dependency module not found: {dep['depends_on_module_id']}")
                 continue
             
+            # Check layer ordering
+            parent_layer = parent.get("layer", "LAYER_2_FOUNDATION")
+            parent_layer_num = layer_order.get(parent_layer, 2)
+            
+            if parent_layer_num > module_layer_num:
+                issues.append(
+                    f"Layer violation: {module['name']} ({module_layer}) cannot depend on "
+                    f"{parent['name']} ({parent_layer}). Dependencies must follow layer order."
+                )
+            
+            # Check stage requirement
             required_stage = dep["required_stage"]
             current_stage = parent["rollout_stage"]
             
-            # Check if parent is at required stage
             stage_order = ["PLANNED", "IN_DEV", "INTERNAL_SANDBOX", "PRIVATE_BETA", "SOFT_LAUNCH", "FULL_LAUNCH", "LEGACY"]
             
             if stage_order.index(current_stage) < stage_order.index(required_stage):
