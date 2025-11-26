@@ -353,6 +353,10 @@ app.include_router(ability_router)
 from routes.circles import router as circles_router
 app.include_router(circles_router)
 
+# Phase 0.0 - Platform Orchestration Core (BPOC)
+from routes.orchestration import router as orchestration_router
+app.include_router(orchestration_router)
+
 
 
 # Include Phase 7.1 - Opportunities Exchange routers
