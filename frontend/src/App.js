@@ -221,6 +221,8 @@ import AbilitySupportGroupDetailPage from "./pages/ability/support-groups/Abilit
 import AbilityResourceSubmitPage from "./pages/ability/AbilityResourceSubmitPage";
 import AbilityProviderSubmitPage from "./pages/ability/AbilityProviderSubmitPage";
 import AbilityModerationDashboardPage from "./pages/admin/ability/AbilityModerationDashboardPage";
+// Phase 0.0 - BPOC Orchestration Dashboard
+import OrchestrationDashboardPage from "./pages/admin/orchestration/OrchestrationDashboardPage";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
