@@ -14,6 +14,19 @@ from enum import Enum
 
 # ==================== ENUMS ====================
 
+class ModuleLayer(str, Enum):
+    """
+    5-layer architecture for BANIBS platform.
+    Defines rollout sequence and dependencies.
+    Patent-safe separation of concerns.
+    """
+    LAYER_0_INFRASTRUCTURE = "LAYER_0_INFRASTRUCTURE"  # Auth, DB, BPOC, Core
+    LAYER_1_GOVERNANCE = "LAYER_1_GOVERNANCE"          # Integrity, Reputation, Safety
+    LAYER_2_FOUNDATION = "LAYER_2_FOUNDATION"          # Help systems, safe to deploy early
+    LAYER_3_SOCIAL = "LAYER_3_SOCIAL"                  # Social networks, require risk mitigation
+    LAYER_4_HIGH_IMPACT = "LAYER_4_HIGH_IMPACT"        # Financial, legal, high-sensitivity
+
+
 class ModuleCategory(str, Enum):
     """Category classification for BANIBS modules"""
     HELP_SYSTEM = "HELP_SYSTEM"
