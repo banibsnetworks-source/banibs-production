@@ -149,6 +149,7 @@ class RolloutTrigger(BaseModel):
     """
     id: str
     module_id: str = Field(..., description="FK to ModuleRecord")
+    trigger_class: TriggerClass = Field(..., description="Classification for patent separation")
     trigger_type: TriggerType
     target_value_number: Optional[float] = None
     target_value_date: Optional[date] = None
