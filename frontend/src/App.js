@@ -567,6 +567,9 @@ function App() {
               <Route path="/portal/ability/providers/submit" element={<AbilityProviderSubmitPage />} />
               <Route path="/portal/admin/ability/moderation" element={<AbilityModerationDashboardPage />} />
               
+              {/* Phase 0.0 - BPOC Orchestration Dashboard */}
+              <Route path="/admin/orchestration" element={<OrchestrationDashboardPage />} />
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages */}
               <Route path="/portal/academy" element={<YouthAcademyPlaceholder />} />
               <Route path="/portal/wallet" element={<WalletPlaceholder />} />
