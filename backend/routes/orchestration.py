@@ -579,3 +579,30 @@ async def update_settings(
         "success": True,
         "message": "Settings updated successfully"
     }
+
+
+
+# ==================== EVENTS ENDPOINT ====================
+
+@router.get("/events")
+async def get_all_events(
+    limit: int = Query(100, le=500, description="Max events to return"),
+    module_id: Optional[str] = Query(None, description="Filter by module ID"),
+    admin_user: dict = Depends(require_admin)
+):
+    """
+    Get all rollout events with optional filtering.
+    Returns event history for platform governance tracking.
+    
+    Admin only.
+    """
+    db = get_db_client()
+    orch_db = OrchestrationDB(db)
+    
+    events = await orch_db.get_all_events(limit=limit, module_id=module_id)
+    
+    return {
+        "events": events,
+        "total": len(events)
+    }
+
