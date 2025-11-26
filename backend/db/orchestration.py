@@ -44,6 +44,7 @@ class OrchestrationDB:
             "code": module_data["code"],
             "name": module_data["name"],
             "phase": module_data["phase"],
+            "layer": module_data["layer"],
             "category": module_data["category"],
             "description_short": module_data["description_short"],
             "description_internal": module_data["description_internal"],
