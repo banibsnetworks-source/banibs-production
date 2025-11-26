@@ -128,6 +128,7 @@ class ModuleRecord(BaseModel):
     code: str = Field(..., description="Unique code like 'elder_honor_11_14'")
     name: str = Field(..., description="Display name")
     phase: str = Field(..., description="Phase number like '11.14' or '22.0'")
+    layer: ModuleLayer = Field(..., description="5-layer architecture position")
     category: ModuleCategory
     description_short: str
     description_internal: str = Field(..., description="Internal strategy rationale")
