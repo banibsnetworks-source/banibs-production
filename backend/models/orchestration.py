@@ -209,6 +209,7 @@ class ModuleSummary(BaseModel):
     code: str
     name: str
     phase: str
+    layer: ModuleLayer
     category: ModuleCategory
     rollout_stage: RolloutStage
     visibility: ModuleVisibility
