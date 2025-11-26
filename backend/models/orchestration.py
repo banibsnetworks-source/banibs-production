@@ -68,6 +68,16 @@ class RiskFlag(str, Enum):
     OTHER = "OTHER"
 
 
+class TriggerClass(str, Enum):
+    """
+    Three classes of triggers for patent-safe separation.
+    Distinguishes automation types for legal protection.
+    """
+    SYSTEM = "SYSTEM"                      # Internal BANIBS conditions (automated)
+    ENVIRONMENTAL = "ENVIRONMENTAL"         # External readiness (manual verification)
+    RISK_MITIGATION = "RISK_MITIGATION"    # Safety brakes (high-sensitivity modules)
+
+
 class TriggerType(str, Enum):
     """Types of conditions that must be met before rollout"""
     MIN_ACTIVE_USERS = "MIN_ACTIVE_USERS"
