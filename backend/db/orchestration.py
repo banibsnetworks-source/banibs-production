@@ -191,6 +191,7 @@ class OrchestrationDB:
         trigger = {
             "id": f"trigger-{uuid4().hex[:12]}",
             "module_id": trigger_data["module_id"],
+            "trigger_class": trigger_data["trigger_class"],
             "trigger_type": trigger_data["trigger_type"],
             "target_value_number": trigger_data.get("target_value_number"),
             "target_value_date": trigger_data.get("target_value_date"),
