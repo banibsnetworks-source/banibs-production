@@ -372,6 +372,24 @@ class OrchestrationDB:
             {"_id": 0}
         ).sort("created_at", -1).limit(limit).to_list(limit)
         return events
+
+    async def get_all_events(self, limit: int = 100, module_id: Optional[str] = None) -> List[dict]:
+        """Get all rollout events, optionally filtered by module"""
+        query = {}
+        if module_id:
+            query["module_id"] = module_id
+        
+        events = await self.events.find(query, {"_id": 0}).sort("created_at", -1).limit(limit).to_list(limit)
+        
+        # Enrich with module names
+        for event in events:
+            if event.get("module_id"):
+                module = await self.get_module(event["module_id"])
+                if module:
+                    event["module_name"] = module.get("name")
+        
+        return events
+
     
     # ==================== EVALUATION & READINESS ====================
     
