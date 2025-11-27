@@ -322,6 +322,9 @@ function App() {
               <Route path="/portal/social/discover/people" element={<SocialDiscoverPeoplePage />} />
               <Route path="/portal/social/watch" element={<CommunityWatchPage />} />
               
+              {/* Phase 8.2 - Social Connections */}
+              <Route path="/social/connections" element={<SocialConnectionsPage />} />
+              
               {/* Base social portal route (catch-all for /portal/social) */}
               <Route path="/portal/social" element={<SocialPortal />} />
               
