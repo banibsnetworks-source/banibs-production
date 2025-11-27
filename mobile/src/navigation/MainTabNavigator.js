@@ -66,7 +66,7 @@ const MainTabNavigator = () => {
       />
       <Tab.Screen
         name="Social"
-        component={SocialScreen}
+        component={SocialStack}
         options={{
           tabBarIcon: ({focused}) => <TabIcon icon="📱" focused={focused} />,
         }}
