@@ -134,19 +134,19 @@ const NotificationsPage = () => {
     <div className="min-h-screen bg-gray-50">
       <TopNav user={user} onLogout={handleLogout} />
 
-      <div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="container-v2 section-v2 page-enter">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between breathing-room-lg">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Notifications</h1>
+            <h1 className="text-3xl font-bold text-foreground-v2">Notifications</h1>
             {unreadCount > 0 && (
-              <p className="text-gray-600 mt-1">{unreadCount} unread</p>
+              <p className="text-secondary-v2 breathing-room-xs">{unreadCount} unread</p>
             )}
           </div>
           {unreadCount > 0 && (
             <button
               onClick={handleMarkAllAsRead}
-              className="px-4 py-2 text-sm font-semibold text-gray-700 hover:text-gray-900"
+              className="btn-v2 btn-v2-ghost btn-v2-sm"
             >
               Mark all as read
             </button>
