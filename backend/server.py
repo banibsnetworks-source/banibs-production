@@ -45,6 +45,7 @@ from routes.profile_media import router as profile_media_router  # Phase 8.1 - P
 from routes.helpinghands import router as helpinghands_router  # Phase 10.0 - BANIBS Helping Hands
 from routes.relationships import router as relationships_router  # Phase 8.1 - Relationship Engine
 from routes.users import router as users_router  # Phase 8.1 - User Search
+from routes.circle_engine import router as circle_engine_router  # Phase 9.1 - Infinite Circle Engine
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
