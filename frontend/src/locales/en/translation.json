@@ -160,6 +160,17 @@
     "website": "Website",
     "joined": "Joined"
   },
+  "notifications": {
+    "title": "Notifications",
+    "noNotifications": "No notifications yet",
+    "markAllRead": "Mark all as read",
+    "viewAll": "View All Notifications",
+    "justNow": "Just now",
+    "minAgo": "min ago",
+    "hoursAgo": "hours ago",
+    "daysAgo": "days ago",
+    "unreadCount": "unread"
+  },
   "errors": {
     "generic": "Something went wrong. Please try again.",
     "network": "Network error. Please check your connection.",
