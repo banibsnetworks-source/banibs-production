@@ -128,15 +128,15 @@ const BusinessDirectory = () => {
   
   return (
     <BusinessLayout>
-      <div className="min-h-screen bg-slate-950">
+      <div className="container-v2 section-v2 page-enter" data-mode="business">
       
-      <div className='container mx-auto px-4 py-8 max-w-6xl'>
-        <h1 className='text-4xl font-bold text-white mb-8'>
+      <div className='max-w-6xl mx-auto'>
+        <h1 className='text-4xl font-bold text-foreground-v2 breathing-room-lg'>
           Business Directory
         </h1>
         
         {/* Search Filters */}
-        <div className='bg-slate-900 rounded-lg border border-slate-800 p-6 mb-8'>
+        <div className='card-v2 card-v2-lg breathing-room-lg'>
           <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4'>
             {/* Category */}
             <div>
