@@ -186,7 +186,7 @@ async def refresh_user_circle(
         edges_count = await ce_db.refresh_circle_edges_for_user(user_id)
         return RefreshResponse(
             success=True,
-            message=f"Circle refreshed successfully",
+            message="Circle refreshed successfully",
             edges_created=edges_count
         )
     except Exception as e:
