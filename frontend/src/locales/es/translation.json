@@ -160,6 +160,17 @@
     "website": "Sitio Web",
     "joined": "Se unió"
   },
+  "notifications": {
+    "title": "Notificaciones",
+    "noNotifications": "No hay notificaciones aún",
+    "markAllRead": "Marcar todas como leídas",
+    "viewAll": "Ver Todas las Notificaciones",
+    "justNow": "Justo ahora",
+    "minAgo": "min atrás",
+    "hoursAgo": "horas atrás",
+    "daysAgo": "días atrás",
+    "unreadCount": "sin leer"
+  },
   "errors": {
     "generic": "Algo salió mal. Por favor, inténtalo de nuevo.",
     "network": "Error de red. Por favor, verifica tu conexión.",
