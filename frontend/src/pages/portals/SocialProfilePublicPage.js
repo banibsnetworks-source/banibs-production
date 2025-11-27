@@ -6,6 +6,7 @@ import SocialPostCard from '../../components/social/SocialPostCard';
 import SocialLayout from '../../components/social/SocialLayout';
 import ProfileCommandCenter from '../../components/profile/ProfileCommandCenter';
 import AddToPeoplesButton from '../../components/social/AddToPeoplesButton';
+import ProfileRelationshipPanel from '../../components/profile/ProfileRelationshipPanel';
 import { peoplesApi, businessSupportApi } from '../../services/phase83Api';
 import { Settings } from 'lucide-react';
 
