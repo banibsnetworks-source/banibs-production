@@ -1329,8 +1329,9 @@ class BanibsAPITester:
         response = self.make_request("POST", "/auth/register", {
             "email": second_user_email,
             "password": second_user_password,
-            "name": "Second Test User",
-            "displayName": "Second User"
+            "first_name": "Second",
+            "last_name": "User",
+            "accepted_terms": True
         })
         
         if response.status_code == 200:
