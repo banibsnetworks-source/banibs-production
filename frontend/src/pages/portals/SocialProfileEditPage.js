@@ -156,32 +156,31 @@ const SocialProfileEditPage = () => {
 
   return (
     <SocialLayout>
-      <div className="min-h-screen pt-5 bg-background">
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-3xl mx-auto space-y-6">
+      <div className="container-v2 section-v2 page-enter" data-mode="social">
+        <div className="max-w-3xl mx-auto space-y-6">
           {/* Header */}
-          <div className="flex items-center justify-between flex-wrap gap-3">
-            <h1 className="text-3xl font-bold text-foreground">Edit Profile</h1>
-            <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between flex-wrap gap-3 breathing-room-md">
+            <h1 className="text-3xl font-bold text-foreground-v2">Edit Profile</h1>
+            <div className="flex items-center gap-3 icon-text-aligned">
               {profile?.handle && (
                 <>
                   <Link 
                     to="/portal/social/profile/theme"
-                    className="text-amber-400 hover:text-amber-300 text-sm flex items-center gap-1"
+                    className="btn-v2 btn-v2-ghost btn-v2-sm icon-text-aligned"
                   >
                     🎨 Profile Theme
                   </Link>
-                  <span className="text-muted-foreground">•</span>
+                  <span className="text-secondary-v2">•</span>
                   <Link 
                     to={`/portal/social/u/${profile.handle}?tab=posts`}
-                    className="text-amber-400 hover:text-amber-300 text-sm flex items-center gap-1"
+                    className="btn-v2 btn-v2-ghost btn-v2-sm icon-text-aligned"
                   >
                     📝 My Posts
                   </Link>
-                  <span className="text-muted-foreground">•</span>
+                  <span className="text-secondary-v2">•</span>
                   <Link 
                     to={`/portal/social/u/${profile.handle}`}
-                    className="text-amber-400 hover:text-amber-300 text-sm"
+                    className="btn-v2 btn-v2-ghost btn-v2-sm"
                   >
                     View Public Profile →
                   </Link>
@@ -191,7 +190,7 @@ const SocialProfileEditPage = () => {
           </div>
 
           {/* Profile Preview */}
-          <div className="bg-card rounded-2xl border border-border p-6">
+          <div className="card-v2 clean-spacing-lg">
             <h2 className="text-foreground font-semibold mb-4">Profile Preview</h2>
             <div className="flex items-start gap-4">
               <ProfileAvatar 
