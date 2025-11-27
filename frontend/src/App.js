@@ -100,6 +100,8 @@ import InfiniteCirclePage from "./pages/circles/InfiniteCirclePage";
 import SharedCirclePage from "./pages/circles/SharedCirclePage";
 import { InfiniteCirclePage as InfiniteCirclePageSocial } from "./pages/social/InfiniteCirclePage";
 import { SharedCirclePage as SharedCirclePageSocial } from "./pages/social/SharedCirclePage";
+// Phase 8.4 - Messaging Engine
+import { MessagesPage } from "./pages/social/messages/MessagesPage";
 // Phase 8.2 - Business Profiles
 import BusinessProfileEdit from "./pages/business/BusinessProfileEdit";
 import BusinessProfileCreate from "./pages/business/BusinessProfileCreate";
