@@ -49,7 +49,7 @@ const SignInPage = () => {
         </button>
         
         {/* Card */}
-        <div className="bg-gray-900 rounded-2xl shadow-2xl border border-gray-800 overflow-hidden">
+        <div className="card-v2 card-v2-lg shadow-xl-v2 overflow-hidden">
           {/* Header */}
           <div className="p-8 border-b border-gray-800">
             <div className="flex items-center gap-3 mb-2">
