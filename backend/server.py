@@ -47,6 +47,7 @@ from routes.relationships import router as relationships_router  # Phase 8.1 - R
 from routes.users import router as users_router  # Phase 8.1 - User Search
 from routes.circle_engine import router as circle_engine_router  # Phase 9.1 - Infinite Circle Engine
 from routes.fap import router as fap_router  # Phase X - Founder Authentication Protocol
+from routes.messaging_v2 import router as messaging_v2_router  # Phase 8.4 - Messaging Engine
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
