@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Mail, Lock, Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 
 /**
  * RegisterPage - Full-page registration (bypasses modal z-index issues)
  * Phase 10.0 P0 Blocker Fix - Option B
+ * Phase L.0 - i18n integrated
  */
 const RegisterPage = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
+  const { t } = useTranslation();
   
   const [formData, setFormData] = useState({
     first_name: '',
