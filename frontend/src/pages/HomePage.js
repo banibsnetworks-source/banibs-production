@@ -212,16 +212,18 @@ const HomePage = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-black to-gray-900 text-white py-16 text-center">
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-          BANIBS
-        </h1>
-        <p className="text-lg md:text-xl text-gray-300 mt-3 max-w-2xl mx-auto">
-          Black America News Information & Business System
-        </p>
-        <p className="text-sm md:text-base text-gray-400 mt-2 max-w-3xl mx-auto">
-          Connecting our people to opportunity, resources, and each other.
-        </p>
+      <section className="hero-v2" style={{ background: 'linear-gradient(to bottom, #000000, #1a1a1a)' }} data-mode="business">
+        <div className="hero-v2-content">
+          <h1 className="hero-v2-title">
+            BANIBS
+          </h1>
+          <p className="hero-v2-subtitle">
+            Black America News Information & Business System
+          </p>
+          <p className="text-secondary-v2 breathing-room-sm max-w-3xl mx-auto">
+            Connecting our people to opportunity, resources, and each other.
+          </p>
+        </div>
       </section>
 
       {/* 🌐 BANIBS Core Quick Links - MANDATORY */}
