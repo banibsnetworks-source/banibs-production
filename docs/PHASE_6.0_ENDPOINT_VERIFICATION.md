@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://bpoc-rollout.preview.emergentagent.com/api/auth
+https://frontend-update-5.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
