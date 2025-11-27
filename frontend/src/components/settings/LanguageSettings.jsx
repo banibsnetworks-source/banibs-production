@@ -10,35 +10,57 @@ const SUPPORTED_LANGUAGES = [
 export const LanguageSettings = () => {
   const { t, i18n } = useTranslation();
   const { user, updateUserProfile } = useAuth();
-  const [selectedLanguage, setSelectedLanguage] = useState(i18n.language || 'en');
+  
+  // Initialize from localStorage or i18n current language
+  const [selectedLanguage, setSelectedLanguage] = useState(() => {
+    // Priority: 1. localStorage, 2. user profile, 3. i18n.language, 4. default 'en'
+    return localStorage.getItem('i18nextLng') || i18n.language || 'en';
+  });
+  
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
-    // Load user's preferred language from auth
-    if (user?.preferred_language) {
-      setSelectedLanguage(user.preferred_language);
-      i18n.changeLanguage(user.preferred_language);
+    // On component mount, sync with user's preferred language from profile or localStorage
+    const currentLang = user?.preferred_language || localStorage.getItem('i18nextLng') || 'en';
+    setSelectedLanguage(currentLang);
+    
+    // Ensure i18n is also set to this language
+    if (i18n.language !== currentLang) {
+      i18n.changeLanguage(currentLang);
     }
   }, [user, i18n]);
 
   const handleLanguageChange = async (languageCode) => {
-    setSelectedLanguage(languageCode);
     setSaving(true);
     setMessage(null);
 
     try {
-      // Change language in i18n
+      // THREE THINGS:
+      
+      // 1. Update local state (updates UI immediately - circle and "selected" label)
+      setSelectedLanguage(languageCode);
+      
+      // 2. Change i18n language (triggers translations to update on the page)
       await i18n.changeLanguage(languageCode);
       
-      // Save to backend if user is logged in
+      // 3. Save to localStorage (for persistence across sessions)
+      localStorage.setItem('i18nextLng', languageCode);
+      
+      // 4. Save to backend if user is logged in (for cross-device sync)
       if (user && updateUserProfile) {
         await updateUserProfile({ preferred_language: languageCode });
-        setMessage({ type: 'success', text: t('settings.languageSaved') });
       }
+      
+      setMessage({ type: 'success', text: t('settings.languageSaved') });
     } catch (error) {
       console.error('Failed to save language preference:', error);
       setMessage({ type: 'error', text: t('errors.generic') });
+      
+      // Rollback state on error
+      const previousLang = localStorage.getItem('i18nextLng') || 'en';
+      setSelectedLanguage(previousLang);
+      i18n.changeLanguage(previousLang);
     } finally {
       setSaving(false);
       
