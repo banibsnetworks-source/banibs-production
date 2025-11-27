@@ -129,20 +129,19 @@ export const InfiniteCirclePage = () => {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold">
-              Depth {activeDepth}{" "}
+              {t('circles.depth')} {activeDepth}{" "}
               <span className="text-xs font-normal text-gray-400">
-                ({users.length} connections)
+                ({users.length} {t('relationships.connections').toLowerCase()})
               </span>
             </h2>
             <p className="text-xs text-gray-500 max-w-md">
-              Depth 1 = direct Peoples; Depth 2 = Peoples-of-Peoples; higher
-              depths trace the extended trust map.
+              {t('circles.depth')} 1 = {t('circles.peoples')}; {t('circles.depth')} 2 = {t('circles.peoplesOfPeoples')}
             </p>
           </div>
 
           {users.length === 0 ? (
             <div className="rounded-xl border border-gray-700 bg-black/30 px-4 py-6 text-sm text-gray-400">
-              No connections found at this depth yet.
+              {t('circles.noConnections')}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 opacity-100 transition-opacity">
