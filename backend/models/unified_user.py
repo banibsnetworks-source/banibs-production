@@ -64,6 +64,12 @@ class UnifiedUser(BaseModel):
         description="User's preferred landing portal: news, social, business, tv, search"
     )
     
+    # Phase L.0 - Language Preference
+    preferred_language: str = Field(
+        default="en",
+        description="User's preferred language: en (English), es (Spanish), etc."
+    )
+    
     # Metadata
     metadata: Dict[str, Any] = Field(
         default_factory=dict,
