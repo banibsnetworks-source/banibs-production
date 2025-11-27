@@ -117,11 +117,21 @@
     "alright": "Bien",
     "others": "Otros",
     "connections": "Conexiones",
+    "myConnections": "Mis Conexiones",
     "addConnection": "Agregar Conexión",
     "removeConnection": "Eliminar Conexión",
     "blockUser": "Bloquear Usuario",
     "unblockUser": "Desbloquear Usuario",
-    "setTier": "Establecer Nivel"
+    "setTier": "Establecer Nivel",
+    "changeTrustTier": "Cambiar Nivel de Confianza",
+    "trustTier": "Nivel de Confianza",
+    "selectTrustTier": "Selecciona un nivel de confianza",
+    "noConnectionsYet": "Aún no hay conexiones",
+    "startConnecting": "Comienza a conectar con personas en tu red",
+    "discoverPeople": "Descubrir Personas",
+    "filterByTier": "Filtrar por Nivel de Confianza",
+    "allTiers": "Todos los Niveles",
+    "searchConnections": "Buscar conexiones..."
   },
   "messages": {
     "title": "Mensajes",
