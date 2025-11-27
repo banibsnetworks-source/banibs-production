@@ -172,29 +172,31 @@ const NotificationsPage = () => {
 
         {/* Notifications List */}
         {loading ? (
-          <div className="text-center py-12 text-gray-500">
+          <div className="text-center py-12 text-secondary-v2">
             Loading notifications...
           </div>
         ) : notifications.length === 0 ? (
-          <div className="bg-white rounded-2xl p-12 text-center">
-            <div className="text-6xl mb-4">🔔</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+          <div className="empty-state-v2">
+            <div className="empty-state-icon">
+              🔔
+            </div>
+            <h3 className="empty-state-title">
               No notifications
             </h3>
-            <p className="text-gray-600">
+            <p className="empty-state-description">
               {filter === 'unread' ? 'All caught up!' : 'You have no notifications yet.'}
             </p>
             {filter !== 'all' && (
               <button
                 onClick={() => setFilter('all')}
-                className="mt-4 text-sm font-semibold text-gray-700 hover:text-gray-900"
+                className="btn-v2 btn-v2-primary btn-v2-md"
               >
                 View all notifications
               </button>
             )}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl divide-y divide-gray-100 shadow-sm">
+          <div className="card-v2 divide-y divide-gray-100">
             {notifications.map((notif) => (
               <button
                 key={notif.id}
