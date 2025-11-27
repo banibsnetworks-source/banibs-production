@@ -21,7 +21,7 @@ const TabIcon = ({icon, focused}) => (
   <Text style={{fontSize: 24, opacity: focused ? 1 : 0.6}}>{icon}</Text>
 );
 
-// Social Stack Navigator (includes feed and create post)
+// Social Stack Navigator (includes feed, create post, comments, profiles)
 const SocialStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -33,6 +33,8 @@ const SocialStack = () => {
           presentation: 'modal',
         }}
       />
+      <Stack.Screen name="Comments" component={CommentsScreen} />
+      <Stack.Screen name="UserProfile" component={UserProfileScreen} />
     </Stack.Navigator>
   );
 };
