@@ -7,7 +7,7 @@ from fastapi import APIRouter, HTTPException, Depends, Query
 from typing import List, Optional
 
 from db.connection import get_db
-from utils.auth import get_current_user
+from middleware.auth_guard import get_current_user
 
 router = APIRouter(prefix="/api/users", tags=["users"])
 
