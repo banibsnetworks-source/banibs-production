@@ -10877,7 +10877,31 @@ def main():
 if __name__ == "__main__":
     tester = BanibsAPITester()
     
-    # Run Phase 12.0 Tests - Diaspora Connect Portal
-    success = tester.run_phase_12_0_tests()
-    
-    sys.exit(0 if success else 1)
+    # Run specific test based on command line argument
+    if len(sys.argv) > 1:
+        test_name = sys.argv[1].lower()
+        
+        if test_name == "messaging":
+            # Run Phase 8.4 Messaging Engine tests
+            success = tester.test_phase_8_4_messaging_engine_comprehensive()
+            sys.exit(0 if success else 1)
+        elif test_name == "ability":
+            # Run Phase 11.5.4 Ability Network tests
+            success = tester.test_phase_11_5_4_ability_network_comprehensive()
+            sys.exit(0 if success else 1)
+        elif test_name == "diaspora":
+            # Run Phase 12.0 Tests - Diaspora Connect Portal
+            success = tester.run_phase_12_0_tests()
+            sys.exit(0 if success else 1)
+        elif test_name == "all":
+            # Run all tests
+            success = tester.run_all_tests()
+            sys.exit(0 if success else 1)
+        else:
+            print(f"Unknown test: {test_name}")
+            print("Available tests: messaging, ability, diaspora, all")
+            sys.exit(1)
+    else:
+        # Default: run messaging tests for Phase 8.4
+        success = tester.test_phase_8_4_messaging_engine_comprehensive()
+        sys.exit(0 if success else 1)
