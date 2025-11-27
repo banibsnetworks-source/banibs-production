@@ -1,0 +1,174 @@
+/**
+ * BANIBS Infinite Circle Engine API Client - Phase 9.2
+ * Handles all circle graph API calls
+ */
+
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
+/**
+ * Get authorization header with JWT token
+ */
+const getAuthHeader = () => {
+  const token = localStorage.getItem('access_token');
+  return {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  };
+};
+
+/**
+ * Get user's circle edges
+ * @param {string} userId - User ID
+ * @param {string} tier - Optional tier filter (PEOPLES, COOL, ALRIGHT, OTHERS)
+ */
+export const getCircleEdges = async (userId, tier = null) => {
+  const url = tier 
+    ? `${API_URL}/api/circle/${userId}/edges?tier=${tier}`
+    : `${API_URL}/api/circle/${userId}/edges`;
+  
+  const response = await fetch(url, {
+    headers: getAuthHeader()
+  });
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch circle edges: ${response.status}`);
+  }
+  
+  return response.json();
+};
+
+/**
+ * Get Peoples-of-Peoples
+ * @param {string} userId - User ID
+ */
+export const getPeoplesOfPeoples = async (userId) => {
+  const response = await fetch(
+    `${API_URL}/api/circle/${userId}/peoples`,
+    {
+      headers: getAuthHeader()
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch Peoples-of-Peoples: ${response.status}`);
+  }
+  
+  return response.json();
+};
+
+/**
+ * Get shared circle between two users
+ * @param {string} userId - First user ID
+ * @param {string} otherId - Second user ID
+ */
+export const getSharedCircle = async (userId, otherId) => {
+  const response = await fetch(
+    `${API_URL}/api/circle/${userId}/shared/${otherId}`,
+    {
+      headers: getAuthHeader()
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch shared circle: ${response.status}`);
+  }
+  
+  return response.json();
+};
+
+/**
+ * Get circle depth traversal
+ * @param {string} userId - User ID
+ * @param {number} depth - Depth level (1, 2, or 3)
+ */
+export const getCircleDepth = async (userId, depth) => {
+  const response = await fetch(
+    `${API_URL}/api/circle/${userId}/depth/${depth}`,
+    {
+      headers: getAuthHeader()
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch circle depth: ${response.status}`);
+  }
+  
+  return response.json();
+};
+
+/**
+ * Get user's circle reach score
+ * @param {string} userId - User ID
+ */
+export const getCircleScore = async (userId) => {
+  const response = await fetch(
+    `${API_URL}/api/circle/${userId}/score`,
+    {
+      headers: getAuthHeader()
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch circle score: ${response.status}`);
+  }
+  
+  return response.json();
+};
+
+/**
+ * Refresh user's circle graph
+ * @param {string} userId - User ID
+ */
+export const refreshCircle = async (userId) => {
+  const response = await fetch(
+    `${API_URL}/api/circle/refresh/${userId}`,
+    {
+      method: 'POST',
+      headers: getAuthHeader()
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Failed to refresh circle: ${response.status}`);
+  }
+  
+  return response.json();
+};
+
+/**
+ * Refresh all circles (admin only)
+ */
+export const refreshAllCircles = async () => {
+  const response = await fetch(
+    `${API_URL}/api/circle/refresh-all`,
+    {
+      method: 'POST',
+      headers: getAuthHeader()
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Failed to refresh all circles: ${response.status}`);
+  }
+  
+  return response.json();
+};
+
+/**
+ * Get user details for circle members
+ * @param {string} userId - User ID
+ */
+export const getUserDetails = async (userId) => {
+  const response = await fetch(
+    `${API_URL}/api/users/${userId}/public`,
+    {
+      headers: getAuthHeader()
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch user details: ${response.status}`);
+  }
+  
+  return response.json();
+};
