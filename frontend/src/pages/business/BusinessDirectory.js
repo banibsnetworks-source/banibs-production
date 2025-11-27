@@ -277,31 +277,31 @@ const BusinessDirectory = () => {
                 <div className='flex-1'>
                   <Link
                     to={`/portal/business/${business.handle}`}
-                    className='text-xl font-semibold text-white hover:text-yellow-400'
+                    className='text-xl font-semibold text-foreground-v2 hover:text-primary-v2'
                   >
                     {business.name}
                   </Link>
                   
                   {business.tagline && (
-                    <p className='text-slate-400 mt-1'>{business.tagline}</p>
+                    <p className='text-secondary-v2 breathing-room-xs'>{business.tagline}</p>
                   )}
                   
-                  <div className='flex items-center gap-4 mt-3 text-sm text-slate-400'>
+                  <div className='flex items-center gap-4 breathing-room-sm text-sm text-secondary-v2 icon-text-aligned'>
                     {business.industry && (
-                      <span className='px-2 py-1 bg-yellow-900/30 text-yellow-400 rounded'>
+                      <span className='toggle-v2 active'>
                         {business.industry}
                       </span>
                     )}
                     
                     {business.city && business.state && (
-                      <span className='flex items-center gap-1'>
+                      <span className='flex items-center gap-1 icon-text-aligned'>
                         <MapPin className='w-4 h-4' />
                         {business.city}, {business.state}
                       </span>
                     )}
                     
                     {business.distance_miles != null && (
-                      <span className='text-blue-400 font-medium'>
+                      <span className='text-primary-v2 font-medium'>
                         {business.distance_miles} miles away
                       </span>
                     )}
@@ -311,7 +311,7 @@ const BusinessDirectory = () => {
                 <div className='flex flex-col gap-3'>
                   <Link
                     to={`/portal/business/${business.handle}`}
-                    className='px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 text-center whitespace-nowrap'
+                    className='btn-v2 btn-v2-primary btn-v2-md text-center whitespace-nowrap'
                   >
                     View Profile
                   </Link>
