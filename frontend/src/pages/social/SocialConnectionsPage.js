@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Users, UserPlus } from 'lucide-react';
-import SocialLayout from '../../components/layouts/SocialLayout';
+import SocialLayout from '../../components/social/SocialLayout';
 import ConnectionCard from '../../components/connections/ConnectionCard';
 import SearchInputV2 from '../../components/common/SearchInputV2';
 import ComingSoonV2 from '../../components/common/ComingSoonV2';
