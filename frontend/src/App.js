@@ -92,6 +92,8 @@ import AnonymousPostingSettings from "./pages/social/settings/AnonymousPostingSe
 import AutoplaySettings from "./pages/social/settings/AutoplaySettings";
 import SocialDiscoverPeoplePage from "./pages/social/SocialDiscoverPeoplePage";
 import CommunityWatchPage from "./pages/social/CommunityWatchPage";
+// Phase 8.2 - Social Connections
+import SocialConnectionsPage from "./pages/social/SocialConnectionsPage";
 // Phase 8.2 - Business Profiles
 import BusinessProfileEdit from "./pages/business/BusinessProfileEdit";
 import BusinessProfileCreate from "./pages/business/BusinessProfileCreate";
