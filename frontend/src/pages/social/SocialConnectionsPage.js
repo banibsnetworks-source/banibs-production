@@ -351,7 +351,7 @@ const SocialConnectionsPage = () => {
             <div>
               <h1 className="text-3xl font-bold text-foreground-v2 flex items-center gap-2">
                 <Users className="w-8 h-8" />
-                Connections
+                {t('relationships.myConnections')}
               </h1>
               <p className="text-secondary-v2 breathing-room-xs">
                 Your relationship tiers and the people you trust.
@@ -365,7 +365,7 @@ const SocialConnectionsPage = () => {
           <SearchInputV2
             value={searchQuery}
             onChange={setSearchQuery}
-            placeholder="Search for people to connect with..."
+            placeholder={t('relationships.searchConnections')}
           />
 
           {/* Search Results */}
