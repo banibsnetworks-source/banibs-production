@@ -74,8 +74,8 @@ const GlobalNavBar = () => {
   };
 
   return (
-    <nav className="bg-card/95 backdrop-blur-md border-b border-border shadow-sm sticky top-0 z-50">
-      <div className="container mx-auto px-4">
+    <nav className="nav-v2 bg-surface-v2/60 backdrop-blur-lg border-b border-surface-alt-v2 shadow-md-v2 sticky top-0 z-50 transition-all">
+      <div className="container-v2 mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo and Tagline */}
           <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity group">
