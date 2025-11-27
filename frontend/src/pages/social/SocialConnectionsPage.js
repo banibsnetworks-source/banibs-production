@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Users, UserPlus } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import SocialLayout from '../../components/social/SocialLayout';
 import ConnectionCard from '../../components/connections/ConnectionCard';
 import SearchInputV2 from '../../components/common/SearchInputV2';
@@ -9,8 +10,10 @@ import ComingSoonV2 from '../../components/common/ComingSoonV2';
  * SocialConnectionsPage - Phase 8.2
  * Full connections management with live relationship engine
  * Uses BANIBS UI v2.0 design system
+ * Phase L.0 - i18n integrated
  */
 const SocialConnectionsPage = () => {
+  const { t } = useTranslation();
   // State management
   const [relationships, setRelationships] = useState([]);
   const [relationshipCounts, setRelationshipCounts] = useState({
