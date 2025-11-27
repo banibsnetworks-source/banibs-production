@@ -5,6 +5,9 @@
 /* BANIBS Dual-Layout Theme System */
 @import './styles/themes.css';
 
+/* BANIBS UI v2.0 Global Design System */
+@import './styles/design-system-v2.css';
+
 body {
     margin: 0;
     font-family:
