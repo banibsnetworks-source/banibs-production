@@ -571,6 +571,18 @@ backend:
           **STATUS:** Public endpoint integration fully operational
 
 frontend:
+  - task: "Phase 8.4 - Messaging Engine Frontend UI"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/social/messages/MessagesPage.js, frontend/src/components/messaging/"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Starting Phase 8.4 Messaging Engine frontend UI testing. Testing MessagesPage split-pane layout, ConversationsList, MessageThread, and MessageInput components with comprehensive user interactions."
+
   - task: "Phase 11.5.4 - Ability Homepage Quick Links"
     implemented: true
     working: true
