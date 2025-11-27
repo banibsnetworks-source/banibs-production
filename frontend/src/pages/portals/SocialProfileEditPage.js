@@ -457,13 +457,13 @@ const SocialProfileEditPage = () => {
               <button
                 type="submit"
                 disabled={saving || !formData.display_name}
-                className="flex-1 px-6 py-3 bg-amber-600 text-foreground font-semibold rounded-lg hover:bg-amber-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-v2 btn-v2-primary btn-v2-lg flex-1"
               >
                 {saving ? 'Saving...' : 'Save Profile'}
               </button>
               <Link
                 to="/portal/social"
-                className="px-6 py-3 bg-muted text-foreground font-semibold rounded-lg hover:bg-gray-600 transition-colors text-center"
+                className="btn-v2 btn-v2-secondary btn-v2-lg text-center"
               >
                 Cancel
               </Link>
