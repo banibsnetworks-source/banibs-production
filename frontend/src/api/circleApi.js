@@ -192,7 +192,20 @@ export const getUserDetails = async (userId) => {
  * Alias for getSharedCircle to match UI naming
  */
 export const getSharedCircles = async (userId, otherId) => {
-  return getSharedCircle(userId, otherId);
+  const data = await getSharedCircle(userId, otherId);
+  
+  // Transform backend response
+  return {
+    sharedUsers: [
+      ...(data.shared_peoples || []).map(id => ({ id, relationshipTier: 'Peoples' })),
+      ...(data.shared_cool || []).map(id => ({ id, relationshipTier: 'Cool' })),
+      ...(data.shared_alright || []).map(id => ({ id, relationshipTier: 'Alright' }))
+    ],
+    stats: {
+      overlapScore: data.overlap_score || 0,
+      totalShared: (data.shared_peoples?.length || 0) + (data.shared_cool?.length || 0) + (data.shared_alright?.length || 0)
+    }
+  };
 };
 
 /**
