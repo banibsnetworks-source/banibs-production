@@ -1,0 +1,719 @@
+/**
+ * ═══════════════════════════════════════════════════════════════════
+ * BANIBS UI v2.0 — Global Design System
+ * ═══════════════════════════════════════════════════════════════════
+ * 
+ * Implementation Date: November 2025
+ * Version: 2.0.0
+ * 
+ * This file contains all design tokens, component styles, and utilities
+ * for the BANIBS platform-wide UI upgrade.
+ */
+
+/* ═══════════════════════════════════════════════════════════════════
+   1. DESIGN TOKENS - COLORS
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Business Mode (Default) */
+  --banibs-primary: #D4AF37;
+  --banibs-primary-rgb: 212, 175, 55;
+  --banibs-secondary: #4A3B2A;
+  --banibs-secondary-rgb: 74, 59, 42;
+  --banibs-bg: #0D0D0D;
+  --banibs-bg-rgb: 13, 13, 13;
+  --banibs-surface: rgba(255, 255, 255, 0.04);
+  --banibs-surface-alt: rgba(255, 255, 255, 0.08);
+  --banibs-surface-hover: rgba(255, 255, 255, 0.12);
+  
+  /* Text colors */
+  --banibs-text-primary: #FFFFFF;
+  --banibs-text-secondary: rgba(255, 255, 255, 0.7);
+  --banibs-text-tertiary: rgba(255, 255, 255, 0.5);
+  
+  /* Social Mode */
+  --banibs-social-primary: #0057FF;
+  --banibs-social-primary-rgb: 0, 87, 255;
+  --banibs-social-secondary: #79A8FF;
+  --banibs-social-bg: #0F1117;
+  --banibs-social-bg-rgb: 15, 17, 23;
+  
+  /* Marketplace Mode (Business with saturation boost) */
+  --banibs-marketplace-primary: #E6BE47;
+  --banibs-marketplace-saturation: 1.15;
+  
+  /* Ability Network Mode */
+  --banibs-ability-primary: #6A0DAD;
+  --banibs-ability-primary-rgb: 106, 13, 173;
+  --banibs-ability-secondary: #B48CE3;
+  
+  /* Governance / Defense Mode */
+  --banibs-governance-primary: #1A1A1A;
+  --banibs-governance-secondary: #4E4E4E;
+  --banibs-governance-accent: #00AEEF;
+  
+  /* Semantic Colors */
+  --banibs-success: #10B981;
+  --banibs-warning: #F59E0B;
+  --banibs-error: #EF4444;
+  --banibs-info: #3B82F6;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   2. DESIGN TOKENS - SPACING
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-16: 16px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-48: 48px;
+  --spacing-60: 60px;
+  
+  /* Section padding */
+  --section-padding: 40px;
+  --section-padding-large: 60px;
+  
+  /* Max widths */
+  --max-page-width: 1250px;
+  --max-text-width: 650px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   3. DESIGN TOKENS - TYPOGRAPHY
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Font weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Line heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.4;
+  --line-height-relaxed: 1.6;
+  
+  /* Font sizes */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   4. DESIGN TOKENS - SHADOWS & EFFECTS
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-base: 0 2px 6px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.20);
+  --shadow-lg: 0 6px 14px rgba(0, 0, 0, 0.30);
+  --shadow-xl: 0 10px 24px rgba(0, 0, 0, 0.35);
+  
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 20px;
+  --radius-2xl: 22px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+  
+  /* Blur */
+  --blur-base: 10px;
+  --blur-lg: 20px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   5. GLOBAL BUTTON SYSTEM
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Base Button Styles */
+.btn-v2 {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  
+  /* Typography */
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  white-space: nowrap;
+  
+  /* Effects */
+  box-shadow: var(--shadow-base);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  user-select: none;
+  
+  /* Disabled state */
+  &:disabled,
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+/* Button Sizes */
+.btn-v2-sm {
+  height: 32px;
+  padding: 0 16px;
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-lg);
+}
+
+.btn-v2-md {
+  height: 38px;
+  padding: 0 20px;
+  font-size: var(--font-size-base);
+  border-radius: var(--radius-xl);
+}
+
+.btn-v2-lg {
+  height: 44px;
+  padding: 0 24px;
+  font-size: var(--font-size-lg);
+  border-radius: var(--radius-2xl);
+}
+
+/* Button Variants - Primary */
+.btn-v2-primary {
+  background: var(--banibs-primary);
+  color: #0D0D0D;
+  border: none;
+}
+
+.btn-v2-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  filter: brightness(1.08);
+}
+
+.btn-v2-primary:active:not(:disabled) {
+  transform: translateY(0);
+  filter: brightness(0.95);
+}
+
+/* Button Variants - Secondary */
+.btn-v2-secondary {
+  background: var(--banibs-secondary);
+  color: var(--banibs-text-primary);
+  border: none;
+}
+
+.btn-v2-secondary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  filter: brightness(1.15);
+}
+
+.btn-v2-secondary:active:not(:disabled) {
+  transform: translateY(0);
+  filter: brightness(0.9);
+}
+
+/* Button Variants - Outline */
+.btn-v2-outline {
+  background: transparent;
+  color: var(--banibs-primary);
+  border: 2px solid var(--banibs-primary);
+}
+
+.btn-v2-outline:hover:not(:disabled) {
+  background: var(--banibs-primary);
+  color: #0D0D0D;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-v2-outline:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Button Variants - Ghost */
+.btn-v2-ghost {
+  background: transparent;
+  color: var(--banibs-text-primary);
+  border: none;
+  box-shadow: none;
+}
+
+.btn-v2-ghost:hover:not(:disabled) {
+  background: var(--banibs-surface);
+}
+
+.btn-v2-ghost:active:not(:disabled) {
+  background: var(--banibs-surface-alt);
+}
+
+/* Button Variants - Danger */
+.btn-v2-danger {
+  background: var(--banibs-error);
+  color: white;
+  border: none;
+}
+
+.btn-v2-danger:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  filter: brightness(1.1);
+}
+
+.btn-v2-danger:active:not(:disabled) {
+  transform: translateY(0);
+  filter: brightness(0.9);
+}
+
+/* Button Variants - Glass */
+.btn-v2-glass {
+  background: var(--banibs-surface);
+  backdrop-filter: blur(var(--blur-base));
+  color: var(--banibs-text-primary);
+  border: 1px solid var(--banibs-surface-alt);
+}
+
+.btn-v2-glass:hover:not(:disabled) {
+  background: var(--banibs-surface-alt);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-v2-glass:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   6. GLOBAL CARD SYSTEM
+   ═══════════════════════════════════════════════════════════════════ */
+
+.card-v2 {
+  /* Layout */
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  
+  /* Surface */
+  background: var(--banibs-surface);
+  
+  /* Effects */
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+  
+  /* Content */
+  overflow: hidden;
+}
+
+.card-v2-lg {
+  padding: 28px;
+  border-radius: var(--radius-2xl);
+}
+
+.card-v2:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-v2-interactive {
+  cursor: pointer;
+}
+
+.card-v2-interactive:active {
+  transform: scale(1.0);
+}
+
+/* Card variants for different modules */
+.card-v2-marketplace {
+  filter: saturate(1.15);
+}
+
+.card-v2-ability {
+  border: 1px solid rgba(106, 13, 173, 0.3);
+}
+
+.card-v2-governance {
+  background: rgba(26, 26, 26, 0.8);
+  border: 1px solid #4E4E4E;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   7. GLOBAL FORM ELEMENTS
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Input Fields */
+.input-v2 {
+  /* Layout */
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  
+  /* Style */
+  background: var(--banibs-surface);
+  border: 2px solid var(--banibs-primary);
+  border-radius: var(--radius-md);
+  color: var(--banibs-text-primary);
+  font-size: var(--font-size-base);
+  
+  /* Effects */
+  transition: all var(--transition-base);
+}
+
+.input-v2::placeholder {
+  color: var(--banibs-text-tertiary);
+  opacity: 0.6;
+}
+
+.input-v2:focus {
+  outline: none;
+  border-color: var(--banibs-primary);
+  box-shadow: 0 0 6px rgba(var(--banibs-primary-rgb), 0.5);
+}
+
+.input-v2:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Textarea */
+.textarea-v2 {
+  /* Extends input-v2 */
+  min-height: 100px;
+  padding: 12px 16px;
+  resize: vertical;
+}
+
+/* Select / Dropdown */
+.select-v2 {
+  /* Layout */
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  
+  /* Style */
+  background: var(--banibs-surface);
+  border: 2px solid var(--banibs-primary);
+  border-radius: var(--radius-md);
+  color: var(--banibs-text-primary);
+  font-size: var(--font-size-base);
+  
+  /* Effects */
+  transition: all var(--transition-base);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23FFFFFF' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 40px;
+}
+
+.select-v2:focus {
+  outline: none;
+  border-color: var(--banibs-primary);
+  box-shadow: 0 0 6px rgba(var(--banibs-primary-rgb), 0.5);
+}
+
+/* Toggle / Chip */
+.toggle-v2 {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  
+  /* Style */
+  background: var(--banibs-surface);
+  border: 2px solid transparent;
+  border-radius: var(--radius-full);
+  color: var(--banibs-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  
+  /* Effects */
+  transition: all var(--transition-base);
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-v2:hover {
+  background: var(--banibs-surface-alt);
+  color: var(--banibs-text-primary);
+}
+
+.toggle-v2.active {
+  background: var(--banibs-primary);
+  color: #0D0D0D;
+  border-color: var(--banibs-primary);
+  box-shadow: 0 0 8px rgba(var(--banibs-primary-rgb), 0.4);
+}
+
+/* Checkbox */
+.checkbox-v2 {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--banibs-primary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.checkbox-v2:checked {
+  background: var(--banibs-primary);
+  border-color: var(--banibs-primary);
+}
+
+/* Radio */
+.radio-v2 {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--banibs-primary);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.radio-v2:checked {
+  background: var(--banibs-primary);
+  border-color: var(--banibs-primary);
+  box-shadow: inset 0 0 0 3px var(--banibs-bg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   8. NAVIGATION COMPONENTS
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Top Navigation */
+.nav-v2 {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(var(--blur-base));
+  transition: all var(--transition-base);
+}
+
+.nav-v2-item {
+  padding: 12px 20px;
+  color: var(--banibs-text-secondary);
+  text-decoration: none;
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.nav-v2-item:hover {
+  color: var(--banibs-text-primary);
+  box-shadow: 0 0 8px rgba(var(--banibs-primary-rgb), 0.3);
+}
+
+.nav-v2-item.active {
+  color: var(--banibs-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.nav-v2-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--banibs-primary);
+}
+
+/* Side Navigation */
+.sidenav-v2 {
+  width: 280px;
+  background: var(--banibs-surface);
+  border-right: 1px solid var(--banibs-surface-alt);
+  overflow-y: auto;
+}
+
+.sidenav-v2-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: var(--banibs-text-secondary);
+  text-decoration: none;
+  transition: all var(--transition-base);
+  border-radius: var(--radius-md);
+  margin: 4px 8px;
+}
+
+.sidenav-v2-item:hover {
+  background: var(--banibs-surface-hover);
+  color: var(--banibs-text-primary);
+}
+
+.sidenav-v2-item.active {
+  background: var(--banibs-surface-alt);
+  color: var(--banibs-primary);
+  font-weight: var(--font-weight-bold);
+  border-left: 3px solid var(--banibs-primary);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   9. LAYOUT UTILITIES
+   ═══════════════════════════════════════════════════════════════════ */
+
+.container-v2 {
+  max-width: var(--max-page-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-24);
+}
+
+.section-v2 {
+  padding: var(--section-padding) 0;
+}
+
+.section-v2-lg {
+  padding: var(--section-padding-large) 0;
+}
+
+.text-container-v2 {
+  max-width: var(--max-text-width);
+}
+
+/* Grid layouts */
+.grid-v2 {
+  display: grid;
+  gap: var(--spacing-24);
+}
+
+.grid-v2-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-v2-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-v2-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1024px) {
+  .grid-v2-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-v2-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .grid-v2-4,
+  .grid-v2-3,
+  .grid-v2-2 { grid-template-columns: 1fr; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   10. ANIMATION UTILITIES
+   ═══════════════════════════════════════════════════════════════════ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.3s ease;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.15s ease;
+}
+
+.animate-slide-down {
+  animation: slideDown 0.2s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   11. MODE-SPECIFIC OVERRIDES
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Social Mode */
+[data-mode="social"] {
+  --banibs-primary: var(--banibs-social-primary);
+  --banibs-primary-rgb: var(--banibs-social-primary-rgb);
+  --banibs-bg: var(--banibs-social-bg);
+  --banibs-bg-rgb: var(--banibs-social-bg-rgb);
+}
+
+/* Marketplace Mode */
+[data-mode="marketplace"] .card-v2 {
+  filter: saturate(1.15);
+}
+
+/* Ability Network Mode */
+[data-mode="ability"] {
+  --banibs-primary: var(--banibs-ability-primary);
+  --banibs-primary-rgb: var(--banibs-ability-primary-rgb);
+  --banibs-secondary: var(--banibs-ability-secondary);
+}
+
+/* Governance Mode */
+[data-mode="governance"] {
+  --banibs-primary: var(--banibs-governance-accent);
+  --banibs-bg: var(--banibs-governance-primary);
+  --banibs-surface: rgba(78, 78, 78, 0.2);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   12. UTILITY CLASSES
+   ═══════════════════════════════════════════════════════════════════ */
+
+.text-primary-v2 { color: var(--banibs-text-primary); }
+.text-secondary-v2 { color: var(--banibs-text-secondary); }
+.text-tertiary-v2 { color: var(--banibs-text-tertiary); }
+
+.bg-primary-v2 { background: var(--banibs-primary); }
+.bg-secondary-v2 { background: var(--banibs-secondary); }
+.bg-surface-v2 { background: var(--banibs-surface); }
+.bg-surface-alt-v2 { background: var(--banibs-surface-alt); }
+
+.shadow-sm-v2 { box-shadow: var(--shadow-sm); }
+.shadow-base-v2 { box-shadow: var(--shadow-base); }
+.shadow-md-v2 { box-shadow: var(--shadow-md); }
+.shadow-lg-v2 { box-shadow: var(--shadow-lg); }
+
+.rounded-sm-v2 { border-radius: var(--radius-sm); }
+.rounded-md-v2 { border-radius: var(--radius-md); }
+.rounded-lg-v2 { border-radius: var(--radius-lg); }
+.rounded-xl-v2 { border-radius: var(--radius-xl); }
+.rounded-full-v2 { border-radius: var(--radius-full); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   END OF BANIBS UI v2.0 DESIGN SYSTEM
+   ═══════════════════════════════════════════════════════════════════ */
