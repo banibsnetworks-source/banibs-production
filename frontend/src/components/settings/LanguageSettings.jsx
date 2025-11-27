@@ -32,8 +32,8 @@ export const LanguageSettings = () => {
       await i18n.changeLanguage(languageCode);
       
       // Save to backend if user is logged in
-      if (auth?.user && updateProfile) {
-        await updateProfile({ preferred_language: languageCode });
+      if (user && updateUserProfile) {
+        await updateUserProfile({ preferred_language: languageCode });
         setMessage({ type: 'success', text: t('settings.languageSaved') });
       }
     } catch (error) {
