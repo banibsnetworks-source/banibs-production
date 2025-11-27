@@ -186,7 +186,7 @@ for source in RSS_SOURCES:
 
 ### 3.3 Frontend Rendering
 
-**Test**: Visited `https://peoples-network.preview.emergentagent.com/`
+**Test**: Visited `https://global-network.preview.emergentagent.com/`
 
 **Results**:
 - ✅ Homepage loads successfully

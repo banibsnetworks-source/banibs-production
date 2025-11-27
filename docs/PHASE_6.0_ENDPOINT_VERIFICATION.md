@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://peoples-network.preview.emergentagent.com/api/auth
+https://global-network.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
