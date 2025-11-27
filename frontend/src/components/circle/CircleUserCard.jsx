@@ -1,99 +1,126 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User } from 'lucide-react';
+import { Users } from 'lucide-react';
 
-/**
- * CircleUserCard - Phase 9.2
- * Displays a user within the trust circle
- * Uses BANIBS UI v2.0 design system
- */
-const CircleUserCard = ({ 
-  userId,
-  avatar, 
-  name, 
-  handle, 
-  tier,
-  reachScore,
-  mutualCount
-}) => {
+const tierConfig = {
+  Peoples: {
+    bg: 'bg-emerald-500/10',
+    border: 'border-emerald-500/40',
+    text: 'text-emerald-300',
+    ring: 'ring-emerald-500/20'
+  },
+  Cool: {
+    bg: 'bg-sky-500/10',
+    border: 'border-sky-500/40',
+    text: 'text-sky-300',
+    ring: 'ring-sky-500/20'
+  },
+  Alright: {
+    bg: 'bg-amber-500/10',
+    border: 'border-amber-500/40',
+    text: 'text-amber-300',
+    ring: 'ring-amber-500/20'
+  },
+  Others: {
+    bg: 'bg-gray-600/10',
+    border: 'border-gray-600/40',
+    text: 'text-gray-400',
+    ring: 'ring-gray-600/20'
+  }
+};
+
+const CircleUserCard = ({ user, showMutuals = true, onClick }) => {
   const navigate = useNavigate();
-
-  const getTierBadgeClass = () => {
-    switch (tier) {
-      case 'PEOPLES':
-        return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30';
-      case 'COOL':
-        return 'bg-blue-500/20 text-blue-400 border-blue-500/30';
-      case 'ALRIGHT':
-        return 'bg-green-500/20 text-green-400 border-green-500/30';
-      case 'OTHERS':
-      default:
-        return 'bg-gray-500/20 text-gray-400 border-gray-500/30';
-    }
-  };
-
-  const getTierLabel = () => {
-    return tier?.charAt(0) + tier?.slice(1).toLowerCase();
-  };
-
+  
+  const tier = user?.relationshipTier || 'Others';
+  const config = tierConfig[tier] || tierConfig.Others;
+  
+  const displayName = user?.displayName || user?.name || 
+    `${user?.firstName || ''} ${user?.lastName || ''}`.trim() || 'Unknown User';
+  
+  const initials = displayName
+    .split(' ')
+    .map(n => n[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase() || 'U';
+  
+  const trustScore = user?.trustScore || 0;
+  const mutualCount = user?.mutualCount || 0;
+  
   const handleClick = () => {
-    if (userId) {
-      navigate(`/portal/social/id/${userId}`);
+    if (onClick) {
+      onClick(user);
+    } else if (user?.id) {
+      navigate(`/portal/social/u/${user.id}`);
     }
   };
-
+  
   return (
-    <div 
-      className="card-v2 card-v2-interactive hover-lift clean-spacing-md cursor-pointer"
+    <button
       onClick={handleClick}
+      className={`w-full group flex flex-col gap-3 rounded-2xl border ${config.border} ${config.bg} p-4 text-left transition-all hover:scale-[1.02] hover:shadow-lg hover:${config.ring} hover:ring-2`}
     >
-      {/* Avatar & Name */}
-      <div className="flex items-center gap-3 breathing-room-sm">
-        {avatar ? (
-          <img
-            src={avatar}
-            alt={name || 'User'}
-            className="w-12 h-12 rounded-full object-cover"
-          />
-        ) : (
-          <div className="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center">
-            <User className="w-6 h-6 text-gray-400" />
-          </div>
-        )}
-        
-        <div className="flex-1 min-w-0">
-          <div className="text-foreground-v2 font-semibold truncate">
-            {name || 'Unknown User'}
-          </div>
-          {handle && (
-            <div className="text-secondary-v2 text-sm truncate">
-              @{handle}
+      {/* User Info */}
+      <div className="flex items-center gap-3">
+        {/* Avatar */}
+        <div className="relative">
+          {user?.avatar_url || user?.profile_picture_url ? (
+            <img
+              src={user.avatar_url || user.profile_picture_url}
+              alt={displayName}
+              className="w-12 h-12 rounded-full object-cover border-2 border-gray-700"
+            />
+          ) : (
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-banibs-gold/60 to-banibs-bronze/70 flex items-center justify-center text-black font-bold">
+              {initials}
             </div>
+          )}
+          {/* Tier Badge */}
+          <div className={`absolute -bottom-1 -right-1 px-1.5 py-0.5 rounded-full text-[10px] font-bold ${config.bg} ${config.border} border ${config.text}`}>
+            {tier[0]}
+          </div>
+        </div>
+        
+        {/* Name & Info */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h3 className="font-semibold truncate">{displayName}</h3>
+          </div>
+          {user?.headline && (
+            <p className="text-sm text-gray-400 truncate">{user.headline}</p>
+          )}
+          {user?.location && (
+            <p className="text-xs text-gray-500 truncate">{user.location}</p>
           )}
         </div>
       </div>
-
-      {/* Tier Badge */}
-      <div className="breathing-room-xs">
-        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${getTierBadgeClass()}`}>
-          {getTierLabel()}
-        </span>
+      
+      {/* Trust Score & Mutuals */}
+      <div className="flex items-center gap-4 pt-2 border-t border-gray-800">
+        {/* Trust Score */}
+        <div className="flex-1">
+          <div className="flex items-center justify-between text-xs text-gray-400 mb-1">
+            <span>Trust</span>
+            <span className={config.text}>{trustScore}</span>
+          </div>
+          <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
+            <div 
+              className={`h-full rounded-full ${config.bg.replace('/10', '/60')}`}
+              style={{ width: `${Math.min(trustScore, 100)}%` }}
+            />
+          </div>
+        </div>
+        
+        {/* Mutuals */}
+        {showMutuals && (
+          <div className="flex items-center gap-1.5 text-gray-400">
+            <Users className="w-3.5 h-3.5" />
+            <span className="text-xs font-medium">{mutualCount}</span>
+          </div>
+        )}
       </div>
-
-      {/* Reach Score (if provided) */}
-      {reachScore !== undefined && (
-        <div className="text-xs text-secondary-v2 breathing-room-xs">
-          Reach Score: <span className="text-primary-v2 font-semibold">{reachScore}</span>
-        </div>
-      )}
-
-      {/* Mutual Count (for Peoples-of-Peoples) */}
-      {mutualCount !== undefined && mutualCount > 0 && (
-        <div className="text-xs text-secondary-v2 breathing-room-xs">
-          {mutualCount} mutual {mutualCount === 1 ? 'connection' : 'connections'}
-        </div>
-      )}
-    </div>
+    </button>
   );
 };
 
