@@ -1,0 +1,120 @@
+/**
+ * BANIBS Messaging API Client - Phase 8.4
+ * 
+ * API client for 1-to-1 messaging with trust tier integration
+ */
+
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
+const getAuthHeader = () => {
+  const token = localStorage.getItem('access_token');
+  return token ? { 'Authorization': `Bearer ${token}` } : {};
+};
+
+/**
+ * Send a message
+ * @param {string} receiverId - Recipient user ID
+ * @param {string} messageText - Message content
+ */
+export const sendMessage = async (receiverId, messageText) => {
+  const response = await fetch(`${API_URL}/api/messages/send`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...getAuthHeader()
+    },
+    body: JSON.stringify({ receiverId, messageText })
+  });
+  
+  if (!response.ok) {
+    throw new Error(`Failed to send message: ${response.status}`);
+  }
+  
+  return response.json();
+};
+
+/**
+ * Get conversation thread with another user
+ * @param {string} otherUserId - Other user ID
+ * @param {number} limit - Max messages to return
+ * @param {Date} before - Get messages before this timestamp
+ */
+export const getConversationThread = async (otherUserId, limit = 100, before = null) => {
+  const params = new URLSearchParams({
+    limit: limit.toString()
+  });
+  
+  if (before) {
+    params.append('before', before.toISOString());
+  }
+  
+  const response = await fetch(
+    `${API_URL}/api/messages/thread/${otherUserId}?${params}`,
+    {
+      headers: getAuthHeader()
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Failed to get conversation: ${response.status}`);
+  }
+  
+  return response.json();
+};
+
+/**
+ * Mark conversation as read
+ * @param {string} otherUserId - Other user ID
+ */
+export const markConversationRead = async (otherUserId) => {
+  const response = await fetch(
+    `${API_URL}/api/messages/mark-read/${otherUserId}`,
+    {
+      method: 'PATCH',
+      headers: getAuthHeader()
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Failed to mark as read: ${response.status}`);
+  }
+  
+  return response.json();
+};
+
+/**
+ * Get conversation previews (inbox)
+ * @param {number} limit - Max conversations to return
+ */
+export const getConversationPreviews = async (limit = 50) => {
+  const response = await fetch(
+    `${API_URL}/api/messages/previews?limit=${limit}`,
+    {
+      headers: getAuthHeader()
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Failed to get conversations: ${response.status}`);
+  }
+  
+  return response.json();
+};
+
+/**
+ * Get unread message count
+ */
+export const getUnreadCount = async () => {
+  const response = await fetch(
+    `${API_URL}/api/messages/unread-count`,
+    {
+      headers: getAuthHeader()
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Failed to get unread count: ${response.status}`);
+  }
+  
+  return response.json();
+};
