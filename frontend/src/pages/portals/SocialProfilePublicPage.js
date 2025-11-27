@@ -207,12 +207,10 @@ const SocialProfilePublicPage = () => {
   if (loading) {
     return (
       <SocialLayout>
-        <div className="min-h-screen" style={{ paddingTop: '20px', background: '#0B0B0B' }}>
-          <div className="container mx-auto px-4 py-8">
-            <div className="max-w-3xl mx-auto">
-              <div className="flex items-center justify-center py-12">
-                <div className="text-gray-400">Loading profile...</div>
-              </div>
+        <div className="container-v2 section-v2 page-enter" data-mode="social">
+          <div className="max-w-3xl mx-auto">
+            <div className="flex items-center justify-center py-12">
+              <div className="text-secondary-v2">Loading profile...</div>
             </div>
           </div>
         </div>
