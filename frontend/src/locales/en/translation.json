@@ -117,11 +117,21 @@
     "alright": "Alright",
     "others": "Others",
     "connections": "Connections",
+    "myConnections": "My Connections",
     "addConnection": "Add Connection",
     "removeConnection": "Remove Connection",
     "blockUser": "Block User",
     "unblockUser": "Unblock User",
-    "setTier": "Set Tier"
+    "setTier": "Set Tier",
+    "changeTrustTier": "Change Trust Tier",
+    "trustTier": "Trust Tier",
+    "selectTrustTier": "Select a trust tier",
+    "noConnectionsYet": "No connections yet",
+    "startConnecting": "Start connecting with people in your network",
+    "discoverPeople": "Discover People",
+    "filterByTier": "Filter by Trust Tier",
+    "allTiers": "All Tiers",
+    "searchConnections": "Search connections..."
   },
   "messages": {
     "title": "Messages",
