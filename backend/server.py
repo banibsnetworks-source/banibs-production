@@ -255,6 +255,12 @@ from routes.social_settings import router as social_settings_router
 app.include_router(helpinghands_router)
 app.include_router(social_settings_router)
 
+# Include relationships router (Phase 8.1 - Relationship Engine)
+app.include_router(relationships_router)
+
+# Include users search router (Phase 8.1 - User Search)
+app.include_router(users_router)
+
 # Include jobs router (Phase 7.1 - BANIBS Jobs & Opportunities)
 app.include_router(jobs_router)
 
