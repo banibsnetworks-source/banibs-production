@@ -882,10 +882,9 @@ metadata:
   test_sequence: 2
 
 test_plan:
-  current_focus: []
-  stuck_tasks:
-    - "Phase 11.5.4 - Resource Submission Flow"
-    - "Phase 11.5.4 - Authentication Protection"
+  current_focus:
+    - "Phase 8.4 - Messaging Engine Backend API Tests"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
