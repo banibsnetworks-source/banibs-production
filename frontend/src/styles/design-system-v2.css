@@ -789,7 +789,68 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   12. UTILITY CLASSES
+   12. PREMIUM POLISH UTILITIES
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Breathing Room - Consistent vertical rhythm */
+.breathing-room-sm { margin-bottom: var(--spacing-16); }
+.breathing-room-md { margin-bottom: var(--spacing-24); }
+.breathing-room-lg { margin-bottom: var(--spacing-32); }
+
+/* Clean Spacing - Internal padding consistency */
+.clean-spacing-sm { padding: var(--spacing-16); }
+.clean-spacing-md { padding: var(--spacing-24); }
+.clean-spacing-lg { padding: var(--spacing-32); }
+
+/* Icon Alignment - Perfect icon-text alignment */
+.icon-text-aligned {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-text-aligned svg {
+  flex-shrink: 0;
+  margin-top: -1px; /* Optical adjustment */
+}
+
+/* Focus Ring - Accessible focus indicators */
+.focus-ring-v2:focus-visible {
+  outline: 2px solid var(--banibs-primary);
+  outline-offset: 2px;
+  border-radius: inherit;
+}
+
+/* Smooth Reveal - For progressive content loading */
+.smooth-reveal {
+  animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.smooth-reveal-delayed {
+  animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+}
+
+/* Premium Gradient Overlay */
+.premium-gradient-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-gradient-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    transparent 0%,
+    rgba(var(--banibs-primary-rgb), 0.05) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   13. UTILITY CLASSES
    ═══════════════════════════════════════════════════════════════════ */
 
 .text-primary-v2 { color: var(--banibs-text-primary); }
