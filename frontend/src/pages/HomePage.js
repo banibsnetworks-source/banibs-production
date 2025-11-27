@@ -387,17 +387,19 @@ const HomePage = () => {
             specifically for Black and Indigenous communities.
           </p>
 
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <div className="hero-v2-cta-group mt-6">
             <button
               onClick={() => navigate('/opportunities')}
-              className="px-5 py-2.5 rounded-lg bg-white text-gray-900 font-semibold shadow hover:shadow-lg"
+              className="btn-v2 btn-v2-primary btn-v2-lg"
+              style={{ backgroundColor: 'white', color: '#1a1a1a' }}
             >
               Browse Opportunities
             </button>
 
             <button
               onClick={() => navigate('/submit')}
-              className="text-sm font-semibold text-white underline underline-offset-2 hover:text-gray-200"
+              className="btn-v2 btn-v2-ghost btn-v2-md"
+              style={{ color: 'white' }}
             >
               Submit an Opportunity
             </button>
