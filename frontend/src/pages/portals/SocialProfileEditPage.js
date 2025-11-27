@@ -471,7 +471,6 @@ const SocialProfileEditPage = () => {
           </form>
         </div>
       </div>
-      </div>
     </SocialLayout>
   );
 };
