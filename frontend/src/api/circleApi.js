@@ -108,7 +108,30 @@ export const getCircleDepth = async (userId, depth) => {
     throw new Error(`Failed to fetch circle depth: ${response.status}`);
   }
   
-  return response.json();
+  const data = await response.json();
+  
+  // Transform backend response
+  const getDepthData = (depthKey) => {
+    return data[depthKey]?.map(edge => ({
+      id: edge.targetUserId,
+      relationshipTier: edge.tier,
+      trustScore: edge.weight,
+      mutualCount: 0
+    })) || [];
+  };
+  
+  let users = [];
+  if (depth === 1) users = getDepthData('depth_1');
+  else if (depth === 2) users = getDepthData('depth_2');
+  else if (depth === 3) users = getDepthData('depth_3');
+  
+  return {
+    users,
+    stats: {
+      totalNodes: users.length,
+      depth: depth
+    }
+  };
 };
 
 /**
