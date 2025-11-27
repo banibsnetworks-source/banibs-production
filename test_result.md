@@ -1228,6 +1228,26 @@ test_plan:
   test_all: false
   test_priority: "high_first"
 
+frontend:
+  - task: "Phase 16.0 - Marketplace Navigation Fix Verification"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/marketplace/MarketplaceLayout.jsx, frontend/src/components/business/BusinessLayout.jsx, frontend/src/components/GlobalNavBar.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Starting comprehensive testing of MarketplaceLayoutV2 patch to verify GlobalNavBar presence across all Marketplace pages and navigation flows. Testing 6 test scenarios: GlobalNavBar presence verification, navigation out of marketplace, marketplace-specific navigation, layout consistency check, console error check, and performance & user experience."
+
+test_plan:
+  current_focus:
+    - "Phase 16.0 - Marketplace Navigation Fix Verification"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
 agent_communication:
   - agent: "testing"
     message: |
