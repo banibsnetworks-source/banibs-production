@@ -805,7 +805,6 @@ const SocialProfilePublicPage = () => {
           </div>
         </div>
       </div>
-      </div>
       
       {/* Phase 8.1 - Profile Command Center */}
       {isOwnProfile && (
