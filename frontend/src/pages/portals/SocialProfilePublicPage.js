@@ -637,11 +637,11 @@ const SocialProfilePublicPage = () => {
                             <button
                               onClick={handleLoadMore}
                               disabled={postsLoading}
-                              className="px-6 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="btn-v2 btn-v2-primary btn-v2-md"
                             >
                               {postsLoading ? 'Loading...' : 'Load More Posts'}
                             </button>
-                            <p className="text-xs text-muted-foreground mt-2">
+                            <p className="text-xs text-secondary-v2 breathing-room-sm">
                               Loading more posts may reveal more media
                             </p>
                           </div>
