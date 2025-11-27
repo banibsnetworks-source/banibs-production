@@ -236,7 +236,17 @@ export const getSharedCircles = async (userId, otherId) => {
  * @param {string} userId - User ID
  */
 export const getTrustScores = async (userId) => {
-  return getCircleScore(userId);
+  const data = await getCircleScore(userId);
+  
+  // Transform backend response
+  return {
+    overallScore: data.total_score || 0,
+    breakdown: {
+      direct: data.direct_score || 0,
+      structural: data.depth_2_score || 0,
+      stability: data.breakdown?.stability || 0
+    }
+  };
 };
 
 /**
@@ -245,5 +255,14 @@ export const getTrustScores = async (userId) => {
  */
 export const getCircleStats = async (userId) => {
   const scoreData = await getCircleScore(userId);
-  return scoreData.breakdown || {};
+  return {
+    totalNodes: scoreData.breakdown?.totalNodes || 0,
+    totalEdges: scoreData.breakdown?.totalEdges || 0,
+    peoplesCount: scoreData.breakdown?.peoplesCount || 0,
+    coolCount: scoreData.breakdown?.coolCount || 0,
+    alrightCount: scoreData.breakdown?.alrightCount || 0,
+    othersCount: scoreData.breakdown?.othersCount || 0,
+    avgDepth: scoreData.breakdown?.avgDepth || 0,
+    clusteringCoeff: scoreData.breakdown?.clusteringCoeff || 0
+  };
 };
