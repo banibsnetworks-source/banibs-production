@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://frontend-update-5.preview.emergentagent.com"
+BACKEND_URL="https://peoples-network.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output
