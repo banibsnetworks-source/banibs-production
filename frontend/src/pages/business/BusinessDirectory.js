@@ -214,7 +214,7 @@ const BusinessDirectory = () => {
             <button
               onClick={handleUseMyLocation}
               disabled={loading}
-              className='flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50'
+              className='btn-v2 btn-v2-secondary btn-v2-md flex items-center gap-2'
             >
               <Navigation className='w-4 h-4' />
               Use My Location
