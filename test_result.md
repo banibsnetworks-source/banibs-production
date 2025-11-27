@@ -895,7 +895,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Phase 8.4 - Messaging Engine Backend API Tests"
+    - "Phase 8.4 - Messaging Engine Frontend UI"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
