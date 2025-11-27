@@ -577,7 +577,7 @@ frontend:
     file: "frontend/src/pages/social/messages/MessagesPage.js, frontend/src/components/messaging/"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "NA"
         agent: "testing"
