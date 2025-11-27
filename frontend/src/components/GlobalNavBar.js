@@ -129,13 +129,13 @@ const GlobalNavBar = () => {
               <>
                 <button
                   onClick={() => window.location.href = '/auth/signin'}
-                  className="px-4 py-2 text-sm font-medium text-foreground hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors"
+                  className="btn-v2 btn-v2-ghost btn-v2-sm"
                 >
                   Sign In
                 </button>
                 <button
                   onClick={() => window.location.href = '/auth/register'}
-                  className="px-4 py-2 text-sm font-bold bg-yellow-500 text-gray-900 rounded-lg hover:bg-yellow-400 transition-colors shadow-sm"
+                  className="btn-v2 btn-v2-primary btn-v2-sm"
                 >
                   Join BANIBS
                 </button>
