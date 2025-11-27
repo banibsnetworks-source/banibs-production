@@ -60,6 +60,7 @@
   },
   "common": {
     "save": "Save",
+    "saving": "Saving",
     "cancel": "Cancel",
     "delete": "Delete",
     "edit": "Edit",
@@ -80,7 +81,8 @@
     "sort": "Sort",
     "view": "View",
     "share": "Share",
-    "send": "Send"
+    "send": "Send",
+    "selected": "Selected"
   },
   "settings": {
     "title": "Settings",
