@@ -317,11 +317,11 @@ const SocialConnectionsPage = () => {
   // Render tier filter buttons
   const renderTierFilters = () => {
     const tiers = [
-      { key: 'ALL', label: 'All', count: relationships.length },
-      { key: 'PEOPLES', label: 'Peoples', count: relationshipCounts.peoples },
-      { key: 'COOL', label: 'Cool', count: relationshipCounts.cool },
-      { key: 'ALRIGHT', label: 'Alright', count: relationshipCounts.alright },
-      { key: 'OTHERS', label: 'Others', count: relationshipCounts.others },
+      { key: 'ALL', label: t('relationships.allTiers'), count: relationships.length },
+      { key: 'PEOPLES', label: t('relationships.peoples'), count: relationshipCounts.peoples },
+      { key: 'COOL', label: t('relationships.cool'), count: relationshipCounts.cool },
+      { key: 'ALRIGHT', label: t('relationships.alright'), count: relationshipCounts.alright },
+      { key: 'OTHERS', label: t('relationships.others'), count: relationshipCounts.others },
       { key: 'BLOCKED', label: 'Blocked', count: relationshipCounts.blocked }
     ];
 
