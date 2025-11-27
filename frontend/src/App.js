@@ -342,6 +342,10 @@ function App() {
               <Route path="/portal/social/circles" element={<InfiniteCirclePageSocial />} />
               <Route path="/portal/social/circles/shared/:userId" element={<SharedCirclePageSocial />} />
               
+              {/* Phase 8.4 - Messaging Engine */}
+              <Route path="/portal/social/messages" element={<MessagesPage />} />
+              <Route path="/portal/social/messages/:userId" element={<MessagesPage />} />
+              
               {/* Base social portal route (catch-all for /portal/social) */}
               <Route path="/portal/social" element={<SocialPortal />} />
               
