@@ -53,7 +53,22 @@ export const getPeoplesOfPeoples = async (userId) => {
     throw new Error(`Failed to fetch Peoples-of-Peoples: ${response.status}`);
   }
   
-  return response.json();
+  const data = await response.json();
+  
+  // Transform backend response to frontend format
+  return {
+    users: data.peoples_of_peoples?.map(item => ({
+      id: item.user_id,
+      mutualCount: item.mutual_count,
+      relationshipTier: 'Peoples',
+      trustScore: Math.min(100, item.mutual_count * 10)
+    })) || [],
+    stats: {
+      totalNodes: data.direct_peoples?.length + data.peoples_of_peoples?.length || 0,
+      totalEdges: data.direct_peoples?.length || 0,
+      peoplesCount: data.direct_peoples?.length || 0
+    }
+  };
 };
 
 /**
