@@ -334,9 +334,11 @@ function App() {
               <Route path="/social/connections" element={<SocialConnectionsPage />} />
               
               {/* Phase 9.2 - Infinite Circle Engine UI */}
-              <Route path="/social/circles" element={<InfiniteCirclePage />} />
-              <Route path="/social/circles/:userId" element={<InfiniteCirclePage />} />
-              <Route path="/social/circles/shared/:userId" element={<SharedCirclePage />} />
+              <Route path="/social/circles" element={<InfiniteCirclePageSocial />} />
+              <Route path="/social/circles/:userId" element={<InfiniteCirclePageSocial />} />
+              <Route path="/social/circles/shared/:userId" element={<SharedCirclePageSocial />} />
+              <Route path="/portal/social/circles" element={<InfiniteCirclePageSocial />} />
+              <Route path="/portal/social/circles/shared/:userId" element={<SharedCirclePageSocial />} />
               
               {/* Base social portal route (catch-all for /portal/social) */}
               <Route path="/portal/social" element={<SocialPortal />} />
