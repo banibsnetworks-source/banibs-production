@@ -271,7 +271,7 @@ const BusinessDirectory = () => {
           {businesses.map((business) => (
             <div
               key={business.id}
-              className='bg-slate-900 border border-slate-800 rounded-lg p-6 hover:border-slate-700 transition-colors'
+              className='card-v2 card-v2-marketplace card-v2-interactive p-6'
             >
               <div className='flex items-start justify-between gap-4'>
                 <div className='flex-1'>
