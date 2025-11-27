@@ -52,7 +52,11 @@
     "signInFailed": "Error al iniciar sesión. Verifica tus credenciales.",
     "registrationFailed": "Error en el registro. Inténtalo de nuevo.",
     "joinBanibs": "Únete a BANIBS",
-    "createYourAccount": "Crea tu cuenta"
+    "createYourAccount": "Crea tu cuenta",
+    "creatingAccount": "Creando Cuenta...",
+    "passwordMinLength": "Debe tener al menos 6 caracteres",
+    "createStrongPassword": "Crea una contraseña fuerte",
+    "termsAgreement": "Al crear una cuenta, aceptas los Términos de Servicio y la Política de Privacidad de BANIBS"
   },
   "common": {
     "save": "Guardar",
