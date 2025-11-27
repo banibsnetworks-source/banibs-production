@@ -115,7 +115,7 @@ export const InfiniteCirclePage = () => {
       {/* Loading / error states */}
       {loading && (
         <div className="flex justify-center py-10 text-gray-400 text-sm">
-          Loading Infinite Circles…
+          {t('circles.loading')}
         </div>
       )}
       {error && (
