@@ -360,6 +360,14 @@ const SocialProfilePublicPage = () => {
             </div>
           </div>
 
+          {/* Phase 8.3 - Relationship Panel (for other users only) */}
+          {!isOwnProfile && user && profile.user_id && (
+            <ProfileRelationshipPanel 
+              profileUserId={profile.user_id}
+              currentUserId={user.id}
+            />
+          )}
+
           {/* Tabs - Enhanced with Media & Business */}
           <div className="card-v2 overflow-hidden">
             {/* Tab Navigation */}
