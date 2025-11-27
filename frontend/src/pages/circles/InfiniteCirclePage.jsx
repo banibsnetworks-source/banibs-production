@@ -14,6 +14,7 @@ import { CircleStatsPanel } from "../../components/circles/CircleStatsPanel";
 import { useAuth } from "../../contexts/AuthContext";
 
 export const InfiniteCirclePage = () => {
+  const { t } = useTranslation();
   const { auth } = useAuth();
   const { userId: routeUserId } = useParams();
   const [currentUserId] = useState(routeUserId || auth?.user?.id);
