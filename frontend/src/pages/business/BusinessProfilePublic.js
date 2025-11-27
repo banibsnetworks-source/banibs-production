@@ -76,10 +76,10 @@ const BusinessProfilePublic = ({ businessId: propBusinessId, hideNavBar = false 
 
   if (loading) {
     return (
-      <div className="business-profile-container">
-        <div className="loading-state">
-          <Loader2 size={32} className="spinner" />
-          <p>Loading business profile...</p>
+      <div className="container-v2 section-v2 page-enter" data-mode="business">
+        <div className="text-center py-12">
+          <Loader2 size={32} className="spinner text-primary-v2" />
+          <p className="text-secondary-v2 breathing-room-sm">Loading business profile...</p>
         </div>
       </div>
     );
@@ -87,11 +87,18 @@ const BusinessProfilePublic = ({ businessId: propBusinessId, hideNavBar = false 
 
   if (error || !business) {
     return (
-      <div className="business-profile-container">
-        <div className="error-state">
-          <h2>Business Not Found</h2>
-          <p>{error || 'The business profile you\'re looking for doesn\'t exist.'}</p>
-          <button onClick={() => navigate('/portal/business')}>Browse Businesses</button>
+      <div className="container-v2 section-v2 page-enter" data-mode="business">
+        <div className="empty-state-v2">
+          <h2 className="empty-state-title">Business Not Found</h2>
+          <p className="empty-state-description">
+            {error || 'The business profile you\'re looking for doesn\'t exist.'}
+          </p>
+          <button 
+            onClick={() => navigate('/portal/business')}
+            className="btn-v2 btn-v2-primary btn-v2-md"
+          >
+            Browse Businesses
+          </button>
         </div>
       </div>
     );
