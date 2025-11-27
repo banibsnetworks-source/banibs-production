@@ -93,7 +93,7 @@ const RegisterPage = () => {
                   value={formData.first_name}
                   onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
                   placeholder="Enter your first name"
-                  className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-colors"
+                  className="input-v2 w-full pl-10"
                 />
               </div>
             </div>
