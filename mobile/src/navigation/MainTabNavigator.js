@@ -10,6 +10,8 @@ import {Text} from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import SocialFeedScreen from '../screens/SocialFeedScreen';
 import CreatePostScreen from '../screens/CreatePostScreen';
+import CommentsScreen from '../screens/CommentsScreen';
+import UserProfileScreen from '../screens/UserProfileScreen';
 import MessagingScreen from '../screens/MessagingScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import {theme} from '../theme';
