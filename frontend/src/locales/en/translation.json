@@ -52,7 +52,11 @@
     "signInFailed": "Sign in failed. Please check your credentials.",
     "registrationFailed": "Registration failed. Please try again.",
     "joinBanibs": "Join BANIBS",
-    "createYourAccount": "Create your account"
+    "createYourAccount": "Create your account",
+    "creatingAccount": "Creating Account...",
+    "passwordMinLength": "Must be at least 6 characters",
+    "createStrongPassword": "Create a strong password",
+    "termsAgreement": "By creating an account, you agree to BANIBS Terms of Service and Privacy Policy"
   },
   "common": {
     "save": "Save",
