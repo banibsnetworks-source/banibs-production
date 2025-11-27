@@ -617,17 +617,18 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   10. ANIMATION UTILITIES
+   10. ANIMATION UTILITIES - PREMIUM POLISH
    ═══════════════════════════════════════════════════════════════════ */
 
+/* Smooth GPU-accelerated animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(20px) translateZ(0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) translateZ(0);
   }
 }
 
@@ -639,24 +640,77 @@
 @keyframes slideDown {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-10px) translateZ(0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+@keyframes gentleGlow {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(var(--banibs-primary-rgb), 0.3);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(var(--banibs-primary-rgb), 0.5);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
   }
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.3s ease;
+  animation: fadeInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.15s ease;
+  animation: fadeIn 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .animate-slide-down {
-  animation: slideDown 0.2s ease;
+  animation: slideDown 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-gentle-glow {
+  animation: gentleGlow 2s ease-in-out infinite;
+}
+
+/* Premium hover effects */
+.hover-lift {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px) translateZ(0);
+}
+
+.hover-glow {
+  transition: box-shadow var(--transition-base);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 12px rgba(var(--banibs-primary-rgb), 0.4);
+}
+
+.hover-scale {
+  transition: transform var(--transition-base);
+}
+
+.hover-scale:hover {
+  transform: scale(1.02) translateZ(0);
+}
+
+/* Smooth press feedback */
+.active-press:active {
+  transform: scale(0.98) translateZ(0);
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
