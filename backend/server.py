@@ -266,6 +266,9 @@ app.include_router(users_router)
 # Include circle engine router (Phase 9.1 - Infinite Circle Engine)
 app.include_router(circle_engine_router)
 
+# Include FAP router (Phase X - Founder Authentication Protocol)
+app.include_router(fap_router)
+
 # Include jobs router (Phase 7.1 - BANIBS Jobs & Opportunities)
 app.include_router(jobs_router)
 
