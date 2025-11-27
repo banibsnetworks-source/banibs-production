@@ -661,26 +661,26 @@ const SocialProfilePublicPage = () => {
                       <p className="text-muted-foreground text-sm">Loading supported businesses...</p>
                     </div>
                   ) : supportedBusinesses.length === 0 ? (
-                    <div className="text-center py-16">
-                      <div className="w-20 h-20 rounded-full bg-yellow-500/10 flex items-center justify-center mx-auto mb-4">
-                        <svg className="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="empty-state-v2">
+                      <div className="empty-state-icon">
+                        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
                       </div>
-                      <h3 className="text-xl font-bold text-foreground mb-2">No Supported Businesses Yet</h3>
-                      <p className="text-muted-foreground">
+                      <h3 className="empty-state-title">No Supported Businesses Yet</h3>
+                      <p className="empty-state-description">
                         {isOwnProfile 
                           ? "You haven't supported any businesses yet. Show support for Black-owned businesses!"
                           : "This user hasn't supported any businesses yet."}
                       </p>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid-v2 grid-v2-3 card-cascade">
                       {supportedBusinesses.map((business) => (
                         <a
                           key={business.business_id}
                           href={`/business/${business.business_id}`}
-                          className="bg-background border border-border rounded-lg p-4 hover:border-yellow-500 transition-colors"
+                          className="card-v2 card-v2-interactive clean-spacing-md hover-lift"
                         >
                           <div className="flex items-center gap-3">
                             {business.logo ? (
