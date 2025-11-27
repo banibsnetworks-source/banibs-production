@@ -241,7 +241,7 @@ const BusinessDirectory = () => {
                 <select
                   value={radiusKm}
                   onChange={(e) => setRadiusKm(Number(e.target.value))}
-                  className='px-3 py-1 bg-slate-800 border border-slate-700 rounded text-white text-sm'
+                  className='select-v2 text-sm'
                 >
                   <option value={5}>5 miles</option>
                   <option value={10}>10 miles</option>
