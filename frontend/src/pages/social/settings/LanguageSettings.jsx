@@ -1,14 +1,13 @@
 import React from 'react';
-import SocialSettingsPlaceholder from './SocialSettingsPlaceholder';
-import { Settings } from 'lucide-react';
+import { LanguageSettings as LanguageSettingsComponent } from '../../../components/settings/LanguageSettings';
 
 const LanguageSettings = () => {
   return (
-    <SocialSettingsPlaceholder 
-      title="Language"
-      description="Choose your preferred language for the BANIBS platform"
-      icon={Settings}
-    />
+    <div className="max-w-4xl mx-auto p-6">
+      <div className="rounded-2xl border border-gray-700/80 bg-black/40 p-6">
+        <LanguageSettingsComponent />
+      </div>
+    </div>
   );
 };
 
