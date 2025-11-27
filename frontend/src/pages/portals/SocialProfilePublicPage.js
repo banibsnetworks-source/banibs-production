@@ -246,19 +246,18 @@ const SocialProfilePublicPage = () => {
 
   return (
     <SocialLayout>
-      <div className="min-h-screen" style={{ paddingTop: '20px', background: '#0B0B0B' }}>
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-3xl mx-auto space-y-6">
+      <div className="container-v2 section-v2 page-enter" data-mode="social">
+        <div className="max-w-3xl mx-auto space-y-6">
           {/* Back Button */}
           <Link 
             to="/portal/social" 
-            className="inline-flex items-center text-amber-400 hover:text-amber-300 transition-colors text-sm"
+            className="btn-v2 btn-v2-ghost btn-v2-sm icon-text-aligned"
           >
             ← Back to Feed
           </Link>
 
           {/* Profile Header with Cover Image */}
-          <div className="bg-gray-800 rounded-2xl border border-gray-700 overflow-hidden relative">
+          <div className="card-v2 card-v2-interactive clean-spacing-lg overflow-hidden relative">
             {/* Cover Image - Phase 8.1 Enhanced */}
             {(profile.banner_image_url || profile.cover_url) && (
               <div className="w-full h-48 sm:h-60 md:h-72 overflow-hidden bg-gray-900">
