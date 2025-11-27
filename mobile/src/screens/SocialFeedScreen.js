@@ -67,13 +67,11 @@ const SocialFeedScreen = ({navigation}) => {
   };
 
   const handleComment = (postId) => {
-    // Navigate to comments screen (Phase M3)
-    console.log('Navigate to comments:', postId);
+    navigation.navigate('Comments', {postId});
   };
 
   const handleProfile = (userId) => {
-    // Navigate to profile screen (Phase M3)
-    console.log('Navigate to profile:', userId);
+    navigation.navigate('UserProfile', {userId});
   };
 
   const renderHeader = () => (
