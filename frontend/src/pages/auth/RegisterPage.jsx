@@ -40,7 +40,7 @@ const RegisterPage = () => {
       // Successful registration - hard redirect to ensure auth state is loaded
       window.location.href = '/portal/social';
     } catch (err) {
-      setError(err.message || 'Registration failed. Please try again.');
+      setError(err.message || t('auth.registrationFailed'));
     } finally {
       setLoading(false);
     }
@@ -55,7 +55,7 @@ const RegisterPage = () => {
           className="flex items-center gap-2 text-gray-400 hover:text-yellow-400 transition-colors mb-6"
         >
           <ArrowLeft size={20} />
-          Back to Home
+          {t('nav.backToHome')}
         </button>
         
         {/* Card */}
@@ -67,8 +67,8 @@ const RegisterPage = () => {
                 <span className="text-2xl font-bold text-white">B</span>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-white">Join BANIBS</h1>
-                <p className="text-sm text-gray-400">Create your account</p>
+                <h1 className="text-2xl font-bold text-white">{t('auth.joinBanibs')}</h1>
+                <p className="text-sm text-gray-400">{t('auth.createYourAccount')}</p>
               </div>
             </div>
           </div>
@@ -86,7 +86,7 @@ const RegisterPage = () => {
             {/* First Name Field */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                First Name
+                {t('auth.firstName')}
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
@@ -95,7 +95,7 @@ const RegisterPage = () => {
                   required
                   value={formData.first_name}
                   onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                  placeholder="Enter your first name"
+                  placeholder={t('auth.firstNamePlaceholder')}
                   className="input-v2 w-full pl-10"
                 />
               </div>
@@ -104,7 +104,7 @@ const RegisterPage = () => {
             {/* Last Name Field */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Last Name
+                {t('auth.lastName')}
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
@@ -113,7 +113,7 @@ const RegisterPage = () => {
                   required
                   value={formData.last_name}
                   onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-                  placeholder="Enter your last name"
+                  placeholder={t('auth.lastNamePlaceholder')}
                   className="input-v2 w-full pl-10"
                 />
               </div>
@@ -122,7 +122,7 @@ const RegisterPage = () => {
             {/* Email Field */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Email Address
+                {t('auth.emailAddress')}
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
@@ -131,7 +131,7 @@ const RegisterPage = () => {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="your@email.com"
+                  placeholder={t('auth.emailPlaceholder')}
                   className="input-v2 w-full pl-10"
                 />
               </div>
@@ -140,7 +140,7 @@ const RegisterPage = () => {
             {/* Password Field */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Password
+                {t('auth.password')}
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
@@ -149,12 +149,12 @@ const RegisterPage = () => {
                   required
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  placeholder="Create a strong password"
+                  placeholder={t('auth.createStrongPassword')}
                   minLength={6}
                   className="input-v2 w-full pl-10"
                 />
               </div>
-              <p className="text-xs text-gray-500 mt-2">Must be at least 6 characters</p>
+              <p className="text-xs text-gray-500 mt-2">{t('auth.passwordMinLength')}</p>
             </div>
             
             {/* Submit Button */}
@@ -166,23 +166,23 @@ const RegisterPage = () => {
               {loading ? (
                 <>
                   <Loader2 className="animate-spin" size={20} />
-                  Creating Account...
+                  {t('auth.creatingAccount')}
                 </>
               ) : (
-                'Create Account'
+                t('auth.createAccount')
               )}
             </button>
             
             {/* Sign In Link */}
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-400">
-                Already have an account?{' '}
+                {t('auth.alreadyHaveAccount')}{' '}
                 <button
                   type="button"
                   onClick={() => navigate('/auth/signin')}
                   className="text-yellow-400 hover:text-yellow-300 font-medium transition-colors"
                 >
-                  Sign In
+                  {t('auth.signin')}
                 </button>
               </p>
             </div>
@@ -191,7 +191,7 @@ const RegisterPage = () => {
         
         {/* Footer */}
         <p className="text-center text-xs text-gray-500 mt-6">
-          By creating an account, you agree to BANIBS Terms of Service and Privacy Policy
+          {t('auth.termsAgreement')}
         </p>
       </div>
     </div>
