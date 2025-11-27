@@ -238,10 +238,10 @@ const NotificationsPage = () => {
         )}
 
         {/* Back to Hub */}
-        <div className="mt-8 text-center">
+        <div className="breathing-room-xl text-center">
           <Link
             to="/hub"
-            className="text-gray-600 hover:text-gray-900 font-semibold"
+            className="btn-v2 btn-v2-ghost btn-v2-sm"
           >
             ← Back to Hub
           </Link>
