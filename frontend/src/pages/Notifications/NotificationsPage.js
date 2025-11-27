@@ -201,7 +201,7 @@ const NotificationsPage = () => {
               <button
                 key={notif.id}
                 onClick={() => handleNotificationClick(notif)}
-                className={`w-full text-left px-6 py-4 hover:bg-gray-50 transition ${
+                className={`w-full text-left clean-spacing-md hover-lift transition ${
                   !notif.read ? 'bg-blue-50' : ''
                 }`}
               >
