@@ -360,7 +360,7 @@ const SocialProfilePublicPage = () => {
           </div>
 
           {/* Tabs - Enhanced with Media & Business */}
-          <div className="bg-card rounded-2xl border border-border overflow-hidden">
+          <div className="card-v2 overflow-hidden">
             {/* Tab Navigation */}
             <div className="flex border-b border-border overflow-x-auto">
               <button
@@ -368,10 +368,10 @@ const SocialProfilePublicPage = () => {
                   setActiveTab('posts');
                   setSearchParams({ tab: 'posts' });
                 }}
-                className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
+                className={`px-6 py-3 font-medium transition-all whitespace-nowrap ${
                   activeTab === 'posts'
-                    ? 'text-yellow-500 border-b-2 border-yellow-500'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? 'text-primary-v2 border-b-2 border-primary-v2'
+                    : 'text-secondary-v2 hover:text-foreground-v2'
                 }`}
               >
                 Posts {profile.post_count !== undefined && `(${profile.post_count})`}
@@ -381,10 +381,10 @@ const SocialProfilePublicPage = () => {
                   setActiveTab('media');
                   setSearchParams({ tab: 'media' });
                 }}
-                className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
+                className={`px-6 py-3 font-medium transition-all whitespace-nowrap ${
                   activeTab === 'media'
-                    ? 'text-yellow-500 border-b-2 border-yellow-500'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? 'text-primary-v2 border-b-2 border-primary-v2'
+                    : 'text-secondary-v2 hover:text-foreground-v2'
                 }`}
               >
                 Media
@@ -394,10 +394,10 @@ const SocialProfilePublicPage = () => {
                   setActiveTab('peoples');
                   setSearchParams({ tab: 'peoples' });
                 }}
-                className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
+                className={`px-6 py-3 font-medium transition-all whitespace-nowrap ${
                   activeTab === 'peoples'
-                    ? 'text-yellow-500 border-b-2 border-yellow-500'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? 'text-primary-v2 border-b-2 border-primary-v2'
+                    : 'text-secondary-v2 hover:text-foreground-v2'
                 }`}
               >
                 {isOwnProfile ? 'My Peoples' : 'Peoples'} {peoplesCount > 0 && `(${peoplesCount})`}
@@ -407,10 +407,10 @@ const SocialProfilePublicPage = () => {
                   setActiveTab('business');
                   setSearchParams({ tab: 'business' });
                 }}
-                className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
+                className={`px-6 py-3 font-medium transition-all whitespace-nowrap ${
                   activeTab === 'business'
-                    ? 'text-yellow-500 border-b-2 border-yellow-500'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? 'text-primary-v2 border-b-2 border-primary-v2'
+                    : 'text-secondary-v2 hover:text-foreground-v2'
                 }`}
               >
                 Businesses I Support {supportedBusinesses.length > 0 && `(${supportedBusinesses.length})`}
@@ -420,10 +420,10 @@ const SocialProfilePublicPage = () => {
                   setActiveTab('about');
                   setSearchParams({});
                 }}
-                className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
+                className={`px-6 py-3 font-medium transition-all whitespace-nowrap ${
                   activeTab === 'about'
-                    ? 'text-yellow-500 border-b-2 border-yellow-500'
-                    : 'text-muted-foreground hover:text-foreground'
+                    ? 'text-primary-v2 border-b-2 border-primary-v2'
+                    : 'text-secondary-v2 hover:text-foreground-v2'
                 }`}
               >
                 About
