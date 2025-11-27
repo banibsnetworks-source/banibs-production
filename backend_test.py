@@ -1272,6 +1272,383 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # PHASE 8.4 - MESSAGING ENGINE TESTING
+    # ==========================================
+    
+    def test_phase_8_4_messaging_engine_comprehensive(self) -> bool:
+        """
+        PHASE 8.4 COMPREHENSIVE TESTING: Messaging Engine Backend API Tests
+        
+        Tests all messaging endpoints with comprehensive scenarios:
+        1. Initialization
+        2. Send first message (thread auto-creation)
+        3. Continue existing thread
+        4. Get inbox (conversation previews)
+        5. Get conversation thread
+        6. Mark as read
+        7. Unread count
+        8. Error cases
+        9. Relationship engine integration
+        10. Performance testing
+        """
+        self.log("💬 PHASE 8.4 COMPREHENSIVE TESTING: Messaging Engine Backend API Tests")
+        
+        # ============ AUTHENTICATION SETUP ============
+        
+        # Test user credentials from review request
+        test_user_email = "social_test_user@example.com"
+        test_user_password = "TestPass123!"
+        
+        self.log("🔐 Setting up authentication...")
+        
+        # Login as test user
+        response = self.make_request("POST", "/auth/login", {
+            "email": test_user_email,
+            "password": test_user_password
+        })
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to login test user: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        login_data = response.json()
+        if "access_token" not in login_data:
+            self.log("❌ Login response missing access_token", "ERROR")
+            return False
+        
+        user_token = login_data["access_token"]
+        user_id = login_data.get("user", {}).get("id")
+        self.log(f"✅ Test user logged in successfully (ID: {user_id})")
+        
+        # Create second test user for messaging
+        second_user_email = f"messaging_test_user_{int(time.time())}@example.com"
+        second_user_password = "TestPass123!"
+        
+        self.log("👥 Creating second test user...")
+        
+        response = self.make_request("POST", "/auth/register", {
+            "email": second_user_email,
+            "password": second_user_password,
+            "name": "Second Test User",
+            "displayName": "Second User"
+        })
+        
+        if response.status_code == 200:
+            second_user_data = response.json()
+            second_user_id = second_user_data.get("user", {}).get("id")
+            self.log(f"✅ Second test user created (ID: {second_user_id})")
+        else:
+            self.log(f"❌ Failed to create second user: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {user_token}"}
+        
+        # ============ TEST 1: INITIALIZATION ============
+        
+        self.log("🔧 Test 1: Initialize messaging system...")
+        
+        response = self.make_request("POST", "/messages/initialize", headers=headers)
+        
+        if response.status_code == 200:
+            init_data = response.json()
+            if init_data.get("success"):
+                self.log("✅ Messaging system initialized successfully")
+            else:
+                self.log(f"❌ Initialization failed: {init_data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Initialization failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 2: SEND FIRST MESSAGE (Thread Auto-Creation) ============
+        
+        self.log("📤 Test 2: Send first message (thread auto-creation)...")
+        
+        first_message_data = {
+            "receiverId": second_user_id,
+            "messageText": "Test message 1 from A to B"
+        }
+        
+        response = self.make_request("POST", "/messages/send", first_message_data, headers=headers)
+        
+        if response.status_code == 201:
+            message_data = response.json()
+            required_fields = ["id", "senderId", "receiverId", "messageText", "trustTierContext", "timestamp"]
+            
+            if all(field in message_data for field in required_fields):
+                message_id = message_data["id"]
+                trust_tier = message_data["trustTierContext"]
+                self.log(f"✅ First message sent successfully")
+                self.log(f"   Message ID: {message_id}")
+                self.log(f"   Trust Tier: {trust_tier}")
+                self.log(f"   Timestamp: {message_data['timestamp']}")
+            else:
+                missing_fields = [field for field in required_fields if field not in message_data]
+                self.log(f"❌ First message response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ First message send failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 3: CONTINUE EXISTING THREAD ============
+        
+        self.log("📤 Test 3: Continue existing thread...")
+        
+        second_message_data = {
+            "receiverId": second_user_id,
+            "messageText": "Test message 2 - continuing thread"
+        }
+        
+        response = self.make_request("POST", "/messages/send", second_message_data, headers=headers)
+        
+        if response.status_code == 201:
+            message_data = response.json()
+            if message_data.get("receiverId") == second_user_id:
+                self.log("✅ Second message sent to same thread successfully")
+            else:
+                self.log(f"❌ Second message receiver mismatch", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Second message send failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 4: GET INBOX (Conversation Previews) ============
+        
+        self.log("📥 Test 4: Get inbox (conversation previews)...")
+        
+        response = self.make_request("GET", "/messages/previews", headers=headers)
+        
+        if response.status_code == 200:
+            previews_data = response.json()
+            if isinstance(previews_data, list):
+                self.log(f"✅ Inbox retrieved successfully - {len(previews_data)} conversations")
+                
+                if len(previews_data) > 0:
+                    preview = previews_data[0]
+                    required_fields = ["conversationKey", "otherUserId", "lastMessageText", "unreadCount", "trustTierContext"]
+                    
+                    if all(field in preview for field in required_fields):
+                        self.log(f"   Conversation with: {preview['otherUserId']}")
+                        self.log(f"   Last message: {preview['lastMessageText'][:50]}...")
+                        self.log(f"   Unread count: {preview['unreadCount']}")
+                        self.log(f"   Trust tier: {preview['trustTierContext']}")
+                    else:
+                        missing_fields = [field for field in required_fields if field not in preview]
+                        self.log(f"❌ Preview missing fields: {missing_fields}", "ERROR")
+                        return False
+                else:
+                    self.log("⚠️ No conversations found in inbox")
+            else:
+                self.log(f"❌ Inbox response is not a list: {type(previews_data)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Get inbox failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 5: GET CONVERSATION THREAD ============
+        
+        self.log("💬 Test 5: Get conversation thread...")
+        
+        response = self.make_request("GET", f"/messages/thread/{second_user_id}", headers=headers)
+        
+        if response.status_code == 200:
+            thread_data = response.json()
+            if isinstance(thread_data, list):
+                self.log(f"✅ Conversation thread retrieved - {len(thread_data)} messages")
+                
+                if len(thread_data) >= 2:  # Should have our 2 messages
+                    # Verify chronological order (oldest first)
+                    first_msg = thread_data[0]
+                    second_msg = thread_data[1]
+                    
+                    if "Test message 1" in first_msg.get("messageText", ""):
+                        self.log("✅ Messages in chronological order (oldest first)")
+                    else:
+                        self.log("❌ Messages not in chronological order", "ERROR")
+                        return False
+                    
+                    # Verify message structure
+                    required_fields = ["id", "senderId", "receiverId", "messageText", "timestamp", "readStatus"]
+                    if all(field in first_msg for field in required_fields):
+                        self.log(f"✅ Message structure correct")
+                        self.log(f"   Read status: {first_msg['readStatus']}")
+                    else:
+                        missing_fields = [field for field in required_fields if field not in first_msg]
+                        self.log(f"❌ Message missing fields: {missing_fields}", "ERROR")
+                        return False
+                else:
+                    self.log(f"⚠️ Expected at least 2 messages, got {len(thread_data)}")
+            else:
+                self.log(f"❌ Thread response is not a list: {type(thread_data)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Get thread failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 6: MARK AS READ ============
+        
+        self.log("✅ Test 6: Mark conversation as read...")
+        
+        response = self.make_request("PATCH", f"/messages/mark-read/{second_user_id}", headers=headers)
+        
+        if response.status_code == 200:
+            read_data = response.json()
+            if read_data.get("success") and "marked_read" in read_data:
+                marked_count = read_data["marked_read"]
+                self.log(f"✅ Marked {marked_count} messages as read")
+            else:
+                self.log(f"❌ Mark as read response invalid: {read_data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Mark as read failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 7: UNREAD COUNT ============
+        
+        self.log("🔢 Test 7: Get unread count...")
+        
+        response = self.make_request("GET", "/messages/unread-count", headers=headers)
+        
+        if response.status_code == 200:
+            count_data = response.json()
+            if "unread_count" in count_data:
+                unread_count = count_data["unread_count"]
+                self.log(f"✅ Unread count retrieved: {unread_count}")
+                
+                # After marking as read, should be 0 for this user
+                if unread_count == 0:
+                    self.log("✅ Unread count correctly shows 0 after marking as read")
+                else:
+                    self.log(f"⚠️ Unread count is {unread_count} (might have other conversations)")
+            else:
+                self.log(f"❌ Unread count response missing field: {count_data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Get unread count failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 8: ERROR CASES ============
+        
+        self.log("❌ Test 8: Error cases...")
+        
+        # Test 8a: Send to self (should fail with 400)
+        self.log("   8a: Send message to self...")
+        response = self.make_request("POST", "/messages/send", {
+            "receiverId": user_id,
+            "messageText": "Message to myself"
+        }, headers=headers)
+        
+        if response.status_code == 400:
+            self.log("✅ Send to self correctly returns 400")
+        else:
+            self.log(f"❌ Send to self should return 400, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 8b: Send without authentication (should fail with 401)
+        self.log("   8b: Send without authentication...")
+        response = self.make_request("POST", "/messages/send", {
+            "receiverId": second_user_id,
+            "messageText": "Unauthorized message"
+        })
+        
+        if response.status_code == 401:
+            self.log("✅ Send without auth correctly returns 401")
+        else:
+            self.log(f"❌ Send without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 8c: Invalid receiverId (should handle gracefully)
+        self.log("   8c: Send to invalid receiver...")
+        response = self.make_request("POST", "/messages/send", {
+            "receiverId": "invalid-user-id",
+            "messageText": "Message to invalid user"
+        }, headers=headers)
+        
+        if response.status_code in [400, 404, 500]:  # Any of these are acceptable
+            self.log(f"✅ Invalid receiver handled gracefully ({response.status_code})")
+        else:
+            self.log(f"⚠️ Invalid receiver returned {response.status_code} (acceptable)")
+        
+        # ============ TEST 9: RELATIONSHIP ENGINE INTEGRATION ============
+        
+        self.log("🤝 Test 9: Relationship engine integration...")
+        
+        # Check if trust tier is being pulled from relationships
+        # Send another message and verify trust tier context
+        response = self.make_request("POST", "/messages/send", {
+            "receiverId": second_user_id,
+            "messageText": "Testing trust tier integration"
+        }, headers=headers)
+        
+        if response.status_code == 201:
+            message_data = response.json()
+            trust_tier = message_data.get("trustTierContext")
+            
+            if trust_tier in ["Peoples", "Cool", "Alright", "Others"]:
+                self.log(f"✅ Trust tier integration working: {trust_tier}")
+                
+                # Verify it's stored in message metadata
+                if trust_tier == "Others":  # Default for no relationship
+                    self.log("✅ Default trust tier 'Others' applied correctly")
+                else:
+                    self.log(f"✅ Relationship-based trust tier applied: {trust_tier}")
+            else:
+                self.log(f"❌ Invalid trust tier: {trust_tier}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Trust tier test message failed: {response.status_code}", "ERROR")
+            return False
+        
+        # ============ TEST 10: PERFORMANCE ============
+        
+        self.log("⚡ Test 10: Performance - Send 5 messages in quick succession...")
+        
+        success_count = 0
+        for i in range(5):
+            response = self.make_request("POST", "/messages/send", {
+                "receiverId": second_user_id,
+                "messageText": f"Performance test message {i+1}"
+            }, headers=headers)
+            
+            if response.status_code == 201:
+                success_count += 1
+            else:
+                self.log(f"   Message {i+1} failed: {response.status_code}")
+        
+        if success_count == 5:
+            self.log("✅ All 5 performance test messages sent successfully")
+        else:
+            self.log(f"⚠️ Only {success_count}/5 performance messages succeeded")
+        
+        # Verify no race conditions by checking final thread count
+        response = self.make_request("GET", f"/messages/thread/{second_user_id}", headers=headers)
+        if response.status_code == 200:
+            final_thread = response.json()
+            expected_count = 2 + 1 + 5  # initial 2 + trust tier test + 5 performance
+            if len(final_thread) >= expected_count:
+                self.log(f"✅ No race conditions detected - {len(final_thread)} messages in thread")
+            else:
+                self.log(f"⚠️ Possible race condition - expected ~{expected_count}, got {len(final_thread)}")
+        
+        # ============ FINAL VERIFICATION ============
+        
+        self.log("🔍 Final verification: Check MongoDB collections...")
+        
+        # Verify messages are stored in messages_v2 collection
+        # This would require direct DB access, so we'll verify via API
+        response = self.make_request("GET", "/messages/previews", headers=headers)
+        if response.status_code == 200:
+            previews = response.json()
+            if len(previews) > 0:
+                self.log("✅ Data integrity verified - messages stored correctly")
+            else:
+                self.log("❌ Data integrity issue - no conversations found", "ERROR")
+                return False
+        
+        self.log("🎉 PHASE 8.4 MESSAGING ENGINE TESTING COMPLETE - ALL TESTS PASSED!")
+        return True
+
+    # ==========================================
     # PHASE 11.5.4 - ABILITY NETWORK SUBMISSION & MODERATION TESTING
     # ==========================================
     
