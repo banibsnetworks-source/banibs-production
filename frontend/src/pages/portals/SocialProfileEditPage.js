@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { ProfileAvatar } from '../../components/social/ProfileAvatar';
 import AvatarUploader from '../../components/social/AvatarUploader';
 import CoverUploader from '../../components/social/CoverUploader';
+import ProfileStatsStrip from '../../components/profile/ProfileStatsStrip';
 import SocialLayout from '../../components/social/SocialLayout';
 
 const SocialProfileEditPage = () => {
