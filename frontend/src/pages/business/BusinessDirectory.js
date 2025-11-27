@@ -324,9 +324,10 @@ const BusinessDirectory = () => {
           ))}
           
           {!loading && businesses.length === 0 && (
-            <div className='text-center py-12'>
-              <p className='text-slate-400'>
-                No businesses found. Try adjusting your search filters.
+            <div className='empty-state-v2'>
+              <h3 className='empty-state-title'>No businesses found</h3>
+              <p className='empty-state-description'>
+                Try adjusting your search filters or expanding your radius.
               </p>
             </div>
           )}
