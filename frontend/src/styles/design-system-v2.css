@@ -874,5 +874,77 @@
 .rounded-full-v2 { border-radius: var(--radius-full); }
 
 /* ═══════════════════════════════════════════════════════════════════
-   END OF BANIBS UI v2.0 DESIGN SYSTEM
+   14. MODE-SPECIFIC PREMIUM ENHANCEMENTS
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Business Mode - Premium Gold Polish */
+[data-mode="business"] .btn-v2-primary:hover:not(:disabled) {
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+[data-mode="business"] .card-v2:hover {
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(212, 175, 55, 0.2);
+}
+
+/* Social Mode - Premium Blue Polish */
+[data-mode="social"] .btn-v2-primary:hover:not(:disabled) {
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(0, 87, 255, 0.5);
+}
+
+[data-mode="social"] .card-v2:hover {
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(0, 87, 255, 0.2);
+}
+
+/* Marketplace Mode - Enhanced Warmth */
+[data-mode="marketplace"] .card-v2 {
+  filter: saturate(1.15) contrast(1.02);
+}
+
+[data-mode="marketplace"] .btn-v2-primary:hover:not(:disabled) {
+  box-shadow: var(--shadow-lg), 0 0 24px rgba(230, 190, 71, 0.6);
+}
+
+/* Ability Mode - Premium Purple Polish */
+[data-mode="ability"] .btn-v2-primary:hover:not(:disabled) {
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(106, 13, 173, 0.5);
+}
+
+[data-mode="ability"] .card-v2-ability:hover {
+  box-shadow: var(--shadow-lg), 0 0 0 2px rgba(106, 13, 173, 0.3);
+  border-color: rgba(106, 13, 173, 0.5);
+}
+
+/* Governance Mode - Premium Cyan Polish */
+[data-mode="governance"] .btn-v2-primary:hover:not(:disabled) {
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(0, 174, 239, 0.5);
+}
+
+[data-mode="governance"] .card-v2-governance:hover {
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(0, 174, 239, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   15. PERFORMANCE OPTIMIZATIONS
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* GPU Acceleration for smooth animations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   END OF BANIBS UI v2.0 DESIGN SYSTEM - PREMIUM POLISH EDITION
    ═══════════════════════════════════════════════════════════════════ */
