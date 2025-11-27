@@ -273,7 +273,7 @@ const SocialProfilePublicPage = () => {
             {isOwnProfile ? (
               <button
                 onClick={() => setCommandCenterOpen(true)}
-                className="absolute top-4 right-4 z-10 flex items-center gap-2 px-4 py-2 text-white rounded-full transition-all shadow-lg"
+                className="btn-v2 btn-v2-primary btn-v2-md icon-text-aligned absolute top-4 right-4 z-10 shadow-lg"
                 style={{ backgroundColor: profile.accent_color || '#3B82F6' }}
               >
                 <Settings className="w-4 h-4" />
