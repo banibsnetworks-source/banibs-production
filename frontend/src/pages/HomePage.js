@@ -147,19 +147,22 @@ const HomePage = () => {
               <div className="flex gap-3">
                 <button
                   onClick={() => navigate('/contributor/login')}
-                  className="px-4 py-2 border border-[#FFD700] text-[#FFD700] rounded hover:bg-[#FFD700] hover:text-black transition-all text-sm font-medium"
+                  className="btn-v2 btn-v2-outline btn-v2-sm"
+                  style={{ borderColor: '#FFD700', color: '#FFD700' }}
                 >
                   Sign In
                 </button>
                 <button
                   onClick={() => navigate('/contributor/register')}
-                  className="px-4 py-2 bg-[#FFD700] text-black font-semibold rounded hover:bg-[#FFC700] transition-all text-sm"
+                  className="btn-v2 btn-v2-primary btn-v2-sm"
+                  style={{ backgroundColor: '#FFD700', color: '#000' }}
                 >
                   Become a Contributor
                 </button>
                 <button
                   onClick={() => navigate('/opportunities')}
-                  className="px-4 py-2 text-[#FFD700] hover:underline transition-all text-sm font-medium"
+                  className="btn-v2 btn-v2-ghost btn-v2-sm"
+                  style={{ color: '#FFD700' }}
                 >
                   Browse Opportunities
                 </button>
@@ -174,13 +177,15 @@ const HomePage = () => {
               <div className="flex gap-3">
                 <button
                   onClick={() => navigate('/submit')}
-                  className="px-4 py-2 bg-[#FFD700] text-black font-semibold rounded hover:bg-[#FFC700] transition-all text-sm"
+                  className="btn-v2 btn-v2-primary btn-v2-sm"
+                  style={{ backgroundColor: '#FFD700', color: '#000' }}
                 >
                   Submit Opportunity
                 </button>
                 <button
                   onClick={() => navigate('/opportunities')}
-                  className="px-4 py-2 border border-[#FFD700] text-[#FFD700] rounded hover:bg-[#FFD700] hover:text-black transition-all text-sm font-medium"
+                  className="btn-v2 btn-v2-outline btn-v2-sm"
+                  style={{ borderColor: '#FFD700', color: '#FFD700' }}
                 >
                   View Your Submissions
                 </button>
@@ -195,13 +200,15 @@ const HomePage = () => {
               <div className="flex gap-3">
                 <button
                   onClick={() => navigate('/admin/opportunities')}
-                  className="px-4 py-2 bg-[#FFD700] text-black font-semibold rounded hover:bg-[#FFC700] transition-all text-sm"
+                  className="btn-v2 btn-v2-primary btn-v2-sm"
+                  style={{ backgroundColor: '#FFD700', color: '#000' }}
                 >
                   Admin Dashboard
                 </button>
                 <button
                   onClick={() => navigate('/opportunities')}
-                  className="px-4 py-2 border border-[#FFD700] text-[#FFD700] rounded hover:bg-[#FFD700] hover:text-black transition-all text-sm font-medium"
+                  className="btn-v2 btn-v2-outline btn-v2-sm"
+                  style={{ borderColor: '#FFD700', color: '#FFD700' }}
                 >
                   View Opportunities
                 </button>
