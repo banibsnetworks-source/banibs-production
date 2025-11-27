@@ -15,7 +15,7 @@ from schemas.relationship import (
     UnblockRequest
 )
 from db import relationships as rel_db
-from utils.auth import get_current_user
+from middleware.auth_guard import get_current_user
 
 router = APIRouter(prefix="/api/relationships", tags=["relationships"])
 
