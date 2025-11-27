@@ -158,7 +158,7 @@ const RegisterPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="btn-v2 btn-v2-primary btn-v2-lg w-full flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
