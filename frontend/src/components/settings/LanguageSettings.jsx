@@ -9,18 +9,18 @@ const SUPPORTED_LANGUAGES = [
 
 export const LanguageSettings = () => {
   const { t, i18n } = useTranslation();
-  const { auth, updateProfile } = useAuth();
+  const { user, updateUserProfile } = useAuth();
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language || 'en');
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
     // Load user's preferred language from auth
-    if (auth?.user?.preferred_language) {
-      setSelectedLanguage(auth.user.preferred_language);
-      i18n.changeLanguage(auth.user.preferred_language);
+    if (user?.preferred_language) {
+      setSelectedLanguage(user.preferred_language);
+      i18n.changeLanguage(user.preferred_language);
     }
-  }, [auth, i18n]);
+  }, [user, i18n]);
 
   const handleLanguageChange = async (languageCode) => {
     setSelectedLanguage(languageCode);
