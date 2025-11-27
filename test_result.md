@@ -284,25 +284,30 @@ cd /app/frontend && yarn add sharp
 #====================================================================================================
 
 user_problem_statement: |
-  **Phase 11.5.4 - Ability Network Submission & Moderation MVP Testing**
+  **Phase 8.4 - Messaging Engine Backend API Tests**
 
-  Test the complete Ability Network submission and moderation functionality with the following test credentials:
+  Test the complete messaging engine functionality with comprehensive scenarios:
   - Email: social_test_user@example.com
   - Password: TestPass123!
 
   **Tests to perform:**
-  1. User Submission Flow - Submit resources and providers with correct enum values
-  2. Admin Moderation Flow - Get pending submissions, approve/reject items
-  3. Authorization Tests - Verify 401/403 responses for protected endpoints
-  4. Public Endpoint Verification - Confirm approved items appear in public endpoints
-  5. Rejection Flow - Test rejection and deletion of submissions
+  1. Initialization - POST /api/messages/initialize (setup collections)
+  2. Send First Message - Thread auto-creation with trust tier context
+  3. Continue Existing Thread - Message appending to existing conversation
+  4. Get Inbox - Conversation previews with unread counts
+  5. Get Conversation Thread - All messages in chronological order
+  6. Mark as Read - Update read status functionality
+  7. Unread Count - Total unread across all conversations
+  8. Error Cases - Send to self, unauthorized access, invalid receivers
+  9. Relationship Engine Integration - Trust tier from relationships collection
+  10. Performance - Multiple messages without race conditions
 
   **Expected Results:**
-  - All submission endpoints work with authentication
-  - Admin endpoints require admin privileges
-  - Approve flow works and items appear publicly
-  - Reject flow works and items are deleted
-  - Authorization is properly enforced
+  - All messaging endpoints work with authentication
+  - Thread auto-creation and continuation work correctly
+  - Trust tier integration from Relationship Engine
+  - Proper error handling for edge cases
+  - Data integrity in MongoDB collections
 
 backend:
   - task: "Phase 11.5.4 - Ability Network User Submission Flow"
