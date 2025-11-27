@@ -229,7 +229,7 @@ const BusinessDirectory = () => {
             <button
               onClick={searchBusinesses}
               disabled={loading}
-              className='flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 disabled:opacity-50'
+              className='btn-v2 btn-v2-primary btn-v2-md flex items-center gap-2'
             >
               {loading ? <Loader2 className='w-4 h-4 animate-spin' /> : <Search className='w-4 h-4' />}
               Search
