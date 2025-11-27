@@ -94,6 +94,9 @@ import SocialDiscoverPeoplePage from "./pages/social/SocialDiscoverPeoplePage";
 import CommunityWatchPage from "./pages/social/CommunityWatchPage";
 // Phase 8.2 - Social Connections
 import SocialConnectionsPage from "./pages/social/SocialConnectionsPage";
+// Phase 9.2 - Infinite Circle Engine UI
+import InfiniteCirclePage from "./pages/circles/InfiniteCirclePage";
+import SharedCirclePage from "./pages/circles/SharedCirclePage";
 // Phase 8.2 - Business Profiles
 import BusinessProfileEdit from "./pages/business/BusinessProfileEdit";
 import BusinessProfileCreate from "./pages/business/BusinessProfileCreate";
