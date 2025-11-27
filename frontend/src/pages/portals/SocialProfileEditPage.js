@@ -302,7 +302,7 @@ const SocialProfileEditPage = () => {
 
             {/* Display Name */}
             <div>
-              <label className="block text-foreground font-medium mb-2">
+              <label className="block text-foreground-v2 font-medium breathing-room-sm">
                 Display Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -312,18 +312,18 @@ const SocialProfileEditPage = () => {
                 onChange={handleInputChange}
                 required
                 maxLength={50}
-                className="w-full px-4 py-2 bg-input border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="input-v2 w-full"
                 placeholder="Your full name"
               />
             </div>
 
             {/* Handle */}
             <div>
-              <label className="block text-foreground font-medium mb-2">
+              <label className="block text-foreground-v2 font-medium breathing-room-sm">
                 Handle (Username)
               </label>
-              <div className="flex items-center">
-                <span className="text-muted-foreground mr-2">@</span>
+              <div className="flex items-center icon-text-aligned">
+                <span className="text-secondary-v2 mr-2">@</span>
                 <input
                   type="text"
                   name="handle"
@@ -331,18 +331,18 @@ const SocialProfileEditPage = () => {
                   onChange={handleInputChange}
                   maxLength={30}
                   pattern="[a-zA-Z0-9_]+"
-                  className="flex-1 px-4 py-2 bg-input border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="input-v2 flex-1"
                   placeholder="your_username"
                 />
               </div>
-              <p className="text-muted-foreground text-xs mt-1">
+              <p className="text-secondary-v2 text-xs breathing-room-xs">
                 Letters, numbers, and underscores only. This will be your profile URL.
               </p>
             </div>
 
             {/* Headline */}
             <div>
-              <label className="block text-foreground font-medium mb-2">
+              <label className="block text-foreground-v2 font-medium breathing-room-sm">
                 Headline
               </label>
               <input
@@ -351,17 +351,17 @@ const SocialProfileEditPage = () => {
                 value={formData.headline}
                 onChange={handleInputChange}
                 maxLength={100}
-                className="w-full px-4 py-2 bg-input border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="input-v2 w-full"
                 placeholder="e.g., Founder • BANIBS"
               />
-              <p className="text-muted-foreground text-xs mt-1">
+              <p className="text-secondary-v2 text-xs breathing-room-xs">
                 A short one-liner about you
               </p>
             </div>
 
             {/* Bio */}
             <div>
-              <label className="block text-foreground font-medium mb-2">
+              <label className="block text-foreground-v2 font-medium breathing-room-sm">
                 Bio
               </label>
               <textarea
@@ -370,17 +370,17 @@ const SocialProfileEditPage = () => {
                 onChange={handleInputChange}
                 maxLength={300}
                 rows={4}
-                className="w-full px-4 py-2 bg-input border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="input-v2 textarea-v2 w-full"
                 placeholder="Tell the community about yourself..."
               />
-              <p className="text-muted-foreground text-xs mt-1">
+              <p className="text-secondary-v2 text-xs breathing-room-xs">
                 {formData.bio.length}/300 characters
               </p>
             </div>
 
             {/* Location */}
             <div>
-              <label className="block text-foreground font-medium mb-2">
+              <label className="block text-foreground-v2 font-medium breathing-room-sm">
                 Location
               </label>
               <input
@@ -389,7 +389,7 @@ const SocialProfileEditPage = () => {
                 value={formData.location}
                 onChange={handleInputChange}
                 maxLength={100}
-                className="w-full px-4 py-2 bg-input border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="input-v2 w-full"
                 placeholder="e.g., Atlanta, GA"
               />
             </div>
