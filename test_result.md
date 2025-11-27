@@ -1069,8 +1069,7 @@ metadata:
   test_sequence: 2
 
 test_plan:
-  current_focus:
-    - "Phase 8.4 - Messaging Engine Frontend Verification Test"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
