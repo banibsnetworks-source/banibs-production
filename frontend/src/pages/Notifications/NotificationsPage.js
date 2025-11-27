@@ -154,16 +154,16 @@ const NotificationsPage = () => {
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex gap-2 mb-6 overflow-x-auto">
+        <div className="flex gap-2 breathing-room-lg overflow-x-auto">
           {['all', 'unread', 'system', 'business', 'opportunity', 'event'].map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-4 py-2 rounded-lg font-semibold text-sm whitespace-nowrap ${
+              className={`btn-v2 ${
                 filter === f
-                  ? 'bg-yellow-400 text-black'
-                  : 'bg-white text-gray-700 hover:bg-gray-100'
-              }`}
+                  ? 'btn-v2-primary'
+                  : 'btn-v2-secondary'
+              } btn-v2-sm whitespace-nowrap`}
             >
               {f.charAt(0).toUpperCase() + f.slice(1)}
             </button>
