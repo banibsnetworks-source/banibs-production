@@ -218,18 +218,18 @@ const SocialProfileEditPage = () => {
           </div>
 
           {/* Edit Form */}
-          <form onSubmit={handleSubmit} className="bg-card rounded-2xl border border-border p-6 space-y-6">
+          <form onSubmit={handleSubmit} className="card-v2 card-v2-lg space-y-6">
             {/* Success Message */}
             {success && (
-              <div className="bg-green-900/30 border border-green-700 rounded-lg p-4 text-green-400 text-sm">
-                ✅ Profile updated successfully!
+              <div className="card-v2 clean-spacing-md" style={{ borderColor: 'var(--success-color, #10b981)', background: 'rgba(16, 185, 129, 0.1)' }}>
+                <p className="text-sm" style={{ color: 'var(--success-color, #10b981)' }}>✅ Profile updated successfully!</p>
               </div>
             )}
 
             {/* Error Message */}
             {error && (
-              <div className="bg-red-900/30 border border-red-700 rounded-lg p-4 text-red-400 text-sm">
-                ❌ {error}
+              <div className="card-v2 clean-spacing-md" style={{ borderColor: 'var(--error-color, #ef4444)', background: 'rgba(239, 68, 68, 0.1)' }}>
+                <p className="text-sm" style={{ color: 'var(--error-color, #ef4444)' }}>❌ {error}</p>
               </div>
             )}
 
