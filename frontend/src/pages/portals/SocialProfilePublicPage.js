@@ -441,26 +441,26 @@ const SocialProfilePublicPage = () => {
                       <p className="text-muted-foreground text-sm">Loading peoples...</p>
                     </div>
                   ) : peoples.length === 0 ? (
-                    <div className="text-center py-16">
-                      <div className="w-20 h-20 rounded-full bg-yellow-500/10 flex items-center justify-center mx-auto mb-4">
-                        <svg className="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="empty-state-v2">
+                      <div className="empty-state-icon">
+                        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                       </div>
-                      <h3 className="text-xl font-bold text-foreground mb-2">No Peoples Yet</h3>
-                      <p className="text-muted-foreground">
+                      <h3 className="empty-state-title">No Peoples Yet</h3>
+                      <p className="empty-state-description">
                         {isOwnProfile 
                           ? "You haven't added anyone to your peoples yet. Connect with others in the community!"
                           : "This user hasn't added anyone to their peoples yet."}
                       </p>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid-v2 grid-v2-3 card-cascade">
                       {peoples.map((person) => (
                         <Link
                           key={person.user_id}
                           to={`/portal/social/id/${person.user_id}`}
-                          className="bg-background border border-border rounded-lg p-4 hover:border-yellow-500 transition-colors"
+                          className="card-v2 card-v2-interactive clean-spacing-md hover-lift"
                         >
                           <div className="flex items-center gap-3">
                             {person.avatar_url ? (
