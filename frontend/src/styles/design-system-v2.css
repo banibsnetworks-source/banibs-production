@@ -946,5 +946,445 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   END OF BANIBS UI v2.0 DESIGN SYSTEM - PREMIUM POLISH EDITION
+   16. SHOWCASE MODE - HERO & PRESENTATION POLISH
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Hero Section - Showcase Ready */
+.hero-v2 {
+  position: relative;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-60) var(--spacing-24);
+  overflow: hidden;
+}
+
+.hero-v2::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at top,
+    rgba(var(--banibs-primary-rgb), 0.15) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+.hero-v2-content {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  text-align: center;
+}
+
+.hero-v2-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: var(--spacing-24);
+  background: linear-gradient(
+    135deg,
+    var(--banibs-primary) 0%,
+    rgba(var(--banibs-primary-rgb), 0.8) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-v2-subtitle {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  color: var(--banibs-text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-32);
+  max-width: var(--max-text-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-v2-cta-group {
+  display: flex;
+  gap: var(--spacing-16);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Portal-Specific Hero Styles */
+.hero-v2-business::before {
+  background: radial-gradient(
+    ellipse at top,
+    rgba(212, 175, 55, 0.15) 0%,
+    transparent 50%
+  );
+}
+
+.hero-v2-social::before {
+  background: radial-gradient(
+    ellipse at top,
+    rgba(0, 87, 255, 0.15) 0%,
+    transparent 50%
+  );
+}
+
+.hero-v2-marketplace::before {
+  background: radial-gradient(
+    ellipse at top,
+    rgba(230, 190, 71, 0.2) 0%,
+    transparent 50%
+  );
+}
+
+.hero-v2-ability::before {
+  background: radial-gradient(
+    ellipse at top,
+    rgba(106, 13, 173, 0.15) 0%,
+    transparent 50%
+  );
+}
+
+.hero-v2-governance::before {
+  background: radial-gradient(
+    ellipse at top,
+    rgba(0, 174, 239, 0.15) 0%,
+    transparent 50%
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   17. SHOWCASE SCREENSHOT MODE
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Showcase Mode - Clean, Export-Ready */
+.showcase-mode {
+  /* Hide scrollbars */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.showcase-mode::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide dev/debug elements in showcase */
+.showcase-mode .dev-only,
+.showcase-mode [data-dev-only="true"] {
+  display: none !important;
+}
+
+/* Perfect centering for screenshots */
+.showcase-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Clean backgrounds for export */
+.showcase-clean-bg {
+  background: var(--banibs-bg);
+  background-image: radial-gradient(
+    circle at 20% 50%,
+    rgba(var(--banibs-primary-rgb), 0.03) 0%,
+    transparent 50%
+  );
+}
+
+/* Remove UI chrome for clean shots */
+.showcase-mode .chrome-hide {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   18. MOTION PASS V2 - ENHANCED ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Page Fade-In-Up */
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(40px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+.page-enter {
+  animation: pageEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Card Cascade - Staggered Reveal */
+@keyframes cardCascade {
+  from {
+    opacity: 0;
+    transform: translateY(30px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
+}
+
+.card-cascade {
+  animation: cardCascade 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.card-cascade:nth-child(1) { animation-delay: 0.05s; }
+.card-cascade:nth-child(2) { animation-delay: 0.1s; }
+.card-cascade:nth-child(3) { animation-delay: 0.15s; }
+.card-cascade:nth-child(4) { animation-delay: 0.2s; }
+.card-cascade:nth-child(5) { animation-delay: 0.25s; }
+.card-cascade:nth-child(6) { animation-delay: 0.3s; }
+
+/* Side Nav Slide */
+@keyframes sideNavSlide {
+  from {
+    opacity: 0;
+    transform: translateX(-30px) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateZ(0);
+  }
+}
+
+.sidenav-slide {
+  animation: sideNavSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Modal Easing - Smooth Scale + Fade */
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateZ(0);
+  }
+}
+
+.modal-enter {
+  animation: modalEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Enhanced Ripple */
+@keyframes rippleExpand {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.5;
+  }
+  100% {
+    width: 400px;
+    height: 400px;
+    opacity: 0;
+  }
+}
+
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Smooth Content Reveal */
+@keyframes contentReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px) translateZ(0);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+    filter: blur(0);
+  }
+}
+
+.content-reveal {
+  animation: contentReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   19. PRESENTATION LAYER POLISH
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Empty States - Professional */
+.empty-state-v2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-60) var(--spacing-24);
+  text-align: center;
+  min-height: 400px;
+}
+
+.empty-state-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: var(--spacing-24);
+  opacity: 0.4;
+}
+
+.empty-state-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: var(--banibs-text-primary);
+  margin-bottom: var(--spacing-16);
+}
+
+.empty-state-description {
+  font-size: var(--font-size-base);
+  color: var(--banibs-text-secondary);
+  max-width: 400px;
+  margin-bottom: var(--spacing-24);
+}
+
+/* Success/Error States */
+.state-success {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10B981;
+  padding: var(--spacing-16);
+  border-radius: var(--radius-lg);
+}
+
+.state-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #EF4444;
+  padding: var(--spacing-16);
+  border-radius: var(--radius-lg);
+}
+
+/* Professional Placeholder */
+.placeholder-v2 {
+  background: var(--banibs-surface);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.placeholder-v2::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(var(--banibs-primary-rgb), 0.1) 50%,
+    transparent 100%
+  );
+  animation: shimmer 2s infinite;
+}
+
+/* Avatar Placeholder */
+.avatar-placeholder {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    var(--banibs-primary) 0%,
+    var(--banibs-secondary) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: var(--font-size-lg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   20. PERFORMANCE OPTIMIZATIONS - SHOWCASE BUILD
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Layout Stability */
+.stable-layout {
+  contain: layout style paint;
+}
+
+/* GPU Optimization */
+.gpu-optimized {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Lazy Load Fade-In */
+.lazy-fade-in {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.lazy-fade-in.loaded {
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   21. BRAND CONSISTENCY - FINAL POLISH
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Typography Rhythm */
+.text-rhythm h1 { margin-bottom: var(--spacing-24); }
+.text-rhythm h2 { margin-bottom: var(--spacing-16); }
+.text-rhythm h3 { margin-bottom: var(--spacing-16); }
+.text-rhythm p { margin-bottom: var(--spacing-16); }
+
+/* Button Consistency Enforcement */
+button,
+.btn,
+[role="button"] {
+  font-family: inherit;
+  line-height: inherit;
+}
+
+/* Link Consistency */
+a {
+  color: var(--banibs-primary);
+  text-decoration: none;
+  transition: color var(--transition-base);
+}
+
+a:hover {
+  color: rgba(var(--banibs-primary-rgb), 0.8);
+}
+
+/* Container Rhythm */
+.content-section {
+  padding: var(--section-padding) 0;
+}
+
+.content-section + .content-section {
+  border-top: 1px solid var(--banibs-surface-alt);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   END OF BANIBS UI v2.0 DESIGN SYSTEM - SHOWCASE READY EDITION
    ═══════════════════════════════════════════════════════════════════ */
