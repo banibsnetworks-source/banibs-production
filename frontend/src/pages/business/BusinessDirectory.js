@@ -137,16 +137,16 @@ const BusinessDirectory = () => {
         
         {/* Search Filters */}
         <div className='card-v2 card-v2-lg breathing-room-lg'>
-          <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4'>
+          <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-4 breathing-room-md'>
             {/* Category */}
             <div>
-              <label className='block text-sm font-medium text-slate-300 mb-2'>
+              <label className='block text-sm font-medium text-foreground-v2 breathing-room-sm'>
                 Category
               </label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className='w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white'
+                className='select-v2 w-full'
               >
                 {categories.map(cat => (
                   <option key={cat} value={cat}>{cat}</option>
@@ -156,7 +156,7 @@ const BusinessDirectory = () => {
             
             {/* Zip Code */}
             <div>
-              <label className='block text-sm font-medium text-slate-300 mb-2'>
+              <label className='block text-sm font-medium text-foreground-v2 breathing-room-sm'>
                 Zip Code
               </label>
               <input
@@ -168,13 +168,13 @@ const BusinessDirectory = () => {
                 }}
                 placeholder='30303'
                 disabled={useLocation}
-                className='w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white disabled:opacity-50'
+                className='input-v2 w-full'
               />
             </div>
             
             {/* City */}
             <div>
-              <label className='block text-sm font-medium text-slate-300 mb-2'>
+              <label className='block text-sm font-medium text-foreground-v2 breathing-room-sm'>
                 City
               </label>
               <input
@@ -186,13 +186,13 @@ const BusinessDirectory = () => {
                 }}
                 placeholder='Atlanta'
                 disabled={useLocation}
-                className='w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white disabled:opacity-50'
+                className='input-v2 w-full'
               />
             </div>
             
             {/* State */}
             <div>
-              <label className='block text-sm font-medium text-slate-300 mb-2'>
+              <label className='block text-sm font-medium text-foreground-v2 breathing-room-sm'>
                 State
               </label>
               <input
@@ -205,7 +205,7 @@ const BusinessDirectory = () => {
                 placeholder='GA'
                 maxLength={2}
                 disabled={useLocation}
-                className='w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white uppercase disabled:opacity-50'
+                className='input-v2 w-full uppercase'
               />
             </div>
           </div>
