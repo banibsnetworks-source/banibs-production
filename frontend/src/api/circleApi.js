@@ -172,3 +172,27 @@ export const getUserDetails = async (userId) => {
   
   return response.json();
 };
+
+/**
+ * Alias for getSharedCircle to match UI naming
+ */
+export const getSharedCircles = async (userId, otherId) => {
+  return getSharedCircle(userId, otherId);
+};
+
+/**
+ * Get trust scores for a user (uses circle reach score)
+ * @param {string} userId - User ID
+ */
+export const getTrustScores = async (userId) => {
+  return getCircleScore(userId);
+};
+
+/**
+ * Get circle stats (uses circle reach score data)
+ * @param {string} userId - User ID
+ */
+export const getCircleStats = async (userId) => {
+  const scoreData = await getCircleScore(userId);
+  return scoreData.breakdown || {};
+};
