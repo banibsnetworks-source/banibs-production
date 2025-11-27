@@ -190,6 +190,11 @@ const SocialProfileEditPage = () => {
             </div>
           </div>
 
+          {/* Phase 8.3 - Connection Stats */}
+          {user && (
+            <ProfileStatsStrip userId={user.id} />
+          )}
+
           {/* Profile Preview */}
           <div className="card-v2 clean-spacing-lg">
             <h2 className="text-foreground font-semibold mb-4">Profile Preview</h2>
