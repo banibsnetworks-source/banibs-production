@@ -346,6 +346,9 @@ function App() {
               <Route path="/portal/social/messages" element={<MessagesPage />} />
               <Route path="/portal/social/messages/:userId" element={<MessagesPage />} />
               
+              {/* Social Home Route */}
+              <Route path="/portal/social/home" element={<SocialPortal />} />
+              
               {/* Base social portal route (catch-all for /portal/social) */}
               <Route path="/portal/social" element={<SocialPortal />} />
               
