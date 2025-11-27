@@ -88,11 +88,10 @@ export const InfiniteCirclePage = () => {
       {/* Header */}
       <div className="flex flex-col gap-2">
         <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">
-          Infinite Circles – Trust Network
+          {t('circles.title')} – {t('circles.subtitle')}
         </h1>
         <p className="text-sm md:text-base text-gray-400 max-w-2xl">
-          Explore how your Peoples connect across layers. Move through depths to
-          see Peoples-of-Peoples and the wider trust network growing around you.
+          {t('circles.description')}
         </p>
       </div>
 
