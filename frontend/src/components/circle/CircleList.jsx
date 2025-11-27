@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { CircleUserCard } from './CircleUserCard';
+import CircleUserCard from './CircleUserCard';
 import { Loader2 } from 'lucide-react';
 
 export const CircleList = ({ users, loading, depth, emptyMessage }) => {
