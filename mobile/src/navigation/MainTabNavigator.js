@@ -1,22 +1,41 @@
 /**
  * BANIBS Mobile - Bottom Tab Navigation
- * Phase M1 - Mobile Shell
+ * Phase M2 - Social Feed Navigation
  */
 
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
 import {Text} from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
-import SocialScreen from '../screens/SocialScreen';
+import SocialFeedScreen from '../screens/SocialFeedScreen';
+import CreatePostScreen from '../screens/CreatePostScreen';
 import MessagingScreen from '../screens/MessagingScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import {theme} from '../theme';
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 const TabIcon = ({icon, focused}) => (
   <Text style={{fontSize: 24, opacity: focused ? 1 : 0.6}}>{icon}</Text>
 );
+
+// Social Stack Navigator (includes feed and create post)
+const SocialStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="SocialFeed" component={SocialFeedScreen} />
+      <Stack.Screen
+        name="CreatePost"
+        component={CreatePostScreen}
+        options={{
+          presentation: 'modal',
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
 
 const MainTabNavigator = () => {
   return (
