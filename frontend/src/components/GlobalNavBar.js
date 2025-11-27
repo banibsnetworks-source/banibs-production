@@ -94,11 +94,11 @@ const GlobalNavBar = () => {
                 key={link.path}
                 to={link.path}
                 className={`
-                  px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200
+                  nav-v2-item relative px-4 py-2 rounded-lg-v2 text-sm font-semibold transition-all
                   ${
                     isActive(link.path)
-                      ? 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border border-yellow-500/20'
-                      : 'text-foreground hover:bg-muted'
+                      ? 'text-primary-v2 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-primary-v2 after:rounded-full'
+                      : 'text-secondary-v2 hover:text-primary-v2 hover:bg-surface-hover-v2'
                   }
                 `}
               >
