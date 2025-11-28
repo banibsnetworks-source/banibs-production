@@ -39,6 +39,10 @@ const NewsBeat = ({ variant = 'desktop', limit = 5 }) => {
         // Get featured stories or latest stories
         const stories = data.featured_stories || data.latest_stories || [];
         setHeadlines(stories.slice(0, limit));
+      } else {
+        // Handle non-ok response without consuming body twice
+        console.error('Failed to fetch news headlines:', response.status);
+        throw new Error('Failed to fetch headlines');
       }
     } catch (error) {
       console.error('Failed to fetch news headlines:', error);
