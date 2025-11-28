@@ -13,6 +13,7 @@ import SEO from '../components/SEO';
 import { AlertCircle, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
 import { isValidSection, getSectionLabel, getSectionIcon } from '../constants/sectionKeys';
 import { useTheme } from '../contexts/ThemeContext';
+import { handleResponse } from '../utils/fetchHelper';
 
 /**
  * NewsSectionPage - Section-Specific News Feed
