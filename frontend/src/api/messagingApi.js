@@ -72,11 +72,7 @@ export const getConversationThread = async (otherUserId, limit = 100, before = n
     }
   );
   
-  if (!response.ok) {
-    throw new Error(`Failed to get conversation: ${response.status}`);
-  }
-  
-  return response.json();
+  return handleResponse(response);
 };
 
 /**
