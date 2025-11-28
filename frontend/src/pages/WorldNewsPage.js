@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { formatDate } from '../utils/dateUtils';
 import { trackNewsClick } from '../utils/analytics';
+import { handleResponse } from '../utils/fetchHelper';
 import TrendingWidget from '../components/TrendingWidget';
 import HeavyContentBanner from '../components/HeavyContentBanner';
 
