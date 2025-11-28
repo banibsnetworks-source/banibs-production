@@ -12,6 +12,7 @@ import SEO from '../components/SEO';
 import { useTheme } from '../contexts/ThemeContext';
 import { getThemeStyles } from '../utils/themeStyles';
 import { AlertCircle, RefreshCw } from 'lucide-react';
+import { handleResponse } from '../utils/fetchHelper';
 
 /**
  * NewsHomePage - CNN-Style News Homepage
