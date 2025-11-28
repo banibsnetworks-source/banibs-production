@@ -237,6 +237,32 @@ const styles = StyleSheet.create({
     fontSize: theme.typography.fontSize.xs,
     color: theme.colors.text.secondary,
   },
+  mediaPreview: {
+    marginTop: theme.spacing.md,
+    position: 'relative',
+    alignItems: 'center',
+  },
+  mediaImage: {
+    width: 200,
+    height: 200,
+    borderRadius: theme.borderRadius.md,
+  },
+  removeMediaButton: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    borderRadius: 12,
+    width: 24,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  removeMediaText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   footer: {
     padding: theme.spacing.md,
   },
