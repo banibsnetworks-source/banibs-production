@@ -13,9 +13,11 @@ import {
   Platform,
   Alert,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import Container from '../components/Container';
 import Button from '../components/Button';
+import MediaPicker from '../components/MediaPicker';
 import {useAuth} from '../contexts/AuthContext';
 import {socialService} from '../services/socialService';
 import {theme} from '../theme';
