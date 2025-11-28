@@ -88,11 +88,7 @@ export const markConversationRead = async (otherUserId) => {
     }
   );
   
-  if (!response.ok) {
-    throw new Error(`Failed to mark as read: ${response.status}`);
-  }
-  
-  return response.json();
+  return handleResponse(response);
 };
 
 /**
