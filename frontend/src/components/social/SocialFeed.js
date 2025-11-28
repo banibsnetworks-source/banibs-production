@@ -180,9 +180,17 @@ const SocialFeed = ({ newPost }) => {
         <p className="text-muted-foreground text-sm mb-4">{error}</p>
         <button
           onClick={handleRefresh}
-          className="px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold rounded-lg transition-colors"
+          disabled={loading || isLoadingMore}
+          className="px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
         >
-          Try Again
+          {loading ? (
+            <>
+              <Loader className="animate-spin" size={16} />
+              <span>Loading...</span>
+            </>
+          ) : (
+            'Try Again'
+          )}
         </button>
       </div>
     );
