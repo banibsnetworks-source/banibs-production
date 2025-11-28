@@ -126,7 +126,15 @@ const WorldNewsPage = () => {
       const response = await fetch(url);
       
       if (!response.ok) {
-        throw new Error('Failed to fetch world news');
+        // Extract error message safely without consuming body twice
+        let errorMessage = 'Failed to fetch world news';
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.detail || errorData.message || errorMessage;
+        } catch {
+          errorMessage = response.statusText || errorMessage;
+        }
+        throw new Error(errorMessage);
       }
       
       const data = await response.json();
