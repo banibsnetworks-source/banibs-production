@@ -103,11 +103,7 @@ export const getConversationPreviews = async (limit = 50) => {
     }
   );
   
-  if (!response.ok) {
-    throw new Error(`Failed to get conversations: ${response.status}`);
-  }
-  
-  return response.json();
+  return handleResponse(response);
 };
 
 /**
