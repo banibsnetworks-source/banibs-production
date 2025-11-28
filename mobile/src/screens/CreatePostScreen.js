@@ -95,11 +95,15 @@ const CreatePostScreen = ({navigation}) => {
         <View style={styles.actions}>
           <Text style={styles.actionsTitle}>Add to your post</Text>
           <View style={styles.actionButtons}>
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity 
+              style={styles.actionButton}
+              onPress={() => setMediaPickerVisible(true)}>
               <Text style={styles.actionButtonIcon}>📷</Text>
               <Text style={styles.actionButtonLabel}>Photo</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity 
+              style={styles.actionButton}
+              onPress={() => setMediaPickerVisible(true)}>
               <Text style={styles.actionButtonIcon}>🎥</Text>
               <Text style={styles.actionButtonLabel}>Video</Text>
             </TouchableOpacity>
@@ -108,6 +112,22 @@ const CreatePostScreen = ({navigation}) => {
               <Text style={styles.actionButtonLabel}>Location</Text>
             </TouchableOpacity>
           </View>
+          
+          {/* Media Preview */}
+          {selectedMedia && (
+            <View style={styles.mediaPreview}>
+              <Image 
+                source={{uri: selectedMedia.uri}} 
+                style={styles.mediaImage}
+                resizeMode="cover"
+              />
+              <TouchableOpacity 
+                style={styles.removeMediaButton}
+                onPress={() => setSelectedMedia(null)}>
+                <Text style={styles.removeMediaText}>✕</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
 
         {/* Submit Button */}
