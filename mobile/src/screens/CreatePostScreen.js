@@ -140,6 +140,13 @@ const CreatePostScreen = ({navigation}) => {
           />
         </View>
       </KeyboardAvoidingView>
+      
+      {/* Media Picker Modal */}
+      <MediaPicker
+        visible={mediaPickerVisible}
+        onClose={() => setMediaPickerVisible(false)}
+        onMediaSelected={setSelectedMedia}
+      />
     </Container>
   );
 };
