@@ -102,6 +102,8 @@ const SocialFeed = ({ newPost }) => {
   };
 
   const handleRefresh = () => {
+    // Prevent multiple rapid clicks
+    if (loading || isLoadingMore) return;
     loadFeed(1, false);
   };
 
