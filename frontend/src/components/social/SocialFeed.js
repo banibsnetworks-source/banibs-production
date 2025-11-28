@@ -226,10 +226,11 @@ const SocialFeed = ({ newPost }) => {
         </h2>
         <button
           onClick={handleRefresh}
-          className="flex items-center space-x-1 px-3 py-1 rounded-lg text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-all"
+          disabled={loading || isLoadingMore}
+          className="flex items-center space-x-1 px-3 py-1 rounded-lg text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <RefreshCw size={14} />
-          <span>Refresh</span>
+          <RefreshCw size={14} className={loading ? 'animate-spin' : ''} />
+          <span>{loading ? 'Loading...' : 'Refresh'}</span>
         </button>
       </div>
 
