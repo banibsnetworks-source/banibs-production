@@ -87,6 +87,16 @@ const TabIconWithBadge = ({icon, focused, badge}) => (\n  <View>\n    <Text styl
         }}
       />
       <Tab.Screen
+        name="Notifications"
+        component={NotificationsScreen}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <TabIconWithBadge icon="🔔" focused={focused} badge={unreadCount} />
+          ),
+          tabBarLabel: 'Alerts',
+        }}
+      />
+      <Tab.Screen
         name="Settings"
         component={SettingsScreen}
         options={{
