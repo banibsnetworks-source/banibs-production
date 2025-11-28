@@ -117,9 +117,5 @@ export const getUnreadCount = async () => {
     }
   );
   
-  if (!response.ok) {
-    throw new Error(`Failed to get unread count: ${response.status}`);
-  }
-  
-  return response.json();
+  return handleResponse(response);
 };
