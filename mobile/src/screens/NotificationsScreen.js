@@ -1,0 +1,252 @@
+/**
+ * BANIBS Mobile - Notifications Screen
+ * Phase M4 - Real-time Notifications
+ */
+
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
+import Container from '../components/Container';
+import {useNotifications} from '../contexts/NotificationContext';
+import {theme} from '../theme';
+
+const NotificationItem = ({notification, onPress, onClear}) => {
+  const getIcon = (type) => {
+    switch (type) {
+      case 'like':
+        return '❤️';
+      case 'comment':
+        return '💬';
+      case 'follow':
+        return '👤';
+      case 'mention':
+        return '@';
+      default:
+        return '🔔';
+    }
+  };
+
+  const formatTimeAgo = (dateString) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const seconds = Math.floor((now - date) / 1000);
+
+    if (seconds < 60) return 'Just now';
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
+    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
+    return `${Math.floor(seconds / 86400)}d ago`;
+  };
+
+  return (
+    <TouchableOpacity
+      style={[
+        styles.notificationItem,
+        !notification.read && styles.notificationItemUnread,
+      ]}
+      onPress={() => onPress(notification)}>
+      <View style={styles.notificationIcon}>
+        <Text style={styles.notificationIconText}>{getIcon(notification.type)}</Text>
+      </View>
+      <View style={styles.notificationContent}>
+        <Text
+          style={[
+            styles.notificationMessage,
+            !notification.read && styles.notificationMessageUnread,
+          ]}>
+          {notification.message}
+        </Text>
+        <Text style={styles.notificationTime}>
+          {formatTimeAgo(notification.timestamp)}
+        </Text>
+      </View>
+      <TouchableOpacity
+        style={styles.clearButton}
+        onPress={() => onClear(notification.id)}>
+        <Text style={styles.clearButtonText}>✕</Text>
+      </TouchableOpacity>
+    </TouchableOpacity>
+  );
+};
+
+const NotificationsScreen = ({navigation}) => {
+  const {
+    notifications,
+    unreadCount,
+    markAsRead,
+    markAllAsRead,
+    clearNotification,
+    refresh,
+  } = useNotifications();
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refresh();
+    setRefreshing(false);
+  };
+
+  const handleNotificationPress = (notification) => {
+    markAsRead(notification.id);
+    // Navigate based on notification type
+    // navigation.navigate('Post', {postId: notification.postId});
+  };
+
+  return (
+    <Container safe>
+      <View style={styles.container}>
+        {/* Header */}
+        <View style={styles.header}>
+          <View>
+            <Text style={styles.title}>Notifications</Text>
+            {unreadCount > 0 && (
+              <Text style={styles.unreadCount}>
+                {unreadCount} unread
+              </Text>
+            )}
+          </View>
+          {notifications.length > 0 && (
+            <TouchableOpacity onPress={markAllAsRead}>
+              <Text style={styles.markAllRead}>Mark all read</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+
+        {/* Notifications List */}
+        <FlatList
+          data={notifications}
+          renderItem={({item}) => (
+            <NotificationItem
+              notification={item}
+              onPress={handleNotificationPress}
+              onClear={clearNotification}
+            />
+          )}
+          keyExtractor={item => item.id}
+          contentContainerStyle={styles.listContent}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintColor={theme.colors.primary.gold}
+            />
+          }
+          ListEmptyComponent={
+            <View style={styles.emptyContainer}>
+              <Text style={styles.emptyIcon}>🔔</Text>
+              <Text style={styles.emptyTitle}>No Notifications</Text>
+              <Text style={styles.emptyText}>
+                You're all caught up! New notifications will appear here.
+              </Text>
+            </View>
+          }
+        />
+      </View>
+    </Container>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: theme.spacing.lg,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border.default,
+  },
+  title: {
+    fontSize: theme.typography.fontSize['2xl'],
+    fontWeight: theme.typography.fontWeight.bold,
+    color: theme.colors.text.primary,
+  },
+  unreadCount: {
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.primary.gold,
+    marginTop: theme.spacing.xs,
+  },
+  markAllRead: {
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.primary.gold,
+    fontWeight: theme.typography.fontWeight.semibold,
+  },
+  listContent: {
+    flexGrow: 1,
+  },
+  notificationItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: theme.spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border.default,
+  },
+  notificationItemUnread: {
+    backgroundColor: theme.colors.background.tertiary,
+  },
+  notificationIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: theme.colors.background.tertiary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: theme.spacing.md,
+  },
+  notificationIconText: {
+    fontSize: 24,
+  },
+  notificationContent: {
+    flex: 1,
+  },
+  notificationMessage: {
+    fontSize: theme.typography.fontSize.base,
+    color: theme.colors.text.primary,
+    marginBottom: theme.spacing.xs,
+  },
+  notificationMessageUnread: {
+    fontWeight: theme.typography.fontWeight.semibold,
+  },
+  notificationTime: {
+    fontSize: theme.typography.fontSize.sm,
+    color: theme.colors.text.tertiary,
+  },
+  clearButton: {
+    padding: theme.spacing.sm,
+  },
+  clearButtonText: {
+    fontSize: 18,
+    color: theme.colors.text.tertiary,
+  },
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: theme.spacing['3xl'],
+  },
+  emptyIcon: {
+    fontSize: 64,
+    marginBottom: theme.spacing.md,
+  },
+  emptyTitle: {
+    fontSize: theme.typography.fontSize.xl,
+    fontWeight: theme.typography.fontWeight.bold,
+    color: theme.colors.text.primary,
+    marginBottom: theme.spacing.sm,
+  },
+  emptyText: {
+    fontSize: theme.typography.fontSize.base,
+    color: theme.colors.text.secondary,
+    textAlign: 'center',
+    maxWidth: 300,
+  },
+});
+
+export default NotificationsScreen;
