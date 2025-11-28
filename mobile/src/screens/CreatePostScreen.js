@@ -26,6 +26,8 @@ const CreatePostScreen = ({navigation}) => {
   const {user} = useAuth();
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
+  const [mediaPickerVisible, setMediaPickerVisible] = useState(false);
+  const [selectedMedia, setSelectedMedia] = useState(null);
 
   const handleCreatePost = async () => {
     if (!text.trim()) {
