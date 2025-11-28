@@ -47,11 +47,7 @@ export const sendMessage = async (receiverId, messageText) => {
     body: JSON.stringify({ receiverId, messageText })
   });
   
-  if (!response.ok) {
-    throw new Error(`Failed to send message: ${response.status}`);
-  }
-  
-  return response.json();
+  return handleResponse(response);
 };
 
 /**
