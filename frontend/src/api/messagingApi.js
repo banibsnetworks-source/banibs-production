@@ -12,6 +12,27 @@ const getAuthHeader = () => {
 };
 
 /**
+ * Handle API response with proper error handling
+ * Prevents "Response body already used" errors
+ */
+const handleResponse = async (response) => {
+  if (!response.ok) {
+    // Try to get error message from response
+    let errorMessage = `Request failed with status ${response.status}`;
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.detail || errorData.message || errorMessage;
+    } catch {
+      // If response body can't be parsed, use status text
+      errorMessage = response.statusText || errorMessage;
+    }
+    throw new Error(errorMessage);
+  }
+  
+  return response.json();
+};
+
+/**
  * Send a message
  * @param {string} receiverId - Recipient user ID
  * @param {string} messageText - Message content
