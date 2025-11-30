@@ -29,9 +29,69 @@ const RegisterPage = () => {
   const [error, setError] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
   
+  const validateForm = () => {
+    const errors = {};
+    
+    // Required fields
+    if (!formData.first_name.trim()) {
+      errors.first_name = 'First name is required';
+    }
+    if (!formData.last_name.trim()) {
+      errors.last_name = 'Last name is required';
+    }
+    
+    // Email validation
+    if (!formData.email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+    
+    // Password validation
+    if (!formData.password) {
+      errors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      errors.password = 'Password must be at least 6 characters';
+    }
+    
+    // Password confirmation
+    if (!formData.confirm_password) {
+      errors.confirm_password = 'Please confirm your password';
+    } else if (formData.password !== formData.confirm_password) {
+      errors.confirm_password = 'Passwords do not match';
+    }
+    
+    // Date of birth validation
+    if (!formData.date_of_birth) {
+      errors.date_of_birth = 'Date of birth is required';
+    } else {
+      const dob = new Date(formData.date_of_birth);
+      const today = new Date();
+      const age = today.getFullYear() - dob.getFullYear();
+      const monthDiff = today.getMonth() - dob.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+        age--;
+      }
+      
+      if (age < 13) {
+        errors.date_of_birth = 'You must be at least 13 years old to register';
+      }
+    }
+    
+    setFieldErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    
+    // Validate form
+    if (!validateForm()) {
+      return;
+    }
+    
     setLoading(true);
     
     try {
@@ -39,11 +99,16 @@ const RegisterPage = () => {
         formData.first_name,
         formData.last_name,
         formData.email,
-        formData.password
+        formData.password,
+        formData.date_of_birth,
+        formData.gender || 'prefer_not_to_say'
       );
       
-      // Successful registration - hard redirect to ensure auth state is loaded
-      window.location.href = '/portal/social';
+      // Mark as new user for onboarding
+      localStorage.setItem('show_onboarding', 'true');
+      
+      // Successful registration - redirect to onboarding
+      window.location.href = '/onboarding/welcome';
     } catch (err) {
       setError(err.message || t('auth.registrationFailed'));
     } finally {
