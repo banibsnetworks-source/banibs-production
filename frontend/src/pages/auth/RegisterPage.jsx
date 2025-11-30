@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Mail, Lock, Loader2, AlertCircle, ArrowLeft } from 'lucide-react';
+import { User, Mail, Lock, Loader2, AlertCircle, ArrowLeft, Calendar } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -8,6 +8,7 @@ import { useAuth } from '../../contexts/AuthContext';
  * RegisterPage - Full-page registration (bypasses modal z-index issues)
  * Phase 10.0 P0 Blocker Fix - Option B
  * Phase L.0 - i18n integrated
+ * Enhanced with DOB, Gender, Password confirmation
  */
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -18,11 +19,15 @@ const RegisterPage = () => {
     first_name: '',
     last_name: '',
     email: '',
-    password: ''
+    password: '',
+    confirm_password: '',
+    date_of_birth: '',
+    gender: ''
   });
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState({});
   
   const handleSubmit = async (e) => {
     e.preventDefault();
