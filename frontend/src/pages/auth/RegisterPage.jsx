@@ -224,7 +224,99 @@ const RegisterPage = () => {
                   className="input-v2 w-full pl-10"
                 />
               </div>
-              <p className="text-xs text-gray-500 mt-2">{t('auth.passwordMinLength')}</p>
+              {fieldErrors.password && (
+                <p className="text-xs text-red-400 mt-2">{fieldErrors.password}</p>
+              )}
+              {!fieldErrors.password && (
+                <p className="text-xs text-gray-500 mt-2">{t('auth.passwordMinLength')}</p>
+              )}
+            </div>
+            
+            {/* Confirm Password Field */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Confirm Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
+                <input
+                  type="password"
+                  required
+                  value={formData.confirm_password}
+                  onChange={(e) => setFormData({ ...formData, confirm_password: e.target.value })}
+                  placeholder="Re-enter your password"
+                  className={`input-v2 w-full pl-10 ${fieldErrors.confirm_password ? 'border-red-500' : ''}`}
+                />
+              </div>
+              {fieldErrors.confirm_password && (
+                <p className="text-xs text-red-400 mt-2">{fieldErrors.confirm_password}</p>
+              )}
+            </div>
+            
+            {/* Date of Birth Field */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Date of Birth
+              </label>
+              <div className="relative">
+                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
+                <input
+                  type="date"
+                  required
+                  value={formData.date_of_birth}
+                  onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value })}
+                  max={new Date().toISOString().split('T')[0]}
+                  className={`input-v2 w-full pl-10 ${fieldErrors.date_of_birth ? 'border-red-500' : ''}`}
+                />
+              </div>
+              {fieldErrors.date_of_birth && (
+                <p className="text-xs text-red-400 mt-2">{fieldErrors.date_of_birth}</p>
+              )}
+              {!fieldErrors.date_of_birth && (
+                <p className="text-xs text-gray-500 mt-2">You must be at least 13 years old</p>
+              )}
+            </div>
+            
+            {/* Gender Field (Optional) */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Gender <span className="text-gray-500 text-xs">(Optional)</span>
+              </label>
+              <div className="space-y-2">
+                <label className="flex items-center gap-2 p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-750 transition-colors">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="male"
+                    checked={formData.gender === 'male'}
+                    onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                    className="w-4 h-4 text-yellow-400 bg-gray-700 border-gray-600 focus:ring-yellow-500"
+                  />
+                  <span className="text-sm text-gray-300">Male</span>
+                </label>
+                <label className="flex items-center gap-2 p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-750 transition-colors">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="female"
+                    checked={formData.gender === 'female'}
+                    onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                    className="w-4 h-4 text-yellow-400 bg-gray-700 border-gray-600 focus:ring-yellow-500"
+                  />
+                  <span className="text-sm text-gray-300">Female</span>
+                </label>
+                <label className="flex items-center gap-2 p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-750 transition-colors">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="prefer_not_to_say"
+                    checked={formData.gender === 'prefer_not_to_say'}
+                    onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                    className="w-4 h-4 text-yellow-400 bg-gray-700 border-gray-600 focus:ring-yellow-500"
+                  />
+                  <span className="text-sm text-gray-300">Prefer not to say</span>
+                </label>
+              </div>
             </div>
             
             {/* Submit Button */}
