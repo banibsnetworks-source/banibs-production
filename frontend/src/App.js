@@ -338,6 +338,10 @@ function App() {
               <Route path="/portal/social/settings/anonymous" element={<AnonymousPostingSettings />} />
               <Route path="/portal/social/settings/video" element={<AutoplaySettings />} />
               <Route path="/portal/social/discover/people" element={<SocialDiscoverPeoplePage />} />
+              
+              {/* Phase 8.5 - Groups Routes */}
+              <Route path="/portal/social/groups" element={<GroupsPage />} />
+              <Route path="/portal/social/groups/:groupId" element={<GroupDetailPage />} />
               <Route path="/portal/social/watch" element={<CommunityWatchPage />} />
               
               {/* Phase 8.2 - Social Connections */}
