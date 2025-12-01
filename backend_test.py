@@ -1272,6 +1272,584 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # PHASE 8.5 - GROUPS & MEMBERSHIP TESTING
+    # ==========================================
+    
+    def test_phase_8_5_groups_comprehensive(self) -> bool:
+        """
+        PHASE 8.5 COMPREHENSIVE TESTING: Groups & Membership Backend API Tests
+        
+        Tests all Groups API endpoints with comprehensive scenarios:
+        1. Group Creation & Basic Operations
+        2. Membership Workflows (join/leave)
+        3. Permission System (role hierarchy)
+        4. Edge Cases & Error Handling
+        """
+        self.log("👥 PHASE 8.5 COMPREHENSIVE TESTING: Groups & Membership Backend API Tests")
+        
+        # ============ AUTHENTICATION SETUP ============
+        
+        # Test user credentials from review request
+        test_user_email = "social_test_user@example.com"
+        test_user_password = "TestPass123!"
+        
+        self.log("🔐 Setting up authentication...")
+        
+        # Login as test user
+        response = self.make_request("POST", "/auth/login", {
+            "email": test_user_email,
+            "password": test_user_password
+        })
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to login test user: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        login_data = response.json()
+        if "access_token" not in login_data:
+            self.log("❌ Login response missing access_token", "ERROR")
+            return False
+        
+        user_token = login_data["access_token"]
+        user_id = login_data.get("user", {}).get("id")
+        self.log(f"✅ Test user logged in successfully (ID: {user_id})")
+        
+        # Create second test user for membership testing
+        second_user_email = f"groups_test_user_{int(time.time())}@example.com"
+        second_user_password = "TestPass123!"
+        
+        self.log("👥 Creating second test user...")
+        
+        response = self.make_request("POST", "/auth/register", {
+            "email": second_user_email,
+            "password": second_user_password,
+            "first_name": "Groups",
+            "last_name": "TestUser",
+            "accepted_terms": True
+        })
+        
+        if response.status_code == 200:
+            second_user_data = response.json()
+            second_user_id = second_user_data.get("user", {}).get("id")
+            self.log(f"✅ Second test user created (ID: {second_user_id})")
+        else:
+            self.log(f"❌ Failed to create second user: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {user_token}"}
+        
+        # ============ TEST 1: GROUP CREATION & BASIC OPERATIONS ============
+        
+        self.log("🏗️ Test 1: Group Creation & Basic Operations...")
+        
+        # Test 1.1: Create PUBLIC group
+        self.log("📝 Test 1.1: Create PUBLIC group...")
+        
+        public_group_data = {
+            "name": "BANIBS Test Public Group",
+            "description": "A test public group for Phase 8.5 testing",
+            "privacy": "PUBLIC",
+            "tags": ["test", "public", "community"],
+            "rules": "Be respectful and follow community guidelines"
+        }
+        
+        response = self.make_request("POST", "/groups/", public_group_data, headers=headers)
+        
+        if response.status_code == 200:
+            public_group = response.json()
+            public_group_id = public_group["id"]
+            
+            required_fields = ["id", "name", "description", "creator_id", "privacy", "member_count", "created_at"]
+            if all(field in public_group for field in required_fields):
+                self.log(f"✅ PUBLIC group created successfully")
+                self.log(f"   Group ID: {public_group_id}")
+                self.log(f"   Creator ID: {public_group['creator_id']}")
+                self.log(f"   Member Count: {public_group['member_count']}")
+                self.log(f"   Privacy: {public_group['privacy']}")
+            else:
+                missing_fields = [field for field in required_fields if field not in public_group]
+                self.log(f"❌ PUBLIC group response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ PUBLIC group creation failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 1.2: Create PRIVATE group
+        self.log("📝 Test 1.2: Create PRIVATE group...")
+        
+        private_group_data = {
+            "name": "BANIBS Test Private Group",
+            "description": "A test private group for Phase 8.5 testing",
+            "privacy": "PRIVATE",
+            "tags": ["test", "private", "exclusive"]
+        }
+        
+        response = self.make_request("POST", "/groups/", private_group_data, headers=headers)
+        
+        if response.status_code == 200:
+            private_group = response.json()
+            private_group_id = private_group["id"]
+            self.log(f"✅ PRIVATE group created successfully (ID: {private_group_id})")
+        else:
+            self.log(f"❌ PRIVATE group creation failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 1.3: Create SECRET group
+        self.log("📝 Test 1.3: Create SECRET group...")
+        
+        secret_group_data = {
+            "name": "BANIBS Test Secret Group",
+            "description": "A test secret group for Phase 8.5 testing",
+            "privacy": "SECRET",
+            "tags": ["test", "secret", "invitation-only"]
+        }
+        
+        response = self.make_request("POST", "/groups/", secret_group_data, headers=headers)
+        
+        if response.status_code == 200:
+            secret_group = response.json()
+            secret_group_id = secret_group["id"]
+            self.log(f"✅ SECRET group created successfully (ID: {secret_group_id})")
+        else:
+            self.log(f"❌ SECRET group creation failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 1.4: Get group by ID with membership info
+        self.log("📝 Test 1.4: Get group by ID with membership info...")
+        
+        response = self.make_request("GET", f"/groups/{public_group_id}", headers=headers)
+        
+        if response.status_code == 200:
+            group_detail = response.json()
+            if "membership" in group_detail and group_detail["membership"]:
+                membership = group_detail["membership"]
+                if membership["role"] == "OWNER" and membership["status"] == "ACTIVE":
+                    self.log(f"✅ Group detail with membership info working")
+                    self.log(f"   Creator is OWNER with ACTIVE status")
+                else:
+                    self.log(f"❌ Creator membership incorrect: {membership}", "ERROR")
+                    return False
+            else:
+                self.log("❌ Group detail missing membership info", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Get group by ID failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 1.5: List groups with filters
+        self.log("📝 Test 1.5: List groups with filters...")
+        
+        # Test privacy filter
+        response = self.make_request("GET", "/groups/?privacy=PUBLIC", headers=headers)
+        
+        if response.status_code == 200:
+            public_groups = response.json()
+            if isinstance(public_groups, list):
+                public_count = len([g for g in public_groups if g["privacy"] == "PUBLIC"])
+                self.log(f"✅ Privacy filter working - Found {public_count} PUBLIC groups")
+            else:
+                self.log("❌ Groups list response is not a list", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Groups list with privacy filter failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test search filter
+        response = self.make_request("GET", "/groups/?search=BANIBS Test", headers=headers)
+        
+        if response.status_code == 200:
+            search_groups = response.json()
+            if isinstance(search_groups, list) and len(search_groups) >= 3:
+                self.log(f"✅ Search filter working - Found {len(search_groups)} groups matching 'BANIBS Test'")
+            else:
+                self.log(f"⚠️ Search filter returned {len(search_groups) if isinstance(search_groups, list) else 0} groups")
+        else:
+            self.log(f"❌ Groups search failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 1.6: Update group details (requires ADMIN role)
+        self.log("📝 Test 1.6: Update group details...")
+        
+        update_data = {
+            "description": "Updated description for testing purposes",
+            "tags": ["test", "public", "community", "updated"]
+        }
+        
+        response = self.make_request("PATCH", f"/groups/{public_group_id}", update_data, headers=headers)
+        
+        if response.status_code == 200:
+            updated_group = response.json()
+            if updated_group["description"] == update_data["description"]:
+                self.log("✅ Group update working - description updated successfully")
+            else:
+                self.log("❌ Group update failed - description not updated", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Group update failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 2: MEMBERSHIP WORKFLOWS ============
+        
+        self.log("👥 Test 2: Membership Workflows...")
+        
+        # Login as second user for membership testing
+        response = self.make_request("POST", "/auth/login", {
+            "email": second_user_email,
+            "password": second_user_password
+        })
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to login second user: {response.status_code}", "ERROR")
+            return False
+        
+        second_user_token = response.json()["access_token"]
+        second_headers = {"Authorization": f"Bearer {second_user_token}"}
+        
+        # Test 2.1: Join PUBLIC group (should be ACTIVE immediately)
+        self.log("📝 Test 2.1: Join PUBLIC group...")
+        
+        response = self.make_request("POST", f"/groups/{public_group_id}/join", headers=second_headers)
+        
+        if response.status_code == 200:
+            membership = response.json()
+            if membership["status"] == "ACTIVE" and membership["role"] == "MEMBER":
+                self.log("✅ PUBLIC group join working - immediately ACTIVE as MEMBER")
+            else:
+                self.log(f"❌ PUBLIC group join status incorrect: {membership}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ PUBLIC group join failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 2.2: Join PRIVATE group (should be PENDING)
+        self.log("📝 Test 2.2: Join PRIVATE group...")
+        
+        response = self.make_request("POST", f"/groups/{private_group_id}/join", headers=second_headers)
+        
+        if response.status_code == 200:
+            membership = response.json()
+            if membership["status"] == "PENDING" and membership["role"] == "MEMBER":
+                self.log("✅ PRIVATE group join working - status PENDING for approval")
+            else:
+                self.log(f"❌ PRIVATE group join status incorrect: {membership}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ PRIVATE group join failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 2.3: Try to join SECRET group (should fail)
+        self.log("📝 Test 2.3: Try to join SECRET group...")
+        
+        response = self.make_request("POST", f"/groups/{secret_group_id}/join", headers=second_headers)
+        
+        if response.status_code == 403:
+            error_data = response.json()
+            if "secret groups" in error_data.get("detail", "").lower():
+                self.log("✅ SECRET group join correctly blocked - cannot join without invitation")
+            else:
+                self.log(f"❌ Wrong error message for SECRET group: {error_data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ SECRET group join should return 403, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 2.4: List group members
+        self.log("📝 Test 2.4: List group members...")
+        
+        response = self.make_request("GET", f"/groups/{public_group_id}/members", headers=headers)
+        
+        if response.status_code == 200:
+            members = response.json()
+            if isinstance(members, list) and len(members) >= 2:
+                owner_found = any(m["role"] == "OWNER" for m in members)
+                member_found = any(m["role"] == "MEMBER" for m in members)
+                
+                if owner_found and member_found:
+                    self.log(f"✅ Group members list working - Found {len(members)} members (OWNER + MEMBER)")
+                else:
+                    self.log(f"❌ Expected OWNER and MEMBER roles, got: {[m['role'] for m in members]}", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Expected at least 2 members, got {len(members) if isinstance(members, list) else 0}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ List group members failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 2.5: Leave group as MEMBER
+        self.log("📝 Test 2.5: Leave group as MEMBER...")
+        
+        response = self.make_request("POST", f"/groups/{public_group_id}/leave", headers=second_headers)
+        
+        if response.status_code == 200:
+            leave_data = response.json()
+            if leave_data.get("ok") and "left group" in leave_data.get("message", "").lower():
+                self.log("✅ Leave group working - MEMBER can leave successfully")
+            else:
+                self.log(f"❌ Leave group response incorrect: {leave_data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Leave group failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 2.6: Try to leave as OWNER (should fail)
+        self.log("📝 Test 2.6: Try to leave as OWNER...")
+        
+        response = self.make_request("POST", f"/groups/{public_group_id}/leave", headers=headers)
+        
+        if response.status_code == 400:
+            error_data = response.json()
+            if "owners cannot leave" in error_data.get("detail", "").lower():
+                self.log("✅ OWNER leave correctly blocked - must transfer ownership first")
+            else:
+                self.log(f"❌ Wrong error message for OWNER leave: {error_data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ OWNER leave should return 400, got {response.status_code}", "ERROR")
+            return False
+        
+        # ============ TEST 3: PERMISSION SYSTEM ============
+        
+        self.log("🔐 Test 3: Permission System...")
+        
+        # Re-add second user to test permissions
+        response = self.make_request("POST", f"/groups/{public_group_id}/join", headers=second_headers)
+        if response.status_code != 200:
+            self.log("❌ Failed to re-add second user for permission testing", "ERROR")
+            return False
+        
+        # Test 3.1: Update member role (ADMIN can promote/demote)
+        self.log("📝 Test 3.1: Update member role...")
+        
+        role_update_data = {
+            "user_id": second_user_id,
+            "role": "MODERATOR"
+        }
+        
+        response = self.make_request("POST", f"/groups/{public_group_id}/members/role", role_update_data, headers=headers)
+        
+        if response.status_code == 200:
+            updated_membership = response.json()
+            if updated_membership["role"] == "MODERATOR":
+                self.log("✅ Role update working - MEMBER promoted to MODERATOR")
+            else:
+                self.log(f"❌ Role update failed - expected MODERATOR, got {updated_membership['role']}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Role update failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 3.2: Remove member (MODERATOR can remove members)
+        self.log("📝 Test 3.2: Remove member...")
+        
+        # First, add second user back as MEMBER for removal test
+        response = self.make_request("POST", f"/groups/{public_group_id}/join", headers=second_headers)
+        
+        # Create third user to remove
+        third_user_email = f"groups_remove_test_{int(time.time())}@example.com"
+        
+        response = self.make_request("POST", "/auth/register", {
+            "email": third_user_email,
+            "password": "TestPass123!",
+            "first_name": "Remove",
+            "last_name": "TestUser",
+            "accepted_terms": True
+        })
+        
+        if response.status_code == 200:
+            third_user_id = response.json().get("user", {}).get("id")
+            
+            # Login third user and join group
+            response = self.make_request("POST", "/auth/login", {
+                "email": third_user_email,
+                "password": "TestPass123!"
+            })
+            
+            if response.status_code == 200:
+                third_user_token = response.json()["access_token"]
+                third_headers = {"Authorization": f"Bearer {third_user_token}"}
+                
+                # Join group
+                response = self.make_request("POST", f"/groups/{public_group_id}/join", headers=third_headers)
+                
+                if response.status_code == 200:
+                    # Now remove third user using second user (MODERATOR)
+                    remove_data = {"user_id": third_user_id}
+                    
+                    response = self.make_request("POST", f"/groups/{public_group_id}/members/remove", remove_data, headers=second_headers)
+                    
+                    if response.status_code == 200:
+                        remove_result = response.json()
+                        if remove_result.get("ok") and "removed" in remove_result.get("message", "").lower():
+                            self.log("✅ Remove member working - MODERATOR can remove members")
+                        else:
+                            self.log(f"❌ Remove member response incorrect: {remove_result}", "ERROR")
+                            return False
+                    else:
+                        self.log(f"❌ Remove member failed: {response.status_code} - {response.text}", "ERROR")
+                        return False
+        
+        # Test 3.3: Try to remove OWNER (should fail)
+        self.log("📝 Test 3.3: Try to remove OWNER...")
+        
+        remove_owner_data = {"user_id": user_id}
+        
+        response = self.make_request("POST", f"/groups/{public_group_id}/members/remove", remove_owner_data, headers=second_headers)
+        
+        if response.status_code == 400:
+            error_data = response.json()
+            if "cannot remove the group owner" in error_data.get("detail", "").lower():
+                self.log("✅ OWNER removal correctly blocked - cannot remove group owner")
+            else:
+                self.log(f"❌ Wrong error message for OWNER removal: {error_data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ OWNER removal should return 400, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 3.4: Try to demote OWNER (should fail)
+        self.log("📝 Test 3.4: Try to demote OWNER...")
+        
+        demote_owner_data = {
+            "user_id": user_id,
+            "role": "ADMIN"
+        }
+        
+        response = self.make_request("POST", f"/groups/{public_group_id}/members/role", demote_owner_data, headers=second_headers)
+        
+        if response.status_code == 400:
+            error_data = response.json()
+            if "cannot change owner's role" in error_data.get("detail", "").lower():
+                self.log("✅ OWNER demotion correctly blocked - cannot change owner's role")
+            else:
+                self.log(f"❌ Wrong error message for OWNER demotion: {error_data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ OWNER demotion should return 400, got {response.status_code}", "ERROR")
+            return False
+        
+        # ============ TEST 4: EDGE CASES & ERROR HANDLING ============
+        
+        self.log("🔍 Test 4: Edge Cases & Error Handling...")
+        
+        # Test 4.1: Create group with same name (should succeed - no uniqueness constraint)
+        self.log("📝 Test 4.1: Create group with same name...")
+        
+        duplicate_name_data = {
+            "name": "BANIBS Test Public Group",  # Same name as first group
+            "description": "Another group with the same name",
+            "privacy": "PUBLIC"
+        }
+        
+        response = self.make_request("POST", "/groups/", duplicate_name_data, headers=headers)
+        
+        if response.status_code == 200:
+            duplicate_group = response.json()
+            self.log("✅ Duplicate group name allowed - no uniqueness constraint (expected)")
+        else:
+            self.log(f"❌ Duplicate group name creation failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 4.2: Join same group twice (should update existing membership)
+        self.log("📝 Test 4.2: Join same group twice...")
+        
+        # Second user should already be in the group, try joining again
+        response = self.make_request("POST", f"/groups/{public_group_id}/join", headers=second_headers)
+        
+        if response.status_code == 200:
+            membership = response.json()
+            self.log("✅ Duplicate join handled - updates existing membership")
+        else:
+            self.log(f"❌ Duplicate join failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test 4.3: Get non-existent group
+        self.log("📝 Test 4.3: Get non-existent group...")
+        
+        response = self.make_request("GET", "/groups/non-existent-id", headers=headers)
+        
+        if response.status_code == 404:
+            error_data = response.json()
+            if "not found" in error_data.get("detail", "").lower():
+                self.log("✅ Non-existent group correctly returns 404")
+            else:
+                self.log(f"❌ Wrong error message for non-existent group: {error_data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Non-existent group should return 404, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 4.4: Update non-existent group
+        self.log("📝 Test 4.4: Update non-existent group...")
+        
+        response = self.make_request("PATCH", "/groups/non-existent-id", {"name": "Updated"}, headers=headers)
+        
+        if response.status_code == 404:
+            self.log("✅ Update non-existent group correctly returns 404")
+        else:
+            self.log(f"❌ Update non-existent group should return 404, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 4.5: Delete group (only OWNER can delete)
+        self.log("📝 Test 4.5: Delete group...")
+        
+        response = self.make_request("DELETE", f"/groups/{duplicate_group['id']}", headers=headers)
+        
+        if response.status_code == 200:
+            delete_result = response.json()
+            if delete_result.get("ok") and "deleted" in delete_result.get("message", "").lower():
+                self.log("✅ Group deletion working - OWNER can delete group")
+            else:
+                self.log(f"❌ Group deletion response incorrect: {delete_result}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Group deletion failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 5: AUTHENTICATION REQUIREMENTS ============
+        
+        self.log("🔐 Test 5: Authentication Requirements...")
+        
+        # Test 5.1: Create group without auth
+        self.log("📝 Test 5.1: Create group without auth...")
+        
+        response = self.make_request("POST", "/groups/", {
+            "name": "Unauthorized Group",
+            "description": "Should fail"
+        })
+        
+        if response.status_code == 401:
+            self.log("✅ Group creation requires authentication")
+        else:
+            self.log(f"❌ Group creation without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 5.2: List groups without auth
+        self.log("📝 Test 5.2: List groups without auth...")
+        
+        response = self.make_request("GET", "/groups/")
+        
+        if response.status_code == 401:
+            self.log("✅ Group listing requires authentication")
+        else:
+            self.log(f"❌ Group listing without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 5.3: Join group without auth
+        self.log("📝 Test 5.3: Join group without auth...")
+        
+        response = self.make_request("POST", f"/groups/{public_group_id}/join")
+        
+        if response.status_code == 401:
+            self.log("✅ Group join requires authentication")
+        else:
+            self.log(f"❌ Group join without auth should return 401, got {response.status_code}", "ERROR")
+            return False
+        
+        self.log("🎉 PHASE 8.5 GROUPS & MEMBERSHIP TESTING COMPLETED SUCCESSFULLY!")
+        return True
+
+    # ==========================================
     # PHASE 8.4 - MESSAGING ENGINE TESTING
     # ==========================================
     
