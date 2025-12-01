@@ -119,6 +119,8 @@ const NotificationsPage = () => {
       case 'business': return '🏢';
       case 'opportunity': return '💼';
       case 'event': return '📅';
+      case 'group_event': return '👥'; // Phase 8.6 - Group icon
+      case 'relationship_event': return '🤝'; // Phase 8.6 - Relationship icon
       default: return '📣';
     }
   };
