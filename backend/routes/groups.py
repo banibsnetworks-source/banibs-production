@@ -422,6 +422,17 @@ async def update_member_role(
         if not membership:
             raise HTTPException(status_code=404, detail="Member not found")
         
+        # Phase 8.6 - Send notification
+        group = await groups_db.get_group_by_id(group_id)
+        if group:
+            await notification_triggers.notify_role_change(
+                group_id=group_id,
+                group_name=group["name"],
+                changer_id=current_user["id"],
+                user_id=payload.user_id,
+                new_role=payload.role
+            )
+        
         return membership
     except HTTPException:
         raise
