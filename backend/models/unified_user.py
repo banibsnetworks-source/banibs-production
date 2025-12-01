@@ -149,6 +149,8 @@ class UserCreate(BaseModel):
     first_name: str = Field(..., min_length=1, description="First name")
     last_name: str = Field(..., min_length=1, description="Last name")
     accepted_terms: bool = Field(..., description="Must accept terms of service")
+    date_of_birth: Optional[str] = Field(None, description="Date of birth (YYYY-MM-DD)")
+    gender: Optional[str] = Field(None, description="Gender (male, female, prefer_not_to_say)")
     
     # Legacy support - can be removed later
     name: Optional[str] = Field(None, description="Full name (legacy, auto-constructed)")
