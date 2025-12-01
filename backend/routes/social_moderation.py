@@ -6,10 +6,16 @@ User reporting and admin moderation endpoints
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime, timezone, timedelta
 
 from middleware.auth_guard import require_role
 from db import social_reports as db_reports
 from db import social_posts as db_social
+from db.connection import get_db
+
+# ADCS v1.0 - Import ADCS guard
+from adcs.decorators import adcs_guard
+from adcs.models import ADCSActionType, ADCSRiskLevel
 
 
 router = APIRouter(prefix="/api", tags=["social_moderation"])
