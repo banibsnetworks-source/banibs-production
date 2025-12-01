@@ -11472,13 +11472,17 @@ if __name__ == "__main__":
             # Run Phase 12.0 Tests - Diaspora Connect Portal
             success = tester.run_phase_12_0_tests()
             sys.exit(0 if success else 1)
+        elif test_name == "groups":
+            # Run Phase 8.5 Tests - Groups & Membership
+            success = tester.test_phase_8_5_groups_comprehensive()
+            sys.exit(0 if success else 1)
         elif test_name == "all":
             # Run all tests
             success = tester.run_all_tests()
             sys.exit(0 if success else 1)
         else:
             print(f"Unknown test: {test_name}")
-            print("Available tests: messaging, ability, diaspora, all")
+            print("Available tests: messaging, ability, diaspora, groups, all")
             sys.exit(1)
     else:
         # Default: run messaging tests for Phase 8.4
