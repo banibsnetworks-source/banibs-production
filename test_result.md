@@ -1397,13 +1397,21 @@ frontend:
 metadata:
   created_by: "testing_agent"
   version: "1.1"
-  test_sequence: 2
+  test_sequence: 3
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Phase 8.5 - Enhanced Registration Form Validation"
+    - "Phase 8.5 - Registration Success Flow & Auto-Login"
+    - "Phase 8.5 - Welcome Onboarding Multi-Step Flow"
+    - "Phase 8.5 - Onboarding Completion & localStorage Management"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
+
+agent_communication:
+    - agent: "main"
+      message: "Phase 8.5 - New User Registration & Welcome Onboarding Flow implemented. Enhanced registration form with first_name, last_name, date_of_birth, gender fields. Added comprehensive validation including age verification (13+), password confirmation, and email format. Created multi-step welcome onboarding with 4 steps introducing Circles concept and relationship tiers. Need comprehensive testing of registration validation, onboarding flow, and localStorage flags."
 
 frontend:
   - task: "Phase 16.0 - Marketplace Navigation Fix Verification"
