@@ -7065,54 +7065,27 @@ class BanibsAPITester:
 
 
 def main():
-    """Run all backend API tests"""
+    """Run ADCS v1.0 P0 Endpoints Protection Testing"""
     tester = BanibsAPITester()
     
-    print("🚀 BANIBS Backend API Test Suite - Phase 7.1 Opportunities Exchange")
+    print("🛡️ BANIBS Backend API Test Suite - ADCS v1.0 P0 Endpoints Protection Testing")
     print("=" * 80)
     
     # Track test results
     tests = []
     
-    # Phase 7.1 - Opportunities Exchange Tests
-    print("\n🎯 PHASE 7.1 - OPPORTUNITIES EXCHANGE COMPREHENSIVE TESTING")
+    # ADCS v1.0 - AI Double-Check System Tests
+    print("\n🛡️ ADCS v1.0 - AI DOUBLE-CHECK SYSTEM P0 ENDPOINTS PROTECTION")
     print("=" * 60)
     
-    # Authentication Tests
-    tests.append(("Unified Auth Admin Login", tester.test_unified_auth_login))
-    tests.append(("Recruiter Login", tester.test_recruiter_login))
-    tests.append(("Candidate Login", tester.test_candidate_login))
-    
-    # Job Listings API Tests
-    tests.append(("Jobs Public Endpoint", tester.test_jobs_public_endpoint))
-    tests.append(("Jobs Mine Endpoint", tester.test_jobs_mine_endpoint))
-    tests.append(("Job Detail Endpoint", tester.test_job_detail_endpoint))
-    tests.append(("Job Creation Auth", tester.test_job_creation_auth))
-    
-    # Recruiter Profile API Tests
-    tests.append(("Recruiter Verification Status", tester.test_recruiter_verification_status))
-    tests.append(("Recruiter Profile Me", tester.test_recruiter_profile_me))
-    
-    # Employer Profile API Tests
-    tests.append(("Employers List Endpoint", tester.test_employers_list_endpoint))
-    tests.append(("Employer Creation Auth", tester.test_employer_creation_auth))
-    
-    # Candidate Profile API Tests
-    tests.append(("Candidate Profile Creation", tester.test_candidate_profile_creation))
-    tests.append(("Candidate Saved Jobs", tester.test_candidate_saved_jobs))
-    
-    # Application API Tests
-    tests.append(("Applications Auth Scenarios", tester.test_applications_auth_scenarios))
-    tests.append(("Applications for Recruiter", tester.test_applications_for_recruiter))
-    
-    # Admin Verification Tests
-    tests.append(("Admin Recruiter Verification", tester.test_admin_recruiter_verification))
+    # ADCS Comprehensive Test
+    tests.append(("ADCS v1.0 Comprehensive Protection Test", tester.test_adcs_v1_0_comprehensive))
     
     # Run all tests
     passed = 0
     failed = 0
-    phase71_passed = 0
-    phase71_failed = 0
+    adcs_passed = 0
+    adcs_failed = 0
     
     for i, (test_name, test_func) in enumerate(tests):
         print(f"\n📋 Running: {test_name}")
@@ -7122,32 +7095,38 @@ def main():
             result = test_func()
             if result:
                 passed += 1
-                phase71_passed += 1
+                adcs_passed += 1
                 print(f"✅ {test_name}: PASSED")
             else:
                 failed += 1
-                phase71_failed += 1
+                adcs_failed += 1
                 print(f"❌ {test_name}: FAILED")
         except Exception as e:
             failed += 1
-            phase71_failed += 1
+            adcs_failed += 1
             print(f"💥 {test_name}: ERROR - {e}")
     
     # Final summary
     print("\n" + "=" * 80)
     print("🏁 TEST SUMMARY")
     print("=" * 80)
-    print(f"🎯 PHASE 7.1 OPPORTUNITIES EXCHANGE:")
-    print(f"   ✅ Passed: {phase71_passed}")
-    print(f"   ❌ Failed: {phase71_failed}")
-    print(f"   📈 Success Rate: {(phase71_passed / (phase71_passed + phase71_failed) * 100):.1f}%" if (phase71_passed + phase71_failed) > 0 else "0.0%")
+    print(f"🛡️ ADCS v1.0 P0 ENDPOINTS PROTECTION:")
+    print(f"   ✅ Passed: {adcs_passed}")
+    print(f"   ❌ Failed: {adcs_failed}")
+    print(f"   📈 Success Rate: {(adcs_passed / (adcs_passed + adcs_failed) * 100):.1f}%" if (adcs_passed + adcs_failed) > 0 else "0.0%")
     
-    if phase71_failed == 0:
-        print("\n🎉 ALL PHASE 7.1 TESTS PASSED! Opportunities Exchange API is working correctly.")
+    if adcs_failed == 0:
+        print("\n🎉 ALL ADCS v1.0 TESTS PASSED! AI Double-Check System is fully operational!")
+        print("🛡️ P0 critical endpoints are properly protected with ADCS guards.")
+        print("💰 Money rules: Balance checks, transaction limits, daily limits active")
+        print("🤝 Trust rules: Block/ban rate limits, self-action prevention active")
+        print("🔒 Security rules: Role elevation protection active")
+        print("📋 Audit logging: All actions properly logged for compliance")
     else:
-        print(f"\n⚠️  {phase71_failed} Phase 7.1 test(s) failed. Please review the errors above.")
+        print(f"\n⚠️  {adcs_failed} ADCS v1.0 test(s) failed. Please review the errors above.")
+        print("🚨 CRITICAL: P0 endpoints may not be properly protected!")
     
-    sys.exit(0 if phase71_failed == 0 else 1)
+    sys.exit(0 if adcs_failed == 0 else 1)
 
 
 # Removed duplicate main block - using the one at the end of file
