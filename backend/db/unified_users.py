@@ -41,6 +41,8 @@ async def create_user(user_data: UserCreate) -> str:
         "name": full_name,  # Constructed from first + last
         "first_name": user_data.first_name,  # New field
         "last_name": user_data.last_name,   # New field
+        "date_of_birth": user_data.date_of_birth,  # Phase 8.5
+        "gender": user_data.gender,  # Phase 8.5
         "avatar_url": None,
         "bio": None,
         "roles": ["user"],
