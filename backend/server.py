@@ -49,6 +49,7 @@ from routes.circle_engine import router as circle_engine_router  # Phase 9.1 - I
 from routes.fap import router as fap_router  # Phase X - Founder Authentication Protocol
 from routes.messaging_v2 import router as messaging_v2_router  # Phase 8.4 - Messaging Engine
 from routes.groups import router as groups_router  # Phase 8.5 - Groups & Membership
+from adcs.admin_api import router as adcs_router  # ADCS v1.0 - AI Double-Check System
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
