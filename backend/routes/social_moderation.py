@@ -31,6 +31,18 @@ class ReportResolve(BaseModel):
     resolution_note: Optional[str] = None
 
 
+class UserBanRequest(BaseModel):
+    """Ban user request"""
+    user_id: str
+    reason: str
+    duration_days: Optional[int] = None  # None = permanent
+
+
+class UserUnbanRequest(BaseModel):
+    """Unban user request"""
+    user_id: str
+
+
 # ==========================================
 # USER ENDPOINTS - Reporting
 # ==========================================
