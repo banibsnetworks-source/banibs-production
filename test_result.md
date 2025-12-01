@@ -284,30 +284,38 @@ cd /app/frontend && yarn add sharp
 #====================================================================================================
 
 user_problem_statement: |
-  **Phase 8.4 - Messaging Engine Backend API Tests**
+  **ADCS v1.0 - P0 Endpoints Protection Testing**
 
-  Test the complete messaging engine functionality with comprehensive scenarios:
-  - Email: social_test_user@example.com
-  - Password: TestPass123!
+  I've just wrapped all P0 critical endpoints with ADCS guards. Please perform comprehensive end-to-end testing of the ADCS system.
 
-  **Tests to perform:**
-  1. Initialization - POST /api/messages/initialize (setup collections)
-  2. Send First Message - Thread auto-creation with trust tier context
-  3. Continue Existing Thread - Message appending to existing conversation
-  4. Get Inbox - Conversation previews with unread counts
-  5. Get Conversation Thread - All messages in chronological order
-  6. Mark as Read - Update read status functionality
-  7. Unread Count - Total unread across all conversations
-  8. Error Cases - Send to self, unauthorized access, invalid receivers
-  9. Relationship Engine Integration - Trust tier from relationships collection
-  10. Performance - Multiple messages without race conditions
+  **What was implemented:**
+
+  **P0 Endpoints Now Protected:**
+  1. `/api/marketplace/payouts/request` - Marketplace payout requests (P0)
+  2. `/api/relationships/block` - Block user (P0)
+  3. `/api/relationships/unblock` - Unblock user (P0)
+  4. `/api/admin/social/users/ban` - Ban user (P0 - NEWLY CREATED)
+  5. `/api/admin/social/users/unban` - Unban user (P0 - NEWLY CREATED)
+
+  **ADCS Rules Active:**
+  - **Money Rules**: Balance checks, transaction limits, daily limits, double-entry
+  - **Trust Rules**: Block rate limits (20/day), ban rate limits (10/hour), self-action prevention
+  - **Security Rules**: Role elevation requires human approval
+  - **Schema Rules**: Migration requirements and approval
+
+  **Test Scenarios:**
+  - Valid and invalid payout requests with balance/limit checks
+  - Block/unblock operations with rate limiting and self-action prevention
+  - Ban/unban operations with role requirements and rate limiting
+  - ADCS audit log verification
+  - ADCS admin API testing
 
   **Expected Results:**
-  - All messaging endpoints work with authentication
-  - Thread auto-creation and continuation work correctly
-  - Trust tier integration from Relationship Engine
-  - Proper error handling for edge cases
-  - Data integrity in MongoDB collections
+  - Valid requests should succeed and be logged
+  - Invalid requests (over limits, self-actions) should be denied with ADCS reasons
+  - All actions should appear in audit logs
+  - Rate limiting should work correctly
+  - ADCS should not break existing functionality
 
 backend:
   - task: "Phase 8.4 - Messaging Engine Initialization"
