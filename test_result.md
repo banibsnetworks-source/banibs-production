@@ -1551,11 +1551,7 @@ metadata:
   test_sequence: 3
 
 test_plan:
-  current_focus:
-    - "Phase 8.5 - Enhanced Registration Form Validation"
-    - "Phase 8.5 - Registration Success Flow & Auto-Login"
-    - "Phase 8.5 - Welcome Onboarding Multi-Step Flow"
-    - "Phase 8.5 - Onboarding Completion & localStorage Management"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
