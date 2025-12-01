@@ -499,6 +499,14 @@ async def startup_event():
         await ensure_all_indices()
     except Exception as e:
         logger.error(f"Failed to create indices: {e}")
+    
+    # ADCS v1.0 - Initialize AI Double-Check System
+    from adcs.audit_log import ADCSAuditLog
+    try:
+        await ADCSAuditLog.ensure_indexes()
+        logger.info("ADCS v1.0 initialized - AI Double-Check System active")
+    except Exception as e:
+        logger.error(f"Failed to initialize ADCS: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
