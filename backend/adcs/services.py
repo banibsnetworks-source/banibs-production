@@ -73,7 +73,7 @@ async def run_adcs_check(
         approval_status = ADCSApprovalStatus.PENDING_FOUNDER
     
     # Log to audit log
-    log_id = await ADCSAuditLog.create_entry(
+    await ADCSAuditLog.create_entry(
         action_type=action_type,
         risk_level=risk_level,
         request_id=request_id,
