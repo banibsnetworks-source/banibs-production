@@ -21,6 +21,9 @@ from schemas.group import (
 from db import groups as groups_db
 from middleware.auth_guard import get_current_user
 
+# Phase 8.6 - Import notification triggers
+from services import notification_triggers
+
 router = APIRouter(prefix="/api/groups", tags=["groups"])
 
 
