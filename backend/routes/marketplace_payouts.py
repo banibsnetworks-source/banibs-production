@@ -80,6 +80,10 @@ async def get_my_payout_requests(
 
 
 @router.post("/request", response_model=MarketplacePayoutRequest)
+@adcs_guard(
+    action_type=ADCSActionType.MARKETPLACE_PAYOUT,
+    risk_level=ADCSRiskLevel.P0
+)
 async def create_payout_request(
     payout_data: PayoutRequestCreate,
     current_user: dict = Depends(get_current_user)
@@ -87,10 +91,14 @@ async def create_payout_request(
     """
     Create a new payout request
     
+    **ADCS Protected**: This endpoint is guarded by ADCS for safety.
+    All payout requests are checked against balance limits and transaction thresholds.
+    
     Rules:
     - Amount must be >= $20.00
     - Amount must be <= available_payout_balance
     - Deducts amount from available_payout_balance immediately
+    - ADCS checks: balance, transaction limits, daily limits
     """
     db = get_db_client()
     payout_db = MarketplacePayoutDB(db)
