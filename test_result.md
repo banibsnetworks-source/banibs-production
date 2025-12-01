@@ -570,6 +570,42 @@ backend:
           **RESPONSE MODELS:** Pydantic models correctly exclude internal fields like is_approved
           **STATUS:** Public endpoint integration fully operational
 
+  - task: "Phase 8.5 - Groups Creation & Management"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/groups.py, backend/db/groups.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Phase 8.5 Groups & Membership system implemented. Need comprehensive testing of group creation, management, and privacy levels (PUBLIC, PRIVATE, SECRET)."
+
+  - task: "Phase 8.5 - Groups Membership Management"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/groups.py, backend/db/groups.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Phase 8.5 Groups membership system implemented. Need testing of join/leave workflows, role management (OWNER, ADMIN, MODERATOR, MEMBER), and permission system."
+
+  - task: "Phase 8.5 - Groups Permission System"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/groups.py, backend/db/groups.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Phase 8.5 Groups permission system implemented. Need testing of role hierarchy, admin operations, and edge cases like owner protection."
+
 frontend:
   - task: "Phase 8.4 - Messaging Engine Frontend UI"
     implemented: true
