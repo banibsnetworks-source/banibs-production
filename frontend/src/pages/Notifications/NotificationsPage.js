@@ -77,9 +77,22 @@ const NotificationsPage = () => {
         );
       }
 
-      // Navigate if link exists
+      // Navigate if link exists (Phase 8.6 - Deep linking with graceful fallback)
       if (notification.link) {
-        navigate(notification.link);
+        try {
+          navigate(notification.link);
+        } catch (navError) {
+          console.error('Navigation error, falling back to safe route:', navError);
+          
+          // Graceful fallback based on notification type
+          if (notification.type === 'group_event') {
+            navigate('/portal/social/groups');
+          } else if (notification.type === 'relationship_event') {
+            navigate('/portal/social/connections');
+          } else {
+            navigate('/hub');
+          }
+        }
       }
     } catch (error) {
       console.error('Error handling notification click:', error);
