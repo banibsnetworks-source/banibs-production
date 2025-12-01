@@ -190,3 +190,121 @@ async def get_moderation_stats(
         "hidden": hidden_count,
         "total": pending_count + kept_count + hidden_count
     }
+
+
+# ==========================================
+# USER BAN/UNBAN ENDPOINTS - Phase ADCS v1.0
+# ==========================================
+
+@router.post("/admin/social/users/ban", status_code=status.HTTP_201_CREATED)
+@adcs_guard(
+    action_type=ADCSActionType.SOCIAL_BAN,
+    risk_level=ADCSRiskLevel.P0
+)
+async def ban_user(
+    ban_request: UserBanRequest,
+    current_user=Depends(require_role("admin", "moderator", "super_admin"))
+):
+    """
+    Ban a user from the social platform.
+    
+    **ADCS Protected**: Rate-limited to prevent abuse.
+    Max 10 bans per hour per moderator.
+    
+    Admin/moderator only
+    """
+    db = await get_db()
+    
+    # Check if user exists
+    user = await db.unified_users.find_one({"id": ban_request.user_id}, {"_id": 0})
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+    
+    # Check if user is already banned
+    existing_ban = await db.user_bans.find_one(
+        {"user_id": ban_request.user_id, "is_active": True},
+        {"_id": 0}
+    )
+    if existing_ban:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="User is already banned"
+        )
+    
+    # Calculate expiry if duration is specified
+    banned_until = None
+    if ban_request.duration_days:
+        banned_until = datetime.now(timezone.utc) + timedelta(days=ban_request.duration_days)
+    
+    # Create ban record
+    ban_record = {
+        "id": str(__import__('uuid').uuid4()),
+        "user_id": ban_request.user_id,
+        "banned_by": current_user["id"],
+        "reason": ban_request.reason,
+        "banned_at": datetime.now(timezone.utc),
+        "banned_until": banned_until,
+        "is_active": True
+    }
+    
+    await db.user_bans.insert_one(ban_record)
+    
+    return {
+        "success": True,
+        "ban_id": ban_record["id"],
+        "user_id": ban_request.user_id,
+        "banned_until": banned_until.isoformat() if banned_until else "permanent",
+        "message": f"User has been banned"
+    }
+
+
+@router.post("/admin/social/users/unban", status_code=status.HTTP_200_OK)
+@adcs_guard(
+    action_type=ADCSActionType.SOCIAL_UNBAN,
+    risk_level=ADCSRiskLevel.P0
+)
+async def unban_user(
+    unban_request: UserUnbanRequest,
+    current_user=Depends(require_role("admin", "moderator", "super_admin"))
+):
+    """
+    Unban a user from the social platform.
+    
+    **ADCS Protected**: Validates request and logs action.
+    
+    Admin/moderator only
+    """
+    db = await get_db()
+    
+    # Find active ban
+    ban = await db.user_bans.find_one(
+        {"user_id": unban_request.user_id, "is_active": True},
+        {"_id": 0}
+    )
+    
+    if not ban:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No active ban found for this user"
+        )
+    
+    # Deactivate ban
+    await db.user_bans.update_one(
+        {"id": ban["id"]},
+        {
+            "$set": {
+                "is_active": False,
+                "unbanned_by": current_user["id"],
+                "unbanned_at": datetime.now(timezone.utc)
+            }
+        }
+    )
+    
+    return {
+        "success": True,
+        "user_id": unban_request.user_id,
+        "message": "User has been unbanned"
+    }
