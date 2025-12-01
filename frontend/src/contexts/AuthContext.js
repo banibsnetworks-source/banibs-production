@@ -79,16 +79,26 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (first_name, last_name, email, password) => {
+  const register = async (first_name, last_name, email, password, date_of_birth = null, gender = null) => {
     try {
       console.log('🔐 [AuthContext] Starting registration for:', email);
-      const response = await axios.post(`${BACKEND_URL}/api/auth/register`, {
+      const registrationData = {
         first_name,
         last_name,
         email,
         password,
         accepted_terms: true
-      });
+      };
+      
+      // Add optional fields if provided
+      if (date_of_birth) {
+        registrationData.date_of_birth = date_of_birth;
+      }
+      if (gender) {
+        registrationData.gender = gender;
+      }
+      
+      const response = await axios.post(`${BACKEND_URL}/api/auth/register`, registrationData);
 
       console.log('🔐 [AuthContext] Registration API response received');
       const { access_token, refresh_token, user: userData } = response.data;
