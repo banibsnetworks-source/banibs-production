@@ -126,6 +126,55 @@ const NotificationsPage = () => {
     return date.toLocaleDateString();
   };
 
+  // Phase 8.6 - Get notification badge color based on type
+  const getNotificationBadgeColor = (type) => {
+    switch (type) {
+      case 'group_event': return 'bg-purple-100 text-purple-700';
+      case 'relationship_event': return 'bg-blue-100 text-blue-700';
+      case 'system': return 'bg-gray-100 text-gray-700';
+      case 'business': return 'bg-green-100 text-green-700';
+      case 'opportunity': return 'bg-yellow-100 text-yellow-700';
+      case 'event': return 'bg-pink-100 text-pink-700';
+      default: return 'bg-gray-100 text-gray-700';
+    }
+  };
+
+  // Phase 8.6 - Get user-friendly type label
+  const getTypeLabel = (type, event_type) => {
+    if (type === 'group_event') {
+      if (event_type) {
+        const labels = {
+          'GROUP_CREATED': 'Group Created',
+          'GROUP_INVITE': 'Group Invitation',
+          'GROUP_JOIN_REQUEST': 'Join Request',
+          'GROUP_JOIN_APPROVED': 'Join Approved',
+          'GROUP_JOIN_REJECTED': 'Join Declined',
+          'GROUP_MEMBER_ADDED': 'Added to Group',
+          'GROUP_ROLE_CHANGE': 'Role Changed',
+          'GROUP_MEMBER_REMOVED': 'Removed from Group',
+          'GROUP_UPDATED': 'Group Updated'
+        };
+        return labels[event_type] || 'Group';
+      }
+      return 'Group';
+    }
+    
+    if (type === 'relationship_event') {
+      if (event_type) {
+        const labels = {
+          'RELATIONSHIP_REQUEST': 'Connection Request',
+          'RELATIONSHIP_ACCEPTED': 'Connection Accepted',
+          'RELATIONSHIP_TIER_CHANGE': 'Circle Updated',
+          'RELATIONSHIP_UNBLOCKED': 'Connection Restored'
+        };
+        return labels[event_type] || 'Connection';
+      }
+      return 'Connection';
+    }
+    
+    return type.charAt(0).toUpperCase() + type.slice(1).replace('_', ' ');
+  };
+
   const getNotificationIcon = (type) => {
     switch (type) {
       case 'system': return '🔔';
