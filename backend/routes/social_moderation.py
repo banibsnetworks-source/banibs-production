@@ -257,7 +257,7 @@ async def ban_user(
         "ban_id": ban_record["id"],
         "user_id": ban_request.user_id,
         "banned_until": banned_until.isoformat() if banned_until else "permanent",
-        "message": f"User has been banned"
+        "message": "User has been banned"
     }
 
 
