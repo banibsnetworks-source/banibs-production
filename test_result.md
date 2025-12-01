@@ -611,15 +611,46 @@ backend:
 
   - task: "Phase 8.5 - Groups Membership Management"
     implemented: true
-    working: "NA"
+    working: true
     file: "backend/routes/groups.py, backend/db/groups.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Phase 8.5 Groups membership system implemented. Need testing of join/leave workflows, role management (OWNER, ADMIN, MODERATOR, MEMBER), and permission system."
+      - working: true
+        agent: "testing"
+        comment: |
+          ✅ GROUPS MEMBERSHIP MANAGEMENT - FULLY FUNCTIONAL
+          
+          **JOIN WORKFLOWS:**
+          - POST /api/groups/{group_id}/join - Working correctly for all privacy levels
+          - PUBLIC groups: Immediate ACTIVE membership as MEMBER
+          - PRIVATE groups: PENDING status requiring approval
+          - SECRET groups: Correctly blocked (403) - invitation-only
+          - Duplicate joins handled gracefully (updates existing membership)
+          
+          **LEAVE WORKFLOWS:**
+          - POST /api/groups/{group_id}/leave - Working correctly
+          - MEMBER can leave successfully
+          - OWNER cannot leave (400 error) - must transfer ownership first
+          - Member count updates correctly on join/leave
+          
+          **MEMBER LISTING:**
+          - GET /api/groups/{group_id}/members - Working correctly
+          - Returns all members with roles and status
+          - Only group members can view member list (403 for non-members)
+          - Supports filtering by role and status
+          
+          **ROLE MANAGEMENT:**
+          - POST /api/groups/{group_id}/members/role - Working correctly
+          - ADMIN can promote/demote members (MEMBER ↔ MODERATOR ↔ ADMIN)
+          - OWNER role cannot be changed (400 error protection)
+          - Role hierarchy properly enforced
+          
+          **STATUS:** Membership management fully operational
 
   - task: "Phase 8.5 - Groups Permission System"
     implemented: true
