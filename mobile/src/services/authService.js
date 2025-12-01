@@ -1,25 +1,20 @@
 /**
  * BANIBS Mobile - Auth Service
- * Phase M1 - Mobile Shell
+ * Phase M5.1 - Updated with axios interceptors
  * 
  * API calls for authentication
  */
 
-import axios from 'axios';
-
-// Use environment variable or default to localhost for development
-const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+import axiosInstance from '../utils/axiosInstance';
+import {API_ENDPOINTS} from '../config/api';
 
 export const authService = {
   async login(email, password) {
     try {
-      const response = await axios.post(
-        `${API_URL}/api/auth/login`,
-        {email, password},
-        {
-          headers: {'Content-Type': 'application/json'},
-        },
-      );
+      const response = await axiosInstance.post(API_ENDPOINTS.LOGIN, {
+        email,
+        password,
+      });
       return response.data;
     } catch (error) {
       throw new Error(
@@ -30,23 +25,29 @@ export const authService = {
 
   async register(firstName, lastName, email, password) {
     try {
-      const response = await axios.post(
-        `${API_URL}/api/auth/register`,
-        {
-          first_name: firstName,
-          last_name: lastName,
-          email,
-          password,
-        },
-        {
-          headers: {'Content-Type': 'application/json'},
-        },
-      );
+      const response = await axiosInstance.post(API_ENDPOINTS.REGISTER, {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password,
+        accepted_terms: true, // Required by backend
+      });
       return response.data;
     } catch (error) {
       throw new Error(
         error.response?.data?.detail ||
           'Registration failed. Please try again.',
+      );
+    }
+  },
+
+  async getMe() {
+    try {
+      const response = await axiosInstance.get(API_ENDPOINTS.ME);
+      return response.data;
+    } catch (error) {
+      throw new Error(
+        error.response?.data?.detail || 'Failed to get user info.',
       );
     }
   },
