@@ -487,6 +487,16 @@ async def remove_member(
         if not removed:
             raise HTTPException(status_code=404, detail="Member not found")
         
+        # Phase 8.6 - Send notification
+        group = await groups_db.get_group_by_id(group_id)
+        if group:
+            await notification_triggers.notify_member_removed(
+                group_id=group_id,
+                group_name=group["name"],
+                remover_id=current_user["id"],
+                user_id=payload.user_id
+            )
+        
         return {"ok": True, "message": "Member removed successfully"}
     except HTTPException:
         raise
