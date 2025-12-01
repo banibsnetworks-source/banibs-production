@@ -311,6 +311,9 @@ function App() {
               <Route path="/auth/register" element={<RegisterPageNew />} />
               <Route path="/auth/signin" element={<SignInPage />} />
               
+              {/* Phase 8.5 - Onboarding Routes */}
+              <Route path="/onboarding/welcome" element={<WelcomePage />} />
+              
               {/* Phase 7.6.2 - New CNN-Style News Homepage */}
               <Route path="/" element={<NewsHomePage />} />
               
