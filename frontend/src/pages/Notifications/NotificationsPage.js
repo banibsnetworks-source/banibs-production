@@ -285,9 +285,11 @@ const NotificationsPage = () => {
                     <p className="text-sm text-gray-700 mb-2">
                       {notif.message}
                     </p>
-                    <div className="flex items-center gap-4 text-xs text-gray-500">
-                      <span>{formatTimeAgo(notif.created_at)}</span>
-                      <span className="capitalize">{notif.type}</span>
+                    <div className="flex items-center gap-2 text-xs flex-wrap">
+                      <span className="text-gray-500">{formatTimeAgo(notif.created_at)}</span>
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getNotificationBadgeColor(notif.type)}`}>
+                        {getTypeLabel(notif.type, notif.event_type)}
+                      </span>
                       {notif.link && (
                         <span className="text-yellow-600 font-semibold">
                           Click to view →
