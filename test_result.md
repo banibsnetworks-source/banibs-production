@@ -1652,9 +1652,9 @@ test_plan:
 
 agent_communication:
     - agent: "main"
-      message: "Phase 8.5 - New User Registration & Welcome Onboarding Flow implemented. Enhanced registration form with first_name, last_name, date_of_birth, gender fields. Added comprehensive validation including age verification (13+), password confirmation, and email format. Created multi-step welcome onboarding with 4 steps introducing Circles concept and relationship tiers. Need comprehensive testing of registration validation, onboarding flow, and localStorage flags."
+      message: "ADCS v1.0 - P0 Endpoints Protection Testing. I've just wrapped all P0 critical endpoints with ADCS guards. Please perform comprehensive end-to-end testing of the ADCS system including marketplace payouts, relationship blocks/unblocks, social bans/unbans, ADCS admin API, and audit log verification."
     - agent: "testing"
-      message: "Phase 8.5 - New User Registration & Welcome Onboarding Flow COMPREHENSIVE TESTING COMPLETE ✅ ALL FEATURES FULLY FUNCTIONAL. Enhanced registration form with all validation working (age 13+, password confirmation, email format, required fields). Auto-login after registration working perfectly. 4-step onboarding flow operational with proper navigation, content display, and completion/skip functionality. localStorage flags managed correctly. Both completion paths redirect to social portal successfully. Ready for production use."
+      message: "ADCS v1.0 - P0 Endpoints Protection Testing COMPLETE ✅ ALL SYSTEMS FULLY OPERATIONAL. AI Double-Check System successfully protecting all P0 critical endpoints. Money rules (balance checks, transaction limits, daily limits, double-entry) working. Trust rules (block rate limits 20/day, ban rate limits 10/hour, self-action prevention) active. Security rules (role elevation protection) integrated. ADCS audit logging operational with proper request tracking. All protected endpoints show consistent ADCS integration with proper error messaging and request IDs. Rate limiting and rule enforcement verified across all test scenarios. ADCS v1.0 is production-ready and fully protecting critical operations."
 
 frontend:
   - task: "Phase 16.0 - Marketplace Navigation Fix Verification"
