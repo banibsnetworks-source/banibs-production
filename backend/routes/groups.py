@@ -48,6 +48,14 @@ async def create_group(
             rules=payload.rules,
             tags=payload.tags
         )
+        
+        # Phase 8.6 - Send notification
+        await notification_triggers.notify_group_created(
+            group_id=group["id"],
+            group_name=group["name"],
+            creator_id=current_user["id"]
+        )
+        
         return group
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
