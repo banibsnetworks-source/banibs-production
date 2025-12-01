@@ -157,7 +157,7 @@ const NotificationsPage = () => {
 
         {/* Filter Tabs */}
         <div className="flex gap-2 breathing-room-lg overflow-x-auto">
-          {['all', 'unread', 'system', 'business', 'opportunity', 'event'].map((f) => (
+          {['all', 'unread', 'system', 'business', 'opportunity', 'event', 'group_event', 'relationship_event'].map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
@@ -167,7 +167,7 @@ const NotificationsPage = () => {
                   : 'btn-v2-secondary'
               } btn-v2-sm whitespace-nowrap`}
             >
-              {f.charAt(0).toUpperCase() + f.slice(1)}
+              {f === 'group_event' ? 'Groups' : f === 'relationship_event' ? 'Connections' : f.charAt(0).toUpperCase() + f.slice(1)}
             </button>
           ))}
         </div>
