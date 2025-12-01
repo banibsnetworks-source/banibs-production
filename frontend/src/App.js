@@ -48,6 +48,9 @@ import SignInPage from "./pages/auth/SignInPage";
 import RegisterPageNew from "./pages/auth/RegisterPage.jsx";
 // Phase 8.5 - Onboarding
 import WelcomePage from "./pages/onboarding/WelcomePage";
+// Phase 8.5 - Groups
+import GroupsPage from "./pages/portal/social/GroupsPage";
+import GroupDetailPage from "./pages/portal/social/GroupDetailPage";
 // Phase 6.2.1 - Notifications
 import NotificationsPage from "./pages/Notifications/NotificationsPage";
 // Phase 6.2.3 - Resources & Events
