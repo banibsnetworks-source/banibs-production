@@ -10,14 +10,23 @@ from datetime import datetime
 
 class NotificationBase(BaseModel):
     """Base notification schema"""
-    type: Literal["system", "business", "opportunity", "event"] = Field(
+    type: Literal["system", "business", "opportunity", "event", "group_event", "relationship_event"] = Field(
         ...,
         description="Type of notification"
     )
     title: str = Field(..., min_length=1, max_length=200)
     message: str = Field(..., min_length=1, max_length=1000)
-    link: Optional[str] = Field(None, description="URL to navigate when clicked")
+    link: Optional[str] = Field(None, description="URL to navigate when clicked (deep link)")
     expires_at: Optional[datetime] = Field(None, description="Expiry date for notification")
+    
+    # Phase 8.6 - Extended metadata for groups and relationships
+    actor_id: Optional[str] = Field(None, description="User who triggered the action")
+    target_user_id: Optional[str] = Field(None, description="User affected by the action")
+    group_id: Optional[str] = Field(None, description="Related group ID")
+    event_type: Optional[str] = Field(
+        None,
+        description="Specific event type (e.g., GROUP_INVITE, GROUP_ROLE_CHANGE, RELATIONSHIP_CONNECTED)"
+    )
 
 
 class NotificationCreate(NotificationBase):
