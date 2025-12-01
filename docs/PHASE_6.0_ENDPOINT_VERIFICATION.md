@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://global-network.preview.emergentagent.com/api/auth
+https://mobile-social-3.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

@@ -27,7 +27,7 @@ export default defineConfig({
   // Shared settings for all the projects below
   use: {
     // Base URL for tests - using the preview environment
-    baseURL: 'https://global-network.preview.emergentagent.com',
+    baseURL: 'https://mobile-social-3.preview.emergentagent.com',
     
     // Browser context options
     trace: 'retain-on-failure',
