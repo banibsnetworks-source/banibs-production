@@ -18,6 +18,10 @@ from db.marketplace_payouts import MarketplacePayoutDB
 from middleware.auth_guard import get_current_user
 from db.connection import get_db_client
 
+# ADCS v1.0 - Import ADCS guard
+from adcs.decorators import adcs_guard
+from adcs.models import ADCSActionType, ADCSRiskLevel
+
 
 router = APIRouter(prefix="/api/marketplace/payouts", tags=["Marketplace Payouts"])
 
