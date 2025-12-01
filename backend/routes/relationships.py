@@ -166,6 +166,10 @@ async def block_user(
 
 
 @router.post("/unblock", response_model=RelationshipRead)
+@adcs_guard(
+    action_type=ADCSActionType.RELATIONSHIP_UNBLOCK,
+    risk_level=ADCSRiskLevel.P0
+)
 async def unblock_user(
     payload: UnblockRequest,
     current_user: dict = Depends(get_current_user)
@@ -173,6 +177,8 @@ async def unblock_user(
     """
     Unblock a user.
     Sets status back to ACTIVE.
+    
+    **ADCS Protected**: Validates request and prevents self-unblocking.
     """
     try:
         relationship = await rel_db.unblock_user(
