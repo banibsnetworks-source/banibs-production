@@ -20,18 +20,26 @@ async def create_notification(
     title: str,
     message: str,
     link: Optional[str] = None,
-    expires_at: Optional[datetime] = None
+    expires_at: Optional[datetime] = None,
+    actor_id: Optional[str] = None,
+    target_user_id: Optional[str] = None,
+    group_id: Optional[str] = None,
+    event_type: Optional[str] = None
 ) -> Dict[str, Any]:
     """
     Create a new notification for a user
     
     Args:
         user_id: UUID of the user to notify
-        notification_type: Type of notification (system, business, opportunity, event)
+        notification_type: Type of notification (system, business, opportunity, event, group_event, relationship_event)
         title: Notification title
         message: Notification message
-        link: Optional URL to navigate when clicked
+        link: Optional URL to navigate when clicked (deep link)
         expires_at: Optional expiry date
+        actor_id: Optional user who triggered the action (Phase 8.6)
+        target_user_id: Optional user affected by the action (Phase 8.6)
+        group_id: Optional related group ID (Phase 8.6)
+        event_type: Optional specific event type (Phase 8.6)
     
     Returns:
         Created notification document
@@ -47,6 +55,16 @@ async def create_notification(
         "created_at": datetime.now(timezone.utc),
         "expires_at": expires_at
     }
+    
+    # Phase 8.6 - Add extended metadata
+    if actor_id:
+        notification["actor_id"] = actor_id
+    if target_user_id:
+        notification["target_user_id"] = target_user_id
+    if group_id:
+        notification["group_id"] = group_id
+    if event_type:
+        notification["event_type"] = event_type
     
     await notifications_collection.insert_one(notification)
     return notification
