@@ -137,6 +137,10 @@ async def create_or_update_relationship(
 
 
 @router.post("/block", response_model=RelationshipRead)
+@adcs_guard(
+    action_type=ADCSActionType.RELATIONSHIP_BLOCK,
+    risk_level=ADCSRiskLevel.P0
+)
 async def block_user(
     payload: BlockRequest,
     current_user: dict = Depends(get_current_user)
@@ -144,6 +148,9 @@ async def block_user(
     """
     Block a user.
     Sets status to BLOCKED and tier to OTHERS.
+    
+    **ADCS Protected**: Rate-limited to prevent abuse.
+    Max 20 blocks per day per user.
     """
     if payload.target_user_id == current_user["id"]:
         raise HTTPException(status_code=400, detail="Cannot block yourself")
