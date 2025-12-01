@@ -262,6 +262,33 @@ async def join_group(
             status=status
         )
         
+        # Phase 8.6 - Send notifications
+        if status == "ACTIVE":
+            # PUBLIC group - user joined successfully
+            await notification_triggers.notify_member_added(
+                group_id=group_id,
+                group_name=group["name"],
+                adder_id="system",  # Auto-added
+                user_id=current_user["id"]
+            )
+        else:
+            # PRIVATE group - notify admins of join request
+            admin_members = await groups_db.list_group_members(
+                group_id=group_id,
+                role="ADMIN",
+                status="ACTIVE",
+                limit=100
+            )
+            admin_ids = [m["user_id"] for m in admin_members if m["user_id"] != current_user["id"]]
+            
+            if admin_ids:
+                await notification_triggers.notify_join_request(
+                    group_id=group_id,
+                    group_name=group["name"],
+                    requester_id=current_user["id"],
+                    admin_ids=admin_ids
+                )
+        
         return membership
     except HTTPException:
         raise
