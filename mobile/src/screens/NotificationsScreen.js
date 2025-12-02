@@ -33,9 +33,9 @@ import {
 } from '../utils/notificationHelpers';
 
 const NotificationItem = ({notification, onPress}) => {
-  const icon = getNotificationIcon(notification.type);
+  const icon = getNotificationIcon(notification.type, notification.event_type);
   const badgeColor = getNotificationBadgeColor(notification.type);
-  const label = getNotificationLabel(notification);
+  const label = getNotificationLabel(notification.type, notification.event_type);
 
   return (
     <TouchableOpacity
@@ -53,10 +53,10 @@ const NotificationItem = ({notification, onPress}) => {
             styles.notificationMessage,
             !notification.read && styles.notificationMessageUnread,
           ]}>
-          {label}
+          {notification.message || label}
         </Text>
         <Text style={styles.notificationTime}>
-          {formatTimeAgo(notification.createdAt)}
+          {formatTimeAgo(notification.created_at)}
         </Text>
       </View>
       {!notification.read && <View style={styles.unreadDot} />}
