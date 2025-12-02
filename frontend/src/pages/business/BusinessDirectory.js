@@ -119,6 +119,37 @@ export default function BusinessDirectory() {
 
   return (
     <div className="bn-directory-page">
+      {/* Navigation Bar */}
+      <div className="bn-directory-nav">
+        <div className="bn-directory-nav__left">
+          <button
+            onClick={() => navigate(-1)}
+            className="bn-directory-nav__back"
+            title="Go back"
+          >
+            <ArrowLeft size={20} />
+            <span>Back</span>
+          </button>
+          <div className="bn-directory-nav__breadcrumbs">
+            <button
+              onClick={() => navigate('/')}
+              className="bn-directory-nav__breadcrumb"
+            >
+              <Home size={16} />
+              <span>Home</span>
+            </button>
+            <span className="bn-directory-nav__separator">/</span>
+            <span className="bn-directory-nav__current">Business Directory</span>
+          </div>
+        </div>
+        <button
+          onClick={() => navigate('/portal/business')}
+          className="bn-directory-nav__portal"
+        >
+          Business Portal
+        </button>
+      </div>
+
       <DirectoryHeader
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
