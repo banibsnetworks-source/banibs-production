@@ -52,24 +52,24 @@ const ForgotPasswordPage = () => {
   return (
     <AuthLayout brandPanel={<SignInBrandPanel />}>
       {/* Form Card */}
-      <div className=\"bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl shadow-2xl overflow-hidden\">
+      <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className=\"p-6 lg:p-8 border-b border-slate-800/50\">
+        <div className="p-6 lg:p-8 border-b border-slate-800/50">
           <button
             onClick={() => navigate('/auth/signin')}
-            className=\"flex items-center gap-2 text-slate-400 hover:text-amber-400 transition-colors mb-4\"
+            className="flex items-center gap-2 text-slate-400 hover:text-amber-400 transition-colors mb-4"
           >
             <ArrowLeft size={18} />
-            <span className=\"text-sm\">Back to Sign In</span>
+            <span className="text-sm">Back to Sign In</span>
           </button>
           
-          <div className=\"flex items-center gap-3 mb-2\">
-            <div className=\"w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/20\">
-              <span className=\"text-2xl font-bold text-white\">B</span>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/20">
+              <span className="text-2xl font-bold text-white">B</span>
             </div>
             <div>
-              <h1 className=\"text-2xl font-bold text-white\">Reset your password</h1>
-              <p className=\"text-sm text-slate-400\">
+              <h1 className="text-2xl font-bold text-white">Reset your password</h1>
+              <p className="text-sm text-slate-400">
                 {success 
                   ? 'Check your email for reset instructions' 
                   : 'Enter your email to receive a reset link'}
@@ -79,7 +79,7 @@ const ForgotPasswordPage = () => {
         </div>
 
         {/* Content */}
-        <div className=\"p-6 lg:p-8\">
+        <div className="p-6 lg:p-8">
           {success ? (
             /* Success State */
             <div className=\"space-y-6\">
