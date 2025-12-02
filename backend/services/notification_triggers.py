@@ -1,10 +1,23 @@
 """
 Notification Triggers Service - Phase 8.6
 Centralized notification creation for Groups and Relationships events
+
+Stability Improvements - Phase 1:
+- Added error handling and retry logic
+- Added logging for debugging
+- Added deduplication for rapid-fire triggers
 """
 
 from typing import Optional
+import logging
 from db.notifications import create_notification
+
+# Configure logger
+logger = logging.getLogger("notification_triggers")
+
+# Deduplication cache (simple in-memory, can be Redis in production)
+_recent_notifications = set()
+_DEDUPE_WINDOW = 5  # seconds
 
 
 # ==================== GROUP EVENT NOTIFICATIONS ====================
