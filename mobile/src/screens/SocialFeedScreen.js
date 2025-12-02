@@ -197,6 +197,26 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: theme.spacing.sm,
   },
+  groupsButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.background.secondary,
+    borderRadius: theme.borderRadius.md,
+    padding: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+    borderWidth: 1,
+    borderColor: theme.colors.border.default,
+  },
+  groupsButtonIcon: {
+    fontSize: 20,
+    marginRight: theme.spacing.sm,
+  },
+  groupsButtonText: {
+    fontSize: theme.typography.fontSize.base,
+    fontWeight: theme.typography.fontWeight.semibold,
+    color: theme.colors.text.primary,
+  },
   errorBanner: {
     backgroundColor: theme.colors.status.warning + '20',
     borderRadius: theme.borderRadius.md,
