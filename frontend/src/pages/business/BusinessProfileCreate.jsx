@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Save, ArrowLeft, Loader2 } from 'lucide-react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { xhrRequest } from '../../utils/xhrRequest';
 
@@ -163,7 +163,7 @@ const BusinessProfileCreate = () => {
   };
   
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <div
         className="min-h-screen py-8"
         style={{
@@ -502,7 +502,7 @@ const BusinessProfileCreate = () => {
           </form>
         </div>
       </div>
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

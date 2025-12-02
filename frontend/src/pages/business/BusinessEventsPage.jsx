@@ -1,5 +1,5 @@
 import React from 'react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import BusinessPlaceholder from '../../components/business/BusinessPlaceholder';
 import { Calendar } from 'lucide-react';
 
@@ -9,14 +9,14 @@ import { Calendar } from 'lucide-react';
  */
 const BusinessEventsPage = () => {
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <BusinessPlaceholder
         title="Events & Bookings"
         description="Create and manage business events, appointments, and bookings."
         icon={Calendar}
         imageSrc="/images/business/placeholders/events.jpg"
       />
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

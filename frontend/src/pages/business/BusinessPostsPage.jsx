@@ -1,5 +1,5 @@
 import React from 'react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import BusinessPlaceholder from '../../components/business/BusinessPlaceholder';
 import { FileText } from 'lucide-react';
 
@@ -9,13 +9,13 @@ import { FileText } from 'lucide-react';
  */
 const BusinessPostsPage = () => {
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <BusinessPlaceholder
         title="My Posts"
         description="View and manage all posts and updates from your business."
         icon={FileText}
       />
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

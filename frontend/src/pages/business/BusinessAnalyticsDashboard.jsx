@@ -1,5 +1,5 @@
 import React from 'react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import AnalyticsContent from '../../components/business/AnalyticsContent';
 
 /**
@@ -9,9 +9,9 @@ import AnalyticsContent from '../../components/business/AnalyticsContent';
  */
 const BusinessAnalyticsDashboard = () => {
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <AnalyticsContent />
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

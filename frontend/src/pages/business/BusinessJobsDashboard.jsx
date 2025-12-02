@@ -1,5 +1,5 @@
 import React from 'react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import JobsDashboard from '../connect/JobsDashboard';
 
 /**
@@ -8,9 +8,9 @@ import JobsDashboard from '../connect/JobsDashboard';
  */
 const BusinessJobsDashboard = () => {
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <JobsDashboard />
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

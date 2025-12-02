@@ -1,5 +1,5 @@
 import React from 'react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import BusinessPlaceholder from '../../components/business/BusinessPlaceholder';
 import { Users } from 'lucide-react';
 
@@ -9,14 +9,14 @@ import { Users } from 'lucide-react';
  */
 const BusinessTeamPage = () => {
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <BusinessPlaceholder
         title="Team & Staff"
         description="Manage your business team members, roles, and permissions."
         icon={Users}
         imageSrc="/images/business/placeholders/team.jpg"
       />
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

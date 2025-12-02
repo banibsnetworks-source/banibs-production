@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Loader2, Plus } from 'lucide-react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import BusinessProfilePublic from './BusinessProfilePublic';
 import { xhrRequest } from '../../utils/xhrRequest';
 
@@ -72,14 +72,14 @@ const BusinessProfilePage = () => {
   if (loading) {
     console.log('🏢 [RENDER] Showing LOADING state');
     return (
-      <BusinessLayout>
+      <FullWidthLayout>
         <div className="flex items-center justify-center min-h-screen">
           <div className="text-center">
             <Loader2 size={48} className="mx-auto mb-4 animate-spin" style={{ color: '#E8B657' }} />
             <p style={{ color: 'var(--text-primary)' }}>Loading your business profile...</p>
           </div>
         </div>
-      </BusinessLayout>
+      </FullWidthLayout>
     );
   }
 
@@ -89,7 +89,7 @@ const BusinessProfilePage = () => {
   if (!businessId) {
     console.log('🏢 [RENDER] Showing CREATE BUSINESS button (no businessId)');
     return (
-      <BusinessLayout>
+      <FullWidthLayout>
         <div 
           className="flex items-center justify-center min-h-screen"
           style={{
@@ -180,17 +180,17 @@ const BusinessProfilePage = () => {
             </button>
           </div>
         </div>
-      </BusinessLayout>
+      </FullWidthLayout>
     );
   }
 
   // Has business profile - show it wrapped in BusinessLayout
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <div style={{ width: '100%', minHeight: 'auto' }}>
         <BusinessProfilePublic businessId={businessId} hideNavBar={true} />
       </div>
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

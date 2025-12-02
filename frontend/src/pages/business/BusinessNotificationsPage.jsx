@@ -1,5 +1,5 @@
 import React from 'react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import BusinessPlaceholder from '../../components/business/BusinessPlaceholder';
 import { Bell } from 'lucide-react';
 
@@ -9,13 +9,13 @@ import { Bell } from 'lucide-react';
  */
 const BusinessNotificationsPage = () => {
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <BusinessPlaceholder
         title="Notifications"
         description="View and manage notifications for your business activity."
         icon={Bell}
       />
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

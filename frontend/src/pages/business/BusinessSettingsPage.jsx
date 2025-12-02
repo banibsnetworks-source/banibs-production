@@ -1,5 +1,5 @@
 import React from 'react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import BusinessPlaceholder from '../../components/business/BusinessPlaceholder';
 import { Settings } from 'lucide-react';
 
@@ -9,13 +9,13 @@ import { Settings } from 'lucide-react';
  */
 const BusinessSettingsPage = () => {
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <BusinessPlaceholder
         title="Business Settings"
         description="Configure your business settings, preferences, and integrations."
         icon={Settings}
       />
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

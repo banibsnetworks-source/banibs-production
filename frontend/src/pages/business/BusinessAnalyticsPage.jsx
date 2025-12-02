@@ -1,5 +1,5 @@
 import React from 'react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import BusinessPlaceholder from '../../components/business/BusinessPlaceholder';
 import { BarChart3 } from 'lucide-react';
 
@@ -9,13 +9,13 @@ import { BarChart3 } from 'lucide-react';
  */
 const BusinessAnalyticsPage = () => {
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <BusinessPlaceholder
         title="Analytics"
         description="View detailed analytics and insights about your business performance."
         icon={BarChart3}
       />
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Loader2, Plus, Filter } from 'lucide-react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import BusinessBoardComposer from '../../components/business/BusinessBoardComposer';
 import BusinessBoardPostCard from '../../components/business/BusinessBoardPostCard';
 import './BusinessBoardPage.css';
@@ -97,7 +97,7 @@ const BusinessBoardPage = () => {
   };
 
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <div className="business-board-container">
         {/* Header */}
         <div className="board-header">
@@ -186,7 +186,7 @@ const BusinessBoardPage = () => {
           />
         )}
       </div>
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import BusinessPlaceholder from '../../components/business/BusinessPlaceholder';
 import { Wallet } from 'lucide-react';
 
@@ -9,13 +9,13 @@ import { Wallet } from 'lucide-react';
  */
 const BusinessPaymentsPage = () => {
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <BusinessPlaceholder
         title="Payments & Billing"
         description="Manage invoices, payments, and billing information for your business."
         icon={Wallet}
       />
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

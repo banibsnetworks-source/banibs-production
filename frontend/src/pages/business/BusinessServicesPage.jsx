@@ -1,5 +1,5 @@
 import React from 'react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import BusinessPlaceholder from '../../components/business/BusinessPlaceholder';
 import { Target } from 'lucide-react';
 
@@ -9,14 +9,14 @@ import { Target } from 'lucide-react';
  */
 const BusinessServicesPage = () => {
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <BusinessPlaceholder
         title="Services & Offerings"
         description="Manage the services and products your business offers."
         icon={Target}
         imageSrc="/images/business/placeholders/services.jpg"
       />
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

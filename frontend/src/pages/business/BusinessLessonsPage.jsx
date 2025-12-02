@@ -1,5 +1,5 @@
 import React from 'react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import BusinessPlaceholder from '../../components/business/BusinessPlaceholder';
 import { GraduationCap } from 'lucide-react';
 
@@ -9,14 +9,14 @@ import { GraduationCap } from 'lucide-react';
  */
 const BusinessLessonsPage = () => {
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <BusinessPlaceholder
         title="Business Lessons"
         description="Access business education, courses, and learning resources to grow your skills."
         icon={GraduationCap}
         imageSrc="/images/business/placeholders/lessons.jpg"
       />
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

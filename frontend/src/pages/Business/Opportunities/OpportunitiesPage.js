@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Briefcase, Handshake, MapPin, Clock, DollarSign, ChevronRight } from 'lucide-react';
-import BusinessLayout from '../../../components/business/BusinessLayout';
+import FullWidthLayout from '../../../components/layouts/FullWidthLayout';
 import JobsFilters from './JobsFilters';
 import SEO from '../../../components/SEO';
 
@@ -143,7 +143,7 @@ function OpportunitiesPage() {
   };
 
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
         <SEO 
           title="BANIBS Opportunities - Jobs, Grants & Scholarships"
@@ -411,7 +411,7 @@ function OpportunitiesPage() {
         )}
       </div>
       </div>
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 }
 
