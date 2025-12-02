@@ -236,7 +236,8 @@ async def notify_connection_accepted(accepter_id: str, accepter_name: str, reque
     """
     Notify when a connection request is accepted
     """
-    await create_notification(
+    await _create_notification_safe(
+        dedupe_key=f"conn_accepted_{accepter_id}_{requester_id}",
         user_id=requester_id,
         notification_type="relationship_event",
         title="Connection Accepted",
