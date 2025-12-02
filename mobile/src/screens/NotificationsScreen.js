@@ -126,8 +126,16 @@ const NotificationsScreen = () => {
     const route = getNotificationRoute(notification);
     
     // Navigate to the appropriate screen
+    // Phase M5.4 - Proper navigation for group events
     try {
-      if (route.screen && navigation) {
+      if (notification.type === 'group_event' && notification.group_id) {
+        // Navigate to Social tab → GroupDetail
+        navigation.navigate('Social', {
+          screen: 'GroupDetail',
+          params: {groupId: notification.group_id},
+        });
+      } else if (route.screen && navigation) {
+        // Fallback to helper-determined route
         navigation.navigate(route.screen, route.params || {});
       }
     } catch (navError) {
