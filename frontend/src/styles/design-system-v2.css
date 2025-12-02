@@ -2085,3 +2085,58 @@ a:hover {
 .bn-directory-page {
   padding-top: 1.5rem;
 }
+
+/* =========================================================
+ * GLOBAL THEME SYSTEM - Light/Dark Mode Support
+ * Applied to ALL pages: News, Social, Marketplace, Business
+ * ======================================================= */
+
+/* Dark Theme (Default) */
+[data-theme="dark"] {
+  --bn-color-bg: #050509;
+  --bn-color-bg-elevated: #0b0b11;
+  --bn-color-surface-soft: #11121a;
+  --bn-color-surface-softer: #141624;
+  --bn-color-border-subtle: rgba(255, 255, 255, 0.08);
+  --bn-color-gold: #fbbf24;
+  --bn-color-gold-soft: rgba(251, 191, 36, 0.16);
+  --bn-color-amber: #f59e0b;
+  --bn-color-text-main: #f9fafb;
+  --bn-color-text-muted: #9ca3af;
+  --bn-color-text-soft: #6b7280;
+  --bn-radius-lg: 0.9rem;
+  --bn-radius-xl: 1.25rem;
+  --bn-radius-2xl: 1.75rem;
+  --bn-shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Light Theme */
+[data-theme="light"] {
+  --bn-color-bg: #ffffff;
+  --bn-color-bg-elevated: #f9fafb;
+  --bn-color-surface-soft: #f3f4f6;
+  --bn-color-surface-softer: #e5e7eb;
+  --bn-color-border-subtle: rgba(0, 0, 0, 0.1);
+  --bn-color-gold: #d97706;
+  --bn-color-gold-soft: rgba(217, 119, 6, 0.1);
+  --bn-color-amber: #f59e0b;
+  --bn-color-text-main: #111827;
+  --bn-color-text-muted: #6b7280;
+  --bn-color-text-soft: #9ca3af;
+  --bn-radius-lg: 0.9rem;
+  --bn-radius-xl: 1.25rem;
+  --bn-radius-2xl: 1.75rem;
+  --bn-shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Update existing Business Directory styles to respect theme */
+[data-theme="dark"] .bn-directory-page {
+  background: radial-gradient(circle at top left, rgba(251, 191, 36, 0.08), transparent),
+    radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.09), transparent), var(--bn-color-bg);
+}
+
+[data-theme="light"] .bn-directory-page {
+  background: radial-gradient(circle at top left, rgba(251, 191, 36, 0.05), transparent),
+    radial-gradient(circle at bottom right, rgba(56, 189, 248, 0.06), transparent), var(--bn-color-bg);
+}
+
