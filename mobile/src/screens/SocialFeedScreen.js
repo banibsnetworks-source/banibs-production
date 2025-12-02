@@ -11,6 +11,7 @@ import {
   RefreshControl,
   ActivityIndicator,
   Text,
+  TouchableOpacity,
 } from 'react-native';
 import Container from '../components/Container';
 import PostCard from '../components/PostCard';
