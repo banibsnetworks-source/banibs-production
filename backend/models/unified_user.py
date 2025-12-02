@@ -155,6 +155,9 @@ class UserPublic(BaseModel):
     created_at: str
     preferred_portal: str = "news"  # Phase 8.1
     preferred_language: str = "en"  # Phase L.0
+    region_primary: Optional[str] = None  # RCS-X Phase 1
+    region_secondary: Optional[str] = None  # RCS-X Phase 1
+    detected_country: Optional[str] = None  # RCS-X Phase 1
     emoji_identity: Optional[Dict[str, Any]] = None  # Phase 10.0
     profile: Optional[Dict[str, Any]] = None  # Full profile object for compatibility
     profile_picture_url: Optional[str] = None  # Phase 8.1
