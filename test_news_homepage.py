@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://banibs-mobile.preview.emergentagent.com"
+BACKEND_URL = "https://regionsmart.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 def log(message: str, level: str = "INFO"):

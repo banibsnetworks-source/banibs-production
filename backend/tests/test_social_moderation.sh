@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://banibs-mobile.preview.emergentagent.com"
+BACKEND_URL="https://regionsmart.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output

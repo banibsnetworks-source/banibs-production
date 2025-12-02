@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://banibs-mobile.preview.emergentagent.com/api/auth
+https://regionsmart.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
