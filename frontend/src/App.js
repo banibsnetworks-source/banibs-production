@@ -46,6 +46,7 @@ import LoginPage from "./pages/auth/LoginPage";
 import RegisterPage from "./pages/auth/RegisterPage";
 import SignInPage from "./pages/auth/SignInPage";
 import RegisterPageNew from "./pages/auth/RegisterPage.jsx";
+import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 // Phase 8.5 - Onboarding
 import WelcomePage from "./pages/onboarding/WelcomePage";
 // Phase 8.5 - Groups
