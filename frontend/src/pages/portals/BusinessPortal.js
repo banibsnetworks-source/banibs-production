@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import SEO from '../../components/SEO';
 import { Briefcase, Users, TrendingUp, Search, Building2, MessageSquare, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
