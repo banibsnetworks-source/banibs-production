@@ -35,6 +35,7 @@ const normalizeCategories = (flatCategories) => {
 };
 
 export default function BusinessDirectory() {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState(null);
   const [activeRegion, setActiveRegion] = useState(DEFAULT_REGION);
