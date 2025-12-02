@@ -152,57 +152,76 @@ const NotificationsScreen = () => {
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={theme.colors.primary.gold} />
+        <Text style={styles.loadingText}>Loading notifications...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorIcon}>⚠️</Text>
+        <Text style={styles.errorTitle}>Failed to Load</Text>
+        <Text style={styles.errorText}>{error}</Text>
+        <TouchableOpacity style={styles.retryButton} onPress={loadNotifications}>
+          <Text style={styles.retryButtonText}>Try Again</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
-    <Container safe>
-      <View style={styles.container}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.title}>Notifications</Text>
-            {unreadCount > 0 && (
-              <Text style={styles.unreadCount}>
-                {unreadCount} unread
-              </Text>
-            )}
-          </View>
-          {notifications.length > 0 && (
-            <TouchableOpacity onPress={markAllAsRead}>
-              <Text style={styles.markAllRead}>Mark all read</Text>
-            </TouchableOpacity>
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.title}>Notifications</Text>
+          {unreadCount > 0 && (
+            <Text style={styles.unreadCount}>
+              {unreadCount} unread
+            </Text>
           )}
         </View>
-
-        {/* Notifications List */}
-        <FlatList
-          data={notifications}
-          renderItem={({item}) => (
-            <NotificationItem
-              notification={item}
-              onPress={handleNotificationPress}
-              onClear={clearNotification}
-            />
-          )}
-          keyExtractor={item => item.id}
-          contentContainerStyle={styles.listContent}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              tintColor={theme.colors.primary.gold}
-            />
-          }
-          ListEmptyComponent={
-            <View style={styles.emptyContainer}>
-              <Text style={styles.emptyIcon}>🔔</Text>
-              <Text style={styles.emptyTitle}>No Notifications</Text>
-              <Text style={styles.emptyText}>
-                You're all caught up! New notifications will appear here.
-              </Text>
-            </View>
-          }
-        />
+        {notifications.length > 0 && unreadCount > 0 && (
+          <TouchableOpacity onPress={handleMarkAllAsRead}>
+            <Text style={styles.markAllRead}>Mark all read</Text>
+          </TouchableOpacity>
+        )}
       </View>
-    </Container>
+
+      {/* Notifications List */}
+      <FlatList
+        data={notifications}
+        renderItem={({item}) => (
+          <NotificationItem
+            notification={item}
+            onPress={handleNotificationPress}
+          />
+        )}
+        keyExtractor={item => item.id}
+        contentContainerStyle={styles.listContent}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor={theme.colors.primary.gold}
+          />
+        }
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyIcon}>🔔</Text>
+            <Text style={styles.emptyTitle}>No Notifications</Text>
+            <Text style={styles.emptyText}>
+              You're all caught up! New notifications will appear here.
+            </Text>
+          </View>
+        }
+      />
+    </View>
   );
 };
 
