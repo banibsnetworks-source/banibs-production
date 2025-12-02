@@ -250,7 +250,7 @@ export default function MarketplaceCheckoutPage() {
 
   return (
     <MarketplaceLayout>
-      <div className="max-w-5xl mx-auto px-4 py-6 md:py-8">
+      <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
         <h1 className="text-xl font-semibold text-amber-200 mb-1">
           Checkout
         </h1>

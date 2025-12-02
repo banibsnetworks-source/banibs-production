@@ -138,7 +138,7 @@ export default function MarketplaceSellerDashboardPage() {
   if (loading) {
     return (
       <MarketplaceLayout>
-        <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="text-sm text-slate-400">Loading seller dashboard...</div>
         </div>
       </MarketplaceLayout>
@@ -195,7 +195,7 @@ export default function MarketplaceSellerDashboardPage() {
 
   return (
     <MarketplaceLayout>
-      <div className="max-w-6xl mx-auto px-4 py-6 md:py-8 space-y-6">
+      <div className="max-w-7xl mx-auto px-4 py-6 md:py-8 space-y-6">
         {/* Header */}
         <div>
           <h1 className="text-2xl font-bold text-amber-200 mb-2">
