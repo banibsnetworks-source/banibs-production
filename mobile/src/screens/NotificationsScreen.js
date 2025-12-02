@@ -1,20 +1,36 @@
 /**
  * BANIBS Mobile - Notifications Screen
- * Phase M4 - Real-time Notifications
+ * Phase M5.2 - Real Backend Integration
+ * 
+ * Displays user notifications with:
+ * - Real backend data (Phase 8.6 integration)
+ * - Group & relationship event icons (👥 / 🤝)
+ * - Color-coded badges (purple/blue)
+ * - Deep linking to groups
+ * - Mark as read functionality
  */
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  StyleSheet,
   FlatList,
   TouchableOpacity,
+  StyleSheet,
   RefreshControl,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
-import Container from '../components/Container';
-import {useNotifications} from '../contexts/NotificationContext';
+import {useNavigation} from '@react-navigation/native';
 import {theme} from '../theme';
+import notificationsService from '../services/notificationsService';
+import {
+  getNotificationIcon,
+  getNotificationBadgeColor,
+  getNotificationLabel,
+  formatTimeAgo,
+  getNotificationRoute,
+} from '../utils/notificationHelpers';
 
 const NotificationItem = ({notification, onPress, onClear}) => {
   const getIcon = (type) => {
