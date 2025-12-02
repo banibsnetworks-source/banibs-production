@@ -140,9 +140,9 @@ const RegisterPage = () => {
         <form onSubmit={handleSubmit} className="p-6 lg:p-8">
             {/* Error Message */}
             {error && (
-              <div className="mb-6 p-4 bg-red-900/30 border border-red-700/50 rounded-lg flex items-start gap-3">
-                <AlertCircle className="text-red-400 flex-shrink-0 mt-0.5" size={20} />
-                <p className="text-sm text-red-200">{error}</p>
+              <div className="mb-6 p-4 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-start gap-3">
+                <AlertCircle className="text-rose-400 flex-shrink-0 mt-0.5" size={20} />
+                <p className="text-sm text-rose-200">{error}</p>
               </div>
             )}
             
