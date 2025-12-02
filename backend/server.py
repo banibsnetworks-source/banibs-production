@@ -396,6 +396,7 @@ app.include_router(applications_router)  # Job applications
 app.include_router(recruiter_analytics_router)  # Recruiter analytics - Phase 7.1 Cycle 1.4
 app.include_router(groups_router)  # Groups & Membership - Phase 8.5
 app.include_router(adcs_router)  # ADCS v1.0 - AI Double-Check System Admin API
+app.include_router(region_router)  # RCS-X Phase 1 - Region Content System
 
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
