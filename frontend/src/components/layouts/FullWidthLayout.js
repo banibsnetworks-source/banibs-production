@@ -6,20 +6,23 @@ import { useTheme } from '../../contexts/ThemeContext';
  * FullWidthLayout - For pages like Business Directory, Marketplace
  * Includes global header but NO left/right sidebars
  * Full-width content area for premium layouts
+ * FULLY THEME-AWARE: Respects light/dark mode
  */
 const FullWidthLayout = ({ children }) => {
   const { theme } = useTheme();
-  const isDark = theme === 'dark';
 
   return (
     <>
       <GlobalNavBar />
       <div 
+        className="full-width-layout-container"
+        data-theme={theme}
         style={{ 
           minHeight: 'calc(100vh - 56px)',
           marginTop: '56px',
-          backgroundColor: isDark ? 'rgb(10, 10, 12)' : 'rgb(249, 250, 251)',
-          position: 'relative'
+          backgroundColor: 'var(--bn-color-bg)',
+          position: 'relative',
+          transition: 'background-color 0.2s ease'
         }}
       >
         {children}
