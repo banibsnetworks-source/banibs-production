@@ -6,8 +6,8 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Text} from 'react-native';
-import React from 'react';\nimport HomeScreen from '../screens/HomeScreen';
+import {Text, View} from 'react-native';
+import HomeScreen from '../screens/HomeScreen';
 import SocialFeedScreen from '../screens/SocialFeedScreen';
 import CreatePostScreen from '../screens/CreatePostScreen';
 import CommentsScreen from '../screens/CommentsScreen';
