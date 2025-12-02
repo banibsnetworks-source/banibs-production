@@ -1,11 +1,39 @@
 import React from 'react';
-import { Newspaper, Briefcase, Users, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 /**
  * JoinBrandPanel - Brand story for registration page
  * "For Us. By Us. Built to Last."
+ * Updated with real community imagery (Mixed Real Community + Modern Illustration style)
  */
 const JoinBrandPanel = () => {
+  const pillars = [
+    {
+      title: 'Real News',
+      description: 'Stories centered on Black lives here and across the diaspora.',
+      image: 'https://images.unsplash.com/photo-1614586921203-a2cc806dd09a',
+      color: 'blue'
+    },
+    {
+      title: 'Real Business',
+      description: 'Direct access to Black-owned businesses and skilled trades.',
+      image: 'https://images.unsplash.com/photo-1563132337-f159f484226c',
+      color: 'amber'
+    },
+    {
+      title: 'Real Community',
+      description: 'Groups, circles, and tools built to protect and uplift us.',
+      image: 'https://images.unsplash.com/photo-1739302750675-042ed497a429',
+      color: 'emerald'
+    }
+  ];
+
+  const colorClasses = {
+    blue: 'from-blue-500/20 to-blue-600/10',
+    amber: 'from-amber-500/20 to-amber-600/10',
+    emerald: 'from-emerald-500/20 to-emerald-600/10'
+  };
+
   return (
     <div className="max-w-lg text-center lg:text-left space-y-8">
       {/* Main Headline */}
@@ -28,46 +56,40 @@ const JoinBrandPanel = () => {
         </p>
       </div>
 
-      {/* Three Pillars */}
-      <div className="space-y-6">
-        {/* Real News */}
-        <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-            <Newspaper className="text-blue-400" size={24} />
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-1">Real News</h3>
-            <p className="text-sm text-slate-400 leading-relaxed">
-              Stories centered on Black lives here and across the diaspora.
-            </p>
-          </div>
-        </div>
+      {/* Three Pillars with Real Images */}
+      <div className="space-y-4">
+        {pillars.map((pillar, index) => (
+          <div 
+            key={index}
+            className="group relative overflow-hidden rounded-xl border border-slate-700/50 hover:border-amber-500/30 transition-all duration-300"
+          >
+            {/* Image Background */}
+            <div className="absolute inset-0">
+              <img 
+                src={pillar.image}
+                alt={pillar.title}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                style={{ filter: 'saturate(0.9)' }}
+              />
+              {/* Amber Overlay (15%) */}
+              <div 
+                className={`absolute inset-0 bg-gradient-to-br ${colorClasses[pillar.color]} mix-blend-overlay`}
+              />
+              {/* Dark Gradient for Text Readability */}
+              <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-900/40" />
+            </div>
 
-        {/* Real Business */}
-        <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-            <Briefcase className="text-amber-400" size={24} />
+            {/* Content with Glass Blur Panel */}
+            <div className="relative flex items-center gap-4 p-4 backdrop-blur-sm bg-slate-900/30">
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-white mb-1">{pillar.title}</h3>
+                <p className="text-sm text-slate-200 leading-relaxed">
+                  {pillar.description}
+                </p>
+              </div>
+            </div>
           </div>
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-1">Real Business</h3>
-            <p className="text-sm text-slate-400 leading-relaxed">
-              Direct access to Black-owned businesses and skilled trades.
-            </p>
-          </div>
-        </div>
-
-        {/* Real Community */}
-        <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-            <Users className="text-emerald-400" size={24} />
-          </div>
-          <div>
-            <h3 className="text-lg font-semibold text-white mb-1">Real Community</h3>
-            <p className="text-sm text-slate-400 leading-relaxed">
-              Groups, circles, and tools built to protect and uplift us.
-            </p>
-          </div>
-        </div>
+        ))}
       </div>
 
       {/* Footer Note */}

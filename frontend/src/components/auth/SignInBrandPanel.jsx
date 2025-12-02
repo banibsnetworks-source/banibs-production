@@ -1,11 +1,29 @@
 import React from 'react';
-import { Shield, Lock, Heart } from 'lucide-react';
 
 /**
  * SignInBrandPanel - Brand story for sign-in page
  * "Your network. Your news. Your marketplace."
+ * Updated with real community imagery for trust messaging
  */
 const SignInBrandPanel = () => {
+  const trustElements = [
+    {
+      title: 'Encrypted connections',
+      image: 'https://images.unsplash.com/photo-1658446793718-3ec50613b7a1',
+      description: 'Secure by design'
+    },
+    {
+      title: 'No selling your story',
+      image: 'https://images.unsplash.com/photo-1687422808565-929533931584',
+      description: 'Your data, your control'
+    },
+    {
+      title: 'Community-first design',
+      image: 'https://images.unsplash.com/photo-1665535996811-c03854699436',
+      description: 'Built for us, by us'
+    }
+  ];
+
   return (
     <div className="max-w-lg text-center lg:text-left space-y-8">
       {/* Main Headline */}
@@ -30,36 +48,41 @@ const SignInBrandPanel = () => {
         <div className="h-px w-12 bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
       </div>
 
-      {/* Trust Strip */}
+      {/* Trust Strip with Micro-Images */}
       <div className="space-y-4">
         <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">
           Built on Trust
         </h3>
         
         <div className="space-y-3">
-          {/* Encrypted */}
-          <div className="flex items-center gap-3">
-            <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-              <Lock className="text-emerald-400" size={16} />
-            </div>
-            <span className="text-sm text-slate-300">Encrypted connections</span>
-          </div>
+          {trustElements.map((element, index) => (
+            <div 
+              key={index}
+              className="group relative overflow-hidden rounded-lg border border-slate-700/50 hover:border-amber-500/30 transition-all duration-300"
+            >
+              {/* Micro-Image Background */}
+              <div className="absolute inset-0">
+                <img 
+                  src={element.image}
+                  alt={element.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  style={{ filter: 'saturate(0.85)' }}
+                />
+                {/* Amber Overlay (10%) */}
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-blue-500/10 mix-blend-overlay" />
+                {/* Dark Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/75 to-slate-900/60" />
+              </div>
 
-          {/* Privacy */}
-          <div className="flex items-center gap-3">
-            <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-              <Shield className="text-blue-400" size={16} />
+              {/* Content with Glass Blur */}
+              <div className="relative flex items-center gap-3 p-3 backdrop-blur-md bg-slate-900/20">
+                <div className="flex-1">
+                  <span className="text-sm font-medium text-slate-200">{element.title}</span>
+                  <p className="text-xs text-slate-400 mt-0.5">{element.description}</p>
+                </div>
+              </div>
             </div>
-            <span className="text-sm text-slate-300">No selling your story</span>
-          </div>
-
-          {/* Community */}
-          <div className="flex items-center gap-3">
-            <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-              <Heart className="text-amber-400" size={16} />
-            </div>
-            <span className="text-sm text-slate-300">Community-first design</span>
-          </div>
+          ))}
         </div>
       </div>
 
