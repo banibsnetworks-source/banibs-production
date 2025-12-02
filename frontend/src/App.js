@@ -315,6 +315,7 @@ function App() {
               {/* Phase 10.0 - Full-Page Auth Routes (P0 Blocker Fix) */}
               <Route path="/auth/register" element={<RegisterPageNew />} />
               <Route path="/auth/signin" element={<SignInPage />} />
+              <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
               
               {/* Phase 8.5 - Onboarding Routes */}
               <Route path="/onboarding/welcome" element={<WelcomePage />} />
