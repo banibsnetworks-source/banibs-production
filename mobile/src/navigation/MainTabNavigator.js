@@ -29,7 +29,7 @@ const TabIcon = ({icon, focused}) => (
   <Text style={{fontSize: 24, opacity: focused ? 1 : 0.6}}>{icon}</Text>
 );
 
-// Social Stack Navigator (includes feed, create post, comments, profiles)
+// Social Stack Navigator (includes feed, create post, comments, profiles, groups)
 const SocialStack = () => {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
@@ -43,6 +43,9 @@ const SocialStack = () => {
       />
       <Stack.Screen name="Comments" component={CommentsScreen} />
       <Stack.Screen name="UserProfile" component={UserProfileScreen} />
+      {/* Phase M5.3 - Groups Module */}
+      <Stack.Screen name="GroupsList" component={GroupsListScreen} />
+      <Stack.Screen name="GroupDetail" component={GroupDetailScreen} />
     </Stack.Navigator>
   );
 };
