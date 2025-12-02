@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Home } from "lucide-react";
+import SocialLayout from "../../components/social/SocialLayout";
 import { categoryOptions } from "../../data/businessCategories";
 import { DirectoryHeader } from "../../components/business/DirectoryHeader";
 import { CategoryGrid } from "../../components/business/CategoryGrid";
