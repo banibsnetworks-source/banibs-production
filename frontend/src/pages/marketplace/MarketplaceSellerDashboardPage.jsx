@@ -157,6 +157,31 @@ export default function MarketplaceSellerDashboardPage() {
     );
   }
 
+  if (error === "not_authenticated") {
+    return (
+      <MarketplaceLayout>
+        <div className="max-w-4xl mx-auto px-4 py-12">
+          <div className="text-center py-12 rounded-2xl bg-blue-900/20 border border-blue-500/30">
+            <LogIn className="mx-auto text-blue-400 mb-4" size={48} />
+            <h2 className="text-xl font-bold text-slate-200 mb-2">
+              Authentication Required
+            </h2>
+            <p className="text-sm text-slate-400 mb-6 max-w-md mx-auto">
+              Please log in to access the seller dashboard.
+            </p>
+            <button
+              onClick={() => navigate('/auth/login', { state: { from: '/portal/marketplace/seller/dashboard' } })}
+              className="px-6 py-3 rounded-xl bg-blue-500 text-white font-semibold hover:bg-blue-600 transition inline-flex items-center gap-2"
+            >
+              <LogIn size={20} />
+              Log In
+            </button>
+          </div>
+        </div>
+      </MarketplaceLayout>
+    );
+  }
+
   if (error === "not_registered") {
     return (
       <MarketplaceLayout>
@@ -185,7 +210,7 @@ export default function MarketplaceSellerDashboardPage() {
               Failed to Load Dashboard
             </h2>
             <p className="text-sm text-slate-400 mb-6">
-              Please try again later or contact support if the problem persists.
+              Unable to connect to the server. Please try again later or contact support if the problem persists.
             </p>
             <button
               onClick={() => window.location.reload()}
