@@ -80,18 +80,22 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// Response interceptor - handle errors
+// Response interceptor - handle errors and retry logic
 axiosInstance.interceptors.response.use(
   (response) => {
     // Log successful response
     console.log('✅ API Response:', {
       status: response.status,
       url: response.config.url,
+      retries: response.config.__retryCount || 0,
     });
     return response;
   },
   async (error) => {
     const {config, response} = error;
+    
+    // Initialize retry count
+    config.__retryCount = config.__retryCount || 0;
     
     // Log ADCS rejections clearly
     if (response) {
@@ -102,9 +106,10 @@ axiosInstance.interceptors.response.use(
         // ADCS specific
         request_id: response.data?.request_id,
         reasons: response.data?.reasons,
+        retryCount: config.__retryCount,
       });
       
-      // Handle 401 Unauthorized - token expired or invalid
+      // Handle 401 Unauthorized - token expired or invalid (no retry)
       if (response.status === 401) {
         console.warn('🔒 Unauthorized - clearing token');
         await AsyncStorage.removeItem('access_token');
@@ -112,22 +117,38 @@ axiosInstance.interceptors.response.use(
         
         // You can emit an event here to trigger logout in your app
         // or navigate to login screen
+        return Promise.reject(error);
       }
       
-      // Handle 403 Forbidden - ADCS denial or insufficient permissions
+      // Handle 403 Forbidden - ADCS denial or insufficient permissions (no retry)
       if (response.status === 403) {
         console.warn('🚫 Forbidden:', response.data?.detail);
+        return Promise.reject(error);
       }
       
-      // Handle 202 Accepted - ADCS pending approval
+      // Handle 202 Accepted - ADCS pending approval (no retry)
       if (response.status === 202) {
         console.warn('⏳ Pending Approval:', response.data);
+        return Promise.reject(error);
       }
     } else {
       console.error('❌ Network Error:', {
         message: error.message,
+        code: error.code,
         url: config?.url,
+        retryCount: config.__retryCount,
       });
+    }
+    
+    // Retry logic for retryable errors
+    if (isRetryableError(error) && config.__retryCount < MAX_RETRIES) {
+      config.__retryCount += 1;
+      const delay = INITIAL_RETRY_DELAY * Math.pow(2, config.__retryCount - 1);
+      
+      console.warn(`⚠️ Retrying request... (attempt ${config.__retryCount}/${MAX_RETRIES}) in ${delay}ms`);
+      await sleep(delay);
+      
+      return axiosInstance(config);
     }
     
     return Promise.reject(error);
