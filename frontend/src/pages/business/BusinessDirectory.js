@@ -82,7 +82,7 @@ export default function BusinessDirectory() {
   }, [activeRegion, activeCategory]);
 
   const categoryGroups = useMemo(
-    () => normalizeCategories(businessCategories),
+    () => normalizeCategories(categoryOptions),
     []
   );
 
