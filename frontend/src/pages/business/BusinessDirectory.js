@@ -137,8 +137,23 @@ const BusinessDirectory = () => {
                 onChange={(e) => setCategory(e.target.value)}
                 className='select-v2 w-full'
               >
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>{cat}</option>
+                {categoryOptions.map((option, index) => (
+                  option.type === 'header' ? (
+                    <option 
+                      key={`header-${index}`} 
+                      disabled 
+                      className='category-header'
+                    >
+                      {option.label}
+                    </option>
+                  ) : (
+                    <option 
+                      key={option.value || option.label} 
+                      value={option.value}
+                    >
+                      {option.label}
+                    </option>
+                  )
                 ))}
               </select>
             </div>
