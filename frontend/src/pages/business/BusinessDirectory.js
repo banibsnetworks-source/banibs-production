@@ -24,19 +24,66 @@ const BusinessDirectory = () => {
   const [userCoords, setUserCoords] = useState(null);
   const [radiusKm, setRadiusKm] = useState(25);
   
-  // Categories
+  // BANIBS Category Tree - Updated Dec 2025
   const categories = [
     'All Categories',
-    'Food & Beverage',
-    'Beauty & Personal Care',
-    'Technology',
-    'Health & Wellness',
-    'Professional Services',
-    'Retail',
-    'Arts & Entertainment',
-    'Education',
-    'Real Estate',
-    'Finance'
+    // Core Black Business Categories
+    'Barbers',
+    'Beauticians / Hair Stylists',
+    'Braiders',
+    'Nail Technicians',
+    'Estheticians',
+    // Lifestyle & Culture
+    'Fashion & Apparel',
+    'Custom Clothing / Tailors',
+    'Jewelry & Accessories',
+    'Cultural Goods & Crafts',
+    'Black Art / African Art / Caribbean Art',
+    // Food & Culinary
+    'Restaurants',
+    'Food Trucks',
+    'Catering',
+    'Bakers / Pastry',
+    'Caribbean Cuisine',
+    'African Cuisine',
+    'Soul Food',
+    // Professional Services
+    'Photographers / Videographers',
+    'Cleaning & Home Care',
+    'Landscaping',
+    'Moving Services',
+    'Mechanics',
+    'Construction & Trades',
+    'Electricians',
+    'Plumbers',
+    'Painters',
+    'Event Planners',
+    // Health & Wellness
+    'Trainers',
+    'Herbalists',
+    'Midwives / Doulas',
+    'Massage Therapy',
+    'Mental Health Counselors',
+    // Tech & Digital
+    'Web Designers',
+    'Developers',
+    'Digital Marketers',
+    'Graphic Designers',
+    'Music Producers',
+    // Business & Finance
+    'Tax Preparers',
+    'Bookkeepers',
+    'Consultants',
+    'Loan Officers',
+    'Insurance Agents',
+    // Travel & Transportation
+    'Travel Agents',
+    'Chauffeurs / Drivers',
+    'Car Rental Services',
+    // Real Estate & Home
+    'Realtors',
+    'Airbnb Hosts',
+    'Property Managers'
   ];
   
   const handleUseMyLocation = () => {
