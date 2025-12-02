@@ -179,7 +179,133 @@ const BusinessDirectory = () => {
     // Real Estate & Home
     'Realtors',
     'Airbnb Hosts',
-    'Property Managers'
+    'Property Managers',
+    
+    // ========================================================================
+    // PROPERTY, REPAIR, ENVIRONMENTAL & INFRASTRUCTURE SERVICES (PART 2)
+    // ========================================================================
+    
+    // A. Basement, Foundation & Water Protection
+    'Basement Waterproofing',
+    'Foundation Leak Repair',
+    'Foundation Stabilization Specialists',
+    'Crawlspace Repair & Encapsulation',
+    'Sump Pump Installation & Repair',
+    'French Drain Installation',
+    'Yard Drainage Specialists',
+    'Water Damage Restoration',
+    'Sewer Backup Cleanup',
+    'Mold & Mildew Remediation',
+    'Radon Testing & Mitigation',
+    'Moisture & Humidity Control Services',
+    'Basement Finishing & Remodeling',
+    
+    // B. Environmental Hazard & Air Quality Services
+    'Asbestos Testing',
+    'Asbestos Removal',
+    'Lead Paint Testing & Removal',
+    'Mold Inspection',
+    'Mold Remediation',
+    'Indoor Air Quality Testing',
+    'Industrial Cleaning Services',
+    'Hazard Cleanup Crews',
+    'Biohazard Cleaning',
+    'Decontamination Services',
+    
+    // C. Storm, Flood & Disaster Recovery Teams
+    'Flood Cleanup Crews',
+    'Storm Damage Repair',
+    'Emergency Roof Tarping',
+    'Emergency Board-Up Services',
+    'Tree Damage Removal',
+    'Disaster Restoration Contractors',
+    'Water Extraction Technicians',
+    'Fire Damage Restoration',
+    'Smoke Odor Removal',
+    'Emergency Home Repair Teams',
+    
+    // D. Heavy Machinery & Site Work Operators
+    'Bulldozer Operators',
+    'Backhoe Operators',
+    'Excavator Operators',
+    'Skid Steer/Bobcat Operators',
+    'Forklift Operators',
+    'Crane Operators',
+    'Grading & Land Leveling Services',
+    'Earthmoving Crews',
+    'Site Prep Contractors',
+    'Asphalt & Road Crew Operators',
+    'Concrete Pouring Teams',
+    'Equipment Transport & Hauling',
+    
+    // E. CDL, Transport & Vehicle-Based Professionals
+    'CDL Truck Drivers',
+    'Independent Truck Owners',
+    'Freight & Logistics Carriers',
+    'Hotshot Drivers',
+    'Local Delivery Drivers',
+    'Dump Truck Services',
+    'Flatbed Hauling',
+    'Lowboy/Heavy Equipment Hauling',
+    'Bus Drivers (Charter, Shuttle, Private)',
+    'Van Transport Services',
+    'Senior & Medical Transport',
+    'School Transport Specialists',
+    'Moving Truck Operators',
+    
+    // F. Roofing, Exterior & Structural Services (Expanded)
+    'Full Roof Replacement',
+    'Metal Roofing Specialists',
+    'Shingle Roofing Specialists',
+    'Flat Roof Specialists',
+    'Leak Detection Technicians',
+    'Gutter Cleaning',
+    'Gutter Installation',
+    'Siding Repair & Installation',
+    'Chimney Repair',
+    'Brick/Stone Exterior Repair',
+    'Window Replacement',
+    'Door Replacement',
+    
+    // G. Outdoor, Yard & Property Exterior Specialists
+    'Tree Cutting & Tree Removal',
+    'Stump Grinding',
+    'Bush & Hedge Trimming',
+    'Yard Cleanup Crews',
+    'Seasonal Cleanup Teams',
+    'Landscaping Design Services',
+    'Hardscaping (Patios, Walkways)',
+    'Fence Builders',
+    'Fence Repair Technicians',
+    'Deck Building',
+    'Deck Repair',
+    'Pool Cleaning',
+    'Pool Repair & Maintenance',
+    
+    // H. Commercial-Grade Contractors & Build Teams
+    'Commercial Construction Crews',
+    'Industrial Renovation Teams',
+    'Building Maintenance Contractors',
+    'Multi-family Housing Repair Teams',
+    'Home Builders (Small & Large Scale)',
+    'Remodeling & Renovation Contractors',
+    'Demolition Crews',
+    'Concrete & Foundation Contractors',
+    'Framing Specialists',
+    'Roofing Crews',
+    'Siding Crews',
+    'Commercial Electricians',
+    'Commercial Plumbers',
+    
+    // I. Specialty Repair & Safety
+    'Garage Door Repair',
+    'Gate Repair / Iron Gate Specialists',
+    'Pest Control Services',
+    'Termite Specialists',
+    'Water Damage Specialists',
+    'Home Security Installers',
+    'Smart Home Installation',
+    'Surveillance Camera Installers'
   ];
   
   const handleUseMyLocation = () => {
