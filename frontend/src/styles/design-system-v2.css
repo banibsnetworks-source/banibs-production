@@ -2029,7 +2029,7 @@ a:hover {
   display: none;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 @media (min-width: 768px) {
