@@ -47,7 +47,7 @@ const ForgotPasswordPage = () => {
     }
   };
 
-  const inputClass = \"w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all\";
+  const inputClass = "w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all";
 
   return (
     <AuthLayout brandPanel={<SignInBrandPanel />}>
