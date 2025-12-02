@@ -230,6 +230,6 @@ export default function BusinessDirectory() {
         </main>
       </section>
       </div>
-    </SocialLayout>
+    </FullWidthLayout>
   );
 }
