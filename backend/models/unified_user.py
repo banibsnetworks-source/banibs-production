@@ -70,6 +70,28 @@ class UnifiedUser(BaseModel):
         description="User's preferred language: en (English), es (Spanish), etc."
     )
     
+    # RCS-X Phase 1 - Region Content System
+    region_primary: Optional[str] = Field(
+        default=None,
+        description="User's primary region: U.S., Africa, Caribbean, Global Diaspora"
+    )
+    region_secondary: Optional[str] = Field(
+        default=None,
+        description="User's secondary region (optional)"
+    )
+    detected_country: Optional[str] = Field(
+        default=None,
+        description="Detected country code (2-letter ISO)"
+    )
+    region_override: bool = Field(
+        default=False,
+        description="True if user manually set region (not auto-detected)"
+    )
+    region_detection_method: Optional[str] = Field(
+        default=None,
+        description="Detection method: ip_geolocation, device_locale, default"
+    )
+    
     # Metadata
     metadata: Dict[str, Any] = Field(
         default_factory=dict,
