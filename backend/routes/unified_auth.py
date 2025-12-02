@@ -260,30 +260,85 @@ async def forgot_password(request: PasswordResetRequest):
     - Sends reset email
     - Returns success (even if email not found, for security)
     """
+    logger.info(f"🔐 Password reset requested for: {request.email}")
+    
     # Get user by email
     user = await get_user_by_email(request.email)
     
     if user:
+        logger.info(f"✅ User found for reset: {request.email}")
+        
         # Generate reset token
         reset_token = JWTService.generate_verification_token()
         expires = JWTService.get_token_expiry(days=0)  # 1 hour from now
         expires = expires.replace(hour=expires.hour + 1)
         
         await set_password_reset_token(user["id"], reset_token, expires.isoformat())
+        logger.info(f"🎫 Reset token generated for user: {user['id']}")
+        
+        # Build reset link
+        reset_link = f"https://regionsmart.preview.emergentagent.com/auth/reset-password?token={reset_token}"
+        
+        # Build HTML email
+        html_body = f"""
+        <html>
+            <body style="font-family: Arial, sans-serif; background-color: #0a0a0c; color: #ffffff; padding: 20px;">
+                <div style="max-width: 600px; margin: 0 auto; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 40px; border-radius: 12px; border: 1px solid rgba(251, 191, 36, 0.2);">
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <div style="display: inline-block; width: 60px; height: 60px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 12px; line-height: 60px; font-size: 32px; font-weight: bold; color: white; margin-bottom: 20px;">B</div>
+                        <h1 style="color: #ffffff; margin: 0; font-size: 28px;">Reset Your Password</h1>
+                    </div>
+                    
+                    <p style="color: #e5e7eb; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+                        Hi {user.get('name', user.get('first_name', 'there'))},
+                    </p>
+                    
+                    <p style="color: #e5e7eb; font-size: 16px; line-height: 1.6; margin-bottom: 30px;">
+                        We received a request to reset your BANIBS password. Click the button below to create a new password:
+                    </p>
+                    
+                    <div style="text-align: center; margin: 40px 0;">
+                        <a href="{reset_link}" style="display: inline-block; padding: 16px 40px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);">
+                            Reset Password
+                        </a>
+                    </div>
+                    
+                    <p style="color: #9ca3af; font-size: 14px; line-height: 1.6; margin-top: 30px;">
+                        Or copy and paste this link into your browser:<br>
+                        <a href="{reset_link}" style="color: #f59e0b; word-break: break-all;">{reset_link}</a>
+                    </p>
+                    
+                    <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                        <p style="color: #6b7280; font-size: 14px; line-height: 1.6; margin: 0;">
+                            This link will expire in 1 hour for security reasons.<br>
+                            If you didn't request this reset, you can safely ignore this email.
+                        </p>
+                    </div>
+                    
+                    <div style="margin-top: 30px; text-align: center;">
+                        <p style="color: #6b7280; font-size: 12px; margin: 0;">
+                            BANIBS - For Us. By Us. Built to Last.
+                        </p>
+                    </div>
+                </div>
+            </body>
+        </html>
+        """
         
         # Send reset email
         try:
-            await send_email(
-                to=user["email"],
-                subject="Reset your BANIBS password",
-                template="password_reset",
-                context={
-                    "name": user["name"],
-                    "reset_link": f"https://banibs.com/reset-password?token={reset_token}"
-                }
+            logger.info(f"📤 Sending password reset email to: {request.email}")
+            send_email(
+                to_email=request.email,
+                subject="🔐 Reset your BANIBS password",
+                html_body=html_body
             )
+            logger.info(f"✅ Password reset email sent successfully to: {request.email}")
         except Exception as e:
-            print(f"⚠️ Failed to send password reset email: {e}")
+            logger.error(f"❌ Failed to send password reset email to {request.email}: {str(e)}", exc_info=True)
+            # Don't fail the request, but log the error
+    else:
+        logger.info(f"⚠️ Password reset requested for non-existent email: {request.email}")
     
     # Always return success (security: don't reveal if email exists)
     return {"message": "If your email is registered, you will receive a password reset link"}
