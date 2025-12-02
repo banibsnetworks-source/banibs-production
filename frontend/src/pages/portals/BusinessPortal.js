@@ -389,7 +389,7 @@ const BusinessPortal = () => {
           </div>
         </div>
       </div>
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 
