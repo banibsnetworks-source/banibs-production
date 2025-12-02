@@ -3083,7 +3083,7 @@ Ready to build /admin/orchestration dashboard with:
 
 test_plan:
   current_focus:
-    - "Seller Dashboard Authentication and Loading Flow"
+    - "BANIBS Authentication Pages - Visual Upgrade Verification"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
