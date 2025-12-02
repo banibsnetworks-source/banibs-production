@@ -74,12 +74,23 @@ const SocialFeedScreen = ({navigation}) => {
     navigation.navigate('UserProfile', {userId});
   };
 
+  const handleGroupsPress = () => {
+    navigation.navigate('GroupsList');
+  };
+
   const renderHeader = () => (
     <View style={styles.header}>
       <CreatePostCard
         onPress={handleCreatePost}
         userName={`${user?.first_name} ${user?.last_name}`}
       />
+      {/* Phase M5.3 - Quick access to Groups */}
+      <TouchableOpacity
+        style={styles.groupsButton}
+        onPress={handleGroupsPress}>
+        <Text style={styles.groupsButtonIcon}>👥</Text>
+        <Text style={styles.groupsButtonText}>My Groups</Text>
+      </TouchableOpacity>
       {error && (
         <View style={styles.errorBanner}>
           <Text style={styles.errorText}>
