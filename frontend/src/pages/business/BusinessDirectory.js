@@ -24,21 +24,24 @@ const BusinessDirectory = () => {
   const [userCoords, setUserCoords] = useState(null);
   const [radiusKm, setRadiusKm] = useState(25);
   
-  // BANIBS Category Tree - Updated Dec 2025
+  // BANIBS Category Tree - Skilled Trades Upgrade (Dec 2025)
   const categories = [
     'All Categories',
+    
     // Core Black Business Categories
     'Barbers',
     'Beauticians / Hair Stylists',
     'Braiders',
     'Nail Technicians',
     'Estheticians',
+    
     // Lifestyle & Culture
     'Fashion & Apparel',
     'Custom Clothing / Tailors',
     'Jewelry & Accessories',
     'Cultural Goods & Crafts',
     'Black Art / African Art / Caribbean Art',
+    
     // Food & Culinary
     'Restaurants',
     'Food Trucks',
@@ -47,39 +50,132 @@ const BusinessDirectory = () => {
     'Caribbean Cuisine',
     'African Cuisine',
     'Soul Food',
-    // Professional Services
+    
+    // Home Repair & Skilled Trades (NEW - Comprehensive)
+    // Carpentry & Woodwork
+    'Carpenters',
+    'Woodworkers',
+    'Custom Furniture Makers',
+    'Furniture Repair Specialists',
+    'Cabinet Builders / Installers',
+    'Trim & Molding Specialists',
+    'Deck & Patio Builders',
+    
+    // Handyman & General Repairs
+    'General Handyman Services',
+    'Home Repair Technicians',
+    'Odd Jobs / Small Fix-It Services',
+    'Property Maintenance Workers',
+    'Home Improvement Helpers',
+    'Mobile Handyman Services',
+    
+    // HVAC & Environmental Systems
+    'HVAC Technicians',
+    'Heating Repair',
+    'Air Conditioning Repair',
+    'Ventilation Specialists',
+    'Furnace & Boiler Technicians',
+    'Duct Cleaning Services',
+    
+    // Electrical & Power
+    'Electricians',
+    'Residential Electrical Repair',
+    'Lighting Installation Technicians',
+    'Generator Technicians',
+    
+    // Plumbing & Water Systems
+    'Plumbers',
+    'Pipefitters',
+    'Drain Cleaning Services',
+    'Leak Repair Specialists',
+    'Water Heater Technicians',
+    
+    // Appliance Repair
+    'Washers & Dryers Repair',
+    'Refrigerator Repair',
+    'Stove/Oven Repair',
+    'Dishwasher Repair',
+    'Small Appliance Technicians',
+    
+    // Roofing & Exterior Work
+    'Roofers',
+    'Gutter Installation/Repair',
+    'Siding Installation/Repair',
+    'Window Installation/Repair',
+    'Door Installation/Repair',
+    
+    // Masonry & Concrete
+    'Masons',
+    'Bricklayers',
+    'Stonework Specialists',
+    'Concrete Installers',
+    'Driveway Repair Technicians',
+    'Sidewalk & Patio Concrete Work',
+    
+    // Flooring & Surface Specialists
+    'Flooring Installers',
+    'Tile Installers',
+    'Hardwood Floor Specialists',
+    'Carpet Installers',
+    'Marble/Granite Installers',
+    
+    // Drywall & Interior Work
+    'Drywall Installers',
+    'Drywall Patching/Repair Specialists',
+    'Interior Wall Specialists',
+    'Painters',
+    
+    // Welding & Metalwork
+    'Welders',
+    'Metal Fabricators',
+    'Custom Ironwork',
+    'Gate/Fence Metal Specialists',
+    
+    // Landscaping & Outdoor
+    'Landscaping',
+    'Lawn Care Services',
+    'Tree Trimming Services',
+    'Irrigation Specialists',
+    
+    // Construction & Trades
+    'Construction & Trades',
+    'General Contractors',
+    'Construction Workers',
+    'Demolition Services',
+    
+    // Professional Services (Non-Trades)
     'Photographers / Videographers',
     'Cleaning & Home Care',
-    'Landscaping',
     'Moving Services',
     'Mechanics',
-    'Construction & Trades',
-    'Electricians',
-    'Plumbers',
-    'Painters',
     'Event Planners',
+    
     // Health & Wellness
     'Trainers',
     'Herbalists',
     'Midwives / Doulas',
     'Massage Therapy',
     'Mental Health Counselors',
+    
     // Tech & Digital
     'Web Designers',
     'Developers',
     'Digital Marketers',
     'Graphic Designers',
     'Music Producers',
+    
     // Business & Finance
     'Tax Preparers',
     'Bookkeepers',
     'Consultants',
     'Loan Officers',
     'Insurance Agents',
+    
     // Travel & Transportation
     'Travel Agents',
     'Chauffeurs / Drivers',
     'Car Rental Services',
+    
     // Real Estate & Home
     'Realtors',
     'Airbnb Hosts',
