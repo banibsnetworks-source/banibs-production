@@ -120,34 +120,24 @@ const RegisterPage = () => {
   };
   
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black p-4">
-      <div className="w-full max-w-md">
-        {/* Back Link */}
-        <button
-          onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-gray-400 hover:text-yellow-400 transition-colors mb-6"
-        >
-          <ArrowLeft size={20} />
-          {t('nav.backToHome')}
-        </button>
-        
-        {/* Card */}
-        <div className="card-v2 card-v2-lg shadow-xl-v2 overflow-hidden">
-          {/* Header */}
-          <div className="p-8 border-b border-gray-800">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center">
-                <span className="text-2xl font-bold text-white">B</span>
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-white">{t('auth.joinBanibs')}</h1>
-                <p className="text-sm text-gray-400">{t('auth.createYourAccount')}</p>
-              </div>
+    <AuthLayout brandPanel={<JoinBrandPanel />}>
+      {/* Form Card */}
+      <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl shadow-2xl overflow-hidden">
+        {/* Header */}
+        <div className="p-6 lg:p-8 border-b border-slate-800/50">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/20">
+              <span className="text-2xl font-bold text-white">B</span>
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Join BANIBS</h1>
+              <p className="text-sm text-slate-400">Black American News • Business • Social • Marketplace</p>
             </div>
           </div>
-          
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="p-8">
+        </div>
+        
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="p-6 lg:p-8">
             {/* Error Message */}
             {error && (
               <div className="mb-6 p-4 bg-red-900/30 border border-red-700/50 rounded-lg flex items-start gap-3">
