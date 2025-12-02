@@ -60,7 +60,7 @@ const BusinessPortal = () => {
   };
 
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <SEO
         title="BANIBS Business Portal - Directory, Marketplace, Jobs"
         description="Discover Black-owned businesses, find opportunities, and grow your network."
