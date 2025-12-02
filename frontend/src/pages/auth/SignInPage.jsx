@@ -97,7 +97,7 @@ const SignInPage = () => {
               </label>
               <button
                 type="button"
-                onClick={() => {/* TODO: Add forgot password flow */}}
+                onClick={() => navigate('/auth/forgot-password')}
                 className="text-xs text-amber-400 hover:text-amber-300 transition-colors"
               >
                 Forgot password?
