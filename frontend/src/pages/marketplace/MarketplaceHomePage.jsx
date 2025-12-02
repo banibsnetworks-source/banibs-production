@@ -50,7 +50,7 @@ export default function MarketplaceHomePage() {
 
   return (
     <MarketplaceLayout>
-      <div className="max-w-6xl mx-auto px-4 py-6 md:py-8 space-y-8">
+      <div className="max-w-7xl mx-auto px-4 py-6 md:py-8 space-y-8">
         {/* Hero */}
         <section className="grid md:grid-cols-3 gap-6 items-start">
           <div className="md:col-span-2 space-y-3">
