@@ -29,10 +29,23 @@ const TabIcon = ({icon, focused}) => (
   <Text style={{fontSize: 24, opacity: focused ? 1 : 0.6}}>{icon}</Text>
 );
 
-// Social Stack Navigator (includes feed, create post, comments, profiles, groups)
+// Social Stack Navigator (Phase M5.4 - Groups-focused)
+// Param list for type safety:
+// SocialStackParamList = {
+//   GroupsList: undefined;
+//   GroupDetail: { groupId: string };
+// }
 const SocialStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator 
+      screenOptions={{headerShown: false}}
+      initialRouteName="GroupsList"
+    >
+      {/* Phase M5.4 - Groups as primary Social tab experience */}
+      <Stack.Screen name="GroupsList" component={GroupsListScreen} />
+      <Stack.Screen name="GroupDetail" component={GroupDetailScreen} />
+      
+      {/* Legacy Social Feed screens - accessible but not primary */}
       <Stack.Screen name="SocialFeed" component={SocialFeedScreen} />
       <Stack.Screen
         name="CreatePost"
@@ -43,9 +56,6 @@ const SocialStack = () => {
       />
       <Stack.Screen name="Comments" component={CommentsScreen} />
       <Stack.Screen name="UserProfile" component={UserProfileScreen} />
-      {/* Phase M5.3 - Groups Module */}
-      <Stack.Screen name="GroupsList" component={GroupsListScreen} />
-      <Stack.Screen name="GroupDetail" component={GroupDetailScreen} />
     </Stack.Navigator>
   );
 };
