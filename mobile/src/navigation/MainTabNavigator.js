@@ -50,6 +50,17 @@ const SocialStack = () => {
   );
 };
 
+// Notifications Stack Navigator (includes notifications list and group detail for deep linking)
+const NotificationsStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="NotificationsList" component={NotificationsScreen} />
+      {/* Phase M5.4 - Deep linking to groups from notifications */}
+      <Stack.Screen name="GroupDetail" component={GroupDetailScreen} />
+    </Stack.Navigator>
+  );
+};
+
 const TabIconWithBadge = ({icon, focused, badge}) => (
   <View>
     <Text style={{fontSize: 24, opacity: focused ? 1 : 0.6}}>{icon}</Text>
