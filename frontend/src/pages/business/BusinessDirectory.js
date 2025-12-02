@@ -24,9 +24,36 @@ const BusinessDirectory = () => {
   const [userCoords, setUserCoords] = useState(null);
   const [radiusKm, setRadiusKm] = useState(25);
   
-  // BANIBS Category Tree - Skilled Trades Upgrade (Dec 2025)
-  const categories = [
-    'All Categories',
+  // BANIBS Category Tree - Grouped Structure (Dec 2025)
+  // Format: { type: 'header'|'category', label: string, value: string }
+  const categoryOptions = [
+    { type: 'category', label: 'All Categories', value: '' },
+    
+    // ========== CORE BLACK BUSINESS ==========
+    { type: 'header', label: '━━━ CORE BLACK BUSINESS ━━━' },
+    { type: 'category', label: '  Barbers', value: 'Barbers' },
+    { type: 'category', label: '  Beauticians / Hair Stylists', value: 'Beauticians / Hair Stylists' },
+    { type: 'category', label: '  Braiders', value: 'Braiders' },
+    { type: 'category', label: '  Estheticians', value: 'Estheticians' },
+    { type: 'category', label: '  Nail Technicians', value: 'Nail Technicians' },
+    
+    // ========== LIFESTYLE & CULTURE ==========
+    { type: 'header', label: '━━━ LIFESTYLE & CULTURE ━━━' },
+    { type: 'category', label: '  Black Art / African Art / Caribbean Art', value: 'Black Art / African Art / Caribbean Art' },
+    { type: 'category', label: '  Cultural Goods & Crafts', value: 'Cultural Goods & Crafts' },
+    { type: 'category', label: '  Custom Clothing / Tailors', value: 'Custom Clothing / Tailors' },
+    { type: 'category', label: '  Fashion & Apparel', value: 'Fashion & Apparel' },
+    { type: 'category', label: '  Jewelry & Accessories', value: 'Jewelry & Accessories' },
+    
+    // ========== FOOD & CULINARY ==========
+    { type: 'header', label: '━━━ FOOD & CULINARY ━━━' },
+    { type: 'category', label: '  African Cuisine', value: 'African Cuisine' },
+    { type: 'category', label: '  Bakers / Pastry', value: 'Bakers / Pastry' },
+    { type: 'category', label: '  Caribbean Cuisine', value: 'Caribbean Cuisine' },
+    { type: 'category', label: '  Catering', value: 'Catering' },
+    { type: 'category', label: '  Food Trucks', value: 'Food Trucks' },
+    { type: 'category', label: '  Restaurants', value: 'Restaurants' },
+    { type: 'category', label: '  Soul Food', value: 'Soul Food' },
     
     // Core Black Business Categories
     'Barbers',
