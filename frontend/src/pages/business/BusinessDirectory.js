@@ -229,6 +229,7 @@ export default function BusinessDirectory() {
           )}
         </main>
       </section>
-    </div>
+      </div>
+    </SocialLayout>
   );
 }
