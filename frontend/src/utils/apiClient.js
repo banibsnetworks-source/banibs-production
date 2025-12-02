@@ -1,10 +1,23 @@
 /**
- * Centralized API Client with 401 handling
- * Implements Option A: Simple/Strict approach
- * On 401 → Clear auth → Redirect to login with message
+ * Centralized API Client with 401 handling and retry logic
+ * Stability Improvements - Phase 1
+ * 
+ * Features:
+ * - Automatic retry with exponential backoff for network/server errors
+ * - 401 session handling
+ * - Request timeout management
+ * - Enhanced error logging
  */
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const MAX_RETRIES = 3;
+const INITIAL_RETRY_DELAY = 1000; // 1 second
+const TIMEOUT = 30000; // 30 seconds
+
+/**
+ * Sleep utility for retry delays
+ */
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 /**
  * Custom fetch wrapper with centralized 401 handling
