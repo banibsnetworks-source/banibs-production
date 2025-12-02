@@ -1,6 +1,6 @@
 // pages/marketplace/MarketplaceSellerDashboardPage.jsx - Phase 16.1.5 & 16.2
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MarketplaceLayout from "../../components/marketplace/MarketplaceLayout";
 import SellerPayoutRequestModal from "../../components/marketplace/SellerPayoutRequestModal";
 import { 
@@ -11,10 +11,12 @@ import {
   DollarSign,
   ShoppingBag,
   AlertCircle,
-  Download
+  Download,
+  LogIn
 } from "lucide-react";
 
 export default function MarketplaceSellerDashboardPage() {
+  const navigate = useNavigate();
   const [sellerData, setSellerData] = useState(null);
   const [orders, setOrders] = useState([]);
   const [payouts, setPayouts] = useState([]);
@@ -24,6 +26,14 @@ export default function MarketplaceSellerDashboardPage() {
   const [showPayoutModal, setShowPayoutModal] = useState(false);
 
   useEffect(() => {
+    // Check if user is authenticated before making any API calls
+    const token = localStorage.getItem("access_token");
+    if (!token) {
+      setError("not_authenticated");
+      setLoading(false);
+      return;
+    }
+
     fetchSellerData();
     fetchSellerOrders();
     fetchPayoutOverview();
@@ -41,6 +51,8 @@ export default function MarketplaceSellerDashboardPage() {
       if (res.ok) {
         const data = await res.json();
         setSellerData(data);
+      } else if (res.status === 401) {
+        setError("not_authenticated");
       } else if (res.status === 404) {
         setError("not_registered");
       } else {
