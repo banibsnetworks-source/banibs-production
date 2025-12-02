@@ -284,38 +284,37 @@ cd /app/frontend && yarn add sharp
 #====================================================================================================
 
 user_problem_statement: |
-  **ADCS v1.0 - P0 Endpoints Protection Testing**
+  **Seller Dashboard Authentication and Loading Flow Testing**
 
-  I've just wrapped all P0 critical endpoints with ADCS guards. Please perform comprehensive end-to-end testing of the ADCS system.
+  Test the Seller Dashboard authentication and loading flow with comprehensive scenarios:
 
-  **What was implemented:**
+  **Scenario 1: Unauthenticated User**
+  - Navigate to: http://localhost:3000/portal/marketplace/seller/dashboard
+  - Expected: Should show "Authentication Required" message with a "Log In" button
+  - Verify the error message is clear and user-friendly
 
-  **P0 Endpoints Now Protected:**
-  1. `/api/marketplace/payouts/request` - Marketplace payout requests (P0)
-  2. `/api/relationships/block` - Block user (P0)
-  3. `/api/relationships/unblock` - Unblock user (P0)
-  4. `/api/admin/social/users/ban` - Ban user (P0 - NEWLY CREATED)
-  5. `/api/admin/social/users/unban` - Unban user (P0 - NEWLY CREATED)
+  **Scenario 2: Authenticated User with Seller Profile**
+  - Login with credentials: social_test_user@example.com / TestPass123!
+  - Navigate to: http://localhost:3000/portal/marketplace/seller/dashboard
+  - Expected: Dashboard should load successfully showing:
+    * "Seller Dashboard" title
+    * "Pending Payout" card with amount
+    * "Available for Payout" card with amount  
+    * "Total Sales" metric
+    * "Total Orders" metric
+    * "Request Payout" button
+  - Verify all dashboard sections load without errors
 
-  **ADCS Rules Active:**
-  - **Money Rules**: Balance checks, transaction limits, daily limits, double-entry
-  - **Trust Rules**: Block rate limits (20/day), ban rate limits (10/hour), self-action prevention
-  - **Security Rules**: Role elevation requires human approval
-  - **Schema Rules**: Migration requirements and approval
+  **Testing Requirements:**
+  - Check browser console for any JavaScript errors
+  - Verify API calls return 200 status (not 401/404/500)
+  - Confirm dollar amounts and metrics are displayed
+  - Take screenshots at each key step
 
-  **Test Scenarios:**
-  - Valid and invalid payout requests with balance/limit checks
-  - Block/unblock operations with rate limiting and self-action prevention
-  - Ban/unban operations with role requirements and rate limiting
-  - ADCS audit log verification
-  - ADCS admin API testing
-
-  **Expected Results:**
-  - Valid requests should succeed and be logged
-  - Invalid requests (over limits, self-actions) should be denied with ADCS reasons
-  - All actions should appear in audit logs
-  - Rate limiting should work correctly
-  - ADCS should not break existing functionality
+  **Test User:**
+  - Email: social_test_user@example.com
+  - Password: TestPass123!
+  - This user HAS a seller profile in the database
 
 backend:
   - task: "ADCS v1.0 - P0 Endpoints Protection System"
