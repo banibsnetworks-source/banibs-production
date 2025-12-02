@@ -32,32 +32,10 @@ import {
   getNotificationRoute,
 } from '../utils/notificationHelpers';
 
-const NotificationItem = ({notification, onPress, onClear}) => {
-  const getIcon = (type) => {
-    switch (type) {
-      case 'like':
-        return '❤️';
-      case 'comment':
-        return '💬';
-      case 'follow':
-        return '👤';
-      case 'mention':
-        return '@';
-      default:
-        return '🔔';
-    }
-  };
-
-  const formatTimeAgo = (dateString) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const seconds = Math.floor((now - date) / 1000);
-
-    if (seconds < 60) return 'Just now';
-    if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-    if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
-    return `${Math.floor(seconds / 86400)}d ago`;
-  };
+const NotificationItem = ({notification, onPress}) => {
+  const icon = getNotificationIcon(notification.type);
+  const badgeColor = getNotificationBadgeColor(notification.type);
+  const label = getNotificationLabel(notification);
 
   return (
     <TouchableOpacity
@@ -66,8 +44,8 @@ const NotificationItem = ({notification, onPress, onClear}) => {
         !notification.read && styles.notificationItemUnread,
       ]}
       onPress={() => onPress(notification)}>
-      <View style={styles.notificationIcon}>
-        <Text style={styles.notificationIconText}>{getIcon(notification.type)}</Text>
+      <View style={[styles.notificationIcon, {backgroundColor: badgeColor}]}>
+        <Text style={styles.notificationIconText}>{icon}</Text>
       </View>
       <View style={styles.notificationContent}>
         <Text
@@ -75,17 +53,13 @@ const NotificationItem = ({notification, onPress, onClear}) => {
             styles.notificationMessage,
             !notification.read && styles.notificationMessageUnread,
           ]}>
-          {notification.message}
+          {label}
         </Text>
         <Text style={styles.notificationTime}>
-          {formatTimeAgo(notification.timestamp)}
+          {formatTimeAgo(notification.createdAt)}
         </Text>
       </View>
-      <TouchableOpacity
-        style={styles.clearButton}
-        onPress={() => onClear(notification.id)}>
-        <Text style={styles.clearButtonText}>✕</Text>
-      </TouchableOpacity>
+      {!notification.read && <View style={styles.unreadDot} />}
     </TouchableOpacity>
   );
 };
