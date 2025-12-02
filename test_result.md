@@ -284,37 +284,59 @@ cd /app/frontend && yarn add sharp
 #====================================================================================================
 
 user_problem_statement: |
-  **Seller Dashboard Authentication and Loading Flow Testing**
+  **BANIBS Authentication Pages - VISUAL UPGRADE VERIFICATION**
 
-  Test the Seller Dashboard authentication and loading flow with comprehensive scenarios:
+  Test the BANIBS Authentication pages visual upgrade with comprehensive scenarios:
 
-  **Scenario 1: Unauthenticated User**
-  - Navigate to: http://localhost:3000/portal/marketplace/seller/dashboard
-  - Expected: Should show "Authentication Required" message with a "Log In" button
-  - Verify the error message is clear and user-friendly
+  **Test Scenario 1: Register Page (Desktop)**
+  - Navigate to: https://regionsmart.preview.emergentagent.com/auth/register
+  - Viewport: 1920x1080
+  - Verify brand story panel on the right with:
+    * "For Us. By Us. Built to Last." headline
+    * "Early Access" badge
+    * Three pillars: Real News, Real Business, Real Community
+    * Footer note about early access
+  - Verify form panel on the left with:
+    * "Join BANIBS" header with subtitle
+    * All form fields visible (First Name, Last Name, Email, Password, Confirm Password, Date of Birth, Gender)
+    * Styled amber gradient button "Create Account"
+    * "Already have an account? Sign in" link at bottom
+  - Test form validation by attempting to submit empty form
+  - Verify error styling appears correctly
 
-  **Scenario 2: Authenticated User with Seller Profile**
-  - Login with credentials: social_test_user@example.com / TestPass123!
-  - Navigate to: http://localhost:3000/portal/marketplace/seller/dashboard
-  - Expected: Dashboard should load successfully showing:
-    * "Seller Dashboard" title
-    * "Pending Payout" card with amount
-    * "Available for Payout" card with amount  
-    * "Total Sales" metric
-    * "Total Orders" metric
-    * "Request Payout" button
-  - Verify all dashboard sections load without errors
+  **Test Scenario 2: Sign In Page (Desktop)**
+  - Navigate to: https://regionsmart.preview.emergentagent.com/auth/signin
+  - Viewport: 1920x1080
+  - Verify brand panel on the right with:
+    * "Your network. Your news. Your marketplace." headline
+    * Trust strip with encrypted connections, no selling data, community-first
+    * Quote at bottom
+  - Verify form panel on the left with:
+    * "Welcome back to BANIBS" header
+    * Email and Password fields
+    * "Forgot password?" link
+    * Amber gradient "Sign In" button
+    * "New here? Join BANIBS" link
+  - Test login functionality with credentials: social_test_user@example.com / TestPass123!
+  - Verify successful login redirects to /portal/social
 
-  **Testing Requirements:**
-  - Check browser console for any JavaScript errors
-  - Verify API calls return 200 status (not 401/404/500)
-  - Confirm dollar amounts and metrics are displayed
-  - Take screenshots at each key step
+  **Test Scenario 3: Mobile Responsiveness**
+  - Test both pages on mobile viewport (375x812)
+  - Verify brand panel appears ABOVE form on mobile
+  - Verify form is full-width and properly styled
+  - Check that "Back to Home" button works on both desktop and mobile
 
-  **Test User:**
-  - Email: social_test_user@example.com
-  - Password: TestPass123!
-  - This user HAS a seller profile in the database
+  **Test Scenario 4: Accessibility & UX**
+  - Verify all input fields have proper focus states (amber ring)
+  - Check that error messages display correctly with rose color scheme
+  - Verify gradient buttons have proper hover effects
+  - Test keyboard navigation through forms
+
+  **Requirements:**
+  - Take screenshots at key steps
+  - Verify NO JavaScript console errors
+  - Confirm all existing authentication logic works unchanged
+  - Verify styling matches BANIBS brand (amber/gold accents, slate backgrounds)
 
 backend:
   - task: "ADCS v1.0 - P0 Endpoints Protection System"
