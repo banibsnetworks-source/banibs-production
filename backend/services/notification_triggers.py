@@ -22,11 +22,38 @@ _DEDUPE_WINDOW = 5  # seconds
 
 # ==================== GROUP EVENT NOTIFICATIONS ====================
 
+async def _create_notification_safe(dedupe_key: Optional[str] = None, **kwargs):
+    """
+    Wrapper for create_notification with error handling and deduplication
+    """
+    try:
+        # Deduplication check
+        if dedupe_key and dedupe_key in _recent_notifications:
+            logger.debug(f"Skipping duplicate notification: {dedupe_key}")
+            return
+        
+        # Create notification
+        result = await create_notification(**kwargs)
+        
+        # Add to dedupe cache
+        if dedupe_key:
+            _recent_notifications.add(dedupe_key)
+            # Note: In production, use Redis with TTL instead
+        
+        logger.info(f"Notification created: {kwargs.get('event_type', 'unknown')} for user {kwargs.get('user_id')}")
+        return result
+    except Exception as e:
+        logger.error(f"Failed to create notification: {str(e)}", exc_info=True)
+        # Don't raise - notifications are not critical enough to break the main flow
+        return None
+
+
 async def notify_group_created(group_id: str, group_name: str, creator_id: str):
     """
     Notify when a group is created (mainly for admin tracking)
     """
-    await create_notification(
+    await _create_notification_safe(
+        dedupe_key=f"group_created_{group_id}_{creator_id}",
         user_id=creator_id,
         notification_type="group_event",
         title="Group Created",
