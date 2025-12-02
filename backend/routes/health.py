@@ -72,7 +72,10 @@ async def health_check():
             "news_items",
             "unified_users",
             "business_listings",
-            "job_listings"
+            "job_listings",
+            "groups",
+            "notifications",
+            "adcs_audit_logs"
         ]
         
         missing = [c for c in critical_collections if c not in collections]
@@ -91,6 +94,36 @@ async def health_check():
         health_status["checks"]["collections"] = {
             "status": "warning",
             "message": f"Collection check failed: {str(e)}"
+        }
+    
+    # Check 4: Notification System
+    try:
+        notification_count = await db.notifications.count_documents({})
+        health_status["checks"]["notifications"] = {
+            "status": "healthy",
+            "message": f"Notification system operational ({notification_count} notifications)",
+            "count": notification_count
+        }
+    except Exception as e:
+        health_status["checks"]["notifications"] = {
+            "status": "warning",
+            "message": f"Notification check failed: {str(e)}"
+        }
+    
+    # Check 5: ADCS Audit Logs
+    try:
+        audit_count = await db.adcs_audit_logs.count_documents({})
+        pending_count = await db.adcs_audit_logs.count_documents({"approval_status": "pending_founder"})
+        health_status["checks"]["adcs"] = {
+            "status": "healthy",
+            "message": f"ADCS operational ({audit_count} logs, {pending_count} pending)",
+            "audit_logs": audit_count,
+            "pending_approvals": pending_count
+        }
+    except Exception as e:
+        health_status["checks"]["adcs"] = {
+            "status": "warning",
+            "message": f"ADCS check failed: {str(e)}"
         }
     
     # Overall status determination
