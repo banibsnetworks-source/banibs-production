@@ -219,7 +219,8 @@ async def notify_connection_request(requester_id: str, requester_name: str, targ
     """
     Notify when someone sends a connection request
     """
-    await create_notification(
+    await _create_notification_safe(
+        dedupe_key=f"conn_request_{requester_id}_{target_user_id}",
         user_id=target_user_id,
         notification_type="relationship_event",
         title="New Connection Request",
