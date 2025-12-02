@@ -58,7 +58,7 @@ export default function MarketplaceProductPage() {
   if (loading) {
     return (
       <MarketplaceLayout>
-        <div className="max-w-5xl mx-auto px-4 py-8">
+        <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="text-sm text-slate-400">Loading product...</div>
         </div>
       </MarketplaceLayout>
@@ -68,7 +68,7 @@ export default function MarketplaceProductPage() {
   if (!product) {
     return (
       <MarketplaceLayout>
-        <div className="max-w-5xl mx-auto px-4 py-8">
+        <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="text-sm text-rose-400">Product not found</div>
         </div>
       </MarketplaceLayout>
@@ -80,7 +80,7 @@ export default function MarketplaceProductPage() {
 
   return (
     <MarketplaceLayout>
-      <div className="max-w-6xl mx-auto px-4 py-6 md:py-8">
+      <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
         <Link
           to="/portal/marketplace"
           className="inline-flex items-center text-xs text-slate-400 hover:text-amber-300 mb-4"
