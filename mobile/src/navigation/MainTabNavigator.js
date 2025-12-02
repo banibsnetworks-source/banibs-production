@@ -44,7 +44,23 @@ const SocialStack = () => {
   );
 };
 
-const TabIconWithBadge = ({icon, focused, badge}) => (\n  <View>\n    <Text style={{fontSize: 24, opacity: focused ? 1 : 0.6}}>{icon}</Text>\n    {badge > 0 && (\n      <NotificationBadge \n        count={badge} \n        size=\"small\" \n        style={{position: 'absolute', top: -4, right: -8}} \n      />\n    )}\n  </View>\n);\n\nconst MainTabNavigator = () => {\n  const {unreadCount} = useNotifications();\n  \n  return (
+const TabIconWithBadge = ({icon, focused, badge}) => (
+  <View>
+    <Text style={{fontSize: 24, opacity: focused ? 1 : 0.6}}>{icon}</Text>
+    {badge > 0 && (
+      <NotificationBadge 
+        count={badge} 
+        size="small" 
+        style={{position: 'absolute', top: -4, right: -8}} 
+      />
+    )}
+  </View>
+);
+
+const MainTabNavigator = () => {
+  const {unreadCount} = useNotifications();
+  
+  return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
