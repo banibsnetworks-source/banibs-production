@@ -1984,3 +1984,104 @@ a:hover {
   transform: translateY(-1px);
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.8);
 }
+
+/* Navigation Bar for Business Directory */
+.bn-directory-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background: rgba(15, 23, 42, 0.95);
+  border-radius: var(--bn-radius-xl);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  margin-bottom: 1rem;
+  backdrop-filter: blur(12px);
+}
+
+.bn-directory-nav__left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.bn-directory-nav__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: 0.75rem;
+  color: var(--bn-color-text-main);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bn-directory-nav__back:hover {
+  background: rgba(251, 191, 36, 0.2);
+  border-color: rgba(251, 191, 36, 0.5);
+  transform: translateX(-2px);
+}
+
+.bn-directory-nav__breadcrumbs {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+@media (min-width: 768px) {
+  .bn-directory-nav__breadcrumbs {
+    display: flex;
+  }
+}
+
+.bn-directory-nav__breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: rgba(148, 163, 184, 0.9);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.bn-directory-nav__breadcrumb:hover {
+  color: var(--bn-color-gold);
+}
+
+.bn-directory-nav__separator {
+  color: rgba(148, 163, 184, 0.5);
+}
+
+.bn-directory-nav__current {
+  color: var(--bn-color-text-main);
+  font-weight: 500;
+}
+
+.bn-directory-nav__portal {
+  padding: 0.5rem 1rem;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 0.75rem;
+  color: rgba(56, 189, 248, 0.95);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.bn-directory-nav__portal:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: rgba(56, 189, 248, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Adjust page padding to account for nav */
+.bn-directory-page {
+  padding-top: 1.5rem;
+}
