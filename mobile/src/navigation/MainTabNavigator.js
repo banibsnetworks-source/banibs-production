@@ -18,7 +18,6 @@ import SettingsScreen from '../screens/SettingsScreen';
 import NotificationBadge from '../components/NotificationBadge';
 import {useNotifications} from '../contexts/NotificationContext';
 import {theme} from '../theme';
-import {View} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
