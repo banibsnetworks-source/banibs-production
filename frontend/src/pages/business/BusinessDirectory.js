@@ -119,7 +119,7 @@ export default function BusinessDirectory() {
   const allCount = businesses.length;
 
   return (
-    <SocialLayout>
+    <FullWidthLayout>
       <div className="bn-directory-page">
         {/* Breadcrumb Navigation - Inside Page Content, Below Global Header */}
         <div className="bn-directory-nav">
