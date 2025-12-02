@@ -51,9 +51,7 @@ const ForgotPasswordPage = () => {
 
   return (
     <AuthLayout brandPanel={<SignInBrandPanel />}>
-      {/* Form Card */}
       <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-2xl shadow-2xl overflow-hidden">
-        {/* Header */}
         <div className="p-6 lg:p-8 border-b border-slate-800/50">
           <button
             onClick={() => navigate('/auth/signin')}
@@ -78,26 +76,24 @@ const ForgotPasswordPage = () => {
           </div>
         </div>
 
-        {/* Content */}
         <div className="p-6 lg:p-8">
           {success ? (
-            /* Success State */
-            <div className=\"space-y-6\">
-              <div className=\"p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl flex items-start gap-3\">
-                <CheckCircle className=\"text-emerald-400 flex-shrink-0 mt-0.5\" size={20} />
+            <div className="space-y-6">
+              <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl flex items-start gap-3">
+                <CheckCircle className="text-emerald-400 flex-shrink-0 mt-0.5" size={20} />
                 <div>
-                  <p className=\"text-sm text-emerald-200 font-medium mb-1\">
+                  <p className="text-sm text-emerald-200 font-medium mb-1">
                     Reset email sent!
                   </p>
-                  <p className=\"text-xs text-emerald-300/80\">
+                  <p className="text-xs text-emerald-300/80">
                     If an account exists for <strong>{email}</strong>, you'll receive a password reset link shortly. 
                     Please check your inbox (and spam folder).
                   </p>
                 </div>
               </div>
 
-              <div className=\"text-center\">
-                <p className=\"text-sm text-slate-400 mb-4\">
+              <div className="text-center">
+                <p className="text-sm text-slate-400 mb-4">
                   Didn't receive the email?
                 </p>
                 <button
@@ -105,7 +101,7 @@ const ForgotPasswordPage = () => {
                     setSuccess(false);
                     setEmail('');
                   }}
-                  className=\"text-amber-400 hover:text-amber-300 font-semibold text-sm transition-colors\"
+                  className="text-amber-400 hover:text-amber-300 font-semibold text-sm transition-colors"
                 >
                   Try again
                 </button>
@@ -113,57 +109,52 @@ const ForgotPasswordPage = () => {
 
               <button
                 onClick={() => navigate('/auth/signin')}
-                className=\"w-full px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold transition-all\"
+                className="w-full px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold transition-all"
               >
                 Back to Sign In
               </button>
             </div>
           ) : (
-            /* Form State */
-            <form onSubmit={handleSubmit} className=\"space-y-6\">
-              {/* Error Message */}
+            <form onSubmit={handleSubmit} className="space-y-6">
               {error && (
-                <div className=\"p-4 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-start gap-3\">
-                  <AlertCircle className=\"text-rose-400 flex-shrink-0 mt-0.5\" size={20} />
-                  <p className=\"text-sm text-rose-200\">{error}</p>
+                <div className="p-4 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-start gap-3">
+                  <AlertCircle className="text-rose-400 flex-shrink-0 mt-0.5" size={20} />
+                  <p className="text-sm text-rose-200">{error}</p>
                 </div>
               )}
 
-              {/* Info Message */}
-              <div className=\"p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl\">
-                <p className=\"text-sm text-blue-200\">
+              <div className="p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl">
+                <p className="text-sm text-blue-200">
                   Enter the email address associated with your BANIBS account, and we'll send you a link to reset your password.
                 </p>
               </div>
 
-              {/* Email Field */}
               <div>
-                <label className=\"block text-sm font-medium text-slate-300 mb-2\">
+                <label className="block text-sm font-medium text-slate-300 mb-2">
                   Email Address
                 </label>
-                <div className=\"relative\">
-                  <Mail className=\"absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500\" size={18} />
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" size={18} />
                   <input
-                    type=\"email\"
+                    type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder=\"your@email.com\"
+                    placeholder="your@email.com"
                     className={inputClass}
                     disabled={loading}
                   />
                 </div>
               </div>
 
-              {/* Submit Button */}
               <button
-                type=\"submit\"
+                type="submit"
                 disabled={loading || !email}
-                className=\"w-full px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2\"
+                className="w-full px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>
-                    <Loader2 className=\"animate-spin\" size={20} />
+                    <Loader2 className="animate-spin" size={20} />
                     Sending reset link...
                   </>
                 ) : (
@@ -171,12 +162,11 @@ const ForgotPasswordPage = () => {
                 )}
               </button>
 
-              {/* Back to Sign In */}
-              <div className=\"text-center\">
+              <div className="text-center">
                 <button
-                  type=\"button\"
+                  type="button"
                   onClick={() => navigate('/auth/signin')}
-                  className=\"text-sm text-slate-400 hover:text-amber-400 transition-colors\"
+                  className="text-sm text-slate-400 hover:text-amber-400 transition-colors"
                 >
                   Remember your password? Sign in
                 </button>
@@ -186,8 +176,7 @@ const ForgotPasswordPage = () => {
         </div>
       </div>
 
-      {/* Security Note */}
-      <p className=\"text-center text-xs text-slate-500 mt-6\">
+      <p className="text-center text-xs text-slate-500 mt-6">
         For security, we'll only confirm a reset was sent if the email exists in our system.
       </p>
     </AuthLayout>
