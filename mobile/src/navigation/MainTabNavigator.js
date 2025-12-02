@@ -15,6 +15,9 @@ import UserProfileScreen from '../screens/UserProfileScreen';
 import MessagingScreen from '../screens/MessagingScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+// Phase M5.3 - Groups Module
+import GroupsListScreen from '../screens/GroupsListScreen';
+import GroupDetailScreen from '../screens/GroupDetailScreen';
 import NotificationBadge from '../components/NotificationBadge';
 import {useNotifications} from '../contexts/NotificationContext';
 import {theme} from '../theme';
