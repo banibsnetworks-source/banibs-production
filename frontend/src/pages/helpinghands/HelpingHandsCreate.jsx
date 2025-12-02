@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Upload, X, Loader2 } from 'lucide-react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { xhrRequest } from '../../utils/xhrRequest';
@@ -147,7 +147,7 @@ const HelpingHandsCreate = () => {
   };
   
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       {/* CSS Fixes for State Dropdown & Form Inputs - P2 Issue */}
       <style>{`
         /* Override browser autofill styles for all inputs and selects */
@@ -590,7 +590,7 @@ const HelpingHandsCreate = () => {
           </div>
         </div>
       </div>
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

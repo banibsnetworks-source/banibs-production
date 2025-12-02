@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { MapPin, Calendar, Heart, Share2, Flag, Loader2, ArrowLeft } from 'lucide-react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import HelpingHandsProgressBar from '../../components/helpinghands/HelpingHandsProgressBar';
 import HelpingHandsSupportButton from '../../components/helpinghands/HelpingHandsSupportButton';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -92,11 +92,11 @@ const HelpingHandsCampaignDetail = () => {
   
   if (loading) {
     return (
-      <BusinessLayout>
+      <FullWidthLayout>
         <div className="flex items-center justify-center min-h-screen">
           <Loader2 size={48} className="animate-spin" style={{ color: '#E8B657' }} />
         </div>
-      </BusinessLayout>
+      </FullWidthLayout>
     );
   }
   
@@ -105,7 +105,7 @@ const HelpingHandsCampaignDetail = () => {
   }
   
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <div 
         className="min-h-screen"
         style={{
@@ -320,7 +320,7 @@ const HelpingHandsCampaignDetail = () => {
           </div>
         )}
       </div>
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 

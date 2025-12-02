@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, TrendingUp, Clock, Star, Loader2, Users } from 'lucide-react';
-import BusinessLayout from '../../components/business/BusinessLayout';
+import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import HelpingHandsCampaignCard from '../../components/helpinghands/HelpingHandsCampaignCard';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useAuth } from '../../contexts/AuthContext';
@@ -75,7 +75,7 @@ const HelpingHandsHome = () => {
   ];
   
   return (
-    <BusinessLayout>
+    <FullWidthLayout>
       <div 
         className="min-h-screen"
         style={{
@@ -195,7 +195,7 @@ const HelpingHandsHome = () => {
           )}
         </div>
       </div>
-    </BusinessLayout>
+    </FullWidthLayout>
   );
 };
 
