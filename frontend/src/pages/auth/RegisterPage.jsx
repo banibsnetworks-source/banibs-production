@@ -330,14 +330,14 @@ const RegisterPage = () => {
             
             {/* Sign In Link */}
             <div className="mt-6 text-center">
-              <p className="text-sm text-gray-400">
-                {t('auth.alreadyHaveAccount')}{' '}
+              <p className="text-sm text-slate-400">
+                Already have an account?{' '}
                 <button
                   type="button"
                   onClick={() => navigate('/auth/signin')}
-                  className="text-yellow-400 hover:text-yellow-300 font-medium transition-colors"
+                  className="text-amber-400 hover:text-amber-300 font-semibold transition-colors"
                 >
-                  {t('auth.signin')}
+                  Sign in
                 </button>
               </p>
             </div>
@@ -345,11 +345,11 @@ const RegisterPage = () => {
         </div>
         
         {/* Footer */}
-        <p className="text-center text-xs text-gray-500 mt-6">
-          {t('auth.termsAgreement')}
+        <p className="text-center text-xs text-slate-500 mt-6">
+          By creating an account, you agree to our Terms of Service and Privacy Policy.
         </p>
       </div>
-    </div>
+    </AuthLayout>
   );
 };
 
