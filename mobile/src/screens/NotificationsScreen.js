@@ -64,28 +64,93 @@ const NotificationItem = ({notification, onPress}) => {
   );
 };
 
-const NotificationsScreen = ({navigation}) => {
-  const {
-    notifications,
-    unreadCount,
-    markAsRead,
-    markAllAsRead,
-    clearNotification,
-    refresh,
-  } = useNotifications();
-  const [refreshing, setRefreshing] = React.useState(false);
+const NotificationsScreen = () => {
+  const navigation = useNavigation();
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    loadNotifications();
+  }, []);
+
+  const loadNotifications = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      
+      // Fetch real notifications from backend
+      const data = await notificationsService.getNotifications({
+        limit: 100,
+        unreadOnly: false,
+      });
+      
+      setNotifications(data);
+    } catch (err) {
+      console.error('Failed to load notifications:', err);
+      setError(err.message || 'Failed to load notifications');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await refresh();
+    await loadNotifications();
     setRefreshing(false);
   };
 
-  const handleNotificationPress = (notification) => {
-    markAsRead(notification.id);
-    // Navigate based on notification type
-    // navigation.navigate('Post', {postId: notification.postId});
+  const markAsRead = async (notificationId) => {
+    try {
+      await notificationsService.markAsRead(notificationId);
+      
+      // Update local state
+      setNotifications((prev) =>
+        prev.map((n) =>
+          n.id === notificationId ? {...n, read: true} : n,
+        ),
+      );
+    } catch (err) {
+      console.error('Failed to mark as read:', err);
+    }
   };
+
+  const handleNotificationPress = async (notification) => {
+    // Mark as read
+    if (!notification.read) {
+      await markAsRead(notification.id);
+    }
+    
+    // Get navigation route from notification
+    const route = getNotificationRoute(notification);
+    
+    // Navigate to the appropriate screen
+    try {
+      if (route.screen && navigation) {
+        navigation.navigate(route.screen, route.params || {});
+      }
+    } catch (navError) {
+      console.error('Navigation error:', navError);
+      Alert.alert('Navigation Error', 'Unable to open this notification.');
+    }
+  };
+
+  const handleMarkAllAsRead = async () => {
+    try {
+      await notificationsService.markAllAsRead();
+      
+      // Update all notifications to read
+      setNotifications((prev) =>
+        prev.map((n) => ({...n, read: true})),
+      );
+    } catch (err) {
+      console.error('Failed to mark all as read:', err);
+      Alert.alert('Error', 'Failed to mark all as read');
+    }
+  };
+
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
     <Container safe>
