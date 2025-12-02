@@ -228,6 +228,52 @@ const NotificationsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: theme.colors.background.primary,
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.background.primary,
+  },
+  loadingText: {
+    fontSize: theme.typography.fontSize.base,
+    color: theme.colors.text.secondary,
+    marginTop: theme.spacing.md,
+  },
+  errorContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: theme.spacing.xl,
+    backgroundColor: theme.colors.background.primary,
+  },
+  errorIcon: {
+    fontSize: 64,
+    marginBottom: theme.spacing.md,
+  },
+  errorTitle: {
+    fontSize: theme.typography.fontSize.xl,
+    fontWeight: theme.typography.fontWeight.bold,
+    color: theme.colors.text.primary,
+    marginBottom: theme.spacing.sm,
+  },
+  errorText: {
+    fontSize: theme.typography.fontSize.base,
+    color: theme.colors.text.secondary,
+    textAlign: 'center',
+    marginBottom: theme.spacing.lg,
+  },
+  retryButton: {
+    backgroundColor: theme.colors.primary.gold,
+    paddingHorizontal: theme.spacing.lg,
+    paddingVertical: theme.spacing.md,
+    borderRadius: theme.borderRadius.md,
+  },
+  retryButtonText: {
+    color: theme.colors.text.inverse,
+    fontSize: theme.typography.fontSize.base,
+    fontWeight: theme.typography.fontWeight.semibold,
   },
   header: {
     flexDirection: 'row',
@@ -236,6 +282,7 @@ const styles = StyleSheet.create({
     padding: theme.spacing.lg,
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.border.default,
+    backgroundColor: theme.colors.background.primary,
   },
   title: {
     fontSize: theme.typography.fontSize['2xl'],
@@ -261,6 +308,7 @@ const styles = StyleSheet.create({
     padding: theme.spacing.md,
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.border.default,
+    backgroundColor: theme.colors.background.primary,
   },
   notificationItemUnread: {
     backgroundColor: theme.colors.background.tertiary,
@@ -269,13 +317,12 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: theme.colors.background.tertiary,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: theme.spacing.md,
   },
   notificationIconText: {
-    fontSize: 24,
+    fontSize: 20,
   },
   notificationContent: {
     flex: 1,
@@ -292,12 +339,12 @@ const styles = StyleSheet.create({
     fontSize: theme.typography.fontSize.sm,
     color: theme.colors.text.tertiary,
   },
-  clearButton: {
-    padding: theme.spacing.sm,
-  },
-  clearButtonText: {
-    fontSize: 18,
-    color: theme.colors.text.tertiary,
+  unreadDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: theme.colors.primary.gold,
+    marginLeft: theme.spacing.sm,
   },
   emptyContainer: {
     flex: 1,
