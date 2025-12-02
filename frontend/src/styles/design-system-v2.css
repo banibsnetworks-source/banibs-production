@@ -1985,17 +1985,17 @@ a:hover {
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.8);
 }
 
-/* Navigation Bar for Business Directory */
+/* Breadcrumb Navigation for Business Directory (Inside Page, Below Global Header) */
 .bn-directory-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.5rem;
-  background: rgba(15, 23, 42, 0.95);
-  border-radius: var(--bn-radius-xl);
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  margin-bottom: 1rem;
-  backdrop-filter: blur(12px);
+  padding: 0.75rem 1rem;
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  margin-bottom: 1.25rem;
+  backdrop-filter: blur(8px);
 }
 
 .bn-directory-nav__left {
