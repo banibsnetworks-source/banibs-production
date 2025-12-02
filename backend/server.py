@@ -398,6 +398,10 @@ app.include_router(groups_router)  # Groups & Membership - Phase 8.5
 app.include_router(adcs_router)  # ADCS v1.0 - AI Double-Check System Admin API
 app.include_router(region_router)  # RCS-X Phase 1 - Region Content System
 
+# Debug routes (email testing)
+from routes.debug import router as debug_router
+app.include_router(debug_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
