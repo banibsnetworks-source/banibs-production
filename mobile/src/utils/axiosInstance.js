@@ -1,16 +1,46 @@
 /**
- * BANIBS Mobile - Axios Instance with Interceptors
- * Phase M5.1 - Auth Wiring
+ * BANIBS Mobile - Enhanced Axios Instance
+ * Stability Improvements - Phase 1
  * 
  * Configured axios instance with:
  * - Auth token attachment
  * - 401/403 handling
  * - Request/response logging (for debugging ADCS)
+ * - Automatic retry with exponential backoff
+ * - Enhanced error reporting
  */
 
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {API_BASE_URL} from '../config/api';
+
+// Retry configuration
+const MAX_RETRIES = 3;
+const INITIAL_RETRY_DELAY = 1000; // 1 second
+
+/**
+ * Check if error is retryable
+ */
+const isRetryableError = (error) => {
+  // Network errors
+  if (!error.response) return true;
+  
+  // Server errors (5xx)
+  if (error.response?.status >= 500) return true;
+  
+  // Rate limiting (429)
+  if (error.response?.status === 429) return true;
+  
+  // Timeout errors
+  if (error.code === 'ECONNABORTED') return true;
+  
+  return false;
+};
+
+/**
+ * Sleep utility for retry delays
+ */
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Create axios instance
 const axiosInstance = axios.create({
