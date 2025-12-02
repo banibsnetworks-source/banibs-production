@@ -15,7 +15,7 @@ from datetime import datetime
 from typing import Optional, Dict, Any
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://mobile-social-3.preview.emergentagent.com"
+BACKEND_URL = "https://banibs-mobile.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 class BanibsAPITester:
