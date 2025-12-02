@@ -147,19 +147,19 @@ const RegisterPage = () => {
             )}
             
             {/* First Name Field */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                {t('auth.firstName')}
+            <div className="mb-5">
+              <label className="block text-sm font-medium text-slate-300 mb-2">
+                First Name
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" size={18} />
                 <input
                   type="text"
                   required
                   value={formData.first_name}
                   onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                  placeholder={t('auth.firstNamePlaceholder')}
-                  className="input-v2 w-full pl-10"
+                  placeholder="Enter your first name"
+                  className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all"
                 />
               </div>
             </div>
