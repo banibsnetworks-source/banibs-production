@@ -70,7 +70,7 @@ const RegisterPage = () => {
     } else {
       const dob = new Date(formData.date_of_birth);
       const today = new Date();
-      const age = today.getFullYear() - dob.getFullYear();
+      let age = today.getFullYear() - dob.getFullYear();
       const monthDiff = today.getMonth() - dob.getMonth();
       
       if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
@@ -119,6 +119,9 @@ const RegisterPage = () => {
     }
   };
   
+  const inputClass = "w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all";
+  const inputErrorClass = "w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-rose-500 rounded-xl text-white placeholder-slate-500 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20 transition-all";
+  
   return (
     <AuthLayout brandPanel={<JoinBrandPanel />}>
       {/* Form Card */}
@@ -138,217 +141,225 @@ const RegisterPage = () => {
         
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 lg:p-8">
-            {/* Error Message */}
-            {error && (
-              <div className="mb-6 p-4 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-start gap-3">
-                <AlertCircle className="text-rose-400 flex-shrink-0 mt-0.5" size={20} />
-                <p className="text-sm text-rose-200">{error}</p>
-              </div>
+          {/* Error Message */}
+          {error && (
+            <div className="mb-6 p-4 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-start gap-3">
+              <AlertCircle className="text-rose-400 flex-shrink-0 mt-0.5" size={20} />
+              <p className="text-sm text-rose-200">{error}</p>
+            </div>
+          )}
+          
+          {/* First Name Field */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              First Name
+            </label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" size={18} />
+              <input
+                type="text"
+                required
+                value={formData.first_name}
+                onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
+                placeholder="Enter your first name"
+                className={inputClass}
+              />
+            </div>
+            {fieldErrors.first_name && (
+              <p className="text-xs text-rose-400 mt-2">{fieldErrors.first_name}</p>
             )}
-            
-            {/* First Name Field */}
-            <div className="mb-5">
-              <label className="block text-sm font-medium text-slate-300 mb-2">
-                First Name
-              </label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" size={18} />
+          </div>
+          
+          {/* Last Name Field */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Last Name
+            </label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" size={18} />
+              <input
+                type="text"
+                required
+                value={formData.last_name}
+                onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
+                placeholder="Enter your last name"
+                className={inputClass}
+              />
+            </div>
+            {fieldErrors.last_name && (
+              <p className="text-xs text-rose-400 mt-2">{fieldErrors.last_name}</p>
+            )}
+          </div>
+          
+          {/* Email Field */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Email Address
+            </label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" size={18} />
+              <input
+                type="email"
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                placeholder="your@email.com"
+                className={inputClass}
+              />
+            </div>
+            {fieldErrors.email && (
+              <p className="text-xs text-rose-400 mt-2">{fieldErrors.email}</p>
+            )}
+          </div>
+          
+          {/* Password Field */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Password
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" size={18} />
+              <input
+                type="password"
+                required
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                placeholder="Create a strong password"
+                minLength={6}
+                className={fieldErrors.password ? inputErrorClass : inputClass}
+              />
+            </div>
+            {fieldErrors.password && (
+              <p className="text-xs text-rose-400 mt-2">{fieldErrors.password}</p>
+            )}
+            {!fieldErrors.password && (
+              <p className="text-xs text-slate-500 mt-2">Minimum 6 characters</p>
+            )}
+          </div>
+          
+          {/* Confirm Password Field */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Confirm Password
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" size={18} />
+              <input
+                type="password"
+                required
+                value={formData.confirm_password}
+                onChange={(e) => setFormData({ ...formData, confirm_password: e.target.value })}
+                placeholder="Re-enter your password"
+                className={fieldErrors.confirm_password ? inputErrorClass : inputClass}
+              />
+            </div>
+            {fieldErrors.confirm_password && (
+              <p className="text-xs text-rose-400 mt-2">{fieldErrors.confirm_password}</p>
+            )}
+          </div>
+          
+          {/* Date of Birth Field */}
+          <div className="mb-5">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Date of Birth
+            </label>
+            <div className="relative">
+              <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500" size={18} />
+              <input
+                type="date"
+                required
+                value={formData.date_of_birth}
+                onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value })}
+                max={new Date().toISOString().split('T')[0]}
+                className={fieldErrors.date_of_birth ? inputErrorClass : inputClass}
+              />
+            </div>
+            {fieldErrors.date_of_birth && (
+              <p className="text-xs text-rose-400 mt-2">{fieldErrors.date_of_birth}</p>
+            )}
+            {!fieldErrors.date_of_birth && (
+              <p className="text-xs text-slate-500 mt-2">You must be at least 13 years old</p>
+            )}
+          </div>
+          
+          {/* Gender Field (Optional) */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-slate-300 mb-2">
+              Gender <span className="text-slate-500 text-xs">(Optional)</span>
+            </label>
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 p-3 bg-slate-800/50 border border-slate-700 rounded-xl cursor-pointer hover:bg-slate-800 hover:border-amber-500/30 transition-all">
                 <input
-                  type="text"
-                  required
-                  value={formData.first_name}
-                  onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                  placeholder="Enter your first name"
-                  className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 transition-all"
+                  type="radio"
+                  name="gender"
+                  value="male"
+                  checked={formData.gender === 'male'}
+                  onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                  className="w-4 h-4 text-amber-500 bg-slate-700 border-slate-600 focus:ring-amber-500 focus:ring-2"
                 />
-              </div>
-            </div>
-            
-            {/* Last Name Field */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                {t('auth.lastName')}
+                <span className="text-sm text-slate-300">Male</span>
               </label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
+              <label className="flex items-center gap-2 p-3 bg-slate-800/50 border border-slate-700 rounded-xl cursor-pointer hover:bg-slate-800 hover:border-amber-500/30 transition-all">
                 <input
-                  type="text"
-                  required
-                  value={formData.last_name}
-                  onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-                  placeholder={t('auth.lastNamePlaceholder')}
-                  className="input-v2 w-full pl-10"
+                  type="radio"
+                  name="gender"
+                  value="female"
+                  checked={formData.gender === 'female'}
+                  onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                  className="w-4 h-4 text-amber-500 bg-slate-700 border-slate-600 focus:ring-amber-500 focus:ring-2"
                 />
-              </div>
-            </div>
-            
-            {/* Email Field */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                {t('auth.emailAddress')}
+                <span className="text-sm text-slate-300">Female</span>
               </label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
+              <label className="flex items-center gap-2 p-3 bg-slate-800/50 border border-slate-700 rounded-xl cursor-pointer hover:bg-slate-800 hover:border-amber-500/30 transition-all">
                 <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder={t('auth.emailPlaceholder')}
-                  className="input-v2 w-full pl-10"
+                  type="radio"
+                  name="gender"
+                  value="prefer_not_to_say"
+                  checked={formData.gender === 'prefer_not_to_say'}
+                  onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                  className="w-4 h-4 text-amber-500 bg-slate-700 border-slate-600 focus:ring-amber-500 focus:ring-2"
                 />
-              </div>
-            </div>
-            
-            {/* Password Field */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                {t('auth.password')}
+                <span className="text-sm text-slate-300">Prefer not to say</span>
               </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
-                <input
-                  type="password"
-                  required
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  placeholder={t('auth.createStrongPassword')}
-                  minLength={6}
-                  className="input-v2 w-full pl-10"
-                />
-              </div>
-              {fieldErrors.password && (
-                <p className="text-xs text-red-400 mt-2">{fieldErrors.password}</p>
-              )}
-              {!fieldErrors.password && (
-                <p className="text-xs text-gray-500 mt-2">{t('auth.passwordMinLength')}</p>
-              )}
             </div>
-            
-            {/* Confirm Password Field */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Confirm Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
-                <input
-                  type="password"
-                  required
-                  value={formData.confirm_password}
-                  onChange={(e) => setFormData({ ...formData, confirm_password: e.target.value })}
-                  placeholder="Re-enter your password"
-                  className={`input-v2 w-full pl-10 ${fieldErrors.confirm_password ? 'border-red-500' : ''}`}
-                />
-              </div>
-              {fieldErrors.confirm_password && (
-                <p className="text-xs text-red-400 mt-2">{fieldErrors.confirm_password}</p>
-              )}
-            </div>
-            
-            {/* Date of Birth Field */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Date of Birth
-              </label>
-              <div className="relative">
-                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={18} />
-                <input
-                  type="date"
-                  required
-                  value={formData.date_of_birth}
-                  onChange={(e) => setFormData({ ...formData, date_of_birth: e.target.value })}
-                  max={new Date().toISOString().split('T')[0]}
-                  className={`input-v2 w-full pl-10 ${fieldErrors.date_of_birth ? 'border-red-500' : ''}`}
-                />
-              </div>
-              {fieldErrors.date_of_birth && (
-                <p className="text-xs text-red-400 mt-2">{fieldErrors.date_of_birth}</p>
-              )}
-              {!fieldErrors.date_of_birth && (
-                <p className="text-xs text-gray-500 mt-2">You must be at least 13 years old</p>
-              )}
-            </div>
-            
-            {/* Gender Field (Optional) */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                Gender <span className="text-gray-500 text-xs">(Optional)</span>
-              </label>
-              <div className="space-y-2">
-                <label className="flex items-center gap-2 p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-750 transition-colors">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="male"
-                    checked={formData.gender === 'male'}
-                    onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                    className="w-4 h-4 text-yellow-400 bg-gray-700 border-gray-600 focus:ring-yellow-500"
-                  />
-                  <span className="text-sm text-gray-300">Male</span>
-                </label>
-                <label className="flex items-center gap-2 p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-750 transition-colors">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="female"
-                    checked={formData.gender === 'female'}
-                    onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                    className="w-4 h-4 text-yellow-400 bg-gray-700 border-gray-600 focus:ring-yellow-500"
-                  />
-                  <span className="text-sm text-gray-300">Female</span>
-                </label>
-                <label className="flex items-center gap-2 p-3 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-750 transition-colors">
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="prefer_not_to_say"
-                    checked={formData.gender === 'prefer_not_to_say'}
-                    onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                    className="w-4 h-4 text-yellow-400 bg-gray-700 border-gray-600 focus:ring-yellow-500"
-                  />
-                  <span className="text-sm text-gray-300">Prefer not to say</span>
-                </label>
-              </div>
-            </div>
-            
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-v2 btn-v2-primary btn-v2-lg w-full flex items-center justify-center gap-2"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="animate-spin" size={20} />
-                  {t('auth.creatingAccount')}
-                </>
-              ) : (
-                t('auth.createAccount')
-              )}
-            </button>
-            
-            {/* Sign In Link */}
-            <div className="mt-6 text-center">
-              <p className="text-sm text-slate-400">
-                Already have an account?{' '}
-                <button
-                  type="button"
-                  onClick={() => navigate('/auth/signin')}
-                  className="text-amber-400 hover:text-amber-300 font-semibold transition-colors"
-                >
-                  Sign in
-                </button>
-              </p>
-            </div>
-          </form>
-        </div>
-        
-        {/* Footer */}
-        <p className="text-center text-xs text-slate-500 mt-6">
-          By creating an account, you agree to our Terms of Service and Privacy Policy.
-        </p>
+          </div>
+          
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold shadow-lg shadow-amber-500/20 hover:shadow-amber-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          >
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin" size={20} />
+                Creating your account...
+              </>
+            ) : (
+              'Create Account'
+            )}
+          </button>
+          
+          {/* Sign In Link */}
+          <div className="mt-6 text-center">
+            <p className="text-sm text-slate-400">
+              Already have an account?{' '}
+              <button
+                type="button"
+                onClick={() => navigate('/auth/signin')}
+                className="text-amber-400 hover:text-amber-300 font-semibold transition-colors"
+              >
+                Sign in
+              </button>
+            </p>
+          </div>
+        </form>
       </div>
+      
+      {/* Footer */}
+      <p className="text-center text-xs text-slate-500 mt-6">
+        By creating an account, you agree to our Terms of Service and Privacy Policy.
+      </p>
     </AuthLayout>
   );
 };
