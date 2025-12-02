@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { MapPin, Navigation, Search, Loader2 } from 'lucide-react';
 import BusinessLayout from '../../components/business/BusinessLayout';
 import NavigationButtons from '../../components/business/NavigationButtons';
+import { categoryOptions } from '../../data/businessCategories';
 
 /**
  * BusinessDirectory - Phase 8.4 (P0 Fix)
