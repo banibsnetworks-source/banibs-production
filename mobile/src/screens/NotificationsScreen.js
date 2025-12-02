@@ -216,7 +216,7 @@ const NotificationsScreen = () => {
             <Text style={styles.emptyIcon}>🔔</Text>
             <Text style={styles.emptyTitle}>No Notifications</Text>
             <Text style={styles.emptyText}>
-              You're all caught up! New notifications will appear here.
+              You&apos;re all caught up! New notifications will appear here.
             </Text>
           </View>
         }
