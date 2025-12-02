@@ -150,6 +150,7 @@ import HighFiveDemo from "./pages/test/HighFiveDemo";
 import EmojiTestPage from "./pages/test/EmojiTestPage";
 import EmojiPickerDemo from "./pages/test/EmojiPickerDemo";
 import EmojiIdentitySettingsPanel from "./components/settings/EmojiIdentitySettingsPanel";
+import SettingsPage from "./pages/settings/SettingsPage";
 import EmojiRenderTest from "./pages/test/EmojiRenderTest";
 // Phase 11+ Portal Placeholders
 import {
