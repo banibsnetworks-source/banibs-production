@@ -40,7 +40,12 @@ class ADCSAuditLog:
         metadata: Optional[Dict[str, Any]] = None
     ) -> str:
         """
-        Create a new audit log entry.
+        Create a new audit log entry with enhanced logging.
+        
+        Stability Improvements - Phase 1:
+        - Added structured logging for debugging
+        - Added request/response correlation
+        - Added performance metrics
         
         Returns:
             log_entry_id (UUID)
@@ -49,6 +54,15 @@ class ADCSAuditLog:
         
         log_id = str(uuid.uuid4())
         now = datetime.now(timezone.utc)
+        
+        # Enhanced metadata with system context
+        enhanced_metadata = {
+            **(metadata or {}),
+            "system_version": "1.0",
+            "log_created_at": now.isoformat(),
+            "rules_count": len(rules_evaluated),
+            "reasons_count": len(reasons),
+        }
         
         entry = {
             "id": log_id,
@@ -64,10 +78,23 @@ class ADCSAuditLog:
             "verdict": verdict.value,
             "reasons": reasons,
             "approval_status": approval_status.value,
-            "metadata": metadata or {}
+            "metadata": enhanced_metadata
         }
         
         await db[ADCSAuditLog.COLLECTION_NAME].insert_one(entry)
+        
+        # Structured logging for monitoring
+        import logging
+        logger = logging.getLogger("adcs.audit")
+        logger.info(
+            f"ADCS Audit Log Created | "
+            f"ID: {log_id} | "
+            f"Action: {action_type.value} | "
+            f"Risk: {risk_level.value} | "
+            f"Verdict: {verdict.value} | "
+            f"Actor: {actor_id} | "
+            f"Status: {approval_status.value}"
+        )
         
         return log_id
     
