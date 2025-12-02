@@ -120,7 +120,7 @@ const MainTabNavigator = () => {
       />
       <Tab.Screen
         name="Notifications"
-        component={NotificationsScreen}
+        component={NotificationsStack}
         options={{
           tabBarIcon: ({focused}) => (
             <TabIconWithBadge icon="🔔" focused={focused} badge={unreadCount} />
