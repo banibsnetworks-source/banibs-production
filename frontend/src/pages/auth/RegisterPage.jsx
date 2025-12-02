@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Mail, Lock, Loader2, AlertCircle, ArrowLeft, Calendar } from 'lucide-react';
+import { User, Mail, Lock, Loader2, AlertCircle, Calendar } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
+import AuthLayout from '../../components/auth/AuthLayout';
+import JoinBrandPanel from '../../components/auth/JoinBrandPanel';
 
 /**
- * RegisterPage - Full-page registration (bypasses modal z-index issues)
+ * RegisterPage - BANIBS Registration with Brand Story
  * Phase 10.0 P0 Blocker Fix - Option B
  * Phase L.0 - i18n integrated
  * Enhanced with DOB, Gender, Password confirmation
+ * BANIBS Welcome Shell - Visual Upgrade Dec 2025
  */
 const RegisterPage = () => {
   const navigate = useNavigate();
