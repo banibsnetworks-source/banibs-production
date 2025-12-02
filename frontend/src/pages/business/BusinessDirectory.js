@@ -1,24 +1,35 @@
 // /app/frontend/src/pages/business/BusinessDirectory.js
 import React, { useEffect, useMemo, useState } from "react";
-import { businessCategories } from "../../data/businessCategories";
+import { categoryOptions } from "../../data/businessCategories";
 import { DirectoryHeader } from "../../components/business/DirectoryHeader";
 import { CategoryGrid } from "../../components/business/CategoryGrid";
 import { BusinessCard } from "../../components/business/BusinessCard";
 
 const DEFAULT_REGION = "all";
 
-const normalizeCategories = (rawGroups) => {
-  if (!Array.isArray(rawGroups)) return [];
+const normalizeCategories = (flatCategories) => {
+  if (!Array.isArray(flatCategories)) return [];
 
-  return rawGroups.map((group, index) => ({
-    id: group.id || `group-${index}`,
-    label: group.label || group.title || group.name || "Other",
-    categories:
-      group.categories ||
-      group.items ||
-      group.children ||
-      []
-  }));
+  const groups = [];
+  let currentGroup = null;
+
+  flatCategories.forEach((item) => {
+    if (item.type === 'header') {
+      // Create a new group when we hit a header
+      const groupLabel = item.label.replace(/━/g, '').trim();
+      currentGroup = {
+        id: groupLabel.toLowerCase().replace(/\s+/g, '-'),
+        label: groupLabel,
+        categories: []
+      };
+      groups.push(currentGroup);
+    } else if (item.type === 'category' && currentGroup && item.value) {
+      // Add category to current group (trim leading spaces)
+      currentGroup.categories.push(item.label.trim());
+    }
+  });
+
+  return groups;
 };
 
 export default function BusinessDirectory() {
