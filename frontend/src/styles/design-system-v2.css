@@ -481,6 +481,20 @@
   background: #f5f5f5;
 }
 
+/* Category group headers */
+.select-v2 option.category-header,
+.select-v2 option:disabled {
+  background: #f8f8f8;
+  color: #2563eb;
+  font-weight: 700;
+  font-size: 0.85em;
+  letter-spacing: 0.5px;
+  padding: 10px 8px 6px 8px;
+  cursor: default;
+  user-select: none;
+  margin-top: 4px;
+}
+
 /* Toggle / Chip */
 .toggle-v2 {
   /* Layout */
