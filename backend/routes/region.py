@@ -5,7 +5,7 @@ Region API Endpoints - Phase 1
 Handles region detection and user region preferences
 """
 
-from fastapi import APIRouter, Request, Depends, HTTPException
+from fastapi import APIRouter, Request, Depends, HTTPException, Header
 from pydantic import BaseModel
 from typing import Optional
 import sys
@@ -13,7 +13,17 @@ sys.path.append('/app/backend')
 
 from services.region_detection_service import region_detection
 from db.connection import get_db
-from routes.auth import get_current_user_optional
+from routes.unified_auth import get_current_user
+
+# Helper to make get_current_user optional
+async def get_current_user_optional(authorization: Optional[str] = Header(None)):
+    """Optional version of get_current_user"""
+    try:
+        if not authorization:
+            return None
+        return await get_current_user(authorization)
+    except:
+        return None
 
 router = APIRouter(prefix="/api/region", tags=["region"])
 
