@@ -23,6 +23,22 @@ export const handleResponse = async (response) => {
     throw new Error(errorMessage);
   }
   
+  // Check if response has content
+  const contentType = response.headers.get('content-type');
+  if (!contentType || !contentType.includes('application/json')) {
+    // If no JSON content, check if body is empty
+    const text = await response.text();
+    if (!text || text.trim() === '') {
+      throw new Error('Server returned empty response');
+    }
+    // Try to parse as JSON anyway
+    try {
+      return JSON.parse(text);
+    } catch {
+      throw new Error('Server returned non-JSON response');
+    }
+  }
+  
   return response.json();
 };
 
