@@ -2,7 +2,7 @@
 BANIBS ShortForm - API Routes
 Short-form vertical video platform
 """
-from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Depends
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException, Depends, Header
 from fastapi.responses import FileResponse
 from typing import Optional
 from uuid import uuid4
@@ -39,12 +39,17 @@ ALLOWED_VIDEO_TYPES = [
     "video/webm"
 ]
 
-async def get_current_user(token: str = Depends(JWTService.oauth2_scheme)):
-    """Get current authenticated user"""
+async def get_current_user(authorization: Optional[str] = Header(None)):
+    """Get current authenticated user from Bearer token"""
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Missing or invalid authorization header")
+    
+    token = authorization.split(" ")[1]
     try:
         payload = JWTService.verify_token(token)
         return payload
     except Exception as e:
+        logger.error(f"Token verification failed: {e}")
         raise HTTPException(status_code=401, detail="Invalid authentication")
 
 @router.post("/upload")
