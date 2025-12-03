@@ -332,6 +332,19 @@ function App() {
               {/* Phase 8.5 - Onboarding Routes */}
               <Route path="/onboarding/welcome" element={<WelcomePage />} />
               
+              {/* Phase 17.0 - BANIBS Social World (Unified Social Hub) */}
+              <Route path="/socialworld" element={<SocialWorldHome />} />
+              <Route path="/socialworld/shortform" element={<SocialWorldShortForm />} />
+              <Route path="/socialworld/moments" element={<SocialWorldMoments />} />
+              <Route path="/socialworld/stories" element={<SocialWorldStories />} />
+              <Route path="/socialworld/connections" element={<SocialWorldConnections />} />
+              <Route path="/socialworld/live" element={<SocialWorldLive />} />
+              <Route path="/socialworld/circles" element={<SocialWorldCircles />} />
+              <Route path="/socialworld/voice" element={<SocialWorldVoice />} />
+              <Route path="/socialworld/chat" element={<SocialWorldChat />} />
+              <Route path="/socialworld/talent" element={<SocialWorldTalent />} />
+              <Route path="/socialworld/marketplace" element={<SocialWorldMarketplace />} />
+              
               {/* Phase 7.6.2 - New CNN-Style News Homepage */}
               <Route path="/" element={<NewsHomePage />} />
               
