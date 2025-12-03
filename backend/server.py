@@ -402,6 +402,10 @@ app.include_router(region_router)  # RCS-X Phase 1 - Region Content System
 from routes.debug import router as debug_router
 app.include_router(debug_router)
 
+# ShortForm routes (Phase 1 - Short video platform)
+from routes.shortform import router as shortform_router
+app.include_router(shortform_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
