@@ -52,6 +52,18 @@ import WelcomePage from "./pages/onboarding/WelcomePage";
 // Phase 8.5 - Groups
 import GroupsPage from "./pages/portal/social/GroupsPage";
 import GroupDetailPage from "./pages/portal/social/GroupDetailPage";
+// Phase 17.0 - BANIBS Social World (Unified Social Hub)
+import SocialWorldHome from "./pages/socialworld/SocialWorldHome";
+import SocialWorldShortForm from "./pages/socialworld/ShortFormPage";
+import SocialWorldMoments from "./pages/socialworld/MomentsPage";
+import SocialWorldStories from "./pages/socialworld/StoriesPage";
+import SocialWorldConnections from "./pages/socialworld/ConnectionsPage";
+import SocialWorldLive from "./pages/socialworld/LiveCirclePage";
+import SocialWorldCircles from "./pages/socialworld/CirclesPage";
+import SocialWorldVoice from "./pages/socialworld/VoiceSharePage";
+import SocialWorldChat from "./pages/socialworld/ChatSpherePage";
+import SocialWorldTalent from "./pages/socialworld/TalentWorldPage";
+import SocialWorldMarketplace from "./pages/socialworld/MarketplacePage";
 // Phase 6.2.1 - Notifications
 import NotificationsPage from "./pages/Notifications/NotificationsPage";
 // Phase 6.2.3 - Resources & Events
