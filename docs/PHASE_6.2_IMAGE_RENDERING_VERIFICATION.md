@@ -186,7 +186,7 @@ for source in RSS_SOURCES:
 
 ### 3.3 Frontend Rendering
 
-**Test**: Visited `https://regionsmart.preview.emergentagent.com/`
+**Test**: Visited `https://content-hub-555.preview.emergentagent.com/`
 
 **Results**:
 - ✅ Homepage loads successfully

@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://regionsmart.preview.emergentagent.com/api/admin/analytics/sentiment
+https://content-hub-555.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints

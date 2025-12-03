@@ -1,337 +1,171 @@
 <analysis>**original_problem_statement:**
-The user's primary goals were to stabilize the application, complete several in-progress features, and then introduce significant new functionality. This involved a series of sequential and high-priority tasks:
-1.  **Backend Stability**: Fix a critical backend crash caused by an incomplete and abandoned Groups feature implementation.
-2.  **Registration Flow**: Complete the new user registration page with additional fields and a new post-registration onboarding screen.
-3.  **ADCS v1.0**: Implement a new, complex AI Double-Check System (ADCS) as a core safety feature to guard critical actions like payouts, bans, and schema changes. This became the top priority.
-4.  **Groups Feature (Phase 8.5)**: Build the full frontend UI for the now-stable Groups backend, allowing users to discover, join, and view groups.
-5.  **Notifications Integration (Phase 8.6)**: Connect the new Groups system and existing Relationships system to the UI, so users receive real-time notifications for events like invites, role changes, and new connections.
-6.  **Mobile App Expansion (Phase M5)**: Integrate the newly completed Groups and Notifications features into the existing React Native mobile application, including auth, navigation, and UI screens.
+The user initiated a series of rapid, high-priority feature requests and UI overhauls. This began with fixing a Failed to load error on the Seller Dashboard. It was followed by a complete visual redesign of the authentication pages (Login/Register) with branded content and imagery.
+
+Subsequently, the user requested an Ultra-Premium redesign of the Business Directory, which led to several iterative fixes: adding a missing navigation bar, correcting the layout to preserve the global header, and removing an incorrect social sidebar. This was extended to ensure all Business-related pages adopted a consistent full-width layout, distinct from the social sections.
+
+The user then identified a global inconsistency in the light/dark theme, which the agent fixed by implementing a robust theme system using CSS variables.
+
+The focus then shifted to a critical Forgot Password flow, which was completely non-functional. The agent built the frontend UI and then diagnosed a silent backend failure, discovering that SMTP was not configured. A debug endpoint and enhanced logging were added, and the agent is currently awaiting SMTP credentials from the user.
+
+Most recently, the user abruptly pivoted to a major new feature request: building the BANIBS Shortform video platform from scratch. The agent has planned this feature in phases, received approval for Phase 1, and has already completed the backend infrastructure.
 
 **User's preferred language**: English
 
 **what currently exists?**
-The BANIBS platform is a full-stack application (React/FastAPI/MongoDB) with a stable backend and several new, fully integrated features.
--   **Core Backend**: The backend is stable, with the previously broken Groups feature now fully implemented and tested.
--   **ADCS v1.0**: A new AI Double-Check System is active, protecting all P0 critical endpoints (payouts, bans, blocks) with a decorator-based guardrail and audit logging system. An admin API exists to manage actions requiring human approval.
--   **Features**:
-    -   **User Registration**: A complete, enhanced registration flow captures detailed user info and directs new users to an onboarding page.
-    -   **Groups (Phase 8.5)**: A complete backend API and a functional frontend UI for group discovery, details, and membership management.
-    -   **Notifications (Phase 8.6)**: A fully integrated notification system that triggers and displays events from the Groups and Relationships modules on the web UI, complete with icons, badges, and deep links.
--   **Mobile App (React Native)**: The existing mobile app at  has been significantly enhanced. It now includes a fully functional Notifications Center and a Groups module (list and detail screens), all wired to the live backend via a secure, token-based authentication system. Navigation and deep linking between notifications and group pages are implemented.
+The BANIBS platform is a stable full-stack application (React/FastAPI/MongoDB). Recent key changes include:
+-   A fully functional Seller Dashboard that correctly handles authentication.
+-   A new, professionally designed Welcome Shell for the login and registration pages, featuring a two-column layout and branded imagery.
+-   A completely redesigned, Ultra-Premium Business Directory V2 with an advanced layout, search, filtering, and a consistent full-width design.
+-   A  component that ensures key modules like Marketplace and Business have a consistent appearance without the social sidebar.
+-   A globally consistent light/dark theme system powered by CSS variables, which all major sections of the app now respect.
+-   A complete frontend for the Forgot Password flow. The backend is ready for email sending, pending SMTP configuration.
+-   The entire backend infrastructure for the new BANIBS Shortform feature, including the data model, database service, and API endpoints for uploads and feeds.
+-   The initial frontend files for the Shortform feature (, , ) have been created.
 
 **Last working item**:
--   **Last item agent was working**: The agent just completed all implementation, navigation wiring, and configuration for the Mobile App integration (Phase M5.4). It created a testing guide () for the user. The final step of the phase (M5.5) is for the user to perform end-to-end testing.
--   **Status**: USER VERIFICATION PENDING
--   **Agent Testing Done**: N
--   **Which testing method agent to use?**: Manual testing by the user is currently in progress. If the user reports issues, the agent should first attempt to reproduce them by checking application behavior and reviewing backend logs (==> /var/log/supervisor/backend.err.log <==
-INFO:server:GET /api/news/section - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/section - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/section - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/section - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/section - Status: 200 - Duration: 0.006s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/section - Status: 200 - Duration: 0.006s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-ERROR:apscheduler.executors.default:Job "Uptime Monitor - 5min interval (trigger: interval[0:05:00], next run at: 2025-12-02 00:39:56 UTC)" raised an exception
-Traceback (most recent call last):
-  File "/root/.venv/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
-    retval = job.func(*job.args, **job.kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/app/backend/tasks/uptime_monitor.py", line 150, in <lambda>
-    func=lambda: asyncio.create_task(run_uptime_check()),
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/asyncio/tasks.py", line 381, in create_task
-    loop = events.get_running_loop()
-           ^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: no running event loop
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-ERROR:apscheduler.executors.default:Job "Uptime Monitor - 5min interval (trigger: interval[0:05:00], next run at: 2025-12-02 00:44:56 UTC)" raised an exception
-Traceback (most recent call last):
-  File "/root/.venv/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
-    retval = job.func(*job.args, **job.kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/app/backend/tasks/uptime_monitor.py", line 150, in <lambda>
-    func=lambda: asyncio.create_task(run_uptime_check()),
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/asyncio/tasks.py", line 381, in create_task
-    loop = events.get_running_loop()
-           ^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: no running event loop
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-ERROR:apscheduler.executors.default:Job "Uptime Monitor - 5min interval (trigger: interval[0:05:00], next run at: 2025-12-02 00:49:56 UTC)" raised an exception
-Traceback (most recent call last):
-  File "/root/.venv/lib/python3.11/site-packages/apscheduler/executors/base.py", line 131, in run_job
-    retval = job.func(*job.args, **job.kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/app/backend/tasks/uptime_monitor.py", line 150, in <lambda>
-    func=lambda: asyncio.create_task(run_uptime_check()),
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/usr/local/lib/python3.11/asyncio/tasks.py", line 381, in create_task
-    loop = events.get_running_loop()
-           ^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: no running event loop
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/marketplace/products/featured - Status: 200 - Duration: 0.009s
-INFO:server:GET /api/marketplace/products/featured - Status: 200 - Duration: 0.002s
-INFO:server:GET /api/marketplace/sellers/region/Africa - Status: 200 - Duration: 0.006s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.006s
-INFO:server:GET /api/marketplace/sellers/region/Africa - Status: 200 - Duration: 0.002s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/marketplace/products/0ae78916-a605-41ba-a3bf-73489acb7d72 - Status: 200 - Duration: 0.002s
-INFO:server:GET /api/marketplace/products/0ae78916-a605-41ba-a3bf-73489acb7d72 - Status: 200 - Duration: 0.003s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/marketplace/products/featured - Status: 200 - Duration: 0.002s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:server:GET /api/marketplace/products/featured - Status: 200 - Duration: 0.003s
-INFO:server:GET /api/marketplace/sellers/region/Africa - Status: 200 - Duration: 0.002s
-INFO:server:GET /api/marketplace/sellers/region/Africa - Status: 200 - Duration: 0.002s
-INFO:server:GET /api/news/homepage - Status: 200 - Duration: 0.005s
-INFO:     Will watch for changes in these directories: ['/app/backend']
-INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
-INFO:     Started reloader process [29] using WatchFiles
-INFO:     Started server process [70]
-INFO:     Waiting for application startup.
-INFO:server:Beanie ODM initialized for BANIBS Connect messaging
+The agent was in the middle of implementing the BANIBS Shortform feature, having just created the initial shell for the frontend components.
 
-==> /var/log/supervisor/backend.out.log <==
-INFO:     10.64.139.242:55908 - "GET /api/notifications?limit=100 HTTP/1.1" 200 OK
-🔍 sanitize_user_response: email=social_test_user@example.com, preferred_portal=social
-INFO:     10.64.129.27:59588 - "GET /api/auth/me HTTP/1.1" 200 OK
-INFO:     10.64.129.46:55654 - "GET /api/business/me/all HTTP/1.1" 200 OK
-INFO:     10.64.139.201:51552 - "GET /api/notifications?limit=100 HTTP/1.1" 200 OK
-INFO:     10.64.129.46:49514 - "GET /api/social/settings HTTP/1.1" 200 OK
-INFO:     10.64.129.46:49514 - "GET /api/notifications/unread-count HTTP/1.1" 200 OK
-INFO:     10.64.139.201:51552 - "GET /api/notifications/unread-count HTTP/1.1" 200 OK
-🔍 sanitize_user_response: email=social_test_user@example.com, preferred_portal=social
-INFO:     10.64.139.242:55908 - "GET /api/auth/me HTTP/1.1" 200 OK
-INFO:     10.64.139.201:51552 - "GET /api/notifications?limit=100 HTTP/1.1" 200 OK
-INFO:     10.64.139.201:51552 - "GET /api/notifications/unread-count HTTP/1.1" 200 OK
-INFO:     10.64.129.27:59588 - "PATCH /api/notifications/read-all HTTP/1.1" 200 OK
-INFO:     10.64.139.201:51552 - "GET /api/groups/75050d1e-fd3c-46d1-8a81-5e35f00cba1d HTTP/1.1" 200 OK
-INFO:     10.64.139.241:59598 - "GET /api/groups/75050d1e-fd3c-46d1-8a81-5e35f00cba1d/members?limit=100 HTTP/1.1" 200 OK
-INFO:     10.64.139.241:59598 - "GET /api/groups/75050d1e-fd3c-46d1-8a81-5e35f00cba1d/members?limit=100 HTTP/1.1" 200 OK
-INFO:     10.64.139.241:59604 - "GET /api/groups/75050d1e-fd3c-46d1-8a81-5e35f00cba1d HTTP/1.1" 200 OK
-🔍 sanitize_user_response: email=social_test_user@example.com, preferred_portal=social
-INFO:     10.64.129.27:59588 - "GET /api/auth/me HTTP/1.1" 200 OK
-INFO:     10.64.139.241:59598 - "GET /api/business/me/all HTTP/1.1" 200 OK
-INFO:     10.64.139.201:51552 - "GET /api/notifications?limit=100 HTTP/1.1" 200 OK
-INFO:     10.64.139.242:33350 - "GET /api/social/settings HTTP/1.1" 200 OK
-🔍 sanitize_user_response: email=social_test_user@example.com, preferred_portal=social
-INFO:     10.64.129.46:56998 - "GET /api/auth/me HTTP/1.1" 200 OK
-INFO:     10.64.129.46:56998 - "GET /api/notifications?limit=100 HTTP/1.1" 200 OK
-INFO:     10.64.129.46:57002 - "GET /api/social/settings HTTP/1.1" 200 OK
-INFO:     10.64.129.27:59588 - "GET /api/business/me/all HTTP/1.1" 200 OK
-INFO:     10.64.139.201:51552 - "GET /api/notifications/unread-count HTTP/1.1" 200 OK
-INFO:     10.64.139.242:33350 - "GET /api/notifications/unread-count HTTP/1.1" 200 OK
-INFO:     10.64.130.249:50236 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.143.136:46218 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.143.135:36940 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.13:38886 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.13:45084 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.141.231:39406 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.27:36264 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.135:50204 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.27:55242 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.136:39728 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.136:57654 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.27:52492 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.135:42426 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.136:43982 - "GET /api/news/section?section=us&page=1&page_size=20 HTTP/1.1" 200 OK
-INFO:     10.64.128.135:42426 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.136:43982 - "GET /api/news/section?section=us&page=1&page_size=20 HTTP/1.1" 200 OK
-INFO:     10.64.129.27:38520 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.135:42426 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.136:43982 - "GET /api/news/section?section=world&page=1&page_size=20 HTTP/1.1" 200 OK
-INFO:     10.64.129.46:33308 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.136:43982 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.46:33308 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.27:38520 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.136:43982 - "GET /api/news/section?section=politics&page=1&page_size=20 HTTP/1.1" 200 OK
-INFO:     10.64.128.136:43982 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.46:33308 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.27:38520 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.46:33308 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.135:50808 - "GET /api/news/section?section=healthwatch&page=1&page_size=20 HTTP/1.1" 200 OK
-INFO:     10.64.128.135:50808 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.136:41574 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.136:41574 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.27:58604 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.135:50812 - "GET /api/news/section?section=education&page=1&page_size=20 HTTP/1.1" 200 OK
-INFO:     10.64.128.136:41586 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.135:50812 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.27:37754 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.27:37754 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.27:33540 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.135:37844 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.27:33540 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.46:57764 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.136:47374 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.27:33540 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.143.136:32962 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.27:33540 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.143.155:55484 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.135:37844 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.136:47374 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.135:37844 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.46:49108 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.135:58578 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.141.231:52582 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.136:34178 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.130.228:35256 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.143.155:55036 - "GET /api/marketplace/products/featured?limit=8 HTTP/1.1" 200 OK
-INFO:     10.64.143.136:52380 - "GET /api/marketplace/products/featured?limit=8 HTTP/1.1" 200 OK
-INFO:     10.64.143.155:55036 - "GET /api/marketplace/sellers/region/Africa HTTP/1.1" 200 OK
-INFO:     10.64.143.135:50996 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.130.228:35256 - "GET /api/marketplace/sellers/region/Africa HTTP/1.1" 200 OK
-INFO:     10.64.130.249:46956 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.128.135:39308 - "GET /api/marketplace/products/0ae78916-a605-41ba-a3bf-73489acb7d72 HTTP/1.1" 200 OK
-INFO:     10.64.143.135:51004 - "GET /api/marketplace/products/0ae78916-a605-41ba-a3bf-73489acb7d72 HTTP/1.1" 200 OK
-INFO:     10.64.141.231:49394 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.130.249:46956 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.130.228:35344 - "GET /api/marketplace/products/featured?limit=8 HTTP/1.1" 200 OK
-INFO:     10.64.130.228:35344 - "GET /api/news/homepage HTTP/1.1" 200 OK
-INFO:     10.64.129.27:42090 - "GET /api/marketplace/products/featured?limit=8 HTTP/1.1" 200 OK
-INFO:     10.64.130.249:46956 - "GET /api/marketplace/sellers/region/Africa HTTP/1.1" 200 OK
-INFO:     10.64.128.135:39308 - "GET /api/marketplace/sellers/region/Africa HTTP/1.1" 200 OK
-INFO:     10.64.129.27:48856 - "GET /api/news/homepage HTTP/1.1" 200 OK). The screenshot tool can be used to verify mobile UI issues.
+-   **Last item agent was working**: BANIBS Shortform (Phase 1) - Frontend Implementation. The agent had just created the initial files (, , ) and was about to start building out the UI and logic.
+-   **Status**: IN PROGRESS
+-   **Agent Testing Done**: N
+-   **Which testing method agent to use?**: Frontend testing agent
 -   **User Testing Done**: N
 
 **All Pending/In progress Issue list**:
-There are no outstanding issues. The last working item is a task pending user validation.
+-   **Issue 1**: Password reset emails are not being sent (P0)
+
+Issues Detail:
+-   **Issue 1**:
+    -   **Attempted fixes**: The agent correctly diagnosed that the frontend was working but the backend was failing silently. This was traced to missing SMTP credentials in the  file. The agent created a debug endpoint () and added server-side logging to confirm the issue. The fix is now awaiting user action.
+    -   **Next debug checklist**:
+        1.  Wait for the user to confirm they have added the SMTP credentials to .
+        2.  Restart the backend service: backend: stopped
+backend: started.
+        3.  Call  to verify the configuration is loaded.
+        4.  Call  to send a test email.
+        5.  Once the test email is confirmed to be received, perform an end-to-end test of the Forgot Password flow from the UI.
+    -   **Why fix this issue and what will be achieved with the fix?**: This is a critical user-facing issue. Fixing it will allow users to recover their accounts if they forget their password, preventing them from being locked out.
+    -   **Status**: BLOCKED
+    -   **Is recurring issue?**: N
+    -   **Should Test frontend/backend/both after fix?**: backend
+    -   **Blocked on other issue**: Blocked on user providing SMTP credentials.
 
 **In progress Task List**:
-  - **Task 1**: Phase M5.5 - Mobile App End-to-End Testing & Polish (P0)
+-   **Task 1**: BANIBS Shortform (Phase 1) - Frontend Implementation (P0)
 
- Task Detail:
-  - **Task 1**:
-     - **Where to resume**: Await feedback from the user, who is currently conducting tests based on the guide at . Be prepared to debug issues related to mobile UI, navigation, or API integration based on their report.
-     - **What will be achieved with this?**: This will validate the complete integration of the Groups and Notifications features into the mobile app, ensuring it is stable and production-ready.
-     - **Status**:  USER VERIFICATION PENDING
-     - **Should Test frontend/backend/both after fix?**: both
-     - **Blocked on something**: User feedback.
+Task Detail:
+-   **Task 1**:
+    -   **Where to resume**: The initial files have been created. The next step is to continue building the frontend in  and related components. The plan is:
+        1.  Add the route for  in  and import the new CSS file.
+        2.  Implement the three-tab layout (Personal, Discovery, Community), with Discovery being the active feed for the MVP.
+        3.  Build the core  component with vertical swipe gestures and basic UI controls.
+        4.  Wire the Discovery feed to fetch data from the  endpoint.
+        5.  Implement the upload logic in  to call .
+        6.  Ensure the UI respects the youth safety flag from the user's profile and filters content accordingly.
+    -   **What will be achieved with this?**: This will deliver a working MVP of the BANIBS Shortform feature, a major new content vertical for the platform.
+    -   **Status**: IN PROGRESS
+    -   **Should Test frontend/backend/both after fix?**: both
+    -   **Blocked on something**: No.
 
 **Upcoming and Future Tasks**
 *   **Upcoming Tasks:**
-    *   **P0: Connect Relationship Endpoints to Notifications**: The backend notification triggers for relationship events (e.g., , ) have been created but need to be wired into the corresponding Relationship API endpoints.
-    *   **P1: E2E Validation Across All Modules**: Once M5 is approved, conduct a comprehensive test of the interconnected Groups, Notifications, and Relationships systems across both web and mobile platforms.
+    *   **P1: BANIBS Region Content System (RCS-X) - Phase 1 Frontend Implementation**: Implement the frontend components to personalize the news feed based on user region. The backend is complete.
+    *   **P2: Connect Relationship Endpoints to Notifications**: Integrate existing notification triggers with the Relationship API to enable social notifications.
+    *   **P3: Mobile App Testing (Phase M5.5)**: Conduct a formal testing cycle for the Groups and Notifications features on the React Native Web app.
 *   **Future Tasks:**
+    *   BANIBS Shortform - Phase 2 (Economy features, advanced uploader)
+    *   BANIBS Region Content System (RCS-X) - Phases 2 & 3
     *   Phase 11.20 - ThoughtCatcher & Memory Echo System™
     *   Phase X - FAP Full Implementation
-    *   Phase 16.3 - External cash-out engine integration
-    *   Phase 17.0 - AI Mentor Suite
-    *   BANIBS SOVEREIGNTY SUPERMODULE (Phases 21-32)
+    *   And other long-term roadmap items.
 
 **Completed work in this session**
-- **Groups Backend Restoration (Phase 8.5)**: Fixed the backend crash by correctly implementing and testing the Groups API (, , ).
-- **Enhanced User Registration**: Completed the new registration flow by updating frontend (), context (), and backend (, ).
-- **ADCS v1.0 Core Guards (Phase 1)**: Architected and implemented a new AI Double-Check System, including the core module (), audit logging, and decorator-based protection for all P0 critical endpoints.
-- **Groups Frontend UI (Phase 8.5)**: Built and tested the web UI for group discovery and details (, ).
-- **Notifications Integration (Phase 8.6)**: Implemented backend triggers and extended the frontend () to provide real-time notifications for Group and Relationship events.
-- **BANIBS Mobile App Integration (Phases M5.1-M5.4)**: Integrated the Groups and Notifications features into the React Native mobile app, including API services, UI screens, and full navigation wiring.
+-   **Seller Dashboard Fix**: Corrected authentication handling to resolve a loading error.
+-   **Auth Screens UI/UX Overhaul**: Completely redesigned the login and registration pages with a branded Welcome Shell and high-quality imagery.
+-   **Business Directory V2 Redesign**: Implemented an Ultra-Premium redesign of the Business Directory page from the ground up.
+-   **Global Layout Consistency**:
+    -   Created a  to remove the social sidebar from the Business Directory and all Business Portal pages.
+    -   Restored the global navigation bar on the Business Directory page, placing the local navigation correctly within the page content.
+-   **Global Theme Consistency**: Fixed inconsistent light/dark mode behavior across all major app sections.
+-   **Forgot Password Flow**: Built the complete frontend UI and diagnosed the backend issue, preparing it for final configuration.
+-   **BANIBS Shortform Backend (Phase 1A)**: Created the data models, database services, API endpoints, and storage directory for the new video platform.
 
 **Earlier issues found/mentioned but not fixed**
-- None. The critical backend issue from the previous session was resolved.
+-   None.
 
 **Known issue recurrence from previous fork**
-  - None.
+-   None.
 
 **Code Architecture**
 
 
 **Key Technical Concepts**
-- **AI Safety Guardrails (ADCS)**: A new, critical system that uses Python decorators () to intercept high-risk API calls, validate them against a rules engine, and log every action for audit purposes.
-- **Backend Feature Restoration**: Successfully diagnosed and rebuilt a broken feature by analyzing related code patterns, creating the necessary DB, schema, and route files, and performing thorough testing.
-- **React Native Feature Integration**: Extended an existing mobile app by creating new API services, UI screens, and wiring them into the React Navigation stack (including StackNavigators and deep link configurations).
-- **Centralized API Handling**: Implemented a shared  instance with request/response interceptors in the mobile app to manage authentication tokens and error logging consistently.
-- **Full-Stack Feature Development**: Demonstrated end-to-end implementation of major features (Groups, Notifications) from backend API creation to web UI and finally mobile UI integration.
+-   **Component-Based Refactoring**: Breaking down large pages like the Business Directory and Auth screens into smaller, reusable components to improve maintainability and consistency.
+-   **Layout Abstraction**: Creating dedicated layout components (, ) to enforce design consistency across different sections of the application (e.g., social vs. business modules).
+-   **Global Theming with CSS Variables**: Implementing a robust light/dark mode by centralizing color definitions in CSS variables that are toggled via a  attribute on the root element.
+-   **MVP-Driven Development**: Strategically scoping a large feature (Shortform) into a manageable Minimum Viable Product (MVP) by deferring complex requirements like cloud storage and video processing.
+-   **Debugging Silent Failures**: Using enhanced logging and dedicated debug endpoints to diagnose a backend issue that was not visible on the frontend, leading to the identification of missing environment configuration.
 
 **key DB schema**
--   **groups**: { uid=0(root) gid=0(root) groups=0(root), , , , ,  }
--   **group_members**: { , , , ,  }
--   **adcs_audit_logs**: { , , , , , , , ,  }
+-   **shortform_videos** (NEW): A new collection to store metadata for short-form videos, including uid=0(root) gid=0(root) groups=0(root), , , , , , , and .
 
 **changes in tech stack**
-- No new technologies were added, but a significant new architectural pattern (ADCS) was introduced in the backend.
+-   None.
 
 **All files of reference**
--   : (NEW) Entire directory for the AI Double-Check System.
--   , , : (NEW) Files for the Groups feature backend.
--   : (MODIFIED) To register ADCS and Groups routers and add a startup hook.
--   : (NEW) Centralized logic for creating notifications.
--   , : (NEW) Web UI for the Groups feature.
--   : (MODIFIED) To support new notification types.
--   , : (NEW) Mobile UI screens for the Groups feature.
--   : (MODIFIED) To use real data and new helpers.
--   : (MODIFIED) To integrate the new screens.
--   : (NEW) Centralized API client for the mobile app.
--   : (NEW) Manual testing instructions for the user.
+-   : The main entry point for the new Shortform feature.
+-   : The new backend API for the Shortform feature.
+-   : The file where the user needs to add SMTP credentials to fix the password reset flow.
+-   : Contains new endpoints for testing email configuration.
+-   : The file for the completely redesigned Business Directory.
+-   : The new layout used to ensure business and marketplace pages are full-width.
+-   : Contains the new global theme variables and styles for the Business Directory V2.
+
+**Areas that need refactoring**:
+-   The business logic for grouping categories inside  could be extracted into a separate utility file to keep the component focused on rendering.
+
+**key api endpoints**
+-   **POST **: [MODIFIED] Now includes enhanced logging for debugging email delivery.
+-   **GET **: [NEW] An endpoint to check the server's email configuration status.
+-   **POST **: [NEW] An endpoint to send a test email for debugging purposes.
+-   **POST **: [NEW] Handles the upload of short-form videos.
+-   **GET **: [NEW] Provides the public video feed for the Shortform feature.
 
 **Critical Info for New Agent**
--   **Priority**: You are currently waiting for the user to complete testing of the mobile app (Phase M5.5). Do not proceed with new tasks until you receive their feedback.
--   **ADCS is Core**: The ADCS system is a fundamental part of the application's safety. Any future development involving critical operations (money, user status, data integrity) must be protected with the  decorator.
--   **Mobile App Context**: The mobile app is bare React Native (not Expo). Authentication is handled via an  interceptor that attaches a bearer token stored securely. Navigation is managed with .
+-   **BLOCKED ON USER**: The password reset email functionality is broken due to missing SMTP credentials. The agent has done everything possible from the code side and is waiting for the user to add the credentials to . This is a P0 issue to be addressed as soon as the user provides the configuration.
+-   **CURRENT MAJOR TASK**: The primary focus is building the frontend for the BANIBS Shortform MVP. The backend is ready. The next steps are to implement the tabbed layout, swipeable video player, and wire up the Discovery feed.
+-   **LAYOUT CONSISTENCY IS KEY**: The user has strong opinions on layout. Serious modules (Marketplace, Business) must use the  to appear distinct from the Social sections, which have a sidebar. All new business-related pages must adhere to this rule.
+-   **USE THEME VARIABLES**: All new UI components must use the CSS variables defined in  (e.g., , ) for colors to ensure they correctly adapt to light and dark modes.
 
 **documents created in this job**
--   
+-   None.
 
 **Last 10 User Messages and any pending user messages**
-1.  **User**: Approves Phase M5 plan and confirms implementation details (use , place Groups in Social tab). (Completed)
-2.  **Agent**: Implements M5.1 (services), M5.2 (notifications screen logic), and M5.3 (groups screens logic). Asks to proceed with navigation wiring. (Completed)
-3.  **User**: Confirms services and screens are implemented and approves moving to navigation wiring (M5.4). (Completed)
-4.  **Agent**: Implements navigation for all new mobile screens. (Completed)
-5.  **User**: Provides detailed requirements for M5.4 navigation wiring. (Completed)
-6.  **Agent**: Adjusts implementation to match user's precise navigation requirements and adds deep linking config. Creates a testing guide for M5.5. (Completed)
-7.  **User**: Confirms M5.4 is complete and states they will begin end-to-end testing (M5.5). (Completed)
-8.  **Agent**: Acknowledges the user is testing and provides a summary of what to look for and how to report issues. (Completed)
-9.  **User**: No pending messages. The agent is waiting for the user to complete testing and provide feedback.
+1.  **User**: Asked where to place SMTP credentials in the  file. (Complete)
+2.  **Agent**: Provided the exact location and format for the credentials. (Complete)
+3.  **User**: **Switched topics** and requested the BANIBS Shortform feature. (New Task)
+4.  **Agent**: Created a detailed, phased implementation plan for the Shortform feature. (Complete)
+5.  **User**: Approved the plan for Shortform Phase 1. (Complete)
+6.  **Agent**: Started building the backend for Shortform. (In Progress)
+7.  **User**: Re-confirmed approval for the frontend implementation to begin. (Complete)
+8.  **Agent**: Started building the frontend components for Shortform. (In Progress)
+-   **Pending User Message**: The user needs to add the SMTP credentials to  to resolve the blocked password reset email issue.
 
 **Project Health Check:**
--   **Broken**: None. All systems are stable and major features have been completed and tested by the agent.
--   **Mocked**: The hardware/AI-dependent layers of the FAP backend (from a previous session).
+-   **Broken**: The password reset email functionality is non-operational pending SMTP configuration.
+-   **Mocked**: The  currently logs email content to the console instead of sending. The Personal and Community tabs in the new Shortform feature will be placeholders in the MVP.
 
 **3rd Party Integrations**
-- No new 3rd party integrations were added in this session.
+-   **Gmail SMTP**: Required for sending application emails (e.g., password resets). The integration is currently **not configured**. The agent is waiting for the user to provide credentials (, , , ) in the  file.
 
 **Testing status**
--   **Testing agent used after significant changes**: YES (For web frontend UI changes like Groups and Notifications).
+-   **Testing agent used after significant changes**: YES
 -   **Troubleshoot agent used after agent stuck in loop**: NO
--   **Test files created**: A manual testing guide was created: .
--   **Known regressions**: None.
+-   **Test files created**: None
+-   **Known regressions**: None
 
 **Credentials to test flow:**
 -   **User/Admin**:  / 
 
 **What agent forgot to execute**
-- The agent has been extremely thorough. The task to connect relationship API endpoints to the already-created notification triggers is correctly identified as the next upcoming task and was not forgotten.</analysis>
+-   The original major task of implementing the **BANIBS Region Content System (RCS-X) - Phase 1 Frontend** has been deferred multiple times due to new, higher-priority user requests. It remains in the upcoming task list.</analysis>

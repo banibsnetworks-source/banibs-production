@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://regionsmart.preview.emergentagent.com/api/auth
+https://content-hub-555.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
