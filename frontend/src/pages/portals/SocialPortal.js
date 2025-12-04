@@ -352,6 +352,23 @@ const SocialPortal = () => {
               </div>
             </div>
 
+            {/* First Login Helper Banner */}
+            <div className="mb-6 p-4 rounded-lg" style={{
+              backgroundColor: isDark ? 'rgba(245, 158, 11, 0.1)' : 'rgba(245, 158, 11, 0.1)',
+              border: `1px solid ${isDark ? 'rgba(245, 158, 11, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`
+            }}>
+              <div className="flex items-start gap-3">
+                <span className="text-xl">💡</span>
+                <div className="flex-1">
+                  <p className="text-sm" style={{
+                    color: isDark ? 'rgb(252, 211, 77)' : 'rgb(180, 83, 9)'
+                  }}>
+                    <strong>Tip:</strong> Keep new people, coworkers, and acquaintances in <strong>"Others."</strong> Move people upward only after trust is earned. <strong>Protect your inner circle.</strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+
             {/* Lazy load components */}
             <SocialFeedContent />
           </div>
