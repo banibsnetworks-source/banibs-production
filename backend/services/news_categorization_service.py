@@ -133,36 +133,54 @@ def categorize_news_item(item: Dict[str, Any]) -> str:
     if any(keyword in source_name for keyword in ['sport', 'espn', 'nba', 'nfl']):
         return 'sports'
     
+    # STEP 3: Region-based categorization
     # US section - domestic/Americas focus
-    us_indicators = [
-        'americas', 'united states', 'usa', 'us', 'america',
-        'domestic', 'national'
-    ]
-    if any(indicator in region for indicator in us_indicators):
-        return 'us'
-    
-    # Check for US-focused sources
-    us_sources = [
-        'npr', 'bloomberg', 'black enterprise', 'essence',
-        'grants.gov', 'uncf', 'mbda'
-    ]
-    if any(us_source in source_name for us_source in us_sources):
+    if _is_us_focused(source_name, region):
         return 'us'
     
     # World section - international focus
     world_regions = [
         'global', 'africa', 'asia', 'europe', 'middle east', 
-        'pacific', 'international'
+        'pacific', 'international', 'caribbean'
     ]
     if any(world_region in region for world_region in world_regions):
         return 'world'
     
     world_keywords = ['world', 'international', 'global']
-    if any(keyword in category for keyword in world_keywords):
+    if any(keyword in category_lower for keyword in world_keywords):
         return 'world'
     
     # Default to world for uncategorized items
     return 'world'
+
+
+def _is_us_focused(source_name: str, region: str) -> bool:
+    """
+    Helper to determine if a source or region is US-focused
+    
+    Args:
+        source_name: Lowercase source name
+        region: Lowercase region string
+        
+    Returns:
+        True if US-focused, False otherwise
+    """
+    us_indicators = [
+        'americas', 'united states', 'usa', 'us', 'america',
+        'domestic', 'national'
+    ]
+    if any(indicator in region for indicator in us_indicators):
+        return True
+    
+    # Check for US-focused sources
+    us_sources = [
+        'npr', 'black enterprise', 'cdc', 'grants.gov', 'uncf', 
+        'mbda', 'sba', 'aclu'
+    ]
+    if any(us_source in source_name for us_source in us_sources):
+        return True
+    
+    return False
 
 
 def sort_items_by_section(items: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
