@@ -14,7 +14,7 @@ router = APIRouter(prefix="/api/news", tags=["black-news"])
 # Database connection
 client = AsyncIOMotorClient(os.environ['MONGO_URL'])
 db = client[os.environ['DB_NAME']]
-news_collection = db.news_feed_items
+news_collection = db.news_items
 
 
 @router.get("/black")
