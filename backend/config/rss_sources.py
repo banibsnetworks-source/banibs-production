@@ -166,7 +166,7 @@ RSS_SOURCES = [
         "source_name": "OkayAfrica",
         "rss_url": "https://www.okayafrica.com/feed/",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "featured_source": True,
         "priority": 2,
     },
@@ -180,7 +180,7 @@ RSS_SOURCES = [
         "source_name": "AllAfrica",
         "rss_url": "https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "featured_source": True,
         "priority": 1,
     },
@@ -226,7 +226,7 @@ RSS_SOURCES = [
         "source_name": "ModernGhana",
         "rss_url": "https://www.modernghana.com/GhanaHome/rss/news.xml",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 2,
     },
     {
@@ -245,7 +245,7 @@ RSS_SOURCES = [
         "source_name": "Business Daily Africa",
         "rss_url": "https://www.businessdailyafrica.com/bd/feed",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 2,
     },
     {
@@ -272,7 +272,7 @@ RSS_SOURCES = [
         "source_name": "Daily Nation (Kenya)",
         "rss_url": "https://nation.africa/kenya/rss",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
 
@@ -313,7 +313,7 @@ RSS_SOURCES = [
         "source_name": "Jamaica Observer",
         "rss_url": "http://www.jamaicaobserver.com/rss/news",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
     {
@@ -322,7 +322,7 @@ RSS_SOURCES = [
         "source_name": "Trinidad Express",
         "rss_url": "https://trinidadexpress.com/feed/",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
     {
@@ -409,7 +409,7 @@ RSS_SOURCES = [
         "source_name": "BET",
         "rss_url": "https://www.bet.com/feed.xml",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
     {
@@ -456,7 +456,7 @@ RSS_SOURCES = [
         "source_name": "NAACP News",
         "rss_url": "https://naacp.org/rss.xml",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
 
@@ -479,7 +479,7 @@ RSS_SOURCES = [
         "source_name": "Forbes",
         "rss_url": "https://www.forbes.com/real-time/feed2/",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "featured_source": True,
         "priority": 1,
     },
@@ -489,7 +489,7 @@ RSS_SOURCES = [
         "source_name": "Reuters Business",
         "rss_url": "https://feeds.reuters.com/reuters/businessNews",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "featured_source": True,
         "priority": 1,
     },
@@ -526,7 +526,7 @@ RSS_SOURCES = [
         "source_name": "SBA Small Business",
         "rss_url": "https://www.sba.gov/rss",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 2,
     },
     {
@@ -548,7 +548,7 @@ RSS_SOURCES = [
         "source_name": "Essence Entertainment",
         "rss_url": "https://www.essence.com/entertainment/feed/",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "featured_source": True,
         "priority": 1,
     },
@@ -568,7 +568,7 @@ RSS_SOURCES = [
         "source_name": "Complex",
         "rss_url": "https://www.complex.com/feeds/channel/pop-culture.xml",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
     {
@@ -640,7 +640,7 @@ RSS_SOURCES = [
         "source_name": "WHO",
         "rss_url": "https://www.who.int/feeds/entity/mediacentre/news/en/rss.xml",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
     {
@@ -649,7 +649,7 @@ RSS_SOURCES = [
         "source_name": "Healthline",
         "rss_url": "https://www.healthline.com/rss",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 2,
     },
     {
@@ -658,7 +658,7 @@ RSS_SOURCES = [
         "source_name": "Medical News Today",
         "rss_url": "https://www.medicalnewstoday.com/rss",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 2,
     },
     {
@@ -676,7 +676,7 @@ RSS_SOURCES = [
         "source_name": "Reuters Health",
         "rss_url": "https://feeds.reuters.com/reuters/healthNews",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
     {
@@ -685,7 +685,7 @@ RSS_SOURCES = [
         "source_name": "Johns Hopkins",
         "rss_url": "https://www.hopkinsmedicine.org/news/feed",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
 
@@ -708,7 +708,7 @@ RSS_SOURCES = [
         "source_name": "Bleacher Report",
         "rss_url": "https://bleacherreport.com/articles/feed",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
     {
@@ -717,7 +717,7 @@ RSS_SOURCES = [
         "source_name": "Africa Sports Network",
         "rss_url": "https://africasportnetwork.com/feed/",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 2,
     },
     {
@@ -735,7 +735,7 @@ RSS_SOURCES = [
         "source_name": "NCAA",
         "rss_url": "https://www.ncaa.com/news/rss",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 2,
     },
     {
@@ -744,7 +744,7 @@ RSS_SOURCES = [
         "source_name": "NBA",
         "rss_url": "https://www.nba.com/rss/nba_rss.xml",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
     {
@@ -753,7 +753,7 @@ RSS_SOURCES = [
         "source_name": "NFL",
         "rss_url": "https://www.nfl.com/feeds/rss/news",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
     {
@@ -762,7 +762,7 @@ RSS_SOURCES = [
         "source_name": "ESPN Africa",
         "rss_url": "https://www.espn.com/espn/rss/africa/news",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 2,
     },
 
@@ -822,7 +822,7 @@ RSS_SOURCES = [
         "source_name": "Reuters Tech",
         "rss_url": "https://feeds.reuters.com/reuters/technologyNews",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
     {
@@ -844,7 +844,7 @@ RSS_SOURCES = [
         "source_name": "NAACP",
         "rss_url": "https://naacp.org/rss.xml",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
     {
@@ -871,7 +871,7 @@ RSS_SOURCES = [
         "source_name": "UN Human Rights News",
         "rss_url": "https://www.ohchr.org/EN/NewsEvents/Pages/media.aspx?IsMediaPage=true&DVName=feed",
         "language": "en",
-        "active": True,
+        "active": False  # Dead feed,
         "priority": 1,
     },
 ]
