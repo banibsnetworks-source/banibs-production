@@ -10,7 +10,7 @@ import sys
 from datetime import datetime
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://content-hub-555.preview.emergentagent.com"
+BACKEND_URL = "https://black-news.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 class AbilityNetworkTester:
