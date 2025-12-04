@@ -172,6 +172,12 @@ const NewsSectionBlock = ({ title, stories, icon }) => {
               {/* Content */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center space-x-2 mb-1 text-xs text-muted-foreground">
+                  {story.sourceName && (
+                    <>
+                      <span className="font-medium">{story.sourceName}</span>
+                      <span>•</span>
+                    </>
+                  )}
                   <Clock size={12} />
                   <span>{formatDate(story.publishedAt)}</span>
                 </div>
