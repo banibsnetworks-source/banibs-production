@@ -172,7 +172,16 @@ def clean_html(text: str) -> str:
     text = re.sub(r'\s+', ' ', text).strip()
     return text
 
-async def fetch_and_store_feed(url: str, category: str, source_name: str, limit: int = 5, fallback_image: Optional[str] = None, region: Optional[str] = None) -> int:
+async def fetch_and_store_feed(
+    url: str, 
+    category: str, 
+    source_name: str, 
+    limit: int = 5, 
+    fallback_image: Optional[str] = None, 
+    region: Optional[str] = None,
+    is_black_owned: bool = False,
+    is_black_focus: bool = False
+) -> int:
     """
     Fetch RSS feed and store items in database with deduplication
     
@@ -182,6 +191,9 @@ async def fetch_and_store_feed(url: str, category: str, source_name: str, limit:
         source_name: Name of the source (e.g., "Black Enterprise")
         limit: Maximum number of items to fetch per source
         fallback_image: Fallback image URL for items without images
+        region: Geographic region (Americas, Africa, Caribbean, etc.)
+        is_black_owned: Whether the source is Black-owned/operated
+        is_black_focus: Whether the source centers Black communities
     
     Returns:
         Number of new items stored
