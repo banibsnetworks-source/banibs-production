@@ -395,6 +395,9 @@ function App() {
               {/* Phase B2 - Black News Tab */}
               <Route path="/news/black" element={<BlackNewsPage />} />
               
+              {/* Phase A2 - Mission & Values Page */}
+              <Route path="/about/mission" element={<MissionValuesPage />} />
+              
               {/* Phase 8.2 - Portal Routes */}
               <Route path="/portal/news" element={<NewsPortal />} />
               
