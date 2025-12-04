@@ -357,8 +357,18 @@ function App() {
     return null;
   }
   
-  // Show Coming Soon page if mode is enabled (but allow /about/* routes through)
-  if (comingSoonMode && !window.location.pathname.startsWith('/about')) {
+  // Detect if we're in development mode
+  const isDevelopment = process.env.NODE_ENV === 'development' || 
+                        window.location.hostname === 'localhost' ||
+                        window.location.hostname.includes('preview.emergentagent.com');
+  
+  // Show Coming Soon page ONLY if:
+  // 1. Coming Soon mode is enabled AND
+  // 2. We're NOT in development mode AND
+  // 3. Current path is not an /about/* page
+  const shouldShowComingSoon = comingSoonMode && !isDevelopment && !window.location.pathname.startsWith('/about');
+  
+  if (shouldShowComingSoon) {
     // Select variant based on flag
     if (comingSoonVariant === 'blue') return <ComingSoonPageBlue />;
     if (comingSoonVariant === 'gold') return <ComingSoonPageGold />;
