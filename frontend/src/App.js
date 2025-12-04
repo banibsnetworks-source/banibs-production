@@ -381,6 +381,9 @@ function App() {
               {/* Phase 7.6.2 - New CNN-Style News Homepage */}
               <Route path="/" element={<NewsHomePage />} />
               
+              {/* Phase B2 - Black News Tab */}
+              <Route path="/news/black" element={<BlackNewsPage />} />
+              
               {/* Phase 8.2 - Portal Routes */}
               <Route path="/portal/news" element={<NewsPortal />} />
               
