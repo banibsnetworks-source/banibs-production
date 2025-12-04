@@ -3,7 +3,7 @@ Feature Flags API Endpoint
 Public endpoint for frontend to check feature flags
 """
 from fastapi import APIRouter
-from config.feature_flags import get_feature_flags, COMING_SOON_MODE, COMING_SOON_MESSAGE
+from config.feature_flags import get_feature_flags, COMING_SOON_MODE, COMING_SOON_VARIANT, COMING_SOON_MESSAGE
 
 router = APIRouter(prefix="/api/config", tags=["config"])
 
