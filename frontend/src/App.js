@@ -349,7 +349,9 @@ function App() {
   // Show Coming Soon page if mode is enabled
   if (comingSoonMode) {
     // Select variant based on flag
-    return comingSoonVariant === 'blue' ? <ComingSoonPageBlue /> : <ComingSoonPage />;
+    if (comingSoonVariant === 'blue') return <ComingSoonPageBlue />;
+    if (comingSoonVariant === 'gold') return <ComingSoonPageGold />;
+    return <ComingSoonPage />; // Default to dark variant
   }
   
   return (
