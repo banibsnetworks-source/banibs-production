@@ -67,6 +67,9 @@ import SocialWorldMarketplace from "./pages/socialworld/MarketplacePage";
 
 // Phase B2 - Black News Tab
 import BlackNewsPage from "./pages/BlackNewsPage";
+
+// Phase A2 - Mission & Values Page
+import MissionValuesPage from "./pages/MissionValuesPage";
 // Phase 6.2.1 - Notifications
 import NotificationsPage from "./pages/Notifications/NotificationsPage";
 // Phase 6.2.3 - Resources & Events
