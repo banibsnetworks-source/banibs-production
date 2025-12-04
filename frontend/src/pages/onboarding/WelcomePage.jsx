@@ -26,36 +26,42 @@ const WelcomePage = () => {
       highlight: "Organize your relationships"
     },
     {
-      icon: <Heart size={48} className="text-pink-400" />,
-      title: "Four Relationship Tiers",
+      icon: <Shield size={48} className="text-amber-400" />,
+      title: "🔐 How Access Works in BANIBS",
+      subtitle: "BANIBS is built to protect your peace, your privacy, and your inner circle.",
       tiers: [
         {
-          name: "Peoples",
-          emoji: "👥",
-          color: "text-pink-400",
-          description: "Your closest circle - family, best friends, and trusted allies"
-        },
-        {
-          name: "Cool",
-          emoji: "😎",
-          color: "text-blue-400",
-          description: "Friends and regular connections you trust"
+          name: "Others",
+          emoji: "🌐",
+          color: "text-gray-400",
+          description: "Put people you just met, coworkers, supervisors, business contacts, neighbors, or acquaintances.",
+          access: "They get the least access to your personal world."
         },
         {
           name: "Alright",
           emoji: "🤝",
           color: "text-green-400",
-          description: "Acquaintances and professional contacts"
+          description: "People you somewhat know or trust.",
+          access: "They get limited access."
         },
         {
-          name: "Others",
-          emoji: "🌐",
-          color: "text-gray-400",
-          description: "Everyone else - the default tier for new connections"
+          name: "Cool",
+          emoji: "😎",
+          color: "text-blue-400",
+          description: "People you know well.",
+          access: "They get more visibility and connection."
+        },
+        {
+          name: "Peoples",
+          emoji: "👥",
+          color: "text-pink-400",
+          description: "Your inner circle — family, closest friends, and those you fully trust.",
+          access: "They get the highest access."
         }
       ],
       description: "You control who's in each circle, and you can change it anytime.",
-      highlight: "Your privacy, your way"
+      highlight: "Your privacy, your way",
+      principle: "✨ Principle: Protect your inner circle. Move people upward only when time, trust, and behavior prove it's right."
     },
     {
       icon: <Shield size={48} className="text-green-400" />,
