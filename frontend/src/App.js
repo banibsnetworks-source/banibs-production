@@ -469,6 +469,7 @@ function App() {
               {/* Phase 8.4 - Messaging Engine */}
               <Route path="/portal/social/messages" element={<MessagesPage />} />
               <Route path="/portal/social/messages/:userId" element={<MessagesPage />} />
+              <Route path="/portal/social/messages/:conversationId" element={<MessagesPage />} />
               
               {/* Social Home Route */}
               <Route path="/portal/social/home" element={<SocialPortal />} />
