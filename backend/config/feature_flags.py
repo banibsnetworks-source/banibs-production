@@ -13,6 +13,10 @@ import os
 # Backend, admin, and Founder access remains fully functional regardless
 COMING_SOON_MODE = os.getenv('COMING_SOON_MODE', 'true').lower() == 'true'
 
+# Coming Soon Variant Selection
+# Options: 'dark' (black/gold premium), 'blue' (sky blue women-friendly)
+COMING_SOON_VARIANT = os.getenv('COMING_SOON_VARIANT', 'blue').lower()
+
 # Message displayed on Coming Soon page
 COMING_SOON_MESSAGE = """
 BANIBS is in early access. Systems are online, but we are currently 
