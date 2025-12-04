@@ -5,6 +5,7 @@ import {
   Users, MessageCircle, Heart, Shield,
   ChevronDown, ChevronUp, BookOpen, HelpCircle
 } from 'lucide-react';
+import GlobalNavBar from '../../components/GlobalNavBar';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
