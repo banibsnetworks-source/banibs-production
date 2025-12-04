@@ -98,7 +98,7 @@ const TopStoriesGrid = ({ stories }) => {
               {/* Category Badge */}
               <div className="absolute top-2 left-2">
                 <span className="px-2 py-1 bg-black/70 backdrop-blur-sm text-white text-xs font-semibold rounded capitalize">
-                  {story.category || 'News'}
+                  {story.mapped_section || story.category || 'News'}
                 </span>
               </div>
 
