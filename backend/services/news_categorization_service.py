@@ -211,7 +211,10 @@ def sort_items_by_section(items: List[Dict[str, Any]]) -> Dict[str, List[Dict[st
         'tech': [],
         'sports': [],
         'entertainment': [],
-        'lifestyle': []
+        'lifestyle': [],
+        'health': [],
+        'civil_rights': [],
+        'education': []
     }
     
     # Separate featured item if exists
