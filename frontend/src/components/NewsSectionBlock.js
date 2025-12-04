@@ -163,7 +163,7 @@ const NewsSectionBlock = ({ title, stories, icon }) => {
                 
                 {/* Gradient Fallback */}
                 <div 
-                  className={`fallback-gradient absolute inset-0 bg-gradient-to-br ${getCategoryFallback(story.category)} ${story.imageUrl && !story.imageUrl.includes('/static/') ? 'hidden' : 'flex'} items-center justify-center`}
+                  className={`fallback-gradient absolute inset-0 bg-gradient-to-br ${getCategoryFallback(story)} ${story.imageUrl && !story.imageUrl.includes('/static/') ? 'hidden' : 'flex'} items-center justify-center`}
                   style={{ display: story.imageUrl && !story.imageUrl.includes('/static/') ? 'none' : 'flex' }}
                 >
                   <div className="text-white/90 text-2xl">📰</div>
