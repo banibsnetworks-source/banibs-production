@@ -63,14 +63,32 @@ def categorize_news_item(item: Dict[str, Any]) -> str:
             return 'us'
         return mapped_section
     
+    # STEP 2: Keyword-based categorization
+    
+    # Health section
+    health_keywords = [
+        'health', 'wellness', 'medical', 'hospital', 'doctor', 
+        'medicine', 'disease', 'treatment', 'vaccine', 'cdc', 'who'
+    ]
+    if any(keyword in category_lower for keyword in health_keywords):
+        return 'health'
+    
+    # Civil Rights / Justice section
+    civil_rights_keywords = [
+        'civil rights', 'justice', 'equality', 'discrimination', 
+        'protest', 'activism', 'human rights', 'rights', 'aclu', 'naacp'
+    ]
+    if any(keyword in category_lower for keyword in civil_rights_keywords):
+        return 'civil_rights'
+    
     # Entertainment section
     entertainment_keywords = [
         'entertainment', 'celebrity', 'music', 'film', 'movie', 
         'tv', 'show', 'concert', 'album', 'artist', 'actor'
     ]
-    if any(keyword in category for keyword in entertainment_keywords):
+    if any(keyword in category_lower for keyword in entertainment_keywords):
         return 'entertainment'
-    if any(keyword in source_name for keyword in ['bet', 'vibe', 'billboard', 'rolling stone', 'shadow and act']):
+    if any(keyword in source_name for keyword in ['bet', 'vibe', 'billboard', 'rolling stone', 'shadow and act', 'hollywood', 'variety', 'ebony']):
         return 'entertainment'
     
     # Lifestyle section
