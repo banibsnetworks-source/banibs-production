@@ -88,13 +88,13 @@ const NewsSectionBlock = ({ title, stories, icon }) => {
               
               {/* Gradient Fallback */}
               <div 
-                className={`fallback-gradient absolute inset-0 bg-gradient-to-br ${getCategoryFallback(featuredItem.category)} ${featuredItem.imageUrl && !featuredItem.imageUrl.includes('/static/') ? 'hidden' : 'flex'} items-center justify-center`}
+                className={`fallback-gradient absolute inset-0 bg-gradient-to-br ${getCategoryFallback(featuredItem)} ${featuredItem.imageUrl && !featuredItem.imageUrl.includes('/static/') ? 'hidden' : 'flex'} items-center justify-center`}
                 style={{ display: featuredItem.imageUrl && !featuredItem.imageUrl.includes('/static/') ? 'none' : 'flex' }}
               >
                 <div className="text-center p-4">
                   <div className="text-white/90 text-4xl mb-2">📰</div>
                   <div className="text-white/70 text-xs font-medium uppercase tracking-wider">
-                    {featuredItem.category || 'News'}
+                    {featuredItem.mapped_section || featuredItem.category || 'News'}
                   </div>
                 </div>
               </div>
