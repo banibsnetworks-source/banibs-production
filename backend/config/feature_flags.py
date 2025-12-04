@@ -14,8 +14,8 @@ import os
 COMING_SOON_MODE = os.getenv('COMING_SOON_MODE', 'true').lower() == 'true'
 
 # Coming Soon Variant Selection
-# Options: 'dark' (black/gold premium), 'blue' (sky blue women-friendly)
-COMING_SOON_VARIANT = os.getenv('COMING_SOON_VARIANT', 'blue').lower()
+# Options: 'dark' (black/gold premium), 'blue' (sky blue women-friendly), 'gold' (warm gold elegant)
+COMING_SOON_VARIANT = os.getenv('COMING_SOON_VARIANT', 'gold').lower()
 
 # Message displayed on Coming Soon page
 COMING_SOON_MESSAGE = """
