@@ -625,6 +625,74 @@ All new features will use **BANIBS Design System v1**:
 
 ---
 
-**Last Updated:** October 28, 2025  
+## 🏥 Future Phase: Raymond Health Core System (RHCS)
+
+**Timeline:** TBD | **Status:** 🔵 Architecture Phase | **Priority:** P2 (Future Major Feature)
+
+### Overview
+Personalized health support engine with kidney + diabetes awareness, meal rotation, food ordering filters, and hydration/sleep assistance.
+
+### Scope
+The Raymond Health Core System is a comprehensive health management platform designed to support users with specific health conditions (kidney disease, diabetes) while respecting dietary preferences (halal). The system provides intelligent meal planning, safe food ordering, hydration tracking, and sleep monitoring.
+
+### Five Core Components
+
+1. **Health Intelligence Engine (HIE)**
+   - Input filters (kidney, diabetes, halal)
+   - Behavioral rules
+   - Personalized rotations
+   - Safety guardrails
+
+2. **Meal Rotation Engine (MRE)**
+   - Daily meal suggestions
+   - 3-tier energy mode adjustments
+   - Water intake alignment
+   - Sugar + sodium suppression
+
+3. **Safe Ordering Engine (SOE)**
+   - DoorDash filters
+   - Instacart filters
+   - Uber Eats filters
+   - Restaurant scoring matrix
+
+4. **Hydration & Sleep Monitor (HSM)**
+   - Awake-time tracker
+   - Hydration reminders
+   - Sleep-pattern analysis
+   - Reset coaching
+
+5. **BANIBS Integration Layer (BIL)**
+   - Circle OS rules integration
+   - MC-DNA permissions
+   - Vault Protocol protections
+   - Future user-facing apps
+
+### Integration Points
+- **Circle OS (C1-C5):** Health data sharing permissions
+- **Vault Protocol:** End-to-end encrypted health records
+- **MC-DNA:** Personalized health recommendations
+- **BPOC:** Health system as a BANIBS "pod"
+- **BANIBS Social:** Health check-ins, meal logging
+- **BANIBS Marketplace:** Health-safe product recommendations
+
+### Technical Considerations
+- HIPAA compliance requirements (future)
+- Secure health data storage (encryption at rest/transit)
+- External API integrations (DoorDash, Instacart, Uber Eats)
+- Wearable device integration (Apple Health, Fitbit - optional)
+- AI/ML for meal recommendations (future enhancement)
+
+### Documentation
+See full architecture specification: `/docs/architecture/raymond_health_core_system_v1.md`
+
+### Status Notes
+- **Architecture:** Complete and documented
+- **Implementation:** Not started (P2 priority)
+- **Dependencies:** Phase 6 foundation (Identity, Circle OS, Vault Protocol)
+- **Target Integration:** Post Phase 6 completion
+
+---
+
+**Last Updated:** December 4, 2024  
 **Status:** Strategic Vision (Not Yet Implemented)  
 **Owner:** BANIBS Development Team
