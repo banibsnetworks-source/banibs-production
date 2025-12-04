@@ -479,7 +479,7 @@ const BlackNewsAboutPage = () => {
               color: styles.textSecondary,
               marginBottom: '28px'
             }}>
-              We know how harmful misinformation and sensational coverage can be — especially for our people. BANIBS Black News is built around care:
+              We know how harmful misinformation and sensational coverage can be - especially for our people. BANIBS Black News is built around care:
             </p>
             <ul style={{
               listStyle: 'none',
