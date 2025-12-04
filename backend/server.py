@@ -143,9 +143,6 @@ app.include_router(api_router)
 # Include opportunities router (already has /api prefix)
 app.include_router(opportunities_router)
 
-# Include auth router (already has /api prefix) - DISABLED FOR PHASE 6.0 TESTING
-# app.include_router(auth_router)
-
 # Include unified auth router (Phase 6.0 - Unified Identity & SSO)
 app.include_router(unified_auth_router)
 
