@@ -11,7 +11,7 @@ import os
 # When False: Show normal BANIBS experience
 #
 # Backend, admin, and Founder access remains fully functional regardless
-COMING_SOON_MODE = os.getenv('COMING_SOON_MODE', 'false').lower() == 'true'
+COMING_SOON_MODE = os.getenv('COMING_SOON_MODE', 'true').lower() == 'true'
 
 # Message displayed on Coming Soon page
 COMING_SOON_MESSAGE = """
