@@ -63,6 +63,7 @@ def get_feature_flags() -> dict:
     """
     return {
         "coming_soon_mode": COMING_SOON_MODE,
+        "coming_soon_variant": COMING_SOON_VARIANT,
         "coming_soon_message": COMING_SOON_MESSAGE,
         "bypass_paths": BYPASS_PATHS,
     }
