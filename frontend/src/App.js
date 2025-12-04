@@ -42,10 +42,8 @@ import WorldNewsPage from "./pages/WorldNewsPage";
 // Phase 6.1 - Hub v1 Dashboard
 import HubPage from "./pages/Hub/HubPage";
 // Phase 6.0 - Unified Auth Pages
-import LoginPage from "./pages/auth/LoginPage";
-import RegisterPage from "./pages/auth/RegisterPage";
 import SignInPage from "./pages/auth/SignInPage";
-import RegisterPageNew from "./pages/auth/RegisterPage.jsx";
+import RegisterPage from "./pages/auth/RegisterPage.jsx";
 import ForgotPasswordPage from "./pages/auth/ForgotPasswordPage";
 // Phase 8.5 - Onboarding
 import WelcomePage from "./pages/onboarding/WelcomePage";
