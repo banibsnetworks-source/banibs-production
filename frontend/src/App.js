@@ -64,6 +64,9 @@ import SocialWorldVoice from "./pages/socialworld/VoiceSharePage";
 import SocialWorldChat from "./pages/socialworld/ChatSpherePage";
 import SocialWorldTalent from "./pages/socialworld/TalentWorldPage";
 import SocialWorldMarketplace from "./pages/socialworld/MarketplacePage";
+
+// Phase B2 - Black News Tab
+import BlackNewsPage from "./pages/BlackNewsPage";
 // Phase 6.2.1 - Notifications
 import NotificationsPage from "./pages/Notifications/NotificationsPage";
 // Phase 6.2.3 - Resources & Events
