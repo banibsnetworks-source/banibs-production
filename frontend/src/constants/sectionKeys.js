@@ -5,6 +5,7 @@
 
 export const SECTION_MAP = {
   'top-stories': { label: 'Top Stories', icon: '⭐' },
+  'black': { label: 'Black News', icon: '🖤' },
   'us': { label: 'U.S.', icon: '🇺🇸' },
   'world': { label: 'World', icon: '🌍' },
   'politics': { label: 'Politics', icon: '⚖️' },
