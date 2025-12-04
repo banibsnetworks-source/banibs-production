@@ -414,6 +414,10 @@ app.include_router(admin_rss_router)
 from routes.feature_flags import router as feature_flags_router
 app.include_router(feature_flags_router)
 
+# Black News
+from routes.black_news import router as black_news_router
+app.include_router(black_news_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
