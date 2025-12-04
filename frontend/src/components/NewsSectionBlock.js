@@ -27,6 +27,21 @@ const NewsSectionBlock = ({ title, stories, icon }) => {
     }
   };
 
+  // Generate fallback placeholder based on category
+  const getCategoryFallback = (category) => {
+    const categoryColors = {
+      'world': 'from-blue-600 to-blue-800',
+      'us': 'from-red-600 to-red-800',
+      'business': 'from-green-600 to-green-800',
+      'tech': 'from-purple-600 to-purple-800',
+      'sports': 'from-orange-600 to-orange-800',
+      'entertainment': 'from-pink-600 to-pink-800',
+      'health': 'from-teal-600 to-teal-800',
+      'civil_rights': 'from-indigo-600 to-indigo-800',
+    };
+    return categoryColors[category?.toLowerCase()] || 'from-gray-600 to-gray-800';
+  };
+
   // Featured item (first one, larger)
   const featuredItem = stories[0];
   // List items (remaining)
