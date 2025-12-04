@@ -127,6 +127,13 @@ const WelcomePage = () => {
               {currentStepData.title}
             </h1>
 
+            {/* Subtitle (for tier explanation) */}
+            {currentStepData.subtitle && (
+              <p className="text-base text-gray-300 text-center mb-6 leading-relaxed">
+                {currentStepData.subtitle}
+              </p>
+            )}
+
             {/* Highlight Badge */}
             {currentStepData.highlight && (
               <div className="flex justify-center mb-6">
@@ -138,13 +145,15 @@ const WelcomePage = () => {
             )}
 
             {/* Description */}
-            <p className="text-lg text-gray-300 text-center mb-8 leading-relaxed">
-              {currentStepData.description}
-            </p>
+            {!currentStepData.subtitle && (
+              <p className="text-lg text-gray-300 text-center mb-8 leading-relaxed">
+                {currentStepData.description}
+              </p>
+            )}
 
             {/* Tiers (for step 2) */}
             {currentStepData.tiers && (
-              <div className="space-y-4 mb-8">
+              <div className="space-y-4 mb-6">
                 {currentStepData.tiers.map((tier, index) => (
                   <div
                     key={index}
@@ -156,11 +165,23 @@ const WelcomePage = () => {
                         <h3 className={`text-lg font-semibold ${tier.color} mb-1`}>
                           {tier.name}
                         </h3>
-                        <p className="text-sm text-gray-400">{tier.description}</p>
+                        <p className="text-sm text-gray-400 mb-1">{tier.description}</p>
+                        {tier.access && (
+                          <p className="text-xs text-gray-500 italic">{tier.access}</p>
+                        )}
                       </div>
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {/* Principle (for tier explanation) */}
+            {currentStepData.principle && (
+              <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-lg mb-6">
+                <p className="text-sm text-amber-200 text-center leading-relaxed">
+                  {currentStepData.principle}
+                </p>
               </div>
             )}
 
