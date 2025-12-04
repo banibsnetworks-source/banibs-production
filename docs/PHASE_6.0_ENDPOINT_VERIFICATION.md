@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://black-news.preview.emergentagent.com/api/auth
+https://a-series-preview.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

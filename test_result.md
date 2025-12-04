@@ -49,7 +49,7 @@
 ✅ Hub page rendered with user data: "Welcome back, Social"
 ```
 
-**Final URL**: `https://black-news.preview.emergentagent.com/hub` ✅
+**Final URL**: `https://a-series-preview.preview.emergentagent.com/hub` ✅
 
 ### Status
 **✅ COMPLETE** - Login flow now works correctly. Users can authenticate and access the Hub dashboard.
@@ -101,7 +101,7 @@ cd /app/frontend && yarn add sharp
 - Label: "👨🏿 BANIBS (My Tone)"
 - Style: `image`
 - Total emojis: 322
-- ✅ Manifest accessible at: `https://black-news.preview.emergentagent.com/static/emojis/banibs_full/manifest.json`
+- ✅ Manifest accessible at: `https://a-series-preview.preview.emergentagent.com/static/emojis/banibs_full/manifest.json`
 
 **5. Updated Emoji System**
 - Modified: `/app/frontend/src/utils/emojiSystem.js`
@@ -289,7 +289,7 @@ user_problem_statement: |
   Test the BANIBS Authentication pages visual upgrade with comprehensive scenarios:
 
   **Test Scenario 1: Register Page (Desktop)**
-  - Navigate to: https://black-news.preview.emergentagent.com/auth/register
+  - Navigate to: https://a-series-preview.preview.emergentagent.com/auth/register
   - Viewport: 1920x1080
   - Verify brand story panel on the right with:
     * "For Us. By Us. Built to Last." headline
@@ -305,7 +305,7 @@ user_problem_statement: |
   - Verify error styling appears correctly
 
   **Test Scenario 2: Sign In Page (Desktop)**
-  - Navigate to: https://black-news.preview.emergentagent.com/auth/signin
+  - Navigate to: https://a-series-preview.preview.emergentagent.com/auth/signin
   - Viewport: 1920x1080
   - Verify brand panel on the right with:
     * "Your network. Your news. Your marketplace." headline
