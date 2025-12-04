@@ -69,18 +69,35 @@ const TopStoriesGrid = ({ stories }) => {
           >
             {/* Thumbnail */}
             <div className="relative aspect-video overflow-hidden bg-muted">
-              <img
-                src={story.imageUrl}
-                alt={story.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                onError={(e) => {
-                  e.target.src = 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=600&q=80';
-                }}
-              />
+              {story.imageUrl && !story.imageUrl.includes('/static/') ? (
+                <img
+                  src={story.imageUrl}
+                  alt={story.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    // Hide broken image and show gradient fallback
+                    e.target.style.display = 'none';
+                    e.target.parentElement.querySelector('.fallback-gradient').style.display = 'flex';
+                  }}
+                />
+              ) : null}
+              
+              {/* Gradient Fallback */}
+              <div 
+                className={`fallback-gradient absolute inset-0 bg-gradient-to-br ${getCategoryFallback(story.category)} ${story.imageUrl && !story.imageUrl.includes('/static/') ? 'hidden' : 'flex'} items-center justify-center`}
+                style={{ display: story.imageUrl && !story.imageUrl.includes('/static/') ? 'none' : 'flex' }}
+              >
+                <div className="text-center p-6">
+                  <div className="text-white/90 text-5xl mb-2">📰</div>
+                  <div className="text-white/70 text-xs font-medium uppercase tracking-wider">
+                    {story.category || 'News'}
+                  </div>
+                </div>
+              </div>
               
               {/* Category Badge */}
               <div className="absolute top-2 left-2">
-                <span className="px-2 py-1 bg-blue-600/90 text-white text-xs font-semibold rounded">
+                <span className="px-2 py-1 bg-black/70 backdrop-blur-sm text-white text-xs font-semibold rounded capitalize">
                   {story.category || 'News'}
                 </span>
               </div>
