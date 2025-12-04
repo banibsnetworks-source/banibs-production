@@ -316,6 +316,7 @@ const Home = () => {
 
 function App() {
   const [comingSoonMode, setComingSoonMode] = useState(false);
+  const [comingSoonVariant, setComingSoonVariant] = useState('dark');
   const [featureFlagsLoaded, setFeatureFlagsLoaded] = useState(false);
   
   // Check feature flags on app load
@@ -324,10 +325,12 @@ function App() {
       try {
         const response = await axios.get(`${BACKEND_URL}/api/config/feature-flags`);
         setComingSoonMode(response.data.coming_soon_mode || false);
+        setComingSoonVariant(response.data.coming_soon_variant || 'dark');
       } catch (error) {
         console.error('Failed to load feature flags:', error);
         // Default to false if we can't load flags
         setComingSoonMode(false);
+        setComingSoonVariant('dark');
       } finally {
         setFeatureFlagsLoaded(true);
       }
@@ -344,7 +347,8 @@ function App() {
   
   // Show Coming Soon page if mode is enabled
   if (comingSoonMode) {
-    return <ComingSoonPage />;
+    // Select variant based on flag
+    return comingSoonVariant === 'blue' ? <ComingSoonPageBlue /> : <ComingSoonPage />;
   }
   
   return (
