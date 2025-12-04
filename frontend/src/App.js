@@ -536,10 +536,15 @@ function App() {
               <Route path="/portal/social/jobs/:jobId" element={<JobDetailPage />} />
               
               {/* Test Pages */}
-              <Route path="/test/highfive" element={<HighFiveDemo />} />
-              <Route path="/test/emojis" element={<EmojiTestPage />} />
-              <Route path="/test/emoji-picker" element={<EmojiPickerDemo />} />
-              <Route path="/test/emoji-render" element={<EmojiRenderTest />} />
+              {/* Test Routes - Development Only */}
+              {process.env.NODE_ENV === 'development' && (
+                <>
+                  <Route path="/test/highfive" element={<HighFiveDemo />} />
+                  <Route path="/test/emojis" element={<EmojiTestPage />} />
+                  <Route path="/test/emoji-picker" element={<EmojiPickerDemo />} />
+                  <Route path="/test/emoji-render" element={<EmojiRenderTest />} />
+                </>
+              )}
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/settings/emoji-identity" element={<EmojiIdentitySettingsPanel />} />
               
