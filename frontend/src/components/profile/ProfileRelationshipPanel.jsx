@@ -217,11 +217,15 @@ const ProfileRelationshipPanel = ({ profileUserId, currentUserId }) => {
                 className={`btn-v2 ${
                   tier === t ? 'btn-v2-primary' : 'btn-v2-secondary'
                 } btn-v2-sm`}
+                title={t === 'OTHERS' ? 'Others: People you just met, coworkers, or acquaintances. Lowest access. Protects your inner circle.' : ''}
               >
                 {t.charAt(0) + t.slice(1).toLowerCase()}
               </button>
             ))}
           </div>
+          <p className="text-xs text-gray-500 breathing-room-xs mt-2 italic">
+            💡 Higher tiers = more access. Lower tiers = less access. Always protect your inner circle.
+          </p>
         </div>
       )}
 
