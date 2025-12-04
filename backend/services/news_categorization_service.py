@@ -230,6 +230,7 @@ def sort_items_by_section(items: List[Dict[str, Any]]) -> Dict[str, List[Dict[st
     
     # Add featured item as hero
     if featured:
+        featured['mapped_section'] = categorize_news_item(featured)
         result['hero'] = [featured]
     
     # Process remaining items
