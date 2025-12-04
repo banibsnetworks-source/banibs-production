@@ -312,7 +312,7 @@ const BlackNewsAboutPage = () => {
                 },
                 {
                   title: 'Calm Presentation',
-                  description: 'Instead of chaos and pop-ups, we present stories in a clean, thoughtful layout that's easier on the mind.'
+                  description: 'Instead of chaos and pop-ups, we present stories in a clean, thoughtful layout that is easier on the mind.'
                 },
                 {
                   title: 'Continuous Improvement',
