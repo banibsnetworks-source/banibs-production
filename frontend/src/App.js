@@ -476,7 +476,7 @@ function App() {
               <Route path="/portal/social/home" element={<SocialPortal />} />
               
               {/* Base social portal route (catch-all for /portal/social) */}
-              <Route path="/portal/social" element={<SocialPortal />} />
+              <Route path="/portal/social" element={<SocialLandingPage />} />
               
               {/* Phase 8.4 - Business Mode Routes */}
               {/* Business Owner Tools */}
