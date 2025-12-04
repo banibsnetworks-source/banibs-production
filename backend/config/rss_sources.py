@@ -62,7 +62,7 @@ RSS_SOURCES = [
         "source_name": "AP World News",
         "rss_url": "https://rsshub.app/apnews/topics/apf-intlnews",
         "language": "en",
-        "active": True,
+        "active": False,  # Read timeout
         "featured_source": True,
         "priority": 1,
     },
