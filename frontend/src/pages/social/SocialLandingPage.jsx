@@ -122,6 +122,9 @@ const SocialLandingPage = () => {
       color: styles.textPrimary,
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif'
     }}>
+      {/* Global Navigation Bar */}
+      <GlobalNavBar />
+      
       {/* Hero Section */}
       <div style={{
         padding: '120px 20px 100px',
