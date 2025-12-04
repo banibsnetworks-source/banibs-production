@@ -66,14 +66,31 @@ const NewsSectionBlock = ({ title, stories, icon }) => {
           <div className="grid sm:grid-cols-3 gap-4">
             {/* Thumbnail */}
             <div className="sm:col-span-1 relative aspect-video sm:aspect-square bg-muted rounded-lg overflow-hidden">
-              <img
-                src={featuredItem.imageUrl}
-                alt={featuredItem.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                onError={(e) => {
-                  e.target.src = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=400&q=80';
-                }}
-              />
+              {featuredItem.imageUrl && !featuredItem.imageUrl.includes('/static/') ? (
+                <img
+                  src={featuredItem.imageUrl}
+                  alt={featuredItem.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.parentElement.querySelector('.fallback-gradient').style.display = 'flex';
+                  }}
+                />
+              ) : null}
+              
+              {/* Gradient Fallback */}
+              <div 
+                className={`fallback-gradient absolute inset-0 bg-gradient-to-br ${getCategoryFallback(featuredItem.category)} ${featuredItem.imageUrl && !featuredItem.imageUrl.includes('/static/') ? 'hidden' : 'flex'} items-center justify-center`}
+                style={{ display: featuredItem.imageUrl && !featuredItem.imageUrl.includes('/static/') ? 'none' : 'flex' }}
+              >
+                <div className="text-center p-4">
+                  <div className="text-white/90 text-4xl mb-2">📰</div>
+                  <div className="text-white/70 text-xs font-medium uppercase tracking-wider">
+                    {featuredItem.category || 'News'}
+                  </div>
+                </div>
+              </div>
+              
               {featuredItem.sentiment_label && (
                 <div className="absolute top-2 right-2">
                   <SentimentBadge
