@@ -406,6 +406,10 @@ app.include_router(debug_router)
 from routes.shortform import router as shortform_router
 app.include_router(shortform_router)
 
+# Admin RSS Management
+from routes.admin_rss import router as admin_rss_router
+app.include_router(admin_rss_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
