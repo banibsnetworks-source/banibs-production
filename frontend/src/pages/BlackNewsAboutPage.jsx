@@ -145,7 +145,7 @@ const BlackNewsAboutPage = () => {
               fontWeight: '500',
               marginBottom: '28px'
             }}>
-              BANIBS Black News is a curated space focused on news, stories, and perspectives that center our people — locally, nationally, and across the globe.
+              BANIBS Black News is a curated space focused on news, stories, and perspectives that center our people - locally, nationally, and across the globe.
             </p>
             <p style={{
               fontSize: '1.1rem',
