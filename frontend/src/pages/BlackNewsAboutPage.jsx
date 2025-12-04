@@ -316,7 +316,7 @@ const BlackNewsAboutPage = () => {
                 },
                 {
                   title: 'Continuous Improvement',
-                  description: 'Over time, our systems learn from what people read, share, and return to — always with privacy and respect at the core.'
+                  description: 'Over time, our systems learn from what people read, share, and return to - always with privacy and respect at the core.'
                 }
               ].map((step, i) => (
                 <div key={i} style={{
