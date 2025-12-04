@@ -81,7 +81,7 @@ import BusinessPage from "./pages/BusinessPage";
 import BlackNewsAboutPage from "./pages/BlackNewsAboutPage";
 
 // Phase A6 - BANIBS Social Landing Page
-import SocialLandingPage from "./pages/SocialLandingPage";
+import SocialLandingPage from "./pages/social/SocialLandingPage";
 
 // Phase A7 - BANIBS Marketplace Landing Page
 import MarketplaceLandingPage from "./pages/MarketplaceLandingPage";
