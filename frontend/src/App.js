@@ -256,8 +256,9 @@ import AbilityModerationDashboardPage from "./pages/admin/ability/AbilityModerat
 // Phase 0.0 - BPOC Orchestration Dashboard
 import OrchestrationDashboardPage from "./pages/admin/orchestration/OrchestrationDashboardPage";
 
-// Coming Soon Page
+// Coming Soon Pages (Variants)
 import ComingSoonPage from "./pages/ComingSoonPage";
+import ComingSoonPageBlue from "./pages/ComingSoonPageBlue";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
