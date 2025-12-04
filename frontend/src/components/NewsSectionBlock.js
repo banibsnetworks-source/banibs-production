@@ -141,14 +141,25 @@ const NewsSectionBlock = ({ title, stories, icon }) => {
             >
               {/* Small Thumbnail */}
               <div className="relative w-24 h-24 flex-shrink-0 bg-muted rounded overflow-hidden">
-                <img
-                  src={story.imageUrl}
-                  alt={story.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  onError={(e) => {
-                    e.target.src = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=200&q=80';
-                  }}
-                />
+                {story.imageUrl && !story.imageUrl.includes('/static/') ? (
+                  <img
+                    src={story.imageUrl}
+                    alt={story.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.parentElement.querySelector('.fallback-gradient').style.display = 'flex';
+                    }}
+                  />
+                ) : null}
+                
+                {/* Gradient Fallback */}
+                <div 
+                  className={`fallback-gradient absolute inset-0 bg-gradient-to-br ${getCategoryFallback(story.category)} ${story.imageUrl && !story.imageUrl.includes('/static/') ? 'hidden' : 'flex'} items-center justify-center`}
+                  style={{ display: story.imageUrl && !story.imageUrl.includes('/static/') ? 'none' : 'flex' }}
+                >
+                  <div className="text-white/90 text-2xl">📰</div>
+                </div>
               </div>
 
               {/* Content */}
