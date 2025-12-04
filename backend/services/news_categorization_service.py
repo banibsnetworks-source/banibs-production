@@ -237,11 +237,11 @@ def sort_items_by_section(items: List[Dict[str, Any]]) -> Dict[str, List[Dict[st
         section = categorize_news_item(item)
         result[section].append(item)
     
-    # Fill top_stories from most populated sections
-    # Priority order: business, tech, entertainment, lifestyle, world, us, sports
+    # Fill top_stories from ALL active sections
+    # Priority order: business, tech, entertainment, world, us, sports, health, civil_rights, lifestyle
     top_stories_pool = []
-    for section in ['business', 'tech', 'entertainment', 'lifestyle', 'world', 'us', 'sports']:
-        top_stories_pool.extend(result[section][:3])  # Take top 3 from each
+    for section in ['business', 'tech', 'entertainment', 'world', 'us', 'sports', 'health', 'civil_rights', 'lifestyle', 'education']:
+        top_stories_pool.extend(result[section][:2])  # Take top 2 from each
     
     # Sort by published date and take top 6
     top_stories_pool.sort(
