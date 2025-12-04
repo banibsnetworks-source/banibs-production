@@ -410,6 +410,10 @@ app.include_router(shortform_router)
 from routes.admin_rss import router as admin_rss_router
 app.include_router(admin_rss_router)
 
+# Feature Flags
+from routes.feature_flags import router as feature_flags_router
+app.include_router(feature_flags_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
