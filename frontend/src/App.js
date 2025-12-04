@@ -412,6 +412,9 @@ function App() {
               {/* Phase A4 - Business Page */}
               <Route path="/about/business" element={<BusinessPage />} />
               
+              {/* Phase A5 - Black News About Page */}
+              <Route path="/about/black-news" element={<BlackNewsAboutPage />} />
+              
               {/* Phase 8.2 - Portal Routes */}
               <Route path="/portal/news" element={<NewsPortal />} />
               
