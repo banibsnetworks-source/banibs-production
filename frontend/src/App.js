@@ -259,6 +259,7 @@ import OrchestrationDashboardPage from "./pages/admin/orchestration/Orchestratio
 // Coming Soon Pages (Variants)
 import ComingSoonPage from "./pages/ComingSoonPage";
 import ComingSoonPageBlue from "./pages/ComingSoonPageBlue";
+import ComingSoonPageGold from "./pages/ComingSoonPageGold";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
