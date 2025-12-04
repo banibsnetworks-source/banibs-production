@@ -184,9 +184,7 @@ import SettingsPage from "./pages/settings/SettingsPage";
 import EmojiRenderTest from "./pages/test/EmojiRenderTest";
 // Phase 11+ Portal Placeholders
 import {
-  DiasporaPlaceholder,
-  YouthAcademyPlaceholder,
-  WalletPlaceholder
+  DiasporaPlaceholder
 } from "./components/portals/PortalPlaceholder";
 // Phase 11.0 - Prayer Rooms (Real Implementation)
 import PrayerLobbyPage from "./pages/prayer/PrayerLobbyPage";
