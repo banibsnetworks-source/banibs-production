@@ -82,6 +82,9 @@ import BlackNewsAboutPage from "./pages/BlackNewsAboutPage";
 
 // Phase A6 - BANIBS Social Landing Page
 import SocialLandingPage from "./pages/SocialLandingPage";
+
+// Phase A7 - BANIBS Marketplace Landing Page
+import MarketplaceLandingPage from "./pages/MarketplaceLandingPage";
 // Phase 6.2.1 - Notifications
 import NotificationsPage from "./pages/Notifications/NotificationsPage";
 // Phase 6.2.3 - Resources & Events
