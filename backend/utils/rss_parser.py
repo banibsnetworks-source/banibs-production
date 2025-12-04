@@ -264,6 +264,15 @@ async def fetch_and_store_feed(
             news_dict["sentiment_label"] = sentiment_label
             news_dict["sentiment_at"] = sentiment_at
             
+            # Apply Black News tagging
+            from services.black_news_tagging_service import tag_black_news_item
+            news_dict = tag_black_news_item(
+                news_dict,
+                source_is_black_owned=is_black_owned,
+                source_is_black_focus=is_black_focus,
+                source_category=category
+            )
+            
             # Store in database
             await news_collection.insert_one(news_dict)
             stored_count += 1
