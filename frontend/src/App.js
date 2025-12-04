@@ -70,6 +70,9 @@ import BlackNewsPage from "./pages/BlackNewsPage";
 
 // Phase A2 - Mission & Values Page
 import MissionValuesPage from "./pages/MissionValuesPage";
+
+// Phase A3 - Our Story Page
+import OurStoryPage from "./pages/OurStoryPage";
 // Phase 6.2.1 - Notifications
 import NotificationsPage from "./pages/Notifications/NotificationsPage";
 // Phase 6.2.3 - Resources & Events
