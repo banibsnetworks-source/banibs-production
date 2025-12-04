@@ -404,6 +404,12 @@ function App() {
               {/* Phase A2 - Mission & Values Page */}
               <Route path="/about/mission" element={<MissionValuesPage />} />
               
+              {/* Phase A3 - Our Story Page */}
+              <Route path="/about/our-story" element={<OurStoryPage />} />
+              
+              {/* Phase A4 - Business Page */}
+              <Route path="/about/business" element={<BusinessPage />} />
+              
               {/* Phase 8.2 - Portal Routes */}
               <Route path="/portal/news" element={<NewsPortal />} />
               
