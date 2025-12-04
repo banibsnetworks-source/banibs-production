@@ -87,7 +87,6 @@ import EventDetailPage from "./pages/Events/EventDetailPage";
 import SearchPage from "./pages/Search/SearchPage";
 // Stub pages for navigation
 import SocialPage from "./pages/Stubs/SocialPage";
-import BusinessPage from "./pages/Stubs/BusinessPage";
 import InformationPage from "./pages/Stubs/InformationPage";
 import EducationPage from "./pages/Stubs/EducationPage";
 import YouthPage from "./pages/Stubs/YouthPage";
