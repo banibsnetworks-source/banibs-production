@@ -311,10 +311,37 @@ const Home = () => {
 };
 
 function App() {
-  // Phase 7.5.1 - Initialize analytics on app load
+  const [comingSoonMode, setComingSoonMode] = useState(false);
+  const [featureFlagsLoaded, setFeatureFlagsLoaded] = useState(false);
+  
+  // Check feature flags on app load
   useEffect(() => {
+    const checkFeatureFlags = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/api/config/feature-flags`);
+        setComingSoonMode(response.data.coming_soon_mode || false);
+      } catch (error) {
+        console.error('Failed to load feature flags:', error);
+        // Default to false if we can't load flags
+        setComingSoonMode(false);
+      } finally {
+        setFeatureFlagsLoaded(true);
+      }
+    };
+    
+    checkFeatureFlags();
     initializeAnalytics();
   }, []);
+  
+  // Show nothing while loading feature flags
+  if (!featureFlagsLoaded) {
+    return null;
+  }
+  
+  // Show Coming Soon page if mode is enabled
+  if (comingSoonMode) {
+    return <ComingSoonPage />;
+  }
   
   return (
     <ThemeProvider>
