@@ -391,7 +391,7 @@ function App() {
                   <AccountModeProvider>
             <Routes>
               {/* Phase 10.0 - Full-Page Auth Routes (P0 Blocker Fix) */}
-              <Route path="/auth/register" element={<RegisterPageNew />} />
+              <Route path="/auth/register" element={<RegisterPage />} />
               <Route path="/auth/signin" element={<SignInPage />} />
               <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
               
