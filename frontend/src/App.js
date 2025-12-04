@@ -73,6 +73,9 @@ import MissionValuesPage from "./pages/MissionValuesPage";
 
 // Phase A3 - Our Story Page
 import OurStoryPage from "./pages/OurStoryPage";
+
+// Phase A4 - Business Page
+import BusinessPage from "./pages/BusinessPage";
 // Phase 6.2.1 - Notifications
 import NotificationsPage from "./pages/Notifications/NotificationsPage";
 // Phase 6.2.3 - Resources & Events
