@@ -35,7 +35,8 @@ const NewsSectionBlock = ({ title, stories, icon }) => {
   };
 
   // Generate fallback placeholder based on category
-  const getCategoryFallback = (category) => {
+  const getCategoryFallback = (story) => {
+    const category = story.mapped_section || story.category || 'news';
     const categoryColors = {
       'world': 'from-blue-600 to-blue-800',
       'us': 'from-red-600 to-red-800',
