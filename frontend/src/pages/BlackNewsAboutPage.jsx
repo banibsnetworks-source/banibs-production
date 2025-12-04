@@ -441,7 +441,7 @@ const BlackNewsAboutPage = () => {
             maxWidth: '720px',
             margin: '0 auto'
           }}>
-            Over time, BANIBS Black News will grow into a deeper, richer hub — with more sources, better tools, and ways for the community to participate.
+            Over time, BANIBS Black News will grow into a deeper, richer hub - with more sources, better tools, and ways for the community to participate.
           </p>
         </div>
       </div>
