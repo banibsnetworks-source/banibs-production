@@ -15,6 +15,13 @@ const NewsSectionBlock = ({ title, stories, icon }) => {
   const formatDate = (dateString) => {
     try {
       const date = new Date(dateString);
+      const now = new Date();
+      const diffMs = now - date;
+      const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+      
+      if (diffHours < 1) return 'Just now';
+      if (diffHours < 24) return `${diffHours}h ago`;
+      if (diffHours < 48) return 'Yesterday';
       return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     } catch {
       return '';
