@@ -453,6 +453,7 @@ function App() {
               
               {/* Phase 8.5 - Groups Routes */}
               <Route path="/portal/social/groups" element={<GroupsPage />} />
+              <Route path="/portal/social/groups/mine" element={<GroupsPage />} />
               <Route path="/portal/social/groups/:groupId" element={<GroupDetailPage />} />
               <Route path="/portal/social/watch" element={<CommunityWatchPage />} />
               
