@@ -517,13 +517,9 @@ function App() {
               {/* Phase 3.0 - BANIBS Connect Messaging */}
               <Route path="/messages" element={<MessagingHomePage />} />
               <Route path="/messages/:conversationId" element={<MessagingHomePage />} />
-              <Route path="/portal/social/messages" element={<MessagingHomePage />} />
-              <Route path="/portal/social/messages/:conversationId" element={<MessagingHomePage />} />
               
               {/* Phase 10.x - Social Portal Pages */}
               <Route path="/portal/social/u/:handle" element={<SocialMyPostsPage />} />
-              <Route path="/portal/social/groups" element={<SocialGroupsPage />} />
-              <Route path="/portal/social/groups/mine" element={<SocialGroupsPage />} />
               <Route path="/portal/social/saved" element={<SocialSavedPage />} />
               <Route path="/portal/social/live" element={<SocialLivesPage />} />
               <Route path="/portal/social/lives" element={<SocialLivesPage />} />
