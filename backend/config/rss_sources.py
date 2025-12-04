@@ -18,6 +18,8 @@ Organized by audience-focused categories for better content discovery
 #   - active: Boolean flag to enable/disable feed
 #   - featured_source: (Optional) Boolean for high-quality image sources
 #   - priority: (Optional) Integer 1-5 for feed priority (1=highest)
+#   - is_black_owned: (Optional) Boolean - True for Black-owned/operated sources
+#   - is_black_focus: (Optional) Boolean - True for sources centering Black communities
 # ============================================================================
 
 # BANIBS V2.0 CATEGORIES:
