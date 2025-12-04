@@ -94,23 +94,23 @@ const SocialLandingPage = () => {
   const faqItems = [
     {
       question: 'Is BANIBS free?',
-      answer: 'BANIBS Social is free to join and use.'
+      answer: 'Yes. BANIBS Social is free to join and use.'
     },
     {
       question: 'Who can join?',
-      answer: 'Everyone is welcome - BANIBS was built by us, for us, but open to all allies and communities of respect.'
+      answer: 'Anyone who aligns with our values of peace, dignity, and community.'
     },
     {
-      question: 'How is BANIBS different from other social apps?',
-      answer: 'Calm design, cultural respect, low-noise feed, no exploitation of your data.'
+      question: 'How is BANIBS different?',
+      answer: 'No chaos, no harassment, no algorithmic pressure. Just calm, culture-centered connection.'
     },
     {
       question: 'Can I delete my account anytime?',
-      answer: 'Yes. You are always in control.'
+      answer: 'Yes. You always have control over your data.'
     },
     {
-      question: 'How do I report problems or get help?',
-      answer: 'Visit our Help Center, Safety Guide, or contact Support directly.'
+      question: 'How do I report problems?',
+      answer: 'Use the in-app support tools or visit the BANIBS Support Center.'
     }
   ];
 
