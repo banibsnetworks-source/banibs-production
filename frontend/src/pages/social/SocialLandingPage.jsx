@@ -415,7 +415,7 @@ const SocialLandingPage = () => {
               marginBottom: '24px'
             }}>
               <button
-                onClick={() => navigate('/auth/login')}
+                onClick={() => navigate('/auth/signin')}
                 style={{
                   width: '100%',
                   padding: '18px 40px',
