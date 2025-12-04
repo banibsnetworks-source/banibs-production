@@ -82,7 +82,7 @@ RSS_SOURCES = [
         "source_name": "Voice of America",
         "rss_url": "https://www.voanews.com/api/zitqveoii",
         "language": "en",
-        "active": True,
+        "active": False,  # 404 Not Found
         "priority": 2,
     },
     {
