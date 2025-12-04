@@ -55,7 +55,9 @@ async def sync_rss_feeds():
                 source_name=source["source_name"],
                 limit=5,  # Fetch 5 most recent items per source
                 fallback_image=FALLBACK_IMAGE,
-                region=source.get("region")  # Pass region from RSS source config
+                region=source.get("region"),  # Pass region from RSS source config
+                is_black_owned=source.get("is_black_owned", False),
+                is_black_focus=source.get("is_black_focus", False)
             )
             results.append({
                 "source": source["source_name"],
