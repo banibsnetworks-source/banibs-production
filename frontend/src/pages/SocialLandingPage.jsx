@@ -236,22 +236,22 @@ const SocialLandingPage = () => {
               {
                 icon: Users,
                 title: 'Create Your Circle',
-                description: 'Connect with family, friends, communities, and interests.'
+                description: 'Build your community through trust and real connections.'
               },
               {
                 icon: MessageCircle,
                 title: 'Share Your Voice',
-                description: 'Post moments, thoughts, photos, videos, and creativity.'
+                description: 'Post thoughts, images, moments - at your pace.'
               },
               {
                 icon: Heart,
                 title: 'Stay In The Loop',
-                description: 'Follow topics, people, and conversations that matter.'
+                description: 'See updates from people you care about.'
               },
               {
                 icon: Shield,
                 title: 'Build Safely',
-                description: 'Cultural protection filters and respectful community design.'
+                description: 'BANIBS protects your experience with community-first design.'
               }
             ].map((feature, i) => (
               <div key={i} style={{
