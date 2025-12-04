@@ -93,39 +93,44 @@ def categorize_news_item(item: Dict[str, Any]) -> str:
     
     # Lifestyle section
     lifestyle_keywords = [
-        'lifestyle', 'wellness', 'health', 'beauty', 'fashion',
-        'travel', 'food', 'relationship', 'culture', 'style'
+        'lifestyle', 'beauty', 'fashion', 'travel', 'food', 
+        'relationship', 'culture', 'style'
     ]
-    if any(keyword in category for keyword in lifestyle_keywords):
+    if any(keyword in category_lower for keyword in lifestyle_keywords):
         return 'lifestyle'
-    if any(keyword in source_name for keyword in ['essence', 'travel noire', 'healthline', 'blavity']):
+    if any(keyword in source_name for keyword in ['essence', 'travel noire', 'blavity']):
         return 'lifestyle'
     
     # Business section
     business_keywords = [
         'business', 'economy', 'entrepreneur', 'startup', 
-        'wealth', 'finance', 'grant', 'funding'
+        'wealth', 'finance', 'grant', 'funding', 'market', 'stock', 'investment'
     ]
-    if any(keyword in category for keyword in business_keywords):
+    if any(keyword in category_lower for keyword in business_keywords):
         return 'business'
-    if 'business' in source_name or 'entrepreneur' in source_name:
+    if any(keyword in source_name for keyword in ['business', 'entrepreneur', 'forbes', 'cnbc', 'bloomberg', 'marketwatch']):
         return 'business'
     
-    # Tech section
+    # Tech section (enhanced keywords)
     tech_keywords = [
-        'technology', 'tech', 'innovation', 'ai', 'digital',
-        'startup', 'cyber', 'software'
+        'technology', 'tech', 'innovation', 'ai', 'artificial intelligence',
+        'machine learning', 'digital', 'startup', 'cyber', 'software', 
+        'cryptocurrency', 'blockchain', 'data', 'science'
     ]
-    if any(keyword in category for keyword in tech_keywords):
+    if any(keyword in category_lower for keyword in tech_keywords):
         return 'tech'
-    if 'tech' in source_name or 'innovation' in source_name:
+    if any(keyword in source_name for keyword in ['tech', 'innovation', 'wired', 'mit', 'ars technica']):
         return 'tech'
     
-    # Sports section
-    sports_keywords = ['sport', 'athletic', 'game', 'championship']
-    if any(keyword in category for keyword in sports_keywords):
+    # Sports section (enhanced keywords)
+    sports_keywords = [
+        'sport', 'athletic', 'game', 'championship', 'nba', 'nfl', 
+        'soccer', 'basketball', 'football', 'baseball', 'tennis', 
+        'olympics', 'espn', 'league'
+    ]
+    if any(keyword in category_lower for keyword in sports_keywords):
         return 'sports'
-    if 'sport' in source_name:
+    if any(keyword in source_name for keyword in ['sport', 'espn', 'nba', 'nfl']):
         return 'sports'
     
     # US section - domestic/Americas focus
