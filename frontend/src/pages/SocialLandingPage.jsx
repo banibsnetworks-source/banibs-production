@@ -195,13 +195,13 @@ const SocialLandingPage = () => {
             textAlign: 'left'
           }}>
             <p style={{ marginBottom: '28px' }}>
-              BANIBS Social is built for real community - conversations, creativity, support, and connection.
+              BANIBS Social is a welcoming, dignified digital home for our community - built for safety, belonging, and honest connection.
             </p>
             <p style={{ marginBottom: '28px' }}>
-              It puts cultural respect, dignity, and peace at the core of your experience.
+              There is no pressure here. You can move at your own pace. Share your voice, uplift others, and enjoy a calmer alternative to mainstream social platforms.
             </p>
             <p>
-              Whether you share, learn, or build, BANIBS gives you a calm, intuitive space to express yourself.
+              Our design puts peace first. No chaos. No noise. Just a beautiful space to grow.
             </p>
           </div>
         </div>
