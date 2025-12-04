@@ -163,7 +163,6 @@ import BusinessJobForm from "./pages/business/BusinessJobForm";
 import { MessagingHomePage } from "./pages/messaging/MessagingHomePage.jsx";
 // Phase 10.x - Social Portal Pages
 import SocialMyPostsPage from "./pages/portals/SocialMyPostsPage";
-import SocialGroupsPage from "./pages/portals/SocialGroupsPage";
 import SocialSavedPage from "./pages/portals/SocialSavedPage";
 import SocialLivesPage from "./pages/portals/SocialLivesPage";
 import SocialSubscriptionsPage from "./pages/portals/SocialSubscriptionsPage";
