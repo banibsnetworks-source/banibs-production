@@ -76,6 +76,9 @@ import OurStoryPage from "./pages/OurStoryPage";
 
 // Phase A4 - Business Page
 import BusinessPage from "./pages/BusinessPage";
+
+// Phase A5 - Black News About Page
+import BlackNewsAboutPage from "./pages/BlackNewsAboutPage";
 // Phase 6.2.1 - Notifications
 import NotificationsPage from "./pages/Notifications/NotificationsPage";
 // Phase 6.2.3 - Resources & Events
