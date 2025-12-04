@@ -126,6 +126,7 @@ RSS_SOURCES = [
     },
     {
         "id": "face2face_africa",
+        "is_black_focus": True,
         "category": "Global Diaspora",
         "source_name": "Face2Face Africa",
         "rss_url": "https://face2faceafrica.com/feed",
@@ -164,6 +165,7 @@ RSS_SOURCES = [
     },
     {
         "id": "okayafrica",
+        "is_black_focus": True,
         "category": "Global Diaspora",
         "source_name": "OkayAfrica",
         "rss_url": "https://www.okayafrica.com/feed/",
@@ -178,6 +180,7 @@ RSS_SOURCES = [
     # ========================================================================
     {
         "id": "allafrica",
+        "is_black_focus": True,
         "category": "Africa Watch",
         "source_name": "AllAfrica",
         "rss_url": "https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf",
@@ -188,6 +191,7 @@ RSS_SOURCES = [
     },
     {
         "id": "guardian_nigeria",
+        "is_black_focus": True,
         "category": "Africa Watch",
         "source_name": "Guardian Nigeria",
         "rss_url": "https://guardian.ng/feed/",
@@ -206,6 +210,7 @@ RSS_SOURCES = [
     },
     {
         "id": "daily_trust",
+        "is_black_focus": True,
         "category": "Africa Watch",
         "source_name": "Daily Trust",
         "rss_url": "https://dailytrust.com/feed",
@@ -224,6 +229,7 @@ RSS_SOURCES = [
     },
     {
         "id": "modern_ghana",
+        "is_black_focus": True,
         "category": "Africa Watch",
         "source_name": "ModernGhana",
         "rss_url": "https://www.modernghana.com/GhanaHome/rss/news.xml",
@@ -243,6 +249,7 @@ RSS_SOURCES = [
     },
     {
         "id": "business_daily_africa",
+        "is_black_focus": True,
         "category": "Africa Watch",
         "source_name": "Business Daily Africa",
         "rss_url": "https://www.businessdailyafrica.com/bd/feed",
@@ -252,6 +259,7 @@ RSS_SOURCES = [
     },
     {
         "id": "sabc_news",
+        "is_black_focus": True,
         "category": "Africa Watch",
         "source_name": "SABC News",
         "rss_url": "https://www.sabcnews.com/sabcnews/feed/",
@@ -261,6 +269,7 @@ RSS_SOURCES = [
     },
     {
         "id": "mail_guardian",
+        "is_black_focus": True,
         "category": "Africa Watch",
         "source_name": "Mail & Guardian",
         "rss_url": "https://mg.co.za/feed/",
@@ -270,6 +279,7 @@ RSS_SOURCES = [
     },
     {
         "id": "daily_nation_kenya",
+        "is_black_focus": True,
         "category": "Africa Watch",
         "source_name": "Daily Nation (Kenya)",
         "rss_url": "https://nation.africa/kenya/rss",
@@ -283,6 +293,7 @@ RSS_SOURCES = [
     # ========================================================================
     {
         "id": "caribbean_journal",
+        "is_black_focus": True,
         "category": "Caribbean Watch",
         "source_name": "Caribbean Journal",
         "rss_url": "https://www.caribjournal.com/feed/",
@@ -302,6 +313,7 @@ RSS_SOURCES = [
     },
     {
         "id": "jamaica_gleaner",
+        "is_black_focus": True,
         "category": "Caribbean Watch",
         "source_name": "Jamaica Gleaner",
         "rss_url": "http://jamaica-gleaner.com/feed/rss.xml",
@@ -311,6 +323,7 @@ RSS_SOURCES = [
     },
     {
         "id": "jamaica_observer",
+        "is_black_focus": True,
         "category": "Caribbean Watch",
         "source_name": "Jamaica Observer",
         "rss_url": "http://www.jamaicaobserver.com/rss/news",
@@ -320,6 +333,7 @@ RSS_SOURCES = [
     },
     {
         "id": "trinidad_express",
+        "is_black_focus": True,
         "category": "Caribbean Watch",
         "source_name": "Trinidad Express",
         "rss_url": "https://trinidadexpress.com/feed/",
@@ -329,6 +343,7 @@ RSS_SOURCES = [
     },
     {
         "id": "barbados_today",
+        "is_black_focus": True,
         "category": "Caribbean Watch",
         "source_name": "Barbados Today",
         "rss_url": "https://barbadostoday.bb/feed/",
@@ -338,6 +353,7 @@ RSS_SOURCES = [
     },
     {
         "id": "haiti_libre",
+        "is_black_focus": True,
         "category": "Caribbean Watch",
         "source_name": "Haiti Libre",
         "rss_url": "https://www.haitilibre.com/en/rss.xml",
@@ -347,6 +363,7 @@ RSS_SOURCES = [
     },
     {
         "id": "st_lucia_times",
+        "is_black_focus": True,
         "category": "Caribbean Watch",
         "source_name": "St. Lucia Times",
         "rss_url": "https://www.stluciatimes.com/feed/",
@@ -356,6 +373,7 @@ RSS_SOURCES = [
     },
     {
         "id": "bahamas_press",
+        "is_black_focus": True,
         "category": "Caribbean Watch",
         "source_name": "Bahamas Press",
         "rss_url": "https://bahamaspress.com/feed/",
@@ -365,6 +383,7 @@ RSS_SOURCES = [
     },
     {
         "id": "caribbean_national_weekly",
+        "is_black_focus": True,
         "category": "Caribbean Watch",
         "source_name": "Caribbean National Weekly",
         "rss_url": "https://www.caribbeannationalweekly.com/feed/",
@@ -387,6 +406,8 @@ RSS_SOURCES = [
     },
     {
         "id": "blavity",
+        "is_black_owned": True,
+        "is_black_focus": True,
         "category": "Culture / Civil Rights",
         "source_name": "Blavity",
         "rss_url": "https://blavity.com/feed",
@@ -397,6 +418,8 @@ RSS_SOURCES = [
     },
     {
         "id": "essence",
+        "is_black_owned": True,
+        "is_black_focus": True,
         "category": "Culture / Civil Rights",
         "source_name": "Essence",
         "rss_url": "https://www.essence.com/feed/",
@@ -416,6 +439,8 @@ RSS_SOURCES = [
     },
     {
         "id": "atlanta_black_star",
+        "is_black_owned": True,
+        "is_black_focus": True,
         "category": "Culture / Civil Rights",
         "source_name": "Atlanta Black Star",
         "rss_url": "https://atlantablackstar.com/feed/",
@@ -426,6 +451,8 @@ RSS_SOURCES = [
     },
     {
         "id": "the_grio",
+        "is_black_owned": True,
+        "is_black_focus": True,
         "category": "Culture / Civil Rights",
         "source_name": "The Grio",
         "rss_url": "https://thegrio.com/feed/",
@@ -436,6 +463,8 @@ RSS_SOURCES = [
     },
     {
         "id": "revolt",
+        "is_black_owned": True,
+        "is_black_focus": True,
         "category": "Culture / Civil Rights",
         "source_name": "Revolt",
         "rss_url": "https://www.revolt.tv/feed",
@@ -454,6 +483,7 @@ RSS_SOURCES = [
     },
     {
         "id": "naacp_news",
+        "is_black_focus": True,
         "category": "Culture / Civil Rights",
         "source_name": "NAACP News",
         "rss_url": "https://naacp.org/rss.xml",
@@ -575,6 +605,8 @@ RSS_SOURCES = [
     },
     {
         "id": "rolling_out",
+        "is_black_owned": True,
+        "is_black_focus": True,
         "category": "Entertainment",
         "source_name": "Rolling Out",
         "rss_url": "https://rollingout.com/feed/",
@@ -615,6 +647,8 @@ RSS_SOURCES = [
     },
     {
         "id": "ebony",
+        "is_black_owned": True,
+        "is_black_focus": True,
         "category": "Entertainment",
         "source_name": "Ebony",
         "rss_url": "https://www.ebony.com/feed/",
@@ -715,6 +749,7 @@ RSS_SOURCES = [
     },
     {
         "id": "africa_sports_network",
+        "is_black_focus": True,
         "category": "Sports",
         "source_name": "Africa Sports Network",
         "rss_url": "https://africasportnetwork.com/feed/",
@@ -724,6 +759,7 @@ RSS_SOURCES = [
     },
     {
         "id": "caribbean_sports_news",
+        "is_black_focus": True,
         "category": "Sports",
         "source_name": "Caribbean Sports News",
         "rss_url": "https://caribbeansportsnews.com/feed/",
@@ -842,6 +878,7 @@ RSS_SOURCES = [
     # ========================================================================
     {
         "id": "naacp",
+        "is_black_focus": True,
         "category": "Rights & Justice",
         "source_name": "NAACP",
         "rss_url": "https://naacp.org/rss.xml",
@@ -851,6 +888,7 @@ RSS_SOURCES = [
     },
     {
         "id": "aclu",
+        "is_black_focus": True,
         "category": "Rights & Justice",
         "source_name": "ACLU",
         "rss_url": "https://www.aclu.org/rss.xml",
