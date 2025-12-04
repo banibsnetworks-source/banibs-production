@@ -6,28 +6,62 @@ Intelligent categorization of news items into homepage sections
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 
+# ============================================================================
+# RSS V2.0 CATEGORY → HOMEPAGE SECTION MAPPING BRIDGE
+# ============================================================================
+# Maps RSS source categories to homepage display sections
+RSS_V2_TO_HOMEPAGE_MAPPING = {
+    'Global Diaspora': 'world',
+    'Africa Watch': 'world',
+    'Caribbean Watch': 'world',
+    'Business & Finance': 'business',
+    'Sports': 'sports',
+    'Science & Tech': 'tech',
+    'Entertainment': 'entertainment',
+    'Health & Wellness': 'health',
+    'Culture / Civil Rights': 'civil_rights',
+    'Rights & Justice': 'civil_rights',
+    # Legacy categories
+    'World': 'world',
+    'World News': 'world',
+    'Business': 'business',
+    'Technology': 'tech',
+    'Community': 'lifestyle',
+    'Education': 'education',
+}
+
 
 def categorize_news_item(item: Dict[str, Any]) -> str:
     """
     Categorize a news item into one of the homepage sections.
     
-    Sections: "us", "world", "business", "tech", "sports", "entertainment", "lifestyle"
+    Sections: "us", "world", "business", "tech", "sports", "entertainment", "health", "civil_rights"
     
     Logic:
-    1. Check category field for direct matches
-    2. Check region for US vs World distinction
-    3. Check sourceName for additional context
-    4. Default to "world" if unclear
+    1. Check RSS V2.0 category for direct mapping (PRIORITY)
+    2. Check category field for keyword matches
+    3. Check region for US vs World distinction
+    4. Check sourceName for additional context
+    5. Default to "world" if unclear
     
     Args:
         item: News item dictionary from MongoDB
         
     Returns:
-        Section identifier: "us", "world", "business", "tech", "sports", "entertainment", or "lifestyle"
+        Section identifier: "us", "world", "business", "tech", "sports", etc.
     """
-    category = (item.get('category') or '').lower()
+    category = (item.get('category') or '').strip()
+    category_lower = category.lower()
     region = (item.get('region') or '').lower()
     source_name = (item.get('sourceName') or '').lower()
+    
+    # STEP 1: Direct RSS V2.0 category mapping (highest priority)
+    if category in RSS_V2_TO_HOMEPAGE_MAPPING:
+        mapped_section = RSS_V2_TO_HOMEPAGE_MAPPING[category]
+        # Check if it's a US-focused source even within these categories
+        if _is_us_focused(source_name, region):
+            return 'us'
+        return mapped_section
     
     # Entertainment section
     entertainment_keywords = [
