@@ -42,7 +42,7 @@ RSS_SOURCES = [
         "source_name": "Reuters World",
         "rss_url": "https://feeds.reuters.com/reuters/worldNews",
         "language": "en",
-        "active": True,
+        "active": False,  # DNS resolution failure
         "featured_source": True,
         "priority": 1,
     },
