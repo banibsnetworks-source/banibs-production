@@ -90,7 +90,7 @@ const TopStoriesGrid = ({ stories }) => {
                 <div className="text-center p-6">
                   <div className="text-white/90 text-5xl mb-2">📰</div>
                   <div className="text-white/70 text-xs font-medium uppercase tracking-wider">
-                    {story.category || 'News'}
+                    {story.mapped_section || story.category || 'News'}
                   </div>
                 </div>
               </div>
