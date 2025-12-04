@@ -354,8 +354,8 @@ function App() {
     return null;
   }
   
-  // Show Coming Soon page if mode is enabled
-  if (comingSoonMode) {
+  // Show Coming Soon page if mode is enabled (but allow /about/* routes through)
+  if (comingSoonMode && !window.location.pathname.startsWith('/about')) {
     // Select variant based on flag
     if (comingSoonVariant === 'blue') return <ComingSoonPageBlue />;
     if (comingSoonVariant === 'gold') return <ComingSoonPageGold />;
