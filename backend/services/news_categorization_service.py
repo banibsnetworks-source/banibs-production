@@ -235,6 +235,8 @@ def sort_items_by_section(items: List[Dict[str, Any]]) -> Dict[str, List[Dict[st
     # Process remaining items
     for item in regular_items:
         section = categorize_news_item(item)
+        # Add mapped section to item for frontend display
+        item['mapped_section'] = section
         result[section].append(item)
     
     # Fill top_stories from ALL active sections
