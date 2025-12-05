@@ -419,6 +419,9 @@ app.include_router(feature_flags_router)
 from routes.black_news import router as black_news_router
 app.include_router(black_news_router)
 
+# BCEE v1.0 - Currency & Exchange Engine
+app.include_router(bcee_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
