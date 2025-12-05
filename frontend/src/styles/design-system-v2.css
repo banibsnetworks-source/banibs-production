@@ -1476,20 +1476,18 @@ a:hover {
  * ======================================================= */
 
 :root {
-  --bn-color-bg: #050509;
-  --bn-color-bg-elevated: #0b0b11;
-  --bn-color-surface-soft: #11121a;
-  --bn-color-surface-softer: #141624;
-  --bn-color-border-subtle: rgba(255, 255, 255, 0.08);
+  --bn-color-border-subtle: rgba(0, 0, 0, 0.08);
   --bn-color-gold: #fbbf24;
   --bn-color-gold-soft: rgba(251, 191, 36, 0.16);
   --bn-color-amber: #f59e0b;
-  --bn-color-text-main: #f9fafb;
-  --bn-color-text-muted: #9ca3af;
-  --bn-color-text-soft: #6b7280;
   --bn-radius-lg: 0.9rem;
   --bn-radius-xl: 1.25rem;
   --bn-radius-2xl: 1.75rem;
+  --bn-shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  --bn-color-border-subtle: rgba(255, 255, 255, 0.08);
   --bn-shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.6);
 }
 
