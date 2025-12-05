@@ -30,11 +30,11 @@ const BusinessDirectoryV21 = () => {
     'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1920&q=80', // Woman smiling professional
   ];
   
-  // Rotate hero images every 7 seconds
+  // Rotate hero images every 4 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentHeroImage((prev) => (prev + 1) % heroImages.length);
-    }, 7000);
+    }, 4000);
     return () => clearInterval(interval);
   }, [heroImages.length]);
   
