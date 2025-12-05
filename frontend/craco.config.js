@@ -109,4 +109,16 @@ if (config.enableVisualEdits || config.enableHealthCheck) {
   };
 }
 
+// Jest configuration
+webpackConfig.jest = {
+  configure: {
+    transformIgnorePatterns: [
+      'node_modules/(?!(axios)/)',
+    ],
+    moduleNameMapper: {
+      '^axios$': require.resolve('axios'),
+    },
+  },
+};
+
 module.exports = webpackConfig;
