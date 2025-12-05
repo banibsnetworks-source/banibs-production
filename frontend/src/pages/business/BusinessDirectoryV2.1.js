@@ -217,7 +217,7 @@ const BusinessDirectoryV21 = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.65))',
+            background: 'linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.60))',
             zIndex: 1
           }} />
           
