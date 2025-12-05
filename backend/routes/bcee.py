@@ -128,7 +128,7 @@ async def get_price_display(
 @router.post("/price-display/batch", response_model=BatchPriceResponse)
 async def get_batch_price_display(
     request: BatchPriceRequest,
-    current_user: Optional[dict] = Depends(get_current_user)
+    current_user: Optional[dict] = Depends(get_current_user_optional)
 ):
     """
     Convert multiple USD prices to user's regional currency
