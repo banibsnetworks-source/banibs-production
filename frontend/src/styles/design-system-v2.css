@@ -59,6 +59,17 @@
   --banibs-info: #3B82F6;
 }
 
+/* Dark Mode Overrides */
+.dark {
+  --banibs-text-primary: #FFFFFF;
+  --banibs-text-secondary: rgba(255, 255, 255, 0.7);
+  --banibs-text-tertiary: rgba(255, 255, 255, 0.5);
+  --banibs-bg: #0D0D0D;
+  --banibs-surface: rgba(255, 255, 255, 0.04);
+  --banibs-surface-alt: rgba(255, 255, 255, 0.08);
+  --banibs-surface-hover: rgba(255, 255, 255, 0.12);
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    2. DESIGN TOKENS - SPACING
    ═══════════════════════════════════════════════════════════════════ */
