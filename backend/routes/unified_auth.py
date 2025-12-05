@@ -160,13 +160,22 @@ async def login(credentials: UserLogin, response: Response):
         domain=".banibs.com"
     )
     
+    # BGLIS v1.0 - Check if user needs upgrade
+    needs_bglis_upgrade = (
+        user.get("phone_number") is None or
+        user.get("username") is None or
+        user.get("has_recovery_phrase", False) is False or
+        user.get("needs_bglis_upgrade", False) is True
+    )
+    
     # Debug: Check user object before sanitization
-    print(f"🔍 Login endpoint - user from DB: email={user.get('email')}, preferred_portal={user.get('preferred_portal')}")
+    print(f"🔍 Login endpoint - user from DB: email={user.get('email')}, preferred_portal={user.get('preferred_portal')}, needs_bglis_upgrade={needs_bglis_upgrade}")
     
     return TokenResponse(
         access_token=access_token,
         refresh_token=refresh_token,
-        user=sanitize_user_response(user)
+        user=sanitize_user_response(user),
+        needs_bglis_upgrade=needs_bglis_upgrade
     )
 
 
