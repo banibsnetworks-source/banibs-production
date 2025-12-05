@@ -724,19 +724,19 @@ const BusinessDirectoryV21 = () => {
               <FeatureCard
                 icon={<Building2 size={32} />}
                 title="Verified Black-Owned"
-                description="All businesses are verified to ensure authenticity and trust"
+                description="We prioritize Black-owned businesses and community-first organizations."
                 isDark={isDark}
               />
               <FeatureCard
                 icon={<Star size={32} />}
                 title="Community Rated"
-                description="Real reviews from real community members"
+                description="Ratings and reviews come from real community voices, not bots."
                 isDark={isDark}
               />
               <FeatureCard
                 icon={<TrendingUp size={32} />}
                 title="Growing Network"
-                description="Join thousands of thriving Black-owned businesses"
+                description="New businesses are joining every week, across cities and categories."
                 isDark={isDark}
               />
             </div>
