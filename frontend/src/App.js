@@ -269,6 +269,9 @@ import AbilityModerationDashboardPage from "./pages/admin/ability/AbilityModerat
 // Phase 0.0 - BPOC Orchestration Dashboard
 import OrchestrationDashboardPage from "./pages/admin/orchestration/OrchestrationDashboardPage";
 
+// Founder Control Center
+import FounderControlCenter from "./pages/founder/FounderControlCenter";
+
 // Coming Soon Pages (Variants)
 import ComingSoonPage from "./pages/ComingSoonPage";
 import ComingSoonPageBlue from "./pages/ComingSoonPageBlue";
