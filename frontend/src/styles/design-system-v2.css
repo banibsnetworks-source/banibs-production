@@ -59,6 +59,17 @@
   --banibs-info: #3B82F6;
 }
 
+/* Light Mode BN Colors (Default) */
+:root {
+  --bn-color-bg: #F7F7F7;
+  --bn-color-bg-elevated: #FFFFFF;
+  --bn-color-surface-soft: #FFFFFF;
+  --bn-color-surface-softer: #F9FAFB;
+  --bn-color-text-main: #111111;
+  --bn-color-text-muted: #6B7280;
+  --bn-color-text-soft: #9CA3AF;
+}
+
 /* Dark Mode Overrides */
 .dark {
   --banibs-text-primary: #FFFFFF;
@@ -68,6 +79,15 @@
   --banibs-surface: rgba(255, 255, 255, 0.04);
   --banibs-surface-alt: rgba(255, 255, 255, 0.08);
   --banibs-surface-hover: rgba(255, 255, 255, 0.12);
+  
+  /* BN Color System Dark Mode */
+  --bn-color-bg: #050509;
+  --bn-color-bg-elevated: #0b0b11;
+  --bn-color-surface-soft: #11121a;
+  --bn-color-surface-softer: #141624;
+  --bn-color-text-main: #f9fafb;
+  --bn-color-text-muted: #9ca3af;
+  --bn-color-text-soft: #6b7280;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
