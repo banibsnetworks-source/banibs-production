@@ -728,6 +728,9 @@ function App() {
               {/* Founder Control Center v1.0 */}
               <Route path="/founder/command" element={<FounderControlCenter />} />
               
+              {/* Navigation V2 Preview (do not deploy until approved) */}
+              <Route path="/founder/nav-v2-preview" element={<NavV2Preview />} />
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages (removed duplicates) */}
             </Routes>
                   </AccountModeProvider>
