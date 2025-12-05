@@ -183,7 +183,7 @@ const BusinessDirectoryV21 = () => {
         {/* ROTATING HERO SECTION WITH MOTION */}
         <section style={{
           position: 'relative',
-          minHeight: '680px',
+          minHeight: '720px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -202,7 +202,7 @@ const BusinessDirectoryV21 = () => {
                 bottom: 0,
                 backgroundImage: `url(${img})`,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                backgroundPosition: 'center top',
                 opacity: currentHeroImage === idx ? 1 : 0,
                 transition: 'opacity 1.5s ease-in-out',
                 zIndex: 0
