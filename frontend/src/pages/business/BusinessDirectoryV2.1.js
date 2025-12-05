@@ -21,13 +21,13 @@ const BusinessDirectoryV21 = () => {
   // Hero background rotation state
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
   
-  // Hero background images (using placeholder images for now)
+  // Hero background images - curated to center Black business owners with proper face framing
   const heroImages = [
-    'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1920&q=80', // Black woman professional
-    'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1920&q=80', // Black businessman
-    'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=80', // Team collaboration
-    'https://images.unsplash.com/photo-1556761175-4b46a572b786?w=1920&q=80', // Entrepreneur outdoors
-    'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1920&q=80', // Woman smiling professional
+    'https://images.unsplash.com/photo-1655720357761-f18ea9e5e7e6?w=1920&q=85', // Black woman business owner in colorful dress
+    'https://images.unsplash.com/photo-1613592237018-bbf8973eef4f?w=1920&q=85', // Black entrepreneur smiling
+    'https://images.unsplash.com/photo-1687422808328-11cf750a5051?w=1920&q=85', // Black barber in shop
+    'https://images.pexels.com/photos/7697431/pexels-photo-7697431.jpeg?auto=compress&cs=tinysrgb&w=1920', // Barber with client
+    'https://images.pexels.com/photos/5922411/pexels-photo-5922411.jpeg?auto=compress&cs=tinysrgb&w=1920', // Black professional in office
   ];
   
   // Rotate hero images every 4 seconds
