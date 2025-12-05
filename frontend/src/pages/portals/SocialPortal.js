@@ -234,8 +234,8 @@ const SocialPortal = () => {
               }
             ].map((post, i) => (
               <div key={i} className="backdrop-blur-sm rounded-lg p-6" style={{
-                backgroundColor: isDark ? 'rgba(31, 41, 55, 0.4)' : 'rgba(255, 255, 255, 0.8)',
-                border: `1px solid ${isDark ? 'rgb(55, 65, 81)' : 'rgb(229, 231, 235)'}`
+                backgroundColor: isDark ? 'rgba(22, 22, 22, 0.9)' : 'rgba(255, 255, 255, 0.95)',
+                border: `1px solid ${isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.08)'}`
               }}>
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-12 h-12 rounded-full flex items-center justify-center text-2xl" style={{
