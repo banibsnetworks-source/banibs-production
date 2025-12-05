@@ -1,0 +1,170 @@
+# BANIBS Production Docker Compose Configuration
+# AWS EC2 Deployment - Phase D1
+#
+# This file defines the production deployment architecture:
+# - banibs-backend: FastAPI application (internal only)
+# - banibs-frontend: React application build (served by Nginx proxy)
+# - proxy: Nginx reverse proxy (ONLY container exposed to internet)
+# - mongo: MongoDB (OPTIONAL - use this OR MongoDB Atlas)
+#
+# IMPORTANT:
+# - All containers communicate via internal Docker network
+# - ONLY the 'proxy' container exposes ports 80/443 to the host
+# - Backend is NOT directly accessible from internet
+# - Use .env files for all secrets and configuration
+
+version: '3.8'
+
+services:
+  # ============================================================
+  # BACKEND SERVICE (FastAPI + Gunicorn)
+  # ============================================================
+  banibs-backend:
+    container_name: banibs-backend-prod
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.prod
+    restart: unless-stopped
+    
+    # Environment variables from .env.backend.prod
+    env_file:
+      - .env.backend.prod
+    
+    # Internal network only - NOT exposed to host
+    expose:
+      - "8001"  # Internal port for API
+    
+    # Mount volumes for persistence
+    volumes:
+      - ../backend/static:/app/backend/static
+      - ../backend/uploads:/app/backend/uploads
+      - backend-logs:/app/backend/logs
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Depends on MongoDB (if using self-hosted)
+    # depends_on:
+    #   - mongo
+    
+    networks:
+      - banibs-network
+  
+  # ============================================================
+  # FRONTEND SERVICE (React Build)
+  # ============================================================
+  banibs-frontend:
+    container_name: banibs-frontend-prod
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile.prod
+      args:
+        - REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
+    restart: unless-stopped
+    
+    # Frontend build served by Nginx proxy
+    # No ports exposed - served through proxy
+    expose:
+      - "80"  # Internal nginx serving static build
+    
+    networks:
+      - banibs-network
+  
+  # ============================================================
+  # NGINX REVERSE PROXY (PUBLIC FACING)
+  # ============================================================
+  proxy:
+    container_name: banibs-proxy-prod
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    
+    # ONLY CONTAINER EXPOSING PORTS TO HOST/INTERNET
+    ports:
+      - "80:80"      # HTTP (will redirect to HTTPS in production)
+      - "443:443"    # HTTPS
+    
+    volumes:
+      # Nginx configuration
+      - ./nginx.prod.conf:/etc/nginx/nginx.conf:ro
+      
+      # SSL certificates (Let's Encrypt)
+      # Create these directories on host and mount:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/certbot:/var/www/certbot:ro
+      
+      # Logs
+      - nginx-logs:/var/log/nginx
+    
+    depends_on:
+      - banibs-backend
+      - banibs-frontend
+    
+    networks:
+      - banibs-network
+  
+  # ============================================================
+  # MONGODB (OPTIONAL - Use this OR MongoDB Atlas)
+  # ============================================================
+  # Uncomment this section ONLY if using self-hosted MongoDB
+  # For MongoDB Atlas, set MONGO_URL in .env.backend.prod and skip this
+  
+  # mongo:
+  #   container_name: banibs-mongo-prod
+  #   image: mongo:7.0
+  #   restart: unless-stopped
+  #   
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+  #     MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+  #     MONGO_INITDB_DATABASE: ${DB_NAME}
+  #   
+  #   # MongoDB port (internal only)
+  #   expose:
+  #     - "27017"
+  #   
+  #   # Persistent data storage
+  #   volumes:
+  #     - mongo-data:/data/db
+  #     - mongo-config:/data/configdb
+  #   
+  #   # Health check
+  #   healthcheck:
+  #     test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #     start_period: 40s
+  #   
+  #   networks:
+  #     - banibs-network
+
+# ============================================================
+# NETWORKS
+# ============================================================
+networks:
+  banibs-network:
+    driver: bridge
+    # Internal network for service communication
+
+# ============================================================
+# VOLUMES
+# ============================================================
+volumes:
+  # MongoDB data (if using self-hosted)
+  # mongo-data:
+  #   driver: local
+  # mongo-config:
+  #   driver: local
+  
+  # Application logs
+  backend-logs:
+    driver: local
+  nginx-logs:
+    driver: local
