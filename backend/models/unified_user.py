@@ -18,13 +18,35 @@ from datetime import datetime
 class UnifiedUser(BaseModel):
     """
     Unified user account model (banibs_users collection)
+    BGLIS v1.0: Phone-first global identity with username and recovery phrase
     """
     id: str = Field(..., description="UUID primary key")
-    email: EmailStr = Field(..., description="Unique email address")
-    password_hash: str = Field(..., description="Bcrypt hashed password")
-    name: str = Field(..., description="Full name")
+    
+    # BGLIS v1.0 - Phone (primary identifier)
+    phone_number: Optional[str] = Field(None, description="E.164 format phone number (required for BGLIS)")
+    phone_country_code: Optional[str] = Field(None, description="Country code (e.g. US, NG, GB)")
+    is_phone_verified: bool = Field(default=False, description="Phone verification status")
+    
+    # BGLIS v1.0 - Username (public identity)
+    username: Optional[str] = Field(None, description="Unique public username (required for BGLIS)")
+    
+    # BGLIS v1.0 - Email (optional in BGLIS)
+    email: Optional[EmailStr] = Field(None, description="Email address (optional in BGLIS, unique when present)")
+    password_hash: Optional[str] = Field(None, description="Bcrypt hashed password (legacy auth)")
+    is_email_verified: bool = Field(default=False, description="Email verification status")
+    
+    # Display fields
+    name: str = Field(..., description="Full name or display name")
     avatar_url: Optional[str] = Field(None, description="Profile avatar URL")
     bio: Optional[str] = Field(None, description="User bio/description")
+    
+    # BGLIS v1.0 - Recovery phrase system
+    has_recovery_phrase: bool = Field(default=False, description="Whether user has set recovery phrase")
+    recovery_phrase_hash: Optional[str] = Field(None, description="Hashed recovery phrase (12-word)")
+    recovery_phrase_salt: Optional[str] = Field(None, description="Salt for recovery phrase hash")
+    
+    # BGLIS v1.0 - Migration flag
+    needs_bglis_upgrade: bool = Field(default=False, description="Legacy user needs phone+username+phrase setup")
     
     # Roles and permissions
     roles: List[str] = Field(
