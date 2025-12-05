@@ -16,6 +16,7 @@ from datetime import datetime, timezone
 # Import routers
 from routes.opportunities_legacy import router as opportunities_router
 from routes.unified_auth import router as unified_auth_router  # Phase 6.0 - Unified Identity
+from routes.bglis_auth import router as bglis_auth_router  # BGLIS v1.0 - Phone-first Global Identity
 from routes.admin_uploads import router as admin_uploads_router
 from routes.contributor_auth import router as contributor_auth_router
 from routes.contributor_profile import router as contributor_profile_router
