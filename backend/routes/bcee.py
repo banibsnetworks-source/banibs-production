@@ -95,7 +95,7 @@ async def get_user_region(
 async def get_price_display(
     amount: float = Query(..., description="Amount in USD (base currency)", gt=0),
     target_currency: Optional[str] = Query(None, description="Optional currency override"),
-    current_user: Optional[dict] = Depends(get_current_user)
+    current_user: Optional[dict] = Depends(get_current_user_optional)
 ):
     """
     Convert USD price to user's regional currency with formatting
