@@ -36,7 +36,7 @@ async def main():
         print("❌ ERROR: MONGO_URL environment variable not set")
         return 1
     
-    print(f"📡 Connecting to MongoDB...")
+    print("📡 Connecting to MongoDB...")
     print(f"   Database: {db_name}")
     
     client = AsyncIOMotorClient(mongo_url)
@@ -45,7 +45,7 @@ async def main():
     try:
         # Test connection
         await db.command('ping')
-        print(f"✅ Connected to MongoDB\n")
+        print("✅ Connected to MongoDB\n")
         
         # Get current schema status
         print("📊 Current Schema Status:")
