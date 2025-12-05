@@ -271,6 +271,7 @@ import OrchestrationDashboardPage from "./pages/admin/orchestration/Orchestratio
 
 // Founder Control Center
 import FounderControlCenter from "./pages/founder/FounderControlCenter";
+import NavV2Preview from "./pages/founder/NavV2Preview";
 
 // Coming Soon Pages (Variants)
 import ComingSoonPage from "./pages/ComingSoonPage";
