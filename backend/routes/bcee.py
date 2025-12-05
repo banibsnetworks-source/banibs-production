@@ -18,7 +18,7 @@ from services.user_region_service import UserRegionService
 from services.price_display_service import PriceDisplayService
 from services.currency_config import CurrencyConfigService
 from services.exchange_rate_service import ExchangeRateService
-from middleware.auth_guard import get_current_user
+from middleware.auth_guard import get_current_user, get_current_user_optional
 from db.connection import get_db_client
 
 
