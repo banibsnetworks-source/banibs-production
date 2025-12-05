@@ -725,6 +725,9 @@ function App() {
               {/* Phase 0.0 - BPOC Orchestration Dashboard */}
               <Route path="/admin/orchestration" element={<OrchestrationDashboardPage />} />
               
+              {/* Founder Control Center v1.0 */}
+              <Route path="/founder/command" element={<FounderControlCenter />} />
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages (removed duplicates) */}
             </Routes>
                   </AccountModeProvider>
