@@ -157,7 +157,7 @@ MONGO_URL=mongodb://localhost:27017
 DB_NAME=test_database
 
 # Frontend
-REACT_APP_BACKEND_URL=https://engage-biz.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://currency-exchange-41.preview.emergentagent.com
 ```
 
 ---

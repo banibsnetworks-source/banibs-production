@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://engage-biz.preview.emergentagent.com/api/auth
+https://currency-exchange-41.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

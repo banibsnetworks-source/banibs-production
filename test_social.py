@@ -10,7 +10,7 @@ import time
 from datetime import datetime
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://engage-biz.preview.emergentagent.com"
+BACKEND_URL = "https://currency-exchange-41.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 class SocialPortalTester:

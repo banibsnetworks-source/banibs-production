@@ -4,7 +4,7 @@
 FastAPI backend with MongoDB integration for managing opportunities (jobs, grants, scholarships, training).
 
 **Version:** 2.7.0  
-**Base URL:** `https://engage-biz.preview.emergentagent.com/api/opportunities`  
+**Base URL:** `https://currency-exchange-41.preview.emergentagent.com/api/opportunities`  
 **Local URL:** `http://localhost:8001/api/opportunities`
 
 ---
@@ -88,10 +88,10 @@ GET /api/opportunities/
 **Example:**
 ```bash
 # Get all approved opportunities
-curl https://engage-biz.preview.emergentagent.com/api/opportunities/
+curl https://currency-exchange-41.preview.emergentagent.com/api/opportunities/
 
 # Filter by type
-curl "https://engage-biz.preview.emergentagent.com/api/opportunities/?type=job"
+curl "https://currency-exchange-41.preview.emergentagent.com/api/opportunities/?type=job"
 ```
 
 ---
@@ -105,7 +105,7 @@ GET /api/opportunities/featured
 
 **Example:**
 ```bash
-curl https://engage-biz.preview.emergentagent.com/api/opportunities/featured
+curl https://currency-exchange-41.preview.emergentagent.com/api/opportunities/featured
 ```
 
 ---
@@ -140,7 +140,7 @@ POST /api/opportunities/
 
 **Example:**
 ```bash
-curl -X POST https://engage-biz.preview.emergentagent.com/api/opportunities/ \
+curl -X POST https://currency-exchange-41.preview.emergentagent.com/api/opportunities/ \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Software Engineer Internship",
@@ -171,7 +171,7 @@ X-API-Key: BANIBS_INTERNAL_KEY
 
 **Example:**
 ```bash
-curl https://engage-biz.preview.emergentagent.com/api/opportunities/pending \
+curl https://currency-exchange-41.preview.emergentagent.com/api/opportunities/pending \
   -H "X-API-Key: BANIBS_INTERNAL_KEY"
 ```
 
@@ -198,7 +198,7 @@ X-API-Key: BANIBS_INTERNAL_KEY
 
 **Example:**
 ```bash
-curl -X PATCH https://engage-biz.preview.emergentagent.com/api/opportunities/69000eca84474146f644cf18/approve \
+curl -X PATCH https://currency-exchange-41.preview.emergentagent.com/api/opportunities/69000eca84474146f644cf18/approve \
   -H "X-API-Key: BANIBS_INTERNAL_KEY"
 ```
 
@@ -275,8 +275,8 @@ POST /api/opportunities/upload-presigned-url?filename=image.jpg
 
 FastAPI provides interactive API documentation:
 
-- **Swagger UI:** [https://engage-biz.preview.emergentagent.com/docs](https://engage-biz.preview.emergentagent.com/docs)
-- **ReDoc:** [https://engage-biz.preview.emergentagent.com/redoc](https://engage-biz.preview.emergentagent.com/redoc)
+- **Swagger UI:** [https://currency-exchange-41.preview.emergentagent.com/docs](https://currency-exchange-41.preview.emergentagent.com/docs)
+- **ReDoc:** [https://currency-exchange-41.preview.emergentagent.com/redoc](https://currency-exchange-41.preview.emergentagent.com/redoc)
 
 ---
 
@@ -307,7 +307,7 @@ ADMIN_API_KEY="BANIBS_INTERNAL_KEY"
 **Frontend (`/app/frontend/.env`):**
 ```env
 # Backend URL (DO NOT MODIFY - pre-configured)
-REACT_APP_BACKEND_URL=https://engage-biz.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://currency-exchange-41.preview.emergentagent.com
 ```
 
 ---

@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://engage-biz.preview.emergentagent.com/api/admin/analytics/sentiment
+https://currency-exchange-41.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints
