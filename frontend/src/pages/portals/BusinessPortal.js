@@ -12,9 +12,17 @@ import { useTheme } from '../../contexts/ThemeContext';
  * Features rotating hero carousel with real Black business imagery
  */
 const BusinessPortal = () => {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  
+  // Phase B.0: Smart redirect logic
+  // If user is not authenticated, redirect to business registration
+  useEffect(() => {
+    if (!isAuthenticated) {
+      window.location.href = '/business/register';
+    }
+  }, [isAuthenticated]);
   
   // Hero carousel state
   const [currentSlide, setCurrentSlide] = useState(0);
