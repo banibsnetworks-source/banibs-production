@@ -848,7 +848,7 @@ const PropertyCard = ({ property, isDark, navigate }) => {
     <div
       style={{
         backgroundColor: isDark ? '#161616' : '#FFFFFF',
-        border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}',
+        border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`,
         borderRadius: '12px',
         overflow: 'hidden',
         cursor: 'pointer',
