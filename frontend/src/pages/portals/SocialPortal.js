@@ -292,7 +292,7 @@ const SocialPortal = () => {
 
         {/* Features */}
         <div className="py-16" style={{
-          backgroundColor: isDark ? 'rgb(17, 24, 39)' : 'rgb(243, 244, 246)'
+          backgroundColor: isDark ? '#161616' : '#FFFFFF'
         }}>
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-12" style={{
