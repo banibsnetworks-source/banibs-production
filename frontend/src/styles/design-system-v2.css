@@ -585,20 +585,37 @@
 
 .nav-v2-item {
   padding: 12px 20px;
-  color: var(--banibs-text-secondary);
   text-decoration: none;
   transition: all var(--transition-base);
   position: relative;
 }
 
+/* Light mode nav items */
+.nav-v2-item {
+  color: #4B5563;
+}
+
 .nav-v2-item:hover {
-  color: var(--banibs-text-primary);
+  color: #1F2937;
   box-shadow: 0 0 8px rgba(var(--banibs-primary-rgb), 0.3);
 }
 
 .nav-v2-item.active {
   color: var(--banibs-primary);
   font-weight: var(--font-weight-semibold);
+}
+
+/* Dark mode nav items */
+.dark .nav-v2-item {
+  color: var(--banibs-text-secondary);
+}
+
+.dark .nav-v2-item:hover {
+  color: var(--banibs-text-primary);
+}
+
+.dark .nav-v2-item.active {
+  color: var(--banibs-primary);
 }
 
 .nav-v2-item.active::after {
