@@ -48,10 +48,7 @@ export default function ProductCard({ product }) {
               {title}
             </h3>
             <div className="text-right">
-              <div className="text-xs text-slate-400">USD</div>
-              <div className="text-amber-300 font-semibold">
-                ${Number(price).toFixed(2)}
-              </div>
+              <PriceTag usdAmount={Number(price)} size="md" />
             </div>
           </div>
         </div>
