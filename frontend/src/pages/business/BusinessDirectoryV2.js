@@ -22,6 +22,7 @@ const BusinessDirectoryV2 = () => {
   const [searchName, setSearchName] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
   const [searchCategory, setSearchCategory] = useState('');
+  const [searchRadius, setSearchRadius] = useState('25'); // Default 25 miles
   
   // Business data
   const [businesses, setBusinesses] = useState([]);
