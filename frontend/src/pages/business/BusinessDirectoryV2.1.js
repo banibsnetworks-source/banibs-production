@@ -509,17 +509,17 @@ const BusinessDirectoryV21 = () => {
             <FeatureColumn
               icon={<Search size={40} />}
               title="Search"
-              description="Find Black businesses locally and across the country."
+              description="Search to find members and Black-owned businesses near you."
             />
             <FeatureColumn
               icon={<Star size={40} />}
               title="Review"
-              description="Compare services and offerings to choose the best fit."
+              description="Review and compare businesses based on real community feedback."
             />
             <FeatureColumn
               icon={<Handshake size={40} />}
               title="Connect"
-              description="Reach out and support businesses that align with your needs."
+              description="Connect with businesses you trust and keep your dollars circulating with our people."
             />
           </div>
         </section>
