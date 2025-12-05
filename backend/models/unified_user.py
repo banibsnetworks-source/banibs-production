@@ -168,9 +168,15 @@ class UnifiedUser(BaseModel):
 class UserPublic(BaseModel):
     """
     Public user profile (safe to expose in APIs)
+    BGLIS v1.0: Includes username, never exposes phone/recovery phrase
     """
     id: str
-    email: str
+    
+    # BGLIS v1.0 - Public identity
+    username: Optional[str] = None
+    
+    # Legacy/optional fields
+    email: Optional[str] = None
     name: str
     first_name: Optional[str] = None  # Phase 10.0 - Structured name
     last_name: Optional[str] = None   # Phase 10.0 - Structured name
@@ -178,7 +184,13 @@ class UserPublic(BaseModel):
     bio: Optional[str] = None
     roles: List[str]
     membership_level: str
-    email_verified: bool
+    
+    # BGLIS v1.0 - Verification status (safe to show)
+    email_verified: bool = False
+    is_phone_verified: bool = False
+    has_recovery_phrase: bool = False
+    needs_bglis_upgrade: bool = False
+    
     created_at: str
     preferred_portal: str = "news"  # Phase 8.1
     preferred_language: str = "en"  # Phase L.0
