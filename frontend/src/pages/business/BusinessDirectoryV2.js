@@ -308,7 +308,7 @@ const BusinessDirectoryV2 = () => {
                 </div>
               </div>
               
-              {/* Search by Location */}
+              {/* Search by Location with Radius */}
               <div>
                 <label style={{
                   display: 'block',
@@ -319,39 +319,73 @@ const BusinessDirectoryV2 = () => {
                 }}>
                   Search by Location
                 </label>
-                <div style={{
-                  position: 'relative'
-                }}>
-                  <MapPin 
-                    size={20} 
-                    style={{
-                      position: 'absolute',
-                      left: '16px',
-                      top: '50%',
-                      transform: 'translateY(-50%)',
-                      color: isDark ? '#B3B3C2' : '#4A4B57'
-                    }}
-                  />
-                  <input
-                    type="text"
-                    placeholder="City, State, or Zip Code"
-                    value={searchLocation}
-                    onChange={(e) => setSearchLocation(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                    style={{
-                      width: '100%',
-                      padding: '14px 16px 14px 48px',
-                      fontSize: '16px',
-                      borderRadius: '8px',
-                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
-                      backgroundColor: isDark ? '#161616' : '#F7F7F7',
-                      color: isDark ? '#F7F7F7' : '#111217',
-                      outline: 'none',
-                      transition: 'border-color 0.2s ease'
-                    }}
-                    onFocus={(e) => e.currentTarget.style.borderColor = '#C8A857'}
-                    onBlur={(e) => e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}
-                  />
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'stretch' }}>
+                  {/* Location Input */}
+                  <div style={{
+                    position: 'relative',
+                    flex: '1'
+                  }}>
+                    <MapPin 
+                      size={20} 
+                      style={{
+                        position: 'absolute',
+                        left: '16px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        color: isDark ? '#B3B3C2' : '#4A4B57'
+                      }}
+                    />
+                    <input
+                      type="text"
+                      placeholder="City or Zip Code (e.g., 30087)"
+                      value={searchLocation}
+                      onChange={(e) => setSearchLocation(e.target.value)}
+                      onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                      style={{
+                        width: '100%',
+                        padding: '14px 16px 14px 48px',
+                        fontSize: '16px',
+                        borderRadius: '8px',
+                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                        backgroundColor: isDark ? '#161616' : '#F7F7F7',
+                        color: isDark ? '#F7F7F7' : '#111217',
+                        outline: 'none',
+                        transition: 'border-color 0.2s ease'
+                      }}
+                      onFocus={(e) => e.currentTarget.style.borderColor = '#C8A857'}
+                      onBlur={(e) => e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}
+                    />
+                  </div>
+                  
+                  {/* Radius Dropdown */}
+                  <div style={{ minWidth: '130px' }}>
+                    <select
+                      value={searchRadius}
+                      onChange={(e) => setSearchRadius(e.target.value)}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        padding: '14px 12px',
+                        fontSize: '16px',
+                        borderRadius: '8px',
+                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                        backgroundColor: isDark ? '#161616' : '#F7F7F7',
+                        color: isDark ? '#F7F7F7' : '#111217',
+                        outline: 'none',
+                        cursor: 'pointer',
+                        transition: 'border-color 0.2s ease'
+                      }}
+                      onFocus={(e) => e.currentTarget.style.borderColor = '#C8A857'}
+                      onBlur={(e) => e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}
+                    >
+                      <option value="5">Within 5 mi</option>
+                      <option value="10">Within 10 mi</option>
+                      <option value="25">Within 25 mi</option>
+                      <option value="50">Within 50 mi</option>
+                      <option value="100">Within 100 mi</option>
+                      <option value="250">Within 250 mi</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               
