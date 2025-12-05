@@ -23,13 +23,18 @@ export default function MarketplaceLayout({ children }) {
       
       {/* Full-width Marketplace Container */}
       <div 
-        className="min-h-screen bg-slate-950 text-slate-50"
+        className="min-h-screen"
         style={{ 
-          paddingTop: '56px' // Account for fixed navbar height
+          paddingTop: '56px', // Account for fixed navbar height
+          backgroundColor: isDark ? 'rgb(2, 6, 23)' : 'rgb(249, 250, 251)',
+          color: isDark ? 'rgb(248, 250, 252)' : 'rgb(15, 23, 42)'
         }}
       >
         {/* Marketplace-specific Header/Navigation */}
-        <div className="border-b border-slate-800 bg-black/60">
+        <div style={{
+          borderBottom: `1px solid ${isDark ? 'rgb(30, 41, 59)' : 'rgb(226, 232, 240)'}`,
+          background: isDark ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.8)'
+        }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               {/* Marketplace Branding */}
