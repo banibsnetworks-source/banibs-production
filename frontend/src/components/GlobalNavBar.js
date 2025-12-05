@@ -41,7 +41,7 @@ const GlobalNavBar = () => {
     { label: 'BANIBS News', path: '/', icon: '📰' },
     { label: 'Business Directory', path: '/business-directory', icon: '💼' },
     { label: 'BANIBS Social', path: '/social', icon: '🌐' },
-    { label: 'Information & Resources', path: '/resources', icon: '📚' },
+    { label: 'Resources', path: '/resources', icon: '📚' },  // Shortened for clarity (B.0)
     { label: 'Marketplace', path: '/portal/marketplace', icon: '🛍️' },
     { label: 'BANIBS TV', path: '/portal/tv', icon: '📺' },
   ];
