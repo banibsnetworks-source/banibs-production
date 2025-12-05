@@ -612,7 +612,7 @@ const BusinessDirectoryV21 = () => {
                 fontSize: '16px',
                 color: isDark ? '#B3B3C2' : '#4A4B57'
               }}>
-                Explore real estate listings from Black agents and investors.
+                Explore homes, spaces, and properties connected to BANIBS businesses.
               </p>
             </div>
             
