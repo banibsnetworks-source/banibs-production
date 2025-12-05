@@ -931,7 +931,7 @@ const FeatureCard = ({ icon, title, description, isDark }) => (
     padding: '32px 24px',
     borderRadius: '12px',
     backgroundColor: isDark ? '#161616' : '#FFFFFF',
-    border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`,
+    border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)',
     transition: 'all 0.2s ease'
   }}>
     <div style={{ color: '#C8A857', marginBottom: '16px' }}>
