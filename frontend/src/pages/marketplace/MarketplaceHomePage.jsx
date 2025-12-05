@@ -85,13 +85,31 @@ export default function MarketplaceHomePage() {
               className="flex flex-wrap gap-2 text-[0.7rem]"
               style={{ color: isDark ? 'rgb(203, 213, 225)' : 'rgb(71, 85, 105)' }}
             >
-              <span className="px-2 py-1 rounded-full bg-slate-900/80 border border-slate-700">
+              <span 
+                className="px-2 py-1 rounded-full"
+                style={{
+                  backgroundColor: isDark ? 'rgba(15, 23, 42, 0.8)' : 'rgba(241, 245, 249, 0.9)',
+                  border: `1px solid ${isDark ? 'rgb(51, 65, 85)' : 'rgb(203, 213, 225)'}`
+                }}
+              >
                 Physical & Digital Products
               </span>
-              <span className="px-2 py-1 rounded-full bg-slate-900/80 border border-slate-700">
+              <span 
+                className="px-2 py-1 rounded-full"
+                style={{
+                  backgroundColor: isDark ? 'rgba(15, 23, 42, 0.8)' : 'rgba(241, 245, 249, 0.9)',
+                  border: `1px solid ${isDark ? 'rgb(51, 65, 85)' : 'rgb(203, 213, 225)'}`
+                }}
+              >
                 Diaspora Regions Connected
               </span>
-              <span className="px-2 py-1 rounded-full bg-slate-900/80 border border-slate-700">
+              <span 
+                className="px-2 py-1 rounded-full"
+                style={{
+                  backgroundColor: isDark ? 'rgba(15, 23, 42, 0.8)' : 'rgba(241, 245, 249, 0.9)',
+                  border: `1px solid ${isDark ? 'rgb(51, 65, 85)' : 'rgb(203, 213, 225)'}`
+                }}
+              >
                 Spend-Black Ready
               </span>
             </div>
