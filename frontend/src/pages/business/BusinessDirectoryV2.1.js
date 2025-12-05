@@ -653,23 +653,26 @@ const BusinessDirectoryV21 = () => {
               Are You a Local Business?
             </h2>
             <p style={{
-              fontSize: '22px',
-              marginBottom: '24px',
+              fontSize: '20px',
+              marginBottom: '32px',
               color: '#1a1a1a',
-              fontWeight: '500'
+              fontWeight: '500',
+              lineHeight: '1.6',
+              maxWidth: '750px',
+              margin: '0 auto 32px'
             }}>
-              Connect with more clients and grow with the BANIBS network.
+              Get discovered by people who are looking specifically for Black businesses. 
+              BANIBS makes it easy to be seen, trusted, and supported.
             </p>
             <p style={{
-              fontSize: '18px',
+              fontSize: '16px',
               marginBottom: '40px',
               color: '#2a2a2a',
               lineHeight: '1.6',
               maxWidth: '700px',
               margin: '0 auto 40px'
             }}>
-              Discover a powerful platform designed to elevate Black-owned businesses. 
-              Gain visibility, attract new customers, and build lasting community connections.
+              For local businesses, BANIBS works as a powerful tool for attracting more clients and building long-term relationships.
             </p>
             <button
               onClick={() => navigate('/business/register')}
