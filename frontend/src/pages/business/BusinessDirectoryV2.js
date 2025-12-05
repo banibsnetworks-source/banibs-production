@@ -288,6 +288,7 @@ const BusinessDirectoryV2 = () => {
                     placeholder="e.g., Hair salon, Restaurant..."
                     value={searchName}
                     onChange={(e) => setSearchName(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                     style={{
                       width: '100%',
                       padding: '14px 16px 14px 48px',
@@ -334,6 +335,7 @@ const BusinessDirectoryV2 = () => {
                     placeholder="City, State, or Zip Code"
                     value={searchLocation}
                     onChange={(e) => setSearchLocation(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                     style={{
                       width: '100%',
                       padding: '14px 16px 14px 48px',
