@@ -78,7 +78,7 @@ const SocialPortal = () => {
     // Signed-Out Preview
     return (
       <div className="min-h-screen" style={{ 
-        backgroundColor: isDark ? 'rgb(10, 10, 12)' : 'rgb(249, 250, 251)' 
+        backgroundColor: isDark ? '#0C0C0C' : '#F7F7F7'
       }}>
         <SEO
           title="BANIBS Social - Connect, Share, Empower"
