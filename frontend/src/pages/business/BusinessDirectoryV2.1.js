@@ -235,7 +235,7 @@ const BusinessDirectoryV21 = () => {
             textAlign: 'center',
             boxShadow: '0 8px 32px rgba(0,0,0,0.45)'
           }}>
-            {/* Updated Headline */}
+            {/* Hero Headline */}
             <h1 style={{
               fontSize: '42px',
               fontWeight: '600',
@@ -243,18 +243,31 @@ const BusinessDirectoryV21 = () => {
               color: '#F7F7F7',
               textShadow: '0 2px 8px rgba(0,0,0,0.3)'
             }}>
-              Empowering Black Businesses.<br />Strengthening Our Communities.
+              Search for Black Businesses and Community Listings
             </h1>
             
             <p style={{
               fontSize: '20px',
               color: '#E8E8E8',
-              marginBottom: '40px',
+              marginBottom: '16px',
               maxWidth: '700px',
-              margin: '0 auto 40px',
-              textShadow: '0 1px 4px rgba(0,0,0,0.3)'
+              margin: '0 auto 16px',
+              textShadow: '0 1px 4px rgba(0,0,0,0.3)',
+              fontWeight: '500'
             }}>
-              Search, connect, and partner with Black-owned businesses nationwide.
+              Find what you need, support who we are.
+            </p>
+            
+            <p style={{
+              fontSize: '16px',
+              color: '#D8D8D8',
+              marginBottom: '40px',
+              maxWidth: '750px',
+              margin: '0 auto 40px',
+              textShadow: '0 1px 4px rgba(0,0,0,0.3)',
+              lineHeight: '1.6'
+            }}>
+              From barbers to builders, from cafes to consultants — BANIBS connects you to Black excellence near you.
             </p>
             
             {/* CTAs */}
