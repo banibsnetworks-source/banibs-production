@@ -51,6 +51,7 @@ from routes.messaging_v2 import router as messaging_v2_router  # Phase 8.4 - Mes
 from routes.groups import router as groups_router  # Phase 8.5 - Groups & Membership
 from adcs.admin_api import router as adcs_router  # ADCS v1.0 - AI Double-Check System
 from routes.region import router as region_router  # RCS-X Phase 1 - Region Content System
+from routes.bcee import router as bcee_router  # BCEE v1.0 - Currency & Exchange Engine
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
