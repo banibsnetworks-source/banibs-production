@@ -16,6 +16,8 @@ const REGIONS = [
 ];
 
 export default function MarketplaceHomePage() {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [topSellers, setTopSellers] = useState([]);
   const [loading, setLoading] = useState(true);
