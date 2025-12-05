@@ -2,6 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import DigitalBadge from "./DigitalBadge";
+import PriceTag from "../bcee/PriceTag";
 
 export default function ProductCard({ product }) {
   if (!product) return null;
