@@ -4,6 +4,7 @@ import MarketplaceLayout from "../../components/marketplace/MarketplaceLayout";
 import ProductCard from "../../components/marketplace/ProductCard";
 import SellerCard from "../../components/marketplace/SellerCard";
 import { Link } from "react-router-dom";
+import { useTheme } from "../../contexts/ThemeContext";
 
 const REGIONS = [
   { id: "Africa", label: "Africa" },
