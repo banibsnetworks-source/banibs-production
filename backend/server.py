@@ -146,6 +146,9 @@ app.include_router(opportunities_router)
 # Include unified auth router (Phase 6.0 - Unified Identity & SSO)
 app.include_router(unified_auth_router)
 
+# Include BGLIS auth router (BGLIS v1.0 - Phone-first Global Identity)
+app.include_router(bglis_auth_router)
+
 # Include admin uploads router (already has /api prefix)
 app.include_router(admin_uploads_router)
 
