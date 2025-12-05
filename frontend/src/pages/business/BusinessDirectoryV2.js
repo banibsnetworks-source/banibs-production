@@ -380,7 +380,11 @@ const BusinessDirectoryV2 = () => {
                   />
                   <select
                     value={searchCategory}
-                    onChange={(e) => setSearchCategory(e.target.value)}
+                    onChange={(e) => {
+                      setSearchCategory(e.target.value);
+                      // Auto-trigger search when category changes
+                      setTimeout(() => handleSearch(), 100);
+                    }}
                     style={{
                       width: '100%',
                       padding: '14px 16px 14px 48px',
