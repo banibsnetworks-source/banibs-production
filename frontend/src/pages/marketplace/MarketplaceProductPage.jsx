@@ -117,8 +117,8 @@ export default function MarketplaceProductPage() {
               <h1 className="text-2xl font-bold text-slate-50 mb-2">
                 {product.title}
               </h1>
-              <div className="text-3xl font-bold text-amber-300 mb-3">
-                ${Number(product.price).toFixed(2)}
+              <div className="mb-3">
+                <PriceTag usdAmount={Number(product.price)} size="xl" />
               </div>
             </div>
 
