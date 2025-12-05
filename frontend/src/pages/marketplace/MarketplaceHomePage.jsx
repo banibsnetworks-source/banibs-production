@@ -57,18 +57,34 @@ export default function MarketplaceHomePage() {
         {/* Hero */}
         <section className="grid md:grid-cols-3 gap-6 items-start">
           <div className="md:col-span-2 space-y-3">
-            <div className="inline-flex items-center gap-2 rounded-full bg-amber-500/10 border border-amber-500/30 px-3 py-1 text-[0.7rem] text-amber-200">
+            <div 
+              className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[0.7rem]"
+              style={{
+                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                border: '1px solid rgba(245, 158, 11, 0.3)',
+                color: '#F59E0B'
+              }}
+            >
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
               Global Marketplace · Phase 16.0
             </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-amber-200">
+            <h1 
+              className="text-2xl md:text-3xl font-bold"
+              style={{ color: isDark ? '#FCD34D' : '#D97706' }}
+            >
               Buy Black. Across Continents.  
-              <span className="block text-slate-100 text-base md:text-lg font-normal mt-1">
+              <span 
+                className="block text-base md:text-lg font-normal mt-1"
+                style={{ color: isDark ? 'rgb(248, 250, 252)' : 'rgb(30, 41, 59)' }}
+              >
                 A global marketplace for Black-owned products, art, fashion, and
                 digital goods from Africa, the Caribbean, and the Diaspora.
               </span>
             </h1>
-            <div className="flex flex-wrap gap-2 text-[0.7rem] text-slate-300">
+            <div 
+              className="flex flex-wrap gap-2 text-[0.7rem]"
+              style={{ color: isDark ? 'rgb(203, 213, 225)' : 'rgb(71, 85, 105)' }}
+            >
               <span className="px-2 py-1 rounded-full bg-slate-900/80 border border-slate-700">
                 Physical & Digital Products
               </span>
