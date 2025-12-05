@@ -26,10 +26,10 @@
   --banibs-surface-alt: rgba(255, 255, 255, 0.08);
   --banibs-surface-hover: rgba(255, 255, 255, 0.12);
   
-  /* Text colors */
-  --banibs-text-primary: #FFFFFF;
-  --banibs-text-secondary: rgba(255, 255, 255, 0.7);
-  --banibs-text-tertiary: rgba(255, 255, 255, 0.5);
+  /* Text colors - Light Mode Default */
+  --banibs-text-primary: #111111;
+  --banibs-text-secondary: #4B5563;
+  --banibs-text-tertiary: #6B7280;
   
   /* Social Mode */
   --banibs-social-primary: #0057FF;
