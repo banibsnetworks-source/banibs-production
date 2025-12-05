@@ -69,9 +69,35 @@ const BusinessDirectoryV2 = () => {
     try {
       const params = new URLSearchParams();
       
-      // Add category to backend search if selected
+      // Name/keyword search
+      if (searchName.trim()) {
+        params.append('q', searchName.trim());
+      }
+      
+      // Category filter
       if (searchCategory) {
         params.append('category', searchCategory);
+      }
+      
+      // Location search - detect if ZIP code (numeric) or city name (text)
+      if (searchLocation.trim()) {
+        const locationValue = searchLocation.trim();
+        const isNumeric = /^\d+$/.test(locationValue);
+        
+        if (isNumeric) {
+          // Treat as ZIP code
+          params.append('zip', locationValue);
+        } else {
+          // Treat as city name
+          params.append('city', locationValue);
+        }
+      }
+      
+      // Radius filter (convert miles to km for backend)
+      if (searchLocation.trim() && searchRadius) {
+        const radiusMiles = parseInt(searchRadius);
+        const radiusKm = radiusMiles * 1.60934; // Convert miles to km
+        params.append('radius_km', radiusKm.toString());
       }
       
       const response = await fetch(
@@ -81,31 +107,6 @@ const BusinessDirectoryV2 = () => {
       if (response.ok) {
         const data = await response.json();
         let results = Array.isArray(data) ? data : [];
-        
-        // Client-side filtering for name/keyword
-        if (searchName.trim()) {
-          const query = searchName.toLowerCase();
-          results = results.filter(biz => {
-            const name = biz.name || biz.title || biz.businessName || '';
-            const desc = biz.description || biz.about || '';
-            return name.toLowerCase().includes(query) || desc.toLowerCase().includes(query);
-          });
-        }
-        
-        // Client-side filtering for location
-        if (searchLocation.trim()) {
-          const locQuery = searchLocation.toLowerCase();
-          results = results.filter(biz => {
-            const city = (biz.city || '').toLowerCase();
-            const state = (biz.state || '').toLowerCase();
-            const zipcode = (biz.zipcode || '').toLowerCase();
-            const location = (biz.location || '').toLowerCase();
-            return city.includes(locQuery) || 
-                   state.includes(locQuery) || 
-                   zipcode.includes(locQuery) ||
-                   location.includes(locQuery);
-          });
-        }
         
         setBusinesses(results);
         
