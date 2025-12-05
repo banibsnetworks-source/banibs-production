@@ -536,17 +536,26 @@ const BusinessDirectoryV21 = () => {
               alignItems: 'center',
               marginBottom: '32px'
             }}>
-              <h2 style={{
-                fontSize: '28px',
-                fontWeight: '600',
-                color: isDark ? '#F7F7F7' : '#111217',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
-                <TrendingUp size={28} style={{ color: '#C8A857' }} />
-                Newest Businesses
-              </h2>
+              <div>
+                <h2 style={{
+                  fontSize: '28px',
+                  fontWeight: '600',
+                  color: isDark ? '#F7F7F7' : '#111217',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '8px'
+                }}>
+                  <TrendingUp size={28} style={{ color: '#C8A857' }} />
+                  Newest Businesses
+                </h2>
+                <p style={{
+                  fontSize: '16px',
+                  color: isDark ? '#B3B3C2' : '#4A4B57'
+                }}>
+                  Fresh listings joining the BANIBS community.
+                </p>
+              </div>
             </div>
             
             {loading ? (
