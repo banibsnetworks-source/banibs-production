@@ -494,10 +494,10 @@ const BusinessDirectoryV21 = () => {
 
         {/* SEARCH → REVIEW → CONNECT STRIP */}
         <section style={{
-          backgroundColor: '#161616',
+          backgroundColor: isDark ? '#161616' : '#FFFFFF',
           padding: '48px 24px',
-          borderTop: '1px solid rgba(200,168,87,0.2)',
-          borderBottom: '1px solid rgba(200,168,87,0.2)'
+          borderTop: `1px solid ${isDark ? 'rgba(200,168,87,0.2)' : 'rgba(0,0,0,0.08)'}`,
+          borderBottom: `1px solid ${isDark ? 'rgba(200,168,87,0.2)' : 'rgba(0,0,0,0.08)'}`
         }}>
           <div style={{
             maxWidth: '1200px',
