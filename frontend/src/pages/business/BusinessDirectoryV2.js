@@ -63,28 +63,64 @@ const BusinessDirectoryV2 = () => {
     }
   };
 
-  const handleSearch = () => {
-    // Filter businesses based on all search criteria
-    let results = [...businesses];
-    
-    if (searchName.trim()) {
-      const query = searchName.toLowerCase();
-      results = results.filter(biz => 
-        (biz.name || '').toLowerCase().includes(query) ||
-        (biz.description || '').toLowerCase().includes(query)
+  const handleSearch = async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams();
+      
+      // Add category to backend search if selected
+      if (searchCategory) {
+        params.append('category', searchCategory);
+      }
+      
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/business/search?${params.toString()}`
       );
+      
+      if (response.ok) {
+        const data = await response.json();
+        let results = Array.isArray(data) ? data : [];
+        
+        // Client-side filtering for name/keyword
+        if (searchName.trim()) {
+          const query = searchName.toLowerCase();
+          results = results.filter(biz => {
+            const name = biz.name || biz.title || biz.businessName || '';
+            const desc = biz.description || biz.about || '';
+            return name.toLowerCase().includes(query) || desc.toLowerCase().includes(query);
+          });
+        }
+        
+        // Client-side filtering for location
+        if (searchLocation.trim()) {
+          const locQuery = searchLocation.toLowerCase();
+          results = results.filter(biz => {
+            const city = (biz.city || '').toLowerCase();
+            const state = (biz.state || '').toLowerCase();
+            const zipcode = (biz.zipcode || '').toLowerCase();
+            const location = (biz.location || '').toLowerCase();
+            return city.includes(locQuery) || 
+                   state.includes(locQuery) || 
+                   zipcode.includes(locQuery) ||
+                   location.includes(locQuery);
+          });
+        }
+        
+        setBusinesses(results);
+        
+        // Update newest businesses
+        const sorted = [...results].sort((a, b) => {
+          const dateA = new Date(a.created_at || 0);
+          const dateB = new Date(b.created_at || 0);
+          return dateB - dateA;
+        });
+        setNewestBusinesses(sorted.slice(0, 6));
+      }
+    } catch (err) {
+      console.error('Failed to search businesses:', err);
+    } finally {
+      setLoading(false);
     }
-    
-    if (searchLocation.trim()) {
-      const locQuery = searchLocation.toLowerCase();
-      results = results.filter(biz =>
-        (biz.city || '').toLowerCase().includes(locQuery) ||
-        (biz.state || '').toLowerCase().includes(locQuery) ||
-        (biz.zipcode || '').toLowerCase().includes(locQuery)
-      );
-    }
-    
-    setBusinesses(results);
   };
 
   const flatCategories = categoryOptions.filter(opt => opt.type === 'category');
