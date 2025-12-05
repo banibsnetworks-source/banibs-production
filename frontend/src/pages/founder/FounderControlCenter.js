@@ -45,10 +45,10 @@ const ACTIVE_BUILDS = [
   {
     id: 3,
     title: "Navigation v2 – Global Redesign",
-    status: "planned",
+    status: "in_progress",
     owner: "Neo",
-    notes: "On hold until BGLIS complete",
-    link_to_spec: "#nav-spec"
+    notes: "Preview ready for review at /founder/nav-v2-preview",
+    link_to_spec: "/founder/nav-v2-preview"
   },
   {
     id: 4,
