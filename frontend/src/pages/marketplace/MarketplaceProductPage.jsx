@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import MarketplaceLayout from "../../components/marketplace/MarketplaceLayout";
 import DigitalBadge from "../../components/marketplace/DigitalBadge";
+import PriceTag from "../../components/bcee/PriceTag";
 
 const CART_KEY = "banibs_marketplace_cart_v1";
 
