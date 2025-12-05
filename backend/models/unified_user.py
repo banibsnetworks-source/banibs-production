@@ -80,6 +80,11 @@ class UnifiedUser(BaseModel):
     last_login: Optional[str] = Field(None, description="Last login timestamp (ISO)")
     updated_at: Optional[str] = Field(None, description="Last update timestamp (ISO)")
     
+    # BGLIS v1.0 - Audit fields
+    last_phone_change_at: Optional[str] = Field(None, description="Last phone number change timestamp")
+    failed_recovery_attempts: int = Field(default=0, description="Count of failed recovery phrase attempts")
+    last_recovery_attempt_at: Optional[str] = Field(None, description="Last recovery attempt timestamp")
+    
     # Phase 8.1 - Preferred Portal
     preferred_portal: str = Field(
         default="news",
