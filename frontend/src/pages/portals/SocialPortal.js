@@ -126,14 +126,19 @@ const SocialPortal = () => {
             zIndex: 1
           }} />
           
-          <div className="relative z-10 text-center px-4">
+          <div className="relative z-10 text-center px-4" style={{
+            maxWidth: '900px',
+            margin: '0 auto'
+          }}>
             <h1 className="text-5xl font-bold mb-4" style={{
-              color: isDark ? 'white' : 'rgb(17, 24, 39)'
+              color: 'white',
+              textShadow: '0 2px 12px rgba(0,0,0,0.5)'
             }}>
               BANIBS Social
             </h1>
             <p className="text-2xl mb-8" style={{
-              color: isDark ? 'rgb(209, 213, 219)' : 'rgb(55, 65, 81)'
+              color: 'rgb(243, 244, 246)',
+              textShadow: '0 1px 6px rgba(0,0,0,0.4)'
             }}>
               Where Black America Connects
             </p>
