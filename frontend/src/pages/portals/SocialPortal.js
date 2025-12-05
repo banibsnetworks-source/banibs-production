@@ -44,6 +44,26 @@ const SocialPortal = () => {
   const { user, isAuthenticated } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  
+  // Hero rotating images - curated to center Black people in social/community contexts
+  const [currentHeroImage, setCurrentHeroImage] = useState(0);
+  const socialHeroImages = [
+    'https://images.unsplash.com/photo-1540834805150-b551c602aac8?w=1920&q=85', // Black couple sharing blanket
+    'https://images.unsplash.com/photo-1739302750675-042ed497a429?w=1920&q=85', // Two Black women laughing on couch
+    'https://images.unsplash.com/photo-1761957353936-bd5182686fcb?w=1920&q=85', // Two Black men laughing
+    'https://images.pexels.com/photos/9974379/pexels-photo-9974379.jpeg?auto=compress&cs=tinysrgb&w=1920', // Black couple picnic
+    'https://images.pexels.com/photos/7951553/pexels-photo-7951553.jpeg?auto=compress&cs=tinysrgb&w=1920', // Intergenerational family
+  ];
+  
+  // Rotate hero images every 5 seconds for social context
+  React.useEffect(() => {
+    if (!isAuthenticated) {
+      const interval = setInterval(() => {
+        setCurrentHeroImage((prev) => (prev + 1) % socialHeroImages.length);
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [isAuthenticated, socialHeroImages.length]);
 
   // Phase 8.3.1: Trigger GlobalNavBar's AuthModal via global event
   const handleOpenAuth = (mode = 'signin') => {
