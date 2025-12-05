@@ -101,6 +101,7 @@ import OpportunitiesPage from "./pages/Business/Opportunities/OpportunitiesPage"
 import BusinessJobDetailPage from "./pages/Business/Opportunities/JobDetailPage"; // Phase 7.1 (Legacy)
 import RecruiterDashboard from "./pages/Business/Opportunities/RecruiterDashboard"; // Phase 7.1
 import BusinessDirectoryPage from "./pages/business/BusinessDirectoryV2"; // Phase B.0 - Redesigned with 5-step flow
+import BusinessRegistrationPlaceholder from "./pages/business/BusinessRegistrationPlaceholder"; // Phase B.0 - Registration placeholder
 // Phase 7.1 Cycle 1.3 - Candidate Flow
 import CandidateProfilePage from "./pages/Candidate/CandidateProfilePage";
 import MyApplicationsPage from "./pages/Candidate/MyApplicationsPage";
