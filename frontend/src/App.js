@@ -100,7 +100,7 @@ import YouthPage from "./pages/Stubs/YouthPage";
 import OpportunitiesPage from "./pages/Business/Opportunities/OpportunitiesPage"; // Phase 7.1
 import BusinessJobDetailPage from "./pages/Business/Opportunities/JobDetailPage"; // Phase 7.1 (Legacy)
 import RecruiterDashboard from "./pages/Business/Opportunities/RecruiterDashboard"; // Phase 7.1
-import BusinessDirectoryPage from "./pages/business/BusinessDirectory"; // Phase 8.2 - Geo-enabled
+import BusinessDirectoryPage from "./pages/business/BusinessDirectoryV2"; // Phase B.0 - Redesigned with 5-step flow
 // Phase 7.1 Cycle 1.3 - Candidate Flow
 import CandidateProfilePage from "./pages/Candidate/CandidateProfilePage";
 import MyApplicationsPage from "./pages/Candidate/MyApplicationsPage";
