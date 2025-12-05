@@ -281,3 +281,103 @@ class TokenResponse(BaseModel):
     token_type: str = "Bearer"
     expires_in: int = 900  # 15 minutes in seconds
     user: UserPublic
+    needs_bglis_upgrade: bool = False  # BGLIS v1.0 - migration flag
+
+
+# ===== BGLIS v1.0 Request Models =====
+
+class SendOtpRequest(BaseModel):
+    """
+    Request OTP for phone verification
+    """
+    phone_number: str = Field(..., description="Phone number (will be normalized to E.164)")
+    purpose: str = Field(..., description="register|login|change_phone_old|change_phone_new|recovery")
+
+
+class VerifyOtpRequest(BaseModel):
+    """
+    Verify OTP code
+    """
+    phone_number: str
+    purpose: str
+    code: str = Field(..., min_length=6, max_length=6, description="6-digit OTP code")
+
+
+class RegisterBglisRequest(BaseModel):
+    """
+    BGLIS v1.0 phone-first registration
+    """
+    phone_number: str
+    username: str = Field(..., min_length=3, max_length=30)
+    email: Optional[EmailStr] = None
+    otp_code: str = Field(..., min_length=6, max_length=6)
+    display_name: Optional[str] = None
+
+
+class LoginPhoneRequest(BaseModel):
+    """
+    Login with phone + OTP
+    """
+    phone_number: str
+    otp_code: str = Field(..., min_length=6, max_length=6)
+
+
+class LoginUsernameRequest(BaseModel):
+    """
+    Login with username + OTP (phone behind the scenes)
+    """
+    username: str
+    otp_code: str = Field(..., min_length=6, max_length=6)
+
+
+class PhraseLoginRequest(BaseModel):
+    """
+    Recovery: login with username/email + recovery phrase
+    """
+    identifier: str = Field(..., description="Username or email")
+    recovery_phrase: str = Field(..., description="12-word recovery phrase (space-separated)")
+
+
+class ResetPhoneRequest(BaseModel):
+    """
+    Set new phone after recovery
+    """
+    new_phone_number: str
+    otp_code: str = Field(..., min_length=6, max_length=6)
+
+
+class ChangePhoneRequest(BaseModel):
+    """
+    Change phone number (two modes)
+    """
+    mode: str = Field(..., description="old_phone_available | old_phone_missing")
+    old_phone_otp: Optional[str] = Field(None, min_length=6, max_length=6)
+    new_phone_number: str
+    new_phone_otp: str = Field(..., min_length=6, max_length=6)
+    recovery_phrase: Optional[str] = None
+
+
+class RegeneratePhraseRequest(BaseModel):
+    """
+    Generate new recovery phrase
+    """
+    mode: str = Field(..., description="phrase | otp")
+    old_recovery_phrase: Optional[str] = None
+    otp_code: Optional[str] = Field(None, min_length=6, max_length=6)
+
+
+class BglisRegisterResponse(BaseModel):
+    """
+    Response for BGLIS registration (includes recovery phrase once)
+    """
+    user: UserPublic
+    access_token: str
+    refresh_token: str
+    recovery_phrase: List[str] = Field(..., description="12-word recovery phrase (SAVE THIS!)")
+
+
+class RecoveryPhraseResponse(BaseModel):
+    """
+    Response when regenerating recovery phrase
+    """
+    recovery_phrase: List[str] = Field(..., description="New 12-word recovery phrase (SAVE THIS!)")
