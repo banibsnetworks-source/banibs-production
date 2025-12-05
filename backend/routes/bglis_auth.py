@@ -319,4 +319,295 @@ async def register_bglis(
         raise HTTPException(status_code=500, detail="Registration failed")
 
 
-# Continuing with login endpoints in next file due to length...
+# ===== Login Endpoints =====
+
+@router.post("/login-phone", response_model=TokenResponse)
+async def login_phone(
+    request: LoginPhoneRequest,
+    response: Response,
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """
+    Login with phone number + OTP
+    """
+    try:
+        # 1. Normalize phone
+        normalized_phone, _ = PhoneService.normalize_to_e164(request.phone_number)
+        
+        # 2. Verify OTP
+        otp_service = OtpService(db)
+        otp_result = await otp_service.verify_otp(
+            phone_number=normalized_phone,
+            purpose="login",
+            code=request.otp_code
+        )
+        
+        if not otp_result.success:
+            raise HTTPException(status_code=400, detail="Invalid or expired OTP")
+        
+        # 3. Find user by phone
+        user = await db.banibs_users.find_one({"phone_number": normalized_phone})
+        
+        if not user:
+            raise HTTPException(
+                status_code=404,
+                detail="No account found with this phone number"
+            )
+        
+        # 4. Update last login
+        await update_last_login(user["id"])
+        user["last_login"] = datetime.now(timezone.utc).isoformat()
+        
+        # 5. Mark phone as verified if not already
+        if not user.get("is_phone_verified"):
+            await db.banibs_users.update_one(
+                {"id": user["id"]},
+                {"$set": {"is_phone_verified": True}}
+            )
+            user["is_phone_verified"] = True
+        
+        # 6. Generate tokens and response
+        return await _create_tokens_and_response(user, response)
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"❌ Error in phone login: {e}")
+        raise HTTPException(status_code=500, detail="Login failed")
+
+
+@router.post("/login-username", response_model=TokenResponse)
+async def login_username(
+    request: LoginUsernameRequest,
+    response: Response,
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """
+    Login with username + OTP (sent to linked phone)
+    """
+    try:
+        # 1. Normalize username
+        username_lower = request.username.lower().strip()
+        
+        # 2. Find user by username
+        user = await db.banibs_users.find_one({"username": username_lower})
+        
+        if not user:
+            raise HTTPException(
+                status_code=404,
+                detail="No account found with this username"
+            )
+        
+        # 3. Get user's phone
+        if not user.get("phone_number"):
+            raise HTTPException(
+                status_code=400,
+                detail="This account has no linked phone number. Please contact support."
+            )
+        
+        # 4. Verify OTP against user's phone
+        otp_service = OtpService(db)
+        otp_result = await otp_service.verify_otp(
+            phone_number=user["phone_number"],
+            purpose="login",
+            code=request.otp_code
+        )
+        
+        if not otp_result.success:
+            raise HTTPException(status_code=400, detail="Invalid or expired OTP")
+        
+        # 5. Update last login
+        await update_last_login(user["id"])
+        user["last_login"] = datetime.now(timezone.utc).isoformat()
+        
+        # 6. Mark phone as verified if not already
+        if not user.get("is_phone_verified"):
+            await db.banibs_users.update_one(
+                {"id": user["id"]},
+                {"$set": {"is_phone_verified": True}}
+            )
+            user["is_phone_verified"] = True
+        
+        # 7. Generate tokens and response
+        return await _create_tokens_and_response(user, response)
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"❌ Error in username login: {e}")
+        raise HTTPException(status_code=500, detail="Login failed")
+
+
+# ===== Recovery Endpoints =====
+
+@router.post("/recovery/phrase-login", response_model=TokenResponse)
+async def recovery_phrase_login(
+    request: PhraseLoginRequest,
+    response: Response,
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """
+    Login using recovery phrase (lost phone scenario)
+    
+    Requires:
+    - identifier: username or email
+    - recovery_phrase: 12-word phrase
+    """
+    try:
+        # 1. Find user by identifier (username or email)
+        identifier_lower = request.identifier.lower().strip()
+        
+        user = await db.banibs_users.find_one({
+            "$or": [
+                {"username": identifier_lower},
+                {"email": identifier_lower}
+            ]
+        })
+        
+        if not user:
+            raise HTTPException(
+                status_code=404,
+                detail="No account found with this identifier"
+            )
+        
+        # 2. Check if user has recovery phrase
+        if not user.get("has_recovery_phrase"):
+            raise HTTPException(
+                status_code=400,
+                detail="This account does not have a recovery phrase set up"
+            )
+        
+        # 3. Check rate limiting on recovery attempts
+        failed_attempts = user.get("failed_recovery_attempts", 0)
+        last_attempt = user.get("last_recovery_attempt_at")
+        
+        if failed_attempts >= 5:
+            # Check if cooldown period has passed (1 hour)
+            if last_attempt:
+                last_attempt_dt = datetime.fromisoformat(last_attempt)
+                now = datetime.now(timezone.utc)
+                cooldown_hours = 1
+                
+                if (now - last_attempt_dt).total_seconds() < (cooldown_hours * 3600):
+                    raise HTTPException(
+                        status_code=429,
+                        detail=f"Too many failed attempts. Try again in {cooldown_hours} hour(s)"
+                    )
+                else:
+                    # Reset counter after cooldown
+                    await db.banibs_users.update_one(
+                        {"id": user["id"]},
+                        {"$set": {"failed_recovery_attempts": 0}}
+                    )
+                    failed_attempts = 0
+        
+        # 4. Verify recovery phrase
+        is_valid = RecoveryPhraseService.verify_phrase(
+            phrase=request.recovery_phrase,
+            stored_hash=user["recovery_phrase_hash"],
+            stored_salt=user["recovery_phrase_salt"]
+        )
+        
+        now_iso = datetime.now(timezone.utc).isoformat()
+        
+        if not is_valid:
+            # Increment failed attempts
+            await db.banibs_users.update_one(
+                {"id": user["id"]},
+                {
+                    "$set": {
+                        "failed_recovery_attempts": failed_attempts + 1,
+                        "last_recovery_attempt_at": now_iso
+                    }
+                }
+            )
+            
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid recovery phrase"
+            )
+        
+        # 5. Success - reset failed attempts
+        await db.banibs_users.update_one(
+            {"id": user["id"]},
+            {
+                "$set": {
+                    "failed_recovery_attempts": 0,
+                    "last_recovery_attempt_at": now_iso,
+                    "last_login": now_iso
+                }
+            }
+        )
+        
+        user["last_login"] = now_iso
+        
+        # 6. Generate tokens and response
+        result = await _create_tokens_and_response(user, response)
+        result["can_reset_phone"] = True  # Allow phone reset after phrase login
+        
+        return result
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"❌ Error in phrase login: {e}")
+        raise HTTPException(status_code=500, detail="Recovery login failed")
+
+
+@router.post("/recovery/reset-phone")
+async def recovery_reset_phone(
+    request: ResetPhoneRequest,
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    # TODO: Add JWT dependency to require authenticated user
+    # current_user: dict = Depends(get_current_user_bglis)
+):
+    """
+    Set new phone number after recovery phrase login
+    
+    Requires:
+    - JWT from phrase-login or similar recovery flow
+    - New phone number with OTP verification
+    """
+    try:
+        # TODO: Get user_id from JWT token
+        # For now, we'll need to add proper JWT middleware
+        
+        # 1. Normalize new phone
+        normalized_phone, country = PhoneService.normalize_to_e164(request.new_phone_number)
+        
+        # 2. Verify OTP for new phone
+        otp_service = OtpService(db)
+        otp_result = await otp_service.verify_otp(
+            phone_number=normalized_phone,
+            purpose="recovery",
+            code=request.otp_code
+        )
+        
+        if not otp_result.success:
+            raise HTTPException(status_code=400, detail="Invalid or expired OTP")
+        
+        # 3. Check phone uniqueness
+        existing = await db.banibs_users.find_one({"phone_number": normalized_phone})
+        if existing:
+            raise HTTPException(
+                status_code=409,
+                detail="This phone number is already in use by another account"
+            )
+        
+        # TODO: Update user's phone
+        # For now, return success - will complete with JWT middleware
+        
+        return {
+            "success": True,
+            "phone_number": normalized_phone,
+            "message": "Phone number reset endpoint - requires JWT implementation"
+        }
+    
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"❌ Error resetting phone: {e}")
+        raise HTTPException(status_code=500, detail="Phone reset failed")
+
+
+# Note: Additional endpoints (change-phone, regenerate-phrase) will be added after JWT middleware is properly integrated
