@@ -573,7 +573,8 @@ function App() {
               
               {/* Stub Pages */}
               <Route path="/business" element={<Navigate to="/portal/business" replace />} />
-              <Route path="/business-directory" element={<BusinessDirectoryPage />} /> {/* Phase 7.2 */}
+              <Route path="/business-directory" element={<BusinessDirectoryPage />} /> {/* Phase B.0 - Redesigned */}
+              <Route path="/business/register" element={<BusinessRegistrationPlaceholder />} /> {/* Phase B.0 - Registration placeholder */}
               <Route path="/information" element={<InformationPage />} />
               <Route path="/education" element={<EducationPage />} />
               <Route path="/youth" element={<YouthPage />} />
