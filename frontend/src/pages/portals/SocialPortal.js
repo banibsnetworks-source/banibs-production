@@ -355,7 +355,14 @@ const SocialPortal = () => {
         description="Stay connected with your BANIBS Social community."
       />
       
-      <div className="min-h-screen bg-background" style={{ paddingTop: '20px' }}>
+      <div 
+        className="min-h-screen" 
+        style={{ 
+          paddingTop: '20px',
+          backgroundColor: isDark ? '#0C0C0C' : '#F7F7F7',
+          color: isDark ? '#F7F7F7' : '#111217'
+        }}
+      >
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             {/* Welcome Header */}
