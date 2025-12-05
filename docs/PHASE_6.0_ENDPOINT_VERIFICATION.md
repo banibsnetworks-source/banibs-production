@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://a-series-preview.preview.emergentagent.com/api/auth
+https://engage-biz.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

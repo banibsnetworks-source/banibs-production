@@ -186,7 +186,7 @@ for source in RSS_SOURCES:
 
 ### 3.3 Frontend Rendering
 
-**Test**: Visited `https://a-series-preview.preview.emergentagent.com/`
+**Test**: Visited `https://engage-biz.preview.emergentagent.com/`
 
 **Results**:
 - ✅ Homepage loads successfully

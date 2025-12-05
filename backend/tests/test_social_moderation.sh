@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://a-series-preview.preview.emergentagent.com"
+BACKEND_URL="https://engage-biz.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output
