@@ -185,7 +185,8 @@ class UserRegionService:
                         "region_detection_method": "ip_geolocation",
                         "region_override": False
                     }
-                }
+                },
+                upsert=True
             )
             return region
         
@@ -199,7 +200,8 @@ class UserRegionService:
                     "region_detection_method": "default",
                     "region_override": False
                 }
-            }
+            },
+            upsert=True
         )
         
         return default_region
