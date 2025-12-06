@@ -6,11 +6,18 @@ from fastapi import APIRouter, HTTPException
 from datetime import datetime, timezone
 import os
 from motor.motor_asyncio import AsyncIOMotorClient
+import certifi
 
 router = APIRouter(prefix="/api", tags=["health"])
 
-# Database connection
-client = AsyncIOMotorClient(os.environ['MONGO_URL'])
+# Database connection with TLS support
+client = AsyncIOMotorClient(
+    os.environ['MONGO_URL'],
+    tlsCAFile=certifi.where(),
+    serverSelectionTimeoutMS=5000,
+    connectTimeoutMS=5000,
+    socketTimeoutMS=5000
+)
 db = client[os.environ['DB_NAME']]
 
 
