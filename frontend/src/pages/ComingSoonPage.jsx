@@ -233,7 +233,7 @@ const ComingSoonPage = () => {
             body="A social space that puts us first — built so you can connect, organize, and share without being chased by ads or buried by somebody else's algorithm."
             bullets={[
               'No ads in your face',
-              'No "engagement hacks" deciding who you see',
+              'No \"engagement hacks\" deciding who you see',
               'Circles and spaces you control'
             ]}
           />
