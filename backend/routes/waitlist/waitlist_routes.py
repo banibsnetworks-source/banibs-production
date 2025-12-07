@@ -7,13 +7,13 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import datetime
 import logging
 
-from backend.models.waitlist import (
+from models.waitlist import (
     WaitlistSubscribeRequest,
     WaitlistSubscribeResponse,
     WaitlistEntry
 )
-from backend.services.email.email_service import email_service
-from backend.database import get_database
+from services.email.email_service import email_service
+from database import get_database
 
 router = APIRouter(prefix="/api/waitlist", tags=["Waitlist"])
 logger = logging.getLogger(__name__)
