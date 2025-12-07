@@ -226,8 +226,8 @@ const ComingSoonPage = () => {
       {/* Three Pillars Section */}
       <div style={{
         padding: '80px 20px',
-        background: '#000000',
-        borderTop: '1px solid rgba(255, 215, 0, 0.1)'
+        background: colors.bgDeep,
+        borderTop: `1px solid ${colors.skyBlueSoft}`
       }}>
         <div style={{
           maxWidth: '1200px',
