@@ -26,8 +26,7 @@ db = client[os.environ['DB_NAME']]
 @router.post("/subscribe", response_model=WaitlistSubscribeResponse)
 async def subscribe_to_waitlist(
     request_data: WaitlistSubscribeRequest,
-    request: Request,
-    db = Depends(get_database)
+    request: Request
 ):
     """
     Subscribe to BANIBS waitlist
