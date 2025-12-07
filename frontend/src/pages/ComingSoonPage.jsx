@@ -227,6 +227,22 @@ const ComingSoonPage = () => {
                 }}>
                   No spam. No selling your email. We'll only reach out when there's a real update.
                 </p>
+                
+                {/* Error message */}
+                {error && (
+                  <p style={{
+                    marginTop: '16px',
+                    fontSize: '0.9rem',
+                    color: '#EF4444',
+                    lineHeight: '1.5',
+                    padding: '12px',
+                    background: 'rgba(239, 68, 68, 0.1)',
+                    borderRadius: '8px',
+                    border: '1px solid rgba(239, 68, 68, 0.3)'
+                  }}>
+                    {error}
+                  </p>
+                )}
               </div>
             </form>
           ) : (
