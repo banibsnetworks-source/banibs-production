@@ -186,7 +186,7 @@ for source in RSS_SOURCES:
 
 ### 3.3 Frontend Rendering
 
-**Test**: Visited `https://banibs-comingsoon.preview.emergentagent.com/`
+**Test**: Visited `https://banibs-platform.preview.emergentagent.com/`
 
 **Results**:
 - ✅ Homepage loads successfully

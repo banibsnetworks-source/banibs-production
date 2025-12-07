@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://banibs-comingsoon.preview.emergentagent.com/api/auth
+https://banibs-platform.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
