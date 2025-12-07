@@ -111,7 +111,7 @@ async def health_check():
 
 
 @router.get("/count")
-async def get_waitlist_count(db = Depends(get_database)):
+async def get_waitlist_count():
     """
     Get total waitlist count
     
