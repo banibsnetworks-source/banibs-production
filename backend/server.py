@@ -426,6 +426,10 @@ app.include_router(bcee_router)
 from routes.bps.ties_routes import router as ties_router
 app.include_router(ties_router)
 
+# Include BDII router (BDII v1.0 - Device Inventory Intelligence)
+from routes.bdii.bdii_routes import router as bdii_router
+app.include_router(bdii_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
