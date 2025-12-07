@@ -273,10 +273,8 @@ import OrchestrationDashboardPage from "./pages/admin/orchestration/Orchestratio
 import FounderControlCenter from "./pages/founder/FounderControlCenter";
 import NavV2Preview from "./pages/founder/NavV2Preview";
 
-// Coming Soon Pages (Variants)
+// Coming Soon Page
 import ComingSoonPage from "./pages/ComingSoonPage";
-import ComingSoonPageBlue from "./pages/ComingSoonPageBlue";
-import ComingSoonPageGold from "./pages/ComingSoonPageGold";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
