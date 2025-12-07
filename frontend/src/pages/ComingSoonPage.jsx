@@ -281,7 +281,7 @@ const ComingSoonPage = () => {
             fontSize: 'clamp(2rem, 4vw, 2.8rem)',
             fontWeight: '800',
             marginBottom: '48px',
-            color: '#FFD700',
+            color: colors.skyBlue,
             textAlign: 'center',
             letterSpacing: '-0.5px'
           }}>
