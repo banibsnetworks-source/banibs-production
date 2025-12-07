@@ -271,7 +271,16 @@ const ComingSoonPage = () => {
         }}>
           {/* Card 1: For Our People */}
           <PillarCard
-            icon={<UsersRound size={40} color="#42B5FF" strokeWidth={1.5} />}
+            icon={
+              <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="22" cy="15" r="4" stroke="#42B5FF" strokeWidth="1.5" />
+                <circle cx="13" cy="20" r="3.5" stroke="#FFD700" strokeWidth="1.5" />
+                <circle cx="31" cy="20" r="3.5" stroke="#FFD700" strokeWidth="1.5" />
+                <path d="M22 20C19 20 16 22 16 25V28H28V25C28 22 25 20 22 20Z" stroke="#42B5FF" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M13 24.5C11 24.5 9 26 9 28V30H17" stroke="#FFD700" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M31 24.5C33 24.5 35 26 35 28V30H27" stroke="#FFD700" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            }
             title="For Our People"
             body="A social space that puts us first — built so you can connect, organize, and share without being chased by ads or buried by somebody else's algorithm."
             bullets={[
