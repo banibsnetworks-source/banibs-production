@@ -106,7 +106,7 @@ const ComingSoonPage = () => {
           <p style={{
             fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
             lineHeight: '1.7',
-            color: 'rgba(255, 255, 255, 0.85)',
+            color: colors.textMain,
             marginBottom: '48px',
             fontWeight: '400'
           }}>
