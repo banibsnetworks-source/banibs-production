@@ -273,8 +273,8 @@ const ComingSoonPage = () => {
       {/* What's Coming First Section */}
       <div style={{
         padding: '80px 20px',
-        background: 'radial-gradient(ellipse at center, rgba(255, 215, 0, 0.04) 0%, transparent 70%)',
-        borderTop: '1px solid rgba(255, 215, 0, 0.1)'
+        background: '#050E1A',
+        borderTop: `1px solid ${colors.skyBlueSoft}`
       }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <h2 style={{
