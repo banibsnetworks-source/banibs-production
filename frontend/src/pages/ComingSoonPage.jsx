@@ -103,7 +103,7 @@ const ComingSoonPage = () => {
 
       {/* Feature Sections Container */}
       <div style={{
-        padding: '80px 20px',
+        padding: '60px 20px',
         background: 'linear-gradient(180deg, #000000 0%, #0A0A0A 50%, #000000 100%)'
       }}>
         <div style={{
@@ -111,7 +111,7 @@ const ComingSoonPage = () => {
           margin: '0 auto',
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '48px'
+          gap: '32px'
         }}>
           {/* Section 1: Encrypted & Private */}
           <FeatureSection
