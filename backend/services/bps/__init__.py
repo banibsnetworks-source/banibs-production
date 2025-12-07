@@ -1,6 +1,11 @@
-"""\nBANIBS Protection Suite (BPS)\nVersion 1.0\n\nContent moderation and crisis communication system\n"""
+"""
+BANIBS Protection Suite (BPS)
+Version 1.0
 
-from backend.services.bps.ties import TIESEngine
+Content moderation and crisis communication system
+"""
+
+from services.bps.ties import TIESEngine
 
 __version__ = "1.0.0"
 __all__ = ["TIESEngine"]
