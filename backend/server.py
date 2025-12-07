@@ -430,6 +430,10 @@ app.include_router(ties_router)
 from routes.bdii.bdii_routes import router as bdii_router
 app.include_router(bdii_router)
 
+# Include Waitlist router (Coming Soon Page)
+from routes.waitlist.waitlist_routes import router as waitlist_router
+app.include_router(waitlist_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
