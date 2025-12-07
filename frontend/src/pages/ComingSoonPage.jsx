@@ -50,22 +50,18 @@ const ComingSoonPage = () => {
       color: colors.textMain,
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
     }}>
-      {/* Hero Section */}
+      {/* Extended Hero + Pattern Section */}
       <div style={{
-        padding: '60px 20px 80px',
-        textAlign: 'center',
         position: 'relative',
-        background: 'transparent',
         overflow: 'hidden'
       }}>
-        {/* Afrocentric Abstract Background Pattern */}
+        {/* Afrocentric Abstract Background Pattern - Extended */}
         <div style={{
           position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
-          bottom: 0,
-          opacity: 0.08,
+          height: '180vh',
           pointerEvents: 'none',
           zIndex: 0,
           background: `
@@ -75,8 +71,18 @@ const ComingSoonPage = () => {
             linear-gradient(150deg, transparent 30%, ${colors.gold} 30.5%, ${colors.gold} 31%, transparent 31.5%)
           `,
           backgroundSize: '80px 80px, 80px 80px, 120px 120px, 120px 120px',
-          backgroundPosition: '0 0, 40px 40px, 20px 20px, 60px 60px'
+          backgroundPosition: '0 0, 40px 40px, 20px 20px, 60px 60px',
+          maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.05) 70%, transparent 85%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.05) 70%, transparent 85%)'
         }} />
+
+      {/* Hero Section */}
+      <div style={{
+        padding: '60px 20px 80px',
+        textAlign: 'center',
+        position: 'relative',
+        background: 'transparent'
+      }}>
         
         {/* Glow effect */}
         <div style={{
