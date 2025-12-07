@@ -30,11 +30,24 @@ const ComingSoonPage = () => {
     }
   };
 
+  // BANIBS v2.1 Color Palette
+  const colors = {
+    bgDeep: '#04060A',
+    bgHeroTop: '#0B1726',
+    bgCard: '#090D16',
+    gold: '#FFD700',
+    goldSoft: '#FFE58A',
+    skyBlue: '#42B5FF',
+    skyBlueSoft: 'rgba(66, 181, 255, 0.2)',
+    textMain: '#F9FAFB',
+    textMuted: '#9CA3AF'
+  };
+
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0A0A0A',
-      color: '#FFFFFF',
+      background: `radial-gradient(circle at top, ${colors.bgHeroTop} 0%, ${colors.bgDeep} 45%, #000000 100%)`,
+      color: colors.textMain,
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
     }}>
       {/* Hero Section */}
