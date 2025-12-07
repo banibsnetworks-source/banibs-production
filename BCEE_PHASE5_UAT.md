@@ -14,7 +14,7 @@
 - ✅ Admin access to backend API (for region changes)
 
 ### Test Environment
-- **URL**: https://currency-exchange-41.preview.emergentagent.com
+- **URL**: https://banibs-comingsoon.preview.emergentagent.com
 - **Backend**: BCEE API v1.0 (Phase 1-4 complete)
 - **Frontend**: PriceTag component integrated
 
@@ -32,7 +32,7 @@
 
 **Steps**:
 1. Open a private/incognito browser window
-2. Navigate to: `https://currency-exchange-41.preview.emergentagent.com/portal/marketplace`
+2. Navigate to: `https://banibs-comingsoon.preview.emergentagent.com/portal/marketplace`
 3. Scroll through the "Featured Marketplace Products" section
 4. Look at the prices displayed on product cards
 
@@ -83,7 +83,7 @@
    - Find `access_token` value
 3. Use Postman or curl to call:
    ```bash
-   POST https://currency-exchange-41.preview.emergentagent.com/api/bcee/update-region
+   POST https://banibs-comingsoon.preview.emergentagent.com/api/bcee/update-region
    Headers:
      Authorization: Bearer YOUR_ACCESS_TOKEN
      Content-Type: application/json
@@ -157,7 +157,7 @@ approx. $12.00
 **Steps**:
 1. Use Postman/curl to call update-region API:
    ```bash
-   POST https://currency-exchange-41.preview.emergentagent.com/api/bcee/update-region
+   POST https://banibs-comingsoon.preview.emergentagent.com/api/bcee/update-region
    Body: { "country_code": "GB" }
    ```
 
@@ -204,7 +204,7 @@ approx. $12.00
 **Steps**:
 1. Use Postman/curl to call update-region API:
    ```bash
-   POST https://currency-exchange-41.preview.emergentagent.com/api/bcee/update-region
+   POST https://banibs-comingsoon.preview.emergentagent.com/api/bcee/update-region
    Body: { "country_code": "GH" }
    ```
 
@@ -250,7 +250,7 @@ approx. $12.00
 **Steps**:
 1. Use Postman/curl to call update-region API:
    ```bash
-   POST https://currency-exchange-41.preview.emergentagent.com/api/bcee/update-region
+   POST https://banibs-comingsoon.preview.emergentagent.com/api/bcee/update-region
    Body: { "country_code": "US" }
    ```
 2. Refresh marketplace
