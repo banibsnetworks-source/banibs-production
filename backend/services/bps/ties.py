@@ -7,7 +7,7 @@ Purpose: Validate BANIBS messaging for accuracy, clarity, and safe phrasing.
 
 import re
 from typing import List, Dict, Any
-from backend.models.bps.models import (
+from models.bps.models import (
     TIESInput,
     TIESOutput,
     TIESIssue,
