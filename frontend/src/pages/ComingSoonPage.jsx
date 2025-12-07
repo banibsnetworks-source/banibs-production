@@ -318,7 +318,7 @@ const ComingSoonPage = () => {
         <div style={{ maxWidth: '700px', margin: '0 auto' }}>
           <p style={{
             fontSize: '1.3rem',
-            color: 'rgba(255, 255, 255, 0.9)',
+            color: colors.textMain,
             marginBottom: '24px',
             fontWeight: '600',
             lineHeight: '1.6'
@@ -327,7 +327,7 @@ const ComingSoonPage = () => {
           </p>
           <p style={{
             fontSize: '1.1rem',
-            color: 'rgba(255, 255, 255, 0.7)',
+            color: colors.textMuted,
             lineHeight: '1.6'
           }}>
             If you want to be there when the doors open, drop your email above and stay close.
