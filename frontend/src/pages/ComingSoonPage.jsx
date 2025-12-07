@@ -96,10 +96,7 @@ const ComingSoonPage = () => {
             fontWeight: '900',
             lineHeight: '1.1',
             marginBottom: '28px',
-            background: 'linear-gradient(135deg, #FFD700 0%, #FFFFFF 40%, #FFD700 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
+            color: colors.textMain,
             letterSpacing: '-1px'
           }}>
             Ad-Free. Encrypted.<br />Built For Us.
