@@ -338,13 +338,13 @@ const ComingSoonPage = () => {
       {/* Footer */}
       <div style={{
         padding: '40px 20px',
-        borderTop: '1px solid rgba(255, 215, 0, 0.1)',
+        borderTop: `1px solid ${colors.skyBlueSoft}`,
         textAlign: 'center',
-        background: '#000000'
+        background: colors.bgDeep
       }}>
         <p style={{
           fontSize: '0.85rem',
-          color: 'rgba(255, 255, 255, 0.5)',
+          color: colors.textMuted,
           lineHeight: '1.6'
         }}>
           Built with love, caution, and respect for our people's trust.
