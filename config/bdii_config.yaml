@@ -1,0 +1,22 @@
+# BDII Configuration - Phase 1
+# Device Inventory Intelligence Settings
+
+upgrade_eligibility:
+  min_months_active: 18
+  min_daily_use_score: 0.3
+  min_link_duration_months: 6
+  min_time_between_upgrades_months: 24
+  allowed_condition_grades:
+    - A
+    - B
+    - C
+  max_simultaneous_upgrades_per_user: 1
+
+recommendation:
+  safety_stock_per_model:
+    NEXA-1: 500
+    NEXA-2: 300
+  max_inventory_cost: null  # Optional cost cap
+  preferred_refurb_ratio: 0.3
+  default_upgrade_uptake_rate: 0.25
+  default_new_user_device_rate: 0.7
