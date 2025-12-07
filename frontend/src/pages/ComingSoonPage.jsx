@@ -446,7 +446,7 @@ const PillarCard = ({ icon, title, body, bullets, subNote }) => {
     {subNote && (
       <p style={{
         fontSize: '0.9rem',
-        color: 'rgba(255, 255, 255, 0.6)',
+        color: colors.textMuted,
         lineHeight: '1.6',
         marginTop: '16px',
         fontStyle: 'italic'
@@ -455,7 +455,8 @@ const PillarCard = ({ icon, title, body, bullets, subNote }) => {
       </p>
     )}
   </div>
-);
+  );
+};
 
 // Phase Item Component
 const PhaseItem = ({ number, title, description }) => (
