@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Users, Store } from 'lucide-react';
+import { ShieldCheck, UsersRound, Building2 } from 'lucide-react';
 
 /**
  * BANIBS Coming Soon Page - v2.0 (FINAL)
