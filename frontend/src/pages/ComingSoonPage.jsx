@@ -405,7 +405,7 @@ const PillarCard = ({ icon, title, body, bullets, subNote }) => {
       fontSize: '1.35rem',
       fontWeight: '700',
       marginBottom: '16px',
-      color: '#FFD700',
+      color: colors.gold,
       lineHeight: '1.3'
     }}>
       {title}
@@ -413,7 +413,7 @@ const PillarCard = ({ icon, title, body, bullets, subNote }) => {
     <p style={{
       fontSize: '1rem',
       lineHeight: '1.7',
-      color: 'rgba(255, 255, 255, 0.85)',
+      color: colors.textMain,
       marginBottom: bullets ? '20px' : '0'
     }}>
       {body}
