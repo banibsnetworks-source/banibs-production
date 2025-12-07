@@ -430,12 +430,12 @@ const PillarCard = ({ icon, title, body, bullets, subNote }) => {
             paddingLeft: '20px',
             position: 'relative',
             fontSize: '0.95rem',
-            color: 'rgba(255, 255, 255, 0.8)'
+            color: colors.textMuted
           }}>
             <span style={{
               position: 'absolute',
               left: 0,
-              color: '#FFD700',
+              color: colors.gold,
               fontWeight: 'bold'
             }}>•</span>
             {bullet}
