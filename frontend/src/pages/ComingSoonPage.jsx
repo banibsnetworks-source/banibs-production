@@ -312,7 +312,12 @@ const ComingSoonPage = () => {
 
           {/* Card 3: Protection & Integrity */}
           <PillarCard
-            icon={<ShieldCheck size={40} color="#42B5FF" strokeWidth={1.5} />}
+            icon={
+              <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 6L8 12V20C8 28 14 34 22 38C30 34 36 28 36 20V12L22 6Z" stroke="#42B5FF" strokeWidth="1.5" strokeLinejoin="round" />
+                <path d="M16 22L20 26L28 18" stroke="#FFD700" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            }
             title="Protection & Integrity"
             body="From day one, BANIBS is being built with encryption, clear rules, and our own Protection Suite so we don't have to play by the usual 'harvest everything' playbook."
             subNote="We use internal integrity checks to keep our messaging honest, avoid exaggeration, and make sure we don't promise anything we can't deliver."
