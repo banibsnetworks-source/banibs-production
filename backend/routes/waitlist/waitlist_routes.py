@@ -62,9 +62,14 @@ async def subscribe_to_waitlist(
         )
         
         # Save to MongoDB
-        await db.waitlist_emails.insert_one(entry.dict())
+        result = await db.waitlist_emails.insert_one(entry.dict())
         
-        logger.info(f"New waitlist signup: {email}")
+        logger.info(
+            f"✅ Waitlist signup successful: {email} | "
+            f"Source: {entry.source} | "
+            f"Timestamp: {entry.submitted_at.isoformat()} | "
+            f"IP: {ip_address or 'N/A'}"
+        )
         
         # Send notification email (non-blocking, log if fails)
         try:
