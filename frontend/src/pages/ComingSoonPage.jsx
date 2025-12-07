@@ -336,12 +336,15 @@ const ComingSoonPage = () => {
           />
         </div>
       </div>
+      </div>
 
       {/* What's Coming First Section */}
       <div style={{
         padding: '80px 20px',
         background: '#050E1A',
-        borderTop: `1px solid ${colors.skyBlueSoft}`
+        borderTop: `1px solid ${colors.skyBlueSoft}`,
+        position: 'relative',
+        zIndex: 1
       }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <h2 style={{
