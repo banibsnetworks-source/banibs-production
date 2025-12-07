@@ -7,7 +7,7 @@ from fastapi import APIRouter, HTTPException
 from typing import Optional
 from datetime import datetime
 
-from backend.models.bdii.models import (
+from models.bdii.models import (
     InventorySnapshot,
     DemandForecastInput,
     DemandForecastResult,
@@ -23,7 +23,7 @@ from backend.models.bdii.models import (
     ConditionGrade,
     DeviceLifecycleStage,
 )
-from backend.services.bdii.bdii_engine import BDIIEngine
+from services.bdii.bdii_engine import BDIIEngine
 
 router = APIRouter(prefix="/api/bdii", tags=["BDII"])
 
