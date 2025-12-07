@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException, Request, Depends
 from motor.motor_asyncio import AsyncIOMotorClient
 from datetime import datetime
 import logging
+import os
 
 from models.waitlist import (
     WaitlistSubscribeRequest,
@@ -13,10 +14,13 @@ from models.waitlist import (
     WaitlistEntry
 )
 from services.email.email_service import email_service
-from database import get_database
 
 router = APIRouter(prefix="/api/waitlist", tags=["Waitlist"])
 logger = logging.getLogger(__name__)
+
+# Database connection
+client = AsyncIOMotorClient(os.environ['MONGO_URL'])
+db = client[os.environ['DB_NAME']]
 
 
 @router.post("/subscribe", response_model=WaitlistSubscribeResponse)
