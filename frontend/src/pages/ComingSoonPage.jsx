@@ -55,7 +55,7 @@ const ComingSoonPage = () => {
         padding: '60px 20px 80px',
         textAlign: 'center',
         position: 'relative',
-        background: 'radial-gradient(ellipse at center, rgba(255, 215, 0, 0.06) 0%, transparent 60%)'
+        background: 'transparent'
       }}>
         {/* Glow effect */}
         <div style={{
@@ -65,7 +65,7 @@ const ComingSoonPage = () => {
           transform: 'translate(-50%, -50%)',
           width: '600px',
           height: '600px',
-          background: 'radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 70%)',
+          background: `radial-gradient(circle, ${colors.skyBlueSoft} 0%, transparent 70%)`,
           filter: 'blur(80px)',
           pointerEvents: 'none',
           zIndex: 0,
