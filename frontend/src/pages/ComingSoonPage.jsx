@@ -311,9 +311,9 @@ const ComingSoonPage = () => {
       {/* Bottom Reassurance */}
       <div style={{
         padding: '80px 20px 60px',
-        background: '#000000',
+        background: colors.bgDeep,
         textAlign: 'center',
-        borderTop: '1px solid rgba(255, 215, 0, 0.1)'
+        borderTop: `1px solid ${colors.skyBlueSoft}`
       }}>
         <div style={{ maxWidth: '700px', margin: '0 auto' }}>
           <p style={{
