@@ -267,7 +267,7 @@ const ComingSoonPage = () => {
                 color: 'rgba(255, 255, 255, 0.85)',
                 fontSize: '1rem'
               }}>
-                We'll let you know when the doors open.
+                We'll reach out when there's a real update.
               </p>
             </div>
           )}
