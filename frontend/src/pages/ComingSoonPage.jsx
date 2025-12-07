@@ -254,7 +254,7 @@ const ComingSoonPage = () => {
           <PillarCard
             icon={<Shield size={36} color="#FFD700" strokeWidth={2} />}
             title="Protection & Integrity"
-            body="From day one, BANIBS is being built with encryption, clear rules, and our own Protection Suite so we don't have to play by the usual "harvest everything" playbook."
+            body="From day one, BANIBS is being built with encryption, clear rules, and our own Protection Suite so we don't have to play by the usual 'harvest everything' playbook."
             subNote="Our Truth & Integrity Engine (TIES) helps us catch questionable claims and keep our messaging honest and grounded as we grow."
           />
         </div>
