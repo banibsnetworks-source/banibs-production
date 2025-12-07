@@ -422,6 +422,10 @@ app.include_router(black_news_router)
 # BCEE v1.0 - Currency & Exchange Engine
 app.include_router(bcee_router)
 
+# Include BPS TIES router (BPS v1.0 - Protection Suite)
+from routes.bps.ties_routes import router as ties_router
+app.include_router(ties_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
