@@ -8,12 +8,12 @@ from typing import Dict, Any
 from datetime import datetime
 from uuid import uuid4
 
-from backend.models.bps.models import (
+from models.bps.models import (
     TIESInput,
     TIESOutput,
     BPSAuditLog
 )
-from backend.services.bps.ties import TIESEngine
+from services.bps.ties import TIESEngine
 
 router = APIRouter(prefix="/api/bps/ties", tags=["BPS-TIES"])
 
