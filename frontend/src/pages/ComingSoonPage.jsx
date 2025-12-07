@@ -238,7 +238,7 @@ const ComingSoonPage = () => {
         }}>
           {/* Card 1: For Our People */}
           <PillarCard
-            icon={<Users size={36} color="#FFD700" strokeWidth={2} />}
+            icon={<UsersRound size={40} color="#42B5FF" strokeWidth={1.5} />}
             title="For Our People"
             body="A social space that puts us first — built so you can connect, organize, and share without being chased by ads or buried by somebody else's algorithm."
             bullets={[
@@ -250,7 +250,7 @@ const ComingSoonPage = () => {
 
           {/* Card 2: For Black Businesses */}
           <PillarCard
-            icon={<Store size={36} color="#FFD700" strokeWidth={2} />}
+            icon={<Building2 size={40} color="#42B5FF" strokeWidth={1.5} />}
             title="For Black Businesses"
             body="BANIBS is building a place where Black businesses can be discovered, supported, and protected — without paying just to be seen."
             bullets={[
@@ -262,7 +262,7 @@ const ComingSoonPage = () => {
 
           {/* Card 3: Protection & Integrity */}
           <PillarCard
-            icon={<Shield size={36} color="#FFD700" strokeWidth={2} />}
+            icon={<ShieldCheck size={40} color="#42B5FF" strokeWidth={1.5} />}
             title="Protection & Integrity"
             body="From day one, BANIBS is being built with encryption, clear rules, and our own Protection Suite so we don't have to play by the usual 'harvest everything' playbook."
             subNote="Our Truth & Integrity Engine (TIES) helps us catch questionable claims and keep our messaging honest and grounded as we grow."
