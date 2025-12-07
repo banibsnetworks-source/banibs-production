@@ -1,6 +1,6 @@
 # BPS Data Models
 
-from backend.models.bps.models import (
+from models.bps.models import (
     Verdict,
     SensitivityLevel,
     InfoClarity,
