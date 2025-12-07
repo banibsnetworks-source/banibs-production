@@ -232,7 +232,7 @@ const ComingSoonPage = () => {
 
       {/* Why BANIBS Matters Section */}
       <div style={{
-        padding: '100px 20px',
+        padding: '64px 20px',
         background: 'radial-gradient(ellipse at center, rgba(255, 215, 0, 0.05) 0%, transparent 70%)',
         borderTop: '1px solid rgba(255, 215, 0, 0.1)',
         borderBottom: '1px solid rgba(255, 215, 0, 0.1)'
@@ -241,7 +241,7 @@ const ComingSoonPage = () => {
           <h2 style={{
             fontSize: 'clamp(2.2rem, 4.5vw, 3.5rem)',
             fontWeight: '800',
-            marginBottom: '48px',
+            marginBottom: '40px',
             color: '#FFD700',
             letterSpacing: '-0.5px'
           }}>
@@ -251,7 +251,7 @@ const ComingSoonPage = () => {
             background: 'rgba(255, 215, 0, 0.05)',
             border: '2px solid rgba(255, 215, 0, 0.2)',
             borderRadius: '20px',
-            padding: '56px 40px',
+            padding: '48px 32px',
             fontSize: '1.3rem',
             lineHeight: '2',
             color: 'rgba(255, 255, 255, 0.95)'
