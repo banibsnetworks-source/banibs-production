@@ -459,7 +459,14 @@ const PillarCard = ({ icon, title, body, bullets, subNote }) => {
 };
 
 // Phase Item Component
-const PhaseItem = ({ number, title, description }) => (
+const PhaseItem = ({ number, title, description }) => {
+  const colors = {
+    skyBlue: '#42B5FF',
+    skyBlueSoft: 'rgba(66, 181, 255, 0.2)',
+    textMain: '#F9FAFB'
+  };
+  
+  return (
   <div style={{
     display: 'flex',
     gap: '24px',
@@ -469,14 +476,14 @@ const PhaseItem = ({ number, title, description }) => (
       minWidth: '48px',
       height: '48px',
       borderRadius: '50%',
-      background: 'rgba(255, 215, 0, 0.1)',
-      border: '2px solid rgba(255, 215, 0, 0.4)',
+      background: colors.skyBlueSoft,
+      border: `2px solid ${colors.skyBlue}`,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       fontSize: '1.3rem',
       fontWeight: '700',
-      color: '#FFD700'
+      color: colors.skyBlue
     }}>
       {number}
     </div>
@@ -485,19 +492,20 @@ const PhaseItem = ({ number, title, description }) => (
         fontSize: '1.25rem',
         fontWeight: '700',
         marginBottom: '10px',
-        color: '#FFD700'
+        color: colors.skyBlue
       }}>
         Phase {number} — {title}
       </h3>
       <p style={{
         fontSize: '1rem',
         lineHeight: '1.7',
-        color: 'rgba(255, 255, 255, 0.85)'
+        color: colors.textMain
       }}>
         {description}
       </p>
     </div>
   </div>
-);
+  );
+};
 
 export default ComingSoonPage;
