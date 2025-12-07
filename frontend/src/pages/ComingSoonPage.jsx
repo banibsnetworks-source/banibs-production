@@ -292,7 +292,15 @@ const ComingSoonPage = () => {
 
           {/* Card 2: For Black Businesses */}
           <PillarCard
-            icon={<Building2 size={40} color="#42B5FF" strokeWidth={1.5} />}
+            icon={
+              <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 36V16L22 8L36 16V36H8Z" stroke="#42B5FF" strokeWidth="1.5" strokeLinejoin="round" />
+                <path d="M8 16H36" stroke="#FFD700" strokeWidth="1.5" />
+                <rect x="17" y="24" width="10" height="12" stroke="#42B5FF" strokeWidth="1.5" />
+                <circle cx="23" cy="30" r="1" fill="#FFD700" />
+                <path d="M12 20V22M17 20V22M22 20V22M27 20V22M32 20V22" stroke="#FFD700" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            }
             title="For Black Businesses"
             body="BANIBS is building a place where Black businesses can be discovered, supported, and protected — without paying just to be seen."
             bullets={[
