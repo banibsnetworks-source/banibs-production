@@ -41,12 +41,15 @@ const ComingSoonPage = () => {
     }}>
       {/* Hero Section */}
       <div style={{
-        minHeight: '85vh',
+        minHeight: '60vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        padding: '60px 20px 80px',
+        justifyContent: 'start',
+        paddingTop: '64px',
+        paddingBottom: '48px',
+        paddingLeft: '20px',
+        paddingRight: '20px',
         textAlign: 'center',
         position: 'relative',
         background: 'radial-gradient(ellipse at center, rgba(255, 215, 0, 0.08) 0%, transparent 60%)'
@@ -54,7 +57,7 @@ const ComingSoonPage = () => {
         {/* Animated glow effect */}
         <div style={{
           position: 'absolute',
-          top: '25%',
+          top: '20%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
           width: '700px',
@@ -72,7 +75,7 @@ const ComingSoonPage = () => {
             fontSize: 'clamp(2.8rem, 7vw, 5.5rem)',
             fontWeight: '900',
             lineHeight: '1.1',
-            marginBottom: '32px',
+            marginBottom: '20px',
             background: 'linear-gradient(135deg, #FFD700 0%, #FFFFFF 40%, #FFD700 80%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -88,9 +91,8 @@ const ComingSoonPage = () => {
             fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)',
             lineHeight: '1.6',
             color: 'rgba(255, 255, 255, 0.9)',
-            marginBottom: '48px',
             maxWidth: '900px',
-            margin: '0 auto 48px',
+            margin: '0 auto',
             fontWeight: '500',
             letterSpacing: '0.3px'
           }}>
