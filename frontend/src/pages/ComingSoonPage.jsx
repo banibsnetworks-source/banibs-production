@@ -367,24 +367,35 @@ const ComingSoonPage = () => {
 };
 
 // Pillar Card Component
-const PillarCard = ({ icon, title, body, bullets, subNote }) => (
+const PillarCard = ({ icon, title, body, bullets, subNote }) => {
+  const colors = {
+    bgCard: '#090D16',
+    gold: '#FFD700',
+    skyBlueSoft: 'rgba(66, 181, 255, 0.2)',
+    textMain: '#F9FAFB',
+    textMuted: '#9CA3AF'
+  };
+  
+  return (
   <div style={{
-    background: 'rgba(255, 215, 0, 0.03)',
-    border: '1px solid rgba(255, 215, 0, 0.15)',
+    background: colors.bgCard,
+    border: `1px solid ${colors.skyBlueSoft}`,
     borderRadius: '16px',
     padding: '36px 28px',
     transition: 'all 0.4s ease',
     cursor: 'default'
   }}
   onMouseEnter={(e) => {
-    e.currentTarget.style.background = 'rgba(255, 215, 0, 0.06)';
-    e.currentTarget.style.border = '1px solid rgba(255, 215, 0, 0.3)';
+    e.currentTarget.style.background = colors.bgCard;
+    e.currentTarget.style.border = `1px solid ${colors.gold}`;
     e.currentTarget.style.transform = 'translateY(-4px)';
+    e.currentTarget.style.boxShadow = `0 0 25px rgba(255, 215, 0, 0.2)`;
   }}
   onMouseLeave={(e) => {
-    e.currentTarget.style.background = 'rgba(255, 215, 0, 0.03)';
-    e.currentTarget.style.border = '1px solid rgba(255, 215, 0, 0.15)';
+    e.currentTarget.style.background = colors.bgCard;
+    e.currentTarget.style.border = `1px solid ${colors.skyBlueSoft}`;
     e.currentTarget.style.transform = 'translateY(0)';
+    e.currentTarget.style.boxShadow = 'none';
   }}
   >
     <div style={{ marginBottom: '20px' }}>
