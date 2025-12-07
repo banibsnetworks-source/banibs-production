@@ -425,7 +425,7 @@ const ComingSoonPage = () => {
         </p>
       </div>
 
-      {/* Keyframe animations */}
+      {/* Keyframe animations + Focus styles */}
       <style>{`
         @keyframes pulse {
           0%, 100% {
@@ -434,6 +434,13 @@ const ComingSoonPage = () => {
           50% {
             opacity: 0.7;
           }
+        }
+        
+        /* Accessibility: Focus states */
+        input:focus-visible,
+        button:focus-visible {
+          outline: 2px solid #42B5FF !important;
+          outline-offset: 2px;
         }
       `}</style>
     </div>
