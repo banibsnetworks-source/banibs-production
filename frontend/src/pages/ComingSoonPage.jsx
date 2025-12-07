@@ -270,7 +270,9 @@ const ComingSoonPage = () => {
       <div style={{
         padding: '80px 20px',
         background: colors.bgDeep,
-        borderTop: `1px solid ${colors.skyBlueSoft}`
+        borderTop: `1px solid ${colors.skyBlueSoft}`,
+        position: 'relative',
+        zIndex: 1
       }}>
         <div style={{
           maxWidth: '1200px',
