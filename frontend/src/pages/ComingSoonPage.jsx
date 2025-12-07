@@ -73,6 +73,18 @@ const ComingSoonPage = () => {
         }} />
 
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '700px', margin: '0 auto' }}>
+          {/* BANIBS Wordmark */}
+          <div style={{
+            fontSize: 'clamp(3.5rem, 8vw, 6rem)',
+            fontWeight: '900',
+            marginBottom: '24px',
+            color: colors.textMain,
+            letterSpacing: '0.05em',
+            lineHeight: '1'
+          }}>
+            BANIBS
+          </div>
+
           {/* Status Badge */}
           <div style={{
             display: 'inline-block',
