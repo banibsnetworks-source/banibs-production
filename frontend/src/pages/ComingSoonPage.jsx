@@ -159,9 +159,9 @@ const ComingSoonPage = () => {
                       fontSize: '1.05rem',
                       fontWeight: '700',
                       background: loading 
-                        ? 'rgba(255, 215, 0, 0.5)'
-                        : 'linear-gradient(135deg, #FFD700 0%, #FFC700 100%)',
-                      color: '#000000',
+                        ? 'rgba(66, 181, 255, 0.5)'
+                        : `linear-gradient(135deg, ${colors.skyBlue} 0%, ${colors.goldSoft} 100%)`,
+                      color: '#020617',
                       border: 'none',
                       borderRadius: '8px',
                       cursor: loading ? 'not-allowed' : 'pointer',
@@ -171,7 +171,7 @@ const ComingSoonPage = () => {
                     onMouseOver={(e) => {
                       if (!loading) {
                         e.target.style.transform = 'scale(1.02)';
-                        e.target.style.boxShadow = '0 0 25px rgba(255, 215, 0, 0.4)';
+                        e.target.style.boxShadow = `0 0 25px ${colors.skyBlueSoft}`;
                       }
                     }}
                     onMouseOut={(e) => {
