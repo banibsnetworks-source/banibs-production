@@ -12,8 +12,10 @@ logger = logging.getLogger(__name__)
 SMTP_HOST = os.environ.get("SMTP_HOST")
 SMTP_PORT = int(os.environ.get("SMTP_PORT", "587"))
 SMTP_USER = os.environ.get("SMTP_USER")
-SMTP_PASS = os.environ.get("SMTP_PASS")
-EMAIL_FROM = os.environ.get("EMAIL_FROM", "BANIBS <noreply@banibs.com>")
+# Support both SMTP_PASS and SMTP_PASSWORD for backward compatibility
+SMTP_PASS = os.environ.get("SMTP_PASSWORD") or os.environ.get("SMTP_PASS")
+SMTP_SECURE = os.environ.get("SMTP_SECURE", "false").lower() == "true"
+EMAIL_FROM = os.environ.get("SMTP_FROM_EMAIL") or os.environ.get("EMAIL_FROM", "BANIBS <noreply@banibs.com>")
 
 # Check if SMTP is configured
 SMTP_CONFIGURED = all([SMTP_HOST, SMTP_USER, SMTP_PASS])
