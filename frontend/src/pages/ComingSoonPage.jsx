@@ -78,14 +78,14 @@ const ComingSoonPage = () => {
             display: 'inline-block',
             fontSize: '0.85rem',
             letterSpacing: '1.5px',
-            color: '#FFD700',
+            color: colors.skyBlue,
             marginBottom: '32px',
             fontWeight: '600',
             textTransform: 'uppercase',
             padding: '8px 20px',
-            border: '1px solid rgba(255, 215, 0, 0.3)',
+            border: `1px solid ${colors.skyBlueSoft}`,
             borderRadius: '24px',
-            background: 'rgba(255, 215, 0, 0.05)'
+            background: `rgba(66, 181, 255, 0.08)`
           }}>
             BANIBS is in motion again
           </div>
