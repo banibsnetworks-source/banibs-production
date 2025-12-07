@@ -15,7 +15,8 @@ const ComingSoonPage = () => {
     e.preventDefault();
     if (email) {
       setLoading(true);
-      setError('');
+      setError(''); // Clear any previous errors
+      setSubmitted(false); // Reset success state
       
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
