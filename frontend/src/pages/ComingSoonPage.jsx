@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Shield, Newspaper, Store, Users, Briefcase } from 'lucide-react';
 
 /**
- * BANIBS Coming Soon Page - Final Version
- * The Secure Digital Home for Black America
+ * BANIBS Coming Soon Page - V2
+ * BANIBS is in motion again
  */
 const ComingSoonPage = () => {
   const [email, setEmail] = useState('');
@@ -46,8 +45,8 @@ const ComingSoonPage = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'start',
-        paddingTop: '64px',
-        paddingBottom: '48px',
+        paddingTop: '80px',
+        paddingBottom: '60px',
         paddingLeft: '20px',
         paddingRight: '20px',
         textAlign: 'center',
@@ -69,344 +68,342 @@ const ComingSoonPage = () => {
           animation: 'pulse 4s ease-in-out infinite'
         }} />
 
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '1100px' }}>
-          {/* Hero Headline */}
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: '900px' }}>
+          {/* Status Line */}
+          <div style={{
+            fontSize: '0.95rem',
+            letterSpacing: '2px',
+            color: '#FFD700',
+            marginBottom: '32px',
+            fontWeight: '600',
+            textTransform: 'uppercase'
+          }}>
+            BANIBS is in motion again
+          </div>
+
+          {/* Main Headline */}
           <h1 style={{
-            fontSize: 'clamp(2.8rem, 7vw, 5.5rem)',
+            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
             fontWeight: '900',
-            lineHeight: '1.1',
-            marginBottom: '20px',
+            lineHeight: '1.15',
+            marginBottom: '24px',
             background: 'linear-gradient(135deg, #FFD700 0%, #FFFFFF 40%, #FFD700 80%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
-            letterSpacing: '-1px',
-            textShadow: '0 0 60px rgba(255, 215, 0, 0.4)'
+            letterSpacing: '-1px'
           }}>
-            THE SECURE DIGITAL HOME<br />FOR BLACK AMERICA
+            BANIBS — A Secure Black Digital Ecosystem
           </h1>
 
-          {/* Sub-header */}
+          {/* Description */}
           <p style={{
-            fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)',
-            lineHeight: '1.6',
+            fontSize: 'clamp(1.1rem, 2.2vw, 1.35rem)',
+            lineHeight: '1.7',
             color: 'rgba(255, 255, 255, 0.9)',
-            maxWidth: '900px',
-            margin: '0 auto',
-            fontWeight: '500',
-            letterSpacing: '0.3px'
+            marginBottom: '32px',
+            maxWidth: '800px',
+            margin: '0 auto 32px',
+            fontWeight: '400'
           }}>
-            Encrypted. Independent. Built for our news, our businesses, our communities, our future.
+            Built for Black businesses and our people — a connected space for commerce, news, culture, 
+            and community life, secured with encryption and built for our digital sovereignty.
+          </p>
+
+          {/* Coming Soon Line */}
+          <p style={{
+            fontSize: '1.15rem',
+            color: '#FFD700',
+            fontWeight: '600',
+            letterSpacing: '0.5px'
+          }}>
+            Full platform reveal coming soon.
           </p>
         </div>
       </div>
 
-      {/* Feature Sections Container */}
-      <div style={{
-        padding: '60px 20px',
-        background: 'linear-gradient(180deg, #000000 0%, #0A0A0A 50%, #000000 100%)'
-      }}>
-        <div style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '32px'
-        }}>
-          {/* Section 1: Encrypted & Private */}
-          <FeatureSection
-            icon={<Shield size={48} color="#FFD700" strokeWidth={2} />}
-            title="Encrypted & Private — By Design"
-            content={
-              <>
-                <p style={{ marginBottom: '16px', fontWeight: '600', fontSize: '1.1rem' }}>
-                  Your data belongs to YOU.
-                </p>
-                <p style={{ marginBottom: '12px' }}>
-                  BANIBS uses multi-layer encryption and zero-tolerance data selling.
-                </p>
-                <p style={{ marginBottom: '12px' }}>
-                  No surveillance. No profiling. No exploitation.
-                </p>
-                <p style={{ fontWeight: '600', color: '#FFD700' }}>
-                  This is our platform — not owned by big tech, not controlled by outsiders.
-                </p>
-              </>
-            }
-          />
-
-          {/* Section 2: News You Can Trust */}
-          <FeatureSection
-            icon={<Newspaper size={48} color="#FFD700" strokeWidth={2} />}
-            title="News You Can Trust"
-            content={
-              <>
-                <p style={{ marginBottom: '12px' }}>
-                  Stay informed with verified, real-context news built around Black communities.
-                </p>
-                <p style={{ marginBottom: '12px' }}>
-                  No bias. No distortion.
-                </p>
-                <p style={{ fontWeight: '600', color: '#FFD700' }}>
-                  Just clarity, truth, and our story told authentically.
-                </p>
-              </>
-            }
-          />
-
-          {/* Section 3: Black Business Powerhouse */}
-          <FeatureSection
-            icon={<Store size={48} color="#FFD700" strokeWidth={2} />}
-            title="Black Business Powerhouse"
-            content={
-              <>
-                <p style={{ marginBottom: '12px', fontWeight: '600' }}>
-                  The nation's most advanced, AI-powered Black Business Directory.
-                </p>
-                <p style={{ color: '#FFD700' }}>
-                  Designed to help us buy Black, support local, grow revenue, and build wealth across the diaspora.
-                </p>
-              </>
-            }
-          />
-
-          {/* Section 4: Real Community. Real Connection. */}
-          <FeatureSection
-            icon={<Users size={48} color="#FFD700" strokeWidth={2} />}
-            title="Real Community. Real Connection."
-            content={
-              <>
-                <p style={{ marginBottom: '16px', fontWeight: '600' }}>
-                  BANIBS Social brings:
-                </p>
-                <ul style={{
-                  listStyle: 'none',
-                  padding: 0,
-                  marginBottom: '16px'
-                }}>
-                  {[
-                    'Private Circles',
-                    'Community hubs',
-                    'Regional groups',
-                    'Diaspora links',
-                    'Secure messaging',
-                    'Shared opportunity networks'
-                  ].map((item, i) => (
-                    <li key={i} style={{
-                      marginBottom: '8px',
-                      paddingLeft: '20px',
-                      position: 'relative',
-                      fontSize: '0.95rem'
-                    }}>
-                      <span style={{
-                        position: 'absolute',
-                        left: 0,
-                        color: '#FFD700'
-                      }}>•</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-                <p style={{ fontWeight: '600', color: '#FFD700', fontSize: '0.95rem' }}>
-                  It's the first encrypted social ecosystem built entirely for Black America.
-                </p>
-              </>
-            }
-          />
-
-          {/* Section 5: Opportunity, Jobs, and Mobility */}
-          <FeatureSection
-            icon={<Briefcase size={48} color="#FFD700" strokeWidth={2} />}
-            title="Opportunity, Jobs, and Mobility"
-            content={
-              <>
-                <p style={{ lineHeight: '1.7' }}>
-                  From career paths to entrepreneur tools to marketplace listings — 
-                  BANIBS opens real doors and real upward mobility across states, industries, and communities.
-                </p>
-              </>
-            }
-          />
-        </div>
-      </div>
-
-      {/* Why BANIBS Matters Section */}
+      {/* For Black Businesses Section */}
       <div style={{
         padding: '64px 20px',
-        background: 'radial-gradient(ellipse at center, rgba(255, 215, 0, 0.05) 0%, transparent 70%)',
-        borderTop: '1px solid rgba(255, 215, 0, 0.1)',
-        borderBottom: '1px solid rgba(255, 215, 0, 0.1)'
+        background: 'linear-gradient(180deg, #000000 0%, #0A0A0A 100%)',
+        borderTop: '1px solid rgba(255, 215, 0, 0.15)'
       }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{
-            fontSize: 'clamp(2.2rem, 4.5vw, 3.5rem)',
-            fontWeight: '800',
-            marginBottom: '40px',
-            color: '#FFD700',
-            letterSpacing: '-0.5px'
-          }}>
-            Why BANIBS Matters
-          </h2>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          {/* Section Divider */}
           <div style={{
-            background: 'rgba(255, 215, 0, 0.05)',
-            border: '2px solid rgba(255, 215, 0, 0.2)',
-            borderRadius: '20px',
-            padding: '48px 32px',
-            fontSize: '1.3rem',
-            lineHeight: '2',
-            color: 'rgba(255, 255, 255, 0.95)'
+            textAlign: 'center',
+            marginBottom: '32px',
+            color: 'rgba(255, 215, 0, 0.4)',
+            fontSize: '0.85rem',
+            letterSpacing: '1px'
           }}>
-            <p style={{ marginBottom: '24px', fontWeight: '600' }}>
-              Because for the first time:
-            </p>
-            <p style={{ marginBottom: '16px', fontSize: '1.4rem', color: '#FFD700' }}>
-              We control our data.
-            </p>
-            <p style={{ marginBottom: '16px', fontSize: '1.4rem', color: '#FFD700' }}>
-              We control our narrative.
-            </p>
-            <p style={{ marginBottom: '32px', fontSize: '1.4rem', color: '#FFD700' }}>
-              We control our economic engine.
-            </p>
-            <p style={{
-              fontSize: '1.5rem',
-              fontWeight: '700',
-              color: '#FFFFFF',
-              marginTop: '32px',
-              letterSpacing: '0.5px'
+            ––––––––––––––––––––<br />
+            For Black Businesses<br />
+            ––––––––––––––––––––
+          </div>
+
+          {/* Section Headline */}
+          <h2 style={{
+            fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)',
+            fontWeight: '700',
+            marginBottom: '24px',
+            color: '#FFD700',
+            textAlign: 'center',
+            lineHeight: '1.3'
+          }}>
+            A home built for how we really work.
+          </h2>
+
+          {/* Section Description */}
+          <p style={{
+            fontSize: '1.1rem',
+            lineHeight: '1.8',
+            color: 'rgba(255, 255, 255, 0.85)',
+            marginBottom: '32px',
+            textAlign: 'center'
+          }}>
+            BANIBS is designing tools to help Black-owned businesses be seen, trusted, and supported — 
+            online and offline, without selling your data or exploiting your customers.
+          </p>
+
+          {/* Bullet Points */}
+          <div style={{
+            background: 'rgba(255, 215, 0, 0.03)',
+            border: '1px solid rgba(255, 215, 0, 0.15)',
+            borderRadius: '12px',
+            padding: '32px',
+            fontSize: '1.05rem',
+            lineHeight: '1.9',
+            color: 'rgba(255, 255, 255, 0.9)'
+          }}>
+            <ul style={{
+              listStyle: 'none',
+              padding: 0,
+              margin: 0
             }}>
-              This is digital sovereignty for Black America.
-            </p>
+              <li style={{ marginBottom: '16px', paddingLeft: '24px', position: 'relative' }}>
+                <span style={{ position: 'absolute', left: 0, color: '#FFD700', fontWeight: 'bold' }}>•</span>
+                Connect with customers who are actively seeking Black-owned options.
+              </li>
+              <li style={{ marginBottom: '16px', paddingLeft: '24px', position: 'relative' }}>
+                <span style={{ position: 'absolute', left: 0, color: '#FFD700', fontWeight: 'bold' }}>•</span>
+                Get discovered in a curated business network, not a noisy feed.
+              </li>
+              <li style={{ paddingLeft: '24px', position: 'relative' }}>
+                <span style={{ position: 'absolute', left: 0, color: '#FFD700', fontWeight: 'bold' }}>•</span>
+                Prepare to list your business, services, and products on launch.
+              </li>
+            </ul>
           </div>
         </div>
       </div>
 
-      {/* Coming Soon / Email Capture Section */}
+      {/* For Our People Section */}
       <div style={{
-        padding: '80px 20px',
+        padding: '64px 20px',
         background: '#000000',
-        textAlign: 'center'
+        borderTop: '1px solid rgba(255, 215, 0, 0.1)'
       }}>
-        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          {/* Section Divider */}
+          <div style={{
+            textAlign: 'center',
+            marginBottom: '32px',
+            color: 'rgba(255, 215, 0, 0.4)',
+            fontSize: '0.85rem',
+            letterSpacing: '1px'
+          }}>
+            ––––––––––––––––<br />
+            For Our People<br />
+            ––––––––––––––––
+          </div>
+
+          {/* Section Headline */}
           <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, 2.8rem)',
+            fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)',
             fontWeight: '700',
-            marginBottom: '20px',
-            color: 'rgba(255, 255, 255, 0.95)'
+            marginBottom: '24px',
+            color: '#FFD700',
+            textAlign: 'center',
+            lineHeight: '1.3'
           }}>
-            BANIBS is preparing for launch.
+            Social, news, and support in one place — with privacy and protection built in.
           </h2>
+
+          {/* Section Description */}
           <p style={{
-            fontSize: '1.3rem',
-            color: 'rgba(255, 255, 255, 0.8)',
-            marginBottom: '48px',
-            lineHeight: '1.6'
+            fontSize: '1.1rem',
+            lineHeight: '1.8',
+            color: 'rgba(255, 255, 255, 0.85)',
+            marginBottom: '32px',
+            textAlign: 'center'
           }}>
-            Join early and be the first inside.
+            BANIBS will bring together social updates, community alerts, business deals, and trusted 
+            information from across the Diaspora — all under an encrypted, independently controlled platform.
           </p>
 
-          {/* Email Capture Form */}
-          {!submitted ? (
-            <form onSubmit={handleSubmit} style={{ maxWidth: '550px', margin: '0 auto' }}>
-              <div style={{
-                background: 'rgba(255, 215, 0, 0.05)',
-                border: '2px solid rgba(255, 215, 0, 0.3)',
-                borderRadius: '16px',
-                padding: '40px'
-              }}>
-                <div style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '16px'
-                }}>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    required
-                    style={{
-                      width: '100%',
-                      padding: '18px 24px',
-                      fontSize: '1.05rem',
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      border: '1px solid rgba(255, 215, 0, 0.3)',
-                      borderRadius: '10px',
-                      color: 'white',
-                      outline: 'none',
-                      transition: 'all 0.3s ease'
-                    }}
-                    onFocus={(e) => {
-                      e.target.style.border = '1px solid rgba(255, 215, 0, 0.6)';
-                      e.target.style.background = 'rgba(255, 255, 255, 0.08)';
-                    }}
-                    onBlur={(e) => {
-                      e.target.style.border = '1px solid rgba(255, 215, 0, 0.3)';
-                      e.target.style.background = 'rgba(255, 255, 255, 0.05)';
-                    }}
-                  />
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    style={{
-                      width: '100%',
-                      padding: '18px 32px',
-                      fontSize: '1.15rem',
-                      fontWeight: '700',
-                      background: loading 
-                        ? 'rgba(255, 215, 0, 0.5)'
-                        : 'linear-gradient(135deg, #FFD700 0%, #FFC700 100%)',
-                      color: '#000000',
-                      border: 'none',
-                      borderRadius: '10px',
-                      cursor: loading ? 'not-allowed' : 'pointer',
-                      transition: 'all 0.3s ease',
-                      textTransform: 'uppercase',
-                      letterSpacing: '1px'
-                    }}
-                    onMouseOver={(e) => {
-                      if (!loading) {
-                        e.target.style.transform = 'scale(1.02)';
-                        e.target.style.boxShadow = '0 0 30px rgba(255, 215, 0, 0.4)';
-                      }
-                    }}
-                    onMouseOut={(e) => {
-                      e.target.style.transform = 'scale(1)';
-                      e.target.style.boxShadow = 'none';
-                    }}
-                  >
-                    {loading ? 'Processing...' : 'Notify Me'}
-                  </button>
-                </div>
-              </div>
-            </form>
-          ) : (
-            <div style={{
-              background: 'rgba(16, 185, 129, 0.08)',
-              border: '2px solid rgba(16, 185, 129, 0.4)',
-              borderRadius: '16px',
-              padding: '48px',
-              maxWidth: '550px',
-              margin: '0 auto'
+          {/* Bullet Points */}
+          <div style={{
+            background: 'rgba(255, 215, 0, 0.03)',
+            border: '1px solid rgba(255, 215, 0, 0.15)',
+            borderRadius: '12px',
+            padding: '32px',
+            fontSize: '1.05rem',
+            lineHeight: '1.9',
+            color: 'rgba(255, 255, 255, 0.9)'
+          }}>
+            <ul style={{
+              listStyle: 'none',
+              padding: 0,
+              margin: 0
             }}>
-              <div style={{ fontSize: '4rem', marginBottom: '20px' }}>✅</div>
-              <h3 style={{
-                fontSize: '1.8rem',
-                marginBottom: '16px',
-                color: '#10B981',
-                fontWeight: '700'
-              }}>
-                You're on the list!
-              </h3>
-              <p style={{
-                color: 'rgba(255, 255, 255, 0.85)',
-                fontSize: '1.1rem'
-              }}>
-                We'll notify you when BANIBS launches.
-              </p>
-            </div>
-          )}
+              <li style={{ marginBottom: '16px', paddingLeft: '24px', position: 'relative' }}>
+                <span style={{ position: 'absolute', left: 0, color: '#FFD700', fontWeight: 'bold' }}>•</span>
+                Follow what's happening in your city and across the Black world.
+              </li>
+              <li style={{ marginBottom: '16px', paddingLeft: '24px', position: 'relative' }}>
+                <span style={{ position: 'absolute', left: 0, color: '#FFD700', fontWeight: 'bold' }}>•</span>
+                Discover businesses, creators, and projects that pour back into us.
+              </li>
+              <li style={{ marginBottom: '16px', paddingLeft: '24px', position: 'relative' }}>
+                <span style={{ position: 'absolute', left: 0, color: '#FFD700', fontWeight: 'bold' }}>•</span>
+                Choose how wide your reach goes — neighborhood, nation, or Diaspora.
+              </li>
+              <li style={{ paddingLeft: '24px', position: 'relative' }}>
+                <span style={{ position: 'absolute', left: 0, color: '#FFD700', fontWeight: 'bold' }}>•</span>
+                Know your data and conversations are protected by multi-layer security.
+              </li>
+            </ul>
+          </div>
         </div>
+      </div>
+
+      {/* CTA Section */}
+      <div style={{
+        padding: '64px 20px',
+        background: 'radial-gradient(ellipse at center, rgba(255, 215, 0, 0.05) 0%, transparent 70%)',
+        borderTop: '1px solid rgba(255, 215, 0, 0.1)',
+        textAlign: 'center'
+      }}>
+        <p style={{
+          fontSize: 'clamp(1.3rem, 2.5vw, 1.6rem)',
+          fontWeight: '700',
+          color: '#FFD700',
+          marginBottom: '48px',
+          letterSpacing: '0.3px'
+        }}>
+          Black businesses: get ready to plug in on Day One.
+        </p>
+
+        {/* Email Capture Form */}
+        {!submitted ? (
+          <form onSubmit={handleSubmit} style={{ maxWidth: '550px', margin: '0 auto' }}>
+            <div style={{
+              background: 'rgba(255, 215, 0, 0.05)',
+              border: '2px solid rgba(255, 215, 0, 0.3)',
+              borderRadius: '16px',
+              padding: '40px'
+            }}>
+              <p style={{
+                fontSize: '1.1rem',
+                color: 'rgba(255, 255, 255, 0.9)',
+                marginBottom: '24px',
+                fontWeight: '600'
+              }}>
+                Get notified when we launch
+              </p>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px'
+              }}>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '18px 24px',
+                    fontSize: '1.05rem',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(255, 215, 0, 0.3)',
+                    borderRadius: '10px',
+                    color: 'white',
+                    outline: 'none',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.border = '1px solid rgba(255, 215, 0, 0.6)';
+                    e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.border = '1px solid rgba(255, 215, 0, 0.3)';
+                    e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                  }}
+                />
+                <button
+                  type="submit"
+                  disabled={loading}
+                  style={{
+                    width: '100%',
+                    padding: '18px 32px',
+                    fontSize: '1.15rem',
+                    fontWeight: '700',
+                    background: loading 
+                      ? 'rgba(255, 215, 0, 0.5)'
+                      : 'linear-gradient(135deg, #FFD700 0%, #FFC700 100%)',
+                    color: '#000000',
+                    border: 'none',
+                    borderRadius: '10px',
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.3s ease',
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px'
+                  }}
+                  onMouseOver={(e) => {
+                    if (!loading) {
+                      e.target.style.transform = 'scale(1.02)';
+                      e.target.style.boxShadow = '0 0 30px rgba(255, 215, 0, 0.4)';
+                    }
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.transform = 'scale(1)';
+                    e.target.style.boxShadow = 'none';
+                  }}
+                >
+                  {loading ? 'Processing...' : 'Notify Me'}
+                </button>
+              </div>
+            </div>
+          </form>
+        ) : (
+          <div style={{
+            background: 'rgba(16, 185, 129, 0.08)',
+            border: '2px solid rgba(16, 185, 129, 0.4)',
+            borderRadius: '16px',
+            padding: '48px',
+            maxWidth: '550px',
+            margin: '0 auto'
+          }}>
+            <div style={{ fontSize: '4rem', marginBottom: '20px' }}>✅</div>
+            <h3 style={{
+              fontSize: '1.8rem',
+              marginBottom: '16px',
+              color: '#10B981',
+              fontWeight: '700'
+            }}>
+              You're on the list!
+            </h3>
+            <p style={{
+              color: 'rgba(255, 255, 255, 0.85)',
+              fontSize: '1.1rem'
+            }}>
+              We'll notify you when BANIBS launches.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Footer */}
@@ -417,22 +414,20 @@ const ComingSoonPage = () => {
         background: '#000000'
       }}>
         <div style={{
-          marginBottom: '24px',
-          fontSize: '1rem',
-          lineHeight: '1.8',
-          color: 'rgba(255, 255, 255, 0.7)'
-        }}>
-          <p style={{ marginBottom: '8px', fontWeight: '600' }}>Built with purpose.</p>
-          <p style={{ marginBottom: '8px', fontWeight: '600' }}>Secured by sovereignty.</p>
-          <p style={{ fontWeight: '600' }}>Powered by community.</p>
-        </div>
-        <div style={{
           fontSize: '1.1rem',
           color: '#FFD700',
           fontWeight: '600',
+          marginBottom: '16px',
           letterSpacing: '0.5px'
         }}>
-          BANIBS — Black America News Information & Business System
+          BANIBS · Black America News, Information & Business System
+        </div>
+        <div style={{
+          fontSize: '1rem',
+          color: 'rgba(255, 255, 255, 0.7)',
+          fontWeight: '500'
+        }}>
+          Fully encrypted. Built for us, not for them.
         </div>
       </div>
 
@@ -450,48 +445,5 @@ const ComingSoonPage = () => {
     </div>
   );
 };
-
-// Feature Section Component
-const FeatureSection = ({ icon, title, content }) => (
-  <div style={{
-    background: 'rgba(255, 215, 0, 0.03)',
-    border: '1px solid rgba(255, 215, 0, 0.15)',
-    borderRadius: '16px',
-    padding: '40px 32px',
-    transition: 'all 0.4s ease',
-    cursor: 'default'
-  }}
-  onMouseEnter={(e) => {
-    e.currentTarget.style.background = 'rgba(255, 215, 0, 0.06)';
-    e.currentTarget.style.border = '1px solid rgba(255, 215, 0, 0.3)';
-    e.currentTarget.style.transform = 'translateY(-4px)';
-  }}
-  onMouseLeave={(e) => {
-    e.currentTarget.style.background = 'rgba(255, 215, 0, 0.03)';
-    e.currentTarget.style.border = '1px solid rgba(255, 215, 0, 0.15)';
-    e.currentTarget.style.transform = 'translateY(0)';
-  }}
-  >
-    <div style={{ marginBottom: '24px' }}>
-      {icon}
-    </div>
-    <h3 style={{
-      fontSize: '1.4rem',
-      fontWeight: '700',
-      marginBottom: '20px',
-      color: '#FFD700',
-      lineHeight: '1.3'
-    }}>
-      {title}
-    </h3>
-    <div style={{
-      fontSize: '1rem',
-      lineHeight: '1.7',
-      color: 'rgba(255, 255, 255, 0.85)'
-    }}>
-      {content}
-    </div>
-  </div>
-);
 
 export default ComingSoonPage;
