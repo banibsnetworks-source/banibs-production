@@ -283,7 +283,7 @@ const ComingSoonPage = () => {
 
       {/* Coming Soon / Email Capture Section */}
       <div style={{
-        padding: '120px 20px',
+        padding: '80px 20px',
         background: '#000000',
         textAlign: 'center'
       }}>
@@ -291,7 +291,7 @@ const ComingSoonPage = () => {
           <h2 style={{
             fontSize: 'clamp(2rem, 4vw, 2.8rem)',
             fontWeight: '700',
-            marginBottom: '24px',
+            marginBottom: '20px',
             color: 'rgba(255, 255, 255, 0.95)'
           }}>
             BANIBS is preparing for launch.
@@ -299,7 +299,7 @@ const ComingSoonPage = () => {
           <p style={{
             fontSize: '1.3rem',
             color: 'rgba(255, 255, 255, 0.8)',
-            marginBottom: '56px',
+            marginBottom: '48px',
             lineHeight: '1.6'
           }}>
             Join early and be the first inside.
