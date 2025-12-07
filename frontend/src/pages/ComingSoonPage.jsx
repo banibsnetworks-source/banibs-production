@@ -55,8 +55,29 @@ const ComingSoonPage = () => {
         padding: '60px 20px 80px',
         textAlign: 'center',
         position: 'relative',
-        background: 'transparent'
+        background: 'transparent',
+        overflow: 'hidden'
       }}>
+        {/* Afrocentric Abstract Background Pattern */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          opacity: 0.08,
+          pointerEvents: 'none',
+          zIndex: 0,
+          background: `
+            linear-gradient(45deg, transparent 48%, ${colors.gold} 49%, ${colors.gold} 51%, transparent 52%),
+            linear-gradient(-45deg, transparent 48%, ${colors.gold} 49%, ${colors.gold} 51%, transparent 52%),
+            linear-gradient(30deg, transparent 30%, ${colors.gold} 30.5%, ${colors.gold} 31%, transparent 31.5%),
+            linear-gradient(150deg, transparent 30%, ${colors.gold} 30.5%, ${colors.gold} 31%, transparent 31.5%)
+          `,
+          backgroundSize: '80px 80px, 80px 80px, 120px 120px, 120px 120px',
+          backgroundPosition: '0 0, 40px 40px, 20px 20px, 60px 60px'
+        }} />
+        
         {/* Glow effect */}
         <div style={{
           position: 'absolute',
