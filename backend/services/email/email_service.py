@@ -74,14 +74,24 @@ class EmailService:
             if html_body:
                 msg.attach(MIMEText(html_body, 'html'))
             
-            # Connect to SMTP server
-            with smtplib.SMTP(self.smtp_host, self.smtp_port) as server:
-                server.starttls()
-                server.login(self.smtp_user, self.smtp_password)
-                
-                # Send to primary recipients and BCC
-                all_recipients = to + (bcc if bcc else [])
-                server.sendmail(self.from_email, all_recipients, msg.as_string())
+            # Connect to SMTP server (use SSL for port 465, STARTTLS for port 587)
+            if self.smtp_secure:
+                # Port 465 with implicit SSL/TLS
+                with smtplib.SMTP_SSL(self.smtp_host, self.smtp_port) as server:
+                    server.login(self.smtp_user, self.smtp_password)
+                    
+                    # Send to primary recipients and BCC
+                    all_recipients = to + (bcc if bcc else [])
+                    server.sendmail(self.from_email, all_recipients, msg.as_string())
+            else:
+                # Port 587 with STARTTLS
+                with smtplib.SMTP(self.smtp_host, self.smtp_port) as server:
+                    server.starttls()
+                    server.login(self.smtp_user, self.smtp_password)
+                    
+                    # Send to primary recipients and BCC
+                    all_recipients = to + (bcc if bcc else [])
+                    server.sendmail(self.from_email, all_recipients, msg.as_string())
             
             logger.info(f"Email sent successfully to {to}")
             return True
