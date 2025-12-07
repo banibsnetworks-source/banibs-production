@@ -124,7 +124,9 @@ const ComingSoonPage = () => {
             padding: '8px 20px',
             border: `1px solid ${colors.skyBlueSoft}`,
             borderRadius: '24px',
-            background: `rgba(66, 181, 255, 0.08)`
+            background: `rgba(0, 0, 0, 0.35)`,
+            backdropFilter: 'blur(4px)',
+            WebkitBackdropFilter: 'blur(4px)'
           }}>
             BANIBS is in motion again
           </div>
