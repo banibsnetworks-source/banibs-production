@@ -118,8 +118,8 @@ const ComingSoonPage = () => {
           {!submitted ? (
             <form onSubmit={handleSubmit} style={{ maxWidth: '520px', margin: '0 auto' }}>
               <div style={{
-                background: 'rgba(255, 215, 0, 0.05)',
-                border: '2px solid rgba(255, 215, 0, 0.25)',
+                background: colors.bgCard,
+                border: `2px solid ${colors.skyBlueSoft}`,
                 borderRadius: '14px',
                 padding: '32px 28px'
               }}>
