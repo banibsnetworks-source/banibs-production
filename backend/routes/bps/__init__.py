@@ -1,5 +1,7 @@
-"""\nBPS API Routes\n"""
+"""
+BPS API Routes
+"""
 
-from backend.routes.bps.ties_routes import router as ties_router
+from routes.bps.ties_routes import router as ties_router
 
 __all__ = ["ties_router"]
