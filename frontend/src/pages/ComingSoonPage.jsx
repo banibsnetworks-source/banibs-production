@@ -187,7 +187,7 @@ const ComingSoonPage = () => {
                 <p style={{
                   marginTop: '16px',
                   fontSize: '0.85rem',
-                  color: 'rgba(255, 255, 255, 0.6)',
+                  color: colors.textMuted,
                   lineHeight: '1.5'
                 }}>
                   No spam. No selling your email. We'll only reach out when there's a real update.
