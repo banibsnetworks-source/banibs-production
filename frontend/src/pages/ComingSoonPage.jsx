@@ -133,7 +133,7 @@ const ComingSoonPage = () => {
             color: colors.textMain,
             letterSpacing: '-1px'
           }}>
-            Ad-Free. Encrypted.<br />Built For Us.
+            Encrypted. Ad-Free.<br />Built For Us.
           </h1>
 
           {/* Subheadline */}
