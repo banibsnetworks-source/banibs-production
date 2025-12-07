@@ -9,21 +9,39 @@ const ComingSoonPage = () => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (email) {
       setLoading(true);
+      setError('');
       
       try {
-        const existing = JSON.parse(localStorage.getItem('banibs_early_access') || '[]');
-        existing.push({ email, timestamp: new Date().toISOString() });
-        localStorage.setItem('banibs_early_access', JSON.stringify(existing));
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+        const response = await fetch(`${backendUrl}/api/waitlist/subscribe`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to subscribe');
+        }
+
+        const data = await response.json();
         
-        await new Promise(resolve => setTimeout(resolve, 500));
-        setSubmitted(true);
-      } catch (error) {
-        console.error('Error submitting email:', error);
+        if (data.success) {
+          setSubmitted(true);
+          setEmail('');
+        } else {
+          throw new Error(data.message || 'Failed to subscribe');
+        }
+      } catch (err) {
+        console.error('Error submitting email:', err);
+        setError("We couldn't save your email right now. Please try again in a moment.");
       } finally {
         setLoading(false);
       }
