@@ -9,7 +9,7 @@ from typing import List, Dict, Optional
 from datetime import datetime, timedelta
 from collections import defaultdict
 
-from backend.models.bdii.models import (
+from models.bdii.models import (
     DeviceModel,
     DeviceUnit,
     UserDeviceLink,
