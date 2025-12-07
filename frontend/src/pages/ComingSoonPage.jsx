@@ -134,20 +134,20 @@ const ComingSoonPage = () => {
                       width: '100%',
                       padding: '16px 22px',
                       fontSize: '1rem',
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      border: '1px solid rgba(255, 215, 0, 0.3)',
+                      background: '#050910',
+                      border: `1px solid ${colors.skyBlueSoft}`,
                       borderRadius: '8px',
-                      color: 'white',
+                      color: colors.textMain,
                       outline: 'none',
                       transition: 'all 0.3s ease'
                     }}
                     onFocus={(e) => {
-                      e.target.style.border = '1px solid rgba(255, 215, 0, 0.6)';
-                      e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+                      e.target.style.border = `1px solid ${colors.skyBlue}`;
+                      e.target.style.boxShadow = `0 0 0 1px rgba(66, 181, 255, 0.4)`;
                     }}
                     onBlur={(e) => {
-                      e.target.style.border = '1px solid rgba(255, 215, 0, 0.3)';
-                      e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                      e.target.style.border = `1px solid ${colors.skyBlueSoft}`;
+                      e.target.style.boxShadow = 'none';
                     }}
                   />
                   <button
