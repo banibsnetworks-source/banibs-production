@@ -265,7 +265,7 @@ const ComingSoonPage = () => {
             icon={<ShieldCheck size={40} color="#42B5FF" strokeWidth={1.5} />}
             title="Protection & Integrity"
             body="From day one, BANIBS is being built with encryption, clear rules, and our own Protection Suite so we don't have to play by the usual 'harvest everything' playbook."
-            subNote="Our Truth & Integrity Engine (TIES) helps us catch questionable claims and keep our messaging honest and grounded as we grow."
+            subNote="We use internal integrity checks to keep our messaging honest, avoid exaggeration, and make sure we don't promise anything we can't deliver."
           />
         </div>
       </div>
