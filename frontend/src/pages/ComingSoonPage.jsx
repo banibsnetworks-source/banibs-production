@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { ShieldCheck, UsersRound, Building2 } from 'lucide-react';
 
 /**
- * BANIBS Coming Soon Page - v2.0 (FINAL)
- * Ad-Free. Encrypted. Built For Us.
+ * BANIBS Coming Soon Page - Stealth A+ Version
+ * A new social experience created with care for Black communities.
  */
 const ComingSoonPage = () => {
   const [email, setEmail] = useState('');
@@ -15,8 +15,8 @@ const ComingSoonPage = () => {
     e.preventDefault();
     if (email) {
       setLoading(true);
-      setError(''); // Clear any previous errors
-      setSubmitted(false); // Reset success state
+      setError('');
+      setSubmitted(false);
       
       try {
         const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
@@ -105,38 +105,19 @@ const ComingSoonPage = () => {
             BANIBS
           </div>
 
-          {/* Status Badge */}
-          <div style={{
-            display: 'inline-block',
-            fontSize: '0.85rem',
-            letterSpacing: '1.5px',
-            color: colors.skyBlue,
-            marginBottom: '32px',
-            fontWeight: '600',
-            textTransform: 'uppercase',
-            padding: '8px 20px',
-            border: `1px solid ${colors.skyBlueSoft}`,
-            borderRadius: '24px',
-            background: `rgba(0, 0, 0, 0.35)`,
-            backdropFilter: 'blur(4px)',
-            WebkitBackdropFilter: 'blur(4px)'
-          }}>
-            BANIBS is in motion again
-          </div>
-
-          {/* Hero Headline */}
+          {/* Hero Headline - STEALTH A+ */}
           <h1 style={{
-            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-            fontWeight: '900',
-            lineHeight: '1.1',
+            fontSize: 'clamp(1.8rem, 4.5vw, 3.2rem)',
+            fontWeight: '700',
+            lineHeight: '1.3',
             marginBottom: '28px',
             color: colors.textMain,
-            letterSpacing: '-1px'
+            letterSpacing: '-0.5px'
           }}>
-            Encrypted. Ad-Free.<br />Built For Us.
+            A new social experience created with care for Black communities.
           </h1>
 
-          {/* Subheadline */}
+          {/* Subheadline - STEALTH A+ */}
           <p style={{
             fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
             lineHeight: '1.7',
@@ -144,8 +125,7 @@ const ComingSoonPage = () => {
             marginBottom: '48px',
             fontWeight: '400'
           }}>
-            BANIBS is a Black-built digital home for our people and our businesses — a social space, 
-            business hub, and marketplace designed so you're not the product.
+            BANIBS is a Black-led project designed to offer a calm, private digital space where people can connect, share, and feel at ease—without ads, clutter, or noise.
           </p>
 
           {/* Email Capture */}
@@ -219,14 +199,14 @@ const ComingSoonPage = () => {
                   </button>
                 </div>
                 
-                {/* Reassurance text */}
+                {/* Reassurance text - STEALTH A+ */}
                 <p style={{
                   marginTop: '16px',
                   fontSize: '0.85rem',
                   color: colors.textMuted,
                   lineHeight: '1.5'
                 }}>
-                  No spam. No selling your email. We'll only reach out when there's a real update.
+                  No spam. No selling your email. We'll only reach out when there's a meaningful update.
                 </p>
                 
                 {/* Error message */}
@@ -268,14 +248,14 @@ const ComingSoonPage = () => {
                 color: 'rgba(255, 255, 255, 0.85)',
                 fontSize: '1rem'
               }}>
-                We'll reach out when there's a real update.
+                We'll reach out when there's a meaningful update.
               </p>
             </div>
           )}
         </div>
       </div>
 
-      {/* Three Pillars Section */}
+      {/* Social Space Overview Section - STEALTH A+ */}
       <div style={{
         padding: '80px 20px',
         background: colors.bgDeep,
@@ -288,7 +268,7 @@ const ComingSoonPage = () => {
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           gap: '32px'
         }}>
-          {/* Card 1: For Our People */}
+          {/* Card 1: Social Space */}
           <PillarCard
             icon={
               <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -300,16 +280,17 @@ const ComingSoonPage = () => {
                 <path d="M31 24.5C33 24.5 35 26 35 28V30H27" stroke="#FFD700" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
             }
-            title="For Our People"
-            body="A social space that puts us first — built so you can connect, organize, and share without being chased by ads or buried by somebody else's algorithm."
+            title="A Social Space Designed with Intention"
+            body="BANIBS focuses on creating a thoughtful environment where Black individuals, families, and communities can communicate and stay connected in comfort."
             bullets={[
-              'No ads in your face',
-              'No \"engagement hacks\" deciding who you see',
-              'Circles and spaces you control'
+              'No ads',
+              'No tracking',
+              'No engagement tricks',
+              'Just calm, private spaces to share and connect'
             ]}
           />
 
-          {/* Card 2: For Black Businesses */}
+          {/* Card 2: Business Directory */}
           <PillarCard
             icon={
               <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -320,16 +301,16 @@ const ComingSoonPage = () => {
                 <path d="M12 20V22M17 20V22M22 20V22M27 20V22M32 20V22" stroke="#FFD700" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
             }
-            title="For Black Businesses"
-            body="BANIBS is building a place where Black businesses can be discovered, supported, and protected — without paying just to be seen."
+            title="Supporting Black-Owned Businesses"
+            body="BANIBS includes a growing directory that helps people find and support Black-owned businesses with clarity and respect."
             bullets={[
-              'A directory built around us, not against us',
-              'Tools to reach customers who actually want to find you',
-              'Room to grow as the network grows'
+              'Simple discovery tools',
+              'A clean directory layout',
+              'Space to grow at a natural pace'
             ]}
           />
 
-          {/* Card 3: Protection & Integrity */}
+          {/* Card 3: Integrity */}
           <PillarCard
             icon={
               <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -337,14 +318,14 @@ const ComingSoonPage = () => {
                 <path d="M16 22L20 26L28 18" stroke="#FFD700" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             }
-            title="Protection & Integrity"
-            body="From day one, BANIBS is being built with encryption, clear rules, and our own Protection Suite so we don't have to play by the usual 'harvest everything' playbook."
-            subNote="We use internal integrity checks to keep our messaging honest, avoid exaggeration, and make sure we don't promise anything we can't deliver."
+            title="Built on Care & Clarity"
+            body="Everything in BANIBS is shaped with intention—privacy, transparency, and communication rooted in respect."
+            subNote="Internal checks guide our decisions so we stay grounded, realistic, and thoughtful."
           />
         </div>
       </div>
 
-      {/* What's Coming First Section */}
+      {/* What's Coming First Section - STEALTH A+ */}
       <div style={{
         padding: '80px 20px',
         background: '#050E1A',
@@ -359,30 +340,36 @@ const ComingSoonPage = () => {
             textAlign: 'center',
             letterSpacing: '-0.5px'
           }}>
-            What's coming first
+            What's Coming First
           </h2>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
             <PhaseItem
               number="1"
-              title="Social Circles"
-              description="Private circles and feeds designed for our people to connect without ad-chasing or surveillance tricks."
+              title="Private Social Circles"
+              description="Calm, ad-free spaces created for conversation and connection—built with care for Black communities."
             />
             <PhaseItem
               number="2"
-              title="Business Directory & Marketplace Opening Phase"
-              description="A focused early directory and marketplace opening phase — we'll start small, invite businesses in, and grow inventory as the community grows."
-            />
-            <PhaseItem
-              number="3"
-              title="BANIBS NEXA"
-              description="The NEXA browser and tools that move more of our digital life into spaces we control, step by step."
+              title="Early Business Directory"
+              description="A gradual rollout of tools that highlight and support Black-owned businesses."
             />
           </div>
+          
+          <p style={{
+            fontSize: '1rem',
+            lineHeight: '1.7',
+            color: colors.textMuted,
+            marginTop: '40px',
+            textAlign: 'center',
+            fontStyle: 'italic'
+          }}>
+            (Future features will be introduced naturally as the platform grows.)
+          </p>
         </div>
       </div>
 
-      {/* Bottom Reassurance */}
+      {/* Bottom Reassurance - STEALTH A+ */}
       <div style={{
         padding: '80px 20px 60px',
         background: colors.bgDeep,
@@ -397,19 +384,19 @@ const ComingSoonPage = () => {
             fontWeight: '600',
             lineHeight: '1.6'
           }}>
-            We're building carefully so we don't have to walk anything back.
+            We're building steadily and thoughtfully, with long-term trust at the center.
           </p>
           <p style={{
             fontSize: '1.1rem',
             color: colors.textMuted,
             lineHeight: '1.6'
           }}>
-            If you want to be there when the doors open, drop your email above and stay close.
+            Stay close—we'll share updates as they come.
           </p>
         </div>
       </div>
 
-      {/* Footer */}
+      {/* Footer - STEALTH A+ */}
       <div style={{
         padding: '40px 20px',
         borderTop: `1px solid ${colors.skyBlueSoft}`,
@@ -421,11 +408,11 @@ const ComingSoonPage = () => {
           color: colors.textMuted,
           lineHeight: '1.6'
         }}>
-          Built with love, caution, and respect for our people's trust.
+          Built with love, intention, and deep respect for those who choose to be here.
         </p>
       </div>
 
-      {/* Keyframe animations + Focus styles */}
+      {/* Keyframe animations */}
       <style>{`
         @keyframes pulse {
           0%, 100% {
@@ -436,7 +423,6 @@ const ComingSoonPage = () => {
           }
         }
         
-        /* Accessibility: Focus states */
         input:focus-visible,
         button:focus-visible {
           outline: 2px solid #42B5FF !important;
@@ -575,7 +561,7 @@ const PhaseItem = ({ number, title, description }) => {
         marginBottom: '10px',
         color: colors.skyBlue
       }}>
-        Phase {number} — {title}
+        {title}
       </h3>
       <p style={{
         fontSize: '1rem',
