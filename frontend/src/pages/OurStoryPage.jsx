@@ -9,15 +9,14 @@ import {
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 /**
- * BANIBS Our Story Page
- * Founding story and purpose - emotionally grounding and trust-building
+ * BANIBS Our Story Page - Stealth A+ Version
+ * Created with care. Rooted in love. Built for Black communities.
  */
 const OurStoryPage = () => {
   const [variant, setVariant] = useState('gold');
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  // Detect active Coming Soon variant
   useEffect(() => {
     const fetchVariant = async () => {
       try {
@@ -30,7 +29,6 @@ const OurStoryPage = () => {
     fetchVariant();
   }, []);
 
-  // Variant-aware styling
   const getStyles = () => {
     switch (variant) {
       case 'dark':
@@ -93,10 +91,9 @@ const OurStoryPage = () => {
       color: styles.textPrimary,
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
-      {/* SEO Meta Tags */}
       <title>BANIBS – Our Story</title>
 
-      {/* Hero Section */}
+      {/* Hero Section - STEALTH A+ */}
       <div style={{
         padding: '120px 20px 100px',
         textAlign: 'center',
@@ -125,7 +122,7 @@ const OurStoryPage = () => {
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
           }}>
-            Our Story: Built From Love,<br />Necessity, and Vision
+            Our Story
           </h1>
           <p style={{
             fontSize: 'clamp(1.25rem, 2.5vw, 1.7rem)',
@@ -135,16 +132,25 @@ const OurStoryPage = () => {
             maxWidth: '800px',
             margin: '0 auto'
           }}>
-            BANIBS began with one question:<br />
+            Created with care. Rooted in love. Built for Black communities.
+          </p>
+          <p style={{
+            fontSize: 'clamp(1.15rem, 2vw, 1.5rem)',
+            lineHeight: '1.8',
+            color: styles.textSecondary,
+            fontWeight: '500',
+            maxWidth: '800px',
+            margin: '24px auto 0'
+          }}>
+            BANIBS began with a simple idea:<br />
             <span style={{ color: styles.accent, fontWeight: '700' }}>
-              What would happen if Black people finally had a digital home<br />
-              built to protect us, not exploit us?
+              What if there were a calm, private digital home designed specifically with Black communities in mind?
             </span>
           </p>
         </div>
       </div>
 
-      {/* The Spark Section */}
+      {/* Where It Began - STEALTH A+ */}
       <div style={{ padding: '100px 20px', background: styles.bgSecondary }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <div style={{
@@ -166,116 +172,60 @@ const OurStoryPage = () => {
               </h2>
             </div>
             <p style={{
-              fontSize: '1.3rem',
-              lineHeight: '2.1',
-              marginBottom: '24px',
-              textAlign: 'center'
+              fontSize: '1.25rem',
+              lineHeight: '2',
+              marginBottom: '24px'
             }}>
-              BANIBS was born from a simple truth:
+              Many people felt unseen or overwhelmed in existing digital spaces. BANIBS was created to offer something gentler and more attuned to Black cultural experience.
             </p>
+            <p style={{
+              fontSize: '1.15rem',
+              lineHeight: '1.9',
+              marginBottom: '24px',
+              fontWeight: '600'
+            }}>
+              We noticed:
+            </p>
+            <ul style={{
+              fontSize: '1.1rem',
+              lineHeight: '2',
+              listStyle: 'none',
+              padding: 0
+            }}>
+              {[
+                'Too much noise and intrusion',
+                'Not enough culturally aligned design',
+                'Fragmented community spaces',
+                'Limited visibility for Black-owned businesses'
+              ].map((item, i) => (
+                <li key={i} style={{
+                  marginBottom: '12px',
+                  paddingLeft: '32px',
+                  position: 'relative'
+                }}>
+                  <span style={{
+                    position: 'absolute',
+                    left: 0,
+                    color: styles.accent,
+                    fontSize: '1.4rem'
+                  }}>•</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
             <p style={{
               fontSize: '1.2rem',
-              lineHeight: '2',
-              marginBottom: '32px'
-            }}>
-              Black people have never had a digital space that was built for our safety, dignity, and empowerment.<br />
-              We've been <strong>watched</strong>.<br />
-              We've been <strong>tracked</strong>.<br />
-              We've been <strong>silenced</strong>.<br />
-              We've been <strong>ignored</strong>.
-            </p>
-            <p style={{
-              fontSize: '1.25rem',
               lineHeight: '1.9',
-              marginBottom: '48px'
+              marginTop: '32px'
             }}>
-              But we have never been given a platform that honors our humanity.
-            </p>
-            <p style={{
-              fontSize: '1.6rem',
-              fontWeight: '700',
-              textAlign: 'center',
-              color: styles.accent
-            }}>
-              So we built one.
+              BANIBS is a response shaped with care—not urgency, not confrontation.
             </p>
           </div>
         </div>
       </div>
 
-      {/* The Problem We Saw */}
+      {/* Turning Point - STEALTH A+ */}
       <div style={{ padding: '100px 20px', background: styles.bgTertiary }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, 3rem)',
-            fontWeight: '700',
-            marginBottom: '64px',
-            textAlign: 'center',
-            color: styles.accent
-          }}>
-            The Problem We Saw
-          </h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '32px'
-          }}>
-            {[
-              {
-                icon: Eye,
-                title: 'Exploitation by Big Tech',
-                items: ['Ads', 'Tracking', 'Psychological profiling', 'Manipulated algorithms']
-              },
-              {
-                icon: Volume2,
-                title: 'Censorship & Voice Suppression',
-                items: ['Black issues deprioritized', 'Stories buried', 'Narratives distorted']
-              },
-              {
-                icon: Users,
-                title: 'Community Fragmentation',
-                items: ['Diaspora disconnected', 'No central home', 'No unified digital identity']
-              },
-              {
-                icon: TrendingUp,
-                title: 'No Economic Empowerment',
-                items: ['Black businesses drowned out', 'No dedicated marketplace', 'No global visibility']
-              },
-              {
-                icon: Shield,
-                title: 'Lack of Respect & Dignity',
-                items: ['Spaces not designed with us in mind', 'Experiences not shaped for our wellness']
-              }
-            ].map((problem, i) => (
-              <div key={i} style={{
-                background: styles.cardBg,
-                border: `3px solid ${styles.cardBorder}`,
-                borderRadius: '20px',
-                padding: '40px 32px',
-                boxShadow: `0 8px 32px ${styles.accent}18`
-              }}>
-                <problem.icon size={44} color={styles.accent} style={{ marginBottom: '24px' }} />
-                <h3 style={{
-                  fontSize: '1.4rem',
-                  fontWeight: '700',
-                  marginBottom: '20px',
-                  color: styles.accent
-                }}>
-                  {problem.title}
-                </h3>
-                <ul style={{ listStyle: 'none', padding: 0, fontSize: '1.05rem', lineHeight: '1.9' }}>
-                  {problem.items.map((item, j) => (
-                    <li key={j} style={{ marginBottom: '10px' }}>• {item}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* The Decision */}
-      <div style={{ padding: '100px 20px', background: styles.bgSecondary }}>
         <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{
             background: styles.cardBg,
@@ -290,16 +240,21 @@ const OurStoryPage = () => {
               marginBottom: '48px',
               color: styles.accent
             }}>
-              The Decision
+              Turning Point
             </h2>
             <p style={{
-              fontSize: '1.4rem',
-              lineHeight: '2.2',
+              fontSize: '1.35rem',
+              lineHeight: '2.1',
+              marginBottom: '32px'
+            }}>
+              We realized that no major platform offered a peaceful social experience crafted specifically for Black users.
+            </p>
+            <p style={{
+              fontSize: '1.3rem',
+              lineHeight: '2',
               marginBottom: '40px'
             }}>
-              We realized nobody was coming to build this for us.<br />
-              <strong style={{ color: styles.accent }}>So we made a decision:</strong><br />
-              <em>We will build it ourselves.</em>
+              So we decided to build one—carefully, patiently, and with long-term trust at the center.
             </p>
             <div style={{
               fontSize: '1.35rem',
@@ -307,22 +262,18 @@ const OurStoryPage = () => {
               fontWeight: '500'
             }}>
               <p style={{ marginBottom: '20px' }}>
-                BANIBS is more than a platform — <strong>it is a restoration</strong>.
+                BANIBS is not a reaction.
               </p>
-              <p style={{ marginBottom: '20px' }}>
-                A <strong style={{ color: styles.accent }}>homecoming</strong>.
-              </p>
-              <p>
-                A digital future where Black people finally control our tools, our data,<br />
-                our businesses, and our own stories.
+              <p style={{ color: styles.accent, fontWeight: '700' }}>
+                It is an intentional beginning.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Founder Origin */}
-      <div style={{ padding: '100px 20px', background: styles.bgTertiary }}>
+      {/* How It Started - STEALTH A+ */}
+      <div style={{ padding: '100px 20px', background: styles.bgSecondary }}>
         <div style={{ maxWidth: '950px', margin: '0 auto' }}>
           <h2 style={{
             fontSize: 'clamp(2rem, 4vw, 3rem)',
@@ -331,7 +282,7 @@ const OurStoryPage = () => {
             textAlign: 'center',
             color: styles.accent
           }}>
-            How BANIBS Started
+            How It Started
           </h2>
           <div style={{
             background: styles.cardBg,
@@ -343,13 +294,13 @@ const OurStoryPage = () => {
             textAlign: 'center'
           }}>
             <p style={{ marginBottom: '32px' }}>
-              BANIBS started as an idea in a living room — a desire to protect our people<br />
-              from digital harm and create a place where we can <strong>thrive</strong>.
+              The idea formed simply:<br />
+              Create a private, culturally aware platform where Black people can communicate comfortably and feel at home.
             </p>
             <p style={{ marginBottom: '32px' }}>
-              Built with <strong style={{ color: styles.accent }}>discipline, clarity, and love</strong>.<br />
-              Designed step-by-step, through patience and vision.<br />
-              Grounded in the belief that we deserve something better.
+              Built with <strong style={{ color: styles.accent }}>clarity</strong>.<br />
+              Designed with <strong style={{ color: styles.accent }}>patience</strong>.<br />
+              Guided by <strong style={{ color: styles.accent }}>care</strong>.
             </p>
             <p style={{
               fontSize: '1.4rem',
@@ -357,64 +308,13 @@ const OurStoryPage = () => {
               color: styles.accent,
               fontStyle: 'italic'
             }}>
-              "Created with purpose. Built for generations."
+              "Created with purpose. Built with intention."
             </p>
           </div>
         </div>
       </div>
 
-      {/* Growth Into an Ecosystem */}
-      <div style={{ padding: '100px 20px', background: styles.bgSecondary }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-          <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, 3rem)',
-            fontWeight: '700',
-            marginBottom: '64px',
-            textAlign: 'center',
-            color: styles.accent
-          }}>
-            Growth Into an Ecosystem
-          </h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '28px'
-          }}>
-            {[
-              { icon: Newspaper, title: 'Black News Lens', desc: 'A world seen through our eyes — unfiltered, unmanipulated' },
-              { icon: Users, title: 'Community Hub', desc: 'Safe spaces for families, creators, and professionals to connect' },
-              { icon: Building2, title: 'Black Business Directory', desc: 'Empowering entrepreneurs with visibility and community trust' },
-              { icon: ShoppingBag, title: 'Marketplace', desc: 'Circulating wealth within our communities' },
-              { icon: Network, title: 'Diaspora Network', desc: 'Connecting Black people across the globe' },
-              { icon: Lock, title: 'Privacy & Safety Engine', desc: 'Your data, your control — no tracking, no surveillance' }
-            ].map((feature, i) => (
-              <div key={i} style={{
-                background: styles.cardBg,
-                border: `2px solid ${styles.cardBorder}`,
-                borderRadius: '18px',
-                padding: '36px 28px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                textAlign: 'center'
-              }}>
-                <feature.icon size={40} color={styles.accent} style={{ marginBottom: '20px' }} />
-                <h3 style={{
-                  fontSize: '1.3rem',
-                  fontWeight: '700',
-                  marginBottom: '12px',
-                  color: styles.accent
-                }}>
-                  {feature.title}
-                </h3>
-                <p style={{ fontSize: '1.05rem', lineHeight: '1.7' }}>{feature.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* The Promise */}
+      {/* What Guides Us - STEALTH A+ */}
       <div style={{ padding: '100px 20px', background: styles.bgTertiary }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <h2 style={{
@@ -434,13 +334,6 @@ const OurStoryPage = () => {
             textAlign: 'center',
             boxShadow: `0 16px 64px ${styles.accent}30`
           }}>
-            <p style={{
-              fontSize: '1.35rem',
-              lineHeight: '2.2',
-              marginBottom: '32px'
-            }}>
-              BANIBS will always be built with:
-            </p>
             <div style={{
               fontSize: '1.6rem',
               fontWeight: '700',
@@ -452,14 +345,14 @@ const OurStoryPage = () => {
               <p>Honor.</p>
               <p>Respect.</p>
               <p>Integrity.</p>
-              <p>Protection.</p>
-              <p>Empowerment.</p>
+              <p>Care.</p>
+              <p>Thoughtfulness.</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* The Future */}
+      {/* Where We're Going - STEALTH A+ */}
       <div style={{ padding: '100px 20px', background: styles.bgSecondary }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           <h2 style={{
@@ -477,6 +370,14 @@ const OurStoryPage = () => {
             borderRadius: '20px',
             padding: '56px 48px'
           }}>
+            <p style={{
+              fontSize: '1.25rem',
+              lineHeight: '2',
+              marginBottom: '32px',
+              textAlign: 'center'
+            }}>
+              BANIBS will grow gently and naturally, introducing new tools only when the foundation is strong and the community is ready.
+            </p>
             <ul style={{
               listStyle: 'none',
               padding: 0,
@@ -484,12 +385,9 @@ const OurStoryPage = () => {
               lineHeight: '2.3'
             }}>
               {[
-                'A digital home for the global Black family',
-                'A safe social environment',
-                'A home for news built through our lens',
-                'A thriving marketplace',
-                'A unified diaspora network',
-                'A sovereign platform free from ads, profiling, or corporate ownership'
+                'Social spaces',
+                'Business visibility',
+                'Thoughtful future features'
               ].map((item, i) => (
                 <li key={i} style={{
                   marginBottom: '16px',
@@ -521,7 +419,7 @@ const OurStoryPage = () => {
         </div>
       </div>
 
-      {/* CTA Section */}
+      {/* CTA Section - STEALTH A+ */}
       <div style={{
         padding: '100px 20px',
         background: styles.bgTertiary,
@@ -537,7 +435,7 @@ const OurStoryPage = () => {
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
           }}>
-            BANIBS Launches Soon
+            BANIBS launches soon.
           </h2>
           <p style={{
             fontSize: '1.4rem',
@@ -545,10 +443,9 @@ const OurStoryPage = () => {
             lineHeight: '1.7',
             fontWeight: '500'
           }}>
-            A dignified, beautiful digital home for our people is almost here.
+            A thoughtful, grounded digital experience for Black communities is on the way.
           </p>
 
-          {/* Email Capture */}
           {!submitted ? (
             <form onSubmit={handleSubmit} style={{ maxWidth: '500px', margin: '0 auto' }}>
               <div style={{
@@ -614,7 +511,7 @@ const OurStoryPage = () => {
         </div>
       </div>
 
-      {/* Footer */}
+      {/* Footer - STEALTH A+ */}
       <div style={{
         padding: '40px 20px',
         background: styles.bgSecondary,
