@@ -10,15 +10,14 @@ import {
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 /**
- * BANIBS Mission & Values Page
- * Communicates core mission, values, and commitments
+ * BANIBS Mission & Values Page - Stealth A+ Version
+ * A peaceful, beautiful digital home designed with care for Black communities.
  */
 const MissionValuesPage = () => {
-  const [variant, setVariant] = useState('gold'); // default to gold
+  const [variant, setVariant] = useState('gold');
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  // Detect active Coming Soon variant
   useEffect(() => {
     const fetchVariant = async () => {
       try {
@@ -31,7 +30,6 @@ const MissionValuesPage = () => {
     fetchVariant();
   }, []);
 
-  // Variant-aware styling
   const getStyles = () => {
     switch (variant) {
       case 'dark':
@@ -94,10 +92,9 @@ const MissionValuesPage = () => {
       color: styles.textPrimary,
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
     }}>
-      {/* SEO Meta Tags */}
       <title>BANIBS – Mission & Values</title>
 
-      {/* Hero Section */}
+      {/* Hero Section - STEALTH A+ */}
       <div style={{
         padding: '120px 20px 100px',
         textAlign: 'center',
@@ -126,7 +123,7 @@ const MissionValuesPage = () => {
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
           }}>
-            Our Mission: To Build a Safe, Beautiful Digital Home for Our People
+            Our Mission
           </h1>
           <p style={{
             fontSize: 'clamp(1.2rem, 2vw, 1.6rem)',
@@ -134,12 +131,21 @@ const MissionValuesPage = () => {
             color: styles.textSecondary,
             fontWeight: '500'
           }}>
-            BANIBS exists to protect, uplift, and empower Black life — everywhere.
+            To create a peaceful, beautiful digital home designed with care for Black communities.
+          </p>
+          <p style={{
+            fontSize: 'clamp(1.1rem, 1.8vw, 1.4rem)',
+            lineHeight: '1.7',
+            color: styles.textSecondary,
+            fontWeight: '400',
+            marginTop: '24px'
+          }}>
+            BANIBS offers a thoughtful space where connection, culture, and everyday communication can unfold without pressure or intrusion.
           </p>
         </div>
       </div>
 
-      {/* Why BANIBS Exists */}
+      {/* Why BANIBS Exists - STEALTH A+ */}
       <div style={{ padding: '80px 20px', background: styles.bgSecondary }}>
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           <h2 style={{
@@ -159,7 +165,10 @@ const MissionValuesPage = () => {
             marginBottom: '40px'
           }}>
             <p style={{ fontSize: '1.25rem', marginBottom: '32px', lineHeight: '1.8' }}>
-              BANIBS was created to solve the digital problems facing Black people today:
+              Black communities deserve digital spaces rooted in respect, comfort, and clarity. BANIBS was created to offer a gentle alternative to platforms that often feel overwhelming or disconnected from our lived experience.
+            </p>
+            <p style={{ fontSize: '1.15rem', marginBottom: '24px', lineHeight: '1.8', fontWeight: '600' }}>
+              We center:
             </p>
             <div style={{
               display: 'grid',
@@ -169,18 +178,17 @@ const MissionValuesPage = () => {
               lineHeight: '2'
             }}>
               {[
-                'Constant surveillance',
-                'Ads and tracking',
-                'Censorship',
-                'Algorithm bias',
-                'Lack of ownership',
-                'Disconnected communities',
-                'Underexposed Black businesses',
-                'Missing diaspora connection'
-              ].map((problem, i) => (
+                'Privacy',
+                'Cultural clarity',
+                'Fair visibility',
+                'Calm communication',
+                'Respectful design',
+                'Community connection',
+                'Visibility for Black-owned businesses'
+              ].map((item, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                   <span style={{ color: styles.accent, fontSize: '1.5rem' }}>•</span>
-                  <span>{problem}</span>
+                  <span>{item}</span>
                 </div>
               ))}
             </div>
@@ -192,12 +200,12 @@ const MissionValuesPage = () => {
             color: styles.accent,
             fontStyle: 'italic'
           }}>
-            "We deserve a place where we are not studied — only respected."
+            "Everyone deserves a space where dignity comes first."
           </p>
         </div>
       </div>
 
-      {/* Four Pillars */}
+      {/* Four Pillars - STEALTH A+ */}
       <div style={{ padding: '100px 20px', background: styles.bgTertiary }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <h2 style={{
@@ -207,7 +215,7 @@ const MissionValuesPage = () => {
             textAlign: 'center',
             color: styles.accent
           }}>
-            The Four Pillars
+            Four Pillars
           </h2>
           <div style={{
             display: 'grid',
@@ -219,33 +227,33 @@ const MissionValuesPage = () => {
                 icon: Shield,
                 title: 'Privacy & Safety',
                 points: [
-                  'No ads, no tracking, no surveillance',
-                  'Your data belongs to you, not to corporations',
-                  'BANIBS never sells or manipulates your information'
+                  'No ads or tracking',
+                  'Clear, grounded data practices',
+                  'A design that supports peace of mind'
                 ]
               },
               {
                 icon: Users,
                 title: 'Community First',
                 points: [
-                  'Built for families, creators, professionals, elders, and youth',
-                  'A digital home where care, belonging, and love guide the design'
+                  'Created with intention for Black families, creators, professionals, elders, and youth',
+                  'A space shaped by belonging and thoughtful connection'
                 ]
               },
               {
                 icon: Briefcase,
-                title: 'Economic Empowerment',
+                title: 'Supporting Black Businesses',
                 points: [
-                  'Built-in Black Business Directory',
-                  'Tools for entrepreneurs, sellers, creators',
-                  'Keep wealth circulating in our communities'
+                  'A dedicated directory',
+                  'Tools for entrepreneurs and creators',
+                  'A focus on visibility and cultural respect'
                 ]
               },
               {
                 icon: Globe,
-                title: 'Global Diaspora Connection',
+                title: 'Connection Across the Diaspora',
                 points: [
-                  'News, culture, stories across U.S., Africa, Caribbean, South America, Europe, Canada, Asia'
+                  'Stories, conversation, and connection across regions and generations'
                 ]
               }
             ].map((pillar, i) => (
@@ -281,12 +289,12 @@ const MissionValuesPage = () => {
             color: styles.accent,
             fontStyle: 'italic'
           }}>
-            "When we connect, we rise."
+            "Care and clarity guide the way."
           </p>
         </div>
       </div>
 
-      {/* Core Values */}
+      {/* Core Values - STEALTH A+ */}
       <div style={{ padding: '100px 20px', background: styles.bgSecondary }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <h2 style={{
@@ -296,7 +304,7 @@ const MissionValuesPage = () => {
             textAlign: 'center',
             color: styles.accent
           }}>
-            The BANIBS Core Values
+            Core Values
           </h2>
           <div style={{
             display: 'grid',
@@ -304,12 +312,12 @@ const MissionValuesPage = () => {
             gap: '32px'
           }}>
             {[
-              { emoji: '🖤', title: 'Dignity', desc: 'Every interaction and every screen protects the dignity of Black people.' },
-              { emoji: '🌍', title: 'Truth', desc: 'We honor truth — our own stories, our own voices.' },
-              { emoji: '🤝', title: 'Unity', desc: 'We build bridges across the diaspora, not walls.' },
-              { emoji: '🔐', title: 'Sovereignty', desc: 'Your data, your identity, your community — all under your control.' },
-              { emoji: '💛', title: 'Care', desc: 'Human-centered design that prioritizes emotional and psychological safety.' },
-              { emoji: '🚀', title: 'Future-Making', desc: 'We build tools and spaces that prepare us for the next 100 years, not the last 10.' }
+              { emoji: '🖤', title: 'Dignity', desc: 'We honor the humanity of Black communities in every interaction.' },
+              { emoji: '🌍', title: 'Truth', desc: 'We uplift our stories and perspectives with honesty and care.' },
+              { emoji: '🤝', title: 'Unity', desc: 'We celebrate connection across the diaspora.' },
+              { emoji: '🔐', title: 'Stewardship', desc: 'Identity and information handled with respect and clarity.' },
+              { emoji: '💛', title: 'Care', desc: 'Design choices rooted in emotional and cultural well-being.' },
+              { emoji: '🚀', title: 'Long-Term Vision', desc: 'Created with the future in mind, not just today.' }
             ].map((value, i) => (
               <div key={i} style={{
                 background: styles.cardBg,
@@ -334,7 +342,7 @@ const MissionValuesPage = () => {
         </div>
       </div>
 
-      {/* What BANIBS Will Deliver */}
+      {/* What BANIBS Offers - STEALTH A+ */}
       <div style={{ padding: '100px 20px', background: styles.bgTertiary }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <h2 style={{
@@ -344,7 +352,7 @@ const MissionValuesPage = () => {
             textAlign: 'center',
             color: styles.accent
           }}>
-            What BANIBS Will Deliver
+            What BANIBS Offers Early On
           </h2>
           <div style={{
             display: 'grid',
@@ -353,11 +361,8 @@ const MissionValuesPage = () => {
             marginBottom: '56px'
           }}>
             {[
-              { icon: Newspaper, title: 'Black News Lens', desc: 'A world seen through our eyes' },
-              { icon: Network, title: 'Diaspora Network', desc: 'Reconnect the global Black family' },
-              { icon: ShoppingBag, title: 'Marketplace & Business Directory', desc: 'Empower our entrepreneurs' },
-              { icon: MessageCircle, title: 'Social & Community Tools', desc: 'Safe communication without tracking' },
-              { icon: Archive, title: 'Cultural Archives', desc: 'Protect and preserve our stories' }
+              { icon: MessageCircle, title: 'Social Spaces for Black Communities', desc: 'A calm, private place to share, connect, and communicate.' },
+              { icon: ShoppingBag, title: 'Black-Owned Business Directory', desc: 'A clear and respectful way to find and support Black-owned businesses.' }
             ].map((feature, i) => (
               <div key={i} style={{
                 background: styles.cardBg,
@@ -381,18 +386,20 @@ const MissionValuesPage = () => {
             ))}
           </div>
           <p style={{
-            fontSize: '1.5rem',
-            fontWeight: '600',
+            fontSize: '1rem',
+            lineHeight: '1.7',
             textAlign: 'center',
-            color: styles.accent,
-            fontStyle: 'italic'
+            color: styles.textSecondary,
+            fontStyle: 'italic',
+            maxWidth: '720px',
+            margin: '0 auto'
           }}>
-            "This is more than a platform. It's a restoration."
+            (Future features will be introduced naturally as the platform grows.)
           </p>
         </div>
       </div>
 
-      {/* Founder Statement */}
+      {/* Founder Statement - STEALTH A+ */}
       <div style={{ padding: '100px 20px', background: styles.bgSecondary }}>
         <div style={{ maxWidth: '900px', margin: '0 auto' }}>
           <h2 style={{
@@ -417,9 +424,8 @@ const MissionValuesPage = () => {
               marginBottom: '32px',
               textAlign: 'center'
             }}>
-              "BANIBS is built with love, faith, discipline, and hope.<br />
-              It is built because our people deserve a safe digital home where dignity is not optional.<br />
-              This work is for every Black family — past, present, and future."
+              "BANIBS is built with discipline, faith, and intention.<br />
+              It honors the belief that Black communities deserve a peaceful, dignified digital home—crafted carefully and with deep respect."
             </p>
             <p style={{
               fontSize: '1.1rem',
@@ -434,7 +440,7 @@ const MissionValuesPage = () => {
         </div>
       </div>
 
-      {/* CTA Section */}
+      {/* CTA Section - STEALTH A+ */}
       <div style={{
         padding: '100px 20px',
         background: styles.bgTertiary,
@@ -450,7 +456,7 @@ const MissionValuesPage = () => {
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
           }}>
-            BANIBS Launches Soon
+            BANIBS launches soon.
           </h2>
           <p style={{
             fontSize: '1.4rem',
@@ -458,10 +464,9 @@ const MissionValuesPage = () => {
             lineHeight: '1.7',
             fontWeight: '500'
           }}>
-            A safer, smarter digital world for our people is on the way.
+            A thoughtful, grounded digital experience for Black communities is on the way.
           </p>
 
-          {/* Email Capture */}
           {!submitted ? (
             <form onSubmit={handleSubmit} style={{ maxWidth: '500px', margin: '0 auto' }}>
               <div style={{
@@ -527,7 +532,7 @@ const MissionValuesPage = () => {
         </div>
       </div>
 
-      {/* Footer */}
+      {/* Footer - STEALTH A+ */}
       <div style={{
         padding: '40px 20px',
         background: styles.bgSecondary,
