@@ -68,6 +68,16 @@ app = FastAPI(
     version="2.8.0"
 )
 
+# Simple health check endpoint for Docker healthcheck (without /api prefix)
+@app.get("/health")
+def health_check():
+    """
+    Minimal health check endpoint for Docker container healthcheck.
+    Returns 200 OK if the application is running.
+    For detailed health status, use /api/health
+    """
+    return {"status": "ok"}
+
 # Phase 9.0.1 - Mount static directories for profile media
 from fastapi.staticfiles import StaticFiles
 import os
