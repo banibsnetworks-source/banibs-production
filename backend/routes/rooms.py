@@ -889,8 +889,24 @@ async def leave_room_as_visitor(
     # Remove visitor from session
     await remove_visitor(owner_id, visitor_id, db)
     
+    # Get session ID
+    session = await get_active_session(owner_id, db)
+    
     # Log event for future social integrations
     await log_visitor_left(owner_id, visitor_id, db)
+    
+    # Phase 6.1: Log highlight
+    visitor_info = await db.banibs_users.find_one(
+        {"id": visitor_id},
+        {"_id": 0, "name": 1}
+    )
+    await log_visitor_left_highlight(
+        owner_id=owner_id,
+        visitor_id=visitor_id,
+        visitor_name=visitor_info.get("name", "visitor") if visitor_info else "visitor",
+        session_id=str(session.get("_id", "")) if session else "",
+        db=db
+    )
     
     # WebSocket: Broadcast visitor left to room
     await ws_manager.broadcast_room_event(
