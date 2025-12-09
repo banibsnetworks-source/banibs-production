@@ -425,7 +425,6 @@ async def unlock_my_room(
 # ============================================================================
 # VISITOR-FACING ENDPOINTS (Phase 2)
 # ============================================================================
-# These will be implemented in Phase 2 but included here for completeness
 
 @router.get("/{owner_id}/status")
 async def get_room_status(
@@ -434,14 +433,98 @@ async def get_room_status(
     db = Depends(get_db)
 ):
     """
-    Get room status and visitor's permissions.
+    Get room status and visitor's permissions (Phase 2).
     
-    (PHASE 2 - PLACEHOLDER)
-    
-    Returns room visibility, owner presence, visitor permissions, etc.
+    Returns:
+        - owner: Owner info
+        - room: Room visibility & state
+        - permissions: Visitor's effective permissions
+        - my_status: Visitor's current state in this room
     """
-    # TODO: Implement in Phase 2
-    raise HTTPException(status_code=501, detail="Phase 2 endpoint - not yet implemented")
+    visitor_id = current_user["id"]
+    
+    # Get owner info
+    owner = await db.banibs_users.find_one(
+        {"id": owner_id},
+        {"_id": 0, "id": 1, "name": 1, "email": 1, "avatar_url": 1, "handle": 1}
+    )
+    
+    if not owner:
+        raise HTTPException(status_code=404, detail="Room owner not found")
+    
+    # Check if visitor can see room
+    can_see = await RoomPermissionService.can_see_room(owner_id, visitor_id, db)
+    
+    if not can_see:
+        raise HTTPException(
+            status_code=403,
+            detail="You do not have permission to view this room"
+        )
+    
+    # Get room config
+    room = await get_or_create_room(owner_id, db)
+    
+    # Get active session
+    session = await get_active_session(owner_id, db)
+    owner_in_room = session is not None and session.get("is_active", False)
+    
+    # Get visitor permissions
+    permissions = await resolve_effective_room_permissions(owner_id, visitor_id, db)
+    
+    # Check visitor's current status
+    am_inside = await is_visitor_in_room(owner_id, visitor_id, db) if owner_in_room else False
+    
+    # Check for pending knock
+    pending_knock = await db.room_knocks.find_one(
+        {
+            "room_owner_id": owner_id,
+            "visitor_id": visitor_id,
+            "status": "PENDING"
+        },
+        {"_id": 0}
+    )
+    
+    # Get visitor count (if allowed)
+    visitor_count = None
+    visitors_list = None
+    
+    if owner_in_room and session:
+        show_mode = room.get("show_visitor_list_mode", "FULL")
+        
+        if show_mode == "FULL" and can_see:
+            visitor_count = len(session.get("current_visitors", []))
+            # Enrich visitor list
+            visitors_list = []
+            for v in session.get("current_visitors", []):
+                visitor_info = await db.banibs_users.find_one(
+                    {"id": v["user_id"]},
+                    {"_id": 0, "id": 1, "name": 1, "avatar_url": 1, "handle": 1}
+                )
+                if visitor_info:
+                    visitors_list.append({
+                        **visitor_info,
+                        "joined_at": v.get("joined_at"),
+                        "tier": v.get("tier")
+                    })
+        elif show_mode == "OWNER_ONLY" and visitor_id == owner_id:
+            visitor_count = len(session.get("current_visitors", []))
+    
+    return {
+        "owner": owner,
+        "room": {
+            "is_visible": can_see,
+            "door_state": room.get("door_state"),
+            "owner_in_room": owner_in_room,
+            "visitor_count": visitor_count,
+            "visitors": visitors_list
+        },
+        "permissions": permissions.model_dump(),
+        "my_status": {
+            "am_inside": am_inside,
+            "have_pending_knock": pending_knock is not None,
+            "last_knock": pending_knock
+        }
+    }
 
 
 @router.post("/{owner_id}/knock")
@@ -452,38 +535,153 @@ async def knock_on_room(
     db = Depends(get_db)
 ):
     """
-    Visitor knocks on owner's door.
-    
-    (PHASE 2 - PLACEHOLDER)
+    Visitor knocks on owner's door (Phase 2).
     
     Body:
-        - message: Optional knock message
+        - message: Optional knock message (max 500 chars)
     
     Returns:
         - knock: Created knock record
         - message: Status message
     """
-    # TODO: Implement in Phase 2
-    raise HTTPException(status_code=501, detail="Phase 2 endpoint - not yet implemented")
+    visitor_id = current_user["id"]
+    
+    # Cannot knock on own room
+    if owner_id == visitor_id:
+        raise HTTPException(
+            status_code=400,
+            detail="Cannot knock on your own room"
+        )
+    
+    # Check permission to knock
+    knock_check = await RoomPermissionService.can_knock(owner_id, visitor_id, db)
+    
+    if not knock_check["can_knock"]:
+        raise HTTPException(
+            status_code=403,
+            detail=knock_check.get("reason", "You cannot knock on this room")
+        )
+    
+    # Check if visitor already has direct entry
+    enter_check = await RoomPermissionService.can_enter_direct(owner_id, visitor_id, db)
+    if enter_check["can_enter_direct"]:
+        raise HTTPException(
+            status_code=400,
+            detail="You have direct entry access - no need to knock"
+        )
+    
+    try:
+        # Create knock
+        knock = await create_knock(
+            room_owner_id=owner_id,
+            visitor_id=visitor_id,
+            knock_message=request.message,
+            db=db
+        )
+        
+        # TODO: Emit WebSocket event: ROOM_KNOCK_CREATED
+        logger.info(f"🚪 ROOM_KNOCK_CREATED: {visitor_id} -> {owner_id}")
+        
+        return {
+            "knock": knock,
+            "message": "Knock sent. Waiting for approval..."
+        }
+    
+    except ValueError as e:
+        # Rate limit or duplicate knock
+        raise HTTPException(status_code=429, detail=str(e))
 
 
 @router.post("/{owner_id}/enter")
 async def enter_room_as_visitor(
     owner_id: str,
+    knock_id: Optional[str] = None,
     current_user = Depends(get_current_user),
     db = Depends(get_db)
 ):
     """
-    Visitor enters the room.
+    Visitor enters the room (Phase 2).
     
-    (PHASE 2 - PLACEHOLDER)
+    Query Params:
+        - knock_id: Optional knock ID if entering via approved knock
     
     Returns:
         - message: Confirmation message
         - session: Room session info
     """
-    # TODO: Implement in Phase 2
-    raise HTTPException(status_code=501, detail="Phase 2 endpoint - not yet implemented")
+    visitor_id = current_user["id"]
+    
+    # Cannot enter own room as visitor
+    if owner_id == visitor_id:
+        raise HTTPException(
+            status_code=400,
+            detail="Use POST /api/rooms/me/enter to enter your own room"
+        )
+    
+    # Check if owner has active session
+    session = await get_active_session(owner_id, db)
+    
+    if not session or not session.get("is_active"):
+        raise HTTPException(
+            status_code=400,
+            detail="Owner is not in their room"
+        )
+    
+    # Check if visitor can enter directly
+    enter_check = await RoomPermissionService.can_enter_direct(owner_id, visitor_id, db)
+    
+    if enter_check["can_enter_direct"]:
+        # Direct entry allowed
+        pass
+    elif knock_id:
+        # Check if knock is approved
+        knock = await db.room_knocks.find_one(
+            {
+                "room_owner_id": owner_id,
+                "visitor_id": visitor_id,
+                "status": "APPROVED"
+            },
+            {"_id": 0}
+        )
+        
+        if not knock:
+            raise HTTPException(
+                status_code=403,
+                detail="No approved knock found. You must knock first."
+            )
+    else:
+        raise HTTPException(
+            status_code=403,
+            detail="You must knock and be approved before entering"
+        )
+    
+    # Check if visitor is BLOCKED or in SAFE MODE
+    visitor_tier = await db.relationships.find_one(
+        {
+            "user_id": owner_id,
+            "target_user_id": visitor_id
+        },
+        {"_id": 0, "tier": 1}
+    )
+    
+    tier_value = visitor_tier.get("tier") if visitor_tier else "OTHERS"
+    
+    if tier_value in ["BLOCKED", "OTHERS_SAFE_MODE"]:
+        raise HTTPException(
+            status_code=403,
+            detail=f"{tier_value} tier cannot enter"
+        )
+    
+    # Add visitor to session
+    updated_session = await add_visitor(owner_id, visitor_id, db)
+    
+    # TODO: Emit WebSocket event: ROOM_VISITOR_ENTERED
+    logger.info(f"🚪 ROOM_VISITOR_ENTERED: {visitor_id} -> {owner_id}")
+    
+    return {
+        "message": "You have entered the room",
+        "session": updated_session
+    }
 
 
 @router.post("/{owner_id}/leave")
@@ -493,12 +691,28 @@ async def leave_room_as_visitor(
     db = Depends(get_db)
 ):
     """
-    Visitor leaves the room.
-    
-    (PHASE 2 - PLACEHOLDER)
+    Visitor leaves the room (Phase 2).
     
     Returns:
         - message: Confirmation message
     """
-    # TODO: Implement in Phase 2
-    raise HTTPException(status_code=501, detail="Phase 2 endpoint - not yet implemented")
+    visitor_id = current_user["id"]
+    
+    # Check if visitor is actually in the room
+    is_in_room = await is_visitor_in_room(owner_id, visitor_id, db)
+    
+    if not is_in_room:
+        raise HTTPException(
+            status_code=400,
+            detail="You are not in this room"
+        )
+    
+    # Remove visitor from session
+    await remove_visitor(owner_id, visitor_id, db)
+    
+    # TODO: Emit WebSocket event: ROOM_VISITOR_LEFT
+    logger.info(f"🚪 ROOM_VISITOR_LEFT: {visitor_id} <- {owner_id}")
+    
+    return {
+        "message": "You have left the room"
+    }
