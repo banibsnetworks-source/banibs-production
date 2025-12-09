@@ -8359,23 +8359,24 @@ def main():
     print("\n" + "=" * 80)
     print("🏁 TEST SUMMARY")
     print("=" * 80)
-    print(f"🛡️ ADCS v1.0 P0 ENDPOINTS PROTECTION:")
-    print(f"   ✅ Passed: {adcs_passed}")
-    print(f"   ❌ Failed: {adcs_failed}")
-    print(f"   📈 Success Rate: {(adcs_passed / (adcs_passed + adcs_failed) * 100):.1f}%" if (adcs_passed + adcs_failed) > 0 else "0.0%")
+    print(f"🏠 PEOPLES ROOM PHASE 2 VISITOR-FACING ENDPOINTS:")
+    print(f"   ✅ Passed: {passed}")
+    print(f"   ❌ Failed: {failed}")
+    print(f"   📈 Success Rate: {(passed / (passed + failed) * 100):.1f}%" if (passed + failed) > 0 else "0.0%")
     
-    if adcs_failed == 0:
-        print("\n🎉 ALL ADCS v1.0 TESTS PASSED! AI Double-Check System is fully operational!")
-        print("🛡️ P0 critical endpoints are properly protected with ADCS guards.")
-        print("💰 Money rules: Balance checks, transaction limits, daily limits active")
-        print("🤝 Trust rules: Block/ban rate limits, self-action prevention active")
-        print("🔒 Security rules: Role elevation protection active")
-        print("📋 Audit logging: All actions properly logged for compliance")
+    if failed == 0:
+        print("\n🎉 ALL PEOPLES ROOM PHASE 2 TESTS PASSED! Visitor-facing endpoints are fully operational!")
+        print("🏠 Room status endpoint working correctly")
+        print("🚪 Knock workflow working end-to-end")
+        print("🔐 Authentication properly enforced (401 without token)")
+        print("👥 Visitor enter/leave functionality working")
+        print("📊 Status endpoint shows correct permissions")
+        print("⏱️ Rate limiting integrated (3 knocks max per hour)")
     else:
-        print(f"\n⚠️  {adcs_failed} ADCS v1.0 test(s) failed. Please review the errors above.")
-        print("🚨 CRITICAL: P0 endpoints may not be properly protected!")
+        print(f"\n⚠️  {failed} Peoples Room Phase 2 test(s) failed. Please review the errors above.")
+        print("🚨 CRITICAL: Visitor-facing endpoints may not be working correctly!")
     
-    sys.exit(0 if adcs_failed == 0 else 1)
+    sys.exit(0 if failed == 0 else 1)
 
 
 # Removed duplicate main block - using the one at the end of file
