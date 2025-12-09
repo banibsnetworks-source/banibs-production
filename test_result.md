@@ -4386,12 +4386,7 @@ agent_communication:
 
 test_plan:
   current_focus:
-    - "Phase B Trust Enforcement - Relationship Tier Management"
-    - "Phase B Trust Enforcement - DM Creation with Trust Enforcement"
-    - "Phase B Trust Enforcement - Message Sending with Trust Enforcement"
-    - "Phase B Trust Enforcement - DM Request Workflow"
-    - "Phase B Trust Enforcement - Mutual PEOPLES Override (Founder Rule A)"
-    - "Phase B Trust Enforcement - Tier Jump Anomaly Logging (Founder Rule B)"
+    - "Peoples Room Phase 5 - Visitor-Side UI"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
