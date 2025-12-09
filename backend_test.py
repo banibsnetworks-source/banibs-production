@@ -8314,21 +8314,21 @@ class BanibsAPITester:
 
 
 def main():
-    """Run ADCS v1.0 P0 Endpoints Protection Testing"""
+    """Run Peoples Room Phase 2 - Visitor-Facing API Endpoints Testing"""
     tester = BanibsAPITester()
     
-    print("🛡️ BANIBS Backend API Test Suite - ADCS v1.0 P0 Endpoints Protection Testing")
+    print("🏠 BANIBS Backend API Test Suite - Peoples Room Phase 2 Visitor-Facing Endpoints Testing")
     print("=" * 80)
     
     # Track test results
     tests = []
     
-    # ADCS v1.0 - AI Double-Check System Tests
-    print("\n🛡️ ADCS v1.0 - AI DOUBLE-CHECK SYSTEM P0 ENDPOINTS PROTECTION")
+    # Peoples Room Phase 2 - Visitor-Facing API Endpoints Tests
+    print("\n🏠 PEOPLES ROOM PHASE 2 - VISITOR-FACING API ENDPOINTS")
     print("=" * 60)
     
-    # ADCS Comprehensive Test
-    tests.append(("ADCS v1.0 Comprehensive Protection Test", tester.test_adcs_v1_0_comprehensive))
+    # Peoples Room Phase 2 Comprehensive Test
+    tests.append(("Peoples Room Phase 2 Visitor-Facing Endpoints Test", tester.test_peoples_room_phase_2_visitor_endpoints))
     
     # Run all tests
     passed = 0
