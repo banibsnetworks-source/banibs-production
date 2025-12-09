@@ -164,6 +164,8 @@ class CommentPermissionService:
         replier_tier: str,
         parent_comment_visibility: str,
         thread_post_visibility: str,
+        replier_id: str,
+        post_author_id: str,
         mutual_peoples: bool = False
     ) -> Dict[str, Any]:
         """
@@ -177,6 +179,8 @@ class CommentPermissionService:
             replier_tier: Trust tier of the user replying
             parent_comment_visibility: Visibility of the parent comment
             thread_post_visibility: Visibility of the original post
+            replier_id: ID of user replying
+            post_author_id: ID of post author
             mutual_peoples: Whether mutual PEOPLES relationship exists
         
         Returns:
@@ -197,13 +201,11 @@ class CommentPermissionService:
         effective_visibility = thread_post_visibility
         
         # Re-use comment permission logic
-        # Note: We don't have post_author_id or commenter_id here, so we pass empty strings
-        # This means self-comment check won't work for replies (which is fine - replies are to others)
         return CommentPermissionService.can_comment_on_post(
             commenter_tier=replier_tier,
             post_visibility=effective_visibility,
-            post_author_id="",  # Not applicable for reply check
-            commenter_id="",    # Not applicable for reply check
+            post_author_id=post_author_id,
+            commenter_id=replier_id,
             mutual_peoples=mutual_peoples
         )
     
