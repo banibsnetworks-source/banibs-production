@@ -97,6 +97,9 @@ const AuthModal = ({ isOpen, onClose, onSuccess, defaultTab = 'signin' }) => {
     }
   };
 
+  // Safety check: Don't render if not open
+  if (!isOpen) return null;
+
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
       <div className="bg-gray-900 rounded-2xl shadow-2xl max-w-md w-full border border-gray-800 overflow-hidden max-h-[90vh] overflow-y-auto">
