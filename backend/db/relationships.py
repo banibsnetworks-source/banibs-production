@@ -246,7 +246,7 @@ async def get_relationship_counts(owner_user_id: str) -> dict:
     # Get blocked count separately
     blocked_count = await db.relationships.count_documents({
         "owner_user_id": owner_user_id,
-        "status": STATUS_BLOCKED
+        "tier": TIER_BLOCKED
     })
     counts["blocked"] = blocked_count
     
