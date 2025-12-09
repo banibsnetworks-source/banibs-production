@@ -12407,7 +12407,7 @@ if __name__ == "__main__":
             sys.exit(0 if success else 1)
         else:
             print(f"Unknown test: {test_name}")
-            print("Available tests: adcs, messaging, ability, diaspora, groups, all")
+            print("Available tests: adcs, messaging, ability, diaspora, groups, trust, all")
             sys.exit(1)
     else:
         # Default: run ADCS v1.0 tests for current review request
