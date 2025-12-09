@@ -46,7 +46,7 @@ from models.peoples_room import (
     DoorState,
     AccessMode
 )
-from routes.bglis_auth import get_current_user
+from middleware.auth_guard import get_current_user
 
 logger = logging.getLogger(__name__)
 
