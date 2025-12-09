@@ -145,6 +145,24 @@ class UnifiedUser(BaseModel):
         description="User's chosen accent color for profile theming"
     )
     
+    # BDII Identity Threading - Contributor Profile
+    contributor_profile: Optional[Dict[str, Any]] = Field(
+        default=None,
+        description="""
+        Contributor-specific profile data (BDII threading).
+        Present when user has 'contributor' role.
+        Fields:
+        - organization: str (optional)
+        - display_name: str (optional, contributor-specific display name)
+        - bio: str (optional, contributor-specific bio)
+        - website_or_social: str (optional, website or social media link)
+        - verified: bool (contributor verification status)
+        - total_submissions: int (total opportunities submitted)
+        - approved_submissions: int (approved opportunities)
+        - featured_submissions: int (featured opportunities)
+        """
+    )
+    
     class Config:
         json_schema_extra = {
             "example": {
