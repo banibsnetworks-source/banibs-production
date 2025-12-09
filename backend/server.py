@@ -279,6 +279,10 @@ app.include_router(social_settings_router)
 # Include relationships router (Phase 8.1 - Relationship Engine)
 app.include_router(relationships_router)
 
+# Include Peoples Room router (MEGADROP V1 - Peoples Room System)
+from routes.rooms import router as rooms_router
+app.include_router(rooms_router)
+
 # Include users search router (Phase 8.1 - User Search)
 app.include_router(users_router)
 
