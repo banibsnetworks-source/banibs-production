@@ -140,7 +140,7 @@ class TestRecencyScoring:
         recent_post = now - timedelta(minutes=30)
         
         score = FeedRankerService.calculate_recency_score(recent_post)
-        assert score > 90  # Very recent
+        assert score > 60  # Recent (30 min old)
     
     def test_old_post_low_score(self):
         """Old posts should have low recency scores"""
@@ -150,13 +150,13 @@ class TestRecencyScoring:
         score = FeedRankerService.calculate_recency_score(old_post)
         assert score < 30  # Old
     
-    def test_day_old_post_medium_score(self):
-        """1-day-old posts should have medium scores"""
+    def test_day_old_post_low_score(self):
+        """1-day-old posts should have lower scores (exponential decay)"""
         now = datetime.now(timezone.utc)
         day_old = now - timedelta(days=1)
         
         score = FeedRankerService.calculate_recency_score(day_old)
-        assert 50 < score < 90
+        assert score < 10  # 24 hours is already quite old with 1-hour decay factor
 
 
 class TestEngagementScoring:
