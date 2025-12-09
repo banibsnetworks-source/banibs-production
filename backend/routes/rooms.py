@@ -828,6 +828,24 @@ async def enter_room_as_visitor(
     # Log event for future social integrations
     await log_visitor_entered(owner_id, visitor_id, db)
     
+    # Phase 6.1: Log highlight
+    visitor_info = await db.banibs_users.find_one(
+        {"id": visitor_id},
+        {"_id": 0, "name": 1}
+    )
+    visitor_tier = await db.relationships.find_one(
+        {"owner_user_id": owner_id, "target_user_id": visitor_id},
+        {"_id": 0, "tier": 1}
+    )
+    await log_visitor_entered_highlight(
+        owner_id=owner_id,
+        visitor_id=visitor_id,
+        visitor_name=visitor_info.get("name", "visitor") if visitor_info else "visitor",
+        visitor_tier=visitor_tier.get("tier", "OTHERS") if visitor_tier else "OTHERS",
+        session_id=str(updated_session.get("_id", "")),
+        db=db
+    )
+    
     # WebSocket: Broadcast visitor entered to room
     await ws_manager.broadcast_room_event(
         room_owner_id=owner_id,
