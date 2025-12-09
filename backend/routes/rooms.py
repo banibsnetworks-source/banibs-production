@@ -435,6 +435,9 @@ async def unlock_my_room(
     
     updated_room = await unlock_room_doors(user_id, db)
     
+    # Log event for future social integrations
+    await log_door_unlocked(user_id, db)
+    
     return {
         "room": updated_room,
         "message": "Room doors unlocked"
