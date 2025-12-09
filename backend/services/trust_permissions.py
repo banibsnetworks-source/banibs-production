@@ -114,12 +114,13 @@ class TrustPermissionService:
             return False
     
     @staticmethod
-    def can_send_dm(sender_tier: str) -> Dict[str, Any]:
+    def can_send_dm(sender_tier: str, existing_thread: bool = False) -> Dict[str, Any]:
         """
         Check if someone at a given trust tier can send you a DM.
         
         Args:
             sender_tier: Trust tier of the sender
+            existing_thread: Whether a DM thread already exists (tier-change behavior)
         
         Returns:
             Dictionary with permission status and requirements:
@@ -137,12 +138,12 @@ class TrustPermissionService:
             },
             TrustTier.COOL: {
                 "can_send": True,
-                "requires_approval": True,  # May require approval on first message
-                "reason": "COOL can send DMs (first message may need approval)"
+                "requires_approval": True,  # Requires approval on first message
+                "reason": "COOL can send DMs (first message needs approval)"
             },
             TrustTier.CHILL: {
-                "can_send": False,
-                "requires_approval": True,
+                "can_send": True,
+                "requires_approval": True,  # Must request permission
                 "reason": "CHILL must request permission to DM"
             },
             TrustTier.ALRIGHT: {
@@ -168,7 +169,17 @@ class TrustPermissionService:
         }
         
         try:
-            return tier_permissions[TrustTier(sender_tier)]
+            permission = tier_permissions[TrustTier(sender_tier)]
+            
+            # Tier-change behavior: existing threads remain accessible
+            # New messages follow current tier rules
+            if existing_thread and permission["can_send"]:
+                # Thread exists and tier allows messaging - no approval needed for continuation
+                permission = permission.copy()
+                permission["requires_approval"] = False
+                permission["reason"] = f"{permission['reason']} (continuing existing thread)"
+            
+            return permission
         except (ValueError, KeyError):
             return {
                 "can_send": False,
