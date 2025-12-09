@@ -66,8 +66,55 @@ const MyRoom = () => {
 
   useEffect(() => {
     fetchRoomData();
-    // TODO: WebSocket subscription for real-time updates
   }, []);
+
+  // WebSocket: Subscribe to own room for real-time updates
+  useEffect(() => {
+    const userId = getCurrentUserId();
+    if (!userId || !isConnected) return;
+
+    // Subscribe to room updates
+    subscribeToRoom(userId);
+
+    // Event listeners
+    const unsubscribeKnockCreated = addEventListener('ROOM_KNOCK_CREATED', (data) => {
+      console.log('🚪 New knock received:', data);
+      // Refresh knocks list
+      fetchRoomData();
+    });
+
+    const unsubscribeVisitorEntered = addEventListener('ROOM_VISITOR_ENTERED', (data) => {
+      console.log('👤 Visitor entered:', data);
+      // Update session with new visitor
+      setSession(data.session);
+    });
+
+    const unsubscribeVisitorLeft = addEventListener('ROOM_VISITOR_LEFT', (data) => {
+      console.log('👤 Visitor left:', data);
+      // Refresh data to update visitor list
+      fetchRoomData();
+    });
+
+    const unsubscribeDoorLocked = addEventListener('ROOM_DOOR_LOCKED', (data) => {
+      console.log('🔒 Door locked:', data);
+      setRoom(data.room);
+    });
+
+    const unsubscribeDoorUnlocked = addEventListener('ROOM_DOOR_UNLOCKED', (data) => {
+      console.log('🔓 Door unlocked:', data);
+      setRoom(data.room);
+    });
+
+    // Cleanup
+    return () => {
+      unsubscribeFromRoom(userId);
+      unsubscribeKnockCreated();
+      unsubscribeVisitorEntered();
+      unsubscribeVisitorLeft();
+      unsubscribeDoorLocked();
+      unsubscribeDoorUnlocked();
+    };
+  }, [isConnected, subscribeToRoom, unsubscribeFromRoom, addEventListener]);
 
   // Enter room handler
   const handleEnterRoom = async () => {
