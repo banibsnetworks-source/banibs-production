@@ -527,9 +527,9 @@ def can_see_content(viewer_tier: str, content_visibility: str) -> bool:
     return TrustPermissionService.can_see_content(viewer_tier, content_visibility)
 
 
-def can_send_dm(sender_tier: str) -> Dict[str, Any]:
+def can_send_dm(sender_tier: str, existing_thread: bool = False) -> Dict[str, Any]:
     """Check if sender can DM"""
-    return TrustPermissionService.can_send_dm(sender_tier)
+    return TrustPermissionService.can_send_dm(sender_tier, existing_thread)
 
 
 def get_profile_visibility(viewer_tier: str) -> Dict[str, bool]:
