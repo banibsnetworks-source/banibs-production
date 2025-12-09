@@ -417,8 +417,9 @@ function App() {
               <Route path="/socialworld/talent" element={<SocialWorldTalent />} />
               <Route path="/socialworld/marketplace" element={<SocialWorldMarketplace />} />
               
-              {/* MEGADROP V1 - Peoples Room System (Phase 3) */}
+              {/* MEGADROP V1 - Peoples Room System (Phase 3 & 5) */}
               <Route path="/my-room" element={<MyRoom />} />
+              <Route path="/room/:ownerId" element={<RoomDetail />} />
               
               {/* Main BANIBS Application Landing */}
               <Route path="/" element={<HomePage />} />
