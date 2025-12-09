@@ -420,6 +420,7 @@ function App() {
               
               {/* MEGADROP V1 - Peoples Room System (Phase 3 & 5) */}
               <Route path="/my-room" element={<MyRoom />} />
+              <Route path="/rooms" element={<RoomsDiscovery />} />
               <Route path="/room/:ownerId" element={<RoomDetail />} />
               
               {/* Main BANIBS Application Landing */}
