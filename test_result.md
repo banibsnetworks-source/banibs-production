@@ -346,6 +346,19 @@ user_problem_statement: |
   - ✅ Info box at bottom explaining Peoples Room
   - ✅ Proper button states (enabled/disabled/loading)
 
+frontend:
+  - task: "Peoples Room Phase 3 - Owner UI (My Room Page)"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/MyRoom.js, frontend/src/components/rooms/"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Starting Peoples Room Phase 3 UI testing. Testing My Room page owner dashboard with all tabs and functionality using admin@banibs.com credentials."
+
 backend:
   - task: "Phase B Trust Enforcement - Relationship Tier Management"
     implemented: true
