@@ -795,7 +795,15 @@ async def leave_room_as_visitor(
     
     # Log event for future social integrations
     await log_visitor_left(owner_id, visitor_id, db)
-    # TODO: Emit WebSocket event: ROOM_VISITOR_LEFT
+    
+    # WebSocket: Broadcast visitor left to room
+    await ws_manager.broadcast_room_event(
+        room_owner_id=owner_id,
+        event_type="ROOM_VISITOR_LEFT",
+        data={
+            "visitor_id": visitor_id
+        }
+    )
     logger.info(f"🚪 ROOM_VISITOR_LEFT: {visitor_id} <- {owner_id}")
     
     return {
