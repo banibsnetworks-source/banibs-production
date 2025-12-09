@@ -173,6 +173,14 @@ async def exit_my_room(
     # Log event for future social integrations
     await log_session_ended(user_id, db=db)
     
+    # Phase 6.1: Log highlight
+    await log_session_ended_highlight(
+        owner_id=user_id,
+        session_id=str(result.get("session_id", "")),
+        visitor_count=result["visitors_kicked"],
+        db=db
+    )
+    
     # WebSocket: Broadcast session ended to all room subscribers
     await ws_manager.broadcast_room_event(
         room_owner_id=user_id,
