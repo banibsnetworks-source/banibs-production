@@ -78,25 +78,25 @@ const RoomsDiscovery = () => {
 
         {/* Rooms Grid */}
         {loading ? (
-          <div className=\"text-center py-12\">
-            <div className=\"animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto\"></div>
-            <p className=\"mt-4 text-gray-500\">Loading rooms...</p>
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <p className="mt-4 text-gray-500">Loading rooms...</p>
           </div>
         ) : rooms.length === 0 ? (
-          <div className=\"bg-white rounded-lg border p-12 text-center\">
-            <p className=\"text-gray-500 text-lg mb-4\">🏠 No rooms available yet</p>
-            <p className=\"text-gray-400 text-sm mb-6\">
+          <div className="bg-white rounded-lg border p-12 text-center">
+            <p className="text-gray-500 text-lg mb-4">🏠 No rooms available yet</p>
+            <p className="text-gray-400 text-sm mb-6">
               Rooms will appear here when people in your network create their Peoples Rooms
             </p>
             <a
-              href=\"/my-room\"
-              className=\"inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors\"
+              href="/my-room"
+              className="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
             >
               Create Your Room
             </a>
           </div>
         ) : (
-          <div className=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6\">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {rooms.map((room) => (
               <RoomDiscoveryCard
                 key={room.owner_id}
