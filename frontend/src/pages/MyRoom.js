@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FullWidthLayout from '../components/layouts/FullWidthLayout';
+import { useWebSocket } from '../contexts/WebSocketContext';
 import KnockList from '../components/rooms/KnockList';
 import VisitorList from '../components/rooms/VisitorList';
 import AccessListManager from '../components/rooms/AccessListManager';
