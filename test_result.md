@@ -2918,8 +2918,7 @@ metadata:
   test_sequence: 3
 
 test_plan:
-  current_focus:
-    - "Peoples Room Phase 3 - Owner UI (My Room Page)"
+  current_focus: []
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
