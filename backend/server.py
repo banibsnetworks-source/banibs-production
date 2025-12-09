@@ -283,6 +283,10 @@ app.include_router(relationships_router)
 from routes.rooms import router as rooms_router
 app.include_router(rooms_router)
 
+# Include WebSocket router (MEGADROP V1 - Phase 4: Real-time Updates)
+from routes.websocket_routes import router as websocket_router
+app.include_router(websocket_router, prefix="/api")
+
 # Include users search router (Phase 8.1 - User Search)
 app.include_router(users_router)
 
