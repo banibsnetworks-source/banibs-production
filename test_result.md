@@ -2827,22 +2827,17 @@ metadata:
   test_sequence: 3
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Peoples Room Phase 3 - Owner UI (My Room Page)"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
     - agent: "main"
-      message: "ADCS v1.0 - P0 Endpoints Protection Testing. I've just wrapped all P0 critical endpoints with ADCS guards. Please perform comprehensive end-to-end testing of the ADCS system including marketplace payouts, relationship blocks/unblocks, social bans/unbans, ADCS admin API, and audit log verification."
+      message: "Peoples Room Phase 3 - Owner UI (My Room Page) implemented and ready for testing. The My Room page owner dashboard is complete with all tabs and functionality including room entry/exit, visitor management, knock handling, access list management, and settings configuration. Please perform comprehensive UI testing using admin@banibs.com / BanibsAdmin#2025 credentials."
     - agent: "testing"
-      message: "ADCS v1.0 - P0 Endpoints Protection Testing COMPLETE ✅ ALL SYSTEMS FULLY OPERATIONAL. AI Double-Check System successfully protecting all P0 critical endpoints. Money rules (balance checks, transaction limits, daily limits, double-entry) working. Trust rules (block rate limits 20/day, ban rate limits 10/hour, self-action prevention) active. Security rules (role elevation protection) integrated. ADCS audit logging operational with proper request tracking. All protected endpoints show consistent ADCS integration with proper error messaging and request IDs. Rate limiting and rule enforcement verified across all test scenarios. ADCS v1.0 is production-ready and fully protecting critical operations."
-    - agent: "main"
-      message: "Phase 8.6 - Notifications Integration End-to-End Testing. I've completed the frontend Notifications UI updates with enhanced group_event and relationship_event icons, filter tabs for Groups and Connections, color-coded badges, human-readable labels, and graceful deep linking with fallbacks. Please perform comprehensive end-to-end testing of the complete notifications system including group notifications, relationship notifications, UI features, backend integration, and error handling."
-    - agent: "testing"
-      message: "Starting Phase 8.6 Notifications Integration End-to-End Testing. Will test group notifications (create, join, role changes), relationship notifications, UI filter tabs, visual elements, deep linking, mark as read functionality, backend integration, and error handling scenarios."
-    - agent: "testing"
-      message: "Phase 8.6 Notifications Integration End-to-End Testing COMPLETE ✅ ALL SYSTEMS FULLY OPERATIONAL. Frontend UI features working perfectly with all 8 filter tabs (including new Groups/Connections), group event icons (👥), purple badges, human-readable labels, and deep linking. Backend notification triggers operational - group creation successfully generates notifications with correct structure. Deep linking system working perfectly - notifications navigate to correct group pages. Mark as read functionality operational. Filter system fully functional. Responsive design excellent across all viewports. Backend API integration robust with proper authentication. All Phase 8.6 specific features verified and production-ready."
+      message: "Starting Peoples Room Phase 3 UI testing. Will test My Room page owner dashboard with all tabs and functionality including login flow, room entry/exit, tab navigation, settings functionality, and UI elements verification."
 
 frontend:
   - task: "Phase 16.0 - Marketplace Navigation Fix Verification"
