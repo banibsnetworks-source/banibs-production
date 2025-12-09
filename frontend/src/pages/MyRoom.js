@@ -370,9 +370,8 @@ const MyRoom = () => {
             )}
             {activeTab === 'highlights' && (
               <HighlightsTimeline 
-                session={session}
-                inSession={inSession}
-                onRefresh={fetchRoomData}
+                roomOwnerId={getCurrentUserId()}
+                isOwnerView={true}
               />
             )}
           </div>
