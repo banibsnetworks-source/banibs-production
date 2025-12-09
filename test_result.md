@@ -284,9 +284,9 @@ cd /app/frontend && yarn add sharp
 #====================================================================================================
 
 user_problem_statement: |
-  **BANIBS Authentication Pages - VISUAL UPGRADE VERIFICATION**
+  **Phase B Trust Enforcement - Comprehensive Backend Testing**
 
-  Test the BANIBS Authentication pages visual upgrade with comprehensive scenarios:
+  Test the Circle Trust Order system for BANIBS with comprehensive backend testing scenarios:
 
   **Test Scenario 1: Register Page (Desktop)**
   - Navigate to: https://identity-trust-hub.preview.emergentagent.com/auth/register
