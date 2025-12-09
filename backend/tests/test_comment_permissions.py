@@ -299,6 +299,8 @@ class TestReplyPermissions:
             replier_tier=TIER_PEOPLES,
             parent_comment_visibility="PUBLIC",
             thread_post_visibility="PUBLIC",
+            replier_id="replier123",
+            post_author_id="author456",
             mutual_peoples=False
         )
         
@@ -311,15 +313,14 @@ class TestReplyPermissions:
             replier_tier=TIER_CHILL,
             parent_comment_visibility="PUBLIC",
             thread_post_visibility="PUBLIC",
+            replier_id="replier123",
+            post_author_id="author456",
             mutual_peoples=False
         )
         
         assert perm["can_comment"] is True
-        # Note: can_reply_to_comment doesn't have post author/commenter IDs
-        # so it can't differentiate moderation - it uses generic logic
-        # In real implementation, this would be caught at route level
-        # For now, just verify it can comment
-        assert perm["moderation_level"] in ["moderate", "light"]
+        assert perm["requires_moderation"] is True
+        assert perm["will_be_visible"] is False  # Hidden until approved
 
 
 # Run tests
