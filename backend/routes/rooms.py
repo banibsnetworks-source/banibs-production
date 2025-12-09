@@ -409,6 +409,8 @@ async def lock_my_room(
     
     updated_room = await lock_room_doors(user_id, db)
     
+    # Log event for future social integrations
+    await log_door_locked(user_id, db)
     # TODO: Emit WebSocket event: ROOM_DOOR_LOCKED
     
     return {
