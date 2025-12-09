@@ -9,6 +9,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 # SMTP Configuration from environment variables
+SMTP_MOCK_MODE = os.environ.get("SMTP_MOCK_MODE", "false").lower() == "true"
 SMTP_HOST = os.environ.get("SMTP_HOST")
 SMTP_PORT = int(os.environ.get("SMTP_PORT", "587"))
 SMTP_USER = os.environ.get("SMTP_USER")
@@ -17,7 +18,7 @@ SMTP_PASS = os.environ.get("SMTP_PASSWORD") or os.environ.get("SMTP_PASS")
 SMTP_SECURE = os.environ.get("SMTP_SECURE", "false").lower() == "true"
 EMAIL_FROM = os.environ.get("SMTP_FROM_EMAIL") or os.environ.get("EMAIL_FROM", "BANIBS <noreply@banibs.com>")
 
-# Check if SMTP is configured
+# Check if SMTP is configured (not needed in mock mode)
 SMTP_CONFIGURED = all([SMTP_HOST, SMTP_USER, SMTP_PASS])
 
 def send_email(to_email: str, subject: str, html_body: str):
