@@ -118,17 +118,41 @@ async def create_or_update_relationship(
     """
     Create or update a relationship.
     Sets the target user to the specified tier.
+    
+    **Phase B Trust Enforcement**:
+    - Logs tier changes for anomaly detection (Founder Rule B)
+    - Tier jumps >2 levels are flagged for ADCS review
     """
     # Prevent self-relationships
     if payload.target_user_id == current_user["id"]:
         raise HTTPException(status_code=400, detail="Cannot create relationship with yourself")
     
     try:
+        # Get existing relationship to detect tier changes
+        existing_rel = await rel_db.get_relationship(
+            owner_user_id=current_user["id"],
+            target_user_id=payload.target_user_id
+        )
+        
+        old_tier = existing_rel["tier"] if existing_rel else None
+        
+        # Create or update the relationship
         relationship = await rel_db.create_or_update_relationship(
             owner_user_id=current_user["id"],
             target_user_id=payload.target_user_id,
             tier=payload.tier
         )
+        
+        # **PHASE B: Log tier changes for anomaly detection (Founder Rule B)**
+        if old_tier != payload.tier:
+            from services.relationship_helper import log_tier_change
+            await log_tier_change(
+                user_id=current_user["id"],
+                target_id=payload.target_user_id,
+                old_tier=old_tier,
+                new_tier=payload.tier
+            )
+        
         return relationship
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
