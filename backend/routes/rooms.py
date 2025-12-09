@@ -344,9 +344,24 @@ async def respond_to_knock_request(
             )
             logger.info(f"Added {visitor_id} to {user_id}'s Access List (DIRECT_ENTRY)")
         
+        # Get visitor name for highlights
+        visitor_info = await db.banibs_users.find_one(
+            {"id": visitor_id},
+            {"_id": 0, "name": 1}
+        )
+        visitor_name = visitor_info.get("name", "visitor") if visitor_info else "visitor"
+        
         # Log event for future social integrations
         if response.action == "APPROVE":
             await log_knock_approved(user_id, visitor_id, db)
+            
+            # Phase 6.1: Log highlight
+            await log_knock_approved_highlight(
+                owner_id=user_id,
+                visitor_id=visitor_id,
+                visitor_name=visitor_name,
+                db=db
+            )
             
             # WebSocket: Notify visitor of approval
             await ws_manager.broadcast_to_user(
@@ -361,6 +376,14 @@ async def respond_to_knock_request(
             message = "Knock approved"
         else:
             await log_knock_denied(user_id, visitor_id, db)
+            
+            # Phase 6.1: Log highlight
+            await log_knock_denied_highlight(
+                owner_id=user_id,
+                visitor_id=visitor_id,
+                visitor_name=visitor_name,
+                db=db
+            )
             
             # WebSocket: Notify visitor of denial
             await ws_manager.broadcast_to_user(
