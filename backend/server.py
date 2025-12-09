@@ -68,6 +68,11 @@ app = FastAPI(
     version="2.8.0"
 )
 
+# Request Logging Middleware - Logs all requests with correlation IDs
+from middleware.request_logging import RequestLoggingMiddleware, setup_logging
+setup_logging()  # Initialize logging configuration
+app.add_middleware(RequestLoggingMiddleware)
+
 # Simple health check endpoint for Docker healthcheck (without /api prefix)
 @app.get("/health")
 def health_check():
