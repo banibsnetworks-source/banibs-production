@@ -368,6 +368,13 @@ const MyRoom = () => {
                 onUpdate={fetchRoomData}
               />
             )}
+            {activeTab === 'highlights' && (
+              <HighlightsTimeline 
+                session={session}
+                inSession={inSession}
+                onRefresh={fetchRoomData}
+              />
+            )}
           </div>
         </div>
 
