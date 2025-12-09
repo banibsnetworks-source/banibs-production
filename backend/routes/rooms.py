@@ -736,6 +736,8 @@ async def leave_room_as_visitor(
     # Remove visitor from session
     await remove_visitor(owner_id, visitor_id, db)
     
+    # Log event for future social integrations
+    await log_visitor_left(owner_id, visitor_id, db)
     # TODO: Emit WebSocket event: ROOM_VISITOR_LEFT
     logger.info(f"🚪 ROOM_VISITOR_LEFT: {visitor_id} <- {owner_id}")
     
