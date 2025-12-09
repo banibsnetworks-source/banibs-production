@@ -155,9 +155,16 @@ async def create_conversation_route(
     """
     Create a new conversation.
     
+    **Phase B Trust Enforcement**:
+    - DM conversations require trust-based permission checks
+    - BLOCKED users cannot create conversations
+    - COOL/CHILL may require DM request approval for first contact
+    - Mutual PEOPLES override (Founder Rule A) bypasses all restrictions
+    
     The current user is automatically added to participant_ids.
     """
     user_id = current_user["id"]
+    db = await get_db()
     
     # Validation: Title required for group and business
     if payload.type in ["group", "business"] and not payload.title:
@@ -172,6 +179,54 @@ async def create_conversation_route(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="business_id is required for business conversations"
         )
+    
+    # **PHASE B: Trust Enforcement for DM conversations**
+    if payload.type == "dm":
+        # DM must have exactly 2 participants (current user + 1 other)
+        other_participants = [p for p in payload.participant_ids if p != user_id]
+        
+        if len(other_participants) != 1:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="DM conversations must have exactly 2 participants"
+            )
+        
+        recipient_id = other_participants[0]
+        
+        # Check if either user has blocked the other
+        if await is_user_blocked(user_id, recipient_id, db):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Cannot create conversation - blocked relationship"
+            )
+        
+        # Check if conversation already exists
+        existing_thread = await get_dm_thread_exists(user_id, recipient_id, db)
+        
+        # Get sender's tier from recipient's perspective
+        sender_tier = await get_relationship_tier(recipient_id, user_id, db)
+        
+        # Founder Rule A: Mutual PEOPLES override
+        mutual_peoples = await check_mutual_peoples(user_id, recipient_id, db)
+        
+        if mutual_peoples:
+            # Mutual PEOPLES - bypass all restrictions
+            pass  # Conversation creation allowed
+        elif existing_thread:
+            # Existing thread - allow continuation regardless of current tier
+            pass  # Conversation creation allowed (though it may already exist)
+        else:
+            # New conversation - check trust permissions
+            dm_permission = can_send_dm(sender_tier, existing_thread=False)
+            
+            if not dm_permission["can_send"]:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail=f"Cannot initiate DM: {dm_permission['reason']}"
+                )
+            
+            # Note: DM request handling is done at message send time
+            # Conversation can be created, but first message may require approval
     
     # Ensure current user is included in participants
     participant_ids = set(payload.participant_ids)
