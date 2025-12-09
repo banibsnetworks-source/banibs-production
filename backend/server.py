@@ -287,6 +287,10 @@ app.include_router(rooms_router)
 from routes.websocket_routes import router as websocket_router
 app.include_router(websocket_router, prefix="/api")
 
+# Include Highlights router (MEGADROP V1 - Phase 6.1: Room Highlights)
+from routes.highlights import router as highlights_router
+app.include_router(highlights_router)
+
 # Include users search router (Phase 8.1 - User Search)
 app.include_router(users_router)
 
