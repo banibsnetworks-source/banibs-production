@@ -537,6 +537,9 @@ async def unlock_my_room(
     # Log event for future social integrations
     await log_door_unlocked(user_id, db)
     
+    # Phase 6.1: Log highlight
+    await log_door_unlocked_highlight(owner_id=user_id, db=db)
+    
     # WebSocket: Broadcast door unlocked to room
     await ws_manager.broadcast_room_event(
         room_owner_id=user_id,
