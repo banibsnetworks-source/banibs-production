@@ -170,28 +170,21 @@ async def block_user(owner_user_id: str, target_user_id: str):
 
 async def unblock_user(owner_user_id: str, target_user_id: str):
     """
-    Unblock a user. Sets status back to ACTIVE.
+    Unblock a user. Changes tier from BLOCKED back to OTHERS.
     """
-    db = await get_db()
-    
     relationship = await get_relationship(owner_user_id, target_user_id)
     if not relationship:
         raise ValueError("No relationship found to unblock")
     
-    await db.relationships.update_one(
-        {
-            "owner_user_id": owner_user_id,
-            "target_user_id": target_user_id
-        },
-        {
-            "$set": {
-                "status": STATUS_ACTIVE,
-                "updated_at": datetime.now(timezone.utc)
-            }
-        }
-    )
+    if relationship.get("tier") != TIER_BLOCKED:
+        raise ValueError("User is not blocked")
     
-    return await get_relationship(owner_user_id, target_user_id)
+    return await create_or_update_relationship(
+        owner_user_id=owner_user_id,
+        target_user_id=target_user_id,
+        tier=TIER_OTHERS,
+        status=STATUS_ACTIVE
+    )
 
 
 async def delete_relationship(owner_user_id: str, target_user_id: str):
