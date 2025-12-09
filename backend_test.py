@@ -11904,23 +11904,8 @@ def main():
         self.log("Testing moderation queue system with feature flags and admin endpoints")
         
         tests = [
-            # Authentication Setup
-            ("Admin Login", self.test_admin_login),
-            ("Contributor Registration", self.test_contributor_register),
-            ("Contributor Login", self.test_contributor_login),
-            ("Unified User Registration", self.test_unified_user_register),
-            
-            # Phase 6.4 - Sentiment-Driven Moderation Routing Tests
-            ("Feature Flags Loading", self.test_features_json_loading),
-            ("Admin Moderation Stats Auth", self.test_admin_moderation_stats_auth),
-            ("Admin Moderation Stats", self.test_admin_moderation_stats),
-            ("Admin Moderation List Auth", self.test_admin_moderation_list_auth),
-            ("Admin Moderation List", self.test_admin_moderation_list),
-            ("Admin Moderation Filters", self.test_admin_moderation_filters),
-            ("Moderation Approve Workflow", self.test_moderation_approve_workflow),
-            ("Moderation Reject Workflow", self.test_moderation_reject_workflow),
-            ("Moderation Integration Verification", self.test_moderation_integration_verification),
-            ("RBAC Moderation Endpoints", self.test_rbac_moderation_endpoints),
+            # Phase B Trust Enforcement - Circle Trust Order System
+            ("Phase B Trust Enforcement Comprehensive", self.test_phase_b_trust_enforcement_comprehensive),
         ]
         
         passed = 0
