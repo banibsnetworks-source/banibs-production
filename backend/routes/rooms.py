@@ -303,11 +303,31 @@ async def respond_to_knock_request(
         # Log event for future social integrations
         if response.action == "APPROVE":
             await log_knock_approved(user_id, visitor_id, db)
-            # TODO: Emit ROOM_KNOCK_APPROVED
+            
+            # WebSocket: Notify visitor of approval
+            await ws_manager.broadcast_to_user(
+                user_id=visitor_id,
+                event_type="ROOM_KNOCK_APPROVED",
+                data={
+                    "room_owner_id": user_id,
+                    "knock": knock,
+                    "message": "Your knock was approved"
+                }
+            )
             message = "Knock approved"
         else:
             await log_knock_denied(user_id, visitor_id, db)
-            # TODO: Emit ROOM_KNOCK_DENIED
+            
+            # WebSocket: Notify visitor of denial
+            await ws_manager.broadcast_to_user(
+                user_id=visitor_id,
+                event_type="ROOM_KNOCK_DENIED",
+                data={
+                    "room_owner_id": user_id,
+                    "knock": knock,
+                    "message": "Your knock was denied"
+                }
+            )
             message = "Knock denied"
         
         return {
