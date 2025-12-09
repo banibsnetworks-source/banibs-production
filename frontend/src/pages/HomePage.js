@@ -43,8 +43,8 @@ const HomePage = () => {
         title="Black America News, Information & Business System"
         description="Connecting Black and Indigenous communities to news, opportunities, business resources, and education. Browse jobs, grants, scholarships, and Black-owned businesses."
       />
-      {/* Navigation - Now handled by FullWidthLayout GlobalNavBar */}
-      {/* <nav className="border-b-2 border-[#FFD700] bg-black sticky top-0 z-50">
+      {/* Navigation - Now handled by FullWidthLayout GlobalNavBar 
+      <nav className="border-b-2 border-[#FFD700] bg-black sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -57,7 +57,7 @@ const HomePage = () => {
             </div>
             
             <div className="flex gap-8 items-center">
-              {/* Group A: Directories */}
+              Group A: Directories
               <div className="hidden lg:flex gap-4 items-center border-r border-[#FFD700]/20 pr-8">
                 <button
                   onClick={() => navigate('/opportunities?type=job')}
