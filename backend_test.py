@@ -1328,7 +1328,7 @@ class BanibsAPITester:
         self.log("👥 Creating test users for relationship testing...")
         
         # Create User 1
-        response = self.make_request("POST", "/bglis/register", {
+        response = self.make_request("POST", "/auth/register", {
             "email": test_user_1_email,
             "password": test_password,
             "first_name": "Trust",
