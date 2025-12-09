@@ -220,6 +220,7 @@ class UserPublic(BaseModel):
     profile_picture_url: Optional[str] = None  # Phase 8.1
     banner_image_url: Optional[str] = None  # Phase 8.1
     accent_color: Optional[str] = "#3B82F6"  # Phase 8.1
+    contributor_profile: Optional[Dict[str, Any]] = None  # BDII - Contributor identity threading
 
 
 class UserCreate(BaseModel):
