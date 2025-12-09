@@ -6,6 +6,7 @@ MEGADROP V1 - Peoples Room System
 """
 
 import pytest
+import pytest_asyncio
 import asyncio
 from datetime import datetime, timezone, timedelta
 from motor.motor_asyncio import AsyncIOMotorClient
