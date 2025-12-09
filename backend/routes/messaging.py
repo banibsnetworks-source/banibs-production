@@ -14,6 +14,18 @@ from services.messaging_service import (
     mark_messages_read,
 )
 from middleware.auth_guard import get_current_user
+from services.relationship_helper import (
+    get_relationship_tier,
+    check_mutual_peoples,
+    is_user_blocked,
+    get_dm_thread_exists
+)
+from services.trust_permissions import can_send_dm, TrustPermissionService
+from services.dm_request_service import (
+    create_dm_request,
+    has_approved_dm_request
+)
+from db.connection import get_db
 
 
 router = APIRouter(prefix="/api/messaging", tags=["messaging"])
