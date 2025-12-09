@@ -20,17 +20,27 @@ from db.relationships import (
 
 logger = logging.getLogger(__name__)
 
+# Circle Trust Order - 7-Tier Weights (MEGADROP V1)
+# Import CHILL and OTHERS_SAFE_MODE from relationships
+from db.relationships import TIER_CHILL, TIER_OTHERS_SAFE_MODE, TIER_BLOCKED
+
 # Graph weights for tier scoring
 WEIGHT_PEOPLES = 100
-WEIGHT_COOL = 60
-WEIGHT_ALRIGHT = 30
+WEIGHT_COOL = 75
+WEIGHT_CHILL = 50
+WEIGHT_ALRIGHT = 25
 WEIGHT_OTHERS = 5
+WEIGHT_OTHERS_SAFE_MODE = 0
+WEIGHT_BLOCKED = -100  # Negative weight breaks connections
 
 TIER_WEIGHTS = {
     TIER_PEOPLES: WEIGHT_PEOPLES,
     TIER_COOL: WEIGHT_COOL,
+    TIER_CHILL: WEIGHT_CHILL,
     TIER_ALRIGHT: WEIGHT_ALRIGHT,
-    TIER_OTHERS: WEIGHT_OTHERS
+    TIER_OTHERS: WEIGHT_OTHERS,
+    TIER_OTHERS_SAFE_MODE: WEIGHT_OTHERS_SAFE_MODE,
+    TIER_BLOCKED: WEIGHT_BLOCKED
 }
 
 
