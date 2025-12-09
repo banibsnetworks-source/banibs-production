@@ -485,6 +485,15 @@ async def unlock_my_room(
     # Log event for future social integrations
     await log_door_unlocked(user_id, db)
     
+    # WebSocket: Broadcast door unlocked to room
+    await ws_manager.broadcast_room_event(
+        room_owner_id=user_id,
+        event_type="ROOM_DOOR_UNLOCKED",
+        data={
+            "room": updated_room
+        }
+    )
+    
     return {
         "room": updated_room,
         "message": "Room doors unlocked"
