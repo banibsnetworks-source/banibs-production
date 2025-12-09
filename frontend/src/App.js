@@ -746,6 +746,7 @@ function App() {
                   </AccountModeProvider>
           </BrowserRouter>
         </div>
+              </WebSocketProvider>
       </ContributorAuthProvider>
     </AuthProvider>
         </MediaViewerProvider>
