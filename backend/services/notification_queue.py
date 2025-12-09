@@ -348,7 +348,7 @@ async def process_notification_batch(
             
             if should_group and len(priority_notifications) > 1:
                 # Create grouped notification
-                grouped_notif = NotificationFilterService.format_batched_notification(
+                _ = NotificationFilterService.format_batched_notification(
                     priority_notifications,
                     priority
                 )
