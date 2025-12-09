@@ -1461,10 +1461,18 @@ class BanibsAPITester:
         # Test 2.1: Set User1 -> User2 as PEOPLES, test DM creation
         self.log("📝 Test 2.1: PEOPLES tier DM creation...")
         
+        # Set User1 -> User2 as PEOPLES
         response = self.make_request("POST", "/relationships/", {
             "target_user_id": user2_id,
             "tier": "PEOPLES"
         }, headers=headers_user1)
+        
+        # Also set User2 -> User1 as PEOPLES (for proper trust enforcement)
+        headers_user2 = {"Authorization": f"Bearer {user2_token}"}
+        response = self.make_request("POST", "/relationships/", {
+            "target_user_id": user1_id,
+            "tier": "PEOPLES"
+        }, headers=headers_user2)
         
         response = self.make_request("POST", "/messaging/conversations", {
             "type": "dm",
