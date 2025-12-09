@@ -117,7 +117,16 @@ async def enter_my_room(
     
     # Log event for future social integrations
     await log_session_started(user_id, db)
-    # TODO: Emit WebSocket event: ROOM_SESSION_STARTED
+    
+    # WebSocket: Broadcast session started to room subscribers
+    await ws_manager.broadcast_room_event(
+        room_owner_id=user_id,
+        event_type="ROOM_SESSION_STARTED",
+        data={
+            "session": session,
+            "owner_id": user_id
+        }
+    )
     
     return {
         "session": session,
