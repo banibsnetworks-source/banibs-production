@@ -386,6 +386,62 @@ async def mark_read_route(
     return None
 
 
+# ---------- Phase B: DM Request Management ----------
+
+@router.get("/dm-requests")
+async def list_dm_requests(
+    current_user=Depends(get_current_user),
+):
+    """
+    Get all pending DM requests for the current user.
+    
+    Returns requests from COOL/CHILL tier users awaiting approval.
+    """
+    from services.dm_request_service import get_pending_dm_requests
+    
+    user_id = current_user["id"]
+    db = await get_db()
+    
+    requests = await get_pending_dm_requests(user_id, db)
+    return {"dm_requests": requests, "count": len(requests)}
+
+
+@router.post("/dm-requests/{request_id}/respond")
+async def respond_to_dm_request_route(
+    request_id: str,
+    action: str = Query(..., regex="^(approve|reject)$"),
+    current_user=Depends(get_current_user),
+):
+    """
+    Respond to a DM request (approve or reject).
+    
+    Args:
+        request_id: ID of the DM request
+        action: "approve" or "reject"
+    
+    If approved, sender can now send messages.
+    If rejected, sender will need to wait and cannot retry immediately.
+    """
+    from services.dm_request_service import respond_to_dm_request
+    
+    user_id = current_user["id"]
+    db = await get_db()
+    
+    result = await respond_to_dm_request(request_id, user_id, action, db)
+    
+    if not result:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="DM request not found or already responded"
+        )
+    
+    return {
+        "status": result["status"],
+        "request_id": request_id,
+        "message": f"DM request {action}d successfully"
+    }
+
+
 # ---------- Phase 3 Add-Ons: Search & Delete ----------
 
 @router.get("/messages/search")
