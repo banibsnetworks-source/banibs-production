@@ -284,7 +284,8 @@ async def create_message_route(
     
     if conv["type"] == "dm":
         # Find the other participant
-        other_participants = [p for p in conv["participant_ids"] if p != user_id]
+        participant_ids = conv.get("participantIds", conv.get("participant_ids", []))
+        other_participants = [p for p in participant_ids if p != user_id]
         if not other_participants:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
