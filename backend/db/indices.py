@@ -82,6 +82,14 @@ async def ensure_social_feed_indices():
         logger.error(f"Error creating social feed indices: {e}")
 
 
+async def ensure_peoples_room_indices():
+    """
+    Ensure indices for Peoples Room collections (MEGADROP V1)
+    """
+    from db.indices.peoples_room_indices import ensure_peoples_room_indices as create_indices
+    await create_indices(await get_db())
+
+
 async def ensure_all_indices():
     """
     Run all index creation functions
@@ -89,3 +97,4 @@ async def ensure_all_indices():
     """
     await ensure_business_indices()
     await ensure_social_feed_indices()
+    await ensure_peoples_room_indices()
