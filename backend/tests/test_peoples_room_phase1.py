@@ -389,15 +389,21 @@ async def test_knock_rate_limit(db, test_users):
     """Test knock rate limiting (max 3 per hour)"""
     owner_id = test_users["owner"]
     visitor_id = test_users["cool_user"]
+    visitor2 = test_users["peoples_user"]
     
-    # Create 3 knocks (should succeed)
-    for i in range(3):
-        try:
-            await create_knock(owner_id, visitor_id, f"Knock {i+1}", db)
-        except ValueError:
-            pytest.fail(f"Should allow knock {i+1}")
+    # Create 3 knocks from different visitors (should succeed)
+    await create_knock(owner_id, visitor_id, "Knock 1", db)
     
-    # 4th knock should fail
+    # Respond to first knock so we can create more
+    await respond_to_knock(owner_id, visitor_id, "DENY", db=db)
+    
+    await create_knock(owner_id, visitor_id, "Knock 2", db)
+    await respond_to_knock(owner_id, visitor_id, "DENY", db=db)
+    
+    await create_knock(owner_id, visitor_id, "Knock 3", db)
+    await respond_to_knock(owner_id, visitor_id, "DENY", db=db)
+    
+    # 4th knock should fail due to rate limit
     with pytest.raises(ValueError, match="Rate limit exceeded"):
         await create_knock(owner_id, visitor_id, "Knock 4", db)
 
