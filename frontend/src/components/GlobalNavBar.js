@@ -322,8 +322,8 @@ const GlobalNavBar = () => {
         )}
       </div>
 
-      {/* Phase 8.1 - Auth Modal */}
-      <AuthModal
+      {/* Phase 8.1 - Auth Modal (rendered via Portal at document.body) */}
+      <AuthModalPortal
         isOpen={authModalOpen}
         defaultTab={authModalMode}
         onClose={() => setAuthModalOpen(false)}
