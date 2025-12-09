@@ -129,6 +129,13 @@ async def enter_my_room(
     # Log event for future social integrations
     await log_session_started(user_id, db)
     
+    # Phase 6.1: Log highlight
+    await log_session_started_highlight(
+        owner_id=user_id,
+        session_id=str(session.get("_id", "")),
+        db=db
+    )
+    
     # WebSocket: Broadcast session started to room subscribers
     await ws_manager.broadcast_room_event(
         room_owner_id=user_id,
