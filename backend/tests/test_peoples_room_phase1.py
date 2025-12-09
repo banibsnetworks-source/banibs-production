@@ -45,7 +45,7 @@ from models.peoples_room import (
 # FIXTURES
 # ============================================================================
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def event_loop():
     """Create event loop for async tests"""
     loop = asyncio.get_event_loop_policy().new_event_loop()
@@ -53,7 +53,7 @@ def event_loop():
     loop.close()
 
 
-@pytest.fixture(scope="module")
+@pytest_asyncio.fixture(scope="function")
 async def db():
     """Create test database connection"""
     mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
@@ -68,7 +68,7 @@ async def db():
     client.close()
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def test_users(db):
     """Create test users with relationships"""
     users = {
