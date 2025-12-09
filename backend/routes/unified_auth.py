@@ -51,7 +51,7 @@ from middleware.rate_limiter import enforce_rate_limit
 
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/api/auth", tags=["Authentication"])
+router = APIRouter(prefix="/api/auth", tags=["Authentication (Legacy)"])
 
 
 @router.post("/register", response_model=TokenResponse)
