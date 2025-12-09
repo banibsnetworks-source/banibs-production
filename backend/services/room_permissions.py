@@ -102,17 +102,17 @@ class RoomPermissionService:
         # Get relationship tier
         viewer_tier = await get_relationship_tier(owner_id, viewer_id, db)
         
-        # BLOCKED users cannot see room
-        if viewer_tier == "BLOCKED":
-            return False
-        
-        # Check Access List (highest priority)
+        # Check Access List FIRST (highest priority - can override BLOCKED)
         for entry in room.get("access_list", []):
             if entry["user_id"] == viewer_id:
                 if entry["access_mode"] == AccessMode.NEVER_ALLOW:
                     return False
                 # Any other access mode means they can see room
                 return True
+        
+        # BLOCKED users cannot see room (unless overridden by Access List above)
+        if viewer_tier == "BLOCKED":
+            return False
         
         # Check explicit user visibility list
         if viewer_id in room.get("room_visible_to_users", []):
