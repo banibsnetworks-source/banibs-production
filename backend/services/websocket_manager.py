@@ -156,9 +156,12 @@ class ConnectionManager:
         """
         Send an event to a specific user.
         """
+        # Serialize data to handle datetime objects
+        serialized_data = serialize_for_websocket(data)
+        
         message = {
             "type": event_type,
-            "data": data,
+            "data": serialized_data,
             "timestamp": datetime.now(timezone.utc).isoformat()
         }
         await self.send_personal_message(user_id, message)
