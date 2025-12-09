@@ -448,6 +448,10 @@ app.include_router(bdii_router)
 from routes.waitlist.waitlist_routes import router as waitlist_router
 app.include_router(waitlist_router)
 
+# Include Trust Integration Demo router (Circle Trust Order - Shadow Mode)
+from routes.trust_integration_demo import router as trust_demo_router
+app.include_router(trust_demo_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
