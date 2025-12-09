@@ -1528,16 +1528,16 @@ class BanibsAPITester:
             self.log(f"❌ ALRIGHT DM should be blocked, got {response.status_code}", "ERROR")
             return False
         
-        # Test 2.3: Set User1 -> User2 as BLOCKED, test DM creation (should fail)
+        # Test 2.3: Set User1 -> User3 as BLOCKED, test DM creation (should fail)
         self.log("📝 Test 2.3: BLOCKED tier DM creation (should fail)...")
         
         response = self.make_request("POST", "/relationships/block", {
-            "target_user_id": user2_id
+            "target_user_id": user3_id
         }, headers=headers_user1)
         
         response = self.make_request("POST", "/messaging/conversations", {
             "type": "dm",
-            "participant_ids": [user2_id]
+            "participant_ids": [user3_id]
         }, headers=headers_user1)
         
         if response.status_code == 403:
