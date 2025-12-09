@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://identity-trust-hub.preview.emergentagent.com/api/admin/analytics/sentiment
+https://peoplerooms.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints

@@ -6,7 +6,7 @@
 
   <!-- Homepage -->
   <url>
-    <loc>https://identity-trust-hub.preview.emergentagent.com/</loc>
+    <loc>https://peoplerooms.preview.emergentagent.com/</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -14,7 +14,7 @@
 
   <!-- World News -->
   <url>
-    <loc>https://identity-trust-hub.preview.emergentagent.com/world-news</loc>
+    <loc>https://peoplerooms.preview.emergentagent.com/world-news</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
@@ -22,7 +22,7 @@
 
   <!-- Business Directory -->
   <url>
-    <loc>https://identity-trust-hub.preview.emergentagent.com/business-directory</loc>
+    <loc>https://peoplerooms.preview.emergentagent.com/business-directory</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -30,7 +30,7 @@
 
   <!-- Opportunities -->
   <url>
-    <loc>https://identity-trust-hub.preview.emergentagent.com/opportunities</loc>
+    <loc>https://peoplerooms.preview.emergentagent.com/opportunities</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
@@ -38,7 +38,7 @@
 
   <!-- Resources -->
   <url>
-    <loc>https://identity-trust-hub.preview.emergentagent.com/resources</loc>
+    <loc>https://peoplerooms.preview.emergentagent.com/resources</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -46,7 +46,7 @@
 
   <!-- Events -->
   <url>
-    <loc>https://identity-trust-hub.preview.emergentagent.com/events</loc>
+    <loc>https://peoplerooms.preview.emergentagent.com/events</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -54,7 +54,7 @@
 
   <!-- Search -->
   <url>
-    <loc>https://identity-trust-hub.preview.emergentagent.com/search</loc>
+    <loc>https://peoplerooms.preview.emergentagent.com/search</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -62,7 +62,7 @@
 
   <!-- Candidate Profile -->
   <url>
-    <loc>https://identity-trust-hub.preview.emergentagent.com/candidate/profile</loc>
+    <loc>https://peoplerooms.preview.emergentagent.com/candidate/profile</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

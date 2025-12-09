@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://identity-trust-hub.preview.emergentagent.com/api/auth
+https://peoplerooms.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

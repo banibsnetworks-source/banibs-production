@@ -46,8 +46,8 @@
 | `/api/opportunities/{id}/feature` | PATCH | ✅ 200 | ✅ Yes |
 
 **Total Endpoints:** 8/8 Active ✅  
-**Swagger UI:** https://identity-trust-hub.preview.emergentagent.com/docs ✅  
-**ReDoc:** https://identity-trust-hub.preview.emergentagent.com/redoc ✅
+**Swagger UI:** https://peoplerooms.preview.emergentagent.com/docs ✅  
+**ReDoc:** https://peoplerooms.preview.emergentagent.com/redoc ✅
 
 ---
 
@@ -84,7 +84,7 @@ def check_admin(x_api_key: str = Header(None)):
 
 **Frontend Environment:**
 ```env
-REACT_APP_BACKEND_URL=https://identity-trust-hub.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://peoplerooms.preview.emergentagent.com
 ```
 
 **Status:** ✅ Frontend is pointed at the live backend

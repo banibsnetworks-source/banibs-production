@@ -186,7 +186,7 @@ for source in RSS_SOURCES:
 
 ### 3.3 Frontend Rendering
 
-**Test**: Visited `https://identity-trust-hub.preview.emergentagent.com/`
+**Test**: Visited `https://peoplerooms.preview.emergentagent.com/`
 
 **Results**:
 - ✅ Homepage loads successfully
