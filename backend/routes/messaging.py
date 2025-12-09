@@ -254,9 +254,17 @@ async def create_message_route(
     """
     Send a message to a conversation.
     
+    **Phase B Trust Enforcement**:
+    - Checks trust tier permissions before sending
+    - COOL/CHILL first messages create DM requests (require approval)
+    - BLOCKED users cannot send messages
+    - Mutual PEOPLES override (Founder Rule A) bypasses restrictions
+    - Existing threads allow continuation with approval bypass
+    
     Supports BANIBS emoji placeholders in text (e.g., [emoji:banibs_full_banibs_009]).
     """
     user_id = current_user["id"]
+    db = await get_db()
     
     # Validation: Text or media_url required
     if not payload.text and not payload.media_url:
@@ -265,6 +273,87 @@ async def create_message_route(
             detail="Either text or media_url is required"
         )
     
+    # **PHASE B: Trust Enforcement for DM messages**
+    # Get conversation to check type and participants
+    conv = await get_conversation_for_user(conversation_id, user_id)
+    if not conv:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Conversation not found or access denied"
+        )
+    
+    if conv["type"] == "dm":
+        # Find the other participant
+        other_participants = [p for p in conv["participant_ids"] if p != user_id]
+        if not other_participants:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid DM conversation - no other participant"
+            )
+        
+        recipient_id = other_participants[0]
+        
+        # Check if either user has blocked the other
+        if await is_user_blocked(user_id, recipient_id, db):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Cannot send message - blocked relationship"
+            )
+        
+        # Get sender's tier from recipient's perspective
+        sender_tier = await get_relationship_tier(recipient_id, user_id, db)
+        
+        # Founder Rule A: Mutual PEOPLES override
+        mutual_peoples = await check_mutual_peoples(user_id, recipient_id, db)
+        
+        if mutual_peoples:
+            # Mutual PEOPLES - send message immediately
+            pass
+        else:
+            # Check if this is the first message (no existing messages in this conversation)
+            existing_messages = await db.messaging_messages.count_documents({
+                "conversation_id": conversation_id,
+                "sender_id": user_id
+            })
+            
+            is_first_message = existing_messages == 0
+            
+            # Check trust permissions
+            dm_permission = can_send_dm(sender_tier, existing_thread=(not is_first_message))
+            
+            if not dm_permission["can_send"]:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail=f"Cannot send message: {dm_permission['reason']}"
+                )
+            
+            # Handle approval requirement for COOL/CHILL first messages
+            if dm_permission["requires_approval"] and is_first_message:
+                # Check if there's already an approved request
+                has_approval = await has_approved_dm_request(user_id, recipient_id, db)
+                
+                if not has_approval:
+                    # Create DM request instead of sending message
+                    message_preview = payload.text or "[Media message]"
+                    dm_request = await create_dm_request(
+                        sender_id=user_id,
+                        recipient_id=recipient_id,
+                        sender_tier=sender_tier,
+                        message_preview=message_preview,
+                        db=db
+                    )
+                    
+                    raise HTTPException(
+                        status_code=status.HTTP_202_ACCEPTED,
+                        detail={
+                            "status": "pending_approval",
+                            "message": f"Your message requires approval from the recipient ({sender_tier} tier)",
+                            "dm_request_id": dm_request["id"],
+                            "reason": dm_permission["reason"]
+                        }
+                    )
+    
+    # Send the message
     msg = await send_message(
         conversation_id=conversation_id,
         sender_id=user_id,
