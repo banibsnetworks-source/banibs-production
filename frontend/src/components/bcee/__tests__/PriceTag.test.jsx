@@ -232,14 +232,15 @@ describe('PriceTag Component', () => {
         }), 100))
       );
 
-      render(
+      const { container } = render(
         <MockAuthProvider>
           <PriceTag usdAmount={5.00} />
         </MockAuthProvider>
       );
 
-      // Should show loading skeleton
-      expect(screen.getByRole('status', { hidden: true }) || document.querySelector('.animate-pulse')).toBeInTheDocument();
+      // Should show loading skeleton with animate-pulse class
+      const loadingSkeleton = container.querySelector('.animate-pulse');
+      expect(loadingSkeleton).toBeInTheDocument();
     });
   });
 
