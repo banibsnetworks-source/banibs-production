@@ -1299,7 +1299,7 @@ class BanibsAPITester:
         self.log("🔐 Setting up authentication...")
         
         # Login as admin user
-        response = self.make_request("POST", "/bglis/login", {
+        response = self.make_request("POST", "/auth/login", {
             "email": admin_email,
             "password": admin_password
         })
