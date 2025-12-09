@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://banibs-platform.preview.emergentagent.com/api/auth
+https://megadrop-banibs.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

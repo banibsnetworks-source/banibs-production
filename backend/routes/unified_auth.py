@@ -286,7 +286,7 @@ async def forgot_password(request: PasswordResetRequest):
         logger.info(f"🎫 Reset token generated for user: {user['id']}")
         
         # Build reset link
-        reset_link = f"https://banibs-platform.preview.emergentagent.com/auth/reset-password?token={reset_token}"
+        reset_link = f"https://megadrop-banibs.preview.emergentagent.com/auth/reset-password?token={reset_token}"
         
         # Build HTML email
         html_body = f"""
