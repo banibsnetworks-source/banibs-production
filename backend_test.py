@@ -1272,6 +1272,510 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # PEOPLES ROOM PHASE 4 - WEBSOCKET INTEGRATION TESTING
+    # ==========================================
+    
+    async def test_websocket_connection(self) -> bool:
+        """
+        Test WebSocket connection with JWT authentication.
+        
+        Tests:
+        1. Login as admin user
+        2. Extract JWT token
+        3. Connect to WebSocket endpoint with token
+        4. Verify connection accepted (should receive "connected" message)
+        5. Verify "connected" message contains user_id
+        """
+        self.log("🔌 WEBSOCKET CONNECTION TEST")
+        
+        # Login as admin user
+        admin_email = "admin@banibs.com"
+        admin_password = "BanibsAdmin#2025"
+        
+        response = self.make_request("POST", "/auth/login", {
+            "email": admin_email,
+            "password": admin_password
+        })
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to login admin user: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        login_data = response.json()
+        if "access_token" not in login_data:
+            self.log("❌ Login response missing access_token", "ERROR")
+            return False
+        
+        admin_token = login_data["access_token"]
+        admin_user_id = login_data.get("user", {}).get("id")
+        self.log(f"✅ Admin user logged in successfully (ID: {admin_user_id})")
+        
+        # Test WebSocket connection
+        import websockets
+        import asyncio
+        import json
+        
+        # Convert HTTPS URL to WSS for WebSocket
+        ws_url = BACKEND_URL.replace("https://", "wss://") + f"/api/ws?token={admin_token}"
+        
+        try:
+            async with websockets.connect(ws_url) as websocket:
+                self.log("🔌 WebSocket connection established")
+                
+                # Wait for connection confirmation
+                response = await asyncio.wait_for(websocket.recv(), timeout=5.0)
+                message = json.loads(response)
+                
+                # Verify connection message
+                if (message.get("type") == "connected" and 
+                    message.get("user_id") == admin_user_id and
+                    "WebSocket connection established" in message.get("message", "")):
+                    self.log(f"✅ WebSocket connection confirmed: {message}")
+                    return True
+                else:
+                    self.log(f"❌ Invalid connection message: {message}", "ERROR")
+                    return False
+                    
+        except Exception as e:
+            self.log(f"❌ WebSocket connection failed: {e}", "ERROR")
+            return False
+    
+    async def test_websocket_room_subscription(self) -> bool:
+        """
+        Test WebSocket room subscription functionality.
+        
+        Tests:
+        1. Connect to WebSocket
+        2. Send room subscription message
+        3. Verify subscription response
+        """
+        self.log("📢 WEBSOCKET ROOM SUBSCRIPTION TEST")
+        
+        # Get admin token
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        # Get admin user ID from token
+        import jwt
+        try:
+            decoded = jwt.decode(self.admin_token, options={"verify_signature": False})
+            admin_user_id = decoded.get("sub")
+        except Exception as e:
+            self.log(f"❌ Failed to decode JWT: {e}", "ERROR")
+            return False
+        
+        import websockets
+        import asyncio
+        import json
+        
+        ws_url = BACKEND_URL.replace("https://", "wss://") + f"/api/ws?token={self.admin_token}"
+        
+        try:
+            async with websockets.connect(ws_url) as websocket:
+                # Wait for connection confirmation
+                await asyncio.wait_for(websocket.recv(), timeout=5.0)
+                
+                # Send room subscription
+                subscription_message = {
+                    "action": "subscribe_room",
+                    "room_owner_id": admin_user_id
+                }
+                await websocket.send(json.dumps(subscription_message))
+                
+                # Wait for subscription response
+                response = await asyncio.wait_for(websocket.recv(), timeout=5.0)
+                message = json.loads(response)
+                
+                # Verify subscription response
+                if (message.get("type") == "subscribed" and 
+                    message.get("room_owner_id") == admin_user_id):
+                    self.log(f"✅ Room subscription confirmed: {message}")
+                    return True
+                else:
+                    self.log(f"❌ Invalid subscription response: {message}", "ERROR")
+                    return False
+                    
+        except Exception as e:
+            self.log(f"❌ WebSocket room subscription failed: {e}", "ERROR")
+            return False
+    
+    async def test_websocket_session_events(self) -> bool:
+        """
+        Test WebSocket session events (enter/exit room).
+        
+        Tests:
+        1. Connect to WebSocket and subscribe to room
+        2. HTTP: POST /api/rooms/me/enter (owner enters room)
+        3. WebSocket: Should receive ROOM_SESSION_STARTED event
+        4. HTTP: POST /api/rooms/me/exit (owner exits room)
+        5. WebSocket: Should receive ROOM_SESSION_ENDED event
+        """
+        self.log("🚪 WEBSOCKET SESSION EVENTS TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        # Get admin user ID
+        import jwt
+        try:
+            decoded = jwt.decode(self.admin_token, options={"verify_signature": False})
+            admin_user_id = decoded.get("sub")
+        except Exception as e:
+            self.log(f"❌ Failed to decode JWT: {e}", "ERROR")
+            return False
+        
+        import websockets
+        import asyncio
+        import json
+        
+        ws_url = BACKEND_URL.replace("https://", "wss://") + f"/api/ws?token={self.admin_token}"
+        
+        try:
+            async with websockets.connect(ws_url) as websocket:
+                # Wait for connection and subscribe to room
+                await asyncio.wait_for(websocket.recv(), timeout=5.0)
+                
+                subscription_message = {
+                    "action": "subscribe_room", 
+                    "room_owner_id": admin_user_id
+                }
+                await websocket.send(json.dumps(subscription_message))
+                await asyncio.wait_for(websocket.recv(), timeout=5.0)  # subscription confirmation
+                
+                # Test 1: Enter room via HTTP
+                self.log("🚪 Testing room enter event...")
+                headers = {"Authorization": f"Bearer {self.admin_token}"}
+                
+                # Use requests in a thread to avoid blocking
+                import threading
+                import requests
+                
+                def make_http_request():
+                    return requests.post(f"{API_BASE}/rooms/me/enter", headers=headers, json={})
+                
+                # Start HTTP request in background
+                thread = threading.Thread(target=make_http_request)
+                thread.start()
+                
+                # Wait for WebSocket event
+                try:
+                    response = await asyncio.wait_for(websocket.recv(), timeout=10.0)
+                    message = json.loads(response)
+                    
+                    if (message.get("type") == "ROOM_SESSION_STARTED" and 
+                        message.get("room_owner_id") == admin_user_id):
+                        self.log(f"✅ ROOM_SESSION_STARTED event received: {message.get('data', {}).keys()}")
+                    else:
+                        self.log(f"❌ Expected ROOM_SESSION_STARTED, got: {message}", "ERROR")
+                        return False
+                except asyncio.TimeoutError:
+                    self.log("❌ Timeout waiting for ROOM_SESSION_STARTED event", "ERROR")
+                    return False
+                
+                thread.join()  # Wait for HTTP request to complete
+                
+                # Test 2: Exit room via HTTP
+                self.log("🚪 Testing room exit event...")
+                
+                def make_exit_request():
+                    return requests.post(f"{API_BASE}/rooms/me/exit", headers=headers, json={})
+                
+                thread = threading.Thread(target=make_exit_request)
+                thread.start()
+                
+                # Wait for WebSocket event
+                try:
+                    response = await asyncio.wait_for(websocket.recv(), timeout=10.0)
+                    message = json.loads(response)
+                    
+                    if (message.get("type") == "ROOM_SESSION_ENDED" and 
+                        message.get("room_owner_id") == admin_user_id):
+                        self.log(f"✅ ROOM_SESSION_ENDED event received: visitors_kicked={message.get('data', {}).get('visitors_kicked', 0)}")
+                        return True
+                    else:
+                        self.log(f"❌ Expected ROOM_SESSION_ENDED, got: {message}", "ERROR")
+                        return False
+                except asyncio.TimeoutError:
+                    self.log("❌ Timeout waiting for ROOM_SESSION_ENDED event", "ERROR")
+                    return False
+                
+                thread.join()
+                
+        except Exception as e:
+            self.log(f"❌ WebSocket session events test failed: {e}", "ERROR")
+            return False
+    
+    async def test_websocket_door_lock_events(self) -> bool:
+        """
+        Test WebSocket door lock/unlock events.
+        
+        Tests:
+        1. Connect to WebSocket and subscribe to room
+        2. HTTP: POST /api/rooms/me/lock (lock doors)
+        3. WebSocket: Should receive ROOM_DOOR_LOCKED event
+        4. HTTP: POST /api/rooms/me/unlock (unlock doors)
+        5. WebSocket: Should receive ROOM_DOOR_UNLOCKED event
+        """
+        self.log("🔒 WEBSOCKET DOOR LOCK EVENTS TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        # Get admin user ID
+        import jwt
+        try:
+            decoded = jwt.decode(self.admin_token, options={"verify_signature": False})
+            admin_user_id = decoded.get("sub")
+        except Exception as e:
+            self.log(f"❌ Failed to decode JWT: {e}", "ERROR")
+            return False
+        
+        import websockets
+        import asyncio
+        import json
+        import threading
+        import requests
+        
+        ws_url = BACKEND_URL.replace("https://", "wss://") + f"/api/ws?token={self.admin_token}"
+        
+        try:
+            async with websockets.connect(ws_url) as websocket:
+                # Setup connection and subscription
+                await asyncio.wait_for(websocket.recv(), timeout=5.0)
+                
+                subscription_message = {
+                    "action": "subscribe_room",
+                    "room_owner_id": admin_user_id
+                }
+                await websocket.send(json.dumps(subscription_message))
+                await asyncio.wait_for(websocket.recv(), timeout=5.0)
+                
+                headers = {"Authorization": f"Bearer {self.admin_token}"}
+                
+                # Test 1: Lock doors
+                self.log("🔒 Testing door lock event...")
+                
+                def lock_doors():
+                    return requests.post(f"{API_BASE}/rooms/me/lock", headers=headers, json={})
+                
+                thread = threading.Thread(target=lock_doors)
+                thread.start()
+                
+                try:
+                    response = await asyncio.wait_for(websocket.recv(), timeout=10.0)
+                    message = json.loads(response)
+                    
+                    if (message.get("type") == "ROOM_DOOR_LOCKED" and 
+                        message.get("room_owner_id") == admin_user_id):
+                        self.log(f"✅ ROOM_DOOR_LOCKED event received")
+                    else:
+                        self.log(f"❌ Expected ROOM_DOOR_LOCKED, got: {message}", "ERROR")
+                        return False
+                except asyncio.TimeoutError:
+                    self.log("❌ Timeout waiting for ROOM_DOOR_LOCKED event", "ERROR")
+                    return False
+                
+                thread.join()
+                
+                # Test 2: Unlock doors
+                self.log("🔓 Testing door unlock event...")
+                
+                def unlock_doors():
+                    return requests.post(f"{API_BASE}/rooms/me/unlock", headers=headers, json={})
+                
+                thread = threading.Thread(target=unlock_doors)
+                thread.start()
+                
+                try:
+                    response = await asyncio.wait_for(websocket.recv(), timeout=10.0)
+                    message = json.loads(response)
+                    
+                    if (message.get("type") == "ROOM_DOOR_UNLOCKED" and 
+                        message.get("room_owner_id") == admin_user_id):
+                        self.log(f"✅ ROOM_DOOR_UNLOCKED event received")
+                        return True
+                    else:
+                        self.log(f"❌ Expected ROOM_DOOR_UNLOCKED, got: {message}", "ERROR")
+                        return False
+                except asyncio.TimeoutError:
+                    self.log("❌ Timeout waiting for ROOM_DOOR_UNLOCKED event", "ERROR")
+                    return False
+                
+                thread.join()
+                
+        except Exception as e:
+            self.log(f"❌ WebSocket door lock events test failed: {e}", "ERROR")
+            return False
+    
+    async def test_websocket_ping_pong(self) -> bool:
+        """
+        Test WebSocket ping/pong functionality.
+        
+        Tests:
+        1. Connect to WebSocket
+        2. Send ping message
+        3. Verify pong response
+        """
+        self.log("🏓 WEBSOCKET PING/PONG TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        import websockets
+        import asyncio
+        import json
+        
+        ws_url = BACKEND_URL.replace("https://", "wss://") + f"/api/ws?token={self.admin_token}"
+        
+        try:
+            async with websockets.connect(ws_url) as websocket:
+                # Wait for connection confirmation
+                await asyncio.wait_for(websocket.recv(), timeout=5.0)
+                
+                # Send ping
+                ping_message = {"action": "ping"}
+                await websocket.send(json.dumps(ping_message))
+                
+                # Wait for pong response
+                response = await asyncio.wait_for(websocket.recv(), timeout=5.0)
+                message = json.loads(response)
+                
+                if message.get("type") == "pong":
+                    self.log("✅ Ping/pong working correctly")
+                    return True
+                else:
+                    self.log(f"❌ Expected pong, got: {message}", "ERROR")
+                    return False
+                    
+        except Exception as e:
+            self.log(f"❌ WebSocket ping/pong test failed: {e}", "ERROR")
+            return False
+    
+    async def test_websocket_error_handling(self) -> bool:
+        """
+        Test WebSocket error handling.
+        
+        Tests:
+        1. Send invalid JSON
+        2. Verify error response
+        3. Send unknown action
+        4. Verify error response with proper message
+        """
+        self.log("⚠️ WEBSOCKET ERROR HANDLING TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        import websockets
+        import asyncio
+        import json
+        
+        ws_url = BACKEND_URL.replace("https://", "wss://") + f"/api/ws?token={self.admin_token}"
+        
+        try:
+            async with websockets.connect(ws_url) as websocket:
+                # Wait for connection confirmation
+                await asyncio.wait_for(websocket.recv(), timeout=5.0)
+                
+                # Test 1: Invalid JSON
+                self.log("⚠️ Testing invalid JSON handling...")
+                await websocket.send("invalid json {")
+                
+                response = await asyncio.wait_for(websocket.recv(), timeout=5.0)
+                message = json.loads(response)
+                
+                if (message.get("type") == "error" and 
+                    "Invalid JSON" in message.get("message", "")):
+                    self.log("✅ Invalid JSON error handled correctly")
+                else:
+                    self.log(f"❌ Expected JSON error, got: {message}", "ERROR")
+                    return False
+                
+                # Test 2: Unknown action
+                self.log("⚠️ Testing unknown action handling...")
+                unknown_action = {"action": "unknown_action"}
+                await websocket.send(json.dumps(unknown_action))
+                
+                response = await asyncio.wait_for(websocket.recv(), timeout=5.0)
+                message = json.loads(response)
+                
+                if (message.get("type") == "error" and 
+                    "Unknown action: unknown_action" in message.get("message", "")):
+                    self.log("✅ Unknown action error handled correctly")
+                    return True
+                else:
+                    self.log(f"❌ Expected unknown action error, got: {message}", "ERROR")
+                    return False
+                    
+        except Exception as e:
+            self.log(f"❌ WebSocket error handling test failed: {e}", "ERROR")
+            return False
+    
+    def test_websocket_integration_suite(self) -> bool:
+        """
+        Run all WebSocket integration tests.
+        """
+        self.log("🎯 PEOPLES ROOM PHASE 4 - WEBSOCKET INTEGRATION TESTING")
+        
+        # Ensure we have admin token
+        if not self.test_admin_login():
+            return False
+        
+        import asyncio
+        
+        async def run_websocket_tests():
+            tests = [
+                ("WebSocket Connection", self.test_websocket_connection()),
+                ("Room Subscription", self.test_websocket_room_subscription()),
+                ("Session Events", self.test_websocket_session_events()),
+                ("Door Lock Events", self.test_websocket_door_lock_events()),
+                ("Ping/Pong", self.test_websocket_ping_pong()),
+                ("Error Handling", self.test_websocket_error_handling())
+            ]
+            
+            results = []
+            for test_name, test_coro in tests:
+                self.log(f"\n--- {test_name} ---")
+                try:
+                    result = await test_coro
+                    results.append((test_name, result))
+                    if result:
+                        self.log(f"✅ {test_name} PASSED")
+                    else:
+                        self.log(f"❌ {test_name} FAILED")
+                except Exception as e:
+                    self.log(f"❌ {test_name} ERROR: {e}", "ERROR")
+                    results.append((test_name, False))
+            
+            return results
+        
+        # Run async tests
+        try:
+            results = asyncio.run(run_websocket_tests())
+            
+            # Summary
+            passed = sum(1 for _, result in results if result)
+            total = len(results)
+            
+            self.log(f"\n🎯 WEBSOCKET INTEGRATION TEST SUMMARY:")
+            self.log(f"   Passed: {passed}/{total}")
+            
+            for test_name, result in results:
+                status = "✅ PASS" if result else "❌ FAIL"
+                self.log(f"   {status}: {test_name}")
+            
+            return passed == total
+            
+        except Exception as e:
+            self.log(f"❌ WebSocket test suite failed: {e}", "ERROR")
+            return False
+
+    # ==========================================
     # PEOPLES ROOM PHASE 2 API TESTING
     # ==========================================
     
