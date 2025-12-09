@@ -60,34 +60,34 @@ async def test_users(db):
         "safe_mode_visitor": "safemode_phase2_888"
     }
     
-    # Create relationships
+    # Create relationships (using owner_user_id field as per schema)
     relationships = [
         {
-            "user_id": users["owner"],
+            "owner_user_id": users["owner"],
             "target_user_id": users["peoples_visitor"],
             "tier": "PEOPLES",
             "created_at": datetime.now(timezone.utc)
         },
         {
-            "user_id": users["owner"],
+            "owner_user_id": users["owner"],
             "target_user_id": users["cool_visitor"],
             "tier": "COOL",
             "created_at": datetime.now(timezone.utc)
         },
         {
-            "user_id": users["owner"],
+            "owner_user_id": users["owner"],
             "target_user_id": users["alright_visitor"],
             "tier": "ALRIGHT",
             "created_at": datetime.now(timezone.utc)
         },
         {
-            "user_id": users["owner"],
+            "owner_user_id": users["owner"],
             "target_user_id": users["blocked_visitor"],
             "tier": "BLOCKED",
             "created_at": datetime.now(timezone.utc)
         },
         {
-            "user_id": users["owner"],
+            "owner_user_id": users["owner"],
             "target_user_id": users["safe_mode_visitor"],
             "tier": "OTHERS_SAFE_MODE",
             "created_at": datetime.now(timezone.utc)
