@@ -12297,13 +12297,13 @@ def main():
 
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
-        self.log("Starting BANIBS Backend API Test Suite - Phase B Trust Enforcement")
+        self.log("Starting BANIBS Backend API Test Suite - Peoples Room Phase 1")
         self.log(f"Testing against: {API_BASE}")
-        self.log("Testing Circle Trust Order system with comprehensive trust enforcement scenarios")
+        self.log("Testing Peoples Room System Phase 1 with all owner-facing endpoints")
         
         tests = [
-            # Phase B Trust Enforcement - Circle Trust Order System
-            ("Phase B Trust Enforcement Comprehensive", self.test_phase_b_trust_enforcement_comprehensive),
+            # Peoples Room Phase 1 - Owner-facing endpoints
+            ("Peoples Room Phase 1 Comprehensive", self.test_peoples_room_phase_1_comprehensive),
         ]
         
         passed = 0
