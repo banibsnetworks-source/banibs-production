@@ -154,8 +154,17 @@ async def exit_my_room(
     
     # Log event for future social integrations
     await log_session_ended(user_id, db=db)
-    # TODO: Emit WebSocket event: ROOM_SESSION_ENDED
-    # TODO: Notify all kicked visitors
+    
+    # WebSocket: Broadcast session ended to all room subscribers
+    await ws_manager.broadcast_room_event(
+        room_owner_id=user_id,
+        event_type="ROOM_SESSION_ENDED",
+        data={
+            "owner_id": user_id,
+            "session_ended_at": result["ended_at"],
+            "visitors_kicked": result["visitors_kicked"]
+        }
+    )
     
     return {
         "message": "You have exited your room",
