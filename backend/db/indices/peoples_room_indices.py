@@ -123,6 +123,42 @@ async def ensure_peoples_room_indices(db: AsyncIOMotorDatabase):
         logger.error(f"Error creating room_events indices: {e}")
     
     logger.info("✅ All Peoples Room + Events indices ensured")
+    
+    # ========== room_highlights indices (Phase 6.1) ==========
+    try:
+        # Compound index on owner_id + created_at (for timeline queries)
+        await db.room_highlights.create_index(
+            [("owner_id", 1), ("created_at", -1)],
+            name="owner_created_timeline"
+        )
+        logger.info("✓ Created index on room_highlights (owner_id, created_at)")
+        
+        # Index on event_type for filtering
+        await db.room_highlights.create_index(
+            [("event_type", 1)],
+            name="event_type_filter"
+        )
+        logger.info("✓ Created index on room_highlights.event_type")
+        
+        # Index on visitor_id for visitor-specific highlights
+        await db.room_highlights.create_index(
+            [("visitor_id", 1)],
+            name="visitor_id_filter"
+        )
+        logger.info("✓ Created index on room_highlights.visitor_id")
+        
+        # TTL index on expires_at (auto-delete after 90 days)
+        await db.room_highlights.create_index(
+            [("expires_at", 1)],
+            expireAfterSeconds=0,
+            name="highlight_ttl"
+        )
+        logger.info("✓ Created TTL index on room_highlights.expires_at")
+        
+    except Exception as e:
+        logger.error(f"Error creating room_highlights indices: {e}")
+    
+    logger.info("✅ All Peoples Room + Events + Highlights indices ensured")
 
 
 async def main():
