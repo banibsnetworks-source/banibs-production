@@ -26,13 +26,14 @@ class EmailService:
     """
     
     def __init__(self):
+        self.mock_mode = os.getenv("SMTP_MOCK_MODE", "false").lower() == "true"
         self.smtp_host = os.getenv("SMTP_HOST", "")
         self.smtp_port = int(os.getenv("SMTP_PORT", "587"))
         self.smtp_user = os.getenv("SMTP_USER", "")
         self.smtp_password = os.getenv("SMTP_PASSWORD", "")
         self.smtp_secure = os.getenv("SMTP_SECURE", "false").lower() == "true"
         self.from_email = os.getenv("SMTP_FROM_EMAIL", "noreply@banibs.com")
-        self.enabled = bool(self.smtp_host and self.smtp_user and self.smtp_password)
+        self.enabled = self.mock_mode or bool(self.smtp_host and self.smtp_user and self.smtp_password)
     
     def send_email(
         self,
