@@ -21,6 +21,7 @@ from fastapi import APIRouter, HTTPException, Response, Depends, Header
 from fastapi.responses import JSONResponse
 from typing import Optional
 from datetime import datetime, timezone
+import logging
 
 from models.unified_user import (
     UserCreate, UserLogin, UserUpdate, 
@@ -37,6 +38,8 @@ from db.unified_users import (
 from services.jwt_service import JWTService
 from services.email_service import send_email
 from middleware.rate_limiter import enforce_rate_limit
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 
