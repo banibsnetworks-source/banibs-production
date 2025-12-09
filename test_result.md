@@ -2985,7 +2985,8 @@ metadata:
   test_sequence: 3
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Peoples Room Phase 4 - WebSocket Integration"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -2997,6 +2998,8 @@ agent_communication:
       message: "Starting Peoples Room Phase 3 UI testing. Will test My Room page owner dashboard with all tabs and functionality including login flow, room entry/exit, tab navigation, settings functionality, and UI elements verification."
     - agent: "testing"
       message: "Peoples Room Phase 3 UI Testing COMPLETE ✅ ALL FUNCTIONALITY WORKING. My Room page owner dashboard fully operational with authentication, room state management, tab navigation (Visitors/Knocks/Access List/Settings), door lock controls, presence mode settings, room entry/exit flow, and professional MVP design. All core features verified and production-ready. Minor intermittent API response cloning issue detected (browser extension related) but doesn't affect functionality - retry mechanism works correctly."
+    - agent: "testing"
+      message: "Peoples Room Phase 4 WebSocket Integration Testing COMPLETE ✅ ALL TESTS PASSED (6/6). WebSocket connection, room subscription, session events (enter/exit), door lock events, ping/pong, and error handling all working correctly. Fixed critical datetime serialization issue in WebSocket manager. Real-time updates for knocks, visitors, and room events fully operational. WebSocket endpoint wss://peoplerooms.preview.emergentagent.com/api/ws?token=<jwt_token> production-ready."
 
 frontend:
   - task: "Phase 16.0 - Marketplace Navigation Fix Verification"
