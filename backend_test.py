@@ -1323,6 +1323,7 @@ class BanibsAPITester:
         
         test_user_1_email = f"trust_test_user_1_{timestamp}@example.com"
         test_user_2_email = f"trust_test_user_2_{timestamp}@example.com"
+        test_user_3_email = f"trust_test_user_3_{timestamp}@example.com"
         test_password = "TestPass123!"
         
         self.log("👥 Creating test users for relationship testing...")
@@ -1361,6 +1362,24 @@ class BanibsAPITester:
             self.log(f"✅ Test User 2 created (ID: {user2_id})")
         else:
             self.log(f"❌ Failed to create User 2: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Create User 3 for additional testing
+        response = self.make_request("POST", "/auth/register", {
+            "email": test_user_3_email,
+            "password": test_password,
+            "first_name": "Trust",
+            "last_name": "User3",
+            "accepted_terms": True
+        })
+        
+        if response.status_code == 200:
+            user3_data = response.json()
+            user3_id = user3_data.get("user", {}).get("id")
+            user3_token = user3_data.get("access_token")
+            self.log(f"✅ Test User 3 created (ID: {user3_id})")
+        else:
+            self.log(f"❌ Failed to create User 3: {response.status_code} - {response.text}", "ERROR")
             return False
         
         # ============ TEST 1: RELATIONSHIP TIER MANAGEMENT ============
