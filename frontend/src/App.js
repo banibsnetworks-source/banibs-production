@@ -389,10 +389,11 @@ function App() {
         <MediaViewerProvider>
           <AuthProvider>
             <ContributorAuthProvider>
-              <div className="App">
-                <MediaViewer />
-                <BrowserRouter>
-                  <AccountModeProvider>
+              <WebSocketProvider>
+                <div className="App">
+                  <MediaViewer />
+                  <BrowserRouter>
+                    <AccountModeProvider>
             <Routes>
               {/* Phase 10.0 - Full-Page Auth Routes (P0 Blocker Fix) */}
               <Route path="/auth/register" element={<RegisterPage />} />
