@@ -13150,6 +13150,10 @@ if __name__ == "__main__":
             # Run Peoples Room Phase 1 tests
             success = tester.test_peoples_room_phase_1_comprehensive()
             sys.exit(0 if success else 1)
+        elif test_name == "rooms2":
+            # Run Peoples Room Phase 2 tests
+            success = tester.test_peoples_room_phase_2_visitor_endpoints()
+            sys.exit(0 if success else 1)
         elif test_name == "all":
             # Run all tests
             success = tester.run_all_tests()
