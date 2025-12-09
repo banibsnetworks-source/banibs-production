@@ -8841,27 +8841,25 @@ class BanibsAPITester:
 
 
 def main():
-    """Run Peoples Room Phase 2 - Visitor-Facing API Endpoints Testing"""
+    """Run Peoples Room Phase 4 - WebSocket Integration Testing"""
     tester = BanibsAPITester()
     
-    print("🏠 BANIBS Backend API Test Suite - Peoples Room Phase 2 Visitor-Facing Endpoints Testing")
+    print("🏠 BANIBS Backend API Test Suite - Peoples Room Phase 4 WebSocket Integration Testing")
     print("=" * 80)
     
     # Track test results
     tests = []
     
-    # Peoples Room Phase 2 - Visitor-Facing API Endpoints Tests
-    print("\n🏠 PEOPLES ROOM PHASE 2 - VISITOR-FACING API ENDPOINTS")
+    # Peoples Room Phase 4 - WebSocket Integration Tests
+    print("\n🔌 PEOPLES ROOM PHASE 4 - WEBSOCKET INTEGRATION")
     print("=" * 60)
     
-    # Peoples Room Phase 2 Comprehensive Test
-    tests.append(("Peoples Room Phase 2 Visitor-Facing Endpoints Test", tester.test_peoples_room_phase_2_visitor_endpoints))
+    # WebSocket Integration Test Suite
+    tests.append(("Peoples Room Phase 4 WebSocket Integration", tester.test_websocket_integration_suite))
     
     # Run all tests
     passed = 0
     failed = 0
-    adcs_passed = 0
-    adcs_failed = 0
     
     for i, (test_name, test_func) in enumerate(tests):
         print(f"\n📋 Running: {test_name}")
@@ -8871,33 +8869,31 @@ def main():
             result = test_func()
             if result:
                 passed += 1
-                adcs_passed += 1
                 print(f"✅ {test_name}: PASSED")
             else:
                 failed += 1
-                adcs_failed += 1
                 print(f"❌ {test_name}: FAILED")
         except Exception as e:
             failed += 1
-            adcs_failed += 1
             print(f"💥 {test_name}: ERROR - {e}")
     
     # Final summary
     print("\n" + "=" * 80)
     print("🏁 TEST SUMMARY")
     print("=" * 80)
-    print(f"🏠 PEOPLES ROOM PHASE 2 VISITOR-FACING ENDPOINTS:")
+    print(f"🔌 PEOPLES ROOM PHASE 4 WEBSOCKET INTEGRATION:")
     print(f"   ✅ Passed: {passed}")
     print(f"   ❌ Failed: {failed}")
     print(f"   📈 Success Rate: {(passed / (passed + failed) * 100):.1f}%" if (passed + failed) > 0 else "0.0%")
     
     if failed == 0:
-        print("\n🎉 ALL PEOPLES ROOM PHASE 2 TESTS PASSED! Visitor-facing endpoints are fully operational!")
-        print("🏠 Room status endpoint working correctly")
-        print("🚪 Knock workflow working end-to-end")
-        print("🔐 Authentication properly enforced (401 without token)")
-        print("👥 Visitor enter/leave functionality working")
-        print("📊 Status endpoint shows correct permissions")
+        print("\n🎉 ALL PEOPLES ROOM PHASE 4 WEBSOCKET TESTS PASSED! Real-time integration is fully operational!")
+        print("🔌 WebSocket connection with JWT authentication working")
+        print("📢 Room subscription/unsubscription working")
+        print("🚪 Session events (enter/exit) broadcasting correctly")
+        print("🔒 Door lock/unlock events broadcasting correctly")
+        print("🏓 Ping/pong keepalive working")
+        print("⚠️ Error handling for invalid JSON and unknown actions working")
         print("⏱️ Rate limiting integrated (3 knocks max per hour)")
     else:
         print(f"\n⚠️  {failed} Peoples Room Phase 2 test(s) failed. Please review the errors above.")
