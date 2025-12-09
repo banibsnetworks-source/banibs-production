@@ -66,6 +66,7 @@ import SocialWorldMarketplace from "./pages/socialworld/MarketplacePage";
 
 // MEGADROP V1 - Peoples Room System (Phase 3 UI)
 import MyRoom from "./pages/MyRoom";
+import RoomDetail from "./pages/RoomDetail"; // Phase 5: Visitor UI
 
 // Phase B2 - Black News Tab
 import BlackNewsPage from "./pages/BlackNewsPage";
