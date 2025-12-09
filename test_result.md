@@ -451,6 +451,73 @@ frontend:
           **STATUS:** Peoples Room Phase 3 Owner UI is fully functional and production-ready. All core features working correctly with professional design implementation.
 
 backend:
+  - task: "Peoples Room Phase 4 - WebSocket Integration"
+    implemented: true
+    working: true
+    file: "backend/routes/websocket_routes.py, backend/services/websocket_manager.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Starting Peoples Room Phase 4 WebSocket Integration testing. Testing real-time updates for knocks, visitors, and room events."
+      - working: true
+        agent: "testing"
+        comment: |
+          🔌 PEOPLES ROOM PHASE 4 - WEBSOCKET INTEGRATION FULLY OPERATIONAL ✅
+          
+          **COMPREHENSIVE TESTING RESULTS (6/6 TESTS PASSED - 100% SUCCESS):**
+          
+          **1. WEBSOCKET CONNECTION TEST - WORKING ✅**
+          - ✅ JWT authentication working correctly
+          - ✅ Connection established to wss://peoplerooms.preview.emergentagent.com/api/ws?token=<jwt_token>
+          - ✅ Connection confirmation message received with user_id
+          - ✅ Admin user (admin@banibs.com) authenticated successfully
+          
+          **2. ROOM SUBSCRIPTION TEST - WORKING ✅**
+          - ✅ Room subscription message processed correctly
+          - ✅ Subscription confirmation received: {"type": "subscribed", "room_owner_id": "<admin_id>"}
+          - ✅ WebSocket manager correctly tracks room subscriptions
+          
+          **3. SESSION EVENTS TEST - WORKING ✅**
+          - ✅ HTTP POST /api/rooms/me/enter triggers ROOM_SESSION_STARTED event
+          - ✅ WebSocket receives event with session data and owner_id
+          - ✅ HTTP POST /api/rooms/me/exit triggers ROOM_SESSION_ENDED event
+          - ✅ WebSocket receives event with visitors_kicked count
+          - ✅ Real-time session events broadcasting correctly
+          
+          **4. DOOR LOCK EVENTS TEST - WORKING ✅**
+          - ✅ HTTP POST /api/rooms/me/lock triggers ROOM_DOOR_LOCKED event
+          - ✅ WebSocket receives event with updated room data
+          - ✅ HTTP POST /api/rooms/me/unlock triggers ROOM_DOOR_UNLOCKED event
+          - ✅ WebSocket receives event with updated room data
+          - ✅ Real-time door state events broadcasting correctly
+          
+          **5. PING/PONG TEST - WORKING ✅**
+          - ✅ Ping message {"action": "ping"} processed correctly
+          - ✅ Pong response {"type": "pong"} received
+          - ✅ WebSocket keepalive functionality working
+          
+          **6. ERROR HANDLING TEST - WORKING ✅**
+          - ✅ Invalid JSON handled correctly with error response
+          - ✅ Unknown action handled correctly with proper error message
+          - ✅ Error responses include descriptive messages
+          
+          **TECHNICAL FIXES APPLIED:**
+          - ✅ Fixed datetime serialization issue in WebSocket manager
+          - ✅ Added serialize_for_websocket() function to handle datetime objects
+          - ✅ All WebSocket events now properly serialize datetime fields to ISO strings
+          
+          **WEBSOCKET ENDPOINT VERIFICATION:**
+          - ✅ Endpoint: wss://peoplerooms.preview.emergentagent.com/api/ws?token=<jwt_token>
+          - ✅ Authentication: JWT token required and validated
+          - ✅ Connection management: Proper connect/disconnect handling
+          - ✅ Room channels: Subscription/unsubscription working
+          - ✅ Event broadcasting: All room events broadcast to subscribers
+          
+          **STATUS:** Peoples Room Phase 4 WebSocket Integration is fully operational and production-ready
+
   - task: "Phase B Trust Enforcement - Relationship Tier Management"
     implemented: true
     working: true
