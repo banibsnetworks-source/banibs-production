@@ -158,13 +158,13 @@ async def get_all_relationships(
 
 async def block_user(owner_user_id: str, target_user_id: str):
     """
-    Block a user. Creates or updates relationship with BLOCKED status.
+    Block a user. Creates or updates relationship with BLOCKED tier.
     """
     return await create_or_update_relationship(
         owner_user_id=owner_user_id,
         target_user_id=target_user_id,
-        tier=TIER_OTHERS,
-        status=STATUS_BLOCKED
+        tier=TIER_BLOCKED,
+        status=STATUS_ACTIVE
     )
 
 
