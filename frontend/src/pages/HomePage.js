@@ -38,7 +38,7 @@ const HomePage = () => {
 
   return (
     <FullWidthLayout>
-    <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-black">
       <SEO 
         title="Black America News, Information & Business System"
         description="Connecting Black and Indigenous communities to news, opportunities, business resources, and education. Browse jobs, grants, scholarships, and Black-owned businesses."
