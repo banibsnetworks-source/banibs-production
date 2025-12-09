@@ -81,7 +81,8 @@ async def enter_room(
     
     logger.info(f"Owner {owner_id} entered their room (new session)")
     
-    return new_session
+    # Return the session without the MongoDB _id field
+    return {k: v for k, v in new_session.items() if k != "_id"}
 
 
 async def exit_room(
