@@ -1272,6 +1272,374 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # PEOPLES ROOM PHASE 1 API TESTING
+    # ==========================================
+    
+    def test_peoples_room_phase_1_comprehensive(self) -> bool:
+        """
+        PEOPLES ROOM PHASE 1 COMPREHENSIVE TESTING
+        
+        Tests all owner-facing endpoints with authentication:
+        1. GET /api/rooms/me - Get owner's room config and session
+        2. POST /api/rooms/me/enter - Owner enters their room
+        3. POST /api/rooms/me/exit - Owner exits room
+        4. PATCH /api/rooms/me/settings - Update room configuration
+        5. POST /api/rooms/me/access-list - Add user to access list
+        6. DELETE /api/rooms/me/access-list/{user_id} - Remove from access list
+        7. GET /api/rooms/me/knocks - Get knocks on owner's room
+        8. POST /api/rooms/me/lock - Lock room doors
+        9. POST /api/rooms/me/unlock - Unlock room doors
+        """
+        self.log("🏠 PEOPLES ROOM PHASE 1 COMPREHENSIVE TESTING")
+        
+        # ============ AUTHENTICATION SETUP ============
+        
+        # Test user credentials from review request
+        admin_email = "admin@banibs.com"
+        admin_password = "BanibsAdmin#2025"
+        
+        self.log("🔐 Setting up authentication...")
+        
+        # Login as admin user
+        response = self.make_request("POST", "/auth/login", {
+            "email": admin_email,
+            "password": admin_password
+        })
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to login admin user: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        login_data = response.json()
+        if "access_token" not in login_data:
+            self.log("❌ Login response missing access_token", "ERROR")
+            return False
+        
+        admin_token = login_data["access_token"]
+        admin_user_id = login_data.get("user", {}).get("id")
+        self.log(f"✅ Admin user logged in successfully (ID: {admin_user_id})")
+        
+        # Create a test user for access list testing
+        import time
+        timestamp = int(time.time())
+        test_user_email = f"room_test_user_{timestamp}@example.com"
+        test_password = "TestPass123!"
+        
+        self.log("👤 Creating test user for access list testing...")
+        
+        response = self.make_request("POST", "/auth/register", {
+            "email": test_user_email,
+            "password": test_password,
+            "first_name": "Room",
+            "last_name": "TestUser",
+            "accepted_terms": True
+        })
+        
+        if response.status_code == 200:
+            test_user_data = response.json()
+            test_user_id = test_user_data.get("user", {}).get("id")
+            self.log(f"✅ Test user created (ID: {test_user_id})")
+        else:
+            self.log(f"❌ Failed to create test user: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {admin_token}"}
+        
+        # ============ TEST 1: GET /api/rooms/me (Auto-create room) ============
+        
+        self.log("🏠 Test 1: GET /api/rooms/me (Auto-create room)...")
+        
+        response = self.make_request("GET", "/rooms/me", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Verify response structure
+            if "room" in data and "session" in data:
+                room = data["room"]
+                session = data["session"]
+                
+                # Verify room has default settings
+                required_room_fields = ["owner_id", "door_state", "presence_mode", "room_visible_to_tiers", "tier_rules"]
+                if all(field in room for field in required_room_fields):
+                    if (room["owner_id"] == admin_user_id and 
+                        room["door_state"] == "OPEN" and
+                        room["presence_mode"] == "PUBLIC_ROOM_PRESENCE"):
+                        
+                        self.log("✅ Room auto-created with correct default settings")
+                        self.log(f"   Owner ID: {room['owner_id']}")
+                        self.log(f"   Door State: {room['door_state']}")
+                        self.log(f"   Visible to tiers: {room['room_visible_to_tiers']}")
+                        
+                        # Session should be null initially
+                        if session is None:
+                            self.log("✅ Session is null (owner not entered yet)")
+                        else:
+                            self.log("⚠️ Session exists (owner might have entered before)")
+                    else:
+                        self.log("❌ Room created with incorrect default values", "ERROR")
+                        return False
+                else:
+                    missing_fields = [field for field in required_room_fields if field not in room]
+                    self.log(f"❌ Room missing required fields: {missing_fields}", "ERROR")
+                    return False
+            else:
+                self.log("❌ Response missing 'room' or 'session' fields", "ERROR")
+                return False
+        else:
+            self.log(f"❌ GET /rooms/me failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 2: POST /api/rooms/me/enter (Start session) ============
+        
+        self.log("🚪 Test 2: POST /api/rooms/me/enter (Start session)...")
+        
+        response = self.make_request("POST", "/rooms/me/enter", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if "session" in data and "message" in data:
+                session = data["session"]
+                
+                # Verify session structure
+                required_session_fields = ["room_owner_id", "is_active", "started_at", "current_visitors"]
+                if all(field in session for field in required_session_fields):
+                    if (session["room_owner_id"] == admin_user_id and 
+                        session["is_active"] == True and
+                        isinstance(session["current_visitors"], list)):
+                        
+                        self.log("✅ Room session created successfully")
+                        self.log(f"   Owner ID: {session['room_owner_id']}")
+                        self.log(f"   Active: {session['is_active']}")
+                        self.log(f"   Started at: {session['started_at']}")
+                        self.log(f"   Current visitors: {len(session['current_visitors'])}")
+                    else:
+                        self.log("❌ Session created with incorrect values", "ERROR")
+                        return False
+                else:
+                    missing_fields = [field for field in required_session_fields if field not in session]
+                    self.log(f"❌ Session missing required fields: {missing_fields}", "ERROR")
+                    return False
+            else:
+                self.log("❌ Response missing 'session' or 'message' fields", "ERROR")
+                return False
+        else:
+            self.log(f"❌ POST /rooms/me/enter failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 3: PATCH /api/rooms/me/settings (Update config) ============
+        
+        self.log("⚙️ Test 3: PATCH /api/rooms/me/settings (Update config)...")
+        
+        # Test updating door_state to LOCKED
+        response = self.make_request("PATCH", "/rooms/me/settings", {
+            "door_state": "LOCKED"
+        }, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if "room" in data and "message" in data:
+                room = data["room"]
+                
+                if room["door_state"] == "LOCKED":
+                    self.log("✅ Door state updated to LOCKED successfully")
+                else:
+                    self.log(f"❌ Door state not updated correctly: {room['door_state']}", "ERROR")
+                    return False
+            else:
+                self.log("❌ Response missing 'room' or 'message' fields", "ERROR")
+                return False
+        else:
+            self.log(f"❌ PATCH /rooms/me/settings failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # Test updating room_visible_to_tiers
+        response = self.make_request("PATCH", "/rooms/me/settings", {
+            "room_visible_to_tiers": ["PEOPLES", "COOL"]
+        }, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            room = data["room"]
+            
+            if room["room_visible_to_tiers"] == ["PEOPLES", "COOL"]:
+                self.log("✅ Room visibility tiers updated successfully")
+            else:
+                self.log(f"❌ Room visibility tiers not updated correctly: {room['room_visible_to_tiers']}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ PATCH /rooms/me/settings (tiers) failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 4: POST /api/rooms/me/access-list (Add user) ============
+        
+        self.log("📝 Test 4: POST /api/rooms/me/access-list (Add user)...")
+        
+        response = self.make_request("POST", "/rooms/me/access-list", {
+            "user_id": test_user_id,
+            "access_mode": "DIRECT_ENTRY"
+        }, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if "access_list" in data and "message" in data:
+                access_list = data["access_list"]
+                
+                # Find the added user in access list
+                added_user = None
+                for entry in access_list:
+                    if entry["user_id"] == test_user_id:
+                        added_user = entry
+                        break
+                
+                if added_user and added_user["access_mode"] == "DIRECT_ENTRY":
+                    self.log("✅ User added to access list successfully")
+                    self.log(f"   User ID: {added_user['user_id']}")
+                    self.log(f"   Access Mode: {added_user['access_mode']}")
+                else:
+                    self.log("❌ User not found in access list or incorrect access mode", "ERROR")
+                    return False
+            else:
+                self.log("❌ Response missing 'access_list' or 'message' fields", "ERROR")
+                return False
+        else:
+            self.log(f"❌ POST /rooms/me/access-list failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 5: DELETE /api/rooms/me/access-list/{user_id} (Remove user) ============
+        
+        self.log("🗑️ Test 5: DELETE /api/rooms/me/access-list/{user_id} (Remove user)...")
+        
+        response = self.make_request("DELETE", f"/rooms/me/access-list/{test_user_id}", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if "message" in data:
+                self.log("✅ User removed from access list successfully")
+            else:
+                self.log("❌ Response missing 'message' field", "ERROR")
+                return False
+        else:
+            self.log(f"❌ DELETE /rooms/me/access-list failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 6: GET /api/rooms/me/knocks (Get knocks) ============
+        
+        self.log("👋 Test 6: GET /api/rooms/me/knocks (Get knocks)...")
+        
+        response = self.make_request("GET", "/rooms/me/knocks?status=PENDING", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if "knocks" in data and "count" in data:
+                knocks = data["knocks"]
+                count = data["count"]
+                
+                # Should be empty initially
+                if isinstance(knocks, list) and count == len(knocks):
+                    self.log(f"✅ Knocks endpoint working - Found {count} knocks")
+                else:
+                    self.log("❌ Knocks response structure incorrect", "ERROR")
+                    return False
+            else:
+                self.log("❌ Response missing 'knocks' or 'count' fields", "ERROR")
+                return False
+        else:
+            self.log(f"❌ GET /rooms/me/knocks failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 7: POST /api/rooms/me/lock (Lock doors) ============
+        
+        self.log("🔒 Test 7: POST /api/rooms/me/lock (Lock doors)...")
+        
+        response = self.make_request("POST", "/rooms/me/lock", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if "room" in data and "message" in data:
+                room = data["room"]
+                
+                if room["door_state"] == "LOCKED":
+                    self.log("✅ Room doors locked successfully")
+                else:
+                    self.log(f"❌ Door state not locked: {room['door_state']}", "ERROR")
+                    return False
+            else:
+                self.log("❌ Response missing 'room' or 'message' fields", "ERROR")
+                return False
+        else:
+            self.log(f"❌ POST /rooms/me/lock failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 8: POST /api/rooms/me/unlock (Unlock doors) ============
+        
+        self.log("🔓 Test 8: POST /api/rooms/me/unlock (Unlock doors)...")
+        
+        response = self.make_request("POST", "/rooms/me/unlock", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if "room" in data and "message" in data:
+                room = data["room"]
+                
+                if room["door_state"] == "OPEN":
+                    self.log("✅ Room doors unlocked successfully")
+                else:
+                    self.log(f"❌ Door state not open: {room['door_state']}", "ERROR")
+                    return False
+            else:
+                self.log("❌ Response missing 'room' or 'message' fields", "ERROR")
+                return False
+        else:
+            self.log(f"❌ POST /rooms/me/unlock failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 9: POST /api/rooms/me/exit (End session) ============
+        
+        self.log("🚪 Test 9: POST /api/rooms/me/exit (End session)...")
+        
+        response = self.make_request("POST", "/rooms/me/exit", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if "message" in data and "session_ended_at" in data:
+                self.log("✅ Room session ended successfully")
+                self.log(f"   Session ended at: {data['session_ended_at']}")
+                
+                if "visitors_kicked" in data:
+                    self.log(f"   Visitors kicked: {data['visitors_kicked']}")
+            else:
+                self.log("❌ Response missing required fields", "ERROR")
+                return False
+        else:
+            self.log(f"❌ POST /rooms/me/exit failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 10: Authentication Required Tests ============
+        
+        self.log("🔐 Test 10: Authentication required tests...")
+        
+        # Test without token - should return 401
+        response = self.make_request("GET", "/rooms/me")
+        
+        if response.status_code == 401:
+            self.log("✅ Authentication properly required (401 without token)")
+        else:
+            self.log(f"❌ Should require authentication, got {response.status_code}", "ERROR")
+            return False
+        
+        self.log("🎉 ALL PEOPLES ROOM PHASE 1 TESTS PASSED!")
+        return True
+
+    # ==========================================
     # PHASE B TRUST ENFORCEMENT - CIRCLE TRUST ORDER TESTING
     # ==========================================
     
