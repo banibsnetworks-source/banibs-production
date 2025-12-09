@@ -63,6 +63,9 @@ import SocialWorldChat from "./pages/socialworld/ChatSpherePage";
 import SocialWorldTalent from "./pages/socialworld/TalentWorldPage";
 import SocialWorldMarketplace from "./pages/socialworld/MarketplacePage";
 
+// MEGADROP V1 - Peoples Room System (Phase 3 UI)
+import MyRoom from "./pages/MyRoom";
+
 // Phase B2 - Black News Tab
 import BlackNewsPage from "./pages/BlackNewsPage";
 
