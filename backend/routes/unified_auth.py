@@ -1,18 +1,28 @@
 """
-Phase 6.0 - Unified Authentication Routes
+Phase 6.0 - Unified Authentication Routes [LEGACY]
 
-All authentication endpoints for BANIBS unified identity system.
+⚠️ DEPRECATION NOTICE (December 2025):
+These routes are being phased out in favor of BGLIS v1.0 phone-first authentication.
 
-Endpoints:
-- POST /api/auth/register
-- POST /api/auth/login
-- POST /api/auth/refresh
-- POST /api/auth/logout
-- POST /api/auth/forgot-password
-- POST /api/auth/reset-password
-- POST /api/auth/verify-email
-- GET /api/auth/me
-- PATCH /api/auth/profile
+RECOMMENDED: Use BGLIS auth routes (bglis_auth.py) for new integrations:
+- Phone-first registration with OTP verification
+- Username-based authentication
+- Recovery phrase system for account recovery
+
+LEGACY endpoints (for backward compatibility):
+- POST /api/auth/register — Email + password registration
+- POST /api/auth/login — Email + password login
+- POST /api/auth/refresh — Token refresh
+- POST /api/auth/logout — Logout
+- POST /api/auth/forgot-password — Password reset request
+- POST /api/auth/reset-password — Complete password reset
+- POST /api/auth/verify-email — Email verification
+- GET /api/auth/me — Get current user
+- PATCH /api/auth/profile — Update profile
+
+MIGRATION PATH:
+Existing users with email+password accounts will be prompted to upgrade to BGLIS
+by adding phone number, username, and recovery phrase for enhanced security.
 
 SSO Compatible: Tokens work across *.banibs.com domains
 """
