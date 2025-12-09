@@ -362,6 +362,18 @@ frontend:
         agent: "testing"
         comment: |
           🏠 PEOPLES ROOM PHASE 3 - OWNER UI TESTING COMPLETE ✅
+
+  - task: "Peoples Room Phase 5 - Visitor-Side UI"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/RoomsDiscovery.js, frontend/src/pages/RoomDetail.js, frontend/src/components/rooms/KnockModal.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Starting Peoples Room Phase 5 Visitor-Side UI testing. Testing rooms discovery page, room detail page, knock modal, visitor flows, and real-time WebSocket updates using admin@banibs.com credentials."
           
           **COMPREHENSIVE TESTING RESULTS:**
           
