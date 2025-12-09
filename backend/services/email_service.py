@@ -24,8 +24,20 @@ SMTP_CONFIGURED = all([SMTP_HOST, SMTP_USER, SMTP_PASS])
 def send_email(to_email: str, subject: str, html_body: str):
     """
     Phase 3.3 - Send email via SMTP
-    Falls back to logging if SMTP not configured
+    Falls back to logging if SMTP not configured or in mock mode
     """
+    # Mock mode for development - log emails instead of sending
+    if SMTP_MOCK_MODE:
+        logger.info("=" * 80)
+        logger.info("📧 [MOCK EMAIL] Email would be sent (SMTP_MOCK_MODE=true)")
+        logger.info(f"To: {to_email}")
+        logger.info(f"From: {EMAIL_FROM}")
+        logger.info(f"Subject: {subject}")
+        logger.info("-" * 80)
+        logger.info(f"Body Preview:\n{html_body[:500]}...")
+        logger.info("=" * 80)
+        return
+    
     if not SMTP_CONFIGURED:
         logger.warning(f"SMTP not configured. Would send email to {to_email}")
         logger.info(f"Subject: {subject}")
