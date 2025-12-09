@@ -78,22 +78,22 @@ async def test_users(db):
         "blocked_user": "blocked_test_999"
     }
     
-    # Create relationships
+    # Create relationships (using owner_user_id field as per schema)
     relationships = [
         {
-            "user_id": users["owner"],
+            "owner_user_id": users["owner"],
             "target_user_id": users["peoples_user"],
             "tier": "PEOPLES",
             "created_at": datetime.now(timezone.utc)
         },
         {
-            "user_id": users["owner"],
+            "owner_user_id": users["owner"],
             "target_user_id": users["cool_user"],
             "tier": "COOL",
             "created_at": datetime.now(timezone.utc)
         },
         {
-            "user_id": users["owner"],
+            "owner_user_id": users["owner"],
             "target_user_id": users["blocked_user"],
             "tier": "BLOCKED",
             "created_at": datetime.now(timezone.utc)
