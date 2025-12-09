@@ -14,6 +14,21 @@ from datetime import datetime, timezone
 logger = logging.getLogger(__name__)
 
 
+def serialize_for_websocket(obj: Any) -> Any:
+    """
+    Recursively serialize objects for WebSocket JSON transmission.
+    Converts datetime objects to ISO strings.
+    """
+    if isinstance(obj, datetime):
+        return obj.isoformat()
+    elif isinstance(obj, dict):
+        return {key: serialize_for_websocket(value) for key, value in obj.items()}
+    elif isinstance(obj, list):
+        return [serialize_for_websocket(item) for item in obj]
+    else:
+        return obj
+
+
 class ConnectionManager:
     """
     Manages WebSocket connections and room-based broadcasting.
