@@ -23,6 +23,7 @@ import FeaturedVideo from '../components/FeaturedVideo';
 import QuickLinks from '../components/QuickLinks';
 import SEO from '../components/SEO';
 import FeedbackModal from '../components/FeedbackModal'; // Phase 7.5.3
+import FullWidthLayout from '../components/layouts/FullWidthLayout'; // Phase C Fix - Use global layout
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -36,13 +37,14 @@ const HomePage = () => {
   const displayName = contributorUser?.name || adminUser?.email || 'User';
 
   return (
+    <FullWidthLayout>
     <div className="min-h-screen bg-black">
       <SEO 
         title="Black America News, Information & Business System"
         description="Connecting Black and Indigenous communities to news, opportunities, business resources, and education. Browse jobs, grants, scholarships, and Black-owned businesses."
       />
-      {/* Navigation */}
-      <nav className="border-b-2 border-[#FFD700] bg-black sticky top-0 z-50">
+      {/* Navigation - Now handled by FullWidthLayout GlobalNavBar */}
+      {/* <nav className="border-b-2 border-[#FFD700] bg-black sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
