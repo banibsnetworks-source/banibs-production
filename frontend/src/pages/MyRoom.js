@@ -328,6 +328,16 @@ const MyRoom = () => {
               >
                 ⚙️ Settings
               </button>
+              <button
+                onClick={() => setActiveTab('highlights')}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                  activeTab === 'highlights'
+                    ? 'bg-primary text-white'
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                📌 Highlights
+              </button>
             </div>
           </div>
 
