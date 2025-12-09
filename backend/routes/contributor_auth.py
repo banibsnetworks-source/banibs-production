@@ -47,12 +47,19 @@ async def register_contributor(
     db: AsyncIOMotorDatabase = Depends(get_db)
 ):
     """
-    Register a new contributor account
+    [LEGACY] Register a new contributor account
     
-    Contributors can submit opportunities but have no admin access
+    ⚠️ DEPRECATED: Use BGLIS registration (/api/auth/register-bglis) instead.
+    
+    This creates a BGLIS user with contributor role and legacy email+password auth.
+    User will be prompted to upgrade to phone-first auth on next login.
+    
+    RECOMMENDED FLOW:
+    1. Register via /api/auth/register-bglis (phone + username)
+    2. Add "contributor" role via profile update or admin action
     """
-    # Check if email already exists
-    existing = await db.contributors.find_one({"email": data.email})
+    # Check if email already exists in BGLIS identity store
+    existing = await unified_users.get_user_by_email(data.email)
     if existing:
         raise HTTPException(
             status_code=400,
@@ -64,40 +71,95 @@ async def register_contributor(
     salt = bcrypt.gensalt()
     password_hash = bcrypt.hashpw(password_bytes, salt).decode('utf-8')
     
-    # Create contributor document
-    contributor_doc = {
-        "email": data.email,
-        "password_hash": password_hash,
-        "name": data.name,
+    # Create BGLIS user with contributor profile
+    user_id = str(uuid.uuid4())
+    now = datetime.now(timezone.utc).isoformat()
+    
+    contributor_profile = {
         "organization": data.organization,
-        "created_at": datetime.utcnow(),
-        "updated_at": datetime.utcnow()
+        "display_name": None,
+        "bio": None,
+        "website_or_social": None,
+        "verified": False,
+        "total_submissions": 0,
+        "approved_submissions": 0,
+        "featured_submissions": 0
     }
     
-    # Insert into database
-    result = await db.contributors.insert_one(contributor_doc)
-    contributor_id = str(result.inserted_id)
+    bglis_user = {
+        "id": user_id,
+        "email": data.email.lower(),
+        "password_hash": password_hash,
+        "name": data.name,
+        
+        # BGLIS fields (not yet set)
+        "phone_number": None,
+        "phone_country_code": None,
+        "is_phone_verified": False,
+        "username": None,
+        "has_recovery_phrase": False,
+        "recovery_phrase_hash": None,
+        "recovery_phrase_salt": None,
+        "needs_bglis_upgrade": True,  # Mark for BGLIS upgrade
+        
+        # Roles (user + contributor)
+        "roles": ["user", "contributor"],
+        
+        # Contributor profile (BDII threading)
+        "contributor_profile": contributor_profile,
+        
+        # Default fields
+        "avatar_url": None,
+        "bio": None,
+        "membership_level": "free",
+        "membership_status": "active",
+        "subscription_id": None,
+        "subscription_expires_at": None,
+        "email_verified": False,
+        "email_verification_token": None,
+        "email_verification_expires": None,
+        "password_reset_token": None,
+        "password_reset_expires": None,
+        "created_at": now,
+        "last_login": None,
+        "updated_at": now,
+        "metadata": {},
+        "preferred_portal": "news",
+        "preferred_language": "en",
+        "region_primary": None,
+        "region_secondary": None,
+        "detected_country": None,
+        "region_override": False,
+        "region_detection_method": None,
+        "emoji_identity": None,
+        "profile_picture_url": None,
+        "banner_image_url": None,
+        "accent_color": "#3B82F6"
+    }
+    
+    # Insert into BGLIS identity store
+    await db.banibs_users.insert_one(bglis_user)
     
     # Create JWT tokens
     token_data = {
-        "user_id": contributor_id,
+        "sub": user_id,
         "email": data.email,
-        "role": "contributor",
-        "name": data.name
+        "roles": ["user", "contributor"],
+        "membership_level": "free"
     }
     
     access_token = create_access_token(token_data)
-    refresh_token = create_refresh_token({"user_id": contributor_id, "email": data.email})
+    refresh_token = create_refresh_token({"sub": user_id, "email": data.email})
     
     return ContributorTokenResponse(
         access_token=access_token,
         refresh_token=refresh_token,
         contributor=ContributorPublic(
-            id=contributor_id,
+            id=user_id,
             email=data.email,
             name=data.name,
             organization=data.organization,
-            created_at=contributor_doc["created_at"]
+            created_at=now
         )
     )
 
