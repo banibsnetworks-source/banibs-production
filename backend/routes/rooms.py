@@ -450,7 +450,15 @@ async def lock_my_room(
     
     # Log event for future social integrations
     await log_door_locked(user_id, db)
-    # TODO: Emit WebSocket event: ROOM_DOOR_LOCKED
+    
+    # WebSocket: Broadcast door locked to room
+    await ws_manager.broadcast_room_event(
+        room_owner_id=user_id,
+        event_type="ROOM_DOOR_LOCKED",
+        data={
+            "room": updated_room
+        }
+    )
     
     return {
         "room": updated_room,
