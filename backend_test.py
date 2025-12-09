@@ -1550,7 +1550,8 @@ class BanibsAPITester:
         
         self.log("🚪 Step 9: POST /api/rooms/{owner_id}/enter (visitor enters room)...")
         
-        response = self.make_request("POST", f"/rooms/{owner_id}/enter", headers=visitor_headers)
+        # Include knock_id as query parameter since we entered via approved knock
+        response = self.make_request("POST", f"/rooms/{owner_id}/enter?knock_id={test_knock_id}", headers=visitor_headers)
         
         if response.status_code != 200:
             self.log(f"❌ Failed to enter room as visitor: {response.status_code} - {response.text}", "ERROR")
