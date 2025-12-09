@@ -108,9 +108,9 @@ const RoomsDiscovery = () => {
         )}
 
         {/* Info Card */}
-        <div className=\"mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6\">
-          <h3 className=\"font-medium text-blue-900 mb-2\">🏠 About Peoples Rooms</h3>
-          <p className=\"text-blue-800 text-sm\">
+        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <h3 className="font-medium text-blue-900 mb-2">🏠 About Peoples Rooms</h3>
+          <p className="text-blue-800 text-sm">
             Peoples Rooms are personal, trust-aware social spaces. Each room respects your Circle 
             Trust tier, and owners have full control over who can enter. Look for the 🟢 indicator 
             to see who's currently in their room!
