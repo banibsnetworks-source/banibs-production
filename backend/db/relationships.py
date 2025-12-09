@@ -11,20 +11,43 @@ import uuid
 from db.connection import get_db
 
 
-# Relationship Tiers
-TIER_OTHERS = "OTHERS"
-TIER_ALRIGHT = "ALRIGHT"
-TIER_COOL = "COOL"
-TIER_PEOPLES = "PEOPLES"
+# Circle Trust Order - 7 Tiers (MEGADROP V1)
+# Ordered from closest (highest trust) to most distant (no trust)
+TIER_PEOPLES = "PEOPLES"              # Tier 1: Closest, highest trust
+TIER_COOL = "COOL"                    # Tier 2: Trusted friends
+TIER_CHILL = "CHILL"                  # Tier 3: Acquaintances
+TIER_ALRIGHT = "ALRIGHT"              # Tier 4: Casual connections
+TIER_OTHERS = "OTHERS"                # Tier 5: Default/strangers
+TIER_OTHERS_SAFE_MODE = "OTHERS_SAFE_MODE"  # Tier 6: Limited interaction
+TIER_BLOCKED = "BLOCKED"              # Tier 7: No interaction
 
-VALID_TIERS = [TIER_OTHERS, TIER_ALRIGHT, TIER_COOL, TIER_PEOPLES]
+VALID_TIERS = [
+    TIER_PEOPLES,
+    TIER_COOL,
+    TIER_CHILL,
+    TIER_ALRIGHT,
+    TIER_OTHERS,
+    TIER_OTHERS_SAFE_MODE,
+    TIER_BLOCKED
+]
 
-# Relationship Status
+# Trust tier weights (for Circle Engine scoring)
+TIER_WEIGHTS = {
+    TIER_PEOPLES: 100,
+    TIER_COOL: 75,
+    TIER_CHILL: 50,
+    TIER_ALRIGHT: 25,
+    TIER_OTHERS: 5,
+    TIER_OTHERS_SAFE_MODE: 0,
+    TIER_BLOCKED: -100  # Negative weight breaks connections
+}
+
+# Relationship Status (separate from tier)
+# Note: BLOCKED is now a tier, not a status
 STATUS_ACTIVE = "ACTIVE"
 STATUS_PENDING = "PENDING"
-STATUS_BLOCKED = "BLOCKED"
 
-VALID_STATUSES = [STATUS_ACTIVE, STATUS_PENDING, STATUS_BLOCKED]
+VALID_STATUSES = [STATUS_ACTIVE, STATUS_PENDING]
 
 
 async def create_or_update_relationship(
