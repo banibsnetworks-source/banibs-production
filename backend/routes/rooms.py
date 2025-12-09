@@ -38,6 +38,17 @@ from services.room_permissions import (
     RoomPermissionService,
     resolve_effective_room_permissions
 )
+from services.room_events import (
+    log_session_started,
+    log_session_ended,
+    log_knock_created,
+    log_knock_approved,
+    log_knock_denied,
+    log_visitor_entered,
+    log_visitor_left,
+    log_door_locked,
+    log_door_unlocked
+)
 from models.peoples_room import (
     RoomSettingsUpdate,
     AccessListAddRequest,
