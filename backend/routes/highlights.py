@@ -158,7 +158,7 @@ async def get_room_highlights(
 async def create_special_room_moment(
     title: str = Query(..., max_length=200),
     description: Optional[str] = Query(None, max_length=500),
-    current_user = Depends(get_current_user_from_token),
+    current_user = Depends(get_current_user),
     db = Depends(get_db)
 ):
     """
