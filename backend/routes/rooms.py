@@ -142,6 +142,8 @@ async def exit_my_room(
     
     result = await exit_room(user_id, db)
     
+    # Log event for future social integrations
+    await log_session_ended(user_id, db=db)
     # TODO: Emit WebSocket event: ROOM_SESSION_ENDED
     # TODO: Notify all kicked visitors
     
