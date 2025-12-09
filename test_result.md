@@ -4564,3 +4564,96 @@ agent_communication:
       - Error handling and retry mechanisms implemented
       
       **STATUS:** All Phase 5 visitor UI functionality is production-ready. Main agent can summarize and finish.
+
+## 🎉 PEOPLES ROOM PHASE 6, SPRINT 6.1 - HIGHLIGHTS TIMELINE VERIFIED ✅
+
+**Date**: 2025-12-09  
+**Sprint**: Phase 6.1 - Highlights Timeline (Room memory & narrative)  
+
+### Testing Summary
+
+**Backend Highlights API**: ✅ WORKING  
+**Frontend Highlights UI**: ✅ WORKING  
+**Integration**: ✅ WORKING  
+
+### Fixes Applied
+
+**highlights.py Authentication Fix**:
+- ❌ Was using: `get_current_user_from_token` (expects query param)
+- ✅ Changed to: `get_current_user` (reads Authorization header)
+- Files modified: `/app/backend/routes/highlights.py` (4 occurrences)
+
+### Testing Results
+
+**1. Backend API Endpoints** ✅
+```bash
+# Admin login successful
+POST /api/auth/login
+Response: {access_token: "eyJ...", user: {...}}
+
+# Owner enters room - session created
+POST /api/rooms/me/enter
+Response: {session: {is_active: true, current_visitors: []}}
+
+# Fetch highlights - working perfectly
+GET /api/rooms/me/highlights
+Response: {
+  highlights: [
+    {
+      event_type: "SPECIAL_MOMENT",
+      title: "Test Special Moment",
+      description: "This is a test special moment",
+      created_at: "2025-12-09T21:50:27.553000"
+    },
+    {
+      event_type: "SESSION_STARTED",
+      title: "Room session started",
+      created_at: "2025-12-09T21:50:27.553000"
+    }
+  ],
+  total: 2
+}
+
+# Create special moment
+POST /api/rooms/me/highlights/special?title=Test&description=Testing
+Response: {highlight: {...}, message: "Special moment created"}
+```
+
+**2. Frontend UI Components** ✅
+- ✅ My Room page loads correctly
+- ✅ Highlights tab visible and clickable (📍 Highlights)
+- ✅ Filter tabs working (Visitors, Knocks, My Activity)
+- ✅ Timeline displays correctly with:
+  - ⭐ Special moments (pink/purple highlight)
+  - 🟢 Session events (green highlight)
+  - Relative timestamps (1m ago, 3m ago)
+  - Event descriptions
+  - Event count (2 events)
+
+**3. UI/UX Verification** ✅
+- Professional, clean design
+- Color-coded highlights (pink for special moments, green for sessions)
+- Proper event ordering (most recent first)
+- Event titles and descriptions displayed
+- Responsive layout
+- Empty state messaging
+
+### Screenshots Evidence
+- Login working: ✅ (admin@banibs.com successfully authenticated)
+- My Room page: ✅ (All tabs visible including Highlights)
+- Highlights Timeline: ✅ (2 events displayed with correct formatting)
+
+### Status
+**✅ SPRINT 6.1 COMPLETE AND VERIFIED**
+
+All features working correctly:
+- Backend highlights API endpoints functional
+- Frontend HighlightsTimeline component rendering correctly
+- Real-time highlight logging operational
+- Special moments creation working
+- Session event tracking working
+
+**Ready to proceed to Sprint 6.2 (Invite-to-Room)** 🚀
+
+---
+
