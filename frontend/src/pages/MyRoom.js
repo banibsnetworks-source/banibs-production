@@ -11,6 +11,7 @@ import KnockList from '../components/rooms/KnockList';
 import VisitorList from '../components/rooms/VisitorList';
 import AccessListManager from '../components/rooms/AccessListManager';
 import RoomSettings from '../components/rooms/RoomSettings';
+import HighlightsTimeline from '../components/rooms/HighlightsTimeline';
 import { 
   getMyRoom, 
   enterMyRoom, 
