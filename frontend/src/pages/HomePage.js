@@ -135,7 +135,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-      </nav>
+      </nav> */}
 
       {/* Membership Welcome Band */}
       <div className="bg-[#1a1a1a] border-b border-[#FFD700]/30 py-4">
