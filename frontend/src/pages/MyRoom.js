@@ -20,6 +20,7 @@ import {
 
 const MyRoom = () => {
   const navigate = useNavigate();
+  const { isConnected, subscribeToRoom, unsubscribeFromRoom, addEventListener } = useWebSocket();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
@@ -32,6 +33,12 @@ const MyRoom = () => {
   const [activeTab, setActiveTab] = useState('visitors');
   const [isEntering, setIsEntering] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  
+  // Get current user ID
+  const getCurrentUserId = () => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return user.id || null;
+  };
 
   // Fetch room data
   const fetchRoomData = async () => {
