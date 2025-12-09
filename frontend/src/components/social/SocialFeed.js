@@ -162,7 +162,13 @@ const SocialFeed = ({ newPost }) => {
             Your session has timed out for security. Please sign in again to continue browsing your feed.
           </p>
           <button
-            onClick={() => navigate('/login', { state: { from: '/portal/social' } })}
+            onClick={() => {
+              // Trigger global auth modal instead of navigating to non-existent route
+              const event = new CustomEvent('open-auth-modal', { 
+                detail: { mode: 'signin' } 
+              });
+              window.dispatchEvent(event);
+            }}
             className="px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold rounded-lg transition-colors inline-flex items-center space-x-2"
           >
             <LogIn size={18} />
