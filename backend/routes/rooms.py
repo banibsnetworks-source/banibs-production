@@ -686,6 +686,18 @@ async def knock_on_room(
         # Log event for future social integrations
         await log_knock_created(owner_id, visitor_id, db)
         
+        # Phase 6.1: Log highlight
+        visitor_info = await db.banibs_users.find_one(
+            {"id": visitor_id},
+            {"_id": 0, "name": 1}
+        )
+        await log_knock_created_highlight(
+            owner_id=owner_id,
+            visitor_id=visitor_id,
+            visitor_name=visitor_info.get("name", "Someone") if visitor_info else "Someone",
+            db=db
+        )
+        
         # WebSocket: Notify owner of new knock
         await ws_manager.broadcast_room_event(
             room_owner_id=owner_id,
