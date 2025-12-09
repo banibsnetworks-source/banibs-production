@@ -284,59 +284,67 @@ cd /app/frontend && yarn add sharp
 #====================================================================================================
 
 user_problem_statement: |
-  **Phase B Trust Enforcement - Comprehensive Backend Testing**
+  **Peoples Room Phase 3 - Owner UI (My Room Page) Testing**
 
-  Test the Circle Trust Order system for BANIBS with comprehensive backend testing scenarios:
+  Test the "My Room" page owner dashboard with all tabs and functionality.
 
-  **Test Scenario 1: Register Page (Desktop)**
-  - Navigate to: https://peoplerooms.preview.emergentagent.com/auth/register
-  - Viewport: 1920x1080
-  - Verify brand story panel on the right with:
-    * "For Us. By Us. Built to Last." headline
-    * "Early Access" badge
-    * Three pillars: Real News, Real Business, Real Community
-    * Footer note about early access
-  - Verify form panel on the left with:
-    * "Join BANIBS" header with subtitle
-    * All form fields visible (First Name, Last Name, Email, Password, Confirm Password, Date of Birth, Gender)
-    * Styled amber gradient button "Create Account"
-    * "Already have an account? Sign in" link at bottom
-  - Test form validation by attempting to submit empty form
-  - Verify error styling appears correctly
+  **Test Credentials**:
+  - Admin User: admin@banibs.com / BanibsAdmin#2025
 
-  **Test Scenario 2: Sign In Page (Desktop)**
-  - Navigate to: https://peoplerooms.preview.emergentagent.com/auth/signin
-  - Viewport: 1920x1080
-  - Verify brand panel on the right with:
-    * "Your network. Your news. Your marketplace." headline
-    * Trust strip with encrypted connections, no selling data, community-first
-    * Quote at bottom
-  - Verify form panel on the left with:
-    * "Welcome back to BANIBS" header
-    * Email and Password fields
-    * "Forgot password?" link
-    * Amber gradient "Sign In" button
-    * "New here? Join BANIBS" link
-  - Test login functionality with credentials: social_test_user@example.com / TestPass123!
-  - Verify successful login redirects to /portal/social
+  **Test URL**: https://peoplerooms.preview.emergentagent.com/my-room
 
-  **Test Scenario 3: Mobile Responsiveness**
-  - Test both pages on mobile viewport (375x812)
-  - Verify brand panel appears ABOVE form on mobile
-  - Verify form is full-width and properly styled
-  - Check that "Back to Home" button works on both desktop and mobile
+  **Test Flow**:
 
-  **Test Scenario 4: Accessibility & UX**
-  - Verify all input fields have proper focus states (amber ring)
-  - Check that error messages display correctly with rose color scheme
-  - Verify gradient buttons have proper hover effects
-  - Test keyboard navigation through forms
+  ### 1. Login & Navigation
+  - Navigate to /auth/signin
+  - Login as admin@banibs.com / BanibsAdmin#2025
+  - Navigate to /my-room
 
-  **Requirements:**
-  - Take screenshots at key steps
-  - Verify NO JavaScript console errors
-  - Confirm all existing authentication logic works unchanged
-  - Verify styling matches BANIBS brand (amber/gold accents, slate backgrounds)
+  ### 2. My Room Page - Initial State
+  - Verify page loads with "My Room" heading
+  - Verify presence indicator shows "Not in room"
+  - Verify "Enter Room" button is visible and enabled
+  - Verify door state shows "🚪 Open"
+  - Verify visitor count shows "0"
+
+  ### 3. Enter Room Flow
+  - Click "Enter Room" button
+  - Wait for button to change to "Exiting..."
+  - Verify presence indicator changes to "🟢 In Room" with animated pulse
+  - Verify "Exit Room" button appears
+  - Verify session is active
+
+  ### 4. Tabs Navigation
+  Test all 4 tabs:
+  - **Visitors Tab**: Should show "No visitors yet" message
+  - **Knocks Tab**: Should show "No pending knocks" message  
+  - **Access List Tab**: Should show add user form and empty state
+  - **Settings Tab**: Should show door lock toggle and presence mode options
+
+  ### 5. Settings Tab Functionality
+  - Verify "Lock Doors" button is visible
+  - Click "Lock Doors"
+  - Handle confirmation dialog (click OK)
+  - Verify door state changes to "🔒 Locked"
+  - Verify button changes to "🔓 Unlock Doors"
+  - Click "Unlock Doors" to restore
+  - Test presence mode radio buttons (Public/Ghost)
+
+  ### 6. Exit Room Flow
+  - Click "Exit Room" button
+  - Handle confirmation dialog (click OK)
+  - Verify presence changes back to "Not in room"
+  - Verify "Enter Room" button appears again
+  - Verify visitor count resets to 0
+
+  ### Expected UI Elements:
+  - ✅ Clean, professional MVP design
+  - ✅ Tab navigation working
+  - ✅ Loading states for all actions
+  - ✅ Animated presence indicator (green pulse)
+  - ✅ Status bar with door state, visitor count, knocks count
+  - ✅ Info box at bottom explaining Peoples Room
+  - ✅ Proper button states (enabled/disabled/loading)
 
 backend:
   - task: "Phase B Trust Enforcement - Relationship Tier Management"
