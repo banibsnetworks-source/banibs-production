@@ -50,6 +50,17 @@ from services.room_events import (
     log_door_unlocked
 )
 from services.websocket_manager import manager as ws_manager
+from services.highlight_service import (
+    log_session_started_highlight,
+    log_session_ended_highlight,
+    log_visitor_entered_highlight,
+    log_visitor_left_highlight,
+    log_knock_created_highlight,
+    log_knock_approved_highlight,
+    log_knock_denied_highlight,
+    log_door_locked_highlight,
+    log_door_unlocked_highlight
+)
 from models.peoples_room import (
     RoomSettingsUpdate,
     AccessListAddRequest,
