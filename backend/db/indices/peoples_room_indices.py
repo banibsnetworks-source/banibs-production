@@ -94,6 +94,35 @@ async def ensure_peoples_room_indices(db: AsyncIOMotorDatabase):
         logger.error(f"Error creating room_knocks indices: {e}")
     
     logger.info("✅ All Peoples Room indices ensured")
+    
+    # ========== room_events indices (for future social integrations) ==========
+    try:
+        # Compound index on room_owner_id + created_at
+        await db.room_events.create_index(
+            [("room_owner_id", 1), ("created_at", -1)],
+            name="room_owner_created_at"
+        )
+        logger.info("✓ Created index on room_events (room_owner_id, created_at)")
+        
+        # Index on event_type for filtering
+        await db.room_events.create_index(
+            [("event_type", 1)],
+            name="event_type"
+        )
+        logger.info("✓ Created index on room_events.event_type")
+        
+        # TTL index on expires_at (auto-delete old events after 90 days)
+        await db.room_events.create_index(
+            [("expires_at", 1)],
+            expireAfterSeconds=0,
+            name="expires_at_ttl"
+        )
+        logger.info("✓ Created TTL index on room_events.expires_at")
+        
+    except Exception as e:
+        logger.error(f"Error creating room_events indices: {e}")
+    
+    logger.info("✅ All Peoples Room + Events indices ensured")
 
 
 async def main():
