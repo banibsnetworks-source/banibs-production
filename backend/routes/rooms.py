@@ -299,11 +299,13 @@ async def respond_to_knock_request(
             )
             logger.info(f"Added {visitor_id} to {user_id}'s Access List (DIRECT_ENTRY)")
         
-        # TODO: Emit WebSocket event to visitor
+        # Log event for future social integrations
         if response.action == "APPROVE":
+            await log_knock_approved(user_id, visitor_id, db)
             # TODO: Emit ROOM_KNOCK_APPROVED
             message = "Knock approved"
         else:
+            await log_knock_denied(user_id, visitor_id, db)
             # TODO: Emit ROOM_KNOCK_DENIED
             message = "Knock denied"
         
