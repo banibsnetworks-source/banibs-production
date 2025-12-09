@@ -169,57 +169,75 @@ async def login_contributor(
     db: AsyncIOMotorDatabase = Depends(get_db)
 ):
     """
-    Login as contributor
+    [LEGACY] Login as contributor
     
-    Returns JWT tokens for authenticated contributor
+    ⚠️ DEPRECATED: Use BGLIS phone/username login instead.
+    
+    This route checks BGLIS identity store (banibs_users) for contributors.
+    Legacy contributors from old 'contributors' collection should have been migrated.
+    
+    RECOMMENDED FLOW:
+    - Use /api/auth/login-phone or /api/auth/login-username (BGLIS)
+    - System will check for "contributor" role automatically
     """
-    # Find contributor by email
-    contributor = await db.contributors.find_one({"email": credentials.email})
+    # Find user in BGLIS identity store (banibs_users)
+    user = await unified_users.get_user_by_email(credentials.email)
     
-    if not contributor:
+    if not user:
         raise HTTPException(
             status_code=401,
             detail="Invalid email or password"
+        )
+    
+    # Check if user has contributor role
+    if "contributor" not in user.get("roles", []):
+        raise HTTPException(
+            status_code=403,
+            detail="Account is not registered as a contributor. Please contact support."
         )
     
     # Verify password
     password_bytes = credentials.password.encode('utf-8')
-    stored_hash = contributor['password_hash'].encode('utf-8')
+    stored_hash = user.get('password_hash', '').encode('utf-8')
     
-    if not bcrypt.checkpw(password_bytes, stored_hash):
+    if not stored_hash or not bcrypt.checkpw(password_bytes, stored_hash):
         raise HTTPException(
             status_code=401,
             detail="Invalid email or password"
         )
     
+    # Update last login
+    await unified_users.update_last_login(user['id'])
+    
     # Create JWT tokens
     token_data = {
-        "user_id": str(contributor['_id']),
-        "email": contributor['email'],
-        "role": "contributor",
-        "name": contributor.get('name', '')
+        "sub": user['id'],
+        "email": user['email'],
+        "roles": user.get('roles', ['user', 'contributor']),
+        "membership_level": user.get('membership_level', 'free')
     }
     
     access_token = create_access_token(token_data)
-    refresh_token = create_refresh_token({
-        "user_id": str(contributor['_id']),
-        "email": contributor['email']
-    })
+    refresh_token = create_refresh_token({"sub": user['id'], "email": user['email']})
     
-    # Update last login
-    await db.contributors.update_one(
-        {"_id": contributor['_id']},
-        {"$set": {"updated_at": datetime.utcnow()}}
-    )
+    # Extract contributor profile
+    contributor_profile = user.get('contributor_profile', {})
     
     return ContributorTokenResponse(
         access_token=access_token,
         refresh_token=refresh_token,
         contributor=ContributorPublic(
-            id=str(contributor['_id']),
-            email=contributor['email'],
-            name=contributor.get('name', ''),
-            organization=contributor.get('organization'),
-            created_at=contributor['created_at']
+            id=user['id'],
+            email=user['email'],
+            name=user.get('name', ''),
+            organization=contributor_profile.get('organization'),
+            display_name=contributor_profile.get('display_name'),
+            bio=contributor_profile.get('bio'),
+            website_or_social=contributor_profile.get('website_or_social'),
+            verified=contributor_profile.get('verified', False),
+            total_submissions=contributor_profile.get('total_submissions', 0),
+            approved_submissions=contributor_profile.get('approved_submissions', 0),
+            featured_submissions=contributor_profile.get('featured_submissions', 0),
+            created_at=user.get('created_at', datetime.now(timezone.utc).isoformat())
         )
     )
