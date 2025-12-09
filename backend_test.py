@@ -1346,7 +1346,7 @@ class BanibsAPITester:
             return False
         
         # Create User 2
-        response = self.make_request("POST", "/bglis/register", {
+        response = self.make_request("POST", "/auth/register", {
             "email": test_user_2_email,
             "password": test_password,
             "first_name": "Trust",
