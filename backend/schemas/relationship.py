@@ -8,9 +8,20 @@ from typing import Optional, Literal
 from datetime import datetime
 
 
-# Relationship tier type hints
-RelationshipTier = Literal["OTHERS", "ALRIGHT", "COOL", "PEOPLES"]
-RelationshipStatus = Literal["ACTIVE", "PENDING", "BLOCKED"]
+# Circle Trust Order - 7 Tiers (MEGADROP V1)
+# Ordered from closest (PEOPLES) to most distant (BLOCKED)
+RelationshipTier = Literal[
+    "PEOPLES",           # Tier 1: Closest circle
+    "COOL",              # Tier 2: Trusted friends
+    "CHILL",             # Tier 3: Acquaintances
+    "ALRIGHT",           # Tier 4: Casual connections
+    "OTHERS",            # Tier 5: Default/strangers
+    "OTHERS_SAFE_MODE",  # Tier 6: Limited interaction
+    "BLOCKED"            # Tier 7: No interaction
+]
+
+# Relationship status (separate from tier)
+RelationshipStatus = Literal["ACTIVE", "PENDING"]
 
 
 class RelationshipBase(BaseModel):
