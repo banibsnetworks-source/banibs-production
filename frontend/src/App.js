@@ -585,8 +585,8 @@ function App() {
               <Route path="/events/:id" element={<EventDetailPage />} />
               {/* Phase 6.2.4 - Unified Search */}
               <Route path="/search" element={<SearchPage />} />
-              {/* Phase A6 - BANIBS Social Landing Page */}
-              <Route path="/social" element={<SocialLandingPage />} />
+              {/* Phase A6 - BANIBS Social Landing Page (redirects to portal if authenticated) */}
+              <Route path="/social" element={<Navigate to="/portal/social" replace />} />
               
               {/* Stub Pages */}
               <Route path="/business" element={<Navigate to="/portal/business" replace />} />
