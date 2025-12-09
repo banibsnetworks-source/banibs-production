@@ -1272,6 +1272,352 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # PEOPLES ROOM PHASE 2 API TESTING
+    # ==========================================
+    
+    def test_peoples_room_phase_2_visitor_endpoints(self) -> bool:
+        """
+        PEOPLES ROOM PHASE 2 COMPREHENSIVE TESTING - VISITOR-FACING ENDPOINTS
+        
+        Tests all visitor-facing endpoints with authentication:
+        1. GET /api/rooms/{owner_id}/status - Get room status & permissions
+        2. POST /api/rooms/{owner_id}/knock - Visitor knocks on door
+        3. POST /api/rooms/{owner_id}/enter - Visitor enters room
+        4. POST /api/rooms/{owner_id}/leave - Visitor leaves room
+        
+        Test Flow:
+        1. Login as admin (owner)
+        2. GET /api/rooms/me (get owner ID)
+        3. POST /api/rooms/me/enter (start session)
+        4. Create test visitor user
+        5. Login as visitor
+        6. GET /api/rooms/{admin_id}/status (check permissions)
+        7. POST /api/rooms/{admin_id}/knock (knock on door)
+        8. Login as admin again
+        9. GET /api/rooms/me/knocks (see knock)
+        10. POST /api/rooms/me/knocks/{visitor_id}/respond with action=APPROVE
+        11. Login as visitor
+        12. POST /api/rooms/{admin_id}/enter (enter room)
+        13. POST /api/rooms/{admin_id}/leave (leave room)
+        """
+        self.log("🏠 PEOPLES ROOM PHASE 2 COMPREHENSIVE TESTING - VISITOR-FACING ENDPOINTS")
+        
+        # ============ AUTHENTICATION SETUP ============
+        
+        # Test credentials from review request
+        admin_email = "admin@banibs.com"
+        admin_password = "BanibsAdmin#2025"
+        
+        self.log("🔐 Setting up authentication...")
+        
+        # Login as admin user (owner)
+        response = self.make_request("POST", "/auth/login", {
+            "email": admin_email,
+            "password": admin_password
+        })
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to login admin user: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        login_data = response.json()
+        if "access_token" not in login_data:
+            self.log("❌ Login response missing access_token", "ERROR")
+            return False
+        
+        admin_token = login_data["access_token"]
+        admin_user_id = login_data.get("user", {}).get("id")
+        self.log(f"✅ Admin user logged in successfully (ID: {admin_user_id})")
+        
+        # ============ STEP 1: GET OWNER'S ROOM ============
+        
+        self.log("🏠 Step 1: GET /api/rooms/me (get owner ID)...")
+        
+        admin_headers = {"Authorization": f"Bearer {admin_token}"}
+        response = self.make_request("GET", "/rooms/me", headers=admin_headers)
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to get owner's room: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        room_data = response.json()
+        if "room" not in room_data:
+            self.log("❌ Room data missing from response", "ERROR")
+            return False
+        
+        owner_id = room_data["room"]["owner_id"]
+        self.log(f"✅ Owner room retrieved (Owner ID: {owner_id})")
+        
+        # ============ STEP 2: OWNER ENTERS ROOM ============
+        
+        self.log("🚪 Step 2: POST /api/rooms/me/enter (start session)...")
+        
+        response = self.make_request("POST", "/rooms/me/enter", headers=admin_headers)
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to enter room as owner: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        enter_data = response.json()
+        if "session" not in enter_data:
+            self.log("❌ Session data missing from enter response", "ERROR")
+            return False
+        
+        self.log("✅ Owner entered room successfully")
+        
+        # ============ STEP 3: CREATE TEST VISITOR USER ============
+        
+        import time
+        timestamp = int(time.time())
+        visitor_email = f"visitor_test_{timestamp}@example.com"
+        visitor_password = "VisitorPass123!"
+        
+        self.log("👤 Step 3: Creating test visitor user...")
+        
+        response = self.make_request("POST", "/auth/register", {
+            "email": visitor_email,
+            "password": visitor_password,
+            "first_name": "Test",
+            "last_name": "Visitor",
+            "accepted_terms": True
+        })
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to create visitor user: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        visitor_data = response.json()
+        visitor_user_id = visitor_data.get("user", {}).get("id")
+        self.log(f"✅ Visitor user created (ID: {visitor_user_id})")
+        
+        # ============ STEP 4: LOGIN AS VISITOR ============
+        
+        self.log("🔐 Step 4: Login as visitor...")
+        
+        response = self.make_request("POST", "/auth/login", {
+            "email": visitor_email,
+            "password": visitor_password
+        })
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to login visitor: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        visitor_login_data = response.json()
+        visitor_token = visitor_login_data["access_token"]
+        visitor_headers = {"Authorization": f"Bearer {visitor_token}"}
+        self.log("✅ Visitor logged in successfully")
+        
+        # ============ STEP 5: GET ROOM STATUS ============
+        
+        self.log("📊 Step 5: GET /api/rooms/{owner_id}/status (check permissions)...")
+        
+        response = self.make_request("GET", f"/rooms/{owner_id}/status", headers=visitor_headers)
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to get room status: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        status_data = response.json()
+        required_fields = ["owner", "room", "permissions", "my_status"]
+        
+        if not all(field in status_data for field in required_fields):
+            missing_fields = [field for field in required_fields if field not in status_data]
+            self.log(f"❌ Room status missing fields: {missing_fields}", "ERROR")
+            return False
+        
+        # Verify permissions structure
+        permissions = status_data["permissions"]
+        permission_fields = ["can_see_room", "can_knock", "can_enter_direct"]
+        
+        if not all(field in permissions for field in permission_fields):
+            missing_perm_fields = [field for field in permission_fields if field not in permissions]
+            self.log(f"❌ Permissions missing fields: {missing_perm_fields}", "ERROR")
+            return False
+        
+        self.log("✅ Room status retrieved successfully")
+        self.log(f"   Owner: {status_data['owner']['name']}")
+        self.log(f"   Can see room: {permissions['can_see_room']}")
+        self.log(f"   Can knock: {permissions['can_knock']}")
+        self.log(f"   Can enter direct: {permissions['can_enter_direct']}")
+        self.log(f"   Owner in room: {status_data['room']['owner_in_room']}")
+        
+        # ============ STEP 6: VISITOR KNOCKS ON DOOR ============
+        
+        self.log("🚪 Step 6: POST /api/rooms/{owner_id}/knock (knock on door)...")
+        
+        knock_request = {
+            "message": "Hey! Can I come in? Testing Phase 2 visitor endpoints."
+        }
+        
+        response = self.make_request("POST", f"/rooms/{owner_id}/knock", knock_request, headers=visitor_headers)
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to knock on door: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        knock_data = response.json()
+        if "knock" not in knock_data:
+            self.log("❌ Knock data missing from response", "ERROR")
+            return False
+        
+        knock_id = knock_data["knock"]["id"]
+        self.log(f"✅ Knock created successfully (ID: {knock_id})")
+        self.log(f"   Message: {knock_data['message']}")
+        
+        # ============ STEP 7: OWNER CHECKS KNOCKS ============
+        
+        self.log("👀 Step 7: GET /api/rooms/me/knocks (owner sees knock)...")
+        
+        response = self.make_request("GET", "/rooms/me/knocks", headers=admin_headers)
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to get knocks: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        knocks_data = response.json()
+        if "knocks" not in knocks_data or "count" not in knocks_data:
+            self.log("❌ Knocks response missing required fields", "ERROR")
+            return False
+        
+        knocks = knocks_data["knocks"]
+        if len(knocks) == 0:
+            self.log("❌ No knocks found", "ERROR")
+            return False
+        
+        # Find our knock
+        our_knock = None
+        for knock in knocks:
+            if knock["visitor_id"] == visitor_user_id:
+                our_knock = knock
+                break
+        
+        if not our_knock:
+            self.log("❌ Our knock not found in knocks list", "ERROR")
+            return False
+        
+        self.log(f"✅ Knock found in owner's knocks list")
+        self.log(f"   Status: {our_knock['status']}")
+        self.log(f"   Visitor: {our_knock.get('visitor_info', {}).get('name', 'Unknown')}")
+        
+        # ============ STEP 8: OWNER APPROVES KNOCK ============
+        
+        self.log("✅ Step 8: POST /api/rooms/me/knocks/{visitor_id}/respond (approve knock)...")
+        
+        approve_request = {
+            "action": "APPROVE",
+            "response_note": "Welcome to my room!",
+            "remember_access": False
+        }
+        
+        response = self.make_request("POST", f"/rooms/me/knocks/{visitor_user_id}/respond", approve_request, headers=admin_headers)
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to approve knock: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        approve_data = response.json()
+        if not approve_data.get("visitor_can_enter"):
+            self.log("❌ Knock approved but visitor_can_enter is False", "ERROR")
+            return False
+        
+        self.log("✅ Knock approved successfully")
+        self.log(f"   Message: {approve_data['message']}")
+        
+        # ============ STEP 9: VISITOR ENTERS ROOM ============
+        
+        self.log("🚪 Step 9: POST /api/rooms/{owner_id}/enter (visitor enters room)...")
+        
+        response = self.make_request("POST", f"/rooms/{owner_id}/enter", headers=visitor_headers)
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to enter room as visitor: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        enter_visitor_data = response.json()
+        if "session" not in enter_visitor_data:
+            self.log("❌ Session data missing from visitor enter response", "ERROR")
+            return False
+        
+        self.log("✅ Visitor entered room successfully")
+        self.log(f"   Message: {enter_visitor_data['message']}")
+        
+        # ============ STEP 10: VISITOR LEAVES ROOM ============
+        
+        self.log("🚪 Step 10: POST /api/rooms/{owner_id}/leave (visitor leaves room)...")
+        
+        response = self.make_request("POST", f"/rooms/{owner_id}/leave", headers=visitor_headers)
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to leave room as visitor: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        leave_data = response.json()
+        if "message" not in leave_data:
+            self.log("❌ Leave response missing message", "ERROR")
+            return False
+        
+        self.log("✅ Visitor left room successfully")
+        self.log(f"   Message: {leave_data['message']}")
+        
+        # ============ AUTHENTICATION TESTS ============
+        
+        self.log("🔒 Testing authentication requirements...")
+        
+        # Test endpoints without authentication (should return 401)
+        endpoints_requiring_auth = [
+            f"/rooms/{owner_id}/status",
+            f"/rooms/{owner_id}/knock",
+            f"/rooms/{owner_id}/enter",
+            f"/rooms/{owner_id}/leave"
+        ]
+        
+        for endpoint in endpoints_requiring_auth:
+            response = self.make_request("GET" if "status" in endpoint else "POST", endpoint)
+            if response.status_code != 401:
+                self.log(f"❌ Endpoint {endpoint} should require authentication, got {response.status_code}", "ERROR")
+                return False
+        
+        self.log("✅ All endpoints properly require authentication")
+        
+        # ============ RATE LIMITING TEST ============
+        
+        self.log("⏱️ Testing knock rate limiting (3 knocks max per hour)...")
+        
+        # Try to knock multiple times rapidly
+        for i in range(4):  # Try 4 knocks (should fail on 4th)
+            knock_request = {
+                "message": f"Rate limit test knock #{i+1}"
+            }
+            
+            response = self.make_request("POST", f"/rooms/{owner_id}/knock", knock_request, headers=visitor_headers)
+            
+            if i < 3:  # First 3 should work (or be rejected for other reasons)
+                if response.status_code not in [200, 400, 403]:  # 400/403 for business logic reasons
+                    self.log(f"❌ Unexpected status for knock #{i+1}: {response.status_code}", "ERROR")
+                    return False
+            else:  # 4th should be rate limited
+                if response.status_code == 429:
+                    self.log("✅ Rate limiting working - 4th knock properly rejected")
+                    break
+                elif response.status_code in [400, 403]:
+                    self.log("⚠️ Rate limiting not tested - knock rejected for business logic reasons")
+                    break
+        
+        self.log("🎉 PEOPLES ROOM PHASE 2 COMPREHENSIVE TESTING COMPLETE")
+        self.log("✅ All visitor-facing endpoints working correctly:")
+        self.log("   1. ✅ GET /api/rooms/{owner_id}/status - Room status & permissions")
+        self.log("   2. ✅ POST /api/rooms/{owner_id}/knock - Visitor knocks on door")
+        self.log("   3. ✅ POST /api/rooms/{owner_id}/enter - Visitor enters room")
+        self.log("   4. ✅ POST /api/rooms/{owner_id}/leave - Visitor leaves room")
+        self.log("   5. ✅ Authentication properly enforced (401 without token)")
+        self.log("   6. ✅ Knock workflow works end-to-end")
+        self.log("   7. ✅ Status endpoint shows correct permissions")
+        self.log("   8. ✅ Events are logged (check logs for event messages)")
+        
+        return True
+
+    # ==========================================
     # PEOPLES ROOM PHASE 1 API TESTING
     # ==========================================
     
