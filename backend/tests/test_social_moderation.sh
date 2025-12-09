@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://megadrop-banibs.preview.emergentagent.com"
+BACKEND_URL="https://identity-trust-hub.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output

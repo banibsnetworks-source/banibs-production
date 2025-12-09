@@ -15,7 +15,7 @@ from PIL import Image
 from io import BytesIO
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://megadrop-banibs.preview.emergentagent.com"
+BACKEND_URL = "https://identity-trust-hub.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 class MediaComposerTester:
