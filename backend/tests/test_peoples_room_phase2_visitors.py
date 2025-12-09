@@ -99,7 +99,7 @@ async def test_users(db):
     yield users
     
     # Cleanup
-    await db.relationships.delete_many({"user_id": users["owner"]})
+    await db.relationships.delete_many({"owner_user_id": users["owner"]})
 
 
 # ============================================================================
