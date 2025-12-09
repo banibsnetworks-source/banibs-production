@@ -49,6 +49,7 @@ from services.room_events import (
     log_door_locked,
     log_door_unlocked
 )
+from services.websocket_manager import manager as ws_manager
 from models.peoples_room import (
     RoomSettingsUpdate,
     AccessListAddRequest,
