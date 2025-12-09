@@ -411,8 +411,11 @@ function App() {
               <Route path="/socialworld/talent" element={<SocialWorldTalent />} />
               <Route path="/socialworld/marketplace" element={<SocialWorldMarketplace />} />
               
-              {/* Coming Soon Page - Production Landing */}
-              <Route path="/" element={<ComingSoonPage />} />
+              {/* Main BANIBS Application Landing */}
+              <Route path="/" element={<HomePage />} />
+              
+              {/* Coming Soon Page - Available at /coming-soon */}
+              <Route path="/coming-soon" element={<ComingSoonPage />} />
               
               {/* Phase B2 - Black News Tab */}
               <Route path="/news/black" element={<BlackNewsPage />} />
