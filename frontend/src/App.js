@@ -10,6 +10,7 @@ import { ToastProvider } from "./contexts/ToastContext";
 import { AccountModeProvider } from "./contexts/AccountModeContext";
 import { MediaViewerProvider } from "./hooks/useMediaViewer";
 import { MediaViewer } from "./components/media/MediaViewer";
+import { WebSocketProvider } from "./contexts/WebSocketContext"; // Phase 4: WebSocket
 import { initializeAnalytics } from "./utils/analytics"; // Phase 7.5.1
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLogin from "./pages/admin/AdminLogin";
