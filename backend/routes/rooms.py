@@ -491,7 +491,7 @@ async def get_room_status(
     owner_in_room = session is not None and session.get("is_active", False)
     
     # Get visitor permissions
-    permissions = await resolve_effective_room_permissions(owner_id, visitor_id, db)
+    permissions = await RoomPermissionService.resolve_effective_room_permissions(owner_id, visitor_id, db)
     
     # Check visitor's current status
     am_inside = await is_visitor_in_room(owner_id, visitor_id, db) if owner_in_room else False
