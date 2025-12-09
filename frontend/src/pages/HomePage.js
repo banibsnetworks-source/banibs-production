@@ -455,7 +455,7 @@ const HomePage = () => {
       
       {/* Phase 7.5.3 - Feedback Modal (floating button) */}
       <FeedbackModal />
-    </div>
+      </div>
     </FullWidthLayout>
   );
 };
