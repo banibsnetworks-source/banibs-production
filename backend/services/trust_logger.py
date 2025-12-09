@@ -28,6 +28,7 @@ class TrustPermissionLogger:
             "profile_checks": defaultdict(int),
             "comment_checks": defaultdict(int),
             "notification_checks": defaultdict(int),
+            "tier_change_checks": defaultdict(int),
             "total_checks": 0,
             "would_block": 0,
             "would_allow": 0,
