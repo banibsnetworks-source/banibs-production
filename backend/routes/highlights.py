@@ -10,7 +10,7 @@ from typing import Optional
 import logging
 
 from db.connection import get_db
-from middleware.auth_guard import get_current_user_from_token
+from middleware.auth_guard import get_current_user
 from services.highlight_service import (
     get_highlights,
     get_highlight_count,
