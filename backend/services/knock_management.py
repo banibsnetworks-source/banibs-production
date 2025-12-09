@@ -78,7 +78,11 @@ async def create_knock(
     now = datetime.now(timezone.utc)
     expires_at = now + timedelta(minutes=KNOCK_TTL_MINUTES)
     
+    import uuid
+    knock_id = str(uuid.uuid4())
+    
     knock = {
+        "id": knock_id,
         "room_owner_id": room_owner_id,
         "visitor_id": visitor_id,
         "visitor_tier": visitor_tier,
@@ -98,6 +102,8 @@ async def create_knock(
         f"(tier: {visitor_tier}, expires: {expires_at})"
     )
     
+    # Return knock without MongoDB _id
+    knock.pop("_id", None)
     return knock
 
 
