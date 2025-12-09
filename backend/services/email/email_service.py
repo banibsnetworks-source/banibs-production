@@ -56,6 +56,21 @@ class EmailService:
         Returns:
             True if email sent successfully, False otherwise
         """
+        # Mock mode for development - log emails instead of sending
+        if self.mock_mode:
+            logger.info("=" * 80)
+            logger.info("📧 [MOCK EMAIL] Email would be sent (SMTP_MOCK_MODE=true)")
+            logger.info(f"To: {', '.join(to)}")
+            logger.info(f"BCC: {', '.join(bcc) if bcc else 'None'}")
+            logger.info(f"From: {self.from_email}")
+            logger.info(f"Subject: {subject}")
+            logger.info("-" * 80)
+            logger.info(f"Body:\n{body}")
+            if html_body:
+                logger.info(f"HTML Body Preview:\n{html_body[:500]}...")
+            logger.info("=" * 80)
+            return True
+        
         if not self.enabled:
             logger.warning("Email service not configured. Skipping email send.")
             logger.info(f"Would have sent email to {to}: {subject}")
