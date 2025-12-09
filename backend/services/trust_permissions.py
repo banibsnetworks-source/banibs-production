@@ -469,6 +469,56 @@ class TrustPermissionService:
             return descriptions[TrustTier(tier)]
         except (ValueError, KeyError):
             return "Unknown trust level"
+    
+    @staticmethod
+    def get_full_permissions_with_override(
+        viewer_tier: str,
+        mutual_peoples: bool = False
+    ) -> Dict[str, Any]:
+        """
+        Get full permission set with Founder Rule A (Peoples Override) applied.
+        
+        **Founder Rule A**: If both users have each other in PEOPLES tier,
+        all restrictions are lifted (maximum trust).
+        
+        Args:
+            viewer_tier: Trust tier of the viewer
+            mutual_peoples: Whether both users have each other as PEOPLES
+        
+        Returns:
+            Dictionary with all permission flags and details
+        """
+        # Founder Rule A: Mutual PEOPLES overrides everything
+        if mutual_peoples:
+            return {
+                "can_see_content": True,
+                "can_send_dm": True,
+                "requires_dm_approval": False,
+                "can_comment": True,
+                "can_see_profile": True,
+                "full_profile_visible": True,
+                "should_notify": True,
+                "tier_applied": "PEOPLES",
+                "override_applied": "MUTUAL_PEOPLES_OVERRIDE",
+                "reason": "Mutual PEOPLES - maximum trust (Founder Rule A)"
+            }
+        
+        # Normal tier-based permissions
+        dm_permission = TrustPermissionService.can_send_dm(viewer_tier)
+        profile_visibility = TrustPermissionService.get_profile_visibility(viewer_tier)
+        
+        return {
+            "can_see_content": TrustPermissionService.can_see_content(viewer_tier, "PUBLIC"),
+            "can_send_dm": dm_permission["can_send"],
+            "requires_dm_approval": dm_permission["requires_approval"],
+            "can_comment": viewer_tier not in [TrustTier.BLOCKED, TrustTier.OTHERS_SAFE_MODE],
+            "can_see_profile": profile_visibility["name"],  # Basic visibility
+            "full_profile_visible": profile_visibility["full_profile"],
+            "should_notify": TrustPermissionService.should_notify(viewer_tier, "post"),
+            "tier_applied": viewer_tier,
+            "override_applied": None,
+            "reason": f"Standard {viewer_tier} tier permissions"
+        }
 
 
 # Convenience functions
