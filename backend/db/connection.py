@@ -10,14 +10,24 @@ load_dotenv(ROOT_DIR / '.env')
 # MongoDB connection with TLS/SSL support for MongoDB Atlas
 mongo_url = os.environ['MONGO_URL']
 
-# Configure MongoDB client with TLS and certificate authority
-client = AsyncIOMotorClient(
-    mongo_url,
-    tlsCAFile=certifi.where(),  # Use certifi bundle for SSL verification
-    serverSelectionTimeoutMS=5000,  # 5 second timeout
-    connectTimeoutMS=5000,
-    socketTimeoutMS=5000
-)
+# Configure MongoDB client
+# Only use TLS if connecting to MongoDB Atlas (mongodb+srv:// or explicit TLS in URL)
+if 'mongodb+srv://' in mongo_url or 'tls=true' in mongo_url.lower():
+    client = AsyncIOMotorClient(
+        mongo_url,
+        tlsCAFile=certifi.where(),  # Use certifi bundle for SSL verification
+        serverSelectionTimeoutMS=5000,  # 5 second timeout
+        connectTimeoutMS=5000,
+        socketTimeoutMS=5000
+    )
+else:
+    # Local MongoDB without TLS
+    client = AsyncIOMotorClient(
+        mongo_url,
+        serverSelectionTimeoutMS=5000,
+        connectTimeoutMS=5000,
+        socketTimeoutMS=5000
+    )
 
 db = client[os.environ['DB_NAME']]
 
