@@ -12799,13 +12799,17 @@ if __name__ == "__main__":
             # Run Phase B Trust Enforcement tests
             success = tester.test_phase_b_trust_enforcement_comprehensive()
             sys.exit(0 if success else 1)
+        elif test_name == "rooms":
+            # Run Peoples Room Phase 1 tests
+            success = tester.test_peoples_room_phase_1_comprehensive()
+            sys.exit(0 if success else 1)
         elif test_name == "all":
             # Run all tests
             success = tester.run_all_tests()
             sys.exit(0 if success else 1)
         else:
             print(f"Unknown test: {test_name}")
-            print("Available tests: adcs, messaging, ability, diaspora, groups, trust, all")
+            print("Available tests: adcs, messaging, ability, diaspora, groups, trust, rooms, all")
             sys.exit(1)
     else:
         # Default: run ADCS v1.0 tests for current review request
