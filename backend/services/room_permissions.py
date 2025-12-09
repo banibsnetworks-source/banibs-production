@@ -304,14 +304,7 @@ class RoomPermissionService:
         # Get relationship tier
         visitor_tier = await get_relationship_tier(owner_id, visitor_id, db)
         
-        # BLOCKED and SAFE MODE users cannot enter
-        if visitor_tier in ["BLOCKED", "OTHERS_SAFE_MODE"]:
-            return {
-                "can_enter_direct": False,
-                "reason": f"{visitor_tier} tier cannot enter"
-            }
-        
-        # Check Access List (highest priority)
+        # Check Access List FIRST (highest priority - can override BLOCKED)
         for entry in room.get("access_list", []):
             if entry["user_id"] == visitor_id:
                 if entry["access_mode"] == AccessMode.NEVER_ALLOW:
@@ -325,6 +318,13 @@ class RoomPermissionService:
                         "reason": "Access List: DIRECT_ENTRY",
                         "override_applied": "ACCESS_LIST"
                     }
+        
+        # BLOCKED and SAFE MODE users cannot enter (unless overridden by Access List above)
+        if visitor_tier in ["BLOCKED", "OTHERS_SAFE_MODE"]:
+            return {
+                "can_enter_direct": False,
+                "reason": f"{visitor_tier} tier cannot enter"
+            }
         
         # Check Circle membership
         # TODO: Implement when Circle Engine available
