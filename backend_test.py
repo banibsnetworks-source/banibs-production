@@ -12397,6 +12397,10 @@ if __name__ == "__main__":
             # Run Phase 8.5 Tests - Groups & Membership
             success = tester.test_phase_8_5_groups_comprehensive()
             sys.exit(0 if success else 1)
+        elif test_name == "trust":
+            # Run Phase B Trust Enforcement tests
+            success = tester.test_phase_b_trust_enforcement_comprehensive()
+            sys.exit(0 if success else 1)
         elif test_name == "all":
             # Run all tests
             success = tester.run_all_tests()
