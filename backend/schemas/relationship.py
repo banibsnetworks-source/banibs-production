@@ -81,9 +81,11 @@ class UnblockRequest(BaseModel):
 
 
 class RelationshipCounts(BaseModel):
-    """Relationship counts by tier"""
+    """Relationship counts by tier (Circle Trust Order - 7 tiers)"""
     peoples: int = 0
     cool: int = 0
+    chill: int = 0
     alright: int = 0
     others: int = 0
+    others_safe_mode: int = 0
     blocked: int = 0
