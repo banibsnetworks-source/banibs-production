@@ -1408,6 +1408,25 @@ class BanibsAPITester:
         visitor_headers = {"Authorization": f"Bearer {visitor_token}"}
         self.log("✅ Visitor logged in successfully")
         
+        # ============ STEP 4.5: ADD VISITOR TO ACCESS LIST ============
+        
+        self.log("🔑 Step 4.5: Adding visitor to access list for testing...")
+        
+        # Add visitor to access list so they can see the room
+        access_request = {
+            "user_id": visitor_user_id,
+            "access_mode": "MUST_KNOCK",
+            "notes": "Added for Phase 2 testing"
+        }
+        
+        response = self.make_request("POST", "/rooms/me/access-list", access_request, headers=admin_headers)
+        
+        if response.status_code != 200:
+            self.log(f"❌ Failed to add visitor to access list: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        self.log("✅ Visitor added to access list")
+        
         # ============ STEP 5: GET ROOM STATUS ============
         
         self.log("📊 Step 5: GET /api/rooms/{owner_id}/status (check permissions)...")
