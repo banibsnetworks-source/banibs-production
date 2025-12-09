@@ -273,7 +273,8 @@ async def get_conversation_previews(
     
     # Build previews
     previews = []
-    users_collection = db["users"]
+    # BGLIS v1.0 - Use banibs_users collection (master identity store)
+    users_collection = db["banibs_users"]
     
     for result in results:
         last_msg = result["lastMessage"]
