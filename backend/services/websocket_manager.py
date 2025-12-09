@@ -185,10 +185,13 @@ class ConnectionManager:
         - ROOM_DOOR_UNLOCKED
         - ROOM_SETTINGS_UPDATED
         """
+        # Serialize data to handle datetime objects
+        serialized_data = serialize_for_websocket(data)
+        
         message = {
             "type": event_type,
             "room_owner_id": room_owner_id,
-            "data": data,
+            "data": serialized_data,
             "timestamp": datetime.now(timezone.utc).isoformat()
         }
         await self.broadcast_to_room(room_owner_id, message, exclude_user)
