@@ -749,7 +749,16 @@ async def enter_room_as_visitor(
     
     # Log event for future social integrations
     await log_visitor_entered(owner_id, visitor_id, db)
-    # TODO: Emit WebSocket event: ROOM_VISITOR_ENTERED
+    
+    # WebSocket: Broadcast visitor entered to room
+    await ws_manager.broadcast_room_event(
+        room_owner_id=owner_id,
+        event_type="ROOM_VISITOR_ENTERED",
+        data={
+            "visitor_id": visitor_id,
+            "session": updated_session
+        }
+    )
     logger.info(f"🚪 ROOM_VISITOR_ENTERED: {visitor_id} -> {owner_id}")
     
     return {
