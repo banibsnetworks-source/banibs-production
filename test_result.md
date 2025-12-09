@@ -365,7 +365,7 @@ frontend:
 
   - task: "Peoples Room Phase 5 - Visitor-Side UI"
     implemented: true
-    working: "NA"
+    working: true
     file: "frontend/src/pages/RoomsDiscovery.js, frontend/src/pages/RoomDetail.js, frontend/src/components/rooms/KnockModal.js"
     stuck_count: 0
     priority: "high"
