@@ -5,7 +5,7 @@ Handles real-time connections, room channels, and event broadcasting
 Phase 4: WebSocket Integration
 """
 
-from typing import Dict, Set, Optional
+from typing import Dict, Set, Optional, Any
 from fastapi import WebSocket, WebSocketDisconnect
 import logging
 import json
