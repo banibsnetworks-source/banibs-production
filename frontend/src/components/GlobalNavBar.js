@@ -4,7 +4,7 @@ import { Menu, X, User, Settings, LogOut, ChevronDown, Sun, Moon } from 'lucide-
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import MoodMeter from './MoodMeter';
-import AuthModal from './AuthModal';
+import AuthModalPortal from './auth/AuthModalPortal';
 import AccountModeSwitcher from './common/AccountModeSwitcher';
 
 /**
