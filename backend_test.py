@@ -1484,6 +1484,9 @@ class BanibsAPITester:
         self.log(f"✅ Knock created successfully (ID: {knock_id})")
         self.log(f"   Message: {knock_data['message']}")
         
+        # Store knock_id for later use
+        test_knock_id = knock_id
+        
         # ============ STEP 7: OWNER CHECKS KNOCKS ============
         
         self.log("👀 Step 7: GET /api/rooms/me/knocks (owner sees knock)...")
