@@ -89,7 +89,7 @@ async def get_room_highlights(
     filter: str = Query("all", description="Filter: all, visitors, knocks, my_activity"),
     limit: int = Query(50, ge=1, le=100),
     skip: int = Query(0, ge=0),
-    current_user = Depends(get_current_user_from_token),
+    current_user = Depends(get_current_user),
     db = Depends(get_db)
 ):
     """
