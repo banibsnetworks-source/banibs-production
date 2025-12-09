@@ -190,7 +190,7 @@ CLOUDFRONT_URL="https://cdn.example.com"
 
 **Frontend (`.env`):**
 ```env
-REACT_APP_BACKEND_URL=https://peoplerooms.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://modal-overlay-fix-1.preview.emergentagent.com
 ```
 
 ---

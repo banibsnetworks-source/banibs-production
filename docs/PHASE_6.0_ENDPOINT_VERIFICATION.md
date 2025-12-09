@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://peoplerooms.preview.emergentagent.com/api/auth
+https://modal-overlay-fix-1.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
