@@ -11899,9 +11899,9 @@ def main():
 
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
-        self.log("Starting BANIBS Backend API Test Suite - Phase 6.4 Sentiment-Driven Moderation Routing")
+        self.log("Starting BANIBS Backend API Test Suite - Phase B Trust Enforcement")
         self.log(f"Testing against: {API_BASE}")
-        self.log("Testing moderation queue system with feature flags and admin endpoints")
+        self.log("Testing Circle Trust Order system with comprehensive trust enforcement scenarios")
         
         tests = [
             # Phase B Trust Enforcement - Circle Trust Order System
