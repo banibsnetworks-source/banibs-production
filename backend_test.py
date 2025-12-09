@@ -1506,17 +1506,20 @@ class BanibsAPITester:
             self.log(f"❌ PEOPLES DM creation failed: {response.status_code} - {response.text}", "ERROR")
             return False
         
-        # Test 2.2: Set User1 -> User2 as ALRIGHT, test DM creation (should fail)
+        # Test 2.2: Set User1 -> User3 as ALRIGHT, test DM creation (should fail)
         self.log("📝 Test 2.2: ALRIGHT tier DM creation (should fail)...")
         
+        headers_user3 = {"Authorization": f"Bearer {user3_token}"}
+        
+        # Set User1 -> User3 as ALRIGHT (User3 -> User1 remains default OTHERS)
         response = self.make_request("POST", "/relationships/", {
-            "target_user_id": user2_id,
+            "target_user_id": user3_id,
             "tier": "ALRIGHT"
         }, headers=headers_user1)
         
         response = self.make_request("POST", "/messaging/conversations", {
             "type": "dm",
-            "participant_ids": [user2_id]
+            "participant_ids": [user3_id]
         }, headers=headers_user1)
         
         if response.status_code == 403:
