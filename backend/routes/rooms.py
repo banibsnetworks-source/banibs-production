@@ -604,7 +604,16 @@ async def knock_on_room(
         
         # Log event for future social integrations
         await log_knock_created(owner_id, visitor_id, db)
-        # TODO: Emit WebSocket event: ROOM_KNOCK_CREATED
+        
+        # WebSocket: Notify owner of new knock
+        await ws_manager.broadcast_room_event(
+            room_owner_id=owner_id,
+            event_type="ROOM_KNOCK_CREATED",
+            data={
+                "knock": knock,
+                "visitor_id": visitor_id
+            }
+        )
         logger.info(f"🚪 ROOM_KNOCK_CREATED: {visitor_id} -> {owner_id}")
         
         return {
