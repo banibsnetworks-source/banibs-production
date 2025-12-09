@@ -114,6 +114,8 @@ async def enter_my_room(
     # Enter room (create/reactivate session)
     session = await enter_room(user_id, db)
     
+    # Log event for future social integrations
+    await log_session_started(user_id, db)
     # TODO: Emit WebSocket event: ROOM_SESSION_STARTED
     
     return {
