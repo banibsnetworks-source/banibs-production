@@ -1,13 +1,32 @@
 """
-Contributor Authentication Routes for BANIBS Phase 2.9
-Public users can register and login to submit opportunities
+Contributor Authentication Routes - BDII Identity Threading
+
+MIGRATION STATUS (December 2025):
+- Contributors are now integrated into BGLIS identity system
+- Legacy routes preserved for backward compatibility
+- New contributors should use BGLIS registration (bglis_auth.py)
+
+AUTHENTICATION METHODS:
+1. BGLIS (Recommended): Phone-first registration via /api/auth/register-bglis
+   - Register with phone + username
+   - Add "contributor" role during/after registration
+   
+2. Legacy (Deprecated): Email + password via /api/auth/contributor/register
+   - Creates BGLIS user with needs_bglis_upgrade=True
+   - Prompts for phone number on next login
+
+BDII THREADING:
+- Contributor data stored in banibs_users.contributor_profile
+- Identity resolution: BGLIS UUID → Contributor profile
+- Roles array includes "contributor" for contributors
 """
 
 from fastapi import APIRouter, Depends, HTTPException
 from motor.motor_asyncio import AsyncIOMotorDatabase
 import bcrypt
-from datetime import datetime
+from datetime import datetime, timezone
 from bson import ObjectId
+import uuid
 
 from models.contributor import (
     ContributorCreate,
@@ -15,10 +34,12 @@ from models.contributor import (
     ContributorPublic,
     ContributorTokenResponse
 )
+from models.unified_user import UserPublic
 from services.jwt import create_access_token, create_refresh_token
 from db.connection import get_db
+from db import unified_users
 
-router = APIRouter(prefix="/api/auth/contributor", tags=["contributor-auth"])
+router = APIRouter(prefix="/api/auth/contributor", tags=["Contributor Auth (Legacy)"])
 
 @router.post("/register", response_model=ContributorTokenResponse)
 async def register_contributor(
