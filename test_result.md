@@ -369,7 +369,7 @@ frontend:
     file: "frontend/src/pages/RoomsDiscovery.js, frontend/src/pages/RoomDetail.js, frontend/src/components/rooms/KnockModal.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
