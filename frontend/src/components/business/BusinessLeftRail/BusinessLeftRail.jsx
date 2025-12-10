@@ -94,6 +94,7 @@ const BusinessLeftRail = () => {
       label: 'MANAGE',
       items: [
         { icon: FileText, label: 'My Posts', path: '/portal/business/posts' },
+        { icon: Shield, label: 'Verification', path: '/portal/business/profile?tab=verification' },
         { icon: Users, label: 'Team & Staff', path: '/portal/business/team' },
         { icon: Target, label: 'Services & Offerings', path: '/portal/business/services' },
         { icon: Calendar, label: 'Events & Bookings', path: '/portal/business/events' },
