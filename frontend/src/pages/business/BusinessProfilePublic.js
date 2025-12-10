@@ -164,7 +164,15 @@ const BusinessProfilePublic = ({ businessId: propBusinessId, hideNavBar = false 
 
           {/* Info */}
           <div className="business-info">
-            <h1>{business.name}</h1>
+            <div className="flex items-center gap-3">
+              <h1>{business.name}</h1>
+              {business.verified && (
+                <VerifiedBadge 
+                  verifiedAt={business.verified_at} 
+                  size="lg"
+                />
+              )}
+            </div>
             {business.tagline && (
               <p className="tagline">{business.tagline}</p>
             )}
