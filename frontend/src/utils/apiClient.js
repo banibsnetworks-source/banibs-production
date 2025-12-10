@@ -136,7 +136,12 @@ export async function apiClientJSON(url, options = {}) {
   const response = await apiClient(url, options);
   
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: 'Request failed' }));
+    let error = { message: 'Request failed' };
+    try {
+      error = await response.json();
+    } catch (parseError) {
+      error = { message: 'Request failed' };
+    }
     throw new Error(error.message || `HTTP ${response.status}`);
   }
   
