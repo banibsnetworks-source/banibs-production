@@ -309,6 +309,9 @@ app.include_router(fap_router)
 # Include messaging v2 router (Phase 8.4 - Messaging Engine)
 app.include_router(messaging_v2_router)
 
+# Include business verification router (Business Verification System - Phase 1A)
+app.include_router(business_verification_router)
+
 # Include jobs router (Phase 7.1 - BANIBS Jobs & Opportunities)
 app.include_router(jobs_router)
 
