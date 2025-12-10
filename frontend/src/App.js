@@ -667,6 +667,14 @@ function App() {
                   </ProtectedRoute>
                 } 
               />
+              <Route 
+                path="/admin/verifications" 
+                element={
+                  <ProtectedRoute requireAdmin={true}>
+                    <AdminVerificationReview />
+                  </ProtectedRoute>
+                } 
+              />
               
               {/* Phase 11.0 - Prayer Rooms (Real Implementation) */}
               <Route path="/portal/prayer" element={<PrayerLobbyPage />} />
