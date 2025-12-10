@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Save, Upload, X, Plus, Trash2, Loader2 } from 'lucide-react';
-import GlobalNavBar from '../../components/GlobalNavBar';
 import { xhrRequest } from '../../utils/xhrRequest';
 import './BusinessProfileEdit.css';
 
