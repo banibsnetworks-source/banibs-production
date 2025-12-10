@@ -2,13 +2,13 @@ import React from 'react';
 import { SocialLayoutProvider, useSocialLayout } from '../../contexts/SocialLayoutContext';
 import LeftRail from './LeftRail/LeftRail';
 import RightRail from './RightRail/RightRail';
-import GlobalNavBar from '../GlobalNavBar';
 import { useTheme } from '../../contexts/ThemeContext';
 
 /**
  * SocialLayout - Phase 10.1
  * 3-column layout: LeftRail (nav) | Center (feed) | RightRail (discovery)
  * Each column has independent scrolling
+ * NOTE: Global navigation (BanibsNetworkNav) is now rendered at App.js level
  */
 const SocialLayoutContent = ({ children }) => {
   const { isCollapsed } = useSocialLayout();
@@ -16,9 +16,7 @@ const SocialLayoutContent = ({ children }) => {
   const isDark = theme === 'dark';
 
   return (
-    <>
-      <GlobalNavBar />
-      <div 
+    <div 
         className="theme-social bg-background"
         style={{ 
           display: 'flex',
