@@ -34,11 +34,13 @@ const BanibsNetworkNav = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // BANIBS Network modules
+  // BANIBS Network modules - Updated core ordering per Raymond's spec
   const primaryModules = [
     { name: 'BANIBS Social', path: '/portal/social', icon: '💬', description: 'Connect with community' },
-    { name: 'BANIBS Business', path: '/portal/business', icon: '🏢', description: 'Network & opportunities' },
     { name: 'BANIBS Information', path: '/', icon: '📰', description: 'News & insights' },
+    { name: 'BANIBS Marketplace', path: '/marketplace', icon: '🛍️', description: 'Shop Black-owned' },
+    { name: 'BANIBS Business Directory', path: '/business-directory', icon: '📋', description: 'Find businesses' },
+    { name: 'BANIBS Business', path: '/portal/business', icon: '🏢', description: 'Network & opportunities' },
     { name: 'BANIBS Education', path: '/education', icon: '🎓', description: 'Learning resources' },
     { name: 'BANIBS Youth', path: '/youth', icon: '🌟', description: 'Youth programs' },
   ];
@@ -47,8 +49,9 @@ const BanibsNetworkNav = () => {
     { name: 'BANIBS TV', path: '/tv', icon: '📺', description: 'Interviews & spotlights' },
     { name: 'Recognition', path: '/recognition', icon: '🏆', description: 'Community honors' },
     { name: 'Resources', path: '/resources', icon: '📚', description: 'Grants & funding' },
-    { name: 'Business Directory', path: '/business-directory', icon: '📋', description: 'Find businesses' },
     { name: 'Voice', path: '/voice', icon: '✍️', description: 'Op-eds & perspectives' },
+    { name: 'Opportunities', path: '/opportunities', icon: '💼', description: 'Jobs & grants' },
+    { name: 'Events', path: '/events', icon: '📅', description: 'Community events' },
   ];
 
   const handleNavigation = (path) => {
