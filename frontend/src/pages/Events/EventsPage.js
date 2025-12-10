@@ -64,7 +64,10 @@ function EventsPage() {
         url += `&search=${encodeURIComponent(searchTerm.trim())}`;
       }
 
-      const response = await fetch(url);
+      const response = await fetch(url).catch(err => {
+        // Handle fetch errors (network issues, etc.)
+        throw new Error('Failed to connect to events service');
+      });
       
       if (!response.ok) {
         // Consume the response body to prevent clone errors
@@ -73,7 +76,7 @@ function EventsPage() {
         } catch (e) {
           // Ignore parsing errors
         }
-        throw new Error('Failed to fetch events');
+        throw new Error(`Failed to fetch events (Status: ${response.status})`);
       }
       
       const data = await response.json();
@@ -81,7 +84,11 @@ function EventsPage() {
       setTotal(data.total || 0);
       setTotalPages(data.pages || 1);
     } catch (err) {
-      setError(err.message);
+      // Filter out the clone error message and show a user-friendly message
+      const errorMessage = err.message && err.message.includes('clone')
+        ? 'Failed to load events. Please refresh the page.'
+        : err.message || 'Failed to load events';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
