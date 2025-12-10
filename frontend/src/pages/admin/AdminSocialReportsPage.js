@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, RefreshCw, Check, X, Eye } from 'lucide-react';
-import GlobalNavBar from '../../components/GlobalNavBar';
 
 /**
  * AdminSocialReportsPage - Phase 8.3.1
  * Admin interface for reviewing and moderating reported posts
+ * NOTE: Global navigation (BanibsNetworkNav) is now rendered at App.js level
  */
 const AdminSocialReportsPage = () => {
   const [reports, setReports] = useState([]);
