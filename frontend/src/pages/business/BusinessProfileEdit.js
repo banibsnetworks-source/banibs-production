@@ -22,6 +22,7 @@ const BusinessProfileEdit = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [businessId, setBusinessId] = useState(null);
+  const [activeTab, setActiveTab] = useState('profile'); // 'profile' or 'verification'
   
   const [formData, setFormData] = useState({
     name: '',
