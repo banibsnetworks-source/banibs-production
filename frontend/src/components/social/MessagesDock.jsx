@@ -146,7 +146,7 @@ const MessagesDock = () => {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-4 right-4 z-40 flex items-center space-x-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 px-4 py-3 rounded-full shadow-lg transition-all hover:scale-105"
+          className="fixed bottom-4 right-4 z-[9999] flex items-center space-x-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 px-4 py-3 rounded-full shadow-lg transition-all hover:scale-105"
         >
           <MessageCircle className="w-5 h-5" />
           <span className="hidden sm:inline font-semibold">Messages</span>
