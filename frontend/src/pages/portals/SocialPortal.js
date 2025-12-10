@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
-import GlobalNavBar from '../../components/GlobalNavBar';
-import NewsNavigationBar from '../../components/NewsNavigationBar';
 import SEO from '../../components/SEO';
 import { Users, MessageCircle, Heart, User } from 'lucide-react';
 import SocialPostComposer from '../../components/social/SocialPostComposer';
