@@ -62,7 +62,6 @@ const SocialLayoutContent = ({ children }) => {
           <RightRail />
         </div>
       </div>
-    </>
   );
 };
 
