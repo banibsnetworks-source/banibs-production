@@ -122,6 +122,8 @@ import MarketplacePortal from "./pages/portals/MarketplacePortal";
 import TVPage from "./pages/TVPage";
 import RecognitionPage from "./pages/RecognitionPage";
 import VoicePage from "./pages/VoicePage";
+// Global Navigation (BANIBS Network Nav)
+import BanibsNetworkNav from "./components/BanibsNetworkNav";
 // Phase 10.0 - BANIBS Helping Hands
 import HelpingHandsHome from "./pages/helpinghands/HelpingHandsHome";
 import HelpingHandsCreate from "./pages/helpinghands/HelpingHandsCreate";
