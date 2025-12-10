@@ -157,12 +157,40 @@ const BanibsNetworkNav = () => {
             </div>
           </div>
 
-          {/* Right: Search, Notifications, Profile */}
-          <div className="flex items-center space-x-4">
-            {/* Search */}
+          {/* Center: Global Search Bar */}
+          <form 
+            onSubmit={handleSearch}
+            className="hidden md:flex flex-1 max-w-2xl"
+          >
+            <div className="relative w-full">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <Search className="w-4 h-4 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search BANIBS (people, businesses, news...)"
+                className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-full text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-white"
+                >
+                  <span className="text-lg">×</span>
+                </button>
+              )}
+            </div>
+          </form>
+
+          {/* Right: Notifications, Profile */}
+          <div className="flex items-center space-x-2 flex-shrink-0">
+            {/* Mobile Search Icon */}
             <button
               onClick={() => navigate('/search')}
-              className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors"
+              className="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors"
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
