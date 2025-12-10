@@ -62,13 +62,24 @@ const BanibsNetworkNav = () => {
     setProfileDropdownOpen(false);
   };
 
+  // Search state
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery('');
+    }
+  };
+
   return (
     <nav className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14">
+        <div className="flex items-center justify-between h-14 gap-4">
           
-          {/* Left: BANIBS Network Dropdown */}
-          <div className="flex items-center space-x-6">
+          {/* Left: Logo + BANIBS Network Dropdown */}
+          <div className="flex items-center space-x-4 flex-shrink-0">
             {/* BANIBS Logo/Wordmark */}
             <Link to="/" className="flex items-center space-x-2">
               <div className="flex items-center justify-center w-8 h-8 bg-yellow-500 rounded-lg">
