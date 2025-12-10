@@ -49,6 +49,9 @@ const SocialPortal = () => {
   const socialHeroImages = [
     'https://images.unsplash.com/photo-1585144374310-1c0053f26d80?w=1920&q=85', // Black couple - warm intimate connection
     'https://images.unsplash.com/photo-1689376742380-60cbfb78b0cb?w=1920&q=85', // Black women - cozy home warmth
+    'https://images.pexels.com/photos/27086690/pexels-photo-27086690.jpeg?auto=compress&cs=tinysrgb&w=1920', // Black family - joyful moment
+    'https://images.pexels.com/photos/18459701/pexels-photo-18459701.jpeg?auto=compress&cs=tinysrgb&w=1920', // Black community gathering - joy and connection
+    'https://images.unsplash.com/photo-1531983412531-1f49a365ffed?w=1920&q=85', // Black woman - confident portrait
   ];
   
   // Rotate hero images every 5 seconds for social context
