@@ -5,13 +5,13 @@ import {
   Users, MessageCircle, Heart, Shield,
   ChevronDown, ChevronUp, BookOpen, HelpCircle
 } from 'lucide-react';
-import GlobalNavBar from '../../components/GlobalNavBar';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 /**
  * BANIBS Social Landing Page (A6)
  * The front door to BANIBS Social - warm, welcoming, dignified
+ * NOTE: Global navigation (BanibsNetworkNav) is now rendered at App.js level
  */
 const SocialLandingPage = () => {
   const navigate = useNavigate();
