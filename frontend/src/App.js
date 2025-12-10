@@ -118,6 +118,10 @@ import BusinessPortal from "./pages/portals/BusinessPortal";
 import TVPortal from "./pages/portals/TVPortal";
 import SearchPortal from "./pages/portals/SearchPortal";
 import MarketplacePortal from "./pages/portals/MarketplacePortal";
+// Placeholder Pages (P0 Fix - Homepage Links)
+import TVPage from "./pages/TVPage";
+import RecognitionPage from "./pages/RecognitionPage";
+import VoicePage from "./pages/VoicePage";
 // Phase 10.0 - BANIBS Helping Hands
 import HelpingHandsHome from "./pages/helpinghands/HelpingHandsHome";
 import HelpingHandsCreate from "./pages/helpinghands/HelpingHandsCreate";
