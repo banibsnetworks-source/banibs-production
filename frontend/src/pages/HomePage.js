@@ -268,7 +268,7 @@ const HomePage = () => {
             <p className="text-sm text-gray-700 mt-2">
               Celebrating businesses that are making a difference and driving economic growth.
             </p>
-            <a className="text-sm font-semibold text-yellow-700 mt-3 inline-block hover:underline" href="#">
+            <a className="text-sm font-semibold text-yellow-700 mt-3 inline-block hover:underline" href="/recognition">
               See the Full List →
             </a>
           </div>
