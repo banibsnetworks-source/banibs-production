@@ -32,6 +32,15 @@ const MessagesDock = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Listen for custom open event (for temporary trigger button)
+  useEffect(() => {
+    const handleOpenEvent = () => {
+      setIsOpen(true);
+    };
+    window.addEventListener('open-messages-dock', handleOpenEvent);
+    return () => window.removeEventListener('open-messages-dock', handleOpenEvent);
+  }, []);
+
   // Fetch conversations when dock opens
   useEffect(() => {
     if (isOpen && isAuthenticated) {
