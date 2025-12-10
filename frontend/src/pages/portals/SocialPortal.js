@@ -82,7 +82,8 @@ const SocialPortal = () => {
           title="BANIBS Social - Connect, Share, Empower"
           description="Join the BANIBS Social community. Connect with Black and Indigenous voices, share stories, and empower each other."
         />
-        <GlobalNavBar />
+        
+        {/* Global navigation is now handled by BanibsNetworkNav at App.js level */}
 
         {/* Hero Section with Rotating Real Images */}
         <div className="relative overflow-hidden" style={{
