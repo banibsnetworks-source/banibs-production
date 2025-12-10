@@ -7,6 +7,7 @@ import BusinessServicesList from '../../components/business/BusinessServicesList
 import NavigationButtons from '../../components/business/NavigationButtons';
 import SupportBusinessButton from '../../components/business/SupportBusinessButton';
 import BusinessKnowledgeSection from '../../components/business/BusinessKnowledgeSection';
+import VerifiedBadge from '../../components/common/VerifiedBadge';
 import './BusinessProfilePublic.css';
 
 const BusinessProfilePublic = ({ businessId: propBusinessId, hideNavBar = false }) => {
