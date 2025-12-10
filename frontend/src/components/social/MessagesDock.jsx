@@ -142,14 +142,14 @@ const MessagesDock = () => {
 
   return (
     <>
-      {/* Floating Messages Button */}
+      {/* Floating Messages Button - Positioned to be clearly visible */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-4 right-4 z-[9999] flex items-center space-x-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 px-4 py-3 rounded-full shadow-lg transition-all hover:scale-105"
+          className="fixed bottom-20 right-6 z-[99999] flex items-center space-x-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 px-5 py-3 rounded-full shadow-2xl transition-all hover:scale-105 border-2 border-gray-900"
         >
           <MessageCircle className="w-5 h-5" />
-          <span className="hidden sm:inline font-semibold">Messages</span>
+          <span className="font-bold">Messages</span>
         </button>
       )}
 
