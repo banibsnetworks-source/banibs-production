@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Save, Upload, X, Plus, Trash2, Loader2 } from 'lucide-react';
+import { Save, Upload, X, Plus, Trash2, Loader2, Shield } from 'lucide-react';
 import { xhrRequest } from '../../utils/xhrRequest';
+import BusinessVerificationDashboard from '../../components/business/BusinessVerificationDashboard';
 import './BusinessProfileEdit.css';
 
 const ACCENT_COLORS = [
