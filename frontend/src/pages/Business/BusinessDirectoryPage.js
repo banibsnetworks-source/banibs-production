@@ -5,6 +5,7 @@ import SEO from "../../components/SEO";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Building2, MessageSquare, Plus } from "lucide-react";
+import VerifiedBadge from "../../components/common/VerifiedBadge";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
