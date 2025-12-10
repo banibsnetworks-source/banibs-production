@@ -48,6 +48,7 @@ from routes.users import router as users_router  # Phase 8.1 - User Search
 from routes.circle_engine import router as circle_engine_router  # Phase 9.1 - Infinite Circle Engine
 from routes.fap import router as fap_router  # Phase X - Founder Authentication Protocol
 from routes.messaging_v2 import router as messaging_v2_router  # Phase 8.4 - Messaging Engine
+from routes.business_verification import router as business_verification_router  # Business Verification System - Phase 1A
 from routes.groups import router as groups_router  # Phase 8.5 - Groups & Membership
 from adcs.admin_api import router as adcs_router  # ADCS v1.0 - AI Double-Check System
 from routes.region import router as region_router  # RCS-X Phase 1 - Region Content System
