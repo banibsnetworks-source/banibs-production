@@ -599,6 +599,7 @@ function App() {
               <Route path="/tv" element={<TVPage />} />
               <Route path="/recognition" element={<RecognitionPage />} />
               <Route path="/voice" element={<VoicePage />} />
+              <Route path="/portal/social/trending" element={<TrendingPage />} />
               {/* Phase A6 - BANIBS Social Landing Page (redirects to portal if authenticated) */}
               <Route path="/social" element={<Navigate to="/portal/social" replace />} />
               
