@@ -151,7 +151,12 @@ export default function MarketplaceCheckoutPage() {
       });
 
       if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
+        let errData = {};
+        try {
+          errData = await res.json();
+        } catch (parseError) {
+          errData = {};
+        }
         
         // Handle 402 Payment Required
         if (res.status === 402) {
