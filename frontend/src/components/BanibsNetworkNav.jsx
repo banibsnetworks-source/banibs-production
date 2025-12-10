@@ -40,7 +40,7 @@ const BanibsNetworkNav = () => {
   const primaryModules = [
     { name: 'BANIBS Social', path: '/portal/social', icon: '💬', description: 'Connect with community' },
     { name: 'BANIBS Information', path: '/', icon: '📰', description: 'News & insights' },
-    { name: 'BANIBS Marketplace', path: '/marketplace', icon: '🛍️', description: 'Shop Black-owned' },
+    { name: 'BANIBS Marketplace', path: '/portal/marketplace', icon: '🛍️', description: 'Shop Black-owned' },
     { name: 'BANIBS Business Directory', path: '/business-directory', icon: '📋', description: 'Find businesses' },
     { name: 'BANIBS Business', path: '/portal/business', icon: '🏢', description: 'Network & opportunities' },
     { name: 'BANIBS Education', path: '/education', icon: '🎓', description: 'Learning resources' },
