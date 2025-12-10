@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import GlobalNavBar from '../components/GlobalNavBar';
 import NewsNavigationBar from '../components/NewsNavigationBar';
 import NewsHeroSection from '../components/NewsHeroSection';
 import TopStoriesGrid from '../components/TopStoriesGrid';
@@ -52,7 +51,6 @@ const NewsHomePage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-950">
-        <GlobalNavBar />
         <NewsNavigationBar activeSection="top-stories" />
         
         <div className="container mx-auto px-4 py-12">
@@ -68,7 +66,6 @@ const NewsHomePage = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-gray-950">
-        <GlobalNavBar />
         <NewsNavigationBar activeSection="top-stories" />
         
         <div className="container mx-auto px-4 py-12">
@@ -100,7 +97,6 @@ const NewsHomePage = () => {
         keywords="Black news, Indigenous news, community news, Black business, opportunities, BANIBS"
       />
 
-      <GlobalNavBar />
       <NewsNavigationBar activeSection="top-stories" />
 
       <main className="container mx-auto px-4 py-8">

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import EmptyState from "../../components/EmptyState";
 import SEO from "../../components/SEO";
-import GlobalNavBar from "../../components/GlobalNavBar";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
 import { Building2, MessageSquare, Plus } from "lucide-react";
@@ -136,7 +135,6 @@ function BusinessDirectoryPage() {
         title="BANIBS Business Directory - Black-Owned Businesses"
         description="Discover and support Black-owned and Black-supporting businesses. Find verified businesses in technology, food, healthcare, education, and more."
       />
-      <GlobalNavBar />
       
       {/* Hero Section */}
       <div className="py-16" style={{

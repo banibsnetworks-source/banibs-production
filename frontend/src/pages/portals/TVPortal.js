@@ -1,5 +1,4 @@
 import React from 'react';
-import GlobalNavBar from '../../components/GlobalNavBar';
 import BanibsTVCard from '../../components/BanibsTVCard';
 import SEO from '../../components/SEO';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -21,7 +20,6 @@ const TVPortal = () => {
         title="BANIBS TV - Watch Live & On-Demand"
         description="Watch BANIBS TV live streams, news programs, and community content."
       />
-      <GlobalNavBar />
 
       {/* Hero */}
       <div className="py-20" style={{

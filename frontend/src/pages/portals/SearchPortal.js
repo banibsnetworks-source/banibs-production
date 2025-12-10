@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import GlobalNavBar from '../../components/GlobalNavBar';
 import SEO from '../../components/SEO';
 import { Search, Lock, Zap } from 'lucide-react';
 
@@ -18,7 +17,6 @@ const SearchPortal = () => {
         title="BANIBS Search - Private Search Engine"
         description="Access the BANIBS private search engine for members and subscribers."
       />
-      <GlobalNavBar />
 
       <div className="container mx-auto px-4 py-20">
         <div className="max-w-3xl mx-auto text-center">
