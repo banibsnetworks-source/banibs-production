@@ -199,11 +199,40 @@ const BusinessProfileEdit = () => {
         <p>Create and customize your business presence on BANIBS</p>
       </div>
 
+      {/* Tabs */}
+      <div className="flex gap-4 mb-6 border-b border-gray-200">
+        <button
+          type="button"
+          onClick={() => setActiveTab('profile')}
+          className={`px-6 py-3 font-semibold transition-colors border-b-2 ${
+            activeTab === 'profile'
+              ? 'border-yellow-500 text-yellow-600'
+              : 'border-transparent text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          Profile Information
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('verification')}
+          className={`px-6 py-3 font-semibold transition-colors border-b-2 flex items-center gap-2 ${
+            activeTab === 'verification'
+              ? 'border-yellow-500 text-yellow-600'
+              : 'border-transparent text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          <Shield className="w-4 h-4" />
+          Verification
+        </button>
+      </div>
+
       {error && (
         <div className="error-message">{error}</div>
       )}
 
-      <form onSubmit={handleSubmit} className="business-edit-form">
+      {/* Profile Tab */}
+      {activeTab === 'profile' && (
+        <form onSubmit={handleSubmit} className="business-edit-form">
         {/* Basic Info Section */}
         <section className="form-section">
           <h2>Basic Information</h2>
