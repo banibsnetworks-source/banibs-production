@@ -399,6 +399,9 @@ const SocialPortal = () => {
           </div>
         </div>
       </div>
+      
+      {/* Messages Dock - Phase 1 MVP */}
+      <MessagesDock />
     </SocialLayout>
   );
 };
