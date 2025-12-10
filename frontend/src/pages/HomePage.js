@@ -284,7 +284,7 @@ const HomePage = () => {
             <p className="text-sm text-gray-700 mt-2">
               Community leaders share perspectives on building wealth within our communities.
             </p>
-            <a className="text-sm font-semibold text-yellow-700 mt-3 inline-block hover:underline" href="#">
+            <a className="text-sm font-semibold text-yellow-700 mt-3 inline-block hover:underline" href="/voice">
               Read the Piece →
             </a>
           </div>
