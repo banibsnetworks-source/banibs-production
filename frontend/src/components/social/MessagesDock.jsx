@@ -159,7 +159,7 @@ const MessagesDock = () => {
           {/* Backdrop (mobile only) */}
           {isMobile && (
             <div
-              className="fixed inset-0 bg-black/50 z-40"
+              className="fixed inset-0 bg-black/50 z-[9998]"
               onClick={handleClose}
             />
           )}
@@ -167,7 +167,7 @@ const MessagesDock = () => {
           {/* Panel */}
           <div
             className={`
-              fixed z-50 bg-gray-900 border-l border-gray-800 shadow-2xl
+              fixed z-[9999] bg-gray-900 border-l border-gray-800 shadow-2xl
               ${isMobile 
                 ? 'inset-0' 
                 : 'top-0 right-0 bottom-0 w-96'
