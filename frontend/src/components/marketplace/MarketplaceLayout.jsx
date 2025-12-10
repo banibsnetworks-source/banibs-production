@@ -1,7 +1,6 @@
 // frontend/src/components/marketplace/MarketplaceLayout.jsx
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import GlobalNavBar from "../GlobalNavBar";
 import { useTheme } from "../../contexts/ThemeContext";
 
 const navItems = [
@@ -18,8 +17,7 @@ export default function MarketplaceLayout({ children }) {
 
   return (
     <>
-      {/* Global Navigation Bar */}
-      <GlobalNavBar data-layout="marketplace" />
+      {/* NOTE: Global navigation (BanibsNetworkNav) is now rendered at App.js level */}
       
       {/* Full-width Marketplace Container */}
       <div 

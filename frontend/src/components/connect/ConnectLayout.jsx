@@ -1,5 +1,4 @@
 import React from 'react';
-import GlobalNavBar from '../GlobalNavBar';
 import ConnectLeftRail from './ConnectLeftRail';
 import ConnectRightRail from './ConnectRightRail';
 import NewsBeat from '../common/NewsBeat';
@@ -15,14 +14,13 @@ import NewsBeat from '../common/NewsBeat';
  * - Left: My Network, Recent Activity, Business Groups, etc.
  * - Center: Business feed (posts, opportunities)
  * - Right: Business Tools, Company Pulse, Funding, etc.
+ * 
+ * NOTE: Global navigation (BanibsNetworkNav) is now rendered at App.js level
  */
 
 const ConnectLayout = ({ children }) => {
   return (
     <div className="theme-connect min-h-screen bg-background">
-      {/* Global Nav */}
-      <GlobalNavBar />
-      
       {/* Mobile NewsBeat Strip */}
       <div className="lg:hidden">
         <NewsBeat variant="mobile" limit={5} />
