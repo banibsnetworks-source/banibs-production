@@ -589,6 +589,10 @@ function App() {
               <Route path="/events/:id" element={<EventDetailPage />} />
               {/* Phase 6.2.4 - Unified Search */}
               <Route path="/search" element={<SearchPage />} />
+              {/* P0 Fix - Homepage Link Placeholders */}
+              <Route path="/tv" element={<TVPage />} />
+              <Route path="/recognition" element={<RecognitionPage />} />
+              <Route path="/voice" element={<VoicePage />} />
               {/* Phase A6 - BANIBS Social Landing Page (redirects to portal if authenticated) */}
               <Route path="/social" element={<Navigate to="/portal/social" replace />} />
               
