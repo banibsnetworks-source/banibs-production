@@ -375,6 +375,18 @@ const SocialPortal = () => {
                   Share your thoughts with the BANIBS community
                 </p>
               </div>
+              
+              {/* Temporary Messages Trigger for Testing */}
+              <button
+                onClick={() => {
+                  const event = new CustomEvent('open-messages-dock');
+                  window.dispatchEvent(event);
+                }}
+                className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 rounded-lg font-semibold transition-colors shadow-md"
+              >
+                <MessageCircle className="w-5 h-5" />
+                <span>Open Messages</span>
+              </button>
             </div>
 
             {/* First Login Helper Banner */}
