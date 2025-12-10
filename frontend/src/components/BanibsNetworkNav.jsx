@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ChevronDown, Search, Bell, User, LogOut, Settings } from 'lucide-react';
+import { ChevronDown, Search, Bell, User, LogOut, Settings, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 /**
  * BANIBS Network Global Navigation
@@ -9,10 +10,11 @@ import { useAuth } from '../contexts/AuthContext';
  * The primary navigation bar for the entire BANIBS ecosystem.
  * Appears at the top of EVERY page.
  * 
- * Layout: [BANIBS Network ▾] [Search 🔍] [Notifications 🔔] [Profile ⬤]
+ * Layout: [BANIBS Network ▾] [Search 🔍] [Theme Toggle] [Notifications 🔔] [Profile ⬤]
  */
 const BanibsNetworkNav = () => {
   const { user, isAuthenticated, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const [networkDropdownOpen, setNetworkDropdownOpen] = useState(false);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
