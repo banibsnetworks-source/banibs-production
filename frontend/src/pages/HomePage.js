@@ -239,7 +239,7 @@ const HomePage = () => {
             </div>
             <div className="mt-4">
               <a
-                href="#"
+                href="/resources"
                 className="text-sm font-semibold text-gray-800 hover:underline"
               >
                 Explore Resources →
