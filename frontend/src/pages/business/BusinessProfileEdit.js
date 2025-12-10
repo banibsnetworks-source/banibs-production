@@ -191,7 +191,7 @@ const BusinessProfileEdit = () => {
 
   return (
     <div className="business-edit-container">
-      <GlobalNavBar />
+      {/* NOTE: Global navigation (BanibsNetworkNav) is now rendered at App.js level */}
       <div className="business-edit-header">
         <h1>Business Identity Studio</h1>
         <p>Create and customize your business presence on BANIBS</p>
