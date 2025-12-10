@@ -124,7 +124,7 @@ const BusinessProfilePublic = ({ businessId: propBusinessId, hideNavBar = false 
         fontFamily: getFontFamily()
       }}
     >
-      {!hideNavBar && <GlobalNavBar />}
+      {/* NOTE: Global navigation (BanibsNetworkNav) is now rendered at App.js level */}
       {/* Cover Section */}
       <div className="business-cover">
         {(business.banner_image_url || business.cover) ? (
