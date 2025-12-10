@@ -444,14 +444,17 @@ function BusinessDirectoryPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
-                      <h3 className="text-lg font-semibold text-card-foreground transition">
-                        {business.business_name}
-                      </h3>
-                      {business.verified && (
-                        <span className="flex-shrink-0 px-2 py-1 text-xs font-medium rounded-full bg-emerald-500/20 border border-emerald-500 text-emerald-500">
-                          ✓ Verified
-                        </span>
-                      )}
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-lg font-semibold text-card-foreground transition">
+                          {business.business_name}
+                        </h3>
+                        {business.verified && (
+                          <VerifiedBadge 
+                            verifiedAt={business.verified_at} 
+                            size="md"
+                          />
+                        )}
+                      </div>
                     </div>
                     <p className="text-sm text-muted-foreground mt-1">{business.category}</p>
                   </div>
