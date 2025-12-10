@@ -84,7 +84,7 @@ const BanibsNetworkNav = () => {
         <div className="flex items-center justify-between h-14 gap-4">
           
           {/* Left: Logo + BANIBS Network Dropdown */}
-          <div className="flex items-center space-x-4 flex-shrink-0">
+          <div className="flex items-center space-x-2 flex-shrink-0">
             {/* BANIBS Logo/Wordmark */}
             <Link to="/" className="flex items-center space-x-2">
               <div className="flex items-center justify-center w-8 h-8 bg-yellow-500 rounded-lg">
