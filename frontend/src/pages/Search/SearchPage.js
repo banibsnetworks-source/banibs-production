@@ -7,7 +7,8 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001'
 function SearchPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const query = searchParams.get('q') || '';
+  // Support both 'q' (old) and 'query' (new from global nav) parameters
+  const query = searchParams.get('query') || searchParams.get('q') || '';
   
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
