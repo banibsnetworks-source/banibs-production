@@ -65,7 +65,16 @@ function EventsPage() {
       }
 
       const response = await fetch(url);
-      if (!response.ok) throw new Error('Failed to fetch events');
+      
+      if (!response.ok) {
+        // Consume the response body to prevent clone errors
+        try {
+          await response.text();
+        } catch (e) {
+          // Ignore parsing errors
+        }
+        throw new Error('Failed to fetch events');
+      }
       
       const data = await response.json();
       setEvents(data.events || []);
