@@ -175,9 +175,12 @@ const HomePage = () => {
               </p>
             </div>
             <div className="mt-4">
-              <span className="text-sm font-semibold text-gray-800 opacity-60">
-                Coming soon
-              </span>
+              <a
+                href="/portal/social"
+                className="text-sm font-semibold text-gray-800 hover:underline"
+              >
+                Open BANIBS Social →
+              </a>
             </div>
           </div>
 
