@@ -402,7 +402,10 @@ function App() {
                   <MediaViewer />
                   <BrowserRouter>
                     <AccountModeProvider>
-            <Routes>
+                      {/* Global BANIBS Network Navigation - Appears on ALL pages */}
+                      <BanibsNetworkNav />
+                      
+                      <Routes>
               {/* Phase 10.0 - Full-Page Auth Routes (P0 Blocker Fix) */}
               <Route path="/auth/register" element={<RegisterPage />} />
               <Route path="/auth/signin" element={<SignInPage />} />
