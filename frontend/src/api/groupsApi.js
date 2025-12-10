@@ -28,7 +28,12 @@ const getHeaders = () => {
  */
 const handleResponse = async (response) => {
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ detail: 'Request failed' }));
+    let error = { detail: 'Request failed' };
+    try {
+      error = await response.json();
+    } catch (parseError) {
+      error = { detail: 'Request failed' };
+    }
     throw new Error(error.detail || `HTTP ${response.status}`);
   }
   return response.json();
