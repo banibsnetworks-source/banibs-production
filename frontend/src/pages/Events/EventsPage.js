@@ -102,7 +102,13 @@ function EventsPage() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
+        let errorData = {};
+        try {
+          errorData = await response.json();
+        } catch (parseError) {
+          // If parsing fails, use empty object
+          errorData = {};
+        }
         throw new Error(errorData.detail || 'Failed to RSVP');
       }
 
