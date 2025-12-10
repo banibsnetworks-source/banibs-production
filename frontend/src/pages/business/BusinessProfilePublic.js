@@ -371,7 +371,12 @@ const BusinessProfilePublic = ({ businessId: propBusinessId, hideNavBar = false 
                 setBusinessDraft(null);
                 setCommandCenterOpen(false);
               } else {
-                const errorData = await response.json().catch(() => ({}));
+                let errorData = {};
+                try {
+                  errorData = await response.json();
+                } catch (parseError) {
+                  errorData = {};
+                }
                 console.error('Save failed:', errorData);
                 alert(`Failed to save: ${errorData.detail || 'Unknown error'}`);
               }
