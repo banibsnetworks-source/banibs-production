@@ -1,5 +1,4 @@
 import React from 'react';
-import GlobalNavBar from '../GlobalNavBar';
 import { useTheme } from '../../contexts/ThemeContext';
 
 /**
@@ -12,15 +11,15 @@ import { useTheme } from '../../contexts/ThemeContext';
  * - theme: Theme class (theme-social, theme-connect, etc.)
  * - leftRail: Optional left navigation component
  * - rightRail: Optional right sidebar component
- * - showNavBar: Show global navigation (default: true)
  * - maxWidth: Content max-width (default: 1400px)
  * - children: Main content
+ * 
+ * NOTE: Global navigation (BanibsNetworkNav) is rendered at App.js level
  */
 const PortalLayout = ({ 
   theme = 'theme-social',
   leftRail: LeftRail = null,
   rightRail: RightRail = null,
-  showNavBar = true,
   maxWidth = '1400px',
   fullWidth = false,
   verticalPadding = true,
@@ -31,8 +30,6 @@ const PortalLayout = ({
 
   return (
     <div className={`${theme} min-h-screen bg-background`}>
-      {/* Global Navigation */}
-      {showNavBar && <GlobalNavBar />}
       
       {/* Main Layout Container */}
       <div 
