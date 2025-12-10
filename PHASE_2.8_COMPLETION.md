@@ -306,7 +306,7 @@ INITIAL_ADMIN_PASSWORD="BanibsAdmin#2025"
 
 ### Frontend Configuration
 ```env
-REACT_APP_BACKEND_URL="https://modal-overlay-fix-1.preview.emergentagent.com"
+REACT_APP_BACKEND_URL="https://unified-nav.preview.emergentagent.com"
 ```
 
 ---

@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://modal-overlay-fix-1.preview.emergentagent.com/api/auth
+https://unified-nav.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
