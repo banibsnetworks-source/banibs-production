@@ -369,59 +369,169 @@ const ComingSoonPage = () => {
         </div>
       </div>
 
-      {/* Founder Insight Teaser */}
+      {/* Founder Insight Teaser - Premium Elevated Design */}
       <div style={{
-        padding: '60px 20px',
-        background: 'linear-gradient(180deg, #04060A 0%, #090D16 100%)',
+        padding: '40px 20px',
+        background: 'linear-gradient(180deg, #04060A 0%, #000000 100%)',
         borderTop: `1px solid ${colors.skyBlueSoft}`,
         borderBottom: `1px solid ${colors.skyBlueSoft}`
       }}>
-        <div style={{ maxWidth: '750px', margin: '0 auto' }}>
-          <section style={{
-            background: 'rgba(255, 215, 0, 0.05)',
-            border: `2px solid ${colors.gold}`,
-            borderRadius: '16px',
-            padding: '32px 28px',
-            boxShadow: '0 8px 24px rgba(255, 215, 0, 0.1)'
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          {/* Blue glow wrapper */}
+          <div style={{
+            filter: 'drop-shadow(0 0 80px rgba(66, 181, 255, 0.25))',
+            position: 'relative'
           }}>
-            <h2 style={{
-              fontSize: '1.35rem',
-              fontWeight: '700',
-              marginBottom: '16px',
-              color: colors.gold,
-              lineHeight: '1.4'
+            <section style={{
+              position: 'relative',
+              background: '#000000',
+              border: '2px solid #D4AF37',
+              borderRadius: '20px',
+              padding: '36px 32px',
+              boxShadow: '0 0 60px rgba(66, 181, 255, 0.3), 0 20px 80px rgba(0, 0, 0, 0.8), inset 0 2px 0 rgba(66, 181, 255, 0.2), inset 0 -1px 0 rgba(212, 175, 55, 0.3)',
+              overflow: 'hidden'
             }}>
-              Founder Insight #1: The Devil&apos;s Dismissive Argument<span style={{ fontSize: '0.65rem', verticalAlign: 'super' }}>™</span>
-            </h2>
-            <p style={{
-              fontSize: '1rem',
-              color: colors.textMain,
-              marginBottom: '20px',
-              lineHeight: '1.7'
-            }}>
-              BANIBS is built on more than features. It&apos;s built on truth. In our first Founder Insight, Raymond
-              Al Zedeck names a powerful cultural pattern that erases cause, destroys accountability, and silently
-              confuses our children — The Devil&apos;s Dismissive Argument.
-            </p>
-            <a
-              href="/insights/devils-dismissive-argument"
-              style={{
-                display: 'inline-flex',
+              {/* Blue glow line at top */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '2px',
+                background: 'linear-gradient(90deg, transparent 0%, rgba(66, 181, 255, 0.6) 25%, rgba(66, 181, 255, 0.8) 50%, rgba(66, 181, 255, 0.6) 75%, transparent 100%)',
+                opacity: 0.8
+              }} />
+
+              {/* Blue corner accent - top right */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                width: '160px',
+                height: '160px',
+                background: 'radial-gradient(circle at top right, #42B5FF 0%, transparent 65%)',
+                opacity: 0.2,
+                pointerEvents: 'none'
+              }} />
+
+              {/* Blue corner accent - bottom left */}
+              <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                width: '120px',
+                height: '120px',
+                background: 'radial-gradient(circle at bottom left, #42B5FF 0%, transparent 70%)',
+                opacity: 0.15,
+                pointerEvents: 'none'
+              }} />
+
+              {/* Label */}
+              <div style={{
+                display: 'flex',
                 alignItems: 'center',
-                fontSize: '1rem',
+                gap: '8px',
+                marginBottom: '16px',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                <span style={{
+                  fontSize: '0.75rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.2em',
+                  fontWeight: '700',
+                  color: '#D4AF37'
+                }}>
+                  Founder Insight
+                </span>
+                <span style={{ fontSize: '0.75rem', color: 'rgba(212, 175, 55, 0.5)' }}>•</span>
+                <span style={{
+                  fontSize: '0.75rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.15em',
+                  color: '#42B5FF'
+                }}>
+                  Cultural Intelligence
+                </span>
+              </div>
+
+              {/* Title */}
+              <h2 style={{
+                fontSize: 'clamp(1.4rem, 3vw, 1.8rem)',
                 fontWeight: '700',
-                color: colors.gold,
-                textDecoration: 'underline',
-                textUnderlineOffset: '4px',
-                cursor: 'pointer',
-                transition: 'color 0.2s ease'
-              }}
-              onMouseEnter={(e) => e.target.style.color = colors.goldSoft}
-              onMouseLeave={(e) => e.target.style.color = colors.gold}
-            >
-              Read the full Insight →
-            </a>
-          </section>
+                marginBottom: '18px',
+                color: '#FFFFFF',
+                lineHeight: '1.3',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                Founder Insight #1: The Devil&apos;s Dismissive Argument
+                <span style={{ fontSize: '0.7rem', verticalAlign: 'super' }}>™</span>
+              </h2>
+
+              {/* Description */}
+              <p style={{
+                fontSize: 'clamp(1rem, 2vw, 1.15rem)',
+                color: '#FFFFFF',
+                marginBottom: '24px',
+                lineHeight: '1.7',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                A powerful breakdown of a modern deception that erases accountability and distorts truth — 
+                especially in families and especially for children. This Insight teaches how to recognize it, 
+                name it, and break its influence.
+              </p>
+
+              {/* CTA Button */}
+              <a
+                href="/insights/devils-dismissive-argument"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '14px 28px',
+                  fontSize: '1rem',
+                  fontWeight: '700',
+                  color: '#000000',
+                  background: 'linear-gradient(135deg, #D4AF37 0%, #BF9B30 100%)',
+                  borderRadius: '10px',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 4px 20px rgba(212, 175, 55, 0.5), 0 0 30px rgba(66, 181, 255, 0.3)',
+                  position: 'relative',
+                  zIndex: 1
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.02)';
+                  e.currentTarget.style.boxShadow = '0 6px 24px rgba(212, 175, 55, 0.6), 0 0 40px rgba(66, 181, 255, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(212, 175, 55, 0.5), 0 0 30px rgba(66, 181, 255, 0.3)';
+                }}
+              >
+                <span>Read the Full Insight</span>
+                <svg style={{ width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+
+              {/* Bottom attribution */}
+              <div style={{
+                marginTop: '24px',
+                paddingTop: '24px',
+                borderTop: '1px solid rgba(66, 181, 255, 0.25)',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                <p style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.6)' }}>
+                  by <span style={{ fontWeight: '600', color: '#D4AF37' }}>Raymond Al Zedeck</span> · Founder of BANIBS
+                </p>
+              </div>
+            </section>
+          </div>
         </div>
       </div>
 
