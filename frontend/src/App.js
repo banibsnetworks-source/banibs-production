@@ -441,6 +441,9 @@ function App() {
               {/* Coming Soon Page - Available at /coming-soon */}
               <Route path="/coming-soon" element={<ComingSoonPage />} />
               
+              {/* Founder Insights */}
+              <Route path="/insights/devils-dismissive-argument" element={<DevilsDismissiveArgumentPage />} />
+              
               {/* Phase B2 - Black News Tab */}
               <Route path="/news/black" element={<BlackNewsPage />} />
               
