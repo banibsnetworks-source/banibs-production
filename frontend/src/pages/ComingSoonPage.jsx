@@ -369,6 +369,62 @@ const ComingSoonPage = () => {
         </div>
       </div>
 
+      {/* Founder Insight Teaser */}
+      <div style={{
+        padding: '60px 20px',
+        background: 'linear-gradient(180deg, #04060A 0%, #090D16 100%)',
+        borderTop: `1px solid ${colors.skyBlueSoft}`,
+        borderBottom: `1px solid ${colors.skyBlueSoft}`
+      }}>
+        <div style={{ maxWidth: '750px', margin: '0 auto' }}>
+          <section style={{
+            background: 'rgba(255, 215, 0, 0.05)',
+            border: `2px solid ${colors.gold}`,
+            borderRadius: '16px',
+            padding: '32px 28px',
+            boxShadow: '0 8px 24px rgba(255, 215, 0, 0.1)'
+          }}>
+            <h2 style={{
+              fontSize: '1.35rem',
+              fontWeight: '700',
+              marginBottom: '16px',
+              color: colors.gold,
+              lineHeight: '1.4'
+            }}>
+              Founder Insight #1: The Devil&apos;s Dismissive Argument<span style={{ fontSize: '0.65rem', verticalAlign: 'super' }}>™</span>
+            </h2>
+            <p style={{
+              fontSize: '1rem',
+              color: colors.textMain,
+              marginBottom: '20px',
+              lineHeight: '1.7'
+            }}>
+              BANIBS is built on more than features. It&apos;s built on truth. In our first Founder Insight, Raymond
+              Al Zedeck names a powerful cultural pattern that erases cause, destroys accountability, and silently
+              confuses our children — The Devil&apos;s Dismissive Argument.
+            </p>
+            <a
+              href="/insights/devils-dismissive-argument"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                fontSize: '1rem',
+                fontWeight: '700',
+                color: colors.gold,
+                textDecoration: 'underline',
+                textUnderlineOffset: '4px',
+                cursor: 'pointer',
+                transition: 'color 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.target.style.color = colors.goldSoft}
+              onMouseLeave={(e) => e.target.style.color = colors.gold}
+            >
+              Read the full Insight →
+            </a>
+          </section>
+        </div>
+      </div>
+
       {/* Bottom Reassurance - STEALTH A+ */}
       <div style={{
         padding: '80px 20px 60px',
