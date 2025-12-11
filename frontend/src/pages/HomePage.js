@@ -143,6 +143,73 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* Founder Insight #1 Teaser - Premium Message */}
+      <section className="py-12 px-4 bg-gradient-to-b from-[#1a1a1a] to-black">
+        <div className="max-w-4xl mx-auto">
+          <div 
+            className="relative overflow-hidden rounded-2xl p-8 md:p-10"
+            style={{
+              background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(0, 0, 0, 0.95) 100%)',
+              border: '2px solid #FFD700',
+              boxShadow: '0 20px 60px rgba(255, 215, 0, 0.15), inset 0 1px 0 rgba(255, 215, 0, 0.2)'
+            }}
+          >
+            {/* Decorative corner accent */}
+            <div 
+              className="absolute top-0 right-0 w-32 h-32 opacity-10"
+              style={{
+                background: 'radial-gradient(circle at top right, #FFD700 0%, transparent 70%)'
+              }}
+            />
+            
+            {/* Label */}
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-[#FFD700] text-xs uppercase tracking-[0.2em] font-bold">
+                Founder Insight
+              </span>
+              <span className="text-[#FFD700]/60 text-xs">•</span>
+              <span className="text-gray-400 text-xs uppercase tracking-wider">
+                Cultural Intelligence
+              </span>
+            </div>
+
+            {/* Title */}
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">
+              Founder Insight #1: The Devil's Dismissive Argument
+              <span className="align-super text-sm">™</span>
+            </h2>
+
+            {/* Description */}
+            <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-6 max-w-3xl">
+              A powerful breakdown of a modern deception that erases accountability and distorts truth — 
+              especially in families and especially for children. This Insight teaches how to recognize it, 
+              name it, and break its influence.
+            </p>
+
+            {/* CTA */}
+            <a
+              href="/insights/devils-dismissive-argument"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-black bg-gradient-to-r from-[#FFD700] to-[#FFC700] hover:from-[#FFC700] hover:to-[#FFB700] transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+              style={{
+                boxShadow: '0 4px 14px rgba(255, 215, 0, 0.4)'
+              }}
+            >
+              <span>Read the Full Insight</span>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+
+            {/* Bottom attribution */}
+            <div className="mt-6 pt-6 border-t border-[#FFD700]/20">
+              <p className="text-xs text-gray-500">
+                by <span className="text-[#FFD700] font-semibold">Raymond Al Zedeck</span> · Founder of BANIBS
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 🌐 BANIBS Core Quick Links - MANDATORY */}
       <QuickLinks />
 
