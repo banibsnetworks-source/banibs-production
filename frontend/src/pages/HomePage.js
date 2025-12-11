@@ -128,98 +128,123 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Hero Section - Tighter Spacing */}
+      {/* Hero Section - Much Tighter Spacing */}
       <section className="hero-v2" style={{ 
         background: 'radial-gradient(circle at top, #0B1726 0%, #04060A 45%, #000000 100%)',
-        paddingTop: '3rem',
-        paddingBottom: '2rem'
+        paddingTop: '2rem',
+        paddingBottom: '1rem'
       }} data-mode="business">
-        <div className="hero-v2-content">
-          <h1 className="hero-v2-title" style={{ marginBottom: '0.75rem' }}>
+        <div className="hero-v2-content" style={{ paddingTop: 0, paddingBottom: 0 }}>
+          <h1 className="hero-v2-title" style={{ marginBottom: '0.5rem', marginTop: 0 }}>
             BANIBS
           </h1>
-          <p className="hero-v2-subtitle" style={{ marginBottom: '0.5rem' }}>
+          <p className="hero-v2-subtitle" style={{ marginBottom: '0.25rem' }}>
             Black America News Information & Business System
           </p>
-          <p className="text-secondary-v2 max-w-3xl mx-auto" style={{ marginTop: '0.5rem' }}>
+          <p className="text-secondary-v2 max-w-3xl mx-auto" style={{ marginTop: '0.25rem', marginBottom: 0 }}>
             Connecting our people to opportunity, resources, and each other.
           </p>
         </div>
       </section>
 
-      {/* Founder Insight #1 Teaser - Premium with Blue Accent */}
-      <section className="py-8 px-4" style={{
-        background: 'linear-gradient(to bottom, #000000, #04060A)'
+      {/* Founder Insight #1 Teaser - Premium Elevated Card with Blue Glow */}
+      <section className="px-4" style={{
+        background: 'linear-gradient(to bottom, #000000, #04060A)',
+        paddingTop: '1.5rem',
+        paddingBottom: '2rem'
       }}>
         <div className="max-w-4xl mx-auto">
-          <div 
-            className="relative overflow-hidden rounded-2xl p-8 md:p-10"
-            style={{
-              background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.06) 0%, rgba(0, 0, 0, 0.98) 100%)',
-              border: '2px solid #D4AF37',
-              boxShadow: '0 0 40px rgba(66, 181, 255, 0.15), 0 20px 60px rgba(212, 175, 55, 0.12), inset 0 1px 0 rgba(66, 181, 255, 0.15)'
-            }}
-          >
-            {/* Blue glow accent - top */}
+          {/* Blue radial glow behind card */}
+          <div className="relative" style={{
+            filter: 'drop-shadow(0 0 80px rgba(66, 181, 255, 0.25))'
+          }}>
             <div 
-              className="absolute top-0 left-0 right-0 h-px opacity-60"
+              className="relative overflow-hidden rounded-2xl p-8 md:p-10"
               style={{
-                background: 'linear-gradient(90deg, transparent 0%, #42B5FF 50%, transparent 100%)'
-              }}
-            />
-            
-            {/* Decorative corner accent with blue */}
-            <div 
-              className="absolute top-0 right-0 w-32 h-32 opacity-10"
-              style={{
-                background: 'radial-gradient(circle at top right, #42B5FF 0%, transparent 70%)'
-              }}
-            />
-            
-            {/* Label */}
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: '#D4AF37' }}>
-                Founder Insight
-              </span>
-              <span className="text-xs" style={{ color: 'rgba(212, 175, 55, 0.6)' }}>•</span>
-              <span className="text-xs uppercase tracking-wider" style={{ color: '#42B5FF' }}>
-                Cultural Intelligence
-              </span>
-            </div>
-
-            {/* Title */}
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight">
-              Founder Insight #1: The Devil's Dismissive Argument
-              <span className="align-super text-sm">™</span>
-            </h2>
-
-            {/* Description */}
-            <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-6 max-w-3xl">
-              A powerful breakdown of a modern deception that erases accountability and distorts truth — 
-              especially in families and especially for children. This Insight teaches how to recognize it, 
-              name it, and break its influence.
-            </p>
-
-            {/* CTA */}
-            <a
-              href="/insights/devils-dismissive-argument"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-black transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
-              style={{
-                background: 'linear-gradient(135deg, #D4AF37 0%, #C9A961 100%)',
-                boxShadow: '0 4px 14px rgba(212, 175, 55, 0.4), 0 0 20px rgba(66, 181, 255, 0.2)'
+                background: '#000000',
+                border: '2px solid #D4AF37',
+                boxShadow: '0 0 60px rgba(66, 181, 255, 0.3), 0 20px 80px rgba(0, 0, 0, 0.8), inset 0 2px 0 rgba(66, 181, 255, 0.2), inset 0 -1px 0 rgba(212, 175, 55, 0.3)'
               }}
             >
-              <span>Read the Full Insight</span>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
+              {/* Blue glow at top edge */}
+              <div 
+                className="absolute top-0 left-0 right-0 h-1 opacity-80"
+                style={{
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(66, 181, 255, 0.6) 25%, rgba(66, 181, 255, 0.8) 50%, rgba(66, 181, 255, 0.6) 75%, transparent 100%)'
+                }}
+              />
+              
+              {/* Blue corner accent - top right */}
+              <div 
+                className="absolute top-0 right-0 w-40 h-40 opacity-20 pointer-events-none"
+                style={{
+                  background: 'radial-gradient(circle at top right, #42B5FF 0%, transparent 65%)'
+                }}
+              />
 
-            {/* Bottom attribution */}
-            <div className="mt-6 pt-6" style={{ borderTop: '1px solid rgba(66, 181, 255, 0.2)' }}>
-              <p className="text-xs text-gray-500">
-                by <span className="font-semibold" style={{ color: '#D4AF37' }}>Raymond Al Zedeck</span> · Founder of BANIBS
+              {/* Blue corner accent - bottom left */}
+              <div 
+                className="absolute bottom-0 left-0 w-32 h-32 opacity-15 pointer-events-none"
+                style={{
+                  background: 'radial-gradient(circle at bottom left, #42B5FF 0%, transparent 70%)'
+                }}
+              />
+              
+              {/* Label */}
+              <div className="flex items-center gap-2 mb-4 relative z-10">
+                <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: '#D4AF37' }}>
+                  Founder Insight
+                </span>
+                <span className="text-xs" style={{ color: 'rgba(212, 175, 55, 0.5)' }}>•</span>
+                <span className="text-xs uppercase tracking-wider" style={{ color: '#42B5FF' }}>
+                  Cultural Intelligence
+                </span>
+              </div>
+
+              {/* Title */}
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 leading-tight relative z-10">
+                Founder Insight #1: The Devil's Dismissive Argument
+                <span className="align-super text-sm">™</span>
+              </h2>
+
+              {/* Description */}
+              <p className="text-white text-base md:text-lg leading-relaxed mb-6 max-w-3xl relative z-10">
+                A powerful breakdown of a modern deception that erases accountability and distorts truth — 
+                especially in families and especially for children. This Insight teaches how to recognize it, 
+                name it, and break its influence.
               </p>
+
+              {/* CTA */}
+              <a
+                href="/insights/devils-dismissive-argument"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-black transition-all duration-200 relative z-10"
+                style={{
+                  background: 'linear-gradient(135deg, #D4AF37 0%, #BF9B30 100%)',
+                  boxShadow: '0 4px 20px rgba(212, 175, 55, 0.5), 0 0 30px rgba(66, 181, 255, 0.3)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.02)';
+                  e.currentTarget.style.boxShadow = '0 6px 24px rgba(212, 175, 55, 0.6), 0 0 40px rgba(66, 181, 255, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(212, 175, 55, 0.5), 0 0 30px rgba(66, 181, 255, 0.3)';
+                }}
+              >
+                <span>Read the Full Insight</span>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+
+              {/* Bottom attribution */}
+              <div className="mt-6 pt-6 relative z-10" style={{ 
+                borderTop: '1px solid rgba(66, 181, 255, 0.25)' 
+              }}>
+                <p className="text-xs text-gray-400">
+                  by <span className="font-semibold" style={{ color: '#D4AF37' }}>Raymond Al Zedeck</span> · Founder of BANIBS
+                </p>
+              </div>
             </div>
           </div>
         </div>
