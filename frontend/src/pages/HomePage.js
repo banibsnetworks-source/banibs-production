@@ -128,47 +128,61 @@ const HomePage = () => {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="hero-v2" style={{ background: 'linear-gradient(to bottom, #000000, #1a1a1a)' }} data-mode="business">
+      {/* Hero Section - Tighter Spacing */}
+      <section className="hero-v2" style={{ 
+        background: 'radial-gradient(circle at top, #0B1726 0%, #04060A 45%, #000000 100%)',
+        paddingTop: '3rem',
+        paddingBottom: '2rem'
+      }} data-mode="business">
         <div className="hero-v2-content">
-          <h1 className="hero-v2-title">
+          <h1 className="hero-v2-title" style={{ marginBottom: '0.75rem' }}>
             BANIBS
           </h1>
-          <p className="hero-v2-subtitle">
+          <p className="hero-v2-subtitle" style={{ marginBottom: '0.5rem' }}>
             Black America News Information & Business System
           </p>
-          <p className="text-secondary-v2 breathing-room-sm max-w-3xl mx-auto">
+          <p className="text-secondary-v2 max-w-3xl mx-auto" style={{ marginTop: '0.5rem' }}>
             Connecting our people to opportunity, resources, and each other.
           </p>
         </div>
       </section>
 
-      {/* Founder Insight #1 Teaser - Premium Message */}
-      <section className="py-12 px-4 bg-gradient-to-b from-[#1a1a1a] to-black">
+      {/* Founder Insight #1 Teaser - Premium with Blue Accent */}
+      <section className="py-8 px-4" style={{
+        background: 'linear-gradient(to bottom, #000000, #04060A)'
+      }}>
         <div className="max-w-4xl mx-auto">
           <div 
             className="relative overflow-hidden rounded-2xl p-8 md:p-10"
             style={{
-              background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.08) 0%, rgba(0, 0, 0, 0.95) 100%)',
-              border: '2px solid #FFD700',
-              boxShadow: '0 20px 60px rgba(255, 215, 0, 0.15), inset 0 1px 0 rgba(255, 215, 0, 0.2)'
+              background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.06) 0%, rgba(0, 0, 0, 0.98) 100%)',
+              border: '2px solid #D4AF37',
+              boxShadow: '0 0 40px rgba(66, 181, 255, 0.15), 0 20px 60px rgba(212, 175, 55, 0.12), inset 0 1px 0 rgba(66, 181, 255, 0.15)'
             }}
           >
-            {/* Decorative corner accent */}
+            {/* Blue glow accent - top */}
+            <div 
+              className="absolute top-0 left-0 right-0 h-px opacity-60"
+              style={{
+                background: 'linear-gradient(90deg, transparent 0%, #42B5FF 50%, transparent 100%)'
+              }}
+            />
+            
+            {/* Decorative corner accent with blue */}
             <div 
               className="absolute top-0 right-0 w-32 h-32 opacity-10"
               style={{
-                background: 'radial-gradient(circle at top right, #FFD700 0%, transparent 70%)'
+                background: 'radial-gradient(circle at top right, #42B5FF 0%, transparent 70%)'
               }}
             />
             
             {/* Label */}
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-[#FFD700] text-xs uppercase tracking-[0.2em] font-bold">
+              <span className="text-xs uppercase tracking-[0.2em] font-bold" style={{ color: '#D4AF37' }}>
                 Founder Insight
               </span>
-              <span className="text-[#FFD700]/60 text-xs">•</span>
-              <span className="text-gray-400 text-xs uppercase tracking-wider">
+              <span className="text-xs" style={{ color: 'rgba(212, 175, 55, 0.6)' }}>•</span>
+              <span className="text-xs uppercase tracking-wider" style={{ color: '#42B5FF' }}>
                 Cultural Intelligence
               </span>
             </div>
@@ -189,9 +203,10 @@ const HomePage = () => {
             {/* CTA */}
             <a
               href="/insights/devils-dismissive-argument"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-black bg-gradient-to-r from-[#FFD700] to-[#FFC700] hover:from-[#FFC700] hover:to-[#FFB700] transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold text-black transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
               style={{
-                boxShadow: '0 4px 14px rgba(255, 215, 0, 0.4)'
+                background: 'linear-gradient(135deg, #D4AF37 0%, #C9A961 100%)',
+                boxShadow: '0 4px 14px rgba(212, 175, 55, 0.4), 0 0 20px rgba(66, 181, 255, 0.2)'
               }}
             >
               <span>Read the Full Insight</span>
@@ -201,9 +216,9 @@ const HomePage = () => {
             </a>
 
             {/* Bottom attribution */}
-            <div className="mt-6 pt-6 border-t border-[#FFD700]/20">
+            <div className="mt-6 pt-6" style={{ borderTop: '1px solid rgba(66, 181, 255, 0.2)' }}>
               <p className="text-xs text-gray-500">
-                by <span className="text-[#FFD700] font-semibold">Raymond Al Zedeck</span> · Founder of BANIBS
+                by <span className="font-semibold" style={{ color: '#D4AF37' }}>Raymond Al Zedeck</span> · Founder of BANIBS
               </p>
             </div>
           </div>
