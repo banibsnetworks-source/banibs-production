@@ -24,10 +24,10 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/business/verification", tags=["Business Verification"])
 
 
-@router.post("/upload")
+@router.post("/{business_id}/upload")
 async def upload_verification_document(
-    business_id: str = Form(...),
-    doc_type: DocumentType = Form(...),
+    business_id: str,
+    document_type: str = Form(..., alias="document_type"),
     file: UploadFile = File(...),
     current_user = Depends(get_current_user),
     db = Depends(get_db)
@@ -38,6 +38,15 @@ async def upload_verification_document(
     """
     file_service = get_file_service()
     verification_service = VerificationService(db)
+    
+    # Convert string to DocumentType enum
+    try:
+        doc_type = DocumentType(document_type)
+    except ValueError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Invalid document type: {document_type}"
+        )
     
     # TODO: Check that current_user owns this business
     
