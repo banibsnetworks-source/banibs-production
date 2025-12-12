@@ -121,6 +121,9 @@ class VerificationService:
             expires_at=expires_at
         )
         
+        # Get or create verification record first
+        verification = await self.get_or_create_verification(business_id, reviewer_user_id)
+        
         # Update verification record
         await self.collection.update_one(
             {"business_id": business_id},
