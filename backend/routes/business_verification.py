@@ -123,6 +123,42 @@ async def get_verification_status(
     }
 
 
+@router.get("/admin/list")
+async def get_verifications_list(
+    status: str = "pending",
+    limit: int = 50,
+    skip: int = 0,
+    current_user = Depends(require_roles(["admin", "super_admin"])),
+    db = Depends(get_db)
+):
+    """
+    Get verifications by status for admin review
+    Admin-only endpoint
+    """
+    verification_service = VerificationService(db)
+    
+    verifications = await verification_service.get_verifications_by_status(status, limit, skip)
+    
+    # Enrich with business info
+    results = []
+    for v in verifications:
+        business = await db.businesses.find_one({"id": v.business_id}, {"_id": 0})
+        results.append({
+            "business_id": v.business_id,
+            "business_name": business.get("name", "Unknown Business") if business else "Unknown Business",
+            "verification_status": v.verification_status,
+            "documents": [doc.dict() for doc in v.documents],
+            "created_at": v.created_at,
+            "verified_at": v.verified_at,
+            "admin_notes": v.admin_notes
+        })
+    
+    return {
+        "verifications": results,
+        "count": len(results)
+    }
+
+
 @router.get("/admin/pending")
 async def get_pending_verifications(
     limit: int = 50,
