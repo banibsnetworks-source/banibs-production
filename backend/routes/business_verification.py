@@ -128,7 +128,7 @@ async def get_verifications_list(
     status: str = "pending",
     limit: int = 50,
     skip: int = 0,
-    current_user = Depends(require_roles(["admin", "super_admin"])),
+    current_user = Depends(require_role("admin", "super_admin")),
     db = Depends(get_db)
 ):
     """
@@ -163,7 +163,7 @@ async def get_verifications_list(
 async def get_pending_verifications(
     limit: int = 50,
     skip: int = 0,
-    current_user = Depends(require_roles(["admin", "super_admin"])),
+    current_user = Depends(require_role("admin", "super_admin")),
     db = Depends(get_db)
 ):
     """
@@ -193,7 +193,7 @@ async def get_pending_verifications(
 async def review_verification(
     business_id: str,
     review_data: dict,
-    current_user = Depends(require_roles(["admin", "super_admin"])),
+    current_user = Depends(require_role("admin", "super_admin")),
     db = Depends(get_db)
 ):
     """
@@ -243,7 +243,7 @@ async def review_verification(
 async def approve_verification(
     business_id: str,
     notes: Optional[str] = None,
-    current_user = Depends(require_roles(["admin", "super_admin"])),
+    current_user = Depends(require_role("admin", "super_admin")),
     db = Depends(get_db)
 ):
     """
@@ -278,7 +278,7 @@ async def approve_verification(
 async def reject_verification(
     business_id: str,
     reason: str = Form(...),
-    current_user = Depends(require_roles(["admin", "super_admin"])),
+    current_user = Depends(require_role("admin", "super_admin")),
     db = Depends(get_db)
 ):
     """
@@ -312,7 +312,7 @@ async def reject_verification(
 async def download_verification_document(
     business_id: str,
     doc_index: int,
-    current_user = Depends(require_roles(["admin", "super_admin"])),
+    current_user = Depends(require_role("admin", "super_admin")),
     db = Depends(get_db)
 ):
     """
@@ -360,7 +360,7 @@ async def download_verification_document(
 async def view_verification_document(
     business_id: str,
     doc_index: int,
-    current_user = Depends(require_roles(["admin", "super_admin"])),
+    current_user = Depends(require_role("admin", "super_admin")),
     db = Depends(get_db)
 ):
     """
