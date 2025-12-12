@@ -189,6 +189,56 @@ async def get_pending_verifications(
     }
 
 
+@router.post("/admin/review/{business_id}")
+async def review_verification(
+    business_id: str,
+    review_data: dict,
+    current_user = Depends(require_roles(["admin", "super_admin"])),
+    db = Depends(get_db)
+):
+    """
+    Combined review endpoint - approve or reject verification
+    Expects: { action: 'verified' | 'rejected', notes: string }
+    Admin-only endpoint
+    """
+    verification_service = VerificationService(db)
+    action = review_data.get('action')
+    notes = review_data.get('notes', '')
+    
+    if action not in ['verified', 'rejected']:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid action. Must be 'verified' or 'rejected'"
+        )
+    
+    try:
+        if action == 'verified':
+            verification = await verification_service.approve_verification(
+                business_id=business_id,
+                reviewer_user_id=current_user['id'],
+                notes=notes
+            )
+        else:
+            verification = await verification_service.reject_verification(
+                business_id=business_id,
+                reviewer_user_id=current_user['id'],
+                reason=notes
+            )
+        
+        return {
+            "success": True,
+            "message": f"Business verification {action}",
+            "verification": verification.dict()
+        }
+        
+    except Exception as e:
+        logger.error(f"Review failed: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to {action} verification"
+        )
+
+
 @router.post("/admin/approve/{business_id}")
 async def approve_verification(
     business_id: str,
