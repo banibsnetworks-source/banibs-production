@@ -21,7 +21,7 @@ from models.business_verification import (
 )
 
 logger = logging.getLogger(__name__)
-router = APIRouter()
+router = APIRouter(prefix="/api/business/verification", tags=["Business Verification"])
 
 
 @router.post("/upload")
