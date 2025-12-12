@@ -225,6 +225,30 @@ class VerificationService:
         records = await cursor.to_list(length=limit)
         return [BusinessVerification(**r) for r in records]
     
+    async def get_verifications_by_status(
+        self,
+        status: str,
+        limit: int = 50,
+        skip: int = 0
+    ) -> List[BusinessVerification]:
+        """
+        Get verifications filtered by status
+        """
+        status_filter = {}
+        if status == "pending":
+            status_filter = {"verification_status": {"$in": [VerificationStatus.PENDING, VerificationStatus.NEEDS_REVIEW]}}
+        elif status == "verified":
+            status_filter = {"verification_status": VerificationStatus.VERIFIED}
+        elif status == "rejected":
+            status_filter = {"verification_status": VerificationStatus.REJECTED}
+        else:
+            # All statuses
+            status_filter = {}
+        
+        cursor = self.collection.find(status_filter).sort("created_at", -1).skip(skip).limit(limit)
+        records = await cursor.to_list(length=limit)
+        return [BusinessVerification(**r) for r in records]
+    
     async def check_expiring_soon(self, days_threshold: int = 30) -> List[BusinessVerification]:
         """
         Find verifications expiring within threshold
