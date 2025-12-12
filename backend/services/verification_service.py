@@ -169,6 +169,9 @@ class VerificationService:
         """
         now = datetime.utcnow()
         
+        # Get or create verification record first
+        verification = await self.get_or_create_verification(business_id, reviewer_user_id)
+        
         await self.collection.update_one(
             {"business_id": business_id},
             {
