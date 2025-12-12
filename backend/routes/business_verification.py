@@ -10,7 +10,7 @@ import io
 import logging
 
 from db.connection import get_db
-from middleware.auth_guard import get_current_user, require_roles
+from middleware.auth_guard import get_current_user, require_role
 from services.verification_file_service import get_file_service
 from services.verification_service import VerificationService
 from models.business_verification import (
