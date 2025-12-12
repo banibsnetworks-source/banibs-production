@@ -19,6 +19,8 @@ import AdminOpportunitiesDashboard from "./pages/admin/AdminOpportunitiesDashboa
 import AdminSocialReportsPage from "./pages/admin/AdminSocialReportsPage";
 import AdminVerificationReview from "./pages/admin/AdminVerificationReview";
 import DevilsDismissiveArgumentPage from "./pages/insights/DevilsDismissiveArgumentPage";
+import RevelationsHub from "./pages/insights/RevelationsHub";
+import BookDetailPage from "./pages/insights/BookDetailPage";
 // Phase 6.4 - Moderation Queue
 import ModerationQueue from "./pages/Admin/ModerationQueue";
 // Phase 6.5 - Sentiment Analytics
