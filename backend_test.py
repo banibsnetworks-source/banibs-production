@@ -13473,13 +13473,22 @@ def main():
 
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
-        self.log("Starting BANIBS Backend API Test Suite - Peoples Room Phase 1")
+        self.log("Starting BANIBS Backend API Test Suite - Business Verification System Phase 1A")
         self.log(f"Testing against: {API_BASE}")
-        self.log("Testing Peoples Room System Phase 1 with all owner-facing endpoints")
+        self.log("Testing Business Verification System with all endpoints")
         
         tests = [
-            # Peoples Room Phase 1 - Owner-facing endpoints
-            ("Peoples Room Phase 1 Comprehensive", self.test_peoples_room_phase_1_comprehensive),
+            # Authentication Setup
+            ("Admin Login", self.test_admin_login),
+            
+            # Business Verification System - Phase 1A
+            ("Business Verification Status Endpoint", self.test_business_verification_status_endpoint),
+            ("Business Verification Upload Endpoint", self.test_business_verification_upload_endpoint),
+            ("Business Verification Admin List Endpoint", self.test_business_verification_admin_list_endpoint),
+            ("Business Verification Admin Review Endpoint", self.test_business_verification_admin_review_endpoint),
+            ("Business Verification Document Download", self.test_business_verification_admin_document_download),
+            ("Business Verification Authentication", self.test_business_verification_authentication_scenarios),
+            ("Business Verification Invalid Document Type", self.test_business_verification_invalid_document_type),
         ]
         
         passed = 0
