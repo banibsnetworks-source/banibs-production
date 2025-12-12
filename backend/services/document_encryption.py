@@ -38,7 +38,7 @@ class DocumentEncryptionService:
         password = os.getenv('SECRET_KEY', 'banibs-verification-key-change-in-prod').encode()
         salt = b'banibs_document_salt'  # Should be unique per deployment
         
-        kdf = PBKDF2(
+        kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,
             salt=salt,
