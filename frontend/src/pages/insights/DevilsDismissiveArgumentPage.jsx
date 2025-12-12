@@ -331,6 +331,43 @@ const DevilsDismissiveArgumentPage = () => {
             </div>
           </section>
 
+          {/* From Insight to Book Section */}
+          <section className="mb-10 p-6 rounded-xl border-2" style={{
+            background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(66, 181, 255, 0.05) 100%)',
+            borderColor: '#D4AF37'
+          }}>
+            <h3 className="text-xl font-semibold mb-3 text-yellow-500">From Insight to Book</h3>
+            <p className="text-gray-300 mb-4">
+              This insight has now been expanded into a full book in the <span className="font-semibold text-yellow-500">D-Series Revelation Library</span>. 
+              The book includes deeper analysis, practical applications, teaching frameworks, and guidance for using this revelation in families, churches, schools, and counseling.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="/insights/books/the-devils-dismissive-argument"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-black transition-transform hover:scale-105"
+                style={{
+                  background: 'linear-gradient(135deg, #D4AF37 0%, #BF9B30 100%)',
+                  boxShadow: '0 4px 14px rgba(212, 175, 55, 0.4)'
+                }}
+              >
+                <span>View the Book</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+              <a
+                href="/insights/revelations"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-white border-2 transition-colors hover:bg-white/5"
+                style={{ borderColor: '#42B5FF' }}
+              >
+                <span>View All D-Series Books</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </a>
+            </div>
+          </section>
+
           {/* Publication Note */}
           <footer className="pt-6 border-t border-gray-800 text-xs text-gray-500 space-y-1">
             <p>
