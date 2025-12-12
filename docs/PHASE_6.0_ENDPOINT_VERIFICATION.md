@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://unified-nav.preview.emergentagent.com/api/auth
+https://reveal-library.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

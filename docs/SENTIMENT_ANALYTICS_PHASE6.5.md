@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://unified-nav.preview.emergentagent.com/api/admin/analytics/sentiment
+https://reveal-library.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints
