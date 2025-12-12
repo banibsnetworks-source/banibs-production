@@ -4657,3 +4657,125 @@ All features working correctly:
 
 ---
 
+
+## Business Verification System - Phase 1A E2E Testing
+
+**Date**: 2025-12-12
+**Objective**: End-to-end test of the Business Verification System including owner upload flow, admin review, and verified badge display.
+
+### Test Routes:
+- **Owner Verification Dashboard**: `/portal/business/profile/edit` (Verification tab)
+- **Admin Verification Review**: `/admin/verifications`
+- **Public Business Profile**: `/portal/business/profile/{businessId}`
+
+### Test Credentials:
+- **Admin User**: `admin@banibs.com` / `BanibsAdmin#2025`
+
+### Backend API Endpoints:
+- `GET /api/business/verification/status/{businessId}` - Get verification status
+- `POST /api/business/verification/{businessId}/upload` - Upload verification document
+- `GET /api/business/verification/admin/list?status=pending` - List verifications by status
+- `POST /api/business/verification/admin/review/{businessId}` - Approve/reject verification
+
+### Test Flow:
+
+**1. Owner Flow:**
+- Login as admin user
+- Navigate to business profile edit page
+- Go to "Verification" tab
+- Upload test document (PDF/image)
+- Confirm "Pending Review" status appears
+
+**2. Admin Flow:**
+- Navigate to /admin/verifications
+- View pending verifications list
+- Approve a verification with notes
+- Test reject flow with reason
+
+**3. Verified Badge:**
+- After approval, check public business profile
+- Verify VerifiedBadge component appears
+
+backend:
+  - task: "Business Verification API - Upload & Status"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/business_verification.py, backend/services/verification_service.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Fixed API routes to match frontend expectations. Added /admin/list and /admin/review endpoints. Fixed import issues with require_role and PBKDF2HMAC."
+
+  - task: "Business Verification API - Admin Review"
+    implemented: true
+    working: "NA"
+    file: "backend/routes/business_verification.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added combined /admin/review/{business_id} endpoint for approve/reject actions. Added /admin/list endpoint with status filter. Added /admin/document endpoint for document download."
+
+frontend:
+  - task: "Business Verification Dashboard - Owner UI"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/business/BusinessVerificationDashboard.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Component already implemented. Mounted in BusinessProfileEdit.js under Verification tab."
+
+  - task: "Admin Verification Review Page"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/pages/admin/AdminVerificationReview.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Component implemented. Route: /admin/verifications. Requires super_admin role."
+
+  - task: "Verified Badge Component"
+    implemented: true
+    working: "NA"
+    file: "frontend/src/components/common/VerifiedBadge.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Component implemented with gold gradient badge, tooltip on hover showing verification date."
+
+agent_communication:
+  - agent: "main"
+    message: |
+      Ready for Business Verification System E2E testing. Backend routes have been fixed to match frontend API expectations.
+      
+      Key fixes applied:
+      1. Added router prefix /api/business/verification
+      2. Changed upload endpoint to /{business_id}/upload path parameter
+      3. Added /admin/list endpoint with status filter
+      4. Added /admin/review/{business_id} combined endpoint
+      5. Added /admin/document/{business_id}/{doc_index} endpoint
+      6. Fixed require_roles → require_role import
+      7. Fixed PBKDF2 → PBKDF2HMAC import
+      8. Added get_verifications_by_status method to service
+      
+      Please test:
+      1. Owner upload flow at /portal/business/profile/edit (Verification tab)
+      2. Admin review at /admin/verifications
+      3. Verified badge display on public business profile
+      
+      Test credentials: admin@banibs.com / BanibsAdmin#2025
