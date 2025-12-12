@@ -125,7 +125,9 @@ const AdminVerificationReview = () => {
   };
 
   // Check if user is super_admin
-  if (!user || user.role !== 'super_admin') {
+  const isSuperAdmin = user?.roles?.includes('super_admin') || user?.role === 'super_admin';
+  
+  if (!user || !isSuperAdmin) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center p-8">
         <div className="bg-red-900/20 border border-red-500 rounded-lg p-8 max-w-md text-center">
