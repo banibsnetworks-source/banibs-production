@@ -535,6 +535,195 @@ const ComingSoonPage = () => {
         </div>
       </div>
 
+      {/* D-Series Revelation Hub Teaser - Premium Card */}
+      <div style={{
+        padding: '40px 20px',
+        background: 'linear-gradient(180deg, #000000 0%, #04060A 100%)',
+        borderTop: `1px solid ${colors.skyBlueSoft}`,
+        borderBottom: `1px solid ${colors.skyBlueSoft}`
+      }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          {/* Blue glow wrapper */}
+          <div style={{
+            filter: 'drop-shadow(0 0 80px rgba(66, 181, 255, 0.25))',
+            position: 'relative'
+          }}>
+            <section style={{
+              position: 'relative',
+              background: '#000000',
+              border: '2px solid #D4AF37',
+              borderRadius: '20px',
+              padding: '36px 32px',
+              boxShadow: '0 0 60px rgba(66, 181, 255, 0.3), 0 20px 80px rgba(0, 0, 0, 0.8), inset 0 2px 0 rgba(66, 181, 255, 0.2), inset 0 -1px 0 rgba(212, 175, 55, 0.3)',
+              overflow: 'hidden'
+            }}>
+              {/* Blue glow line at top */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '2px',
+                background: 'linear-gradient(90deg, transparent 0%, rgba(66, 181, 255, 0.6) 25%, rgba(66, 181, 255, 0.8) 50%, rgba(66, 181, 255, 0.6) 75%, transparent 100%)',
+                opacity: 0.8
+              }} />
+
+              {/* Blue corner accent - top right */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                width: '180px',
+                height: '180px',
+                background: 'radial-gradient(circle at top right, #42B5FF 0%, transparent 65%)',
+                opacity: 0.2,
+                pointerEvents: 'none'
+              }} />
+
+              {/* Blue corner accent - bottom left */}
+              <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                width: '140px',
+                height: '140px',
+                background: 'radial-gradient(circle at bottom left, #42B5FF 0%, transparent 70%)',
+                opacity: 0.15,
+                pointerEvents: 'none'
+              }} />
+
+              {/* Eyebrow Label */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                marginBottom: '16px',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                <span style={{
+                  fontSize: '0.75rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.2em',
+                  fontWeight: '700',
+                  color: '#42B5FF'
+                }}>
+                  NEW
+                </span>
+                <span style={{ fontSize: '0.75rem', color: 'rgba(66, 181, 255, 0.5)' }}>·</span>
+                <span style={{
+                  fontSize: '0.75rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.15em',
+                  color: '#D4AF37'
+                }}>
+                  D-Series Revelation Hub
+                </span>
+              </div>
+
+              {/* Title */}
+              <h2 style={{
+                fontSize: 'clamp(1.4rem, 3vw, 1.8rem)',
+                fontWeight: '700',
+                marginBottom: '18px',
+                color: '#FFFFFF',
+                lineHeight: '1.3',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                50 Revelations. One Master System.
+              </h2>
+
+              {/* Description */}
+              <p style={{
+                fontSize: 'clamp(1rem, 2vw, 1.15rem)',
+                color: '#FFFFFF',
+                marginBottom: '12px',
+                lineHeight: '1.7',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                Explore the D-Series Revelation Hub — a premium library for{' '}
+                <span style={{ color: '#D4AF37', fontWeight: '600' }}>The Devil's Dismissive Argument™</span>,{' '}
+                <span style={{ color: '#42B5FF', fontWeight: '600' }}>The Devil's Deceitful Master Plan™</span>,{' '}
+                and the full 50-book revelation system.
+              </p>
+              <p style={{
+                fontSize: 'clamp(0.95rem, 1.8vw, 1.05rem)',
+                color: 'rgba(255, 255, 255, 0.8)',
+                marginBottom: '24px',
+                lineHeight: '1.6',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                These revelations power BANIBS' Cultural Intelligence Layer.
+              </p>
+
+              {/* CTA Button */}
+              <a
+                href="/insights/revelations"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '14px 28px',
+                  fontSize: '1rem',
+                  fontWeight: '700',
+                  color: '#000000',
+                  background: 'linear-gradient(135deg, #D4AF37 0%, #BF9B30 100%)',
+                  borderRadius: '10px',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 4px 20px rgba(212, 175, 55, 0.5), 0 0 30px rgba(66, 181, 255, 0.3)',
+                  position: 'relative',
+                  zIndex: 1
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'scale(1.02)';
+                  e.currentTarget.style.boxShadow = '0 6px 24px rgba(212, 175, 55, 0.6), 0 0 40px rgba(66, 181, 255, 0.4)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.boxShadow = '0 4px 20px rgba(212, 175, 55, 0.5), 0 0 30px rgba(66, 181, 255, 0.3)';
+                }}
+              >
+                <span>Enter Revelation Hub</span>
+                <svg style={{ width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+
+              {/* Supporting footer text */}
+              <div style={{
+                marginTop: '24px',
+                paddingTop: '24px',
+                borderTop: '1px solid rgba(66, 181, 255, 0.25)',
+                position: 'relative',
+                zIndex: 1
+              }}>
+                <p style={{ fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.6)' }}>
+                  Start with Book 1:{' '}
+                  <a 
+                    href="/insights/books/the-devils-dismissive-argument" 
+                    style={{ 
+                      color: '#D4AF37', 
+                      fontWeight: '600',
+                      textDecoration: 'none',
+                      transition: 'color 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#FFE58A'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#D4AF37'}
+                  >
+                    The Devil's Dismissive Argument™
+                  </a>
+                </p>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
       {/* Bottom Reassurance - STEALTH A+ */}
       <div style={{
         padding: '80px 20px 60px',
