@@ -443,8 +443,10 @@ function App() {
               {/* Coming Soon Page - Available at /coming-soon */}
               <Route path="/coming-soon" element={<ComingSoonPage />} />
               
-              {/* Founder Insights */}
+              {/* Founder Insights & D-Series */}
               <Route path="/insights/devils-dismissive-argument" element={<DevilsDismissiveArgumentPage />} />
+              <Route path="/insights/revelations" element={<RevelationsHub />} />
+              <Route path="/insights/books/:slug" element={<BookDetailPage />} />
               
               {/* Phase B2 - Black News Tab */}
               <Route path="/news/black" element={<BlackNewsPage />} />
