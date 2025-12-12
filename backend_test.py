@@ -1272,6 +1272,312 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # BUSINESS VERIFICATION SYSTEM - PHASE 1A TESTING
+    # ==========================================
+    
+    def test_business_verification_status_endpoint(self) -> bool:
+        """Test GET /api/business/verification/status/{businessId}"""
+        self.log("🏢 BUSINESS VERIFICATION STATUS TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available for verification status test", "ERROR")
+            return False
+        
+        # Use a test business ID
+        test_business_id = "test-business-123"
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        response = self.make_request("GET", f"/business/verification/status/{test_business_id}", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["is_verified", "status", "documents_uploaded"]
+            
+            if all(field in data for field in required_fields):
+                self.log(f"✅ Verification status endpoint working")
+                self.log(f"   Status: {data['status']}")
+                self.log(f"   Is Verified: {data['is_verified']}")
+                self.log(f"   Documents: {data['documents_uploaded']}")
+                return True
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Verification status missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Verification status failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_business_verification_upload_endpoint(self) -> bool:
+        """Test POST /api/business/verification/{businessId}/upload"""
+        self.log("📄 BUSINESS VERIFICATION UPLOAD TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available for verification upload test", "ERROR")
+            return False
+        
+        # Create a test file content (simple text file for testing)
+        test_file_content = b"Test EIN Document Content - This is a test document for verification"
+        test_business_id = "test-business-123"
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # Prepare multipart form data
+        files = {
+            'file': ('test_ein.txt', test_file_content, 'text/plain')
+        }
+        data = {
+            'document_type': 'EIN'
+        }
+        
+        # Remove Content-Type header to let requests handle multipart
+        upload_headers = headers.copy()
+        if 'Content-Type' in upload_headers:
+            del upload_headers['Content-Type']
+        
+        try:
+            url = f"{API_BASE}/business/verification/{test_business_id}/upload"
+            response = self.session.post(url, files=files, data=data, headers=upload_headers)
+            
+            self.log(f"POST /business/verification/{test_business_id}/upload -> {response.status_code}")
+            
+            if response.status_code == 200:
+                data = response.json()
+                required_fields = ["success", "message", "verification_status", "document_count"]
+                
+                if all(field in data for field in required_fields):
+                    if data["success"]:
+                        self.log(f"✅ Document upload successful")
+                        self.log(f"   Message: {data['message']}")
+                        self.log(f"   Status: {data['verification_status']}")
+                        self.log(f"   Documents: {data['document_count']}")
+                        return True
+                    else:
+                        self.log(f"❌ Upload marked as failed: {data}", "ERROR")
+                        return False
+                else:
+                    missing_fields = [field for field in required_fields if field not in data]
+                    self.log(f"❌ Upload response missing fields: {missing_fields}", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Document upload failed: {response.status_code} - {response.text}", "ERROR")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Document upload exception: {e}", "ERROR")
+            return False
+    
+    def test_business_verification_admin_list_endpoint(self) -> bool:
+        """Test GET /api/business/verification/admin/list"""
+        self.log("📋 BUSINESS VERIFICATION ADMIN LIST TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available for admin list test", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # Test with pending status filter
+        response = self.make_request("GET", "/business/verification/admin/list", 
+                                   headers=headers, params={"status": "pending"})
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["verifications", "count"]
+            
+            if all(field in data for field in required_fields):
+                verifications = data["verifications"]
+                count = data["count"]
+                
+                self.log(f"✅ Admin list endpoint working")
+                self.log(f"   Found {count} pending verifications")
+                
+                # Check structure of verification items if any exist
+                if verifications and len(verifications) > 0:
+                    verification = verifications[0]
+                    verification_fields = ["business_id", "business_name", "verification_status", "documents", "created_at"]
+                    
+                    if all(field in verification for field in verification_fields):
+                        self.log(f"   Sample verification: {verification['business_name']} ({verification['verification_status']})")
+                        return True
+                    else:
+                        missing_fields = [field for field in verification_fields if field not in verification]
+                        self.log(f"❌ Verification item missing fields: {missing_fields}", "ERROR")
+                        return False
+                else:
+                    self.log("   No pending verifications found (expected for clean test)")
+                    return True
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Admin list response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Admin list failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_business_verification_admin_review_endpoint(self) -> bool:
+        """Test POST /api/business/verification/admin/review/{businessId}"""
+        self.log("✅ BUSINESS VERIFICATION ADMIN REVIEW TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available for admin review test", "ERROR")
+            return False
+        
+        test_business_id = "test-business-123"
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # Test approval action
+        review_data = {
+            "action": "verified",
+            "notes": "Approved via automated test - documents look good"
+        }
+        
+        response = self.make_request("POST", f"/business/verification/admin/review/{test_business_id}", 
+                                   data=review_data, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["success", "message", "verification"]
+            
+            if all(field in data for field in required_fields):
+                if data["success"]:
+                    self.log(f"✅ Verification approval successful")
+                    self.log(f"   Message: {data['message']}")
+                    
+                    # Check verification object structure
+                    verification = data["verification"]
+                    if "verification_status" in verification:
+                        self.log(f"   New Status: {verification['verification_status']}")
+                        return True
+                    else:
+                        self.log("❌ Verification object missing status", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Review marked as failed: {data}", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Review response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Admin review failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_business_verification_admin_document_download(self) -> bool:
+        """Test GET /api/business/verification/admin/document/{businessId}/{docIndex}"""
+        self.log("📥 BUSINESS VERIFICATION DOCUMENT DOWNLOAD TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available for document download test", "ERROR")
+            return False
+        
+        test_business_id = "test-business-123"
+        doc_index = 0
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        response = self.make_request("GET", f"/business/verification/admin/document/{test_business_id}/{doc_index}", 
+                                   headers=headers)
+        
+        if response.status_code == 404:
+            # Expected for non-existent business/document
+            self.log("✅ Document download endpoint working (404 for non-existent document)")
+            return True
+        elif response.status_code == 200:
+            # If document exists, check response headers
+            content_type = response.headers.get('content-type', '')
+            content_disposition = response.headers.get('content-disposition', '')
+            
+            if content_disposition and 'attachment' in content_disposition:
+                self.log("✅ Document download successful with proper headers")
+                self.log(f"   Content-Type: {content_type}")
+                self.log(f"   Content-Disposition: {content_disposition}")
+                return True
+            else:
+                self.log("❌ Document download missing proper headers", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Document download failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_business_verification_authentication_scenarios(self) -> bool:
+        """Test authentication requirements for verification endpoints"""
+        self.log("🔐 BUSINESS VERIFICATION AUTHENTICATION TEST")
+        
+        test_business_id = "test-business-123"
+        
+        # Test 1: Status endpoint without auth → Should return 401
+        response = self.make_request("GET", f"/business/verification/status/{test_business_id}")
+        if response.status_code != 401:
+            self.log(f"❌ Status endpoint should require auth, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 2: Admin list without auth → Should return 401
+        response = self.make_request("GET", "/business/verification/admin/list")
+        if response.status_code != 401:
+            self.log(f"❌ Admin list should require auth, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 3: Admin review without auth → Should return 401
+        response = self.make_request("POST", f"/business/verification/admin/review/{test_business_id}", 
+                                   data={"action": "verified", "notes": "test"})
+        if response.status_code != 401:
+            self.log(f"❌ Admin review should require auth, got {response.status_code}", "ERROR")
+            return False
+        
+        # Test 4: Document download without auth → Should return 401
+        response = self.make_request("GET", f"/business/verification/admin/document/{test_business_id}/0")
+        if response.status_code != 401:
+            self.log(f"❌ Document download should require auth, got {response.status_code}", "ERROR")
+            return False
+        
+        self.log("✅ All verification endpoints properly require authentication")
+        return True
+    
+    def test_business_verification_invalid_document_type(self) -> bool:
+        """Test upload with invalid document type"""
+        self.log("❌ BUSINESS VERIFICATION INVALID DOCUMENT TYPE TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available for invalid document type test", "ERROR")
+            return False
+        
+        test_file_content = b"Test document content"
+        test_business_id = "test-business-123"
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # Prepare multipart form data with invalid document type
+        files = {
+            'file': ('test_doc.txt', test_file_content, 'text/plain')
+        }
+        data = {
+            'document_type': 'INVALID_TYPE'
+        }
+        
+        upload_headers = headers.copy()
+        if 'Content-Type' in upload_headers:
+            del upload_headers['Content-Type']
+        
+        try:
+            url = f"{API_BASE}/business/verification/{test_business_id}/upload"
+            response = self.session.post(url, files=files, data=data, headers=upload_headers)
+            
+            if response.status_code == 400:
+                data = response.json()
+                if "Invalid document type" in data.get("detail", ""):
+                    self.log("✅ Invalid document type properly rejected")
+                    return True
+                else:
+                    self.log(f"❌ Wrong error message for invalid document type: {data}", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Invalid document type should return 400, got {response.status_code}", "ERROR")
+                return False
+                
+        except Exception as e:
+            self.log(f"❌ Invalid document type test exception: {e}", "ERROR")
+            return False
+
+    # ==========================================
     # PEOPLES ROOM PHASE 4 - WEBSOCKET INTEGRATION TESTING
     # ==========================================
     
