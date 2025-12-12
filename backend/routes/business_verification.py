@@ -308,6 +308,54 @@ async def reject_verification(
         )
 
 
+@router.get("/admin/document/{business_id}/{doc_index}")
+async def download_verification_document(
+    business_id: str,
+    doc_index: int,
+    current_user = Depends(require_roles(["admin", "super_admin"])),
+    db = Depends(get_db)
+):
+    """
+    Download document for admin review (decrypted)
+    SECURITY: Admin-only, logged access
+    """
+    verification_service = VerificationService(db)
+    file_service = get_file_service()
+    
+    # Get verification
+    verification = await verification_service.get_verification_by_business(business_id)
+    if not verification:
+        raise HTTPException(status_code=404, detail="Verification not found")
+    
+    if doc_index >= len(verification.documents):
+        raise HTTPException(status_code=404, detail="Document not found")
+    
+    doc = verification.documents[doc_index]
+    
+    try:
+        # Decrypt file
+        decrypted_content = await file_service.decrypt_for_viewing(doc.encrypted_path)
+        
+        # Log access for audit trail
+        logger.info(f"Admin {current_user['id']} downloaded document for business {business_id}")
+        
+        # Return as stream for download
+        return StreamingResponse(
+            io.BytesIO(decrypted_content),
+            media_type=doc.mime_type or "application/octet-stream",
+            headers={
+                "Content-Disposition": f"attachment; filename={doc.file_path}"
+            }
+        )
+        
+    except Exception as e:
+        logger.error(f"Document download failed: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to download document"
+        )
+
+
 @router.get("/admin/view-document/{business_id}/{doc_index}")
 async def view_verification_document(
     business_id: str,
