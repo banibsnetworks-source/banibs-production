@@ -79,28 +79,28 @@ const BanibsNetworkNav = () => {
   };
 
   return (
-    <nav className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14 gap-4">
+    <nav className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50 w-full">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-14 gap-4 flex-nowrap">
           
           {/* Left: Logo + BANIBS Network Dropdown */}
-          <div className="flex items-center space-x-2 flex-shrink-0">
+          <div className="flex items-center space-x-2 flex-shrink-0 flex-nowrap">
             {/* BANIBS Logo/Wordmark */}
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="flex items-center justify-center w-8 h-8 bg-yellow-500 rounded-lg">
+            <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
+              <div className="flex items-center justify-center w-8 h-8 bg-yellow-500 rounded-lg flex-shrink-0">
                 <span className="text-gray-900 font-bold text-lg">B</span>
               </div>
-              <span className="hidden sm:block text-white font-semibold text-sm">BANIBS</span>
+              <span className="hidden sm:block text-white font-semibold text-sm whitespace-nowrap">BANIBS</span>
             </Link>
 
             {/* BANIBS Network Dropdown */}
-            <div className="relative" ref={networkRef}>
+            <div className="relative flex-shrink-0" ref={networkRef}>
               <button
                 onClick={() => setNetworkDropdownOpen(!networkDropdownOpen)}
-                className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition-colors"
+                className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition-colors whitespace-nowrap"
               >
                 <span>BANIBS Network</span>
-                <ChevronDown className={`w-4 h-4 transition-transform ${networkDropdownOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-4 h-4 transition-transform flex-shrink-0 ${networkDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {/* Dropdown Menu */}
