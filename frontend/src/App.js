@@ -684,6 +684,16 @@ function App() {
                 } 
               />
               
+              {/* DDM - Dismissal Detection Model (Pattern Detection Tool) */}
+              <Route 
+                path="/admin/ddm" 
+                element={
+                  <ProtectedRoute requireAdmin={true}>
+                    <DDMPage />
+                  </ProtectedRoute>
+                } 
+              />
+              
               {/* Phase 11.0 - Prayer Rooms (Real Implementation) */}
               <Route path="/portal/prayer" element={<PrayerLobbyPage />} />
               <Route path="/portal/prayer/room/:roomSlug" element={<PrayerRoomPage />} />
