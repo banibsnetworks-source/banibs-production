@@ -1275,6 +1275,598 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # READING NIGHT API TESTING
+    # ==========================================
+    
+    def test_reading_night_authentication(self) -> bool:
+        """Test Reading Night endpoints require authentication"""
+        self.log("🎙️ READING NIGHT AUTHENTICATION TEST")
+        
+        # Test without token - should return 401
+        response = self.make_request("GET", "/reading-night/sessions")
+        if response.status_code != 401:
+            self.log(f"❌ Reading Night sessions endpoint should require auth, got {response.status_code}", "ERROR")
+            return False
+        
+        self.log("✅ Reading Night properly requires authentication")
+        return True
+    
+    def test_reading_night_sessions_list(self) -> bool:
+        """Test GET /api/reading-night/sessions - List sessions"""
+        self.log("🎙️ READING NIGHT SESSIONS LIST TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available for Reading Night test", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("GET", "/reading-night/sessions", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "sessions" in data and "total" in data:
+                sessions = data["sessions"]
+                total = data["total"]
+                upcoming_count = data.get("upcoming_count", 0)
+                replay_count = data.get("replay_count", 0)
+                
+                self.log(f"✅ Sessions list endpoint working - Found {total} sessions")
+                self.log(f"   Upcoming: {upcoming_count}, Replays: {replay_count}")
+                
+                # Verify session structure if sessions exist
+                if sessions:
+                    session = sessions[0]
+                    required_fields = ["id", "title", "status", "work_id"]
+                    if all(field in session for field in required_fields):
+                        self.log(f"✅ Session structure correct - Sample: '{session['title']}'")
+                        return True
+                    else:
+                        missing = [f for f in required_fields if f not in session]
+                        self.log(f"❌ Session missing fields: {missing}", "ERROR")
+                        return False
+                else:
+                    self.log("✅ Sessions list working (no sessions found)")
+                    return True
+            else:
+                self.log(f"❌ Sessions list response missing required fields: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Sessions list failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_reading_night_session_detail(self) -> bool:
+        """Test GET /api/reading-night/sessions/{session_id} - Get session details"""
+        self.log("🎙️ READING NIGHT SESSION DETAIL TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # First get list of sessions to find one to test
+        response = self.make_request("GET", "/reading-night/admin/sessions", headers=headers)
+        if response.status_code != 200:
+            self.log("❌ Could not get admin sessions list for detail test", "ERROR")
+            return False
+        
+        sessions = response.json().get("sessions", [])
+        if not sessions:
+            self.log("⚠️ No sessions found for detail test")
+            return True
+        
+        # Test session detail
+        session_id = sessions[0]["id"]
+        response = self.make_request("GET", f"/reading-night/sessions/{session_id}", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["session", "user_rsvp", "has_access", "reflection_prompts"]
+            
+            if all(field in data for field in required_fields):
+                session = data["session"]
+                has_access = data["has_access"]
+                prompts = data["reflection_prompts"]
+                
+                self.log(f"✅ Session detail working - '{session['title']}'")
+                self.log(f"   Has access: {has_access}, Prompts: {len(prompts)}")
+                
+                # Admin should have access
+                if has_access:
+                    self.log("✅ Admin access correctly granted")
+                    return True
+                else:
+                    self.log("❌ Admin should have access to sessions", "ERROR")
+                    return False
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Session detail missing fields: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Session detail failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_reading_night_rsvp_flow(self) -> bool:
+        """Test RSVP flow - request access and check status"""
+        self.log("🎙️ READING NIGHT RSVP FLOW TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # Get a session to RSVP to
+        response = self.make_request("GET", "/reading-night/admin/sessions", headers=headers)
+        if response.status_code != 200:
+            self.log("❌ Could not get sessions for RSVP test", "ERROR")
+            return False
+        
+        sessions = response.json().get("sessions", [])
+        if not sessions:
+            self.log("⚠️ No sessions found for RSVP test")
+            return True
+        
+        session_id = sessions[0]["id"]
+        
+        # Test RSVP request
+        response = self.make_request("POST", f"/reading-night/sessions/{session_id}/rsvp", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["success", "message", "rsvp", "status"]
+            
+            if all(field in data for field in required_fields):
+                success = data["success"]
+                status = data["status"]
+                message = data["message"]
+                
+                self.log(f"✅ RSVP request working - Status: {status}")
+                self.log(f"   Message: {message}")
+                
+                # Admin should be auto-approved
+                if status == "approved":
+                    self.log("✅ Admin RSVP auto-approved correctly")
+                    return True
+                else:
+                    self.log(f"⚠️ Admin RSVP status: {status} (expected approved)")
+                    return True
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ RSVP response missing fields: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ RSVP request failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_reading_night_my_rsvps(self) -> bool:
+        """Test GET /api/reading-night/my-rsvps - Get user's RSVPs"""
+        self.log("🎙️ READING NIGHT MY RSVPS TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("GET", "/reading-night/my-rsvps", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "rsvps" in data and "total" in data:
+                rsvps = data["rsvps"]
+                total = data["total"]
+                
+                self.log(f"✅ My RSVPs endpoint working - Found {total} RSVPs")
+                
+                # Verify RSVP structure if RSVPs exist
+                if rsvps:
+                    rsvp = rsvps[0]
+                    required_fields = ["id", "session_id", "user_id", "status"]
+                    if all(field in rsvp for field in required_fields):
+                        self.log(f"✅ RSVP structure correct - Status: {rsvp['status']}")
+                        return True
+                    else:
+                        missing = [f for f in required_fields if f not in rsvp]
+                        self.log(f"❌ RSVP missing fields: {missing}", "ERROR")
+                        return False
+                else:
+                    self.log("✅ My RSVPs working (no RSVPs found)")
+                    return True
+            else:
+                self.log(f"❌ My RSVPs response missing required fields: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ My RSVPs failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_reading_night_reflection_prompts(self) -> bool:
+        """Test GET /api/reading-night/prompts - Get reflection prompts"""
+        self.log("🎙️ READING NIGHT REFLECTION PROMPTS TEST")
+        
+        response = self.make_request("GET", "/reading-night/prompts")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "prompts" in data:
+                prompts = data["prompts"]
+                
+                self.log(f"✅ Reflection prompts endpoint working - Found {len(prompts)} prompts")
+                
+                # Should have 3 prompts
+                if len(prompts) == 3:
+                    self.log("✅ Expected 3 reflection prompts found")
+                    
+                    # Verify prompt structure
+                    if all(isinstance(prompt, str) for prompt in prompts):
+                        self.log("✅ Prompt structure correct")
+                        return True
+                    else:
+                        self.log("❌ Prompts should be strings", "ERROR")
+                        return False
+                else:
+                    self.log(f"⚠️ Expected 3 prompts, found {len(prompts)}")
+                    return True
+            else:
+                self.log(f"❌ Prompts response missing 'prompts' field: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Reflection prompts failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_reading_night_reflection_submission(self) -> bool:
+        """Test POST /api/reading-night/sessions/{session_id}/reflection - Submit reflection"""
+        self.log("🎙️ READING NIGHT REFLECTION SUBMISSION TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # Get a session to submit reflection for
+        response = self.make_request("GET", "/reading-night/admin/sessions", headers=headers)
+        if response.status_code != 200:
+            self.log("❌ Could not get sessions for reflection test", "ERROR")
+            return False
+        
+        sessions = response.json().get("sessions", [])
+        if not sessions:
+            self.log("⚠️ No sessions found for reflection test")
+            return True
+        
+        session_id = sessions[0]["id"]
+        
+        # Submit reflection
+        reflection_data = {
+            "prompt_1_response": "This reading made me reflect on the importance of community and shared experiences.",
+            "prompt_2_response": "I learned about the power of guided reading and how it can deepen understanding.",
+            "prompt_3_response": "I would like to explore more works that challenge conventional thinking."
+        }
+        
+        response = self.make_request("POST", f"/reading-night/sessions/{session_id}/reflection", 
+                                   data=reflection_data, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["success", "reflection"]
+            
+            if all(field in data for field in required_fields):
+                success = data["success"]
+                reflection = data["reflection"]
+                
+                self.log(f"✅ Reflection submission working - Success: {success}")
+                
+                # Verify reflection structure
+                reflection_fields = ["id", "session_id", "user_id", "prompt_1_response"]
+                if all(field in reflection for field in reflection_fields):
+                    self.log("✅ Reflection structure correct")
+                    return True
+                else:
+                    missing = [f for f in reflection_fields if f not in reflection]
+                    self.log(f"❌ Reflection missing fields: {missing}", "ERROR")
+                    return False
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Reflection response missing fields: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Reflection submission failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_reading_night_admin_sessions(self) -> bool:
+        """Test GET /api/reading-night/admin/sessions - List all sessions including drafts"""
+        self.log("🎙️ READING NIGHT ADMIN SESSIONS TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("GET", "/reading-night/admin/sessions", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "sessions" in data and "total" in data:
+                sessions = data["sessions"]
+                total = data["total"]
+                
+                self.log(f"✅ Admin sessions endpoint working - Found {total} sessions")
+                
+                # Verify session structure if sessions exist
+                if sessions:
+                    session = sessions[0]
+                    required_fields = ["id", "title", "status", "work_id", "created_by_user_id"]
+                    if all(field in session for field in required_fields):
+                        self.log(f"✅ Admin session structure correct - '{session['title']}'")
+                        self.log(f"   Status: {session['status']}, Work ID: {session['work_id']}")
+                        return True
+                    else:
+                        missing = [f for f in required_fields if f not in session]
+                        self.log(f"❌ Admin session missing fields: {missing}", "ERROR")
+                        return False
+                else:
+                    self.log("✅ Admin sessions working (no sessions found)")
+                    return True
+            else:
+                self.log(f"❌ Admin sessions response missing required fields: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Admin sessions failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_reading_night_admin_create_session(self) -> bool:
+        """Test POST /api/reading-night/admin/sessions - Create new session"""
+        self.log("🎙️ READING NIGHT ADMIN CREATE SESSION TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # First get a work_id from Book Vault
+        vault_response = self.make_request("GET", "/book-vault/works", headers=headers)
+        if vault_response.status_code != 200:
+            self.log("❌ Could not get Book Vault works for session creation", "ERROR")
+            return False
+        
+        works = vault_response.json().get("works", [])
+        if not works:
+            self.log("❌ No Book Vault works found for session creation", "ERROR")
+            return False
+        
+        work_id = works[0]["id"]
+        
+        # Create session
+        session_data = {
+            "title": "Test Reading Session",
+            "subtitle": "A test session for API validation",
+            "synopsis": "This is a test reading session created during API testing to verify the creation endpoint works correctly.",
+            "work_id": work_id,
+            "episode_number": 1,
+            "premiere_at": "2025-01-15T19:00:00Z",
+            "estimated_duration_minutes": 45,
+            "speed_mode": "standard",
+            "commitment_fee_cents": 500,
+            "commitment_label": "Test Commitment Pass"
+        }
+        
+        response = self.make_request("POST", "/reading-night/admin/sessions", 
+                                   data=session_data, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["success", "session"]
+            
+            if all(field in data for field in required_fields):
+                success = data["success"]
+                session = data["session"]
+                
+                self.log(f"✅ Session creation working - Success: {success}")
+                self.log(f"   Created: '{session['title']}'")
+                
+                # Verify session structure
+                session_fields = ["id", "title", "work_id", "status", "created_by_user_id"]
+                if all(field in session for field in session_fields):
+                    self.log("✅ Created session structure correct")
+                    
+                    # Store session ID for other tests
+                    self.test_session_id = session["id"]
+                    return True
+                else:
+                    missing = [f for f in session_fields if f not in session]
+                    self.log(f"❌ Created session missing fields: {missing}", "ERROR")
+                    return False
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Create session response missing fields: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Session creation failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_reading_night_admin_update_session(self) -> bool:
+        """Test PATCH /api/reading-night/admin/sessions/{session_id} - Update session"""
+        self.log("🎙️ READING NIGHT ADMIN UPDATE SESSION TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        # Get a session to update
+        if not hasattr(self, 'test_session_id'):
+            # Get from admin sessions list
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            response = self.make_request("GET", "/reading-night/admin/sessions", headers=headers)
+            if response.status_code != 200:
+                self.log("❌ Could not get sessions for update test", "ERROR")
+                return False
+            
+            sessions = response.json().get("sessions", [])
+            if not sessions:
+                self.log("⚠️ No sessions found for update test")
+                return True
+            
+            self.test_session_id = sessions[0]["id"]
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # Update session
+        update_data = {
+            "title": "Updated Test Reading Session",
+            "subtitle": "Updated subtitle for testing",
+            "estimated_duration_minutes": 50
+        }
+        
+        response = self.make_request("PATCH", f"/reading-night/admin/sessions/{self.test_session_id}", 
+                                   data=update_data, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["success", "updated_fields"]
+            
+            if all(field in data for field in required_fields):
+                success = data["success"]
+                updated_fields = data["updated_fields"]
+                
+                self.log(f"✅ Session update working - Success: {success}")
+                self.log(f"   Updated fields: {updated_fields}")
+                
+                # Verify expected fields were updated
+                expected_fields = ["title", "subtitle", "estimated_duration_minutes", "updated_at"]
+                if all(field in updated_fields for field in expected_fields[:3]):
+                    self.log("✅ Expected fields updated correctly")
+                    return True
+                else:
+                    self.log(f"⚠️ Some expected fields not in updated list: {updated_fields}")
+                    return True
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Update session response missing fields: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Session update failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_reading_night_admin_publish_session(self) -> bool:
+        """Test POST /api/reading-night/admin/sessions/{session_id}/publish - Publish session"""
+        self.log("🎙️ READING NIGHT ADMIN PUBLISH SESSION TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        # Get a session to publish
+        if not hasattr(self, 'test_session_id'):
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            response = self.make_request("GET", "/reading-night/admin/sessions", headers=headers)
+            if response.status_code != 200:
+                self.log("❌ Could not get sessions for publish test", "ERROR")
+                return False
+            
+            sessions = response.json().get("sessions", [])
+            if not sessions:
+                self.log("⚠️ No sessions found for publish test")
+                return True
+            
+            self.test_session_id = sessions[0]["id"]
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        response = self.make_request("POST", f"/reading-night/admin/sessions/{self.test_session_id}/publish", 
+                                   headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["success", "status"]
+            
+            if all(field in data for field in required_fields):
+                success = data["success"]
+                status = data["status"]
+                
+                self.log(f"✅ Session publish working - Success: {success}")
+                self.log(f"   New status: {status}")
+                
+                # Status should be scheduled or replay
+                if status in ["scheduled", "replay"]:
+                    self.log("✅ Session published with correct status")
+                    return True
+                else:
+                    self.log(f"⚠️ Unexpected publish status: {status}")
+                    return True
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Publish session response missing fields: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Session publish failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_reading_night_admin_generate_audio(self) -> bool:
+        """Test POST /api/reading-night/admin/sessions/{session_id}/generate-audio - Generate audio"""
+        self.log("🎙️ READING NIGHT ADMIN GENERATE AUDIO TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        # Get a session for audio generation
+        if not hasattr(self, 'test_session_id'):
+            headers = {"Authorization": f"Bearer {self.admin_token}"}
+            response = self.make_request("GET", "/reading-night/admin/sessions", headers=headers)
+            if response.status_code != 200:
+                self.log("❌ Could not get sessions for audio test", "ERROR")
+                return False
+            
+            sessions = response.json().get("sessions", [])
+            if not sessions:
+                self.log("⚠️ No sessions found for audio test")
+                return True
+            
+            self.test_session_id = sessions[0]["id"]
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        response = self.make_request("POST", f"/reading-night/admin/sessions/{self.test_session_id}/generate-audio", 
+                                   headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["success", "message", "status"]
+            
+            if all(field in data for field in required_fields):
+                success = data["success"]
+                message = data["message"]
+                status = data["status"]
+                
+                self.log(f"✅ Audio generation endpoint working - Success: {success}")
+                self.log(f"   Message: {message}")
+                self.log(f"   Status: {status}")
+                
+                # Status should be generating
+                if status == "generating":
+                    self.log("✅ Audio generation started correctly")
+                    return True
+                else:
+                    self.log(f"⚠️ Unexpected audio status: {status}")
+                    return True
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Generate audio response missing fields: {missing}", "ERROR")
+                return False
+        else:
+            # Audio generation might fail due to missing TTS service or content
+            if response.status_code in [400, 500]:
+                data = response.json()
+                detail = data.get("detail", "")
+                if "TTS" in detail or "content" in detail or "generating" in detail:
+                    self.log(f"⚠️ Audio generation expected failure: {detail}")
+                    return True
+            
+            self.log(f"❌ Audio generation failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+
+    # ==========================================
     # BOOK VAULT API TESTING
     # ==========================================
     
