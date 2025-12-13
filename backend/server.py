@@ -477,6 +477,10 @@ app.include_router(trust_demo_router)
 from routes.ddm import router as ddm_router
 app.include_router(ddm_router)
 
+# Book Vault - Founder's Literary Works Management
+from routes.book_vault import router as book_vault_router
+app.include_router(book_vault_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
