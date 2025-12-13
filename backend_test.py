@@ -14061,6 +14061,64 @@ def main():
             self.log(f"💥 {failed} Phase 7.1 test(s) failed")
             return False
 
+    def run_book_vault_tests(self) -> bool:
+        """Run Book Vault API tests"""
+        self.log("=" * 80)
+        self.log("📚 BOOK VAULT API TESTS")
+        self.log("=" * 80)
+        self.log(f"Testing against: {API_BASE}")
+        self.log("Testing Book Vault endpoints for literary works management")
+        
+        tests = [
+            # Authentication Setup
+            ("Admin Login", self.test_admin_login),
+            ("Contributor Registration", self.test_contributor_register),
+            ("Contributor Login", self.test_contributor_login),
+            
+            # Book Vault Tests
+            ("Book Vault Authentication", self.test_book_vault_authentication),
+            ("Book Vault Role Checking", self.test_book_vault_role_checking),
+            ("Book Vault Works List", self.test_book_vault_works_list),
+            ("Book Vault Work Detail", self.test_book_vault_work_detail),
+            ("Book Vault Create Work", self.test_book_vault_create_work),
+            ("Book Vault Update Work", self.test_book_vault_update_work),
+            ("Book Vault Entries List", self.test_book_vault_entries_list),
+            ("Book Vault Entry Detail", self.test_book_vault_entry_detail),
+            ("Book Vault Create Entry", self.test_book_vault_create_entry),
+            ("Book Vault Versions List", self.test_book_vault_versions_list),
+            ("Book Vault Create Version", self.test_book_vault_create_version),
+            ("Book Vault Search Light", self.test_book_vault_search),
+            ("Book Vault Search Matthew", self.test_book_vault_search_matthew),
+            ("Book Vault Export Work", self.test_book_vault_export_work),
+            ("Book Vault Soft Delete", self.test_book_vault_soft_delete),
+        ]
+        
+        passed = 0
+        failed = 0
+        
+        for test_name, test_func in tests:
+            self.log(f"\n--- Running {test_name} ---")
+            try:
+                if test_func():
+                    passed += 1
+                else:
+                    failed += 1
+            except Exception as e:
+                self.log(f"❌ {test_name} failed with exception: {e}", "ERROR")
+                failed += 1
+                
+        self.log(f"\n=== BOOK VAULT TEST RESULTS ===")
+        self.log(f"✅ Passed: {passed}")
+        self.log(f"❌ Failed: {failed}")
+        self.log(f"Total: {passed + failed}")
+        
+        if failed == 0:
+            self.log("🎉 All Book Vault tests passed!")
+            return True
+        else:
+            self.log(f"💥 {failed} Book Vault test(s) failed")
+            return False
+
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
         self.log("Starting BANIBS Backend API Test Suite - Business Verification System Phase 1A")
