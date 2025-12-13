@@ -18,6 +18,7 @@ import AdminOpportunitiesDashboard from "./pages/admin/AdminOpportunitiesDashboa
 // Phase 8.3.1 - Social Moderation
 import AdminSocialReportsPage from "./pages/admin/AdminSocialReportsPage";
 import AdminVerificationReview from "./pages/admin/AdminVerificationReview";
+import DDMPage from "./pages/admin/DDMPage";
 import DevilsDismissiveArgumentPage from "./pages/insights/DevilsDismissiveArgumentPage";
 import RevelationsHub from "./pages/insights/RevelationsHub";
 import BookDetailPage from "./pages/insights/BookDetailPage";
