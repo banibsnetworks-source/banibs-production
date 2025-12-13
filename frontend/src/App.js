@@ -719,6 +719,20 @@ function App() {
                 } 
               />
               
+              {/* Reading Night Admin */}
+              <Route 
+                path="/admin/reading-night" 
+                element={
+                  <ProtectedRoute requireAdmin={true}>
+                    <ReadingNightAdminPage />
+                  </ProtectedRoute>
+                } 
+              />
+              
+              {/* Reading Night - Public Pages */}
+              <Route path="/reading-night" element={<ReadingNightPage />} />
+              <Route path="/reading-night/:sessionId" element={<ReadingNightSessionPage />} />
+              
               {/* Phase 11.0 - Prayer Rooms (Real Implementation) */}
               <Route path="/portal/prayer" element={<PrayerLobbyPage />} />
               <Route path="/portal/prayer/room/:roomSlug" element={<PrayerRoomPage />} />
