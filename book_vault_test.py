@@ -690,15 +690,34 @@ class BookVaultTester:
             # Authentication Setup
             ("Admin Login", self.test_admin_login),
             
-            # Book Vault Tests
+            # Book Vault Tests - Authentication & Authorization
             ("Book Vault Authentication", self.test_book_vault_authentication),
+            ("Book Vault Role Checking", self.test_book_vault_role_checking),
+            
+            # Works CRUD
             ("Book Vault Works List", self.test_book_vault_works_list),
             ("Book Vault Work Detail", self.test_book_vault_work_detail),
             ("Book Vault Create Work", self.test_book_vault_create_work),
+            ("Book Vault Update Work", self.test_book_vault_update_work),
+            
+            # Entries CRUD
             ("Book Vault Entries List", self.test_book_vault_entries_list),
+            ("Book Vault Entry Detail", self.test_book_vault_entry_detail),
+            ("Book Vault Create Entry", self.test_book_vault_create_entry),
+            
+            # Versions
+            ("Book Vault Versions List", self.test_book_vault_versions_list),
+            ("Book Vault Create Version", self.test_book_vault_create_version),
+            
+            # Search
             ("Book Vault Search Light", self.test_book_vault_search),
             ("Book Vault Search Matthew", self.test_book_vault_search_matthew),
+            
+            # Export
             ("Book Vault Export Work", self.test_book_vault_export_work),
+            
+            # Cleanup
+            ("Book Vault Soft Delete", self.test_book_vault_soft_delete),
         ]
         
         passed = 0
