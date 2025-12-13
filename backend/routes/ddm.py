@@ -14,7 +14,6 @@ from datetime import datetime
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from db.connection import get_db
 from middleware.auth_guard import get_current_user, require_role
