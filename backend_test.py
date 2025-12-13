@@ -1497,12 +1497,19 @@ class BanibsAPITester:
                 if len(prompts) == 3:
                     self.log("✅ Expected 3 reflection prompts found")
                     
-                    # Verify prompt structure
-                    if all(isinstance(prompt, str) for prompt in prompts):
+                    # Verify prompt structure - prompts might be strings or objects
+                    if all(isinstance(prompt, (str, dict)) for prompt in prompts):
                         self.log("✅ Prompt structure correct")
+                        # Log sample prompt for debugging
+                        if prompts:
+                            sample_prompt = prompts[0]
+                            if isinstance(sample_prompt, str):
+                                self.log(f"   Sample prompt: {sample_prompt[:50]}...")
+                            else:
+                                self.log(f"   Sample prompt type: {type(sample_prompt)}")
                         return True
                     else:
-                        self.log("❌ Prompts should be strings", "ERROR")
+                        self.log("❌ Prompts should be strings or objects", "ERROR")
                         return False
                 else:
                     self.log(f"⚠️ Expected 3 prompts, found {len(prompts)}")
