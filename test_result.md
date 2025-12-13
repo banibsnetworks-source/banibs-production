@@ -473,67 +473,49 @@ cd /app/frontend && yarn add sharp
 #====================================================================================================
 
 user_problem_statement: |
-  **Peoples Room Phase 3 - Owner UI (My Room Page) Testing**
+  **Book Vault Frontend UI Testing**
 
-  Test the "My Room" page owner dashboard with all tabs and functionality.
+  Test the Book Vault frontend UI at `/admin/books` for the BANIBS platform.
 
   **Test Credentials**:
-  - Admin User: admin@banibs.com / BanibsAdmin#2025
+  - Email: `admin@banibs.com`
+  - Password: `BanibsAdmin#2025`
 
-  **Test URL**: https://bookvault-manager.preview.emergentagent.com/my-room
+  **Login URL**: `http://localhost:3000/auth/signin`
+  **Book Vault URL**: `http://localhost:3000/admin/books`
 
-  **Test Flow**:
+  **Test the following UI flows**:
 
-  ### 1. Login & Navigation
-  - Navigate to /auth/signin
-  - Login as admin@banibs.com / BanibsAdmin#2025
-  - Navigate to /my-room
+  1. **Login and Navigation**:
+     - Login with admin credentials
+     - Navigate to `/admin/books`
+     - Verify the Book Vault Library page loads
 
-  ### 2. My Room Page - Initial State
-  - Verify page loads with "My Room" heading
-  - Verify presence indicator shows "Not in room"
-  - Verify "Enter Room" button is visible and enabled
-  - Verify door state shows "🚪 Open"
-  - Verify visitor count shows "0"
+  2. **Library Home Page** (`/admin/books`):
+     - Verify header shows "Book Vault - Founder's Literary Works Library"
+     - Verify info banner about version preservation
+     - Verify 4 works are displayed (D-1, D-2, D-C1, G-1)
+     - Verify each work shows: title, status badge, series badge, description, tags
+     - Verify filters work: test Series filter dropdown
+     - Verify "+ New Work" button is present
 
-  ### 3. Enter Room Flow
-  - Click "Enter Room" button
-  - Wait for button to change to "Exiting..."
-  - Verify presence indicator changes to "🟢 In Room" with animated pulse
-  - Verify "Exit Room" button appears
-  - Verify session is active
+  3. **Work Detail Page** (`/admin/books/:workId`):
+     - Click on "The Light God Wants You to See" (G-1 work)
+     - Verify tabs: Overview, Entries (5), Editor, Export
+     - Click Entries tab - verify 5 scripture entries are listed
+     - Click Editor tab - verify split view with entry list and editor area
 
-  ### 4. Tabs Navigation
-  Test all 4 tabs:
-  - **Visitors Tab**: Should show "No visitors yet" message
-  - **Knocks Tab**: Should show "No pending knocks" message  
-  - **Access List Tab**: Should show add user form and empty state
-  - **Settings Tab**: Should show door lock toggle and presence mode options
+  4. **Editor Functionality**:
+     - In Editor tab, click on "Matthew 5:15–16" entry
+     - Verify content displays in the editor textarea
+     - Verify "Pull Down / Copy" button works (click it)
+     - Verify "Save New Version" button is present
 
-  ### 5. Settings Tab Functionality
-  - Verify "Lock Doors" button is visible
-  - Click "Lock Doors"
-  - Handle confirmation dialog (click OK)
-  - Verify door state changes to "🔒 Locked"
-  - Verify button changes to "🔓 Unlock Doors"
-  - Click "Unlock Doors" to restore
-  - Test presence mode radio buttons (Public/Ghost)
-
-  ### 6. Exit Room Flow
-  - Click "Exit Room" button
-  - Handle confirmation dialog (click OK)
-  - Verify presence changes back to "Not in room"
-  - Verify "Enter Room" button appears again
-  - Verify visitor count resets to 0
-
-  ### Expected UI Elements:
-  - ✅ Clean, professional MVP design
-  - ✅ Tab navigation working
-  - ✅ Loading states for all actions
-  - ✅ Animated presence indicator (green pulse)
-  - ✅ Status bar with door state, visitor count, knocks count
-  - ✅ Info box at bottom explaining Peoples Room
-  - ✅ Proper button states (enabled/disabled/loading)
+  5. **Create Work Flow**:
+     - Navigate back to `/admin/books`
+     - Click "+ New Work" button
+     - Verify modal opens with form fields
+     - Close modal (Cancel button)
 
 frontend:
   - task: "Peoples Room Phase 3 - Owner UI (My Room Page)"
