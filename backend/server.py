@@ -473,6 +473,10 @@ app.include_router(waitlist_router)
 from routes.trust_integration_demo import router as trust_demo_router
 app.include_router(trust_demo_router)
 
+# DDM - Dismissal Detection Model (Pattern Detection Tool)
+from routes.ddm import router as ddm_router
+app.include_router(ddm_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
