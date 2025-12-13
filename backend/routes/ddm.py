@@ -72,7 +72,7 @@ def add_audit_entry(observation: dict, action: str, user_id: str, details: str =
 async def create_observation(
     data: DDMObservationCreate,
     current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """
     Create a new DDM observation.
