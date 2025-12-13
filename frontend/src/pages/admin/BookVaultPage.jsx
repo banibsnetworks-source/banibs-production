@@ -283,7 +283,7 @@ const BookVaultPage = () => {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-white">Book Vault</h1>
-              <p className="text-gray-400 text-sm">Founder's Literary Works Library</p>
+              <p className="text-gray-400 text-sm">Founder&apos;s Literary Works Library</p>
             </div>
             <div className="ml-auto flex gap-2">
               <button
