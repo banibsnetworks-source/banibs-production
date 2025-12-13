@@ -506,49 +506,48 @@ cd /app/frontend && yarn add sharp
 #====================================================================================================
 
 user_problem_statement: |
-  **Book Vault Frontend UI Testing**
+  **Reading Night API Testing**
 
-  Test the Book Vault frontend UI at `/admin/books` for the BANIBS platform.
+  Test the Reading Night API endpoints for the BANIBS platform. This is a guided communal reading experience module.
 
   **Test Credentials**:
   - Email: `admin@banibs.com`
   - Password: `BanibsAdmin#2025`
 
-  **Login URL**: `http://localhost:3000/auth/signin`
-  **Book Vault URL**: `http://localhost:3000/admin/books`
+  **API Base**: Use the REACT_APP_BACKEND_URL from `/app/frontend/.env`
 
-  **Test the following UI flows**:
+  **Test the following endpoints**:
 
-  1. **Login and Navigation**:
-     - Login with admin credentials
-     - Navigate to `/admin/books`
-     - Verify the Book Vault Library page loads
+  1. **Authentication**: Login and get token
 
-  2. **Library Home Page** (`/admin/books`):
-     - Verify header shows "Book Vault - Founder's Literary Works Library"
-     - Verify info banner about version preservation
-     - Verify 4 works are displayed (D-1, D-2, D-C1, G-1)
-     - Verify each work shows: title, status badge, series badge, description, tags
-     - Verify filters work: test Series filter dropdown
-     - Verify "+ New Work" button is present
+  2. **Sessions (Public)**:
+     - GET `/api/reading-night/sessions` - List sessions (should show sessions with status scheduled/live/replay)
+     - GET `/api/reading-night/sessions/{session_id}` - Get session details with user_rsvp and has_access
 
-  3. **Work Detail Page** (`/admin/books/:workId`):
-     - Click on "The Light God Wants You to See" (G-1 work)
-     - Verify tabs: Overview, Entries (5), Editor, Export
-     - Click Entries tab - verify 5 scripture entries are listed
-     - Click Editor tab - verify split view with entry list and editor area
+  3. **RSVPs**:
+     - POST `/api/reading-night/sessions/{session_id}/rsvp` - Request access (auto-approves for admins)
+     - GET `/api/reading-night/my-rsvps` - Get user's RSVPs
 
-  4. **Editor Functionality**:
-     - In Editor tab, click on "Matthew 5:15–16" entry
-     - Verify content displays in the editor textarea
-     - Verify "Pull Down / Copy" button works (click it)
-     - Verify "Save New Version" button is present
+  4. **Reflections**:
+     - GET `/api/reading-night/prompts` - Get reflection prompts (3 prompts)
+     - POST `/api/reading-night/sessions/{session_id}/reflection` - Submit reflection
 
-  5. **Create Work Flow**:
-     - Navigate back to `/admin/books`
-     - Click "+ New Work" button
-     - Verify modal opens with form fields
-     - Close modal (Cancel button)
+  5. **Admin Endpoints**:
+     - GET `/api/reading-night/admin/sessions` - List all sessions including drafts
+     - POST `/api/reading-night/admin/sessions` - Create new session (requires work_id from Book Vault)
+     - PATCH `/api/reading-night/admin/sessions/{session_id}` - Update session
+     - POST `/api/reading-night/admin/sessions/{session_id}/publish` - Publish session
+
+  6. **Audio** (Note: TTS generation may take time):
+     - POST `/api/reading-night/admin/sessions/{session_id}/generate-audio` - Start audio generation
+
+  **Test Flow**:
+  1. Get a session ID from admin/sessions list
+  2. Test RSVP flow
+  3. Test reflection submission
+  4. Verify session details include has_access=true after RSVP
+
+  **Note**: The session created earlier has work_id from Book Vault "The Devil's Dismissive Argument"
 
 frontend:
   - task: "Book Vault Frontend UI Testing"
