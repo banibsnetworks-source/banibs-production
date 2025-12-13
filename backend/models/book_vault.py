@@ -1,192 +1,233 @@
 """
-Book Vault - Data Models
+Book Vault - Data Models v1.0
+CANONICAL SPEC - Raymond Al Zedeck
 
-Admin-only module for managing Raymond's books, chapters, 
-drafts, scripture anchors, and content blocks.
+Admin-only module for managing founder's literary works with:
+- Works (books/volumes/companions/appendices/modules/notes)
+- Entries (chapters/sections/blurbs/page_copy/scripture_notes/research_notes)
+- Entry Versions (version history - edits NEVER overwrite)
 
-Version history supported - edits create new versions.
+GUIDING PRINCIPLES:
+1) Nothing gets lost: edits create versions, never overwrite
+2) Scales forever: structure must not require redesign
+3) Admin/Founder only (private by default)
+4) Exportable at any time (Markdown v1)
+5) Fast retrieval: search + "copy/pull down" on every block
+6) Guardrails: soft delete only; locking requires new version
 """
 
 from pydantic import BaseModel, Field
 from typing import Optional, List
 from enum import Enum
-from datetime import datetime
+from datetime import datetime, timezone
 from uuid import uuid4
 
 
 # =============================================================================
-# ENUMS
+# ENUMS (Canonical v1)
 # =============================================================================
 
-class BookSeries(str, Enum):
+class SeriesKey(str, Enum):
     """Book series classification"""
-    D_SERIES = "D"       # Devil's series
-    G_SERIES = "G"       # God's series  
-    O_SERIES = "O"       # Other revelation series
-    COMPANION = "Companion"  # Companion works
-    OTHER = "Other"
+    D = "D"           # Devil's series (D-Series)
+    G = "G"           # God's series (G-Series)
+    O = "O"           # Other revelation series
+    BANIBS = "BANIBS" # BANIBS platform works
+    LIFE = "LIFE"     # Life/personal works
+    OTHER = "OTHER"   # Uncategorized
 
 
-class BookStatus(str, Enum):
-    """Book publication status"""
+class WorkType(str, Enum):
+    """Type of literary work"""
+    BOOK = "book"
+    VOLUME = "volume"
+    COMPANION = "companion"
+    APPENDIX = "appendix"
+    MODULE = "module"
+    NOTE = "note"
+
+
+class WorkStatus(str, Enum):
+    """Work publication status"""
     PLANNED = "planned"
     DRAFTING = "drafting"
     REVIEW = "review"
     PUBLISHED = "published"
+    ARCHIVED = "archived"
 
 
-class ChapterStatus(str, Enum):
-    """Chapter status"""
-    PLANNED = "planned"
-    DRAFT = "draft"
-    LOCKED = "locked"
-
-
-class BlockType(str, Enum):
-    """Content block types"""
-    PROSE = "prose"
-    OUTLINE = "outline"
+class EntryType(str, Enum):
+    """Entry type within a work"""
+    CHAPTER = "chapter"
+    SECTION = "section"
     BLURB = "blurb"
-    POSITIONING_NOTE = "positioning_note"
-    SCRIPTURE_NOTE = "scripture_note"
     PAGE_COPY = "page_copy"
+    OUTLINE = "outline"
+    SCRIPTURE_NOTE = "scripture_note"
     RESEARCH_NOTE = "research_note"
+    APPENDIX = "appendix"
+    ASSET = "asset"
+
+
+class ContentFormat(str, Enum):
+    """Content format for entry versions"""
+    MARKDOWN = "markdown"
+    RICHTEXT = "richtext"
+
+
+class VersionSource(str, Enum):
+    """Source of version content"""
+    USER = "user"
+    ASSISTANT = "assistant"
+    IMPORT = "import"
 
 
 # =============================================================================
-# BOOK MODEL
+# WORKS MODEL (Collection: vault_works)
 # =============================================================================
 
-class BookCreate(BaseModel):
-    """Create a new book"""
-    series: BookSeries = BookSeries.OTHER
-    book_number: Optional[int] = None
+class WorkCreate(BaseModel):
+    """Create a new work"""
+    series_key: SeriesKey = SeriesKey.OTHER
+    work_type: WorkType = WorkType.BOOK
+    order_key: Optional[str] = Field(None, max_length=20, description="e.g., 'D-1', 'D-2', 'G-1'")
     title: str = Field(..., min_length=1, max_length=200)
     subtitle: Optional[str] = Field(None, max_length=300)
-    status: BookStatus = BookStatus.PLANNED
+    status: WorkStatus = WorkStatus.PLANNED
     description: Optional[str] = None
     tags: List[str] = Field(default_factory=list)
 
 
-class Book(BaseModel):
-    """Full book record"""
+class WorkUpdate(BaseModel):
+    """Update work metadata"""
+    series_key: Optional[SeriesKey] = None
+    work_type: Optional[WorkType] = None
+    order_key: Optional[str] = None
+    title: Optional[str] = None
+    subtitle: Optional[str] = None
+    status: Optional[WorkStatus] = None
+    description: Optional[str] = None
+    tags: Optional[List[str]] = None
+
+
+class Work(BaseModel):
+    """Full work record"""
     id: str = Field(default_factory=lambda: str(uuid4()))
-    series: BookSeries = BookSeries.OTHER
-    book_number: Optional[int] = None
+    series_key: SeriesKey = SeriesKey.OTHER
+    work_type: WorkType = WorkType.BOOK
+    order_key: Optional[str] = None
     title: str
     subtitle: Optional[str] = None
-    status: BookStatus = BookStatus.PLANNED
+    status: WorkStatus = WorkStatus.PLANNED
     description: Optional[str] = None
     tags: List[str] = Field(default_factory=list)
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
-    created_by: Optional[str] = None
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    created_by_user_id: Optional[str] = None
     is_deleted: bool = False
 
 
 # =============================================================================
-# CHAPTER MODEL
+# ENTRIES MODEL (Collection: vault_entries)
 # =============================================================================
 
-class ChapterCreate(BaseModel):
-    """Create a new chapter"""
-    book_id: str
-    chapter_number: int = Field(..., ge=1)
+class EntryCreate(BaseModel):
+    """Create a new entry"""
+    work_id: str
+    entry_type: EntryType = EntryType.CHAPTER
     title: str = Field(..., min_length=1, max_length=200)
-    status: ChapterStatus = ChapterStatus.PLANNED
-    summary: Optional[str] = None
-    order_index: int = 0
-
-
-class Chapter(BaseModel):
-    """Full chapter record"""
-    id: str = Field(default_factory=lambda: str(uuid4()))
-    book_id: str
-    chapter_number: int
-    title: str
-    status: ChapterStatus = ChapterStatus.PLANNED
-    summary: Optional[str] = None
-    order_index: int = 0
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
-    is_deleted: bool = False
-
-
-# =============================================================================
-# CONTENT BLOCK MODEL (Pull-Down Units)
-# =============================================================================
-
-class ContentBlockCreate(BaseModel):
-    """Create a new content block"""
-    book_id: Optional[str] = None
-    chapter_id: Optional[str] = None
-    block_type: BlockType = BlockType.PROSE
-    title: str = Field(..., min_length=1, max_length=200)
-    content: str = Field(..., min_length=1)
+    order_index: Optional[int] = None
     tags: List[str] = Field(default_factory=list)
+    # Optional initial content - if provided, creates v1 version
+    content: Optional[str] = None
+    content_format: ContentFormat = ContentFormat.MARKDOWN
 
 
-class ContentBlock(BaseModel):
-    """
-    Content block with version history.
-    Rule: Edits ALWAYS create a new version.
-    """
+class EntryUpdate(BaseModel):
+    """Update entry metadata (NOT content - use versions for that)"""
+    title: Optional[str] = None
+    order_index: Optional[int] = None
+    tags: Optional[List[str]] = None
+    is_locked: Optional[bool] = None
+
+
+class Entry(BaseModel):
+    """Full entry record"""
     id: str = Field(default_factory=lambda: str(uuid4()))
-    book_id: Optional[str] = None
-    chapter_id: Optional[str] = None
-    block_type: BlockType = BlockType.PROSE
+    work_id: str
+    entry_type: EntryType = EntryType.CHAPTER
     title: str
-    content: str
-    tags: List[str] = Field(default_factory=list)
-    version: int = 1
-    parent_version_id: Optional[str] = None
+    order_index: Optional[int] = None
+    current_version_id: Optional[str] = None
     is_locked: bool = False
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    created_by: Optional[str] = None
+    tags: List[str] = Field(default_factory=list)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     is_deleted: bool = False
 
 
 # =============================================================================
-# SCRIPTURE ANCHOR MODEL
+# ENTRY VERSIONS MODEL (Collection: vault_entry_versions)
+# The vault's "memory" - never overwrite, always create new versions
 # =============================================================================
 
-class ScriptureAnchorCreate(BaseModel):
-    """Create a scripture anchor"""
-    book_id: Optional[str] = None
-    chapter_id: Optional[str] = None
-    reference: str = Field(..., min_length=1, max_length=100, description="e.g., John 8:33-44")
-    translation: str = Field("KJV", max_length=20)
-    excerpt: Optional[str] = Field(None, max_length=500)
-    note: Optional[str] = None
-    tags: List[str] = Field(default_factory=list)
+class EntryVersionCreate(BaseModel):
+    """Create a new version of an entry"""
+    content: str = Field(..., min_length=1)
+    content_format: ContentFormat = ContentFormat.MARKDOWN
+    source: VersionSource = VersionSource.USER
+    notes: Optional[str] = None
 
 
-class ScriptureAnchor(BaseModel):
-    """Scripture anchor record"""
+class EntryVersion(BaseModel):
+    """Full entry version record"""
     id: str = Field(default_factory=lambda: str(uuid4()))
-    book_id: Optional[str] = None
-    chapter_id: Optional[str] = None
-    reference: str
-    translation: str = "KJV"
-    excerpt: Optional[str] = None
-    note: Optional[str] = None
-    tags: List[str] = Field(default_factory=list)
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    is_deleted: bool = False
+    entry_id: str
+    version_number: int = 1
+    content_format: ContentFormat = ContentFormat.MARKDOWN
+    content: str
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    created_by_user_id: Optional[str] = None
+    source: VersionSource = VersionSource.USER
+    notes: Optional[str] = None
+    parent_version_id: Optional[str] = None  # Supports branching if needed
 
 
 # =============================================================================
-# EXPORT MODELS
+# SEARCH & EXPORT MODELS
 # =============================================================================
 
-class ExportFormat(str, Enum):
-    MARKDOWN = "markdown"
-    JSON = "json"
+class SearchResult(BaseModel):
+    """Search result item"""
+    type: str  # "work", "entry", "version"
+    id: str
+    title: str
+    snippet: Optional[str] = None
+    work_id: Optional[str] = None
+    work_title: Optional[str] = None
+    relevance: float = 1.0
 
 
-class ExportRequest(BaseModel):
-    """Export request"""
-    format: ExportFormat = ExportFormat.MARKDOWN
-    include_chapters: bool = True
-    include_blocks: bool = True
-    include_scripture: bool = True
+class ExportOptions(BaseModel):
+    """Export configuration"""
+    include_entries: bool = True
+    include_versions: bool = False  # Just current version by default
+    watermark: bool = True
+
+
+# =============================================================================
+# RESPONSE MODELS
+# =============================================================================
+
+class WorkResponse(BaseModel):
+    """Work with entry counts"""
+    work: dict
+    entry_count: int = 0
+    version_count: int = 0
+
+
+class EntryWithVersion(BaseModel):
+    """Entry with current version content"""
+    entry: dict
+    current_version: Optional[dict] = None
+    version_count: int = 0
