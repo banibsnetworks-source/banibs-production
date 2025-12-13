@@ -430,7 +430,6 @@ class BookVaultTester:
         headers = {"Authorization": f"Bearer {self.admin_token}"}
         
         entry_data = {
-            "work_id": self.test_work_id,
             "entry_type": "chapter",
             "title": "Test Chapter",
             "order_index": 1,
