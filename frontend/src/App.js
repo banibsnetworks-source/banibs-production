@@ -21,6 +21,10 @@ import AdminVerificationReview from "./pages/admin/AdminVerificationReview";
 import DDMPage from "./pages/admin/DDMPage";
 import BookVaultPage from "./pages/admin/BookVaultPage";
 import BookVaultDetailPage from "./pages/admin/BookVaultDetailPage";
+import ReadingNightAdminPage from "./pages/admin/ReadingNightAdminPage";
+// Reading Night - Guided Communal Reading Experience
+import ReadingNightPage from "./pages/reading-night/ReadingNightPage";
+import ReadingNightSessionPage from "./pages/reading-night/ReadingNightSessionPage";
 import DevilsDismissiveArgumentPage from "./pages/insights/DevilsDismissiveArgumentPage";
 import RevelationsHub from "./pages/insights/RevelationsHub";
 import BookDetailPage from "./pages/insights/BookDetailPage";
