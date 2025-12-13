@@ -19,6 +19,8 @@ import AdminOpportunitiesDashboard from "./pages/admin/AdminOpportunitiesDashboa
 import AdminSocialReportsPage from "./pages/admin/AdminSocialReportsPage";
 import AdminVerificationReview from "./pages/admin/AdminVerificationReview";
 import DDMPage from "./pages/admin/DDMPage";
+import BookVaultPage from "./pages/admin/BookVaultPage";
+import BookVaultDetailPage from "./pages/admin/BookVaultDetailPage";
 import DevilsDismissiveArgumentPage from "./pages/insights/DevilsDismissiveArgumentPage";
 import RevelationsHub from "./pages/insights/RevelationsHub";
 import BookDetailPage from "./pages/insights/BookDetailPage";
