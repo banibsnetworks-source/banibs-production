@@ -63,7 +63,7 @@ const STATUS_COLORS = {
 const BookVaultDetailPage = () => {
   const { workId } = useParams();
   const navigate = useNavigate();
-  const { user, token } = useAuth();
+  const { user, accessToken: token } = useAuth();
   
   // State
   const [work, setWork] = useState(null);
