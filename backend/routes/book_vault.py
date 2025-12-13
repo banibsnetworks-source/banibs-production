@@ -51,7 +51,7 @@ Exported: {timestamp}
 @router.get("/works", response_model=dict)
 async def list_works(
     series_key: Optional[str] = Query(None, description="Filter by series (D, G, O, BANIBS, LIFE, OTHER)"),
-    status: Optional[str] = Query(None, description="Filter by status"),
+    work_status: Optional[str] = Query(None, description="Filter by status"),
     work_type: Optional[str] = Query(None, description="Filter by type"),
     tags: Optional[str] = Query(None, description="Comma-separated tags"),
     search: Optional[str] = Query(None, description="Search title/description"),
@@ -63,8 +63,8 @@ async def list_works(
     
     if series_key:
         query["series_key"] = series_key
-    if status:
-        query["status"] = status
+    if work_status:
+        query["status"] = work_status
     if work_type:
         query["work_type"] = work_type
     if tags:
