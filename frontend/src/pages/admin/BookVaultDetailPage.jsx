@@ -1011,7 +1011,7 @@ const BookVaultDetailPage = () => {
                     <div>
                       <h3 className="font-medium text-white">Export Selected Entry</h3>
                       <p className="text-sm text-gray-400">
-                        "{selectedEntry.title}" as Markdown
+                        &quot;{selectedEntry.title}&quot; as Markdown
                       </p>
                     </div>
                     <button
