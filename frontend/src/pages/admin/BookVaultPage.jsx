@@ -118,7 +118,9 @@ const BookVaultPage = () => {
   
   // Fetch works
   const fetchWorks = useCallback(async () => {
+    console.log('[BookVault] fetchWorks called, token exists:', !!token);
     if (!token) {
+      console.log('[BookVault] No token, setting loading to false');
       setLoading(false);
       return;
     }
@@ -133,21 +135,26 @@ const BookVaultPage = () => {
       if (typeFilter) params.append('work_type', typeFilter);
       if (searchQuery) params.append('search', searchQuery);
       
-      const response = await fetch(
-        `${BACKEND_URL}/api/book-vault/works?${params.toString()}`,
-        {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }
-      );
+      const url = `${BACKEND_URL}/api/book-vault/works?${params.toString()}`;
+      console.log('[BookVault] Fetching from:', url);
+      
+      const response = await fetch(url, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      
+      console.log('[BookVault] Response status:', response.status);
       
       if (response.ok) {
         const data = await response.json();
+        console.log('[BookVault] Works received:', data.works?.length || 0);
         setWorks(data.works || []);
       } else {
         const errData = await response.json();
+        console.error('[BookVault] Error:', errData);
         setError(errData.detail || 'Failed to fetch works');
       }
     } catch (err) {
+      console.error('[BookVault] Network error:', err);
       setError('Network error. Please try again.');
     } finally {
       setLoading(false);
