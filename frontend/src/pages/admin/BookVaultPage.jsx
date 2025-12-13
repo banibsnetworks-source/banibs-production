@@ -85,7 +85,7 @@ const SERIES_COLORS = {
 };
 
 const BookVaultPage = () => {
-  const { user, token } = useAuth();
+  const { user, accessToken: token } = useAuth();
   const navigate = useNavigate();
   
   // State
