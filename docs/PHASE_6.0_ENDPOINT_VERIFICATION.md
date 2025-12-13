@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://reveal-library.preview.emergentagent.com/api/auth
+https://bookvault-manager.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

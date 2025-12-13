@@ -306,7 +306,7 @@ INITIAL_ADMIN_PASSWORD="BanibsAdmin#2025"
 
 ### Frontend Configuration
 ```env
-REACT_APP_BACKEND_URL="https://reveal-library.preview.emergentagent.com"
+REACT_APP_BACKEND_URL="https://bookvault-manager.preview.emergentagent.com"
 ```
 
 ---

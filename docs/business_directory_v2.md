@@ -51,7 +51,7 @@ https://www.google.com/maps/search/?api=1&query=33.7490,-84.3880
 
 ### Base URL
 ```
-https://reveal-library.preview.emergentagent.com/api/business
+https://bookvault-manager.preview.emergentagent.com/api/business
 ```
 
 ### 1. Get Business Directory
@@ -316,17 +316,17 @@ export const getBusinessDirectory = async (filters = {}) => {
 
 **1. Get Directory:**
 ```bash
-curl https://reveal-library.preview.emergentagent.com/api/business/directory
+curl https://bookvault-manager.preview.emergentagent.com/api/business/directory
 ```
 
 **2. Get Categories:**
 ```bash
-curl https://reveal-library.preview.emergentagent.com/api/business/categories
+curl https://bookvault-manager.preview.emergentagent.com/api/business/categories
 ```
 
 **3. Create Listing (requires auth):**
 ```bash
-curl -X POST https://reveal-library.preview.emergentagent.com/api/business/directory \
+curl -X POST https://bookvault-manager.preview.emergentagent.com/api/business/directory \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
   -d '{
