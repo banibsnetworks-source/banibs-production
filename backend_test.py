@@ -14700,7 +14700,7 @@ def main():
                 else:
                     failed += 1
             except Exception as e:
-                self.log(f"ERROR {test_name} failed with exception: {e}", "ERROR")
+                self.log(f"❌ {test_name} failed with exception: {e}", "ERROR")
                 failed += 1
                 
         self.log(f"\n=== BOOK VAULT TEST RESULTS ===")
