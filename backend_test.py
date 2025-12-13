@@ -36,6 +36,7 @@ class BanibsAPITester:
         self.test_work_id = None
         self.test_entry_id = None
         self.test_new_entry_id = None
+        self.test_session_id = None
         self.session = requests.Session()
         self.session.headers.update({
             'Content-Type': 'application/json',
