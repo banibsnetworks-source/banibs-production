@@ -1028,7 +1028,7 @@ const BookVaultDetailPage = () => {
               {/* Watermark Notice */}
               <div className="bg-amber-900/20 border border-amber-500/30 rounded-lg p-4">
                 <p className="text-amber-300 text-sm">
-                  All exports include a watermark: "BANIBS Book Vault — Internal Draft — Not for distribution"
+                  All exports include a watermark: &quot;BANIBS Book Vault — Internal Draft — Not for distribution&quot;
                 </p>
               </div>
             </div>
