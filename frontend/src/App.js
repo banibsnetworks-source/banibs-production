@@ -697,6 +697,24 @@ function App() {
                 } 
               />
               
+              {/* Book Vault - Founder's Literary Works Management */}
+              <Route 
+                path="/admin/books" 
+                element={
+                  <ProtectedRoute requireAdmin={true}>
+                    <BookVaultPage />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/admin/books/:workId" 
+                element={
+                  <ProtectedRoute requireAdmin={true}>
+                    <BookVaultDetailPage />
+                  </ProtectedRoute>
+                } 
+              />
+              
               {/* Phase 11.0 - Prayer Rooms (Real Implementation) */}
               <Route path="/portal/prayer" element={<PrayerLobbyPage />} />
               <Route path="/portal/prayer/room/:roomSlug" element={<PrayerRoomPage />} />
