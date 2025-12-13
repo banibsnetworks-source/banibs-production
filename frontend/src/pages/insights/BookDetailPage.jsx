@@ -175,6 +175,36 @@ const BookDetailPage = () => {
               </div>
             </div>
 
+            {/* "Before You Call It Out" - Companion Bridge (only for Book 1) */}
+            {book.slug === 'the-devils-dismissive-argument' && (
+              <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-800">
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  Before You Call It Out
+                </h3>
+                <p className="text-sm text-gray-500 italic mb-4">
+                  A forthcoming companion reflection
+                </p>
+                
+                <div className="text-gray-400 text-sm leading-relaxed space-y-3">
+                  <p>
+                    This book focuses on <span className="text-amber-500">recognition</span> — 
+                    helping name a pattern many have experienced but struggled to explain.
+                  </p>
+                  <p>
+                    But recognition is not the same as response.
+                  </p>
+                  <p>
+                    <span className="text-white">"Before You Call It Out"</span> is a companion work in development. 
+                    It explores when speaking helps — and when it hardens everything.
+                  </p>
+                  <p className="text-gray-500 pt-2 border-t border-gray-800">
+                    Some moments call for clarity. Others call for patience.<br />
+                    <span className="text-white">Knowing the difference matters.</span>
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* CTA Section */}
             <div className="bg-black rounded-2xl p-8 border-2 text-center" style={{
               borderColor: book.highlightColor || '#D4AF37',
