@@ -1,652 +1,945 @@
 """
-Book Vault - API Routes
+Book Vault - API Routes v1.0
+CANONICAL SPEC - Raymond Al Zedeck
 
-Admin-only module for managing books, chapters, content blocks,
-and scripture anchors with version history.
+Admin-only module for managing founder's literary works.
+Base prefix: /api/book-vault
 
 SECURITY: Restricted to super_admin/admin/founder only.
+
+GUIDING PRINCIPLES:
+1) Nothing gets lost: edits create versions, never overwrite
+2) Soft delete only
+3) All exports include watermark
+4) If entry.is_locked=true, block metadata edit except tags
 """
 
 import logging
 from typing import Optional, List
-from datetime import datetime
+from datetime import datetime, timezone
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, HTTPException, status, Query
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import PlainTextResponse, Response
 
 from db.connection import get_db
 from middleware.auth_guard import get_current_user, require_role
 from models.book_vault import (
-    Book, BookCreate, BookStatus, BookSeries,
-    Chapter, ChapterCreate, ChapterStatus,
-    ContentBlock, ContentBlockCreate, BlockType,
-    ScriptureAnchor, ScriptureAnchorCreate,
-    ExportRequest, ExportFormat
+    Work, WorkCreate, WorkUpdate, WorkStatus, SeriesKey, WorkType,
+    Entry, EntryCreate, EntryUpdate, EntryType,
+    EntryVersion, EntryVersionCreate, ContentFormat, VersionSource
 )
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/book-vault", tags=["Book Vault"])
 
+# Watermark for all exports
+EXPORT_WATERMARK = """
+================================================================================
+BANIBS Book Vault — Internal Draft — Not for distribution
+Exported: {timestamp}
+================================================================================
+
+"""
+
 
 # =============================================================================
-# BOOKS
+# WORKS CRUD
 # =============================================================================
 
-@router.get("/books", response_model=dict)
-async def list_books(
-    series: Optional[str] = Query(None),
-    status: Optional[str] = Query(None),
-    search: Optional[str] = Query(None),
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
+@router.get("/works", response_model=dict)
+async def list_works(
+    series_key: Optional[str] = Query(None, description="Filter by series (D, G, O, BANIBS, LIFE, OTHER)"),
+    status: Optional[str] = Query(None, description="Filter by status"),
+    work_type: Optional[str] = Query(None, description="Filter by type"),
+    tags: Optional[str] = Query(None, description="Comma-separated tags"),
+    search: Optional[str] = Query(None, description="Search title/description"),
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
 ):
-    """List all books with optional filtering"""
+    """List all works with optional filtering"""
     query = {"is_deleted": False}
     
-    if series:
-        query["series"] = series
+    if series_key:
+        query["series_key"] = series_key
     if status:
         query["status"] = status
+    if work_type:
+        query["work_type"] = work_type
+    if tags:
+        tag_list = [t.strip() for t in tags.split(",")]
+        query["tags"] = {"$in": tag_list}
     
-    cursor = db.vault_books.find(query, {"_id": 0}).sort([("series", 1), ("book_number", 1)])
-    books = await cursor.to_list(length=500)
+    cursor = db.vault_works.find(query, {"_id": 0}).sort([
+        ("series_key", 1), 
+        ("order_key", 1),
+        ("title", 1)
+    ])
+    works = await cursor.to_list(length=500)
     
-    # Filter by search if provided
+    # Text search if provided
     if search:
         search_lower = search.lower()
-        books = [b for b in books if search_lower in b.get("title", "").lower() 
-                 or search_lower in b.get("subtitle", "").lower()
-                 or search_lower in b.get("description", "").lower()]
+        works = [w for w in works if 
+                 search_lower in w.get("title", "").lower() or
+                 search_lower in (w.get("subtitle") or "").lower() or
+                 search_lower in (w.get("description") or "").lower()]
     
-    return {"books": books, "total": len(books)}
+    return {"works": works, "total": len(works)}
 
 
-@router.post("/books", response_model=dict)
-async def create_book(
-    data: BookCreate,
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
+@router.post("/works", response_model=dict)
+async def create_work(
+    data: WorkCreate,
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
 ):
-    """Create a new book"""
-    book = Book(
+    """Create a new work"""
+    work = Work(
         id=str(uuid4()),
-        series=data.series,
-        book_number=data.book_number,
+        series_key=data.series_key,
+        work_type=data.work_type,
+        order_key=data.order_key,
         title=data.title,
         subtitle=data.subtitle,
         status=data.status,
         description=data.description,
         tags=data.tags,
-        created_at=datetime.utcnow(),
-        updated_at=datetime.utcnow(),
-        created_by=current_user["id"]
+        created_at=datetime.now(timezone.utc),
+        updated_at=datetime.now(timezone.utc),
+        created_by_user_id=current_user["id"]
     )
     
-    await db.vault_books.insert_one(book.dict())
-    logger.info(f"Book created: {book.id} - {book.title}")
+    await db.vault_works.insert_one(work.model_dump())
+    logger.info(f"Book Vault: Work created - {work.id} '{work.title}' by {current_user['id']}")
     
-    return {"success": True, "book": book.dict()}
+    return {"success": True, "work": work.model_dump()}
 
 
-@router.get("/books/{book_id}", response_model=dict)
-async def get_book(
-    book_id: str,
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
+@router.get("/works/{work_id}", response_model=dict)
+async def get_work(
+    work_id: str,
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
 ):
-    """Get a single book with its chapters"""
-    book = await db.vault_books.find_one({"id": book_id, "is_deleted": False}, {"_id": 0})
+    """Get a single work with entry counts"""
+    work = await db.vault_works.find_one(
+        {"id": work_id, "is_deleted": False}, 
+        {"_id": 0}
+    )
     
-    if not book:
-        raise HTTPException(status_code=404, detail="Book not found")
+    if not work:
+        raise HTTPException(status_code=404, detail="Work not found")
     
-    # Get chapters
-    chapters = await db.vault_chapters.find(
-        {"book_id": book_id, "is_deleted": False}, {"_id": 0}
-    ).sort("order_index", 1).to_list(length=500)
+    # Get entry count
+    entry_count = await db.vault_entries.count_documents({
+        "work_id": work_id, 
+        "is_deleted": False
+    })
     
-    # Get block count
-    block_count = await db.vault_blocks.count_documents({"book_id": book_id, "is_deleted": False})
+    # Get version count
+    entries = await db.vault_entries.find(
+        {"work_id": work_id, "is_deleted": False},
+        {"id": 1}
+    ).to_list(length=1000)
+    entry_ids = [e["id"] for e in entries]
     
-    # Get scripture count
-    scripture_count = await db.vault_scriptures.count_documents({"book_id": book_id, "is_deleted": False})
+    version_count = 0
+    if entry_ids:
+        version_count = await db.vault_entry_versions.count_documents({
+            "entry_id": {"$in": entry_ids}
+        })
     
     return {
-        "book": book,
-        "chapters": chapters,
-        "block_count": block_count,
-        "scripture_count": scripture_count
+        "work": work,
+        "entry_count": entry_count,
+        "version_count": version_count
     }
 
 
-@router.patch("/books/{book_id}", response_model=dict)
-async def update_book(
-    book_id: str,
-    updates: dict,
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
+@router.patch("/works/{work_id}", response_model=dict)
+async def update_work(
+    work_id: str,
+    data: WorkUpdate,
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
 ):
-    """Update a book"""
-    allowed = ["title", "subtitle", "status", "description", "tags", "series", "book_number"]
-    update_dict = {k: v for k, v in updates.items() if k in allowed}
-    update_dict["updated_at"] = datetime.utcnow()
+    """Update work metadata"""
+    update_dict = {k: v for k, v in data.model_dump().items() if v is not None}
     
-    result = await db.vault_books.update_one(
-        {"id": book_id, "is_deleted": False},
+    if not update_dict:
+        raise HTTPException(status_code=400, detail="No fields to update")
+    
+    update_dict["updated_at"] = datetime.now(timezone.utc)
+    
+    result = await db.vault_works.update_one(
+        {"id": work_id, "is_deleted": False},
         {"$set": update_dict}
     )
     
     if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Book not found")
+        raise HTTPException(status_code=404, detail="Work not found")
+    
+    logger.info(f"Book Vault: Work updated - {work_id} by {current_user['id']}")
+    return {"success": True, "updated_fields": list(update_dict.keys())}
+
+
+@router.delete("/works/{work_id}", response_model=dict)
+async def delete_work(
+    work_id: str,
+    current_user=Depends(require_role("super_admin", "founder")),
+    db=Depends(get_db)
+):
+    """Soft delete a work (archive)"""
+    result = await db.vault_works.update_one(
+        {"id": work_id},
+        {"$set": {
+            "is_deleted": True, 
+            "status": "archived",
+            "updated_at": datetime.now(timezone.utc)
+        }}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Work not found")
+    
+    logger.warning(f"Book Vault: Work soft-deleted - {work_id} by {current_user['id']}")
+    return {"success": True, "message": "Work archived (soft delete)"}
+
+
+# =============================================================================
+# ENTRIES CRUD
+# =============================================================================
+
+@router.get("/works/{work_id}/entries", response_model=dict)
+async def list_entries(
+    work_id: str,
+    entry_type: Optional[str] = Query(None),
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
+):
+    """List entries for a work"""
+    query = {"work_id": work_id, "is_deleted": False}
+    
+    if entry_type:
+        query["entry_type"] = entry_type
+    
+    cursor = db.vault_entries.find(query, {"_id": 0}).sort([
+        ("order_index", 1),
+        ("created_at", 1)
+    ])
+    entries = await cursor.to_list(length=1000)
+    
+    # Enrich with current version preview
+    for entry in entries:
+        if entry.get("current_version_id"):
+            version = await db.vault_entry_versions.find_one(
+                {"id": entry["current_version_id"]},
+                {"_id": 0, "content": 1}
+            )
+            if version:
+                content = version.get("content", "")
+                entry["content_preview"] = content[:200] + "..." if len(content) > 200 else content
+    
+    return {"entries": entries, "total": len(entries)}
+
+
+@router.post("/works/{work_id}/entries", response_model=dict)
+async def create_entry(
+    work_id: str,
+    data: EntryCreate,
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
+):
+    """Create a new entry (auto creates v1 version if content provided)"""
+    # Verify work exists
+    work = await db.vault_works.find_one({"id": work_id, "is_deleted": False})
+    if not work:
+        raise HTTPException(status_code=404, detail="Work not found")
+    
+    entry = Entry(
+        id=str(uuid4()),
+        work_id=work_id,
+        entry_type=data.entry_type,
+        title=data.title,
+        order_index=data.order_index,
+        tags=data.tags,
+        created_at=datetime.now(timezone.utc),
+        updated_at=datetime.now(timezone.utc)
+    )
+    
+    # If content provided, create initial version
+    version_created = None
+    if data.content:
+        version = EntryVersion(
+            id=str(uuid4()),
+            entry_id=entry.id,
+            version_number=1,
+            content_format=data.content_format,
+            content=data.content,
+            created_at=datetime.now(timezone.utc),
+            created_by_user_id=current_user["id"],
+            source=VersionSource.USER
+        )
+        await db.vault_entry_versions.insert_one(version.model_dump())
+        entry.current_version_id = version.id
+        version_created = version.model_dump()
+    
+    await db.vault_entries.insert_one(entry.model_dump())
+    
+    logger.info(f"Book Vault: Entry created - {entry.id} '{entry.title}' in work {work_id}")
+    
+    return {
+        "success": True, 
+        "entry": entry.model_dump(),
+        "version": version_created
+    }
+
+
+@router.get("/entries/{entry_id}", response_model=dict)
+async def get_entry(
+    entry_id: str,
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
+):
+    """Get entry with current version"""
+    entry = await db.vault_entries.find_one(
+        {"id": entry_id, "is_deleted": False}, 
+        {"_id": 0}
+    )
+    
+    if not entry:
+        raise HTTPException(status_code=404, detail="Entry not found")
+    
+    # Get current version
+    current_version = None
+    if entry.get("current_version_id"):
+        current_version = await db.vault_entry_versions.find_one(
+            {"id": entry["current_version_id"]},
+            {"_id": 0}
+        )
+    
+    # Get version count
+    version_count = await db.vault_entry_versions.count_documents({
+        "entry_id": entry_id
+    })
+    
+    return {
+        "entry": entry,
+        "current_version": current_version,
+        "version_count": version_count
+    }
+
+
+@router.patch("/entries/{entry_id}", response_model=dict)
+async def update_entry(
+    entry_id: str,
+    data: EntryUpdate,
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
+):
+    """Update entry metadata (title/tags/order/lock) - NOT content"""
+    entry = await db.vault_entries.find_one({"id": entry_id, "is_deleted": False})
+    
+    if not entry:
+        raise HTTPException(status_code=404, detail="Entry not found")
+    
+    # If locked, only allow tag updates
+    if entry.get("is_locked") and data.title is not None:
+        raise HTTPException(
+            status_code=400, 
+            detail="Entry is locked. Only tags can be updated. Create a new version to change content."
+        )
+    
+    update_dict = {k: v for k, v in data.model_dump().items() if v is not None}
+    
+    if not update_dict:
+        raise HTTPException(status_code=400, detail="No fields to update")
+    
+    update_dict["updated_at"] = datetime.now(timezone.utc)
+    
+    await db.vault_entries.update_one(
+        {"id": entry_id},
+        {"$set": update_dict}
+    )
     
     return {"success": True, "updated_fields": list(update_dict.keys())}
 
 
-@router.delete("/books/{book_id}", response_model=dict)
-async def delete_book(
-    book_id: str,
-    current_user = Depends(require_role("super_admin", "founder")),
-    db = Depends(get_db)
+@router.delete("/entries/{entry_id}", response_model=dict)
+async def delete_entry(
+    entry_id: str,
+    current_user=Depends(require_role("super_admin", "founder")),
+    db=Depends(get_db)
 ):
-    """Soft delete a book"""
-    result = await db.vault_books.update_one(
-        {"id": book_id},
-        {"$set": {"is_deleted": True, "updated_at": datetime.utcnow()}}
+    """Soft delete (archive) an entry"""
+    result = await db.vault_entries.update_one(
+        {"id": entry_id},
+        {"$set": {"is_deleted": True, "updated_at": datetime.now(timezone.utc)}}
     )
     
     if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Book not found")
+        raise HTTPException(status_code=404, detail="Entry not found")
     
-    logger.warning(f"Book soft-deleted: {book_id} by {current_user['id']}")
-    return {"success": True, "message": "Book deleted"}
+    logger.warning(f"Book Vault: Entry soft-deleted - {entry_id} by {current_user['id']}")
+    return {"success": True, "message": "Entry archived"}
 
 
 # =============================================================================
-# CHAPTERS
+# VERSIONS CRUD (The Vault's Memory)
 # =============================================================================
 
-@router.get("/books/{book_id}/chapters", response_model=dict)
-async def list_chapters(
-    book_id: str,
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
+@router.get("/entries/{entry_id}/versions", response_model=dict)
+async def list_versions(
+    entry_id: str,
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
 ):
-    """List chapters for a book"""
-    chapters = await db.vault_chapters.find(
-        {"book_id": book_id, "is_deleted": False}, {"_id": 0}
-    ).sort("order_index", 1).to_list(length=500)
+    """List all versions for an entry"""
+    entry = await db.vault_entries.find_one({"id": entry_id, "is_deleted": False})
+    if not entry:
+        raise HTTPException(status_code=404, detail="Entry not found")
     
-    return {"chapters": chapters, "total": len(chapters)}
-
-
-@router.post("/chapters", response_model=dict)
-async def create_chapter(
-    data: ChapterCreate,
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
-):
-    """Create a new chapter"""
-    chapter = Chapter(
-        id=str(uuid4()),
-        book_id=data.book_id,
-        chapter_number=data.chapter_number,
-        title=data.title,
-        status=data.status,
-        summary=data.summary,
-        order_index=data.order_index
-    )
+    cursor = db.vault_entry_versions.find(
+        {"entry_id": entry_id},
+        {"_id": 0}
+    ).sort("version_number", -1)
     
-    await db.vault_chapters.insert_one(chapter.dict())
-    
-    return {"success": True, "chapter": chapter.dict()}
-
-
-@router.patch("/chapters/{chapter_id}", response_model=dict)
-async def update_chapter(
-    chapter_id: str,
-    updates: dict,
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
-):
-    """Update a chapter"""
-    chapter = await db.vault_chapters.find_one({"id": chapter_id})
-    
-    if not chapter:
-        raise HTTPException(status_code=404, detail="Chapter not found")
-    
-    if chapter.get("status") == "locked":
-        raise HTTPException(status_code=400, detail="Cannot edit locked chapter. Create new version.")
-    
-    allowed = ["title", "summary", "status", "order_index", "chapter_number"]
-    update_dict = {k: v for k, v in updates.items() if k in allowed}
-    update_dict["updated_at"] = datetime.utcnow()
-    
-    await db.vault_chapters.update_one({"id": chapter_id}, {"$set": update_dict})
-    
-    return {"success": True}
-
-
-# =============================================================================
-# CONTENT BLOCKS (Pull-Down Units)
-# =============================================================================
-
-@router.get("/blocks", response_model=dict)
-async def list_blocks(
-    book_id: Optional[str] = Query(None),
-    chapter_id: Optional[str] = Query(None),
-    block_type: Optional[str] = Query(None),
-    search: Optional[str] = Query(None),
-    include_versions: bool = Query(False),
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
-):
-    """List content blocks with filtering"""
-    query = {"is_deleted": False}
-    
-    if book_id:
-        query["book_id"] = book_id
-    if chapter_id:
-        query["chapter_id"] = chapter_id
-    if block_type:
-        query["block_type"] = block_type
-    
-    # If not including versions, only get latest (no parent)
-    if not include_versions:
-        query["parent_version_id"] = None
-    
-    cursor = db.vault_blocks.find(query, {"_id": 0}).sort("created_at", -1)
-    blocks = await cursor.to_list(length=1000)
-    
-    # Filter by search
-    if search:
-        search_lower = search.lower()
-        blocks = [b for b in blocks if 
-                  search_lower in b.get("title", "").lower() or
-                  search_lower in b.get("content", "").lower() or
-                  any(search_lower in tag.lower() for tag in b.get("tags", []))]
-    
-    return {"blocks": blocks, "total": len(blocks)}
-
-
-@router.post("/blocks", response_model=dict)
-async def create_block(
-    data: ContentBlockCreate,
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
-):
-    """Create a new content block"""
-    block = ContentBlock(
-        id=str(uuid4()),
-        book_id=data.book_id,
-        chapter_id=data.chapter_id,
-        block_type=data.block_type,
-        title=data.title,
-        content=data.content,
-        tags=data.tags,
-        version=1,
-        parent_version_id=None,
-        created_by=current_user["id"]
-    )
-    
-    await db.vault_blocks.insert_one(block.dict())
-    
-    return {"success": True, "block": block.dict()}
-
-
-@router.get("/blocks/{block_id}", response_model=dict)
-async def get_block(
-    block_id: str,
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
-):
-    """Get a block with its version history"""
-    block = await db.vault_blocks.find_one({"id": block_id, "is_deleted": False}, {"_id": 0})
-    
-    if not block:
-        raise HTTPException(status_code=404, detail="Block not found")
-    
-    # Get version history (blocks that have this as parent)
-    versions = await db.vault_blocks.find(
-        {"parent_version_id": block_id, "is_deleted": False}, {"_id": 0}
-    ).sort("version", -1).to_list(length=100)
-    
-    # Also get parent versions
-    parent_chain = []
-    current_parent = block.get("parent_version_id")
-    while current_parent:
-        parent = await db.vault_blocks.find_one({"id": current_parent}, {"_id": 0})
-        if parent:
-            parent_chain.append(parent)
-            current_parent = parent.get("parent_version_id")
-        else:
-            break
+    versions = await cursor.to_list(length=500)
     
     return {
-        "block": block,
-        "newer_versions": versions,
-        "older_versions": parent_chain
+        "entry_id": entry_id,
+        "current_version_id": entry.get("current_version_id"),
+        "versions": versions,
+        "total": len(versions)
     }
 
 
-@router.post("/blocks/{block_id}/new-version", response_model=dict)
-async def create_block_version(
-    block_id: str,
-    data: dict,
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
+@router.post("/entries/{entry_id}/versions", response_model=dict)
+async def create_version(
+    entry_id: str,
+    data: EntryVersionCreate,
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
 ):
     """
-    Create a new version of a block.
-    Rule: Edits always create new versions, never overwrite.
+    Create a new version of an entry.
+    RULE: Edits always create new versions, NEVER overwrite.
     """
-    original = await db.vault_blocks.find_one({"id": block_id, "is_deleted": False})
+    entry = await db.vault_entries.find_one({"id": entry_id, "is_deleted": False})
     
-    if not original:
-        raise HTTPException(status_code=404, detail="Block not found")
+    if not entry:
+        raise HTTPException(status_code=404, detail="Entry not found")
     
-    if original.get("is_locked"):
-        raise HTTPException(status_code=400, detail="Block is locked. Cannot create new version.")
+    if entry.get("is_locked"):
+        raise HTTPException(
+            status_code=400, 
+            detail="Entry is locked. Cannot create new versions."
+        )
     
-    new_version = ContentBlock(
+    # Get highest version number
+    latest = await db.vault_entry_versions.find_one(
+        {"entry_id": entry_id},
+        sort=[("version_number", -1)]
+    )
+    next_version = (latest.get("version_number", 0) if latest else 0) + 1
+    
+    version = EntryVersion(
         id=str(uuid4()),
-        book_id=original.get("book_id"),
-        chapter_id=original.get("chapter_id"),
-        block_type=original.get("block_type"),
-        title=data.get("title", original.get("title")),
-        content=data.get("content", original.get("content")),
-        tags=data.get("tags", original.get("tags", [])),
-        version=original.get("version", 1) + 1,
-        parent_version_id=block_id,
-        created_by=current_user["id"]
+        entry_id=entry_id,
+        version_number=next_version,
+        content_format=data.content_format,
+        content=data.content,
+        created_at=datetime.now(timezone.utc),
+        created_by_user_id=current_user["id"],
+        source=data.source,
+        notes=data.notes,
+        parent_version_id=entry.get("current_version_id")
     )
     
-    await db.vault_blocks.insert_one(new_version.dict())
+    await db.vault_entry_versions.insert_one(version.model_dump())
     
-    logger.info(f"New version created for block {block_id}: v{new_version.version}")
+    # Update entry's current version
+    await db.vault_entries.update_one(
+        {"id": entry_id},
+        {"$set": {
+            "current_version_id": version.id,
+            "updated_at": datetime.now(timezone.utc)
+        }}
+    )
     
-    return {"success": True, "block": new_version.dict()}
+    logger.info(f"Book Vault: Version {next_version} created for entry {entry_id}")
+    
+    return {"success": True, "version": version.model_dump()}
 
 
-@router.post("/blocks/{block_id}/lock", response_model=dict)
-async def lock_block(
-    block_id: str,
-    current_user = Depends(require_role("super_admin", "founder")),
-    db = Depends(get_db)
+@router.get("/versions/{version_id}", response_model=dict)
+async def get_version(
+    version_id: str,
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
 ):
-    """Lock a block to prevent further edits"""
-    result = await db.vault_blocks.update_one(
-        {"id": block_id, "is_deleted": False},
-        {"$set": {"is_locked": True}}
+    """Get a specific version"""
+    version = await db.vault_entry_versions.find_one(
+        {"id": version_id},
+        {"_id": 0}
     )
     
-    if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Block not found")
+    if not version:
+        raise HTTPException(status_code=404, detail="Version not found")
     
-    return {"success": True, "message": "Block locked"}
+    return {"version": version}
+
+
+@router.post("/entries/{entry_id}/set-current", response_model=dict)
+async def set_current_version(
+    entry_id: str,
+    version_id: str = Query(..., description="Version ID to set as current"),
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
+):
+    """Set a specific version as the current version"""
+    entry = await db.vault_entries.find_one({"id": entry_id, "is_deleted": False})
+    if not entry:
+        raise HTTPException(status_code=404, detail="Entry not found")
+    
+    version = await db.vault_entry_versions.find_one({
+        "id": version_id,
+        "entry_id": entry_id
+    })
+    if not version:
+        raise HTTPException(status_code=404, detail="Version not found for this entry")
+    
+    await db.vault_entries.update_one(
+        {"id": entry_id},
+        {"$set": {
+            "current_version_id": version_id,
+            "updated_at": datetime.now(timezone.utc)
+        }}
+    )
+    
+    return {"success": True, "current_version_id": version_id}
 
 
 # =============================================================================
-# SCRIPTURE ANCHORS
-# =============================================================================
-
-@router.get("/scriptures", response_model=dict)
-async def list_scriptures(
-    book_id: Optional[str] = Query(None),
-    search: Optional[str] = Query(None),
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
-):
-    """List scripture anchors"""
-    query = {"is_deleted": False}
-    
-    if book_id:
-        query["book_id"] = book_id
-    
-    cursor = db.vault_scriptures.find(query, {"_id": 0})
-    scriptures = await cursor.to_list(length=1000)
-    
-    if search:
-        search_lower = search.lower()
-        scriptures = [s for s in scriptures if
-                      search_lower in s.get("reference", "").lower() or
-                      search_lower in s.get("note", "").lower() or
-                      search_lower in s.get("excerpt", "").lower()]
-    
-    return {"scriptures": scriptures, "total": len(scriptures)}
-
-
-@router.post("/scriptures", response_model=dict)
-async def create_scripture(
-    data: ScriptureAnchorCreate,
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
-):
-    """Create a scripture anchor"""
-    scripture = ScriptureAnchor(
-        id=str(uuid4()),
-        book_id=data.book_id,
-        chapter_id=data.chapter_id,
-        reference=data.reference,
-        translation=data.translation,
-        excerpt=data.excerpt,
-        note=data.note,
-        tags=data.tags
-    )
-    
-    await db.vault_scriptures.insert_one(scripture.dict())
-    
-    return {"success": True, "scripture": scripture.dict()}
-
-
-# =============================================================================
-# SEARCH (Global)
+# SEARCH
 # =============================================================================
 
 @router.get("/search", response_model=dict)
 async def global_search(
-    q: str = Query(..., min_length=2),
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
+    q: str = Query(..., min_length=2, description="Search query"),
+    series: Optional[str] = Query(None),
+    entry_type: Optional[str] = Query(None),
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
 ):
-    """Search across books, blocks, and scriptures"""
+    """Search across works, entries, and versions"""
     q_lower = q.lower()
     
-    # Search books
-    books = await db.vault_books.find({"is_deleted": False}, {"_id": 0}).to_list(1000)
-    matching_books = [b for b in books if q_lower in b.get("title", "").lower() 
-                      or q_lower in str(b.get("description", "")).lower()]
+    # Search works
+    work_query = {"is_deleted": False}
+    if series:
+        work_query["series_key"] = series
     
-    # Search blocks
-    blocks = await db.vault_blocks.find({"is_deleted": False, "parent_version_id": None}, {"_id": 0}).to_list(1000)
-    matching_blocks = [b for b in blocks if q_lower in b.get("title", "").lower() 
-                       or q_lower in b.get("content", "").lower()
-                       or any(q_lower in t.lower() for t in b.get("tags", []))]
+    works = await db.vault_works.find(work_query, {"_id": 0}).to_list(1000)
+    matching_works = [
+        {**w, "_type": "work"} 
+        for w in works 
+        if q_lower in w.get("title", "").lower() or
+           q_lower in (w.get("subtitle") or "").lower() or
+           q_lower in (w.get("description") or "").lower() or
+           any(q_lower in tag.lower() for tag in w.get("tags", []))
+    ]
     
-    # Search scriptures
-    scriptures = await db.vault_scriptures.find({"is_deleted": False}, {"_id": 0}).to_list(1000)
-    matching_scriptures = [s for s in scriptures if q_lower in s.get("reference", "").lower() 
-                           or q_lower in str(s.get("note", "")).lower()]
+    # Search entries
+    entry_query = {"is_deleted": False}
+    if entry_type:
+        entry_query["entry_type"] = entry_type
+    
+    entries = await db.vault_entries.find(entry_query, {"_id": 0}).to_list(1000)
+    matching_entries = [
+        {**e, "_type": "entry"}
+        for e in entries
+        if q_lower in e.get("title", "").lower() or
+           any(q_lower in tag.lower() for tag in e.get("tags", []))
+    ]
+    
+    # Search version content
+    versions = await db.vault_entry_versions.find({}, {"_id": 0}).to_list(2000)
+    matching_versions = []
+    for v in versions:
+        content = v.get("content", "")
+        if q_lower in content.lower():
+            # Get entry title for context
+            entry = await db.vault_entries.find_one({"id": v["entry_id"]}, {"title": 1})
+            matching_versions.append({
+                **v,
+                "_type": "version",
+                "entry_title": entry.get("title") if entry else None,
+                "snippet": _extract_snippet(content, q)
+            })
     
     return {
         "query": q,
-        "books": matching_books[:20],
-        "blocks": matching_blocks[:50],
-        "scriptures": matching_scriptures[:30]
+        "works": matching_works[:20],
+        "entries": matching_entries[:50],
+        "versions": matching_versions[:30],
+        "total": len(matching_works) + len(matching_entries) + len(matching_versions)
     }
+
+
+def _extract_snippet(content: str, query: str, context_chars: int = 100) -> str:
+    """Extract a snippet around the search query"""
+    content_lower = content.lower()
+    query_lower = query.lower()
+    
+    pos = content_lower.find(query_lower)
+    if pos == -1:
+        return content[:200] + "..." if len(content) > 200 else content
+    
+    start = max(0, pos - context_chars)
+    end = min(len(content), pos + len(query) + context_chars)
+    
+    snippet = content[start:end]
+    if start > 0:
+        snippet = "..." + snippet
+    if end < len(content):
+        snippet = snippet + "..."
+    
+    return snippet
 
 
 # =============================================================================
 # EXPORT
 # =============================================================================
 
-@router.get("/books/{book_id}/export")
-async def export_book(
-    book_id: str,
-    format: str = Query("markdown"),
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
+@router.post("/works/{work_id}/export/markdown")
+async def export_work_markdown(
+    work_id: str,
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
 ):
-    """Export a book as Markdown"""
-    book = await db.vault_books.find_one({"id": book_id, "is_deleted": False}, {"_id": 0})
+    """Export a work as Markdown with watermark"""
+    work = await db.vault_works.find_one({"id": work_id, "is_deleted": False}, {"_id": 0})
     
-    if not book:
-        raise HTTPException(status_code=404, detail="Book not found")
+    if not work:
+        raise HTTPException(status_code=404, detail="Work not found")
     
-    chapters = await db.vault_chapters.find(
-        {"book_id": book_id, "is_deleted": False}, {"_id": 0}
-    ).sort("order_index", 1).to_list(500)
+    entries = await db.vault_entries.find(
+        {"work_id": work_id, "is_deleted": False}, 
+        {"_id": 0}
+    ).sort("order_index", 1).to_list(1000)
     
-    blocks = await db.vault_blocks.find(
-        {"book_id": book_id, "is_deleted": False, "parent_version_id": None}, {"_id": 0}
-    ).to_list(1000)
+    # Build markdown
+    timestamp = datetime.now(timezone.utc).isoformat()
+    md = EXPORT_WATERMARK.format(timestamp=timestamp)
     
-    scriptures = await db.vault_scriptures.find(
-        {"book_id": book_id, "is_deleted": False}, {"_id": 0}
-    ).to_list(500)
+    md += f"# {work['title']}\n\n"
     
-    # Build Markdown
-    md = f"# {book['title']}\n\n"
+    if work.get("subtitle"):
+        md += f"*{work['subtitle']}*\n\n"
     
-    if book.get("subtitle"):
-        md += f"*{book['subtitle']}*\n\n"
+    if work.get("description"):
+        md += f"{work['description']}\n\n"
     
-    if book.get("description"):
-        md += f"{book['description']}\n\n"
+    md += f"**Series:** {work.get('series_key', 'N/A')} | "
+    md += f"**Type:** {work.get('work_type', 'N/A')} | "
+    md += f"**Status:** {work.get('status', 'N/A')}\n\n"
     
-    md += f"**Series:** {book.get('series', 'N/A')}\n"
-    md += f"**Status:** {book.get('status', 'N/A')}\n\n"
+    if work.get("tags"):
+        md += f"**Tags:** {', '.join(work['tags'])}\n\n"
+    
     md += "---\n\n"
+    
+    # Group entries by type
+    chapters = [e for e in entries if e.get("entry_type") == "chapter"]
+    sections = [e for e in entries if e.get("entry_type") == "section"]
+    other_entries = [e for e in entries if e.get("entry_type") not in ["chapter", "section"]]
     
     # Chapters
     if chapters:
-        md += "## Chapters\n\n"
         for ch in chapters:
-            md += f"### Chapter {ch['chapter_number']}: {ch['title']}\n\n"
-            if ch.get("summary"):
-                md += f"{ch['summary']}\n\n"
+            order = ch.get("order_index") or 0
+            md += f"## Chapter {order}: {ch['title']}\n\n"
             
-            # Get blocks for this chapter
-            ch_blocks = [b for b in blocks if b.get("chapter_id") == ch["id"]]
-            for block in ch_blocks:
-                md += f"#### [{block['block_type'].upper()}] {block['title']}\n\n"
-                md += f"{block['content']}\n\n"
+            # Get current version content
+            if ch.get("current_version_id"):
+                version = await db.vault_entry_versions.find_one(
+                    {"id": ch["current_version_id"]},
+                    {"content": 1}
+                )
+                if version:
+                    md += f"{version.get('content', '')}\n\n"
     
-    # Unassigned blocks
-    unassigned = [b for b in blocks if not b.get("chapter_id")]
-    if unassigned:
-        md += "## Content Blocks (Unassigned)\n\n"
-        for block in unassigned:
-            md += f"### [{block['block_type'].upper()}] {block['title']}\n\n"
-            md += f"{block['content']}\n\n"
+    # Sections
+    if sections:
+        md += "## Sections\n\n"
+        for sec in sections:
+            md += f"### {sec['title']}\n\n"
+            if sec.get("current_version_id"):
+                version = await db.vault_entry_versions.find_one(
+                    {"id": sec["current_version_id"]},
+                    {"content": 1}
+                )
+                if version:
+                    md += f"{version.get('content', '')}\n\n"
     
-    # Scriptures
-    if scriptures:
-        md += "## Scripture Anchors\n\n"
-        for s in scriptures:
-            md += f"**{s['reference']}** ({s.get('translation', 'KJV')})\n"
-            if s.get("excerpt"):
-                md += f"> {s['excerpt']}\n"
-            if s.get("note"):
-                md += f"*Note: {s['note']}*\n"
-            md += "\n"
+    # Other entries
+    if other_entries:
+        md += "## Additional Content\n\n"
+        for entry in other_entries:
+            entry_type = entry.get("entry_type", "").upper().replace("_", " ")
+            md += f"### [{entry_type}] {entry['title']}\n\n"
+            if entry.get("current_version_id"):
+                version = await db.vault_entry_versions.find_one(
+                    {"id": entry["current_version_id"]},
+                    {"content": 1}
+                )
+                if version:
+                    md += f"{version.get('content', '')}\n\n"
     
-    md += f"\n---\n*Exported from BANIBS Book Vault*\n"
+    md += "\n---\n"
+    md += f"*Exported from BANIBS Book Vault — {timestamp}*\n"
     
-    return PlainTextResponse(content=md, media_type="text/markdown")
+    logger.info(f"Book Vault: Work exported - {work_id} by {current_user['id']}")
+    
+    return PlainTextResponse(
+        content=md, 
+        media_type="text/markdown",
+        headers={
+            "Content-Disposition": f'attachment; filename="{work["title"].replace(" ", "_")}.md"'
+        }
+    )
 
 
-@router.get("/blocks/{block_id}/export")
-async def export_block(
-    block_id: str,
-    current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db = Depends(get_db)
+@router.post("/entries/{entry_id}/export/markdown")
+async def export_entry_markdown(
+    entry_id: str,
+    current_user=Depends(require_role("super_admin", "admin", "founder")),
+    db=Depends(get_db)
 ):
-    """Export a single block as Markdown"""
-    block = await db.vault_blocks.find_one({"id": block_id, "is_deleted": False}, {"_id": 0})
+    """Export a single entry as Markdown with watermark"""
+    entry = await db.vault_entries.find_one({"id": entry_id, "is_deleted": False}, {"_id": 0})
     
-    if not block:
-        raise HTTPException(status_code=404, detail="Block not found")
+    if not entry:
+        raise HTTPException(status_code=404, detail="Entry not found")
     
-    md = f"# {block['title']}\n\n"
-    md += f"**Type:** {block['block_type']}\n"
-    md += f"**Version:** {block.get('version', 1)}\n"
-    if block.get("tags"):
-        md += f"**Tags:** {', '.join(block['tags'])}\n"
+    timestamp = datetime.now(timezone.utc).isoformat()
+    md = EXPORT_WATERMARK.format(timestamp=timestamp)
+    
+    entry_type = entry.get("entry_type", "").upper().replace("_", " ")
+    md += f"# {entry['title']}\n\n"
+    md += f"**Type:** {entry_type}\n"
+    
+    if entry.get("tags"):
+        md += f"**Tags:** {', '.join(entry['tags'])}\n"
+    
     md += "\n---\n\n"
-    md += block['content']
-    md += f"\n\n---\n*Exported from BANIBS Book Vault*\n"
     
-    return PlainTextResponse(content=md, media_type="text/markdown")
+    # Get current version
+    if entry.get("current_version_id"):
+        version = await db.vault_entry_versions.find_one(
+            {"id": entry["current_version_id"]},
+            {"_id": 0}
+        )
+        if version:
+            md += f"**Version:** {version.get('version_number', 1)}\n\n"
+            md += version.get("content", "")
+    
+    md += f"\n\n---\n*Exported from BANIBS Book Vault — {timestamp}*\n"
+    
+    return PlainTextResponse(
+        content=md,
+        media_type="text/markdown",
+        headers={
+            "Content-Disposition": f'attachment; filename="{entry["title"].replace(" ", "_")}.md"'
+        }
+    )
 
 
 # =============================================================================
-# SEED INITIAL BOOKS
+# SEED DATA
 # =============================================================================
 
 @router.post("/seed", response_model=dict)
-async def seed_initial_books(
-    current_user = Depends(require_role("super_admin", "founder")),
-    db = Depends(get_db)
+async def seed_initial_data(
+    current_user=Depends(require_role("super_admin", "founder")),
+    db=Depends(get_db)
 ):
-    """Seed the canonical book registry"""
+    """Seed the canonical book registry with initial works"""
     
     # Check if already seeded
-    existing = await db.vault_books.count_documents({})
+    existing = await db.vault_works.count_documents({})
     if existing > 0:
-        return {"success": False, "message": "Books already exist. Seed skipped."}
+        return {"success": False, "message": f"Vault already contains {existing} works. Seed skipped."}
     
-    seed_books = [
-        Book(
+    now = datetime.now(timezone.utc)
+    user_id = current_user["id"]
+    
+    # Canonical seed works
+    seed_works = [
+        Work(
             id=str(uuid4()),
-            series=BookSeries.D_SERIES,
-            book_number=1,
+            series_key=SeriesKey.D,
+            work_type=WorkType.BOOK,
+            order_key="D-1",
             title="The Devil's Dismissive Argument",
-            subtitle="How Society Blocks Truth, Accountability, and Growth",
-            status=BookStatus.PUBLISHED,
+            subtitle=None,
+            status=WorkStatus.PUBLISHED,
             description="The foundational revelation on recognition of dismissive patterns.",
-            tags=["D-Series", "Core", "Published"],
-            created_by=current_user["id"]
+            tags=["D-Series", "published"],
+            created_at=now,
+            updated_at=now,
+            created_by_user_id=user_id
         ),
-        Book(
+        Work(
             id=str(uuid4()),
-            series=BookSeries.D_SERIES,
-            book_number=2,
+            series_key=SeriesKey.D,
+            work_type=WorkType.BOOK,
+            order_key="D-2",
             title="The Devil's Deceitful Master Plan",
             subtitle=None,
-            status=BookStatus.PLANNED,
+            status=WorkStatus.PLANNED,
             description="The second revelation in the D-Series.",
-            tags=["D-Series", "Planned"],
-            created_by=current_user["id"]
+            tags=["D-Series", "planned"],
+            created_at=now,
+            updated_at=now,
+            created_by_user_id=user_id
         ),
-        Book(
+        Work(
             id=str(uuid4()),
-            series=BookSeries.G_SERIES,
-            book_number=1,
+            series_key=SeriesKey.G,
+            work_type=WorkType.BOOK,
+            order_key="G-1",
             title="The Light God Wants You to See",
-            subtitle="(Subtitle locked)",
-            status=BookStatus.PLANNED,
+            subtitle="What God Reveals When Truth Is Chosen",
+            status=WorkStatus.DRAFTING,
             description="The first book in the G-Series.",
-            tags=["G-Series", "Planned"],
-            created_by=current_user["id"]
+            tags=["G-Series", "drafting"],
+            created_at=now,
+            updated_at=now,
+            created_by_user_id=user_id
         ),
-        Book(
+        Work(
             id=str(uuid4()),
-            series=BookSeries.COMPANION,
-            book_number=None,
+            series_key=SeriesKey.D,
+            work_type=WorkType.COMPANION,
+            order_key="D-C1",
             title="Before You Call It Out",
-            subtitle="A Companion Reflection",
-            status=BookStatus.DRAFTING,
+            subtitle=None,
+            status=WorkStatus.DRAFTING,
             description="Explores when speaking helps — and when it hardens everything.",
-            tags=["Companion", "In Development"],
-            created_by=current_user["id"]
+            tags=["companion", "in-development"],
+            created_at=now,
+            updated_at=now,
+            created_by_user_id=user_id
         )
     ]
     
-    for book in seed_books:
-        await db.vault_books.insert_one(book.dict())
+    # Insert works
+    for work in seed_works:
+        await db.vault_works.insert_one(work.model_dump())
     
-    logger.info(f"Seeded {len(seed_books)} initial books")
+    # Create scripture anchor entries for G-1
+    g1_work = seed_works[2]  # The Light God Wants You to See
     
-    return {"success": True, "message": f"Seeded {len(seed_books)} books"}
+    scripture_anchors = [
+        ("Matthew 5:15–16", "Let your light shine before others"),
+        ("John 8:32", "The truth shall set you free"),
+        ("John 8:33–44", "The devil's nature as the father of lies"),
+        ("2 Thessalonians 2:3–4", "The man of lawlessness"),
+        ("Ephesians 6:12 (KJV/NKJV)", "We wrestle not against flesh and blood")
+    ]
+    
+    for ref, note in scripture_anchors:
+        entry = Entry(
+            id=str(uuid4()),
+            work_id=g1_work.id,
+            entry_type=EntryType.SCRIPTURE_NOTE,
+            title=ref,
+            tags=["scripture"],
+            created_at=now,
+            updated_at=now
+        )
+        
+        # Create initial version with the note
+        version = EntryVersion(
+            id=str(uuid4()),
+            entry_id=entry.id,
+            version_number=1,
+            content_format=ContentFormat.MARKDOWN,
+            content=f"**{ref}**\n\n{note}",
+            created_at=now,
+            created_by_user_id=user_id,
+            source=VersionSource.USER
+        )
+        
+        entry.current_version_id = version.id
+        
+        await db.vault_entries.insert_one(entry.model_dump())
+        await db.vault_entry_versions.insert_one(version.model_dump())
+    
+    # Create "Before You Call It Out" page copy entry under D-C1
+    d_c1_work = seed_works[3]
+    
+    bycio_content = """## Before You Call It Out
+
+*A reflection before speaking truth to power—or to anyone.*
+
+Have you noticed how some people only get harder when confronted?
+
+This is not an accident.
+
+There's a pattern that protects itself by being called out—because calling it out gives it what it needs: conflict, division, and another excuse to dismiss.
+
+**Before You Call It Out**, ask yourself:
+- Am I speaking to help, or to prove I'm right?
+- Will this person's heart soften, or harden?
+- Is this the right time, or am I forcing it?
+
+Sometimes, the most powerful thing you can do is wait.
+
+Not because you're weak.
+Not because you're afraid.
+But because you understand: **some truths need the right soil.**
+
+---
+
+*From the D-Series Companion: "Before You Call It Out"*
+"""
+    
+    bycio_entry = Entry(
+        id=str(uuid4()),
+        work_id=d_c1_work.id,
+        entry_type=EntryType.PAGE_COPY,
+        title="Before You Call It Out - Main Copy",
+        tags=["page_copy", "coming-soon", "approved"],
+        created_at=now,
+        updated_at=now
+    )
+    
+    bycio_version = EntryVersion(
+        id=str(uuid4()),
+        entry_id=bycio_entry.id,
+        version_number=1,
+        content_format=ContentFormat.MARKDOWN,
+        content=bycio_content,
+        created_at=now,
+        created_by_user_id=user_id,
+        source=VersionSource.USER,
+        notes="Approved copy used on /coming-soon page"
+    )
+    
+    bycio_entry.current_version_id = bycio_version.id
+    
+    await db.vault_entries.insert_one(bycio_entry.model_dump())
+    await db.vault_entry_versions.insert_one(bycio_version.model_dump())
+    
+    logger.info(f"Book Vault: Seeded {len(seed_works)} works + {len(scripture_anchors) + 1} entries")
+    
+    return {
+        "success": True,
+        "message": f"Seeded {len(seed_works)} works and {len(scripture_anchors) + 1} entries",
+        "works": [w.title for w in seed_works]
+    }
