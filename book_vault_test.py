@@ -430,6 +430,7 @@ class BookVaultTester:
         headers = {"Authorization": f"Bearer {self.admin_token}"}
         
         entry_data = {
+            "work_id": self.test_work_id,  # API design issue: work_id should come from URL path, not request body
             "entry_type": "chapter",
             "title": "Test Chapter",
             "order_index": 1,
