@@ -1546,6 +1546,7 @@ class BanibsAPITester:
         
         # Submit reflection
         reflection_data = {
+            "session_id": session_id,
             "prompt_1_response": "This reading made me reflect on the importance of community and shared experiences.",
             "prompt_2_response": "I learned about the power of guided reading and how it can deepen understanding.",
             "prompt_3_response": "I would like to explore more works that challenge conventional thinking."
