@@ -14657,6 +14657,6 @@ if __name__ == "__main__":
             print("Available tests: adcs, messaging, ability, diaspora, groups, trust, rooms, rooms2, websocket, bookvault, all")
             sys.exit(1)
     else:
-        # Default: run ADCS v1.0 tests for current review request
-        success = tester.test_adcs_v1_0_comprehensive()
+        # Default: run Book Vault tests for current review request
+        success = tester.run_book_vault_tests()
         sys.exit(0 if success else 1)
