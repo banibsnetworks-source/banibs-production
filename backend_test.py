@@ -15278,6 +15278,10 @@ if __name__ == "__main__":
         elif test_name == "trust":
             # Run Phase B Trust Enforcement tests
             success = tester.test_phase_b_trust_enforcement_comprehensive()
+        elif test_name == "reading-night":
+            # Run Reading Night API tests
+            success = tester.run_reading_night_tests()
+            sys.exit(0 if success else 1)
             sys.exit(0 if success else 1)
         elif test_name == "rooms":
             # Run Peoples Room Phase 1 tests
