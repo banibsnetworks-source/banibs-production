@@ -14067,7 +14067,7 @@ def main():
     def run_book_vault_tests(self) -> bool:
         """Run Book Vault API tests"""
         self.log("=" * 80)
-        self.log("📚 BOOK VAULT API TESTS")
+        self.log("BOOK VAULT API TESTS")
         self.log("=" * 80)
         self.log(f"Testing against: {API_BASE}")
         self.log("Testing Book Vault endpoints for literary works management")
@@ -14107,19 +14107,19 @@ def main():
                 else:
                     failed += 1
             except Exception as e:
-                self.log(f"❌ {test_name} failed with exception: {e}", "ERROR")
+                self.log(f"ERROR {test_name} failed with exception: {e}", "ERROR")
                 failed += 1
                 
         self.log(f"\n=== BOOK VAULT TEST RESULTS ===")
-        self.log(f"✅ Passed: {passed}")
-        self.log(f"❌ Failed: {failed}")
+        self.log(f"Passed: {passed}")
+        self.log(f"Failed: {failed}")
         self.log(f"Total: {passed + failed}")
         
         if failed == 0:
-            self.log("🎉 All Book Vault tests passed!")
+            self.log("All Book Vault tests passed!")
             return True
         else:
-            self.log(f"💥 {failed} Book Vault test(s) failed")
+            self.log(f"{failed} Book Vault test(s) failed")
             return False
 
     def run_all_tests(self) -> bool:
