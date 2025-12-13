@@ -532,6 +532,88 @@ const ComingSoonPage = () => {
               </div>
             </section>
           </div>
+          
+          {/* "Before You Call It Out" - Companion Note (Calm, Restrained) */}
+          <div style={{
+            marginTop: '24px',
+            padding: '28px 24px',
+            background: 'rgba(10, 14, 20, 0.7)',
+            borderRadius: '12px',
+            border: '1px solid rgba(66, 181, 255, 0.15)',
+            position: 'relative'
+          }}>
+            {/* Subtle top accent line */}
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: '20%',
+              right: '20%',
+              height: '1px',
+              background: 'linear-gradient(90deg, transparent, rgba(66, 181, 255, 0.3), transparent)',
+            }} />
+            
+            {/* Header */}
+            <h3 style={{
+              fontSize: 'clamp(1.1rem, 2.2vw, 1.25rem)',
+              fontWeight: '600',
+              color: 'rgba(255, 255, 255, 0.9)',
+              marginBottom: '6px',
+              letterSpacing: '0.01em'
+            }}>
+              Before You Call It Out
+            </h3>
+            <p style={{
+              fontSize: '0.8rem',
+              color: 'rgba(255, 255, 255, 0.45)',
+              marginBottom: '20px',
+              fontStyle: 'italic'
+            }}>
+              A forthcoming companion reflection
+            </p>
+            
+            {/* Body Copy */}
+            <div style={{
+              fontSize: 'clamp(0.9rem, 1.8vw, 0.95rem)',
+              color: 'rgba(255, 255, 255, 0.7)',
+              lineHeight: '1.75',
+              maxWidth: '640px'
+            }}>
+              <p style={{ marginBottom: '16px' }}>
+                <span style={{ color: 'rgba(212, 175, 55, 0.8)' }}>"The Devil's Dismissive Argument"</span> focuses on recognition — 
+                helping name a pattern many people have experienced but struggled to explain.
+              </p>
+              <p style={{ marginBottom: '16px' }}>
+                But recognition is not the same as response.
+              </p>
+              <p style={{ marginBottom: '16px' }}>
+                <span style={{ color: 'rgba(255, 255, 255, 0.85)' }}>"Before You Call It Out"</span> is a companion work currently in development. 
+                It explores when speaking helps — and when it hardens everything.
+              </p>
+              <p style={{ marginBottom: '16px' }}>
+                This is not a call to silence or retreat.<br />
+                It's an invitation to discernment —<br />
+                understanding timing, context, and restraint<br />
+                so that truth is not lost by being spoken too soon.
+              </p>
+              <p style={{ marginBottom: '0' }}>
+                Some moments call for clarity.<br />
+                Others call for patience.<br />
+                <span style={{ color: 'rgba(255, 255, 255, 0.85)' }}>Knowing the difference matters.</span>
+              </p>
+            </div>
+            
+            {/* Micro-footer */}
+            <p style={{
+              marginTop: '24px',
+              paddingTop: '16px',
+              borderTop: '1px solid rgba(66, 181, 255, 0.1)',
+              fontSize: '0.75rem',
+              color: 'rgba(255, 255, 255, 0.35)',
+              fontStyle: 'italic'
+            }}>
+              This work will be shared as BANIBS continues to develop.
+            </p>
+          </div>
         </div>
       </div>
 
