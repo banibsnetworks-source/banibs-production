@@ -191,7 +191,7 @@ const BanibsNetworkNav = () => {
           </form>
 
           {/* Right: Theme Toggle, Notifications, Profile */}
-          <div className="flex items-center space-x-2 flex-shrink-0">
+          <div className="flex items-center space-x-2 flex-shrink-0 flex-nowrap">
             {/* Mobile Search Icon */}
             <button
               onClick={() => navigate('/search')}
