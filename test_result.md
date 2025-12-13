@@ -4607,7 +4607,7 @@ agent_communication:
 
 test_plan:
   current_focus:
-    - "Peoples Room Phase 5 - Visitor-Side UI"
+    - "Book Vault Frontend UI Testing"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
