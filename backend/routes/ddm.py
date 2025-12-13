@@ -140,7 +140,7 @@ async def list_observations(
     limit: int = Query(50, ge=1, le=200),
     skip: int = Query(0, ge=0),
     current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """
     List DDM observations with optional filtering.
@@ -169,7 +169,7 @@ async def list_observations(
 async def get_observation(
     observation_id: str,
     current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """
     Get a single DDM observation by ID.
@@ -195,7 +195,7 @@ async def update_tests(
     observation_id: str,
     data: DDMTestUpdate,
     current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """
     Update falsifiable test results for an observation.
@@ -291,7 +291,7 @@ async def update_tests(
 async def get_subject_trend(
     subject_ref: str,
     current_user = Depends(require_role("super_admin", "admin", "founder")),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """
     Get LDI trend analysis for a subject over time.
@@ -327,7 +327,7 @@ async def get_subject_trend(
 async def delete_observation(
     observation_id: str,
     current_user = Depends(require_role("super_admin", "founder")),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """
     Delete a DDM observation.
