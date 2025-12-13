@@ -14714,6 +14714,57 @@ def main():
             self.log(f"{failed} Book Vault test(s) failed")
             return False
 
+    def run_reading_night_tests(self) -> bool:
+        """Run Reading Night API tests"""
+        self.log("🎙️ Starting BANIBS Reading Night API Test Suite")
+        self.log(f"Testing against: {API_BASE}")
+        self.log("Testing Reading Night - Guided Communal Reading Experience")
+        
+        tests = [
+            # Authentication Setup
+            ("Admin Login", self.test_admin_login),
+            
+            # Reading Night API Tests
+            ("Reading Night Authentication", self.test_reading_night_authentication),
+            ("Reading Night Sessions List", self.test_reading_night_sessions_list),
+            ("Reading Night Session Detail", self.test_reading_night_session_detail),
+            ("Reading Night RSVP Flow", self.test_reading_night_rsvp_flow),
+            ("Reading Night My RSVPs", self.test_reading_night_my_rsvps),
+            ("Reading Night Reflection Prompts", self.test_reading_night_reflection_prompts),
+            ("Reading Night Reflection Submission", self.test_reading_night_reflection_submission),
+            ("Reading Night Admin Sessions", self.test_reading_night_admin_sessions),
+            ("Reading Night Admin Create Session", self.test_reading_night_admin_create_session),
+            ("Reading Night Admin Update Session", self.test_reading_night_admin_update_session),
+            ("Reading Night Admin Publish Session", self.test_reading_night_admin_publish_session),
+            ("Reading Night Admin Generate Audio", self.test_reading_night_admin_generate_audio),
+        ]
+        
+        passed = 0
+        failed = 0
+        
+        for test_name, test_func in tests:
+            self.log(f"\n--- Running {test_name} ---")
+            try:
+                if test_func():
+                    passed += 1
+                else:
+                    failed += 1
+            except Exception as e:
+                self.log(f"❌ {test_name} failed with exception: {e}", "ERROR")
+                failed += 1
+                
+        self.log(f"\n=== READING NIGHT TEST RESULTS ===")
+        self.log(f"✅ Passed: {passed}")
+        self.log(f"❌ Failed: {failed}")
+        self.log(f"Total: {passed + failed}")
+        
+        if failed == 0:
+            self.log("🎉 All Reading Night tests passed!")
+            return True
+        else:
+            self.log(f"💥 {failed} Reading Night test(s) failed")
+            return False
+
     def run_all_tests(self) -> bool:
         """Run all tests in sequence"""
         self.log("Starting BANIBS Backend API Test Suite - Business Verification System Phase 1A")
