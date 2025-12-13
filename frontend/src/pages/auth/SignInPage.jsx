@@ -31,13 +31,18 @@ const SignInPage = () => {
     setLoading(true);
     
     try {
-      const userData = await login(formData.email, formData.password);
+      const result = await login(formData.email, formData.password);
       
-      // Successful login - hard redirect to ensure auth state is loaded
-      window.location.href = '/portal/social';
+      if (result.success) {
+        // Successful login - hard redirect to ensure auth state is loaded
+        window.location.href = '/portal/social';
+      } else {
+        // Login failed
+        setError(result.error || t('auth.signInFailed'));
+        setLoading(false);
+      }
     } catch (err) {
       setError(err.message || t('auth.signInFailed'));
-    } finally {
       setLoading(false);
     }
   };
