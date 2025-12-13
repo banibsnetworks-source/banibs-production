@@ -14644,13 +14644,17 @@ if __name__ == "__main__":
             # Run Peoples Room Phase 4 WebSocket Integration tests
             success = tester.test_websocket_integration_suite()
             sys.exit(0 if success else 1)
+        elif test_name == "bookvault" or test_name == "book-vault":
+            # Run Book Vault API tests
+            success = tester.run_book_vault_tests()
+            sys.exit(0 if success else 1)
         elif test_name == "all":
             # Run all tests
             success = tester.run_all_tests()
             sys.exit(0 if success else 1)
         else:
             print(f"Unknown test: {test_name}")
-            print("Available tests: adcs, messaging, ability, diaspora, groups, trust, rooms, rooms2, websocket, all")
+            print("Available tests: adcs, messaging, ability, diaspora, groups, trust, rooms, rooms2, websocket, bookvault, all")
             sys.exit(1)
     else:
         # Default: run ADCS v1.0 tests for current review request
