@@ -382,9 +382,46 @@ class BookVaultTester:
             self.log(f"❌ Matthew search failed: {response.status_code} - {response.text}", "ERROR")
             return False
     
-    def test_book_vault_export_work(self) -> bool:
-        """Test POST /api/book-vault/works/{work_id}/export/markdown - Export work"""
-        self.log("📚 BOOK VAULT EXPORT WORK TEST")
+    def test_book_vault_entry_detail(self) -> bool:
+        """Test GET /api/book-vault/entries/{entry_id} - Get entry with version"""
+        self.log("📚 BOOK VAULT ENTRY DETAIL TEST")
+        
+        if not self.admin_token or not self.test_entry_id:
+            self.log("❌ No admin token or test entry available", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("GET", f"/book-vault/entries/{self.test_entry_id}", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["entry", "current_version", "version_count"]
+            
+            if all(field in data for field in required_fields):
+                entry = data["entry"]
+                current_version = data["current_version"]
+                version_count = data["version_count"]
+                
+                self.log(f"✅ Entry detail working - '{entry['title']}'")
+                self.log(f"   Version count: {version_count}")
+                
+                if current_version:
+                    self.log(f"   Current version: v{current_version.get('version_number', 1)}")
+                    return True
+                else:
+                    self.log("⚠️ No current version found")
+                    return True
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Entry detail missing fields: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Entry detail failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_book_vault_create_entry(self) -> bool:
+        """Test POST /api/book-vault/works/{work_id}/entries - Create entry"""
+        self.log("📚 BOOK VAULT CREATE ENTRY TEST")
         
         if not self.admin_token or not self.test_work_id:
             self.log("❌ No admin token or test work available", "ERROR")
@@ -392,7 +429,225 @@ class BookVaultTester:
         
         headers = {"Authorization": f"Bearer {self.admin_token}"}
         
-        response = self.make_request("POST", f"/book-vault/works/{self.test_work_id}/export/markdown", 
+        entry_data = {
+            "entry_type": "chapter",
+            "title": "Test Chapter",
+            "order_index": 1,
+            "tags": ["test", "chapter"],
+            "content": "# Test Chapter\n\nThis is a test chapter created during API testing.",
+            "content_format": "markdown"
+        }
+        
+        response = self.make_request("POST", f"/book-vault/works/{self.test_work_id}/entries", 
+                                   entry_data, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success") and "entry" in data and "version" in data:
+                entry = data["entry"]
+                version = data["version"]
+                self.log(f"✅ Entry created successfully - ID: {entry['id']}")
+                self.log(f"   Title: '{entry['title']}'")
+                self.log(f"   Version: v{version['version_number']}")
+                
+                # Store for further testing
+                self.test_new_entry_id = entry["id"]
+                return True
+            else:
+                self.log(f"❌ Create entry response invalid: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Create entry failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_book_vault_versions_list(self) -> bool:
+        """Test GET /api/book-vault/entries/{entry_id}/versions - List versions"""
+        self.log("📚 BOOK VAULT VERSIONS LIST TEST")
+        
+        if not self.admin_token or not self.test_new_entry_id:
+            self.log("❌ No admin token or test entry available", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        response = self.make_request("GET", f"/book-vault/entries/{self.test_new_entry_id}/versions", 
+                                   headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["entry_id", "current_version_id", "versions", "total"]
+            
+            if all(field in data for field in required_fields):
+                versions = data["versions"]
+                total = data["total"]
+                self.log(f"✅ Versions list working - Found {total} versions")
+                
+                if versions:
+                    version = versions[0]
+                    self.log(f"   Latest version: v{version.get('version_number', 1)}")
+                    return True
+                else:
+                    self.log("⚠️ No versions found")
+                    return True
+            else:
+                missing = [f for f in required_fields if f not in data]
+                self.log(f"❌ Versions list missing fields: {missing}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Versions list failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_book_vault_create_version(self) -> bool:
+        """Test POST /api/book-vault/entries/{entry_id}/versions - Create new version"""
+        self.log("📚 BOOK VAULT CREATE VERSION TEST")
+        
+        if not self.admin_token or not self.test_new_entry_id:
+            self.log("❌ No admin token or test entry available", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        version_data = {
+            "content": "# Test Chapter - Updated\n\nThis is an updated version of the test chapter.",
+            "content_format": "markdown",
+            "source": "user",
+            "notes": "Updated during API testing"
+        }
+        
+        response = self.make_request("POST", f"/book-vault/entries/{self.test_new_entry_id}/versions", 
+                                   version_data, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success") and "version" in data:
+                version = data["version"]
+                self.log(f"✅ Version created successfully - v{version['version_number']}")
+                self.log(f"   Notes: {version.get('notes', 'None')}")
+                return True
+            else:
+                self.log(f"❌ Create version response invalid: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Create version failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_book_vault_update_work(self) -> bool:
+        """Test PATCH /api/book-vault/works/{work_id} - Update work"""
+        self.log("📚 BOOK VAULT UPDATE WORK TEST")
+        
+        if not self.admin_token or not self.test_work_id:
+            self.log("❌ No admin token or test work available", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        update_data = {
+            "status": "drafting",
+            "description": "Updated description during API testing",
+            "tags": ["test", "api-validation", "updated"]
+        }
+        
+        response = self.make_request("PATCH", f"/book-vault/works/{self.test_work_id}", 
+                                   update_data, headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success") and "updated_fields" in data:
+                updated_fields = data["updated_fields"]
+                self.log(f"✅ Work updated successfully - Fields: {updated_fields}")
+                return True
+            else:
+                self.log(f"❌ Update work response invalid: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Update work failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_book_vault_soft_delete(self) -> bool:
+        """Test DELETE /api/book-vault/works/{work_id} - Soft delete"""
+        self.log("📚 BOOK VAULT SOFT DELETE TEST")
+        
+        if not self.admin_token or not self.test_work_id:
+            self.log("❌ No admin token or test work available", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        response = self.make_request("DELETE", f"/book-vault/works/{self.test_work_id}", headers=headers)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success") and "archived" in data.get("message", "").lower():
+                self.log("✅ Soft delete working - Work archived")
+                
+                # Verify work no longer appears in list
+                list_response = self.make_request("GET", "/book-vault/works", headers=headers)
+                if list_response.status_code == 200:
+                    works = list_response.json().get("works", [])
+                    deleted_work = None
+                    for work in works:
+                        if work["id"] == self.test_work_id:
+                            deleted_work = work
+                            break
+                    
+                    if not deleted_work:
+                        self.log("✅ Deleted work no longer appears in list")
+                        return True
+                    else:
+                        self.log("❌ Deleted work still appears in list", "ERROR")
+                        return False
+                else:
+                    self.log("⚠️ Could not verify deletion in list")
+                    return True
+            else:
+                self.log(f"❌ Soft delete response invalid: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Soft delete failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+    
+    def test_book_vault_role_checking(self) -> bool:
+        """Test that only admin/super_admin/founder can access Book Vault"""
+        self.log("📚 BOOK VAULT ROLE CHECKING TEST")
+        
+        # Test with no token (should be denied)
+        response = self.make_request("GET", "/book-vault/works")
+        
+        if response.status_code == 401:
+            self.log("✅ Role checking working - Unauthenticated properly denied")
+            return True
+        else:
+            self.log(f"❌ Role checking failed - Expected 401, got {response.status_code}", "ERROR")
+            return False
+    
+    def test_book_vault_export_work(self) -> bool:
+        """Test POST /api/book-vault/works/{work_id}/export/markdown - Export work"""
+        self.log("📚 BOOK VAULT EXPORT WORK TEST")
+        
+        if not self.admin_token:
+            self.log("❌ No admin token available", "ERROR")
+            return False
+        
+        headers = {"Authorization": f"Bearer {self.admin_token}"}
+        
+        # Get G-1 work for export test (has content)
+        response = self.make_request("GET", "/book-vault/works", headers=headers)
+        if response.status_code != 200:
+            self.log("❌ Could not get works for export test", "ERROR")
+            return False
+        
+        works = response.json().get("works", [])
+        g1_work = None
+        for work in works:
+            if work.get("order_key") == "G-1":
+                g1_work = work
+                break
+        
+        if not g1_work:
+            self.log("❌ Could not find G-1 work for export test", "ERROR")
+            return False
+        
+        work_id = g1_work["id"]
+        response = self.make_request("POST", f"/book-vault/works/{work_id}/export/markdown", 
                                    headers=headers)
         
         if response.status_code == 200:
@@ -403,7 +658,7 @@ class BookVaultTester:
                 self.log("✅ Export working - Watermark found")
                 
                 # Verify content structure
-                if "# Test Work" in content:
+                if "The Light God Wants You to See" in content:
                     self.log("✅ Work title found in export")
                     
                     # Check for timestamp
