@@ -118,7 +118,10 @@ const BookVaultPage = () => {
   
   // Fetch works
   const fetchWorks = useCallback(async () => {
-    if (!token) return;
+    if (!token) {
+      setLoading(false);
+      return;
+    }
     
     setLoading(true);
     setError(null);
