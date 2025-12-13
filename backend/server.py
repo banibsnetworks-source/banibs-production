@@ -481,6 +481,10 @@ app.include_router(ddm_router)
 from routes.book_vault import router as book_vault_router
 app.include_router(book_vault_router)
 
+# Reading Night - Guided Communal Reading Experience
+from routes.reading_night import router as reading_night_router
+app.include_router(reading_night_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
