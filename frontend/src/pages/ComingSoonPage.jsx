@@ -67,7 +67,7 @@ const ComingSoonPage = () => {
             backgroundClip: 'text',
             letterSpacing: '-1px'
           }}>
-            Encrypted. Ad-Free.
+            Encrypted. Ad-Free. Built for Our People.
           </h1>
 
           {/* Secondary Line */}
