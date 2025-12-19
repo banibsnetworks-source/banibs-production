@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://currency-exchange-41.preview.emergentagent.com/api/auth
+https://coming-soon-fix.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
