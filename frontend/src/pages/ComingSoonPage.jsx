@@ -390,6 +390,26 @@ const ComingSoonPage = () => {
         letterSpacing: '2px'
       }}>
         Peace • Love • Honor • Respect
+        <div style={{
+          marginTop: '24px',
+          fontSize: '0.85rem',
+          letterSpacing: '0.5px'
+        }}>
+          <a
+            href="https://www.amazon.com/Devils-Dismissive-Argument-Duane-Cunningham/dp/B0DK3D3ZMJ"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: 'rgba(196, 154, 58, 0.7)',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease'
+            }}
+            onMouseOver={(e) => e.target.style.color = '#C49A3A'}
+            onMouseOut={(e) => e.target.style.color = 'rgba(196, 154, 58, 0.7)'}
+          >
+            Read the founder's book: The Devil's Dismissive Argument (Amazon)
+          </a>
+        </div>
       </div>
     </div>
   );
