@@ -176,6 +176,60 @@ const ComingSoonPage = () => {
         </div>
       </div>
 
+      {/* From the Founder Section */}
+      <div style={{
+        padding: '60px 20px',
+        background: 'rgba(196, 154, 58, 0.03)',
+        borderTop: '1px solid rgba(196, 154, 58, 0.1)',
+        textAlign: 'center'
+      }}>
+        <div style={{ maxWidth: '500px', margin: '0 auto' }}>
+          <h3 style={{
+            fontSize: '1.1rem',
+            fontWeight: '600',
+            color: '#C49A3A',
+            marginBottom: '12px',
+            letterSpacing: '1px'
+          }}>
+            From the Founder
+          </h3>
+          <p style={{
+            fontSize: '0.95rem',
+            color: 'rgba(255, 255, 255, 0.6)',
+            marginBottom: '28px'
+          }}>
+            Explore the founder's current works, now available on Amazon:
+          </p>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '14px',
+            fontSize: '0.95rem'
+          }}>
+            <div style={{ color: 'rgba(196, 154, 58, 0.7)' }}>
+              Before You Call It Out <span style={{ color: 'rgba(255, 255, 255, 0.4)', fontSize: '0.85rem' }}>(Amazon link coming soon)</span>
+            </div>
+            <a
+              href="https://www.amazon.com/Devils-Dismissive-Argument-Duane-Cunningham/dp/B0DK3D3ZMJ"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: 'rgba(196, 154, 58, 0.7)',
+                textDecoration: 'none',
+                transition: 'color 0.2s ease'
+              }}
+              onMouseOver={(e) => e.target.style.color = '#C49A3A'}
+              onMouseOut={(e) => e.target.style.color = 'rgba(196, 154, 58, 0.7)'}
+            >
+              The Devil's Dismissive Argument
+            </a>
+            <div style={{ color: 'rgba(196, 154, 58, 0.7)' }}>
+              The Light God Wants You to See <span style={{ color: 'rgba(255, 255, 255, 0.4)', fontSize: '0.85rem' }}>(Amazon link coming soon)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Footer */}
       <div style={{
         padding: '40px 20px',
@@ -186,26 +240,6 @@ const ComingSoonPage = () => {
         letterSpacing: '2px'
       }}>
         Peace • Love • Honor • Respect
-        <div style={{
-          marginTop: '24px',
-          fontSize: '0.85rem',
-          letterSpacing: '0.5px'
-        }}>
-          <a
-            href="https://www.amazon.com/Devils-Dismissive-Argument-Duane-Cunningham/dp/B0DK3D3ZMJ"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: 'rgba(196, 154, 58, 0.7)',
-              textDecoration: 'none',
-              transition: 'color 0.2s ease'
-            }}
-            onMouseOver={(e) => e.target.style.color = '#C49A3A'}
-            onMouseOut={(e) => e.target.style.color = 'rgba(196, 154, 58, 0.7)'}
-          >
-            Read the founder's book: The Devil's Dismissive Argument (Amazon)
-          </a>
-        </div>
       </div>
     </div>
   );
