@@ -413,8 +413,8 @@ function App() {
               <Route path="/socialworld/talent" element={<SocialWorldTalent />} />
               <Route path="/socialworld/marketplace" element={<SocialWorldMarketplace />} />
               
-              {/* Production Coming Soon Page - P0 Priority */}
-              <Route path="/" element={<ComingSoonPage />} />
+              {/* Phase 7.6.2 - CNN-Style News Homepage (Main Site) */}
+              <Route path="/" element={<NewsHomePage />} />
               
               {/* Phase B2 - Black News Tab */}
               <Route path="/news/black" element={<BlackNewsPage />} />
