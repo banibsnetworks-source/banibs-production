@@ -229,7 +229,7 @@ const ComingSoonPage = () => {
               Before You Call It Out <span style={{ color: 'rgba(255, 255, 255, 0.4)', fontSize: '0.85rem' }}>(Amazon link coming soon)</span>
             </div>
             <a
-              href="https://www.amazon.com/Devils-Dismissive-Argument-Duane-Cunningham/dp/B0DK3D3ZMJ"
+              href="https://www.amazon.com/Devils-Dismissive-ArgumentTM-Society-Accountability-ebook/dp/B0G6V3T227"
               target="_blank"
               rel="noopener noreferrer"
               style={{
