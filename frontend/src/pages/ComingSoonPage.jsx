@@ -22,7 +22,7 @@ const ComingSoonPage = () => {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0a1628',
+      background: 'linear-gradient(180deg, #0d1f3c 0%, #091428 50%, #050d1a 100%)',
       color: '#FFFFFF',
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       display: 'flex',
@@ -38,18 +38,18 @@ const ComingSoonPage = () => {
         padding: '60px 20px',
         textAlign: 'center',
         position: 'relative',
-        background: 'radial-gradient(ellipse at center, rgba(100, 150, 255, 0.06) 0%, transparent 70%)'
+        background: 'radial-gradient(ellipse at center, rgba(80, 140, 255, 0.12) 0%, transparent 60%)'
       }}>
-        {/* Glow effect */}
+        {/* Luminous glow effect */}
         <div style={{
           position: 'absolute',
-          top: '30%',
+          top: '35%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '600px',
-          height: '600px',
-          background: 'radial-gradient(circle, rgba(120, 170, 255, 0.08) 0%, transparent 70%)',
-          filter: 'blur(80px)',
+          width: '800px',
+          height: '800px',
+          background: 'radial-gradient(circle, rgba(100, 160, 255, 0.18) 0%, rgba(60, 120, 220, 0.08) 40%, transparent 70%)',
+          filter: 'blur(60px)',
           pointerEvents: 'none',
           zIndex: 0
         }} />
@@ -62,7 +62,8 @@ const ComingSoonPage = () => {
             lineHeight: '1.05',
             marginBottom: '32px',
             color: '#FFFFFF',
-            letterSpacing: '-1px'
+            letterSpacing: '-1px',
+            textShadow: '0 0 40px rgba(150, 200, 255, 0.4), 0 0 80px rgba(100, 160, 255, 0.2)'
           }}>
             Encrypted. Ad-Free. Built for Our People.
           </h1>
@@ -71,9 +72,10 @@ const ComingSoonPage = () => {
           <p style={{
             fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)',
             lineHeight: '1.5',
-            color: 'rgba(180, 210, 255, 0.9)',
+            color: 'rgba(200, 225, 255, 0.95)',
             marginBottom: '32px',
-            fontWeight: '500'
+            fontWeight: '500',
+            textShadow: '0 0 20px rgba(150, 200, 255, 0.15)'
           }}>
             A new digital home for our people — built with privacy and dignity at the core.
           </p>
@@ -82,7 +84,7 @@ const ComingSoonPage = () => {
           <p style={{
             fontSize: 'clamp(1rem, 1.8vw, 1.2rem)',
             lineHeight: '1.8',
-            color: 'rgba(255, 255, 255, 0.7)',
+            color: 'rgba(255, 255, 255, 0.75)',
             marginBottom: '56px',
             maxWidth: '650px',
             margin: '0 auto 56px'
@@ -94,15 +96,16 @@ const ComingSoonPage = () => {
           {!submitted ? (
             <form onSubmit={handleSubmit} style={{ maxWidth: '440px', margin: '0 auto' }}>
               <div style={{
-                background: 'rgba(100, 150, 255, 0.05)',
-                border: '2px solid rgba(150, 180, 255, 0.2)',
+                background: 'rgba(80, 140, 255, 0.06)',
+                border: '1px solid rgba(150, 190, 255, 0.2)',
                 borderRadius: '12px',
-                padding: '32px'
+                padding: '32px',
+                boxShadow: '0 0 40px rgba(80, 140, 255, 0.08)'
               }}>
                 <h3 style={{
                   fontSize: '1.2rem',
                   marginBottom: '20px',
-                  color: 'rgba(200, 220, 255, 0.95)',
+                  color: 'rgba(220, 235, 255, 0.95)',
                   fontWeight: '600'
                 }}>
                   Get Early Access
@@ -117,8 +120,8 @@ const ComingSoonPage = () => {
                     width: '100%',
                     padding: '14px 18px',
                     fontSize: '1rem',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid rgba(150, 180, 255, 0.25)',
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    border: '1px solid rgba(150, 190, 255, 0.25)',
                     borderRadius: '8px',
                     color: 'white',
                     marginBottom: '14px',
@@ -134,14 +137,21 @@ const ComingSoonPage = () => {
                     fontSize: '1.05rem',
                     fontWeight: '600',
                     background: '#FFFFFF',
-                    color: '#0a1628',
+                    color: '#0d1f3c',
                     border: 'none',
                     borderRadius: '8px',
                     cursor: 'pointer',
-                    transition: 'transform 0.2s ease'
+                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                    boxShadow: '0 0 20px rgba(255, 255, 255, 0.15)'
                   }}
-                  onMouseOver={(e) => e.target.style.transform = 'scale(1.02)'}
-                  onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                  onMouseOver={(e) => {
+                    e.target.style.transform = 'scale(1.02)';
+                    e.target.style.boxShadow = '0 0 30px rgba(255, 255, 255, 0.25)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.transform = 'scale(1)';
+                    e.target.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.15)';
+                  }}
                 >
                   Join the Waitlist
                 </button>
@@ -176,15 +186,15 @@ const ComingSoonPage = () => {
       {/* From the Founder Section */}
       <div style={{
         padding: '60px 20px',
-        background: 'rgba(100, 150, 255, 0.03)',
-        borderTop: '1px solid rgba(150, 180, 255, 0.1)',
+        background: 'rgba(80, 140, 255, 0.03)',
+        borderTop: '1px solid rgba(150, 190, 255, 0.1)',
         textAlign: 'center'
       }}>
         <div style={{ maxWidth: '500px', margin: '0 auto' }}>
           <h3 style={{
             fontSize: '1.1rem',
             fontWeight: '600',
-            color: 'rgba(200, 220, 255, 0.9)',
+            color: 'rgba(220, 235, 255, 0.9)',
             marginBottom: '12px',
             letterSpacing: '1px'
           }}>
@@ -230,7 +240,7 @@ const ComingSoonPage = () => {
       {/* Footer */}
       <div style={{
         padding: '40px 20px',
-        borderTop: '1px solid rgba(150, 180, 255, 0.1)',
+        borderTop: '1px solid rgba(150, 190, 255, 0.1)',
         textAlign: 'center',
         color: 'rgba(255, 255, 255, 0.5)',
         fontSize: '0.9rem',
