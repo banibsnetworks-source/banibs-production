@@ -97,17 +97,19 @@ const ComingSoonPage = () => {
           {!submitted ? (
             <form onSubmit={handleSubmit} style={{ maxWidth: '440px', margin: '0 auto' }}>
               <div style={{
-                background: 'rgba(80, 140, 255, 0.06)',
-                border: '1px solid rgba(150, 190, 255, 0.2)',
-                borderRadius: '12px',
-                padding: '32px',
-                boxShadow: '0 0 40px rgba(80, 140, 255, 0.08)'
+                background: 'rgba(8, 18, 35, 0.85)',
+                border: '1px solid rgba(100, 150, 220, 0.2)',
+                borderRadius: '18px',
+                padding: '36px',
+                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.4), 0 0 50px rgba(80, 130, 200, 0.1)',
+                backdropFilter: 'blur(10px)'
               }}>
                 <h3 style={{
                   fontSize: '1.2rem',
-                  marginBottom: '20px',
-                  color: 'rgba(220, 235, 255, 0.95)',
-                  fontWeight: '600'
+                  marginBottom: '22px',
+                  color: '#FFFFFF',
+                  fontWeight: '600',
+                  textShadow: '0 0 20px rgba(150, 200, 255, 0.25)'
                 }}>
                   Get Early Access
                 </h3>
@@ -121,13 +123,22 @@ const ComingSoonPage = () => {
                     width: '100%',
                     padding: '14px 18px',
                     fontSize: '1rem',
-                    background: 'rgba(255, 255, 255, 0.06)',
-                    border: '1px solid rgba(150, 190, 255, 0.25)',
-                    borderRadius: '8px',
+                    background: 'rgba(0, 10, 25, 0.6)',
+                    border: '1px solid rgba(100, 150, 220, 0.25)',
+                    borderRadius: '10px',
                     color: 'white',
-                    marginBottom: '14px',
+                    marginBottom: '16px',
                     outline: 'none',
-                    boxSizing: 'border-box'
+                    boxSizing: 'border-box',
+                    transition: 'border-color 0.2s ease, box-shadow 0.2s ease'
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'rgba(120, 170, 255, 0.5)';
+                    e.target.style.boxShadow = '0 0 12px rgba(100, 150, 255, 0.2)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = 'rgba(100, 150, 220, 0.25)';
+                    e.target.style.boxShadow = 'none';
                   }}
                 />
                 <button
@@ -137,17 +148,17 @@ const ComingSoonPage = () => {
                     padding: '14px 28px',
                     fontSize: '1.05rem',
                     fontWeight: '600',
-                    background: '#FFFFFF',
-                    color: '#0d1f3c',
+                    background: 'linear-gradient(135deg, #FFFFFF 0%, #E8F0FF 100%)',
+                    color: '#0a1628',
                     border: 'none',
-                    borderRadius: '8px',
+                    borderRadius: '10px',
                     cursor: 'pointer',
                     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                    boxShadow: '0 0 20px rgba(255, 255, 255, 0.15)'
+                    boxShadow: '0 2px 15px rgba(255, 255, 255, 0.2), 0 0 25px rgba(200, 220, 255, 0.15)'
                   }}
                   onMouseOver={(e) => {
                     e.target.style.transform = 'scale(1.02)';
-                    e.target.style.boxShadow = '0 0 30px rgba(255, 255, 255, 0.25)';
+                    e.target.style.boxShadow = '0 4px 20px rgba(255, 255, 255, 0.3), 0 0 35px rgba(200, 220, 255, 0.2)';
                   }}
                   onMouseOut={(e) => {
                     e.target.style.transform = 'scale(1)';
