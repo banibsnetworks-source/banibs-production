@@ -72,10 +72,10 @@ const ComingSoonPage = () => {
           <p style={{
             fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)',
             lineHeight: '1.5',
-            color: 'rgba(200, 225, 255, 0.95)',
+            color: '#FFFFFF',
             marginBottom: '32px',
-            fontWeight: '500',
-            textShadow: '0 0 20px rgba(150, 200, 255, 0.15)'
+            fontWeight: '600',
+            textShadow: '0 0 30px rgba(150, 200, 255, 0.3)'
           }}>
             A new digital home for our people — built with privacy and dignity at the core.
           </p>
@@ -84,10 +84,11 @@ const ComingSoonPage = () => {
           <p style={{
             fontSize: 'clamp(1rem, 1.8vw, 1.2rem)',
             lineHeight: '1.8',
-            color: 'rgba(255, 255, 255, 0.75)',
+            color: 'rgba(255, 255, 255, 0.88)',
             marginBottom: '56px',
             maxWidth: '650px',
-            margin: '0 auto 56px'
+            margin: '0 auto 56px',
+            fontWeight: '400'
           }}>
             BANIBS brings together stories, perspectives, and information from across the Black diaspora — alongside tools for business, culture, and community.
           </p>
