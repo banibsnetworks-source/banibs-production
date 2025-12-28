@@ -1272,6 +1272,277 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # CCRAM PHASE 2 - AUDIO ENDPOINTS TESTING
+    # ==========================================
+    
+    def test_ccram_audio_comprehensive(self) -> bool:
+        """
+        CCRAM PHASE 2 AUDIO ENDPOINTS COMPREHENSIVE TESTING
+        
+        Tests all CCRAM Audio endpoints:
+        1. GET /api/ccram/audio/voices - Should return 9 TTS voices
+        2. POST /api/ccram/audio/earpiece-cue - Test with cue text and voice
+        3. POST /api/ccram/audio/earpiece-cue (muted test) - Test panic mute
+        4. POST /api/ccram/audio/full-pipeline - Test error handling
+        5. Verify CCR principles preserved
+        """
+        self.log("🎧 CCRAM PHASE 2 AUDIO ENDPOINTS COMPREHENSIVE TESTING")
+        
+        # ============ TEST 1: GET VOICES ============
+        
+        self.log("🎤 Test 1: GET /api/ccram/audio/voices...")
+        
+        response = self.make_request("GET", "/ccram/audio/voices")
+        
+        if response.status_code == 200:
+            data = response.json()
+            voices = data.get("voices", [])
+            
+            if len(voices) == 9:
+                self.log(f"✅ Found {len(voices)} TTS voices (expected 9)")
+                
+                # Verify recommended voices
+                recommended = data.get("recommended_for_cues", [])
+                expected_recommended = ["nova", "sage", "onyx"]
+                
+                if set(recommended) == set(expected_recommended):
+                    self.log(f"✅ Recommended voices correct: {recommended}")
+                    
+                    # Verify default voice
+                    default_voice = data.get("default")
+                    if default_voice == "nova":
+                        self.log(f"✅ Default voice correct: {default_voice}")
+                        
+                        # Verify voice structure
+                        first_voice = voices[0]
+                        required_fields = ["id", "name", "description"]
+                        if all(field in first_voice for field in required_fields):
+                            self.log(f"✅ Voice structure correct: {first_voice['name']}")
+                            self.log(f"   Description: {first_voice['description']}")
+                        else:
+                            self.log(f"❌ Voice missing required fields: {required_fields}", "ERROR")
+                            return False
+                    else:
+                        self.log(f"❌ Expected default voice 'nova', got '{default_voice}'", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Expected recommended voices {expected_recommended}, got {recommended}", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Expected 9 voices, got {len(voices)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Voices endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 2: EARPIECE CUE ============
+        
+        self.log("🔊 Test 2: POST /api/ccram/audio/earpiece-cue...")
+        
+        cue_request = {
+            "cue_text": "Mechanism. Not identity.",
+            "session_id": "test-1",
+            "voice": "nova",
+            "speed": 1.2
+        }
+        
+        response = self.make_request("POST", "/ccram/audio/earpiece-cue", cue_request)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["cue", "audio_base64", "audio_url", "muted"]
+            
+            if all(field in data for field in required_fields):
+                if data["muted"] == False and data["audio_base64"] is not None:
+                    self.log("✅ Earpiece cue generated successfully")
+                    self.log(f"   Cue: {data['cue']}")
+                    self.log(f"   Audio URL: {'Present' if data['audio_url'] else 'Missing'}")
+                    self.log(f"   Muted: {data['muted']}")
+                    
+                    # Verify audio_url format
+                    if data["audio_url"] and data["audio_url"].startswith("data:audio/mp3;base64,"):
+                        self.log("✅ Audio URL format correct (data URL)")
+                    else:
+                        self.log("❌ Audio URL format incorrect", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Earpiece cue failed - muted: {data['muted']}, audio: {data['audio_base64'] is not None}", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Earpiece cue response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Earpiece cue endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 3: PANIC MUTE TEST ============
+        
+        self.log("🚨 Test 3: POST /api/ccram/panic-mute + earpiece-cue (muted test)...")
+        
+        # First, trigger panic mute
+        mute_request = {
+            "session_id": "test-mute",
+            "clear_buffer": True
+        }
+        
+        response = self.make_request("POST", "/ccram/panic-mute", mute_request)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("status") == "muted" and data.get("session_id") == "test-mute":
+                self.log("✅ Panic mute activated successfully")
+                self.log(f"   Status: {data['status']}")
+                self.log(f"   Buffer cleared: {data.get('buffer_cleared')}")
+                
+                # Now test earpiece cue with muted session
+                muted_cue_request = {
+                    "cue_text": "Test muted cue",
+                    "session_id": "test-mute",
+                    "voice": "nova"
+                }
+                
+                response = self.make_request("POST", "/ccram/audio/earpiece-cue", muted_cue_request)
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    if data.get("muted") == True and data.get("audio_base64") is None:
+                        self.log("✅ Muted session correctly blocks audio generation")
+                        self.log(f"   Muted: {data['muted']}")
+                        self.log(f"   Audio: {data['audio_base64']}")
+                    else:
+                        self.log(f"❌ Muted session should block audio - muted: {data.get('muted')}, audio: {data.get('audio_base64')}", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Muted earpiece cue failed: {response.status_code}", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Panic mute response invalid: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Panic mute endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 4: FULL PIPELINE ERROR HANDLING ============
+        
+        self.log("🔄 Test 4: POST /api/ccram/audio/full-pipeline (error handling)...")
+        
+        # Test with empty/invalid audio_base64
+        pipeline_request = {
+            "audio_base64": "",  # Empty audio
+            "session_id": "test-pipeline",
+            "topic_pack": "general",
+            "language": "en",
+            "generate_tts": True,
+            "tts_voice": "nova"
+        }
+        
+        response = self.make_request("POST", "/ccram/audio/full-pipeline", pipeline_request)
+        
+        if response.status_code == 200:
+            data = response.json()
+            required_fields = ["transcript", "analysis", "earpiece_audio", "latency_ms", "muted"]
+            
+            if all(field in data for field in required_fields):
+                # Should gracefully handle error
+                if data.get("error") or data.get("transcript") is None:
+                    self.log("✅ Full pipeline gracefully handles invalid audio")
+                    self.log(f"   Error: {data.get('error', 'Empty transcript')}")
+                    self.log(f"   Latency: {data.get('latency_ms', 0):.1f}ms")
+                    self.log(f"   Muted: {data.get('muted')}")
+                else:
+                    self.log("❌ Full pipeline should handle invalid audio with error", "ERROR")
+                    return False
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Full pipeline response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Full pipeline endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 5: VERIFY ENDPOINTS EXIST ============
+        
+        self.log("📋 Test 5: Verify all expected endpoints exist...")
+        
+        expected_endpoints = [
+            "/ccram/audio/voices",
+            "/ccram/audio/transcribe", 
+            "/ccram/audio/transcribe-file",
+            "/ccram/audio/earpiece-cue",
+            "/ccram/audio/full-pipeline"
+        ]
+        
+        endpoints_working = 0
+        for endpoint in expected_endpoints:
+            if endpoint == "/ccram/audio/voices":
+                # Already tested above
+                endpoints_working += 1
+                continue
+            elif endpoint in ["/ccram/audio/earpiece-cue", "/ccram/audio/full-pipeline"]:
+                # Already tested above
+                endpoints_working += 1
+                continue
+            elif endpoint == "/ccram/audio/transcribe":
+                # Test with minimal request (will fail gracefully)
+                test_response = self.make_request("POST", endpoint, {"audio_base64": "invalid"})
+                if test_response.status_code in [200, 400, 422, 500]:  # Any response means endpoint exists
+                    endpoints_working += 1
+                    self.log(f"✅ Endpoint exists: {endpoint}")
+                else:
+                    self.log(f"❌ Endpoint not found: {endpoint}", "ERROR")
+            elif endpoint == "/ccram/audio/transcribe-file":
+                # This is a file upload endpoint, just check if it exists
+                test_response = self.make_request("POST", endpoint, {})
+                if test_response.status_code in [200, 400, 422, 500]:  # Any response means endpoint exists
+                    endpoints_working += 1
+                    self.log(f"✅ Endpoint exists: {endpoint}")
+                else:
+                    self.log(f"❌ Endpoint not found: {endpoint}", "ERROR")
+        
+        if endpoints_working == len(expected_endpoints):
+            self.log(f"✅ All {len(expected_endpoints)} expected endpoints exist")
+        else:
+            self.log(f"❌ Only {endpoints_working}/{len(expected_endpoints)} endpoints working", "ERROR")
+            return False
+        
+        # ============ TEST 6: CCR PRINCIPLES VERIFICATION ============
+        
+        self.log("🛡️ Test 6: Verify CCR principles preserved...")
+        
+        # Test short cue generation (3-8 words ideal)
+        short_cue_request = {
+            "cue_text": "Focus on mechanism",  # 3 words
+            "session_id": "test-ccr",
+            "voice": "nova"
+        }
+        
+        response = self.make_request("POST", "/ccram/audio/earpiece-cue", short_cue_request)
+        
+        if response.status_code == 200:
+            data = response.json()
+            cue_text = data.get("cue", "")
+            word_count = len(cue_text.split())
+            
+            if 3 <= word_count <= 8:
+                self.log(f"✅ TTS cue length appropriate: {word_count} words")
+                self.log(f"   Cue: '{cue_text}'")
+            else:
+                self.log(f"⚠️ TTS cue length: {word_count} words (ideal: 3-8)")
+            
+            # Verify no persistent storage mentioned
+            if data.get("audio_base64") and not data.get("stored_path"):
+                self.log("✅ No persistent audio storage (privacy preserved)")
+            else:
+                self.log("⚠️ Check audio storage policy")
+        else:
+            self.log(f"❌ CCR principles test failed: {response.status_code}", "ERROR")
+            return False
+        
+        self.log("🎉 CCRAM PHASE 2 AUDIO ENDPOINTS - ALL TESTS PASSED")
+        return True
+
+    # ==========================================
     # CCRAM - CCR ANCHOR MODULE TESTING
     # ==========================================
     
