@@ -37,7 +37,12 @@ async def panic_mute(request: PanicMuteRequest):
     
     Privacy feature - immediately halts processing.
     """
-    # In a real implementation, this would clear any active sessions
+    # Import here to avoid circular imports
+    from services.ccram_audio_service import ccram_audio_service
+    
+    # Set panic mute in audio service
+    ccram_audio_service.set_panic_mute(request.session_id, True)
+    
     return {
         "status": "muted",
         "session_id": request.session_id,
