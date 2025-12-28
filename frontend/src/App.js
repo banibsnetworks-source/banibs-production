@@ -735,6 +735,9 @@ function App() {
               {/* Navigation V2 Preview (do not deploy until approved) */}
               <Route path="/founder/nav-v2-preview" element={<NavV2Preview />} />
               
+              {/* CCRAM - CCR Anchor Module (Standalone) */}
+              <Route path="/ccram" element={<CCRAMPage />} />
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages (removed duplicates) */}
             </Routes>
                   </AccountModeProvider>
