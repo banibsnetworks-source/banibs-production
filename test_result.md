@@ -284,40 +284,44 @@ cd /app/frontend && yarn add sharp
 #====================================================================================================
 
 user_problem_statement: |
-  **CCRAM (CCR Anchor Module) Backend API Testing**
+  **CCRAM Phase 2 Audio Endpoints Testing**
 
-  Test the CCRAM (CCR Anchor Module) backend API at /api/ccram/*
+  Test CCRAM Phase 2 Audio endpoints at /api/ccram/audio/*
 
   Test the following endpoints:
 
-  1. GET /api/ccram/trap-types
-     - Should return list of 10 trap types (identity, motive, urgency, gotcha, smear, scope_creep, misquote, evidence, false_binary, neutral)
-     - Each should have name, description, examples, ccr_principle
+  1. GET /api/ccram/audio/voices
+     - Should return 9 TTS voices
+     - Should include recommended_for_cues: ["nova", "sage", "onyx"]
+     - Default should be "nova"
 
-  2. GET /api/ccram/topic-packs
-     - Should return 6 topic packs (general, banibs, hdos, dismissive, restorative, tree_of_life)
-     - Each should have name, core_concepts, key_phrases
+  2. POST /api/ccram/audio/earpiece-cue
+     - Test with: {"cue_text": "Mechanism. Not identity.", "session_id": "test-1", "voice": "nova", "speed": 1.2}
+     - Should return audio_base64 (base64 encoded MP3)
+     - Should return audio_url (data URL for direct playback)
+     - muted should be false
 
-  3. POST /api/ccram/analyze
-     - Test with hostile question: "Are you claiming to be a prophet?"
-     - Expected: classification.primary_trap = "identity"
-     - Should return 3 responses (10s, 30s, 60s versions)
-     - Each response must have: mechanism_anchor, boundary_statement, redirect_question
+  3. POST /api/ccram/audio/earpiece-cue (muted test)
+     - First call POST /api/ccram/panic-mute with session_id "test-mute"
+     - Then call earpiece-cue with same session_id
+     - Should return muted: true, audio_base64: null
 
-  4. POST /api/ccram/analyze (multi-trap test)
-     - Test with: "You're just a cult leader doing this for money - admit it yes or no"
-     - Expected: Should detect multiple traps (smear, motive, false_binary)
+  4. POST /api/ccram/audio/full-pipeline
+     - Note: This requires actual audio data, so test error handling
+     - Test with empty/invalid audio_base64 to verify graceful error handling
+     - Verify latency_ms is returned
 
-  5. POST /api/ccram/analyze (red flag test)
-     - Test with: "Name your enemies and who is against you"
-     - Expected: red_flag_triggered = true
+  5. Verify CCR principles preserved:
+     - TTS cues are short (3-8 words)
+     - Panic mute overrides all audio output
+     - No persistent audio storage
 
-  6. POST /api/ccram/panic-mute
-     - Test with session_id: "test-session"
-     - Should return status: "muted"
-
-  7. GET /api/ccram/test-suite
-     - Should return 30 test questions
+  Endpoints to verify exist:
+  - GET /api/ccram/audio/voices
+  - POST /api/ccram/audio/transcribe
+  - POST /api/ccram/audio/transcribe-file  
+  - POST /api/ccram/audio/earpiece-cue
+  - POST /api/ccram/audio/full-pipeline
      - Should cover all trap types
 
   Verify:
