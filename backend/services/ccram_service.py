@@ -12,11 +12,11 @@ from dotenv import load_dotenv
 
 from emergentintegrations.llm.chat import LlmChat, UserMessage
 
-from backend.models.ccram import (
+from models.ccram import (
     TrapType, TopicPack, ResponseLength,
     CCRAMRequest, TrapClassification, CCRResponse, CCRAMOutput
 )
-from backend.services.ccram_templates import (
+from services.ccram_templates import (
     TRAP_DEFINITIONS, RESPONSE_TEMPLATES, TOPIC_PACKS,
     RED_FLAG_PATTERNS, RED_FLAG_RESPONSE
 )

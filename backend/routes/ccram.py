@@ -5,11 +5,11 @@ CCR Anchor Module endpoints
 from fastapi import APIRouter, HTTPException
 from typing import List
 
-from backend.models.ccram import (
+from models.ccram import (
     CCRAMRequest, CCRAMOutput, PanicMuteRequest, TestQuestion, TrapType, TopicPack
 )
-from backend.services.ccram_service import ccram_service
-from backend.services.ccram_templates import TRAP_DEFINITIONS, TOPIC_PACKS
+from services.ccram_service import ccram_service
+from services.ccram_templates import TRAP_DEFINITIONS, TOPIC_PACKS
 
 router = APIRouter(prefix="/api/ccram", tags=["CCRAM"])
 
