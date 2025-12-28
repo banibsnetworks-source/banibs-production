@@ -1,14 +1,15 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 
 /**
- * CCRAM - CCR Anchor Module (Phase 2)
- * Real-Time Embodied Anchoring with Audio I/O
+ * CCRAM - CCR Anchor Module (Phase 2 + NQR Timing)
+ * Real-Time Embodied Anchoring with No Quick Response Rules
  * 
  * Features:
  * - Push-to-Listen (Whisper STT)
  * - Earpiece TTS cues
  * - AR Glasses scroll-card view
- * - Latency monitoring
+ * - NQR Timing (No Quick Response)
+ * - Engagement Rule Notices
  * - Panic Mute override
  */
 
@@ -60,6 +61,13 @@ const CCRAMPage = () => {
   const [arMode, setArMode] = useState(false);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   
+  // NQR Timing State
+  const [enforceNqr, setEnforceNqr] = useState(true);
+  const [defaultWaitSeconds, setDefaultWaitSeconds] = useState(15);
+  const [bufferSeconds, setBufferSeconds] = useState(0);
+  const [wordsPerMinute, setWordsPerMinute] = useState(150);
+  const [showTimingPanel, setShowTimingPanel] = useState(true);
+  
   // Audio refs
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
@@ -67,6 +75,10 @@ const CCRAMPage = () => {
   const sessionIdRef = useRef(`ccram-${Date.now()}`);
 
   const API_URL = process.env.REACT_APP_BACKEND_URL || '';
+
+  // Estimate question duration for preview
+  const estimatedDuration = question ? Math.ceil((question.split(' ').length / wordsPerMinute) * 60) : 0;
+  const previewRequiredPause = Math.max(estimatedDuration, defaultWaitSeconds) + bufferSeconds;
 
   // Initialize audio on first interaction
   const initializeAudio = async () => {
@@ -98,7 +110,6 @@ const CCRAMPage = () => {
     setError(null);
     
     try {
-      // Convert blob to base64
       const reader = new FileReader();
       reader.readAsDataURL(audioBlob);
       
@@ -136,7 +147,6 @@ const CCRAMPage = () => {
         
         setLatencyMs(data.latency_ms);
         
-        // Play first earpiece cue
         if (ttsEnabled && data.earpiece_audio && data.earpiece_audio.length > 0) {
           const firstCue = data.earpiece_audio[0];
           if (firstCue.audio_base64) {
@@ -172,7 +182,6 @@ const CCRAMPage = () => {
   // Push-to-listen handlers
   const startRecording = () => {
     if (!audioEnabled || panicMuted) return;
-    
     audioChunksRef.current = [];
     mediaRecorderRef.current.start();
     setIsRecording(true);
@@ -185,7 +194,7 @@ const CCRAMPage = () => {
     }
   };
 
-  // Text-based analysis (original flow)
+  // Text-based analysis with NQR timing
   const analyzeQuestion = useCallback(async () => {
     if (!question.trim() || panicMuted) return;
     
@@ -199,13 +208,17 @@ const CCRAMPage = () => {
         body: JSON.stringify({
           question: question.trim(),
           topic_pack: topicPack,
+          input_mode: 'text',
+          default_wait_seconds: defaultWaitSeconds,
+          buffer_seconds: bufferSeconds,
+          estimated_words_per_minute: wordsPerMinute,
+          enforce_nqr: enforceNqr,
         }),
       });
       
       const data = await response.json();
       setResult(data);
       
-      // Generate and play first earpiece cue
       if (ttsEnabled && data.earpiece_cues && data.earpiece_cues.length > 0) {
         const cueResponse = await fetch(`${API_URL}/api/ccram/audio/earpiece-cue`, {
           method: 'POST',
@@ -228,22 +241,20 @@ const CCRAMPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [question, topicPack, API_URL, panicMuted, ttsEnabled, ttsVoice]);
+  }, [question, topicPack, API_URL, panicMuted, ttsEnabled, ttsVoice, defaultWaitSeconds, bufferSeconds, wordsPerMinute, enforceNqr]);
 
-  // Panic Mute - override all
+  // Panic Mute
   const handlePanicMute = async () => {
     setPanicMuted(true);
     setQuestion('');
     setResult(null);
     setIsRecording(false);
     
-    // Stop any playing audio
     if (audioPlayerRef.current) {
       audioPlayerRef.current.pause();
       audioPlayerRef.current = null;
     }
     
-    // Notify backend
     await fetch(`${API_URL}/api/ccram/panic-mute`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -287,9 +298,7 @@ const CCRAMPage = () => {
     
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowRight' || e.key === ' ') {
-        setCurrentCardIndex(prev => 
-          Math.min(prev + 1, (result.glasses_cards?.length || 1) - 1)
-        );
+        setCurrentCardIndex(prev => Math.min(prev + 1, (result.glasses_cards?.length || 1) - 1));
       } else if (e.key === 'ArrowLeft') {
         setCurrentCardIndex(prev => Math.max(prev - 1, 0));
       } else if (e.key === 'Escape') {
@@ -311,10 +320,7 @@ const CCRAMPage = () => {
       <div 
         style={{
           position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
+          top: 0, left: 0, right: 0, bottom: 0,
           background: '#000000',
           display: 'flex',
           flexDirection: 'column',
@@ -322,38 +328,29 @@ const CCRAMPage = () => {
           justifyContent: 'center',
           zIndex: 9999,
         }}
-        onClick={() => setCurrentCardIndex(prev => 
-          Math.min(prev + 1, (result.glasses_cards?.length || 1) - 1)
-        )}
+        onClick={() => setCurrentCardIndex(prev => Math.min(prev + 1, (result.glasses_cards?.length || 1) - 1))}
       >
-        {/* Exit hint */}
-        <div style={{
-          position: 'absolute',
-          top: '20px',
-          right: '20px',
-          color: 'rgba(255,255,255,0.3)',
-          fontSize: '0.8rem',
-        }}>
+        <div style={{ position: 'absolute', top: '20px', right: '20px', color: 'rgba(255,255,255,0.3)', fontSize: '0.8rem' }}>
           ESC to exit • TAP/SPACE to advance
         </div>
-        
-        {/* Card counter */}
-        <div style={{
-          position: 'absolute',
-          top: '20px',
-          left: '20px',
-          color: 'rgba(255,255,255,0.5)',
-          fontSize: '1rem',
-        }}>
+        <div style={{ position: 'absolute', top: '20px', left: '20px', color: 'rgba(255,255,255,0.5)', fontSize: '1rem' }}>
           {currentCardIndex + 1} / {result.glasses_cards?.length || 0}
         </div>
         
-        {/* Main card */}
-        <div style={{
-          maxWidth: '90%',
-          padding: '60px 80px',
-          textAlign: 'center',
-        }}>
+        {/* Required Pause Display */}
+        {enforceNqr && result.required_pause_seconds && (
+          <div style={{
+            position: 'absolute',
+            top: '60px',
+            color: '#22c55e',
+            fontSize: '1.2rem',
+            fontWeight: '600',
+          }}>
+            ⏱ PAUSE: {Math.ceil(result.required_pause_seconds)}s
+          </div>
+        )}
+        
+        <div style={{ maxWidth: '90%', padding: '60px 80px', textAlign: 'center' }}>
           <p style={{
             fontSize: 'clamp(2rem, 6vw, 4rem)',
             fontWeight: '700',
@@ -366,13 +363,8 @@ const CCRAMPage = () => {
           </p>
         </div>
         
-        {/* Panic Mute button */}
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            handlePanicMute();
-            setArMode(false);
-          }}
+          onClick={(e) => { e.stopPropagation(); handlePanicMute(); setArMode(false); }}
           style={{
             position: 'absolute',
             bottom: '40px',
@@ -401,72 +393,70 @@ const CCRAMPage = () => {
     }}>
       {/* Header */}
       <div style={{
-        padding: '20px 32px',
+        padding: '16px 24px',
         borderBottom: '1px solid rgba(100, 150, 220, 0.2)',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexWrap: 'wrap',
-        gap: '16px',
+        gap: '12px',
       }}>
         <div>
           <h1 style={{
-            fontSize: '1.6rem',
+            fontSize: '1.4rem',
             fontWeight: '700',
             margin: 0,
             background: 'linear-gradient(135deg, #FFFFFF 0%, #94a3b8 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}>
-            CCRAM <span style={{ fontSize: '0.8rem', opacity: 0.7 }}>v2.0</span>
+            CCRAM <span style={{ fontSize: '0.7rem', opacity: 0.7 }}>v2.1 NQR</span>
           </h1>
-          <p style={{ color: 'rgba(255,255,255,0.6)', margin: '4px 0 0', fontSize: '0.85rem' }}>
-            Real-Time Embodied Anchoring
+          <p style={{ color: 'rgba(255,255,255,0.6)', margin: '2px 0 0', fontSize: '0.8rem' }}>
+            No Quick Response • Embodied Anchoring
           </p>
         </div>
         
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          {/* Latency indicator */}
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           {latencyMs && (
             <div style={{
-              padding: '6px 12px',
+              padding: '4px 10px',
               background: latencyMs < 3000 ? 'rgba(34, 197, 94, 0.2)' : 'rgba(234, 179, 8, 0.2)',
               borderRadius: '4px',
-              fontSize: '0.8rem',
+              fontSize: '0.75rem',
               color: latencyMs < 3000 ? '#22c55e' : '#eab308',
             }}>
               {latencyMs.toFixed(0)}ms
             </div>
           )}
           
-          {/* AR Mode toggle */}
           <button
             onClick={() => result && setArMode(true)}
             disabled={!result}
             style={{
-              padding: '10px 16px',
+              padding: '8px 14px',
               background: result ? 'rgba(139, 92, 246, 0.2)' : 'rgba(100, 100, 100, 0.2)',
               border: '1px solid rgba(139, 92, 246, 0.4)',
-              borderRadius: '8px',
+              borderRadius: '6px',
               color: result ? '#FFFFFF' : 'rgba(255,255,255,0.4)',
               cursor: result ? 'pointer' : 'not-allowed',
-              fontSize: '0.9rem',
+              fontSize: '0.85rem',
             }}
           >
-            👓 AR View
+            👓 AR
           </button>
           
-          {/* Panic Mute Button */}
           <button
             onClick={handlePanicMute}
             style={{
-              padding: '10px 20px',
+              padding: '8px 16px',
               background: panicMuted ? '#dc2626' : 'rgba(220, 38, 38, 0.2)',
               border: '2px solid #dc2626',
-              borderRadius: '8px',
+              borderRadius: '6px',
               color: '#FFFFFF',
               fontWeight: '600',
               cursor: 'pointer',
+              fontSize: '0.85rem',
             }}
           >
             {panicMuted ? '🔇 MUTED' : '🛑 PANIC'}
@@ -474,38 +464,155 @@ const CCRAMPage = () => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '24px', padding: '20px 32px' }}>
-        {/* Left Panel - Input */}
-        <div style={{ flex: '0 0 420px' }}>
+      <div style={{ display: 'flex', gap: '20px', padding: '16px 24px' }}>
+        {/* Left Panel - Input + Timing */}
+        <div style={{ flex: '0 0 400px' }}>
+          {/* NQR Timing Panel */}
+          <div style={{
+            marginBottom: '16px',
+            padding: '14px',
+            background: enforceNqr ? 'rgba(34, 197, 94, 0.08)' : 'rgba(100, 100, 100, 0.1)',
+            border: `1px solid ${enforceNqr ? 'rgba(34, 197, 94, 0.3)' : 'rgba(100, 100, 100, 0.2)'}`,
+            borderRadius: '10px',
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+                <input
+                  type="checkbox"
+                  checked={enforceNqr}
+                  onChange={(e) => setEnforceNqr(e.target.checked)}
+                  style={{ width: '16px', height: '16px', cursor: 'pointer' }}
+                />
+                <span style={{ fontWeight: '600', fontSize: '0.9rem', color: enforceNqr ? '#22c55e' : 'rgba(255,255,255,0.6)' }}>
+                  NQR (No Quick Responses)
+                </span>
+              </label>
+              <button
+                onClick={() => setShowTimingPanel(!showTimingPanel)}
+                style={{
+                  padding: '4px 8px',
+                  background: 'transparent',
+                  border: 'none',
+                  color: 'rgba(255,255,255,0.5)',
+                  cursor: 'pointer',
+                  fontSize: '0.8rem',
+                }}
+              >
+                {showTimingPanel ? '▼' : '▶'}
+              </button>
+            </div>
+            
+            {showTimingPanel && (
+              <>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '12px' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.7rem', color: 'rgba(255,255,255,0.6)', marginBottom: '4px' }}>
+                      Default Wait (s)
+                    </label>
+                    <input
+                      type="number"
+                      value={defaultWaitSeconds}
+                      onChange={(e) => setDefaultWaitSeconds(Math.max(5, Math.min(60, parseInt(e.target.value) || 15)))}
+                      min={5}
+                      max={60}
+                      disabled={!enforceNqr}
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        background: 'rgba(0,0,0,0.3)',
+                        border: '1px solid rgba(100, 150, 220, 0.2)',
+                        borderRadius: '6px',
+                        color: '#FFFFFF',
+                        fontSize: '0.9rem',
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.7rem', color: 'rgba(255,255,255,0.6)', marginBottom: '4px' }}>
+                      Buffer (s)
+                    </label>
+                    <input
+                      type="number"
+                      value={bufferSeconds}
+                      onChange={(e) => setBufferSeconds(Math.max(0, Math.min(120, parseInt(e.target.value) || 0)))}
+                      min={0}
+                      max={120}
+                      disabled={!enforceNqr}
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        background: 'rgba(0,0,0,0.3)',
+                        border: '1px solid rgba(100, 150, 220, 0.2)',
+                        borderRadius: '6px',
+                        color: '#FFFFFF',
+                        fontSize: '0.9rem',
+                      }}
+                    />
+                  </div>
+                </div>
+                
+                <div style={{ marginBottom: '10px' }}>
+                  <label style={{ display: 'block', fontSize: '0.7rem', color: 'rgba(255,255,255,0.6)', marginBottom: '4px' }}>
+                    Words Per Minute: {wordsPerMinute}
+                  </label>
+                  <input
+                    type="range"
+                    value={wordsPerMinute}
+                    onChange={(e) => setWordsPerMinute(parseInt(e.target.value))}
+                    min={100}
+                    max={200}
+                    disabled={!enforceNqr}
+                    style={{ width: '100%', cursor: 'pointer' }}
+                  />
+                </div>
+                
+                {/* Live Preview */}
+                {question && enforceNqr && (
+                  <div style={{
+                    padding: '10px',
+                    background: 'rgba(0,0,0,0.3)',
+                    borderRadius: '6px',
+                    fontSize: '0.8rem',
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                      <span style={{ color: 'rgba(255,255,255,0.6)' }}>Est. Question Duration:</span>
+                      <span style={{ color: '#FFFFFF' }}>{estimatedDuration}s</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: 'rgba(255,255,255,0.6)' }}>Required Pause:</span>
+                      <span style={{ color: '#22c55e', fontWeight: '600' }}>{previewRequiredPause}s</span>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+
           {/* Audio Controls */}
           <div style={{
-            marginBottom: '20px',
-            padding: '16px',
+            marginBottom: '16px',
+            padding: '12px',
             background: 'rgba(8, 18, 35, 0.8)',
             border: '1px solid rgba(100, 150, 220, 0.2)',
-            borderRadius: '12px',
+            borderRadius: '10px',
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem' }}>AUDIO INPUT</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.8rem' }}>AUDIO INPUT</span>
               {!audioEnabled && (
-                <button
-                  onClick={initializeAudio}
-                  style={{
-                    padding: '6px 12px',
-                    background: 'rgba(59, 130, 246, 0.3)',
-                    border: '1px solid #3b82f6',
-                    borderRadius: '6px',
-                    color: '#FFFFFF',
-                    fontSize: '0.8rem',
-                    cursor: 'pointer',
-                  }}
-                >
+                <button onClick={initializeAudio} style={{
+                  padding: '5px 10px',
+                  background: 'rgba(59, 130, 246, 0.3)',
+                  border: '1px solid #3b82f6',
+                  borderRadius: '5px',
+                  color: '#FFFFFF',
+                  fontSize: '0.75rem',
+                  cursor: 'pointer',
+                }}>
                   Enable Mic
                 </button>
               )}
             </div>
             
-            {/* Push-to-Listen Button */}
             <button
               onMouseDown={startRecording}
               onMouseUp={stopRecording}
@@ -515,88 +622,68 @@ const CCRAMPage = () => {
               disabled={!audioEnabled || panicMuted}
               style={{
                 width: '100%',
-                padding: '20px',
+                padding: '16px',
                 background: isRecording 
                   ? 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)' 
-                  : audioEnabled 
-                    ? 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)'
-                    : 'rgba(100, 100, 100, 0.3)',
+                  : audioEnabled ? 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)' : 'rgba(100, 100, 100, 0.3)',
                 border: 'none',
-                borderRadius: '10px',
+                borderRadius: '8px',
                 color: '#FFFFFF',
-                fontSize: '1.1rem',
+                fontSize: '1rem',
                 fontWeight: '600',
                 cursor: audioEnabled && !panicMuted ? 'pointer' : 'not-allowed',
-                transition: 'all 0.2s',
               }}
             >
               {isRecording ? '🎤 LISTENING...' : audioEnabled ? '🎤 HOLD TO SPEAK' : '🎤 MIC DISABLED'}
             </button>
             
-            {/* TTS Settings */}
-            <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}>
-                <input
-                  type="checkbox"
-                  checked={ttsEnabled}
-                  onChange={(e) => setTtsEnabled(e.target.checked)}
-                  style={{ cursor: 'pointer' }}
-                />
-                <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.7)' }}>TTS Cues</span>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                <input type="checkbox" checked={ttsEnabled} onChange={(e) => setTtsEnabled(e.target.checked)} />
+                <span style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)' }}>TTS</span>
               </label>
-              
               <select
                 value={ttsVoice}
                 onChange={(e) => setTtsVoice(e.target.value)}
                 style={{
                   flex: 1,
-                  padding: '6px 10px',
+                  padding: '5px 8px',
                   background: 'rgba(8, 18, 35, 0.8)',
                   border: '1px solid rgba(100, 150, 220, 0.3)',
-                  borderRadius: '6px',
+                  borderRadius: '5px',
                   color: '#FFFFFF',
-                  fontSize: '0.85rem',
+                  fontSize: '0.8rem',
                 }}
               >
-                {TTS_VOICES.map((v) => (
-                  <option key={v.id} value={v.id}>{v.name}</option>
-                ))}
+                {TTS_VOICES.map((v) => (<option key={v.id} value={v.id}>{v.name}</option>))}
               </select>
             </div>
           </div>
 
-          {/* Topic Pack Selector */}
-          <div style={{ marginBottom: '16px' }}>
-            <label style={{ display: 'block', marginBottom: '6px', color: 'rgba(255,255,255,0.7)', fontSize: '0.8rem' }}>
-              CONTEXT PACK
-            </label>
+          {/* Topic Pack */}
+          <div style={{ marginBottom: '14px' }}>
+            <label style={{ display: 'block', marginBottom: '5px', color: 'rgba(255,255,255,0.7)', fontSize: '0.75rem' }}>CONTEXT PACK</label>
             <select
               value={topicPack}
               onChange={(e) => setTopicPack(e.target.value)}
               disabled={panicMuted}
               style={{
                 width: '100%',
-                padding: '10px 14px',
+                padding: '10px 12px',
                 background: 'rgba(8, 18, 35, 0.8)',
                 border: '1px solid rgba(100, 150, 220, 0.3)',
                 borderRadius: '8px',
                 color: '#FFFFFF',
-                fontSize: '0.95rem',
+                fontSize: '0.9rem',
               }}
             >
-              {TOPIC_PACKS.map((pack) => (
-                <option key={pack.key} value={pack.key}>
-                  {pack.name} — {pack.description}
-                </option>
-              ))}
+              {TOPIC_PACKS.map((pack) => (<option key={pack.key} value={pack.key}>{pack.name} — {pack.description}</option>))}
             </select>
           </div>
 
-          {/* Text Input */}
-          <div style={{ marginBottom: '16px' }}>
-            <label style={{ display: 'block', marginBottom: '6px', color: 'rgba(255,255,255,0.7)', fontSize: '0.8rem' }}>
-              QUESTION / STATEMENT
-            </label>
+          {/* Question Input */}
+          <div style={{ marginBottom: '14px' }}>
+            <label style={{ display: 'block', marginBottom: '5px', color: 'rgba(255,255,255,0.7)', fontSize: '0.75rem' }}>QUESTION / STATEMENT</label>
             <textarea
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
@@ -604,19 +691,17 @@ const CCRAMPage = () => {
               disabled={panicMuted}
               style={{
                 width: '100%',
-                minHeight: '120px',
-                padding: '14px',
+                minHeight: '100px',
+                padding: '12px',
                 background: 'rgba(8, 18, 35, 0.8)',
                 border: '1px solid rgba(100, 150, 220, 0.3)',
                 borderRadius: '10px',
                 color: '#FFFFFF',
-                fontSize: '0.95rem',
+                fontSize: '0.9rem',
                 resize: 'vertical',
                 boxSizing: 'border-box',
               }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && e.metaKey) analyzeQuestion();
-              }}
+              onKeyDown={(e) => { if (e.key === 'Enter' && e.metaKey) analyzeQuestion(); }}
             />
           </div>
 
@@ -626,12 +711,12 @@ const CCRAMPage = () => {
             disabled={!question.trim() || loading || panicMuted}
             style={{
               width: '100%',
-              padding: '14px',
+              padding: '12px',
               background: loading ? 'rgba(100, 150, 220, 0.3)' : 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)',
               border: 'none',
-              borderRadius: '10px',
+              borderRadius: '8px',
               color: '#FFFFFF',
-              fontSize: '1rem',
+              fontSize: '0.95rem',
               fontWeight: '600',
               cursor: loading || panicMuted ? 'not-allowed' : 'pointer',
               opacity: !question.trim() || panicMuted ? 0.5 : 1,
@@ -642,13 +727,13 @@ const CCRAMPage = () => {
 
           {error && (
             <div style={{
-              marginTop: '12px',
-              padding: '10px 14px',
+              marginTop: '10px',
+              padding: '10px',
               background: 'rgba(220, 38, 38, 0.2)',
               border: '1px solid rgba(220, 38, 38, 0.5)',
-              borderRadius: '8px',
+              borderRadius: '6px',
               color: '#fca5a5',
-              fontSize: '0.9rem',
+              fontSize: '0.85rem',
             }}>
               {error}
             </div>
@@ -657,24 +742,22 @@ const CCRAMPage = () => {
           {/* Classification */}
           {result && (
             <div style={{
-              marginTop: '20px',
-              padding: '16px',
+              marginTop: '16px',
+              padding: '14px',
               background: 'rgba(8, 18, 35, 0.8)',
               border: '1px solid rgba(100, 150, 220, 0.2)',
               borderRadius: '10px',
             }}>
-              <h3 style={{ margin: '0 0 10px', fontSize: '0.85rem', color: 'rgba(255,255,255,0.6)' }}>
-                CLASSIFICATION
-              </h3>
+              <h3 style={{ margin: '0 0 8px', fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)' }}>CLASSIFICATION</h3>
               
               {result.red_flag_triggered ? (
                 <div style={{
-                  padding: '10px',
+                  padding: '8px',
                   background: 'rgba(220, 38, 38, 0.2)',
                   border: '1px solid #dc2626',
                   borderRadius: '6px',
                   color: '#fca5a5',
-                  fontSize: '0.9rem',
+                  fontSize: '0.85rem',
                 }}>
                   🚨 RED FLAG: {result.red_flag_reason}
                 </div>
@@ -682,24 +765,24 @@ const CCRAMPage = () => {
                 <>
                   <div style={{
                     display: 'inline-block',
-                    padding: '6px 14px',
+                    padding: '5px 12px',
                     background: TRAP_COLORS[result.classification?.primary_trap] || '#6b7280',
-                    borderRadius: '16px',
+                    borderRadius: '14px',
                     fontWeight: '600',
-                    fontSize: '0.85rem',
+                    fontSize: '0.8rem',
                     textTransform: 'uppercase',
                   }}>
                     {result.classification?.primary_trap?.replace('_', ' ')}
                   </div>
                   
                   {result.classification?.secondary_traps?.length > 0 && (
-                    <div style={{ marginTop: '8px', display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                    <div style={{ marginTop: '6px', display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
                       {result.classification.secondary_traps.map((trap, i) => (
                         <span key={i} style={{
-                          padding: '3px 8px',
+                          padding: '2px 8px',
                           background: 'rgba(100, 150, 220, 0.2)',
                           borderRadius: '10px',
-                          fontSize: '0.7rem',
+                          fontSize: '0.65rem',
                           textTransform: 'uppercase',
                         }}>
                           {trap.replace('_', ' ')}
@@ -709,6 +792,26 @@ const CCRAMPage = () => {
                   )}
                 </>
               )}
+              
+              {/* Timing Results */}
+              {enforceNqr && result.required_pause_seconds && (
+                <div style={{
+                  marginTop: '12px',
+                  padding: '10px',
+                  background: 'rgba(34, 197, 94, 0.1)',
+                  border: '1px solid rgba(34, 197, 94, 0.3)',
+                  borderRadius: '6px',
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+                    <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)' }}>Question Duration:</span>
+                    <span style={{ fontSize: '0.85rem', color: '#FFFFFF' }}>{Math.ceil(result.computed_question_duration_seconds)}s</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)' }}>Required Pause:</span>
+                    <span style={{ fontSize: '1rem', fontWeight: '700', color: '#22c55e' }}>⏱ {Math.ceil(result.required_pause_seconds)}s</span>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -717,20 +820,87 @@ const CCRAMPage = () => {
         <div style={{ flex: 1 }}>
           {result && !result.red_flag_triggered && (
             <>
+              {/* Engagement Rule Notice */}
+              {enforceNqr && result.engagement_rule_notice && (
+                <div style={{
+                  marginBottom: '16px',
+                  padding: '16px',
+                  background: 'rgba(34, 197, 94, 0.08)',
+                  border: '1px solid rgba(34, 197, 94, 0.3)',
+                  borderRadius: '10px',
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: '600', color: '#22c55e', textTransform: 'uppercase' }}>
+                      📢 Engagement Rule Notice
+                    </span>
+                    <button
+                      onClick={() => copyToClipboard(result.engagement_rule_notice)}
+                      style={{
+                        padding: '3px 8px',
+                        background: 'rgba(100, 150, 220, 0.2)',
+                        border: 'none',
+                        borderRadius: '4px',
+                        color: 'rgba(255,255,255,0.7)',
+                        cursor: 'pointer',
+                        fontSize: '0.7rem',
+                      }}
+                    >
+                      📋 Copy
+                    </button>
+                  </div>
+                  <p style={{ margin: 0, fontSize: '0.95rem', lineHeight: 1.5, color: 'rgba(255,255,255,0.9)' }}>
+                    "{result.engagement_rule_notice}"
+                  </p>
+                </div>
+              )}
+              
+              {/* Timing Boundary Line */}
+              {enforceNqr && result.timing_boundary_line && (
+                <div style={{
+                  marginBottom: '16px',
+                  padding: '12px 16px',
+                  background: 'rgba(139, 92, 246, 0.1)',
+                  border: '1px solid rgba(139, 92, 246, 0.3)',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                  <div>
+                    <span style={{ fontSize: '0.7rem', color: '#8b5cf6', fontWeight: '600' }}>TIMING BOUNDARY LINE</span>
+                    <p style={{ margin: '4px 0 0', fontSize: '0.9rem', fontStyle: 'italic' }}>"{result.timing_boundary_line}"</p>
+                  </div>
+                  <button
+                    onClick={() => copyToClipboard(result.timing_boundary_line)}
+                    style={{
+                      padding: '4px 10px',
+                      background: 'rgba(139, 92, 246, 0.2)',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: 'rgba(255,255,255,0.7)',
+                      cursor: 'pointer',
+                      fontSize: '0.75rem',
+                    }}
+                  >
+                    📋
+                  </button>
+                </div>
+              )}
+
               {/* Tabs */}
               <div style={{
                 display: 'flex',
-                gap: '8px',
-                marginBottom: '16px',
+                gap: '6px',
+                marginBottom: '14px',
                 borderBottom: '1px solid rgba(100, 150, 220, 0.2)',
                 paddingBottom: '10px',
               }}>
-                {['responses', 'glasses', 'earpiece'].map((tab) => (
+                {['responses', 'glasses', 'earpiece', 'rules'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
                     style={{
-                      padding: '8px 16px',
+                      padding: '7px 14px',
                       background: activeTab === tab ? 'rgba(59, 130, 246, 0.3)' : 'transparent',
                       border: activeTab === tab ? '1px solid #3b82f6' : '1px solid transparent',
                       borderRadius: '6px',
@@ -738,85 +908,70 @@ const CCRAMPage = () => {
                       cursor: 'pointer',
                       fontWeight: '500',
                       textTransform: 'uppercase',
-                      fontSize: '0.8rem',
+                      fontSize: '0.75rem',
                     }}
                   >
-                    {tab === 'responses' ? '📝 Responses' : tab === 'glasses' ? '👓 Glasses' : '🎧 Earpiece'}
+                    {tab === 'responses' ? '📝' : tab === 'glasses' ? '👓' : tab === 'earpiece' ? '🎧' : '📜'} {tab}
                   </button>
                 ))}
               </div>
 
               {/* Responses Tab */}
               {activeTab === 'responses' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                   {result.responses?.map((resp, i) => (
                     <div key={i} style={{
-                      padding: '20px',
+                      padding: '18px',
                       background: 'rgba(8, 18, 35, 0.8)',
                       border: '1px solid rgba(100, 150, 220, 0.2)',
                       borderRadius: '10px',
                     }}>
-                      <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginBottom: '14px',
-                      }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                         <span style={{
-                          padding: '4px 12px',
+                          padding: '4px 10px',
                           background: i === 0 ? '#22c55e' : i === 1 ? '#3b82f6' : '#8b5cf6',
-                          borderRadius: '12px',
+                          borderRadius: '10px',
                           fontWeight: '600',
-                          fontSize: '0.8rem',
+                          fontSize: '0.75rem',
                         }}>
                           {resp.length}
                         </span>
                         <button
-                          onClick={() => copyToClipboard(resp.full_response)}
+                          onClick={() => copyToClipboard(enforceNqr && resp.timing_prefixed_response ? resp.timing_prefixed_response : resp.full_response)}
                           style={{
-                            padding: '4px 10px',
+                            padding: '4px 8px',
                             background: 'rgba(100, 150, 220, 0.2)',
                             border: 'none',
                             borderRadius: '4px',
                             color: 'rgba(255,255,255,0.8)',
                             cursor: 'pointer',
-                            fontSize: '0.75rem',
+                            fontSize: '0.7rem',
                           }}
                         >
                           📋 Copy
                         </button>
                       </div>
                       
-                      <div style={{ marginBottom: '12px' }}>
-                        <div style={{ color: '#22c55e', fontWeight: '600', fontSize: '0.7rem', marginBottom: '3px' }}>
-                          MECHANISM
-                        </div>
-                        <p style={{ margin: 0, lineHeight: 1.5, fontSize: '0.95rem' }}>{resp.mechanism_anchor}</p>
+                      <div style={{ marginBottom: '10px' }}>
+                        <div style={{ color: '#22c55e', fontWeight: '600', fontSize: '0.65rem', marginBottom: '2px' }}>MECHANISM</div>
+                        <p style={{ margin: 0, lineHeight: 1.5, fontSize: '0.9rem' }}>{resp.mechanism_anchor}</p>
                       </div>
                       
                       {resp.example && (
-                        <div style={{ marginBottom: '12px' }}>
-                          <div style={{ color: '#3b82f6', fontWeight: '600', fontSize: '0.7rem', marginBottom: '3px' }}>
-                            EXAMPLE
-                          </div>
-                          <p style={{ margin: 0, lineHeight: 1.5, color: 'rgba(255,255,255,0.85)', fontSize: '0.95rem' }}>{resp.example}</p>
+                        <div style={{ marginBottom: '10px' }}>
+                          <div style={{ color: '#3b82f6', fontWeight: '600', fontSize: '0.65rem', marginBottom: '2px' }}>EXAMPLE</div>
+                          <p style={{ margin: 0, lineHeight: 1.5, color: 'rgba(255,255,255,0.85)', fontSize: '0.9rem' }}>{resp.example}</p>
                         </div>
                       )}
                       
-                      <div style={{ marginBottom: '12px' }}>
-                        <div style={{ color: '#f97316', fontWeight: '600', fontSize: '0.7rem', marginBottom: '3px' }}>
-                          BOUNDARY
-                        </div>
-                        <p style={{ margin: 0, lineHeight: 1.5, color: 'rgba(255,255,255,0.85)', fontSize: '0.95rem' }}>{resp.boundary_statement}</p>
+                      <div style={{ marginBottom: '10px' }}>
+                        <div style={{ color: '#f97316', fontWeight: '600', fontSize: '0.65rem', marginBottom: '2px' }}>BOUNDARY</div>
+                        <p style={{ margin: 0, lineHeight: 1.5, color: 'rgba(255,255,255,0.85)', fontSize: '0.9rem' }}>{resp.boundary_statement}</p>
                       </div>
                       
                       <div>
-                        <div style={{ color: '#8b5cf6', fontWeight: '600', fontSize: '0.7rem', marginBottom: '3px' }}>
-                          REDIRECT
-                        </div>
-                        <p style={{ margin: 0, lineHeight: 1.5, fontStyle: 'italic', color: 'rgba(255,255,255,0.85)', fontSize: '0.95rem' }}>
-                          "{resp.redirect_question}"
-                        </p>
+                        <div style={{ color: '#8b5cf6', fontWeight: '600', fontSize: '0.65rem', marginBottom: '2px' }}>REDIRECT</div>
+                        <p style={{ margin: 0, lineHeight: 1.5, fontStyle: 'italic', color: 'rgba(255,255,255,0.85)', fontSize: '0.9rem' }}>"{resp.redirect_question}"</p>
                       </div>
                     </div>
                   ))}
@@ -825,25 +980,20 @@ const CCRAMPage = () => {
 
               {/* Glasses Tab */}
               {activeTab === 'glasses' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                    <p style={{ color: 'rgba(255,255,255,0.6)', margin: 0, fontSize: '0.85rem' }}>
-                      AR glasses scroll cards • Click card or press 👓 AR View for full screen
-                    </p>
-                  </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <p style={{ color: 'rgba(255,255,255,0.6)', margin: '0 0 8px', fontSize: '0.8rem' }}>
+                    Click card for full-screen AR view
+                  </p>
                   {result.glasses_cards?.map((card, i) => (
                     <div 
                       key={i} 
-                      onClick={() => {
-                        setCurrentCardIndex(i);
-                        setArMode(true);
-                      }}
+                      onClick={() => { setCurrentCardIndex(i); setArMode(true); }}
                       style={{
-                        padding: '20px 28px',
+                        padding: '18px 24px',
                         background: '#000000',
                         border: '2px solid #FFFFFF',
                         borderRadius: '8px',
-                        fontSize: '1.3rem',
+                        fontSize: '1.2rem',
                         fontWeight: '700',
                         textAlign: 'center',
                         cursor: 'pointer',
@@ -860,35 +1010,70 @@ const CCRAMPage = () => {
 
               {/* Earpiece Tab */}
               {activeTab === 'earpiece' && (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '8px', fontSize: '0.85rem' }}>
-                    Short whisper cues • Click to play TTS
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <p style={{ color: 'rgba(255,255,255,0.6)', margin: '0 0 8px', fontSize: '0.8rem' }}>
+                    Click to play TTS cue
                   </p>
                   {result.earpiece_cues?.map((cue, i) => (
                     <div 
                       key={i} 
                       onClick={() => playCue(cue)}
                       style={{
-                        padding: '14px 20px',
+                        padding: '12px 18px',
                         background: 'rgba(34, 197, 94, 0.15)',
                         border: '1px solid rgba(34, 197, 94, 0.4)',
                         borderRadius: '8px',
-                        fontSize: '1.05rem',
+                        fontSize: '1rem',
                         fontWeight: '500',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '12px',
+                        gap: '10px',
                         cursor: 'pointer',
                         transition: 'background 0.2s',
                       }}
                       onMouseOver={(e) => e.currentTarget.style.background = 'rgba(34, 197, 94, 0.25)'}
                       onMouseOut={(e) => e.currentTarget.style.background = 'rgba(34, 197, 94, 0.15)'}
                     >
-                      <span style={{ fontSize: '1.1rem' }}>🎧</span>
+                      <span>🎧</span>
                       {cue}
-                      <span style={{ marginLeft: 'auto', fontSize: '0.8rem', opacity: 0.6 }}>▶</span>
+                      <span style={{ marginLeft: 'auto', fontSize: '0.75rem', opacity: 0.6 }}>▶</span>
                     </div>
                   ))}
+                </div>
+              )}
+
+              {/* Public Rules Tab */}
+              {activeTab === 'rules' && result.public_engagement_rules && (
+                <div style={{
+                  padding: '20px',
+                  background: 'rgba(8, 18, 35, 0.8)',
+                  border: '1px solid rgba(100, 150, 220, 0.2)',
+                  borderRadius: '10px',
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+                    <h3 style={{ margin: 0, fontSize: '0.9rem', color: '#FFFFFF' }}>📜 Public Engagement Rules</h3>
+                    <button
+                      onClick={() => copyToClipboard(result.public_engagement_rules.join('\n• '))}
+                      style={{
+                        padding: '5px 10px',
+                        background: 'rgba(100, 150, 220, 0.2)',
+                        border: 'none',
+                        borderRadius: '4px',
+                        color: 'rgba(255,255,255,0.8)',
+                        cursor: 'pointer',
+                        fontSize: '0.75rem',
+                      }}
+                    >
+                      📋 Copy All
+                    </button>
+                  </div>
+                  <ul style={{ margin: 0, paddingLeft: '20px' }}>
+                    {result.public_engagement_rules.map((rule, i) => (
+                      <li key={i} style={{ marginBottom: '8px', fontSize: '0.9rem', lineHeight: 1.5, color: 'rgba(255,255,255,0.85)' }}>
+                        {rule}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               )}
             </>
@@ -897,16 +1082,14 @@ const CCRAMPage = () => {
           {/* Red Flag Response */}
           {result && result.red_flag_triggered && (
             <div style={{
-              padding: '28px',
+              padding: '24px',
               background: 'rgba(220, 38, 38, 0.1)',
               border: '2px solid #dc2626',
               borderRadius: '10px',
             }}>
-              <h3 style={{ color: '#fca5a5', margin: '0 0 16px' }}>🚨 RED FLAG RESPONSE</h3>
+              <h3 style={{ color: '#fca5a5', margin: '0 0 14px' }}>🚨 RED FLAG RESPONSE</h3>
               {result.responses?.[0] && (
-                <p style={{ fontSize: '1.1rem', lineHeight: 1.6 }}>
-                  {result.responses[0].full_response}
-                </p>
+                <p style={{ fontSize: '1.05rem', lineHeight: 1.6 }}>{result.responses[0].full_response}</p>
               )}
             </div>
           )}
@@ -918,13 +1101,13 @@ const CCRAMPage = () => {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              height: '350px',
+              height: '300px',
               color: 'rgba(255,255,255,0.4)',
               textAlign: 'center',
             }}>
-              <div style={{ fontSize: '3.5rem', marginBottom: '12px' }}>🎯</div>
-              <h3 style={{ margin: '0 0 6px', fontWeight: '500' }}>Ready for Analysis</h3>
-              <p style={{ margin: 0, fontSize: '0.9rem' }}>Use voice or type a hostile question</p>
+              <div style={{ fontSize: '3rem', marginBottom: '10px' }}>🎯</div>
+              <h3 style={{ margin: '0 0 5px', fontWeight: '500' }}>Ready for Analysis</h3>
+              <p style={{ margin: 0, fontSize: '0.85rem' }}>Use voice or type a hostile question</p>
             </div>
           )}
         </div>
@@ -932,16 +1115,15 @@ const CCRAMPage = () => {
 
       {/* Footer */}
       <div style={{
-        padding: '16px 32px',
+        padding: '14px 24px',
         borderTop: '1px solid rgba(100, 150, 220, 0.1)',
         color: 'rgba(255,255,255,0.4)',
-        fontSize: '0.75rem',
+        fontSize: '0.7rem',
         textAlign: 'center',
       }}>
-        CCRAM v2.0 — Real-Time Embodied Anchoring — No Persistent Logging — Panic Mute Overrides All
+        CCRAM v2.1 — No Quick Response • Embodied Anchoring • No Persistent Logging • Panic Mute Overrides All
       </div>
       
-      {/* Hidden audio element for TTS playback */}
       <audio ref={audioPlayerRef} style={{ display: 'none' }} />
     </div>
   );
