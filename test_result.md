@@ -284,70 +284,52 @@ cd /app/frontend && yarn add sharp
 #====================================================================================================
 
 user_problem_statement: |
-  **CCRAM Phase 2 Audio Endpoints Testing**
+  **CCRAM NQR (No Quick Response) Timing Logic Testing**
 
-  Test CCRAM Phase 2 Audio endpoints at /api/ccram/audio/*
+  Test CCRAM NQR Timing Logic implementation
 
-  Test the following endpoints:
+  Test the following:
 
-  1. GET /api/ccram/audio/voices
-     - Should return 9 TTS voices
-     - Should include recommended_for_cues: ["nova", "sage", "onyx"]
-     - Default should be "nova"
+  1. GET /api/ccram/timing-rules
+     - Should return NQR rules, formula, defaults
+     - Should include timing_boundary_lines array
+     - Should include engagement_rule_notices (short, standard, hostile, formal)
+     - Should include public_engagement_rules (6 rules)
 
-  2. POST /api/ccram/audio/earpiece-cue
-     - Test with: {"cue_text": "Mechanism. Not identity.", "session_id": "test-1", "voice": "nova", "speed": 1.2}
-     - Should return audio_base64 (base64 encoded MP3)
-     - Should return audio_url (data URL for direct playback)
-     - muted should be false
+  2. GET /api/ccram/timing-test-suite
+     - Should return 5 timing test cases
+     - Each should have expected behavior explanation
 
-  3. POST /api/ccram/audio/earpiece-cue (muted test)
-     - First call POST /api/ccram/panic-mute with session_id "test-mute"
-     - Then call earpiece-cue with same session_id
-     - Should return muted: true, audio_base64: null
+  3. POST /api/ccram/analyze (short question - floor test)
+     - Question: "So you're Elijah?" (4 words)
+     - enforce_nqr: true, default_wait_seconds: 15
+     - Expected: computed_question_duration_seconds ~2s
+     - Expected: required_pause_seconds = 15 (uses floor)
+     - Should include engagement_rule_notice
+     - Should include timing_boundary_line
 
-  4. POST /api/ccram/audio/full-pipeline
-     - Note: This requires actual audio data, so test error handling
-     - Test with empty/invalid audio_base64 to verify graceful error handling
-     - Verify latency_ms is returned
+  4. POST /api/ccram/analyze (long question - duration test)  
+     - Question: "So let me get this straight - you're claiming to run some kind of spiritual movement, taking people's money, promising them salvation, and you expect us to just accept that you're not running a cult? How do you respond to critics who say you're nothing more than a sophisticated grifter?" (60+ words)
+     - enforce_nqr: true, default_wait_seconds: 15
+     - Expected: computed_question_duration_seconds > 15
+     - Expected: required_pause_seconds = computed_question_duration_seconds (since > floor)
 
-  5. Verify CCR principles preserved:
-     - TTS cues are short (3-8 words)
-     - Panic mute overrides all audio output
-     - No persistent audio storage
+  5. POST /api/ccram/analyze (buffer test)
+     - Question: "What do you say?" (4 words)
+     - enforce_nqr: true, default_wait_seconds: 15, buffer_seconds: 10
+     - Expected: required_pause_seconds = 15 + 10 = 25
 
-  Endpoints to verify exist:
-  - GET /api/ccram/audio/voices
-  - POST /api/ccram/audio/transcribe
-  - POST /api/ccram/audio/transcribe-file  
-  - POST /api/ccram/audio/earpiece-cue
-  - POST /api/ccram/audio/full-pipeline
-     - Should cover all trap types
+  6. POST /api/ccram/analyze (NQR disabled test)
+     - Question: "Are you a cult leader?"
+     - enforce_nqr: false
+     - Expected: engagement_rule_notice should be empty
+     - Expected: timing_boundary_line should be empty
+     - Expected: public_engagement_rules should be null
 
   Verify:
-  - All responses follow CCR principles (mechanism-anchored, no identity claims)
-  - Topic packs provide context-specific content
-  - Red flag detection works for dangerous queries
-
-  **Test Scenario 1: Register Page (Desktop)**
-  - Navigate to: https://coming-soon-fix.preview.emergentagent.com/auth/register
-  - Viewport: 1920x1080
-  - Verify brand story panel on the right with:
-    * "For Us. By Us. Built to Last." headline
-    * "Early Access" badge
-    * Three pillars: Real News, Real Business, Real Community
-    * Footer note about early access
-  - Verify form panel on the left with:
-    * "Join BANIBS" header with subtitle
-    * All form fields visible (First Name, Last Name, Email, Password, Confirm Password, Date of Birth, Gender)
-    * Styled amber gradient button "Create Account"
-    * "Already have an account? Sign in" link at bottom
-  - Test form validation by attempting to submit empty form
-  - Verify error styling appears correctly
-
-  **Test Scenario 2: Sign In Page (Desktop)**
-  - Navigate to: https://coming-soon-fix.preview.emergentagent.com/auth/signin
-  - Viewport: 1920x1080
+  - Timing formula: max(question_duration, default_wait) + buffer
+  - Responses include timing_prefixed_response when NQR enabled
+  - Public engagement rules present when NQR enabled
   - Verify brand panel on the right with:
     * "Your network. Your news. Your marketplace." headline
     * Trust strip with encrypted connections, no selling data, community-first
