@@ -318,3 +318,47 @@ RED_FLAG_RESPONSE = {
     "redirect_question": "What mechanism or pattern would you like to discuss instead?",
     "full_response": "I don't name private individuals or engage in personal targeting. That's a boundary I maintain regardless of the question. What mechanism or pattern would you like to discuss instead?"
 }
+
+# =============================================================================
+# NQR (NO QUICK RESPONSE) TIMING TEMPLATES
+# =============================================================================
+TIMING_BOUNDARY_LINES = [
+    "I'm going to pause for a moment so I can answer accurately.",
+    "Let me take a moment to respond thoughtfully.",
+    "I'll answer after a brief pause to ensure accuracy.",
+    "A moment of consideration before I respond.",
+    "I take time to answer with precision, not speed."
+]
+
+ENGAGEMENT_RULE_NOTICES = {
+    "short": "I'll answer after a short pause so I can respond accurately. Please allow the same amount of time it took to ask the question.",
+    "standard": "I will answer after a short pause so I can respond accurately. Please allow the same amount of time it took to ask the question. One question at a time, then a brief pause, then an answer.",
+    "hostile": "No rapid-fire format. One question at a time, then a brief pause, then an answer. I prioritize accurate responses over performative speed.",
+    "formal": "I follow a deliberate engagement protocol: I receive the question, pause to consider it fully, then respond with care. This ensures accuracy and respects the weight of what's being asked."
+}
+
+PUBLIC_ENGAGEMENT_RULES = [
+    "One question at a time.",
+    "Equal-time pause minimum — the pause will be at least as long as it took to ask the question.",
+    "No rapid-fire format.",
+    "Accurate responses over performative speed.",
+    "Mechanism-focused framing, not identity or motive traps.",
+    "Right to request rephrase if the question is distorted or contains false premises."
+]
+
+TIMING_EARPIECE_CUES = [
+    "Pause. Then answer.",
+    "Wait. Accuracy first.",
+    "Breathe. No rush.",
+    "Hold. Equal time.",
+    "Deliberate. Not reactive."
+]
+
+TIMING_GLASSES_CARDS = [
+    "PAUSE",
+    "EQUAL TIME RULE",
+    "ACCURACY > SPEED",
+    "ONE QUESTION AT A TIME",
+    "BREATHE"
+]
+
