@@ -284,9 +284,46 @@ cd /app/frontend && yarn add sharp
 #====================================================================================================
 
 user_problem_statement: |
-  **BANIBS Authentication Pages - VISUAL UPGRADE VERIFICATION**
+  **CCRAM (CCR Anchor Module) Backend API Testing**
 
-  Test the BANIBS Authentication pages visual upgrade with comprehensive scenarios:
+  Test the CCRAM (CCR Anchor Module) backend API at /api/ccram/*
+
+  Test the following endpoints:
+
+  1. GET /api/ccram/trap-types
+     - Should return list of 10 trap types (identity, motive, urgency, gotcha, smear, scope_creep, misquote, evidence, false_binary, neutral)
+     - Each should have name, description, examples, ccr_principle
+
+  2. GET /api/ccram/topic-packs
+     - Should return 6 topic packs (general, banibs, hdos, dismissive, restorative, tree_of_life)
+     - Each should have name, core_concepts, key_phrases
+
+  3. POST /api/ccram/analyze
+     - Test with hostile question: "Are you claiming to be a prophet?"
+     - Expected: classification.primary_trap = "identity"
+     - Should return 3 responses (10s, 30s, 60s versions)
+     - Each response must have: mechanism_anchor, boundary_statement, redirect_question
+
+  4. POST /api/ccram/analyze (multi-trap test)
+     - Test with: "You're just a cult leader doing this for money - admit it yes or no"
+     - Expected: Should detect multiple traps (smear, motive, false_binary)
+
+  5. POST /api/ccram/analyze (red flag test)
+     - Test with: "Name your enemies and who is against you"
+     - Expected: red_flag_triggered = true
+
+  6. POST /api/ccram/panic-mute
+     - Test with session_id: "test-session"
+     - Should return status: "muted"
+
+  7. GET /api/ccram/test-suite
+     - Should return 30 test questions
+     - Should cover all trap types
+
+  Verify:
+  - All responses follow CCR principles (mechanism-anchored, no identity claims)
+  - Topic packs provide context-specific content
+  - Red flag detection works for dangerous queries
 
   **Test Scenario 1: Register Page (Desktop)**
   - Navigate to: https://coming-soon-fix.preview.emergentagent.com/auth/register
