@@ -1300,6 +1300,93 @@ backend:
           
           **STATUS:** BCEE v1.0 Phase 5 comprehensive testing complete - system is production-ready and fully operational
 
+  - task: "CCRAM NQR (No Quick Response) Timing Logic Testing"
+    implemented: true
+    working: true
+    file: "backend/routes/ccram.py, backend/services/ccram_service.py, backend/services/ccram_templates.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "testing"
+        comment: "Starting CCRAM NQR (No Quick Response) Timing Logic testing. Testing timing rules, test suite, and analyze endpoint with various timing scenarios."
+      - working: true
+        agent: "testing"
+        comment: |
+          ✅ CCRAM NQR TIMING LOGIC - FULLY OPERATIONAL
+          
+          **COMPREHENSIVE TESTING RESULTS (6/6 TESTS PASSED - 100% SUCCESS):**
+          
+          **1. GET /api/ccram/timing-rules - FULLY FUNCTIONAL ✅**
+          - ✅ Returns NQR rules with correct formula: max(question_duration_seconds, default_wait_seconds) + buffer_seconds
+          - ✅ Default values correct: default_wait_seconds=15, buffer_seconds=0, estimated_words_per_minute=150, enforce_nqr=true
+          - ✅ Timing boundary lines array present (5 lines)
+          - ✅ All engagement rule notice types present: short, standard, hostile, formal
+          - ✅ Public engagement rules present (6 rules): "One question at a time", "Equal-time pause", "No rapid-fire"
+          - ✅ Complete NQR configuration structure verified
+          
+          **2. GET /api/ccram/timing-test-suite - FULLY FUNCTIONAL ✅**
+          - ✅ Returns exactly 5 timing test cases as expected
+          - ✅ All test cases have required structure: id, name, question, word_count, expected_behavior
+          - ✅ Found all expected test patterns: 3-word gotcha, Long compound smear, Misquote trap, Rapid-fire yes/no, With buffer
+          - ✅ Test cases cover short questions (3 words), long questions (60 words), and buffer scenarios
+          - ✅ Each test case includes expected behavior explanation
+          
+          **3. POST /api/ccram/analyze (SHORT QUESTION - FLOOR TEST) ✅**
+          - ✅ Question: "So you're Elijah?" (4 words)
+          - ✅ Computed duration correct: 2.0s (~2s for 4 words at 150 WPM)
+          - ✅ Required pause uses floor: 15.0s = max(2.0, 15) + 0 (correctly uses default_wait_seconds)
+          - ✅ Engagement rule notice present when NQR enabled
+          - ✅ Timing boundary line present: "I'm going to pause for a moment so I can answer accurately"
+          - ✅ Public engagement rules present (6 rules) when NQR enabled
+          
+          **4. POST /api/ccram/analyze (LONG QUESTION - DURATION TEST) ✅**
+          - ✅ Long question (50 words): Complex spiritual movement/cult question
+          - ✅ Computed duration exceeds default: 20.0s > 15s
+          - ✅ Required pause equals computed duration: 20.0s (since computed > floor)
+          - ✅ Formula verified: max(20.0, 15) + 0 = 20.0
+          - ✅ All timing outputs present for long question
+          
+          **5. POST /api/ccram/analyze (BUFFER TEST) ✅**
+          - ✅ Question: "What do you say?" (4 words)
+          - ✅ Buffer calculation correct: 25.0s = max(2.0, 15) + 10
+          - ✅ Buffer properly added to final pause time
+          - ✅ Formula verified with buffer: max(question_duration, default_wait) + buffer_seconds
+          
+          **6. POST /api/ccram/analyze (NQR DISABLED TEST) ✅**
+          - ✅ Question: "Are you a cult leader?"
+          - ✅ NQR disabled: timing outputs correctly empty
+          - ✅ engagement_rule_notice = "" (empty)
+          - ✅ timing_boundary_line = "" (empty)
+          - ✅ public_engagement_rules = null
+          - ✅ Timing values still computed when NQR disabled (for internal use)
+          - ✅ No timing_prefixed_response when NQR disabled
+          
+          **TIMING FORMULA VERIFICATION:**
+          - ✅ Formula correctly implemented: REQUIRED_PAUSE = max(question_duration_seconds, default_wait_seconds) + buffer_seconds
+          - ✅ Short questions use floor (default_wait_seconds = 15)
+          - ✅ Long questions use computed duration when > floor
+          - ✅ Buffer adds to final pause time
+          - ✅ NQR disabled properly removes timing outputs
+          
+          **ENGAGEMENT RULES VERIFICATION:**
+          - ✅ Timing boundary lines working: "I'm going to pause for a moment so I can answer accurately"
+          - ✅ Engagement rule notices adapt to pause length (short/standard/hostile/formal)
+          - ✅ Public engagement rules enforce: "One question at a time", "Equal-time pause minimum", "No rapid-fire format"
+          - ✅ Responses include timing_prefixed_response when NQR enabled
+          - ✅ All timing outputs properly integrated with CCRAM analysis
+          
+          **TECHNICAL VERIFICATION:**
+          - ✅ All endpoints return Status 200
+          - ✅ Response structures match expected schemas
+          - ✅ Word count estimation working (150 WPM default)
+          - ✅ Duration calculation accurate for various question lengths
+          - ✅ NQR enable/disable toggle working correctly
+          - ✅ Integration with existing CCRAM analysis pipeline complete
+          
+          **STATUS:** CCRAM NQR (No Quick Response) Timing Logic is fully operational and ready for hostile interview timing control
+
 frontend:
   - task: "BANIBS Authentication Pages - IMAGE SPECIFICATION PACK IMPLEMENTATION"
     implemented: true
