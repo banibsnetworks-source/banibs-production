@@ -1,11 +1,13 @@
 """
 CCRAM Service
 Core logic for CCR Router (classifier) and Response Generator
+Includes NQR (No Quick Response) Timing Logic
 """
 import os
 import re
 import json
 import uuid
+import math
 from typing import List, Optional, Tuple
 from datetime import datetime
 from dotenv import load_dotenv
@@ -13,12 +15,14 @@ from dotenv import load_dotenv
 from emergentintegrations.llm.chat import LlmChat, UserMessage
 
 from models.ccram import (
-    TrapType, TopicPack, ResponseLength,
+    TrapType, TopicPack, ResponseLength, InputMode,
     CCRAMRequest, TrapClassification, CCRResponse, CCRAMOutput
 )
 from services.ccram_templates import (
     TRAP_DEFINITIONS, RESPONSE_TEMPLATES, TOPIC_PACKS,
-    RED_FLAG_PATTERNS, RED_FLAG_RESPONSE
+    RED_FLAG_PATTERNS, RED_FLAG_RESPONSE,
+    TIMING_BOUNDARY_LINES, ENGAGEMENT_RULE_NOTICES, PUBLIC_ENGAGEMENT_RULES,
+    TIMING_EARPIECE_CUES, TIMING_GLASSES_CARDS
 )
 
 load_dotenv()
@@ -39,6 +43,102 @@ class CCRAMService:
             if pattern in question_lower:
                 return True, f"Red flag triggered: '{pattern}' detected"
         return False, None
+    
+    def _count_words(self, text: str) -> int:
+        """Count words in text"""
+        return len(text.split())
+    
+    def _estimate_question_duration(
+        self,
+        question: str,
+        input_mode: InputMode,
+        words_per_minute: int,
+        caller_duration: Optional[float]
+    ) -> float:
+        """
+        Estimate how long it took to ask the question.
+        
+        Rules:
+        - If caller provides duration (e.g., from audio timestamps), use it
+        - Otherwise, estimate from word count and WPM
+        """
+        # If caller provided duration, use it
+        if caller_duration is not None and caller_duration > 0:
+            return caller_duration
+        
+        # Estimate from text
+        words = self._count_words(question)
+        
+        # Convert to duration: words / wpm * 60 = seconds
+        minutes = words / words_per_minute
+        estimated_seconds = math.ceil(minutes * 60)
+        
+        # Minimum 2 seconds even for very short questions
+        return max(estimated_seconds, 2.0)
+    
+    def _compute_required_pause(
+        self,
+        question_duration: float,
+        default_wait: int,
+        buffer: int
+    ) -> float:
+        """
+        Compute required pause before responding.
+        
+        Rule: REQUIRED_PAUSE = max(question_duration, default_wait) + buffer
+        """
+        return max(question_duration, default_wait) + buffer
+    
+    def _generate_timing_outputs(
+        self,
+        question_duration: float,
+        required_pause: float,
+        enforce_nqr: bool
+    ) -> Tuple[str, str, List[str]]:
+        """
+        Generate timing-related output strings.
+        
+        Returns: (engagement_notice, timing_boundary_line, public_rules)
+        """
+        if not enforce_nqr:
+            return "", "", []
+        
+        # Select engagement notice based on pause length
+        if required_pause >= 30:
+            notice = ENGAGEMENT_RULE_NOTICES["hostile"]
+        elif required_pause >= 15:
+            notice = ENGAGEMENT_RULE_NOTICES["standard"]
+        else:
+            notice = ENGAGEMENT_RULE_NOTICES["short"]
+        
+        # Select timing boundary line
+        boundary_line = TIMING_BOUNDARY_LINES[0]  # Default
+        
+        return notice, boundary_line, PUBLIC_ENGAGEMENT_RULES
+    
+    def _add_timing_to_responses(
+        self,
+        responses: List[CCRResponse],
+        timing_boundary_line: str,
+        enforce_nqr: bool
+    ) -> List[CCRResponse]:
+        """Add timing boundary line to responses when NQR is enabled"""
+        if not enforce_nqr or not timing_boundary_line:
+            return responses
+        
+        updated = []
+        for resp in responses:
+            timing_prefixed = f"{timing_boundary_line} {resp.full_response}"
+            updated.append(CCRResponse(
+                length=resp.length,
+                mechanism_anchor=resp.mechanism_anchor,
+                example=resp.example,
+                boundary_statement=resp.boundary_statement,
+                redirect_question=resp.redirect_question,
+                full_response=resp.full_response,
+                timing_prefixed_response=timing_prefixed
+            ))
+        return updated
     
     async def classify_trap(self, question: str) -> TrapClassification:
         """Classify the question into trap types using LLM"""
@@ -214,11 +314,20 @@ Respond ONLY with a JSON array of 3 response objects."""
             )
         ]
     
-    def generate_wearable_outputs(self, responses: List[CCRResponse]) -> Tuple[List[str], List[str]]:
+    def generate_wearable_outputs(
+        self,
+        responses: List[CCRResponse],
+        enforce_nqr: bool = True
+    ) -> Tuple[List[str], List[str]]:
         """Generate glasses cards and earpiece cues"""
         
         # Glasses cards: Big text, 1-2 lines each
         glasses_cards = []
+        
+        # Add timing cards first if NQR enabled
+        if enforce_nqr:
+            glasses_cards.extend(TIMING_GLASSES_CARDS[:2])  # PAUSE, EQUAL TIME RULE
+        
         for resp in responses:
             if resp.mechanism_anchor:
                 glasses_cards.append(resp.mechanism_anchor[:80])
@@ -228,18 +337,44 @@ Respond ONLY with a JSON array of 3 response objects."""
         glasses_cards.append("REDIRECT: What mechanism?")
         
         # Earpiece cues: 3-8 words
-        earpiece_cues = [
+        earpiece_cues = []
+        
+        # Add timing cues first if NQR enabled
+        if enforce_nqr:
+            earpiece_cues.extend(TIMING_EARPIECE_CUES[:2])  # Pause. Then answer. / Wait. Accuracy first.
+        
+        earpiece_cues.extend([
             "Mechanism. Not identity.",
             "Describe the pattern.",
             "Example. Then redirect.",
             "Preserve the exit.",
             "What mechanism operates?"
-        ]
+        ])
         
         return glasses_cards, earpiece_cues
     
     async def process_question(self, request: CCRAMRequest) -> CCRAMOutput:
-        """Main processing pipeline"""
+        """Main processing pipeline with NQR timing logic"""
+        
+        # Step 0: Compute timing
+        question_duration = self._estimate_question_duration(
+            question=request.question,
+            input_mode=request.input_mode,
+            words_per_minute=request.estimated_words_per_minute,
+            caller_duration=request.question_duration_seconds
+        )
+        
+        required_pause = self._compute_required_pause(
+            question_duration=question_duration,
+            default_wait=request.default_wait_seconds,
+            buffer=request.buffer_seconds
+        )
+        
+        engagement_notice, timing_boundary, public_rules = self._generate_timing_outputs(
+            question_duration=question_duration,
+            required_pause=required_pause,
+            enforce_nqr=request.enforce_nqr
+        )
         
         # Step 1: Check red flags
         red_flag, reason = self._check_red_flags(request.question)
@@ -260,13 +395,20 @@ Respond ONLY with a JSON array of 3 response objects."""
                         example=None,
                         boundary_statement=RED_FLAG_RESPONSE["boundary_statement"],
                         redirect_question=RED_FLAG_RESPONSE["redirect_question"],
-                        full_response=RED_FLAG_RESPONSE["full_response"]
+                        full_response=RED_FLAG_RESPONSE["full_response"],
+                        timing_prefixed_response=f"{timing_boundary} {RED_FLAG_RESPONSE['full_response']}" if request.enforce_nqr else None
                     )
                 ],
                 glasses_cards=["RED FLAG", "No names. No targeting.", "Redirect to mechanism."],
                 earpiece_cues=["Red flag. Boundary. Redirect."],
                 red_flag_triggered=True,
-                red_flag_reason=reason
+                red_flag_reason=reason,
+                # Timing outputs
+                computed_question_duration_seconds=question_duration,
+                required_pause_seconds=required_pause,
+                engagement_rule_notice=engagement_notice,
+                timing_boundary_line=timing_boundary,
+                public_engagement_rules=public_rules if request.enforce_nqr else None
             )
         
         # Step 2: Classify trap type
@@ -279,8 +421,18 @@ Respond ONLY with a JSON array of 3 response objects."""
             request.topic_pack
         )
         
-        # Step 4: Generate wearable outputs
-        glasses_cards, earpiece_cues = self.generate_wearable_outputs(responses)
+        # Step 4: Add timing to responses
+        responses = self._add_timing_to_responses(
+            responses=responses,
+            timing_boundary_line=timing_boundary,
+            enforce_nqr=request.enforce_nqr
+        )
+        
+        # Step 5: Generate wearable outputs
+        glasses_cards, earpiece_cues = self.generate_wearable_outputs(
+            responses=responses,
+            enforce_nqr=request.enforce_nqr
+        )
         
         return CCRAMOutput(
             original_question=request.question,
@@ -290,7 +442,13 @@ Respond ONLY with a JSON array of 3 response objects."""
             glasses_cards=glasses_cards,
             earpiece_cues=earpiece_cues,
             red_flag_triggered=False,
-            red_flag_reason=None
+            red_flag_reason=None,
+            # Timing outputs
+            computed_question_duration_seconds=question_duration,
+            required_pause_seconds=required_pause,
+            engagement_rule_notice=engagement_notice,
+            timing_boundary_line=timing_boundary,
+            public_engagement_rules=public_rules if request.enforce_nqr else None
         )
 
 
