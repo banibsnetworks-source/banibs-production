@@ -426,6 +426,10 @@ app.include_router(bcee_router)
 from routes.ccram import router as ccram_router
 app.include_router(ccram_router)
 
+# CCRAM Audio - Phase 2 (Speech-to-Text & Text-to-Speech)
+from routes.ccram_audio import router as ccram_audio_router
+app.include_router(ccram_audio_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
