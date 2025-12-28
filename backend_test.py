@@ -8010,27 +8010,27 @@ class BanibsAPITester:
 
 
 def main():
-    """Run CCRAM Phase 2 Audio Endpoints Testing"""
+    """Run CCRAM NQR Timing Logic Testing"""
     tester = BanibsAPITester()
     
-    print("🎧 BANIBS Backend API Test Suite - CCRAM Phase 2 Audio Endpoints Testing")
+    print("⏱️ BANIBS Backend API Test Suite - CCRAM NQR Timing Logic Testing")
     print("=" * 80)
     
     # Track test results
     tests = []
     
-    # CCRAM Phase 2 - Audio Endpoints Tests
-    print("\n🎧 CCRAM PHASE 2 - AUDIO ENDPOINTS TESTING")
+    # CCRAM NQR Timing Logic Tests
+    print("\n⏱️ CCRAM NQR (NO QUICK RESPONSE) TIMING LOGIC TESTING")
     print("=" * 60)
     
-    # CCRAM Audio Comprehensive Test
-    tests.append(("CCRAM Phase 2 Audio Endpoints Comprehensive Test", tester.test_ccram_audio_comprehensive))
+    # CCRAM Timing Comprehensive Test
+    tests.append(("CCRAM NQR Timing Logic Comprehensive Test", tester.test_ccram_timing_comprehensive))
     
     # Run all tests
     passed = 0
     failed = 0
-    audio_passed = 0
-    audio_failed = 0
+    timing_passed = 0
+    timing_failed = 0
     
     for i, (test_name, test_func) in enumerate(tests):
         print(f"\n📋 Running: {test_name}")
@@ -8040,40 +8040,42 @@ def main():
             result = test_func()
             if result:
                 passed += 1
-                audio_passed += 1
+                timing_passed += 1
                 print(f"✅ {test_name}: PASSED")
             else:
                 failed += 1
-                audio_failed += 1
+                timing_failed += 1
                 print(f"❌ {test_name}: FAILED")
         except Exception as e:
             failed += 1
-            audio_failed += 1
+            timing_failed += 1
             print(f"💥 {test_name}: ERROR - {e}")
     
     # Final summary
     print("\n" + "=" * 80)
     print("🏁 TEST SUMMARY")
     print("=" * 80)
-    print(f"🎧 CCRAM PHASE 2 AUDIO ENDPOINTS:")
-    print(f"   ✅ Passed: {audio_passed}")
-    print(f"   ❌ Failed: {audio_failed}")
-    print(f"   📈 Success Rate: {(audio_passed / (audio_passed + audio_failed) * 100):.1f}%" if (audio_passed + audio_failed) > 0 else "0.0%")
+    print(f"⏱️ CCRAM NQR TIMING LOGIC:")
+    print(f"   ✅ Passed: {timing_passed}")
+    print(f"   ❌ Failed: {timing_failed}")
+    print(f"   📈 Success Rate: {(timing_passed / (timing_passed + timing_failed) * 100):.1f}%" if (timing_passed + timing_failed) > 0 else "0.0%")
     
-    if audio_failed == 0:
-        print("\n🎉 ALL CCRAM AUDIO TESTS PASSED! Phase 2 Audio endpoints are fully operational!")
-        print("🎧 All CCRAM Audio endpoints working correctly:")
-        print("   ✅ GET /api/ccram/audio/voices - 9 TTS voices with recommendations")
-        print("   ✅ POST /api/ccram/audio/earpiece-cue - TTS cue generation")
-        print("   ✅ POST /api/ccram/audio/earpiece-cue (muted) - Panic mute functionality")
-        print("   ✅ POST /api/ccram/audio/full-pipeline - Error handling verified")
-        print("   ✅ All endpoints exist and respond correctly")
-        print("   ✅ CCR principles preserved (short cues, no persistent storage)")
-        print("\n🛡️ CCRAM Phase 2 is ready for hostile interview scenarios with audio support!")
+    if timing_failed == 0:
+        print("\n🎉 ALL CCRAM TIMING TESTS PASSED! NQR Timing Logic is fully operational!")
+        print("⏱️ All CCRAM Timing endpoints working correctly:")
+        print("   ✅ GET /api/ccram/timing-rules - NQR rules, formula, defaults")
+        print("   ✅ GET /api/ccram/timing-test-suite - 5 timing test cases")
+        print("   ✅ POST /api/ccram/analyze (short question) - Floor test passed")
+        print("   ✅ POST /api/ccram/analyze (long question) - Duration test passed")
+        print("   ✅ POST /api/ccram/analyze (buffer test) - Buffer calculation correct")
+        print("   ✅ POST /api/ccram/analyze (NQR disabled) - Timing outputs correctly empty")
+        print("   ✅ Timing formula verified: max(question_duration, default_wait) + buffer")
+        print("   ✅ Engagement rules and boundary lines working")
+        print("\n🛡️ CCRAM NQR is ready for hostile interview timing control!")
     else:
-        print(f"\n⚠️ {audio_failed} CCRAM Audio test(s) failed. Please review the issues above.")
+        print(f"\n⚠️ {timing_failed} CCRAM Timing test(s) failed. Please review the issues above.")
     
-    return audio_failed == 0
+    return timing_failed == 0
 
 
 if __name__ == "__main__":
