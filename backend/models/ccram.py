@@ -39,11 +39,26 @@ class ResponseLength(str, Enum):
     EXPANDED = "60s"   # 60-second expanded version
 
 
+class InputMode(str, Enum):
+    """Input mode for question source"""
+    TEXT = "text"           # Typed question
+    TRANSCRIPT = "transcript"  # Pasted transcript
+    AUDIO = "audio"         # Live audio (speech-to-text)
+
+
 class CCRAMRequest(BaseModel):
     """Input request for CCRAM processing"""
     question: str = Field(..., description="The question/statement to analyze")
     topic_pack: TopicPack = Field(default=TopicPack.GENERAL, description="Context pack to use")
     session_id: Optional[str] = Field(default=None, description="Optional session ID for continuity")
+    
+    # NQR (No Quick Response) Timing Fields
+    input_mode: InputMode = Field(default=InputMode.TEXT, description="Source of the question input")
+    default_wait_seconds: int = Field(default=15, ge=5, le=60, description="Minimum baseline pause (floor)")
+    buffer_seconds: int = Field(default=0, ge=0, le=120, description="Additional operator-controlled buffer")
+    estimated_words_per_minute: int = Field(default=150, ge=100, le=200, description="WPM for duration estimation")
+    question_duration_seconds: Optional[float] = Field(default=None, description="Caller-supplied duration (if known)")
+    enforce_nqr: bool = Field(default=True, description="Enable No Quick Response timing rules")
 
 
 class TrapClassification(BaseModel):
@@ -62,6 +77,7 @@ class CCRResponse(BaseModel):
     boundary_statement: str         # Exit-preserving statement
     redirect_question: str          # Return-to-mechanism question
     full_response: str              # Complete assembled response
+    timing_prefixed_response: Optional[str] = None  # Response with timing boundary prepended
 
 
 class CCRAMOutput(BaseModel):
@@ -75,6 +91,13 @@ class CCRAMOutput(BaseModel):
     red_flag_triggered: bool = False
     red_flag_reason: Optional[str] = None
     timestamp: datetime = Field(default_factory=datetime.utcnow)
+    
+    # NQR Timing Output Fields
+    computed_question_duration_seconds: float = Field(default=0.0, description="Estimated duration to ask the question")
+    required_pause_seconds: float = Field(default=15.0, description="Required pause before responding")
+    engagement_rule_notice: str = Field(default="", description="Displayable engagement protocol statement")
+    timing_boundary_line: str = Field(default="", description="One-liner to prepend to responses")
+    public_engagement_rules: Optional[List[str]] = Field(default=None, description="Full public engagement rules block")
 
 
 class PanicMuteRequest(BaseModel):
@@ -90,3 +113,5 @@ class TestQuestion(BaseModel):
     expected_trap_types: List[TrapType]
     topic_context: Optional[TopicPack] = None
     notes: Optional[str] = None
+    # Timing test fields
+    expected_min_pause: Optional[float] = None  # For timing tests
