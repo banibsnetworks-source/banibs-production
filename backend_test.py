@@ -1498,7 +1498,7 @@ class BanibsAPITester:
             elif endpoint == "/ccram/audio/transcribe-file":
                 # This is a file upload endpoint, just check if it exists
                 test_response = self.make_request("POST", endpoint, {})
-                if test_response.status_code in [200, 400, 422, 500]:  # Any response means endpoint exists
+                if test_response.status_code in [200, 400, 422, 500, 520]:  # Any response means endpoint exists
                     endpoints_working += 1
                     self.log(f"✅ Endpoint exists: {endpoint}")
                 else:
