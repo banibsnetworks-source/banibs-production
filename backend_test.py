@@ -7393,8 +7393,8 @@ def main():
     # Run all tests
     passed = 0
     failed = 0
-    adcs_passed = 0
-    adcs_failed = 0
+    ccram_passed = 0
+    ccram_failed = 0
     
     for i, (test_name, test_func) in enumerate(tests):
         print(f"\n📋 Running: {test_name}")
@@ -7404,38 +7404,41 @@ def main():
             result = test_func()
             if result:
                 passed += 1
-                adcs_passed += 1
+                ccram_passed += 1
                 print(f"✅ {test_name}: PASSED")
             else:
                 failed += 1
-                adcs_failed += 1
+                ccram_failed += 1
                 print(f"❌ {test_name}: FAILED")
         except Exception as e:
             failed += 1
-            adcs_failed += 1
+            ccram_failed += 1
             print(f"💥 {test_name}: ERROR - {e}")
     
     # Final summary
     print("\n" + "=" * 80)
     print("🏁 TEST SUMMARY")
     print("=" * 80)
-    print(f"🛡️ ADCS v1.0 P0 ENDPOINTS PROTECTION:")
-    print(f"   ✅ Passed: {adcs_passed}")
-    print(f"   ❌ Failed: {adcs_failed}")
-    print(f"   📈 Success Rate: {(adcs_passed / (adcs_passed + adcs_failed) * 100):.1f}%" if (adcs_passed + adcs_failed) > 0 else "0.0%")
+    print(f"🛡️ CCRAM CCR ANCHOR MODULE:")
+    print(f"   ✅ Passed: {ccram_passed}")
+    print(f"   ❌ Failed: {ccram_failed}")
+    print(f"   📈 Success Rate: {(ccram_passed / (ccram_passed + ccram_failed) * 100):.1f}%" if (ccram_passed + ccram_failed) > 0 else "0.0%")
     
-    if adcs_failed == 0:
-        print("\n🎉 ALL ADCS v1.0 TESTS PASSED! AI Double-Check System is fully operational!")
-        print("🛡️ P0 critical endpoints are properly protected with ADCS guards.")
-        print("💰 Money rules: Balance checks, transaction limits, daily limits active")
-        print("🤝 Trust rules: Block/ban rate limits, self-action prevention active")
-        print("🔒 Security rules: Role elevation protection active")
-        print("📋 Audit logging: All actions properly logged for compliance")
+    if ccram_failed == 0:
+        print("\n🎉 ALL CCRAM TESTS PASSED! CCR Anchor Module is fully operational!")
+        print("🛡️ All 7 CCRAM endpoints working correctly:")
+        print("📋 GET /api/ccram/trap-types - 10 trap types available")
+        print("📦 GET /api/ccram/topic-packs - 6 topic packs available")
+        print("🎯 POST /api/ccram/analyze - Hostile question analysis working")
+        print("🎯 POST /api/ccram/analyze - Multi-trap detection working")
+        print("🚩 POST /api/ccram/analyze - Red flag detection working")
+        print("🔇 POST /api/ccram/panic-mute - Privacy protection working")
+        print("📝 GET /api/ccram/test-suite - 30 test questions available")
     else:
-        print(f"\n⚠️  {adcs_failed} ADCS v1.0 test(s) failed. Please review the errors above.")
-        print("🚨 CRITICAL: P0 endpoints may not be properly protected!")
+        print(f"\n⚠️  {ccram_failed} CCRAM test(s) failed. Please review the errors above.")
+        print("🚨 CRITICAL: CCR Anchor Module may not be working properly!")
     
-    sys.exit(0 if adcs_failed == 0 else 1)
+    sys.exit(0 if ccram_failed == 0 else 1)
 
 
 # Removed duplicate main block - using the one at the end of file
