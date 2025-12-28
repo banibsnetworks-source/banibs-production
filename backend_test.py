@@ -1485,12 +1485,16 @@ class BanibsAPITester:
                 continue
             elif endpoint == "/ccram/audio/transcribe":
                 # Test with minimal request (will fail gracefully)
-                test_response = self.make_request("POST", endpoint, {"audio_base64": "invalid"})
+                test_response = self.make_request("POST", endpoint, {
+                    "audio_base64": "invalid",
+                    "session_id": "test",
+                    "language": "en"
+                })
                 if test_response.status_code in [200, 400, 422, 500]:  # Any response means endpoint exists
                     endpoints_working += 1
                     self.log(f"✅ Endpoint exists: {endpoint}")
                 else:
-                    self.log(f"❌ Endpoint not found: {endpoint}", "ERROR")
+                    self.log(f"❌ Endpoint not found: {endpoint} (status: {test_response.status_code})", "ERROR")
             elif endpoint == "/ccram/audio/transcribe-file":
                 # This is a file upload endpoint, just check if it exists
                 test_response = self.make_request("POST", endpoint, {})
