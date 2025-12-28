@@ -422,6 +422,10 @@ app.include_router(black_news_router)
 # BCEE v1.0 - Currency & Exchange Engine
 app.include_router(bcee_router)
 
+# CCRAM - CCR Anchor Module (Conversation Containment Rule Support)
+from routes.ccram import router as ccram_router
+app.include_router(ccram_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
