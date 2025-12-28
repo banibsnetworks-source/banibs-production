@@ -189,3 +189,95 @@ async def run_test_question(question: TestQuestion):
         "passed": pass_rate >= 0.5,
         "full_result": result.dict()
     }
+
+
+@router.get("/timing-rules")
+async def get_timing_rules():
+    """
+    Get NQR (No Quick Response) timing rules and defaults.
+    
+    Returns timing configuration and engagement rule templates.
+    """
+    from services.ccram_templates import (
+        TIMING_BOUNDARY_LINES, ENGAGEMENT_RULE_NOTICES, PUBLIC_ENGAGEMENT_RULES
+    )
+    
+    return {
+        "nqr_rules": {
+            "name": "No Quick Response (NQR)",
+            "description": "CCRAM assumes the operator will NOT answer immediately. A required pause is enforced before any response.",
+            "formula": "REQUIRED_PAUSE = max(question_duration_seconds, default_wait_seconds) + buffer_seconds"
+        },
+        "defaults": {
+            "default_wait_seconds": 15,
+            "buffer_seconds": 0,
+            "estimated_words_per_minute": 150,
+            "enforce_nqr": True
+        },
+        "timing_boundary_lines": TIMING_BOUNDARY_LINES,
+        "engagement_rule_notices": ENGAGEMENT_RULE_NOTICES,
+        "public_engagement_rules": PUBLIC_ENGAGEMENT_RULES
+    }
+
+
+@router.get("/timing-test-suite")
+async def get_timing_test_suite():
+    """
+    Get timing-focused test cases for NQR validation.
+    
+    Tests that required_pause is computed correctly for various question lengths.
+    """
+    timing_tests = [
+        {
+            "id": "timing-1",
+            "name": "3-word gotcha",
+            "question": "So you're Elijah?",
+            "word_count": 3,
+            "expected_behavior": "Uses default_wait_seconds (floor) since question is very short",
+            "at_150_wpm_duration": 1.2,
+            "with_default_15s": "required_pause = max(1.2, 15) + 0 = 15"
+        },
+        {
+            "id": "timing-2",
+            "name": "Long compound smear",
+            "question": "So let me get this straight - you're claiming to run some kind of spiritual movement, taking people's money, promising them salvation, and you expect us to just accept that you're not running a cult? How do you respond to critics who say you're nothing more than a sophisticated grifter preying on vulnerable people?",
+            "word_count": 60,
+            "expected_behavior": "pause >= estimated ask time since question is long",
+            "at_150_wpm_duration": 24.0,
+            "with_default_15s": "required_pause = max(24, 15) + 0 = 24"
+        },
+        {
+            "id": "timing-3",
+            "name": "Misquote trap with preface",
+            "question": "In your book from 2019, chapter 7, page 143, you wrote - and I'm quoting here - that 'traditional institutions have failed the Black community.' Now you're asking people to trust your new institution. Isn't that completely contradictory? Doesn't that make you a hypocrite by your own standards?",
+            "word_count": 54,
+            "expected_behavior": "pause grows with question length",
+            "at_150_wpm_duration": 21.6,
+            "with_default_15s": "required_pause = max(21.6, 15) + 0 = 21.6"
+        },
+        {
+            "id": "timing-4",
+            "name": "Rapid-fire yes/no false binary",
+            "question": "Yes or no?",
+            "word_count": 3,
+            "expected_behavior": "Still uses default_wait_seconds, timing boundary line included",
+            "at_150_wpm_duration": 1.2,
+            "with_default_15s": "required_pause = max(1.2, 15) + 0 = 15"
+        },
+        {
+            "id": "timing-5",
+            "name": "With buffer added",
+            "question": "What is your response to these allegations?",
+            "word_count": 7,
+            "expected_behavior": "Buffer adds to final pause",
+            "at_150_wpm_duration": 2.8,
+            "with_default_15s_buffer_10s": "required_pause = max(2.8, 15) + 10 = 25"
+        }
+    ]
+    
+    return {
+        "timing_test_suite": timing_tests,
+        "total_tests": len(timing_tests),
+        "pass_criteria": "required_pause_seconds matches formula: max(question_duration, default_wait) + buffer"
+    }
+
