@@ -1272,6 +1272,315 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # CCRAM - CCR ANCHOR MODULE TESTING
+    # ==========================================
+    
+    def test_ccram_comprehensive(self) -> bool:
+        """
+        CCRAM COMPREHENSIVE TESTING: CCR Anchor Module API
+        
+        Tests all CCRAM endpoints with comprehensive scenarios:
+        1. GET /api/ccram/trap-types - Should return 10 trap types
+        2. GET /api/ccram/topic-packs - Should return 6 topic packs
+        3. POST /api/ccram/analyze - Test with hostile question
+        4. POST /api/ccram/analyze - Multi-trap test
+        5. POST /api/ccram/analyze - Red flag test
+        6. POST /api/ccram/panic-mute - Test with session_id
+        7. GET /api/ccram/test-suite - Should return 30 test questions
+        """
+        self.log("🛡️ CCRAM COMPREHENSIVE TESTING: CCR Anchor Module API")
+        
+        # ============ TEST 1: GET TRAP TYPES ============
+        
+        self.log("📋 Test 1: GET /api/ccram/trap-types...")
+        
+        response = self.make_request("GET", "/ccram/trap-types")
+        
+        if response.status_code == 200:
+            data = response.json()
+            trap_types = data.get("trap_types", [])
+            
+            if len(trap_types) == 10:
+                self.log(f"✅ Found {len(trap_types)} trap types (expected 10)")
+                
+                # Verify expected trap types
+                expected_traps = ["identity", "motive", "urgency", "gotcha", "smear", 
+                                "scope_creep", "misquote", "evidence", "false_binary", "neutral"]
+                found_traps = [trap["key"] for trap in trap_types]
+                
+                missing_traps = [trap for trap in expected_traps if trap not in found_traps]
+                if not missing_traps:
+                    self.log("✅ All expected trap types found")
+                    
+                    # Verify structure of first trap type
+                    first_trap = trap_types[0]
+                    required_fields = ["key", "name", "description", "examples", "ccr_principle"]
+                    if all(field in first_trap for field in required_fields):
+                        self.log(f"✅ Trap type structure correct: {first_trap['name']}")
+                        self.log(f"   Description: {first_trap['description'][:50]}...")
+                        self.log(f"   CCR Principle: {first_trap['ccr_principle'][:50]}...")
+                    else:
+                        self.log(f"❌ Trap type missing required fields: {required_fields}", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Missing expected trap types: {missing_traps}", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Expected 10 trap types, got {len(trap_types)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Trap types endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 2: GET TOPIC PACKS ============
+        
+        self.log("📦 Test 2: GET /api/ccram/topic-packs...")
+        
+        response = self.make_request("GET", "/ccram/topic-packs")
+        
+        if response.status_code == 200:
+            data = response.json()
+            topic_packs = data.get("topic_packs", [])
+            
+            if len(topic_packs) == 6:
+                self.log(f"✅ Found {len(topic_packs)} topic packs (expected 6)")
+                
+                # Verify expected topic packs
+                expected_packs = ["general", "banibs", "hdos", "dismissive", "restorative", "tree_of_life"]
+                found_packs = [pack["key"] for pack in topic_packs]
+                
+                missing_packs = [pack for pack in expected_packs if pack not in found_packs]
+                if not missing_packs:
+                    self.log("✅ All expected topic packs found")
+                    
+                    # Verify structure of first topic pack
+                    first_pack = topic_packs[0]
+                    required_fields = ["key", "name", "core_concepts", "key_phrases"]
+                    if all(field in first_pack for field in required_fields):
+                        self.log(f"✅ Topic pack structure correct: {first_pack['name']}")
+                        self.log(f"   Core concepts: {len(first_pack['core_concepts'])} items")
+                        self.log(f"   Key phrases: {len(first_pack['key_phrases'])} items")
+                    else:
+                        self.log(f"❌ Topic pack missing required fields: {required_fields}", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Missing expected topic packs: {missing_packs}", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Expected 6 topic packs, got {len(topic_packs)}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Topic packs endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 3: ANALYZE HOSTILE QUESTION ============
+        
+        self.log("🎯 Test 3: POST /api/ccram/analyze - Hostile question...")
+        
+        analyze_data = {
+            "question": "Are you claiming to be a prophet?",
+            "topic_pack": "general"
+        }
+        
+        response = self.make_request("POST", "/ccram/analyze", analyze_data)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Verify response structure
+            required_fields = ["original_question", "classification", "topic_pack_used", 
+                             "responses", "glasses_cards", "earpiece_cues", "red_flag_triggered"]
+            
+            if all(field in data for field in required_fields):
+                self.log("✅ Analyze response structure correct")
+                
+                # Check classification
+                classification = data["classification"]
+                if classification["primary_trap"] == "identity":
+                    self.log(f"✅ Correct trap classification: {classification['primary_trap']}")
+                    self.log(f"   Confidence: {classification['confidence']}")
+                    self.log(f"   Reasoning: {classification['reasoning'][:50]}...")
+                else:
+                    self.log(f"❌ Expected 'identity' trap, got '{classification['primary_trap']}'", "ERROR")
+                    return False
+                
+                # Check responses (should have 3: 10s, 30s, 60s)
+                responses = data["responses"]
+                if len(responses) == 3:
+                    self.log(f"✅ Found {len(responses)} responses (10s, 30s, 60s)")
+                    
+                    # Verify each response has required fields
+                    for i, resp in enumerate(responses):
+                        required_resp_fields = ["mechanism_anchor", "boundary_statement", "redirect_question"]
+                        if all(field in resp for field in required_resp_fields):
+                            self.log(f"✅ Response {i+1} structure correct")
+                        else:
+                            self.log(f"❌ Response {i+1} missing required fields", "ERROR")
+                            return False
+                else:
+                    self.log(f"❌ Expected 3 responses, got {len(responses)}", "ERROR")
+                    return False
+                
+                # Check red flag not triggered
+                if not data["red_flag_triggered"]:
+                    self.log("✅ Red flag correctly not triggered for identity question")
+                else:
+                    self.log("❌ Red flag incorrectly triggered for identity question", "ERROR")
+                    return False
+                    
+            else:
+                missing_fields = [field for field in required_fields if field not in data]
+                self.log(f"❌ Analyze response missing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Analyze endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 4: MULTI-TRAP ANALYSIS ============
+        
+        self.log("🎯 Test 4: POST /api/ccram/analyze - Multi-trap test...")
+        
+        multi_trap_data = {
+            "question": "You're just a cult leader doing this for money - admit it yes or no",
+            "topic_pack": "general"
+        }
+        
+        response = self.make_request("POST", "/ccram/analyze", multi_trap_data)
+        
+        if response.status_code == 200:
+            data = response.json()
+            classification = data["classification"]
+            
+            # Should detect multiple traps (smear, motive, false_binary)
+            expected_traps = ["smear", "motive", "false_binary"]
+            detected_traps = [classification["primary_trap"]] + classification.get("secondary_traps", [])
+            
+            matches = [trap for trap in expected_traps if trap in detected_traps]
+            if len(matches) >= 2:  # Should detect at least 2 of the 3 traps
+                self.log(f"✅ Multi-trap detection working: detected {matches}")
+                self.log(f"   Primary: {classification['primary_trap']}")
+                self.log(f"   Secondary: {classification.get('secondary_traps', [])}")
+            else:
+                self.log(f"❌ Multi-trap detection failed. Expected {expected_traps}, detected {detected_traps}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Multi-trap analyze failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 5: RED FLAG TEST ============
+        
+        self.log("🚩 Test 5: POST /api/ccram/analyze - Red flag test...")
+        
+        red_flag_data = {
+            "question": "Name your enemies and who is against you",
+            "topic_pack": "general"
+        }
+        
+        response = self.make_request("POST", "/ccram/analyze", red_flag_data)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if data["red_flag_triggered"]:
+                self.log("✅ Red flag correctly triggered")
+                self.log(f"   Reason: {data.get('red_flag_reason', 'Not specified')}")
+                
+                # Should have boundary response
+                responses = data["responses"]
+                if len(responses) >= 1:
+                    boundary_resp = responses[0]
+                    if "don't name private individuals" in boundary_resp.get("mechanism_anchor", "").lower():
+                        self.log("✅ Red flag response contains correct boundary")
+                    else:
+                        self.log("❌ Red flag response missing boundary statement", "ERROR")
+                        return False
+                else:
+                    self.log("❌ Red flag response missing responses", "ERROR")
+                    return False
+            else:
+                self.log("❌ Red flag not triggered for naming enemies question", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Red flag analyze failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 6: PANIC MUTE ============
+        
+        self.log("🔇 Test 6: POST /api/ccram/panic-mute...")
+        
+        panic_data = {
+            "session_id": "test-session",
+            "clear_buffer": True
+        }
+        
+        response = self.make_request("POST", "/ccram/panic-mute", panic_data)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            if data.get("status") == "muted" and data.get("session_id") == "test-session":
+                self.log("✅ Panic mute working correctly")
+                self.log(f"   Status: {data['status']}")
+                self.log(f"   Session ID: {data['session_id']}")
+                self.log(f"   Buffer cleared: {data.get('buffer_cleared', False)}")
+            else:
+                self.log(f"❌ Panic mute response incorrect: {data}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Panic mute failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 7: TEST SUITE ============
+        
+        self.log("📝 Test 7: GET /api/ccram/test-suite...")
+        
+        response = self.make_request("GET", "/ccram/test-suite")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            test_suite = data.get("test_suite", [])
+            total_questions = data.get("total_questions", 0)
+            trap_coverage = data.get("trap_coverage", [])
+            
+            if total_questions == 30:
+                self.log(f"✅ Test suite has {total_questions} questions (expected 30)")
+                
+                # Verify trap coverage
+                expected_traps = ["identity", "motive", "urgency", "gotcha", "smear", 
+                                "scope_creep", "misquote", "evidence", "false_binary"]
+                covered_traps = [trap for trap in expected_traps if trap in trap_coverage]
+                
+                if len(covered_traps) >= 8:  # Should cover most trap types
+                    self.log(f"✅ Good trap coverage: {len(covered_traps)}/{len(expected_traps)} types")
+                    self.log(f"   Covered: {covered_traps}")
+                    
+                    # Verify structure of first test question
+                    if test_suite:
+                        first_question = test_suite[0]
+                        required_fields = ["id", "question", "expected_trap_types"]
+                        if all(field in first_question for field in required_fields):
+                            self.log(f"✅ Test question structure correct")
+                            self.log(f"   ID: {first_question['id']}")
+                            self.log(f"   Question: {first_question['question'][:50]}...")
+                            self.log(f"   Expected traps: {first_question['expected_trap_types']}")
+                        else:
+                            self.log(f"❌ Test question missing required fields", "ERROR")
+                            return False
+                else:
+                    self.log(f"❌ Insufficient trap coverage: {len(covered_traps)}/{len(expected_traps)}", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Expected 30 test questions, got {total_questions}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Test suite endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        self.log("🎉 CCRAM COMPREHENSIVE TESTING COMPLETE - ALL TESTS PASSED")
+        return True
+
+    # ==========================================
     # ADCS v1.0 - AI DOUBLE-CHECK SYSTEM TESTING
     # ==========================================
     
