@@ -7709,21 +7709,10 @@ def main():
         print(f"\n⚠️ {audio_failed} CCRAM Audio test(s) failed. Please review the issues above.")
     
     return audio_failed == 0
-        print("📋 GET /api/ccram/trap-types - 10 trap types available")
-        print("📦 GET /api/ccram/topic-packs - 6 topic packs available")
-        print("🎯 POST /api/ccram/analyze - Hostile question analysis working")
-        print("🎯 POST /api/ccram/analyze - Multi-trap detection working")
-        print("🚩 POST /api/ccram/analyze - Red flag detection working")
-        print("🔇 POST /api/ccram/panic-mute - Privacy protection working")
-        print("📝 GET /api/ccram/test-suite - 30 test questions available")
-    else:
-        print(f"\n⚠️  {ccram_failed} CCRAM test(s) failed. Please review the errors above.")
-        print("🚨 CRITICAL: CCR Anchor Module may not be working properly!")
-    
-    sys.exit(0 if ccram_failed == 0 else 1)
 
 
-# Removed duplicate main block - using the one at the end of file
+if __name__ == "__main__":
+    main()
 
     # Phase 6.6 - Feature Flags and Heavy Content Banner Tests
     
