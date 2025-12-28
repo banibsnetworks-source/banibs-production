@@ -278,6 +278,9 @@ import ComingSoonPage from "./pages/ComingSoonPage";
 import ComingSoonPageBlue from "./pages/ComingSoonPageBlue";
 import ComingSoonPageGold from "./pages/ComingSoonPageGold";
 
+// CCRAM - CCR Anchor Module
+import CCRAMPage from "./pages/ccram/CCRAMPage";
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
