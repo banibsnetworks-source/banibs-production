@@ -7645,21 +7645,21 @@ class BanibsAPITester:
 
 
 def main():
-    """Run CCRAM CCR Anchor Module Testing"""
+    """Run CCRAM Phase 2 Audio Endpoints Testing"""
     tester = BanibsAPITester()
     
-    print("🛡️ BANIBS Backend API Test Suite - CCRAM CCR Anchor Module Testing")
+    print("🎧 BANIBS Backend API Test Suite - CCRAM Phase 2 Audio Endpoints Testing")
     print("=" * 80)
     
     # Track test results
     tests = []
     
-    # CCRAM - CCR Anchor Module Tests
-    print("\n🛡️ CCRAM - CCR ANCHOR MODULE API TESTING")
+    # CCRAM Phase 2 - Audio Endpoints Tests
+    print("\n🎧 CCRAM PHASE 2 - AUDIO ENDPOINTS TESTING")
     print("=" * 60)
     
-    # CCRAM Comprehensive Test
-    tests.append(("CCRAM CCR Anchor Module Comprehensive Test", tester.test_ccram_comprehensive))
+    # CCRAM Audio Comprehensive Test
+    tests.append(("CCRAM Phase 2 Audio Endpoints Comprehensive Test", tester.test_ccram_audio_comprehensive))
     
     # Run all tests
     passed = 0
