@@ -7711,3 +7711,7 @@ def main():
     return audio_failed == 0
 
 
+if __name__ == "__main__":
+    main()
+
+
