@@ -7664,8 +7664,8 @@ def main():
     # Run all tests
     passed = 0
     failed = 0
-    ccram_passed = 0
-    ccram_failed = 0
+    audio_passed = 0
+    audio_failed = 0
     
     for i, (test_name, test_func) in enumerate(tests):
         print(f"\n📋 Running: {test_name}")
@@ -7675,29 +7675,40 @@ def main():
             result = test_func()
             if result:
                 passed += 1
-                ccram_passed += 1
+                audio_passed += 1
                 print(f"✅ {test_name}: PASSED")
             else:
                 failed += 1
-                ccram_failed += 1
+                audio_failed += 1
                 print(f"❌ {test_name}: FAILED")
         except Exception as e:
             failed += 1
-            ccram_failed += 1
+            audio_failed += 1
             print(f"💥 {test_name}: ERROR - {e}")
     
     # Final summary
     print("\n" + "=" * 80)
     print("🏁 TEST SUMMARY")
     print("=" * 80)
-    print(f"🛡️ CCRAM CCR ANCHOR MODULE:")
-    print(f"   ✅ Passed: {ccram_passed}")
-    print(f"   ❌ Failed: {ccram_failed}")
-    print(f"   📈 Success Rate: {(ccram_passed / (ccram_passed + ccram_failed) * 100):.1f}%" if (ccram_passed + ccram_failed) > 0 else "0.0%")
+    print(f"🎧 CCRAM PHASE 2 AUDIO ENDPOINTS:")
+    print(f"   ✅ Passed: {audio_passed}")
+    print(f"   ❌ Failed: {audio_failed}")
+    print(f"   📈 Success Rate: {(audio_passed / (audio_passed + audio_failed) * 100):.1f}%" if (audio_passed + audio_failed) > 0 else "0.0%")
     
-    if ccram_failed == 0:
-        print("\n🎉 ALL CCRAM TESTS PASSED! CCR Anchor Module is fully operational!")
-        print("🛡️ All 7 CCRAM endpoints working correctly:")
+    if audio_failed == 0:
+        print("\n🎉 ALL CCRAM AUDIO TESTS PASSED! Phase 2 Audio endpoints are fully operational!")
+        print("🎧 All CCRAM Audio endpoints working correctly:")
+        print("   ✅ GET /api/ccram/audio/voices - 9 TTS voices with recommendations")
+        print("   ✅ POST /api/ccram/audio/earpiece-cue - TTS cue generation")
+        print("   ✅ POST /api/ccram/audio/earpiece-cue (muted) - Panic mute functionality")
+        print("   ✅ POST /api/ccram/audio/full-pipeline - Error handling verified")
+        print("   ✅ All endpoints exist and respond correctly")
+        print("   ✅ CCR principles preserved (short cues, no persistent storage)")
+        print("\n🛡️ CCRAM Phase 2 is ready for hostile interview scenarios with audio support!")
+    else:
+        print(f"\n⚠️ {audio_failed} CCRAM Audio test(s) failed. Please review the issues above.")
+    
+    return audio_failed == 0
         print("📋 GET /api/ccram/trap-types - 10 trap types available")
         print("📦 GET /api/ccram/topic-packs - 6 topic packs available")
         print("🎯 POST /api/ccram/analyze - Hostile question analysis working")
