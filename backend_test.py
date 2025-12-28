@@ -1272,6 +1272,367 @@ class BanibsAPITester:
             return False
 
     # ==========================================
+    # CCRAM NQR TIMING LOGIC TESTING
+    # ==========================================
+    
+    def test_ccram_timing_comprehensive(self) -> bool:
+        """
+        CCRAM NQR (No Quick Response) TIMING LOGIC COMPREHENSIVE TESTING
+        
+        Tests all CCRAM Timing endpoints and logic:
+        1. GET /api/ccram/timing-rules - Should return NQR rules, formula, defaults
+        2. GET /api/ccram/timing-test-suite - Should return 5 timing test cases
+        3. POST /api/ccram/analyze (short question - floor test)
+        4. POST /api/ccram/analyze (long question - duration test)
+        5. POST /api/ccram/analyze (buffer test)
+        6. POST /api/ccram/analyze (NQR disabled test)
+        """
+        self.log("⏱️ CCRAM NQR TIMING LOGIC COMPREHENSIVE TESTING")
+        
+        # ============ TEST 1: GET TIMING RULES ============
+        
+        self.log("📋 Test 1: GET /api/ccram/timing-rules...")
+        
+        response = self.make_request("GET", "/ccram/timing-rules")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Check main structure
+            required_sections = ["nqr_rules", "defaults", "timing_boundary_lines", "engagement_rule_notices", "public_engagement_rules"]
+            if all(section in data for section in required_sections):
+                self.log("✅ All required sections present")
+                
+                # Verify NQR rules
+                nqr_rules = data["nqr_rules"]
+                if (nqr_rules.get("name") == "No Quick Response (NQR)" and 
+                    "max(question_duration_seconds, default_wait_seconds) + buffer_seconds" in nqr_rules.get("formula", "")):
+                    self.log("✅ NQR rules and formula correct")
+                    
+                    # Verify defaults
+                    defaults = data["defaults"]
+                    expected_defaults = {
+                        "default_wait_seconds": 15,
+                        "buffer_seconds": 0,
+                        "estimated_words_per_minute": 150,
+                        "enforce_nqr": True
+                    }
+                    
+                    if all(defaults.get(k) == v for k, v in expected_defaults.items()):
+                        self.log("✅ Default values correct")
+                        
+                        # Verify timing boundary lines array
+                        boundary_lines = data["timing_boundary_lines"]
+                        if isinstance(boundary_lines, list) and len(boundary_lines) >= 3:
+                            self.log(f"✅ Timing boundary lines present ({len(boundary_lines)} lines)")
+                            
+                            # Verify engagement rule notices
+                            notices = data["engagement_rule_notices"]
+                            expected_notice_types = ["short", "standard", "hostile", "formal"]
+                            if all(notice_type in notices for notice_type in expected_notice_types):
+                                self.log("✅ All engagement rule notice types present")
+                                
+                                # Verify public engagement rules
+                                public_rules = data["public_engagement_rules"]
+                                if isinstance(public_rules, list) and len(public_rules) == 6:
+                                    self.log(f"✅ Public engagement rules present ({len(public_rules)} rules)")
+                                    
+                                    # Check for key rules
+                                    rules_text = " ".join(public_rules)
+                                    if ("One question at a time" in rules_text and 
+                                        "Equal-time pause" in rules_text and
+                                        "No rapid-fire" in rules_text):
+                                        self.log("✅ Key engagement rules found")
+                                    else:
+                                        self.log("❌ Missing key engagement rules", "ERROR")
+                                        return False
+                                else:
+                                    self.log(f"❌ Expected 6 public engagement rules, got {len(public_rules)}", "ERROR")
+                                    return False
+                            else:
+                                missing_notices = [nt for nt in expected_notice_types if nt not in notices]
+                                self.log(f"❌ Missing engagement notice types: {missing_notices}", "ERROR")
+                                return False
+                        else:
+                            self.log(f"❌ Expected timing boundary lines array, got {type(boundary_lines)}", "ERROR")
+                            return False
+                    else:
+                        self.log(f"❌ Default values incorrect: {defaults}", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ NQR rules incorrect: {nqr_rules}", "ERROR")
+                    return False
+            else:
+                missing_sections = [s for s in required_sections if s not in data]
+                self.log(f"❌ Missing required sections: {missing_sections}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Timing rules endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 2: GET TIMING TEST SUITE ============
+        
+        self.log("🧪 Test 2: GET /api/ccram/timing-test-suite...")
+        
+        response = self.make_request("GET", "/ccram/timing-test-suite")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Check structure
+            if "timing_test_suite" in data and "total_tests" in data:
+                test_suite = data["timing_test_suite"]
+                total_tests = data["total_tests"]
+                
+                if len(test_suite) == 5 and total_tests == 5:
+                    self.log(f"✅ Timing test suite has {total_tests} test cases")
+                    
+                    # Verify each test case structure
+                    required_fields = ["id", "name", "question", "word_count", "expected_behavior"]
+                    all_valid = True
+                    
+                    for i, test_case in enumerate(test_suite):
+                        if all(field in test_case for field in required_fields):
+                            self.log(f"✅ Test case {i+1}: {test_case['name']} ({test_case['word_count']} words)")
+                        else:
+                            missing_fields = [f for f in required_fields if f not in test_case]
+                            self.log(f"❌ Test case {i+1} missing fields: {missing_fields}", "ERROR")
+                            all_valid = False
+                    
+                    if not all_valid:
+                        return False
+                        
+                    # Check for specific test cases
+                    test_names = [tc["name"] for tc in test_suite]
+                    expected_patterns = ["3-word", "Long compound", "buffer", "yes/no", "With buffer"]
+                    
+                    found_patterns = 0
+                    for pattern in expected_patterns:
+                        if any(pattern.lower() in name.lower() for name in test_names):
+                            found_patterns += 1
+                    
+                    if found_patterns >= 4:
+                        self.log(f"✅ Found {found_patterns}/5 expected test patterns")
+                    else:
+                        self.log(f"❌ Only found {found_patterns}/5 expected test patterns", "ERROR")
+                        return False
+                        
+                else:
+                    self.log(f"❌ Expected 5 test cases, got {len(test_suite)}", "ERROR")
+                    return False
+            else:
+                self.log("❌ Timing test suite response missing required fields", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Timing test suite endpoint failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 3: SHORT QUESTION - FLOOR TEST ============
+        
+        self.log("⚡ Test 3: POST /api/ccram/analyze (short question - floor test)...")
+        
+        short_request = {
+            "question": "So you're Elijah?",
+            "enforce_nqr": True,
+            "default_wait_seconds": 15,
+            "buffer_seconds": 0
+        }
+        
+        response = self.make_request("POST", "/ccram/analyze", short_request)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Check timing fields
+            timing_fields = ["computed_question_duration_seconds", "required_pause_seconds", "engagement_rule_notice", "timing_boundary_line"]
+            if all(field in data for field in timing_fields):
+                computed_duration = data["computed_question_duration_seconds"]
+                required_pause = data["required_pause_seconds"]
+                
+                # For 4 words at 150 WPM: ~1.6 seconds, but should use floor of 15
+                if computed_duration <= 3.0:  # Should be around 2 seconds (minimum)
+                    self.log(f"✅ Computed duration correct: {computed_duration}s (~2s for 4 words)")
+                    
+                    if required_pause == 15.0:  # Should use floor since computed < default
+                        self.log(f"✅ Required pause uses floor: {required_pause}s (max({computed_duration}, 15) + 0)")
+                        
+                        # Check engagement rule notice is present
+                        if data["engagement_rule_notice"]:
+                            self.log(f"✅ Engagement rule notice present")
+                            
+                            # Check timing boundary line is present
+                            if data["timing_boundary_line"]:
+                                self.log(f"✅ Timing boundary line present")
+                                
+                                # Check public engagement rules
+                                if data.get("public_engagement_rules") and len(data["public_engagement_rules"]) == 6:
+                                    self.log("✅ Public engagement rules present (6 rules)")
+                                else:
+                                    self.log("❌ Public engagement rules missing or incorrect count", "ERROR")
+                                    return False
+                            else:
+                                self.log("❌ Timing boundary line missing", "ERROR")
+                                return False
+                        else:
+                            self.log("❌ Engagement rule notice missing", "ERROR")
+                            return False
+                    else:
+                        self.log(f"❌ Required pause should be 15s (floor), got {required_pause}s", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Computed duration too high for short question: {computed_duration}s", "ERROR")
+                    return False
+            else:
+                missing_fields = [f for f in timing_fields if f not in data]
+                self.log(f"❌ Missing timing fields: {missing_fields}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Short question analysis failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 4: LONG QUESTION - DURATION TEST ============
+        
+        self.log("📏 Test 4: POST /api/ccram/analyze (long question - duration test)...")
+        
+        long_question = "So let me get this straight - you're claiming to run some kind of spiritual movement, taking people's money, promising them salvation, and you expect us to just accept that you're not running a cult? How do you respond to critics who say you're nothing more than a sophisticated grifter?"
+        
+        long_request = {
+            "question": long_question,
+            "enforce_nqr": True,
+            "default_wait_seconds": 15,
+            "buffer_seconds": 0
+        }
+        
+        response = self.make_request("POST", "/ccram/analyze", long_request)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            computed_duration = data.get("computed_question_duration_seconds", 0)
+            required_pause = data.get("required_pause_seconds", 0)
+            
+            # Count words in long question (should be 60+ words)
+            word_count = len(long_question.split())
+            expected_duration = word_count / 150 * 60  # Convert to seconds
+            
+            if word_count >= 50:  # Should be a long question
+                self.log(f"✅ Long question has {word_count} words")
+                
+                if computed_duration > 15:  # Should exceed default wait time
+                    self.log(f"✅ Computed duration exceeds default: {computed_duration}s > 15s")
+                    
+                    # Required pause should equal computed duration (since > floor)
+                    if abs(required_pause - computed_duration) < 1.0:  # Allow small rounding differences
+                        self.log(f"✅ Required pause equals computed duration: {required_pause}s")
+                        
+                        # Check that timing outputs are present
+                        if (data.get("engagement_rule_notice") and 
+                            data.get("timing_boundary_line") and
+                            data.get("public_engagement_rules")):
+                            self.log("✅ All timing outputs present for long question")
+                        else:
+                            self.log("❌ Missing timing outputs for long question", "ERROR")
+                            return False
+                    else:
+                        self.log(f"❌ Required pause should equal computed duration: {required_pause} vs {computed_duration}", "ERROR")
+                        return False
+                else:
+                    self.log(f"❌ Computed duration should exceed 15s for long question: {computed_duration}s", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ Question should be longer: only {word_count} words", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Long question analysis failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 5: BUFFER TEST ============
+        
+        self.log("🛡️ Test 5: POST /api/ccram/analyze (buffer test)...")
+        
+        buffer_request = {
+            "question": "What do you say?",
+            "enforce_nqr": True,
+            "default_wait_seconds": 15,
+            "buffer_seconds": 10
+        }
+        
+        response = self.make_request("POST", "/ccram/analyze", buffer_request)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            computed_duration = data.get("computed_question_duration_seconds", 0)
+            required_pause = data.get("required_pause_seconds", 0)
+            
+            # Should be: max(computed_duration, 15) + 10 = 15 + 10 = 25
+            expected_pause = max(computed_duration, 15) + 10
+            
+            if abs(required_pause - expected_pause) < 1.0:
+                self.log(f"✅ Buffer test correct: {required_pause}s = max({computed_duration}, 15) + 10")
+            else:
+                self.log(f"❌ Buffer calculation wrong: got {required_pause}s, expected {expected_pause}s", "ERROR")
+                return False
+        else:
+            self.log(f"❌ Buffer test failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        # ============ TEST 6: NQR DISABLED TEST ============
+        
+        self.log("🚫 Test 6: POST /api/ccram/analyze (NQR disabled test)...")
+        
+        disabled_request = {
+            "question": "Are you a cult leader?",
+            "enforce_nqr": False,
+            "default_wait_seconds": 15,
+            "buffer_seconds": 0
+        }
+        
+        response = self.make_request("POST", "/ccram/analyze", disabled_request)
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # When NQR is disabled, timing outputs should be empty/null
+            engagement_notice = data.get("engagement_rule_notice", "")
+            timing_boundary = data.get("timing_boundary_line", "")
+            public_rules = data.get("public_engagement_rules")
+            
+            if (engagement_notice == "" and 
+                timing_boundary == "" and
+                public_rules is None):
+                self.log("✅ NQR disabled: timing outputs correctly empty")
+                
+                # Should still compute timing values but not use them
+                if ("computed_question_duration_seconds" in data and 
+                    "required_pause_seconds" in data):
+                    self.log("✅ Timing values still computed when NQR disabled")
+                    
+                    # Check that responses don't have timing_prefixed_response
+                    responses = data.get("responses", [])
+                    if responses:
+                        first_response = responses[0]
+                        if first_response.get("timing_prefixed_response") is None:
+                            self.log("✅ No timing prefix when NQR disabled")
+                        else:
+                            self.log("❌ Timing prefix should be null when NQR disabled", "ERROR")
+                            return False
+                    else:
+                        self.log("⚠️ No responses to check timing prefix")
+                else:
+                    self.log("❌ Timing values should still be computed when NQR disabled", "ERROR")
+                    return False
+            else:
+                self.log(f"❌ NQR disabled but timing outputs not empty: notice='{engagement_notice}', boundary='{timing_boundary}', rules={public_rules is not None}", "ERROR")
+                return False
+        else:
+            self.log(f"❌ NQR disabled test failed: {response.status_code} - {response.text}", "ERROR")
+            return False
+        
+        self.log("🎉 CCRAM NQR TIMING LOGIC - ALL TESTS PASSED")
+        return True
+
+    # ==========================================
     # CCRAM PHASE 2 - AUDIO ENDPOINTS TESTING
     # ==========================================
     
