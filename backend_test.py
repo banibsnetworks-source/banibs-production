@@ -7374,21 +7374,21 @@ class BanibsAPITester:
 
 
 def main():
-    """Run ADCS v1.0 P0 Endpoints Protection Testing"""
+    """Run CCRAM CCR Anchor Module Testing"""
     tester = BanibsAPITester()
     
-    print("🛡️ BANIBS Backend API Test Suite - ADCS v1.0 P0 Endpoints Protection Testing")
+    print("🛡️ BANIBS Backend API Test Suite - CCRAM CCR Anchor Module Testing")
     print("=" * 80)
     
     # Track test results
     tests = []
     
-    # ADCS v1.0 - AI Double-Check System Tests
-    print("\n🛡️ ADCS v1.0 - AI DOUBLE-CHECK SYSTEM P0 ENDPOINTS PROTECTION")
+    # CCRAM - CCR Anchor Module Tests
+    print("\n🛡️ CCRAM - CCR ANCHOR MODULE API TESTING")
     print("=" * 60)
     
-    # ADCS Comprehensive Test
-    tests.append(("ADCS v1.0 Comprehensive Protection Test", tester.test_adcs_v1_0_comprehensive))
+    # CCRAM Comprehensive Test
+    tests.append(("CCRAM CCR Anchor Module Comprehensive Test", tester.test_ccram_comprehensive))
     
     # Run all tests
     passed = 0
