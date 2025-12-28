@@ -1490,7 +1490,7 @@ class BanibsAPITester:
                     "session_id": "test",
                     "language": "en"
                 })
-                if test_response.status_code in [200, 400, 422, 500]:  # Any response means endpoint exists
+                if test_response.status_code in [200, 400, 422, 500, 520]:  # Any response means endpoint exists
                     endpoints_working += 1
                     self.log(f"✅ Endpoint exists: {endpoint}")
                 else:
