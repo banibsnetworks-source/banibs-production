@@ -234,11 +234,11 @@ const ComingSoonPage = () => {
         {/* Animated dot grid - subtle overlay on top of image */}
         <DotGrid />
 
-        <div className="relative z-10 max-w-5xl">
+        <div className="relative z-10 w-full md:w-[42%] lg:w-[40%]">
           {/* Label */}
           <RevealText delay={100}>
             <span 
-              className="text-xs tracking-[0.25em] uppercase mb-8 block"
+              className="text-xs tracking-[0.25em] uppercase mb-6 block opacity-90"
               style={{ 
                 fontFamily: 'JetBrains Mono, monospace',
                 color: '#C5A059'
@@ -251,21 +251,21 @@ const ComingSoonPage = () => {
           {/* Acronym Expansion */}
           <h1 
             data-testid="hero-title"
-            className="mb-12"
+            className="mb-10"
             style={{ fontFamily: 'Playfair Display, serif' }}
           >
             <RevealText delay={200}>
-              <span className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+              <span className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight">
                 <span style={{ color: '#C5A059' }}>B</span>lack
               </span>
             </RevealText>
             <RevealText delay={350}>
-              <span className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+              <span className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight">
                 <span style={{ color: '#C5A059' }}>A</span>merica
               </span>
             </RevealText>
             <RevealText delay={500}>
-              <span className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+              <span className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight">
                 <span style={{ color: '#C5A059' }}>N</span>ews
               </span>
             </RevealText>
