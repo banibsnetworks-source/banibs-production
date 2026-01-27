@@ -40,6 +40,37 @@ client = AsyncIOMotorClient(os.environ['MONGO_URL'])
 db = client[os.environ['DB_NAME']]
 news_collection = db.news_items
 
+# Category-level fallback images - guaranteed to never be blank
+# Using high-quality Unsplash images that match each category's theme
+CATEGORY_FALLBACK_IMAGES = {
+    'us': 'https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=800&q=80',  # US cityscape
+    'world': 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=800&q=80',  # World/globe
+    'business': 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',  # Business/charts
+    'tech': 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80',  # Technology
+    'sports': 'https://images.unsplash.com/photo-1461896836934- voices.jpg?w=800&q=80',  # Sports stadium
+    'entertainment': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80',  # Concert/entertainment
+    'politics': 'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&q=80',  # Capitol building
+    'health': 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&q=80',  # Health/medical
+    'culture': 'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&q=80',  # Culture/festival
+    'default': 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80',  # News/newspaper
+}
+
+def get_fallback_image_for_category(category=None, mapped_section=None):
+    """Get appropriate fallback image based on category or mapped section"""
+    # Try mapped_section first (more specific)
+    if mapped_section and mapped_section in CATEGORY_FALLBACK_IMAGES:
+        return CATEGORY_FALLBACK_IMAGES[mapped_section]
+    
+    # Try to infer from category name
+    if category:
+        category_lower = category.lower()
+        for key in CATEGORY_FALLBACK_IMAGES:
+            if key in category_lower:
+                return CATEGORY_FALLBACK_IMAGES[key]
+    
+    # Default fallback
+    return CATEGORY_FALLBACK_IMAGES['default']
+
 def make_dedupe_key(item):
     """Create deduplication key - fingerprint preferred, fallback to sourceName::title"""
     if item.get('fingerprint'):
