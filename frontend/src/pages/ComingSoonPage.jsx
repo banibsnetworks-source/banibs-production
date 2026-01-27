@@ -292,6 +292,16 @@ const ComingSoonPage = () => {
               Encrypted. Ad-free. Built for our people.
             </p>
           </RevealText>
+          
+          {/* Status signal */}
+          <RevealText delay={1400}>
+            <p 
+              className="text-xs md:text-sm text-white/30 mt-6 tracking-wide"
+              style={{ fontFamily: 'JetBrains Mono, monospace' }}
+            >
+              The full system is opening in phases.
+            </p>
+          </RevealText>
         </div>
 
         {/* Scroll indicator */}
