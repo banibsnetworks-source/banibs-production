@@ -601,9 +601,12 @@ async def get_homepage_news():
             continue
         seen_keys.add(dedupe_key)
         
-        # Validate and fix imageUrl - use fallback for invalid images (tracking pixels, etc.)
+        # Validate and fix imageUrl - use category-specific fallback for invalid images
         if not is_valid_image_url(item.get('imageUrl')):
-            item['imageUrl'] = FALLBACK_IMAGE
+            item['imageUrl'] = get_fallback_image_for_category(
+                item.get('category'),
+                item.get('mapped_section')
+            )
         
         # Convert datetime to ISO string
         if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
