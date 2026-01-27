@@ -188,7 +188,7 @@ const ComingSoonPage = () => {
             </RevealText>
             <RevealText delay={950}>
               <span className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight">
-                <span style={{ color: '#C5A059' }}>S</span>ocial
+                <span style={{ color: '#C5A059' }}>S</span>ystem
               </span>
             </RevealText>
           </h1>
