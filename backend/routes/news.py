@@ -49,6 +49,39 @@ def make_dedupe_key(item):
     title = item.get('title', 'untitled')
     return f"{source}::{title}"
 
+
+def is_valid_image_url(url):
+    """Check if URL is a valid displayable image (not a tracking pixel or placeholder)"""
+    if not url:
+        return False
+    
+    # Invalid patterns - tracking pixels, placeholders, broken URLs
+    invalid_patterns = [
+        'tracking',
+        'pixel',
+        'rss-pixel',
+        'beacon',
+        '1x1',
+        'spacer',
+        'blank.gif',
+        'cdn.banibs.com',  # Known broken CDN
+        '/static/img/fallbacks/',  # Our own fallback
+    ]
+    
+    url_lower = url.lower()
+    for pattern in invalid_patterns:
+        if pattern in url_lower:
+            return False
+    
+    # Must have valid image extension or be from known image CDNs
+    valid_extensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif']
+    valid_cdns = ['images.unsplash.com', 'pexels.com', 'cloudfront.net', 'amazonaws.com']
+    
+    has_extension = any(ext in url_lower for ext in valid_extensions)
+    is_cdn = any(cdn in url_lower for cdn in valid_cdns)
+    
+    return has_extension or is_cdn
+
 @router.get("/latest", response_model=List[NewsItemPublic])
 async def get_latest_news_feed():
     """
