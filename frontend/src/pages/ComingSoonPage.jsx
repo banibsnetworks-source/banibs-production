@@ -88,7 +88,7 @@ const HeroImage = () => {
   
   return (
     <div 
-      className="absolute right-0 top-0 bottom-0 w-full md:w-3/5 lg:w-1/2 overflow-hidden pointer-events-none hidden md:block"
+      className="absolute right-0 top-0 bottom-0 w-full md:w-[60%] lg:w-[58%] overflow-hidden pointer-events-none hidden md:block"
     >
       {/* Image container */}
       <div 
@@ -97,18 +97,19 @@ const HeroImage = () => {
         <img
           src="https://customer-assets.emergentagent.com/job_98eb7880-3cdf-494f-b92e-cec2c58a40ae/artifacts/fytksw5q_QARSP23-BlackStudies-WadeHudson-BlackStudiesFaculty_0.jpg"
           alt="Black community in conversation"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover"
+          style={{ objectPosition: '40% center' }}
           onLoad={() => setIsLoaded(true)}
         />
       </div>
       
-      {/* Dark overlay gradients for blending */}
+      {/* Dark overlay gradients for blending - lighter to show more image */}
       <div 
         className="absolute inset-0"
         style={{
           background: `
-            linear-gradient(90deg, #020408 0%, #020408 10%, rgba(2, 4, 8, 0.9) 30%, rgba(2, 4, 8, 0.5) 60%, rgba(2, 4, 8, 0.3) 100%),
-            linear-gradient(180deg, rgba(2, 4, 8, 0.2) 0%, transparent 30%, transparent 70%, rgba(2, 4, 8, 0.4) 100%)
+            linear-gradient(90deg, #020408 0%, rgba(2, 4, 8, 0.85) 8%, rgba(2, 4, 8, 0.4) 25%, rgba(2, 4, 8, 0.15) 50%, rgba(2, 4, 8, 0.1) 100%),
+            linear-gradient(180deg, rgba(2, 4, 8, 0.15) 0%, transparent 20%, transparent 80%, rgba(2, 4, 8, 0.3) 100%)
           `
         }}
       />
@@ -117,7 +118,7 @@ const HeroImage = () => {
       <div 
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(135deg, transparent 40%, rgba(197, 160, 89, 0.06) 100%)',
+          background: 'linear-gradient(135deg, transparent 40%, rgba(197, 160, 89, 0.04) 100%)',
           mixBlendMode: 'overlay'
         }}
       />
