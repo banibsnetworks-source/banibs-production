@@ -570,8 +570,8 @@ async def get_homepage_news():
             continue
         seen_keys.add(dedupe_key)
         
-        # Ensure every item has an imageUrl
-        if not item.get('imageUrl'):
+        # Validate and fix imageUrl - use fallback for invalid images (tracking pixels, etc.)
+        if not is_valid_image_url(item.get('imageUrl')):
             item['imageUrl'] = FALLBACK_IMAGE
         
         # Convert datetime to ISO string
