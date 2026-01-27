@@ -1,0 +1,149 @@
+{
+  "identity": {
+    "name": "E1",
+    "role": "The Anti-AI Designer",
+    "philosophy": "Fusion over Imitation. Emotion First. Content is King.",
+    "vibe": "Editorial, Intentional, Alive, High-step not hype"
+  },
+  "project": {
+    "name": "BANIBS Guest Page Redesign",
+    "type": "Orientation & Presence Page",
+    "target_audience": "Black diaspora, intellectually curious, privacy-conscious",
+    "theme_mode": "dark"
+  },
+  "design_system": {
+    "typography": {
+      "headings": {
+        "font_family": "Playfair Display, serif",
+        "weight": "700",
+        "tracking": "-0.02em",
+        "usage": "Hero titles, Section headers, Book titles"
+      },
+      "body": {
+        "font_family": "Inter, sans-serif",
+        "weight": "400",
+        "usage": "Paragraphs, descriptions"
+      },
+      "accents": {
+        "font_family": "JetBrains Mono, monospace",
+        "usage": "Labels, 'Encrypted' tags, metadata"
+      }
+    },
+    "colors": {
+      "palette": {
+        "obsidian": "#020408",
+        "charcoal": "#0F1115",
+        "off_white": "#E0E0E0",
+        "pure_white": "#FFFFFF",
+        "muted_gold": "#C5A059",
+        "deep_blue_accent": "#1e3a8a",
+        "subtle_border": "rgba(255, 255, 255, 0.1)"
+      },
+      "tailwind_mapping": {
+        "bg-page": "bg-[#020408]",
+        "text-primary": "text-white",
+        "text-secondary": "text-white/70",
+        "text-accent": "text-[#C5A059]",
+        "border-subtle": "border-white/10"
+      }
+    },
+    "spacing": {
+      "container_padding": "px-6 md:px-12 lg:px-24",
+      "section_gap": "py-24 md:py-32",
+      "element_gap": "gap-8"
+    },
+    "visual_enhancers": {
+      "glassmorphism": "backdrop-blur-xl bg-white/5 border border-white/10",
+      "noise_texture": "url('https://grainy-gradients.vercel.app/noise.svg')",
+      "glow": "shadow-[0_0_40px_-10px_rgba(197,160,89,0.1)]"
+    }
+  },
+  "assets": {
+    "images": {
+      "hero_bg": "https://images.unsplash.com/photo-1760442903653-ac7b9450c4aa?q=80&w=2070&auto=format&fit=crop",
+      "mission_texture": "https://images.unsplash.com/photo-1764443994825-fdf138cb1653?q=80&w=1974&auto=format&fit=crop",
+      "book_texture": "https://images.unsplash.com/photo-1512580770426-cbed71c40e94?q=80&w=2070&auto=format&fit=crop"
+    },
+    "icons": "Use lucide-react (BookOpen, Shield, Globe, ArrowRight, Mail)"
+  },
+  "layout_strategy": {
+    "hero": {
+      "structure": "Asymmetrical Split or Centered Typographic Behemoth",
+      "elements": [
+        "Massive 'BANIBS' acronym expansion (Black And...)",
+        "Subtle animated background (Deep Blue Texture)",
+        "Minimalist 'Scroll to Explore' indicator"
+      ]
+    },
+    "mission": {
+      "structure": "Editorial Grid (Text + Negative Space)",
+      "content": "Why it exists. Privacy, Dignity, Culture.",
+      "style": "High contrast, large typography"
+    },
+    "books": {
+      "structure": "The 'Connected Body of Work' List",
+      "style": "Vertical interactive list. Hovering a title reveals a subtle abstract cover or glow. Each book links to Amazon.",
+      "items": [
+        "The Devil's Dismissive Argument",
+        "Before You Call It Out",
+        "The Devil's Deceitful Master Plan",
+        "The Light God Wants You to See",
+        "Human Decision Operating System (HDOS)"
+      ]
+    },
+    "waitlist": {
+      "structure": "Minimalist Input Field",
+      "style": "Clean, border-bottom only or glassmorphism container. No aggressive marketing copy."
+    },
+    "footer": {
+      "structure": "Simple centered tagline",
+      "content": "Peace • Love • Honor • Respect"
+    }
+  },
+  "implementation_guide": {
+    "steps": [
+      {
+        "step": 1,
+        "action": "Setup Fonts",
+        "details": "Import Playfair Display and JetBrains Mono from Google Fonts in index.css"
+      },
+      {
+        "step": 2,
+        "action": "Scaffold Page",
+        "details": "Create the main container with 'bg-[#020408] text-white min-h-screen font-sans selection:bg-[#C5A059] selection:text-black'"
+      },
+      {
+        "step": 3,
+        "action": "Build Hero",
+        "details": "Use the 'hero_bg' image with low opacity (opacity-20) mixed with a gradient overlay. Center the BANIBS acronym expansion."
+      },
+      {
+        "step": 4,
+        "action": "Build Mission Section",
+        "details": "Use a 2-column grid on desktop. Left: 'What is BANIBS?'. Right: The explanation text in large, readable serif font."
+      },
+      {
+        "step": 5,
+        "action": "Build Books Section",
+        "details": "Create a list of links. Use 'group' hover effects. When hovering a book, dim the others. Add a subtle 'ArrowUpRight' icon."
+      },
+      {
+        "step": 6,
+        "action": "Build Waitlist",
+        "details": "Preserve the existing localStorage logic. Style the form to be elegant and unobtrusive."
+      }
+    ],
+    "code_snippets": {
+      "hero_title_classes": "text-5xl md:text-7xl font-serif font-bold tracking-tighter leading-tight",
+      "section_title_classes": "text-xs font-mono uppercase tracking-[0.2em] text-[#C5A059] mb-8",
+      "book_link_classes": "block text-2xl md:text-4xl font-serif py-6 border-b border-white/10 hover:text-[#C5A059] hover:pl-4 transition-all duration-300 flex justify-between items-center group"
+    }
+  },
+  "universal_guidelines": [
+    "Do not use gradients for text.",
+    "Ensure all interactive elements have hover states.",
+    "Use 'data-testid' for all key elements.",
+    "Maintain the 'Dark/Obsidian' theme strictly.",
+    "No generic stock photos of people shaking hands."
+  ]
+}
