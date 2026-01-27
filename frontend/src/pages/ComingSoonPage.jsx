@@ -92,6 +92,151 @@ const DotGrid = () => {
   );
 };
 
+// BANIBS Seal - premium right-side visual anchor
+const BanibsSeal = () => {
+  return (
+    <div 
+      className="absolute right-12 lg:right-24 top-1/2 -translate-y-1/2 hidden lg:flex items-center justify-center pointer-events-none"
+      style={{ 
+        width: '420px', 
+        height: '420px',
+        opacity: 0.12
+      }}
+    >
+      {/* Outer rotating ring */}
+      <div 
+        className="absolute inset-0"
+        style={{ animation: 'slowRotate 120s linear infinite' }}
+      >
+        <svg viewBox="0 0 400 400" className="w-full h-full">
+          {/* Outer circle */}
+          <circle 
+            cx="200" cy="200" r="195" 
+            fill="none" 
+            stroke="#C5A059" 
+            strokeWidth="0.5"
+          />
+          {/* Text path for outer ring */}
+          <defs>
+            <path 
+              id="textCircle" 
+              d="M 200,200 m -160,0 a 160,160 0 1,1 320,0 a 160,160 0 1,1 -320,0"
+            />
+          </defs>
+          <text fill="#C5A059" style={{ fontSize: '11px', letterSpacing: '0.3em', fontFamily: 'JetBrains Mono, monospace' }}>
+            <textPath href="#textCircle">
+              BLACK AMERICA NEWS INFORMATION & BUSINESS SYSTEM • BLACK AMERICA NEWS INFORMATION & BUSINESS SYSTEM •
+            </textPath>
+          </text>
+          {/* Inner decorative circle */}
+          <circle 
+            cx="200" cy="200" r="140" 
+            fill="none" 
+            stroke="#C5A059" 
+            strokeWidth="0.5"
+            strokeDasharray="4 8"
+          />
+        </svg>
+      </div>
+      
+      {/* Inner static seal */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <svg viewBox="0 0 200 200" className="w-48 h-48">
+          {/* Shield/badge shape */}
+          <defs>
+            <linearGradient id="goldShimmer" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#C5A059" stopOpacity="0.8">
+                <animate attributeName="stopOpacity" values="0.8;1;0.8" dur="4s" repeatCount="indefinite" />
+              </stop>
+              <stop offset="50%" stopColor="#D4AF61" stopOpacity="1">
+                <animate attributeName="stopOpacity" values="1;0.8;1" dur="4s" repeatCount="indefinite" />
+              </stop>
+              <stop offset="100%" stopColor="#C5A059" stopOpacity="0.8">
+                <animate attributeName="stopOpacity" values="0.8;1;0.8" dur="4s" repeatCount="indefinite" />
+              </stop>
+            </linearGradient>
+          </defs>
+          
+          {/* Hexagonal frame */}
+          <polygon 
+            points="100,10 180,55 180,145 100,190 20,145 20,55" 
+            fill="none" 
+            stroke="url(#goldShimmer)" 
+            strokeWidth="1"
+          />
+          
+          {/* Inner hexagon */}
+          <polygon 
+            points="100,30 160,65 160,135 100,170 40,135 40,65" 
+            fill="none" 
+            stroke="#C5A059" 
+            strokeWidth="0.5"
+            strokeDasharray="2 4"
+          />
+          
+          {/* BANIBS text */}
+          <text 
+            x="100" y="95" 
+            textAnchor="middle" 
+            fill="url(#goldShimmer)" 
+            style={{ 
+              fontSize: '28px', 
+              fontFamily: 'Playfair Display, serif', 
+              fontWeight: '700',
+              letterSpacing: '0.1em'
+            }}
+          >
+            BANIBS
+          </text>
+          
+          {/* Decorative line */}
+          <line x1="50" y1="108" x2="150" y2="108" stroke="#C5A059" strokeWidth="0.5" />
+          
+          {/* Tagline */}
+          <text 
+            x="100" y="125" 
+            textAnchor="middle" 
+            fill="#C5A059" 
+            style={{ 
+              fontSize: '7px', 
+              fontFamily: 'JetBrains Mono, monospace',
+              letterSpacing: '0.15em'
+            }}
+          >
+            A NEW DIGITAL HOME
+          </text>
+          
+          {/* Year mark */}
+          <text 
+            x="100" y="145" 
+            textAnchor="middle" 
+            fill="#C5A059" 
+            style={{ 
+              fontSize: '9px', 
+              fontFamily: 'JetBrains Mono, monospace',
+              letterSpacing: '0.2em'
+            }}
+          >
+            EST. 2024
+          </text>
+        </svg>
+      </div>
+      
+      {/* CSS for rotation */}
+      <style>{`
+        @keyframes slowRotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
 // Animated text reveal component
 const RevealText = ({ children, delay = 0, className = "", block = false }) => {
   const [isVisible, setIsVisible] = useState(false);
