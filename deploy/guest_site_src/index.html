@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANIBS — Black America News, Information & Business System</title>
+    <meta name="description" content="A new digital home for our people — built with privacy and dignity at the core. Encrypted. Ad-free. Built for our people.">
+    
+    <!-- Open Graph / Social -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="BANIBS — Black America News, Information & Business System">
+    <meta property="og:description" content="A new digital home for our people — built with privacy and dignity at the core.">
+    <meta property="og:url" content="https://banibs.com">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="BANIBS">
+    <meta name="twitter:description" content="Encrypted. Ad-free. Built for our people.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        ::selection {
+            background: #C5A059;
+            color: #000;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #020408;
+            color: #fff;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Typography */
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Animations */
+        @keyframes drift {
+            from { transform: translate(0, 0); }
+            to { transform: translate(40px, 40px); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.7s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .animate-bounce {
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        /* Delay classes */
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-350 { animation-delay: 0.35s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-650 { animation-delay: 0.65s; }
+        .delay-800 { animation-delay: 0.8s; }
+        .delay-950 { animation-delay: 0.95s; }
+        .delay-1200 { animation-delay: 1.2s; }
+        .delay-1500 { animation-delay: 1.5s; }
+        
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px 24px;
+            overflow: hidden;
+        }
+        
+        @media (min-width: 768px) {
+            .hero { padding: 60px 48px; }
+        }
+        
+        @media (min-width: 1024px) {
+            .hero { padding: 60px 96px; }
+        }
+        
+        /* Background gradient */
+        .hero-bg-gradient {
+            position: absolute;
+            inset: 0;
+            opacity: 0.4;
+            background: radial-gradient(ellipse at 30% 20%, rgba(30, 58, 138, 0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(197, 160, 89, 0.08) 0%, transparent 50%);
+        }
+        
+        /* Noise texture */
+        .hero-noise {
+            position: absolute;
+            inset: 0;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+        }
+        
+        /* Hero Image */
+        .hero-image-container {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 58%;
+            overflow: hidden;
+            pointer-events: none;
+            display: none;
+        }
+        
+        @media (min-width: 768px) {
+            .hero-image-container { display: block; }
+        }
+        
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 40% center;
+        }
+        
+        .hero-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, #020408 0%, rgba(2, 4, 8, 0.85) 8%, rgba(2, 4, 8, 0.4) 25%, rgba(2, 4, 8, 0.15) 50%, rgba(2, 4, 8, 0.1) 100%),
+                        linear-gradient(180deg, rgba(2, 4, 8, 0.15) 0%, transparent 20%, transparent 80%, rgba(2, 4, 8, 0.3) 100%);
+        }
+        
+        .hero-image-tint {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 40%, rgba(197, 160, 89, 0.04) 100%);
+            mix-blend-mode: overlay;
+        }
+        
+        /* Dot Grid */
+        .dot-grid-container {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 50%;
+            overflow: hidden;
+            pointer-events: none;
+            opacity: 0.25;
+            display: none;
+        }
+        
+        @media (min-width: 1024px) {
+            .dot-grid-container { display: block; }
+        }
+        
+        .dot-grid {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(197, 160, 89, 0.3) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: drift 60s linear infinite;
+        }
+        
+        .dot-grid-fade {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, #020408 0%, transparent 50%);
+        }
+        
+        /* Hero Content */
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+            .hero-content { width: 42%; }
+        }
+        
+        @media (min-width: 1024px) {
+            .hero-content { width: 40%; }
+        }
+        
+        .hero-label {
+            font-size: 12px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            color: #C5A059;
+            opacity: 0.9;
+        }
+        
+        .hero-title {
+            margin-bottom: 40px;
+        }
+        
+        .hero-title-line {
+            display: block;
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+        
+        @media (min-width: 768px) {
+            .hero-title-line { font-size: 48px; }
+        }
+        
+        @media (min-width: 1024px) {
+            .hero-title-line { font-size: 60px; }
+        }
+        
+        .hero-title-accent {
+            color: #C5A059;
+        }
+        
+        .hero-title-amp {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .hero-tagline {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.5);
+            max-width: 384px;
+            line-height: 1.6;
+        }
+        
+        @media (min-width: 768px) {
+            .hero-tagline { font-size: 18px; }
+        }
+        
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 48px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .scroll-indicator-text {
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+        
+        /* Mission Section */
+        .section {
+            padding: 96px 24px;
+        }
+        
+        @media (min-width: 768px) {
+            .section { padding: 128px 48px; }
+        }
+        
+        @media (min-width: 1024px) {
+            .section { padding: 128px 96px; }
+        }
+        
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-label {
+            font-size: 12px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 48px;
+            color: #C5A059;
+        }
+        
+        .mission-grid {
+            display: grid;
+            gap: 48px;
+        }
+        
+        @media (min-width: 768px) {
+            .mission-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 96px;
+            }
+        }
+        
+        .mission-title {
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 32px;
+            line-height: 1.2;
+        }
+        
+        @media (min-width: 768px) {
+            .mission-title { font-size: 36px; }
+        }
+        
+        @media (min-width: 1024px) {
+            .mission-title { font-size: 48px; }
+        }
+        
+        .mission-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 18px;
+            line-height: 1.7;
+        }
+        
+        .mission-text p {
+            margin-bottom: 24px;
+        }
+        
+        /* Principles */
+        .principles {
+            display: grid;
+            gap: 32px;
+            margin-top: 80px;
+            padding-top: 64px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (min-width: 768px) {
+            .principles {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .principle-icon {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .principle-icon svg {
+            width: 20px;
+            height: 20px;
+            color: #C5A059;
+        }
+        
+        .principle-label {
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .principle-text {
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+        
+        /* Books Section */
+        .books-section {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .books-intro {
+            margin-bottom: 64px;
+        }
+        
+        .books-title {
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+        
+        @media (min-width: 768px) {
+            .books-title { font-size: 36px; }
+        }
+        
+        @media (min-width: 1024px) {
+            .books-title { font-size: 48px; }
+        }
+        
+        .books-description {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 18px;
+            max-width: 640px;
+            line-height: 1.6;
+        }
+        
+        /* Book List */
+        .books-list {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .book-item {
+            display: block;
+            padding: 32px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s ease;
+        }
+        
+        .book-item:hover {
+            padding-left: 16px;
+        }
+        
+        .book-item:hover .book-title {
+            color: #C5A059;
+        }
+        
+        .book-item:hover .book-link {
+            color: #C5A059;
+            transform: translate(4px, -4px);
+        }
+        
+        .book-header {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        @media (min-width: 768px) {
+            .book-header {
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: space-between;
+            }
+        }
+        
+        .book-number {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-right: 12px;
+        }
+        
+        .book-title {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            transition: color 0.3s ease;
+        }
+        
+        @media (min-width: 768px) {
+            .book-title { font-size: 24px; }
+        }
+        
+        @media (min-width: 1024px) {
+            .book-title { font-size: 30px; }
+        }
+        
+        .book-subtitle {
+            display: block;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 8px;
+            margin-left: 36px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        @media (min-width: 768px) {
+            .book-subtitle { font-size: 16px; }
+        }
+        
+        .book-role {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 12px;
+            margin-left: 36px;
+            max-width: 640px;
+            line-height: 1.6;
+        }
+        
+        @media (min-width: 768px) {
+            .book-role { font-size: 16px; }
+        }
+        
+        .book-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+            transition: all 0.3s ease;
+            margin-left: 36px;
+            margin-top: 8px;
+        }
+        
+        @media (min-width: 768px) {
+            .book-link {
+                margin-left: 0;
+                margin-top: 0;
+            }
+        }
+        
+        .book-link svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        /* Waitlist Section */
+        .waitlist-section {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+        
+        .waitlist-container {
+            max-width: 512px;
+            margin: 0 auto;
+        }
+        
+        .waitlist-title {
+            font-size: 30px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+        }
+        
+        @media (min-width: 768px) {
+            .waitlist-title { font-size: 36px; }
+        }
+        
+        .waitlist-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 18px;
+            margin-bottom: 48px;
+            line-height: 1.6;
+        }
+        
+        /* Form */
+        .waitlist-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .form-container {
+            display: flex;
+            align-items: center;
+            padding: 4px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .form-icon {
+            display: flex;
+            align-items: center;
+            padding-left: 16px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .form-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .form-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 16px;
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+        }
+        
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .form-button {
+            padding: 12px 24px;
+            border-radius: 9999px;
+            background: #C5A059;
+            color: #020408;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .form-button:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Success Message */
+        .success-message {
+            padding: 32px;
+            border-radius: 16px;
+            background: rgba(197, 160, 89, 0.1);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            display: none;
+        }
+        
+        .success-message.show {
+            display: block;
+        }
+        
+        .success-icon {
+            font-size: 24px;
+            color: #C5A059;
+            margin-bottom: 12px;
+        }
+        
+        .success-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .success-text {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Footer */
+        .footer {
+            padding: 64px 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+        
+        .footer-tagline {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+        
+        .footer-copyright {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: 12px;
+            margin-top: 24px;
+        }
+        
+        /* Utility: Hidden */
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <!-- Background gradient -->
+        <div class="hero-bg-gradient"></div>
+        
+        <!-- Noise texture -->
+        <div class="hero-noise"></div>
+        
+        <!-- Hero Image -->
+        <div class="hero-image-container">
+            <img 
+                src="https://customer-assets.emergentagent.com/job_98eb7880-3cdf-494f-b92e-cec2c58a40ae/artifacts/fytksw5q_QARSP23-BlackStudies-WadeHudson-BlackStudiesFaculty_0.jpg" 
+                alt="Black community in conversation" 
+                class="hero-image"
+            >
+            <div class="hero-image-overlay"></div>
+            <div class="hero-image-tint"></div>
+        </div>
+        
+        <!-- Dot Grid -->
+        <div class="dot-grid-container">
+            <div class="dot-grid"></div>
+            <div class="dot-grid-fade"></div>
+        </div>
+        
+        <!-- Content -->
+        <div class="hero-content">
+            <div class="hero-label font-mono animate-fadeInUp delay-100">
+                A New Digital Home
+            </div>
+            
+            <h1 class="hero-title font-serif">
+                <span class="hero-title-line animate-fadeInUp delay-200">
+                    <span class="hero-title-accent">B</span>lack
+                </span>
+                <span class="hero-title-line animate-fadeInUp delay-350">
+                    <span class="hero-title-accent">A</span>merica
+                </span>
+                <span class="hero-title-line animate-fadeInUp delay-500">
+                    <span class="hero-title-accent">N</span>ews
+                </span>
+                <span class="hero-title-line animate-fadeInUp delay-650">
+                    <span class="hero-title-accent">I</span>nformation <span class="hero-title-amp">&</span>
+                </span>
+                <span class="hero-title-line animate-fadeInUp delay-800">
+                    <span class="hero-title-accent">B</span>usiness
+                </span>
+                <span class="hero-title-line animate-fadeInUp delay-950">
+                    <span class="hero-title-accent">S</span>ystem
+                </span>
+            </h1>
+            
+            <p class="hero-tagline animate-fadeInUp delay-1200">
+                Encrypted. Ad-free. Built for our people.
+            </p>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator animate-fadeInUp delay-1500">
+            <span class="scroll-indicator-text font-mono">Scroll to explore</span>
+            <i data-lucide="chevron-down" class="animate-bounce"></i>
+        </div>
+    </section>
+    
+    <!-- Mission Section -->
+    <section class="section" id="mission">
+        <div class="section-container">
+            <span class="section-label font-mono">Why We Exist</span>
+            
+            <div class="mission-grid">
+                <div>
+                    <h2 class="mission-title font-serif">A platform built with intention.</h2>
+                </div>
+                
+                <div class="mission-text">
+                    <p>
+                        BANIBS brings together stories, perspectives, and information from across 
+                        the Black diaspora — alongside tools for business, culture, and community.
+                    </p>
+                    <p>
+                        This is not another social network chasing engagement metrics. This is a 
+                        digital home where privacy is foundational, not an afterthought. Where 
+                        dignity shapes every design decision.
+                    </p>
+                    <p>
+                        We're building for those who want more than what the current platforms offer — 
+                        a space that respects your attention, protects your data, and centers your needs.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Principles -->
+            <div class="principles">
+                <div>
+                    <div class="principle-icon">
+                        <i data-lucide="shield"></i>
+                        <span class="principle-label font-mono">Privacy</span>
+                    </div>
+                    <p class="principle-text">End-to-end encryption by default. Your data belongs to you.</p>
+                </div>
+                
+                <div>
+                    <div class="principle-icon">
+                        <i data-lucide="users"></i>
+                        <span class="principle-label font-mono">Community</span>
+                    </div>
+                    <p class="principle-text">Built by us, for us. No algorithms designed to divide.</p>
+                </div>
+                
+                <div>
+                    <div class="principle-icon">
+                        <i data-lucide="book-open"></i>
+                        <span class="principle-label font-mono">Knowledge</span>
+                    </div>
+                    <p class="principle-text">Curated information and perspectives that matter.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Books Section -->
+    <section class="section books-section" id="books">
+        <div class="section-container">
+            <span class="section-label font-mono">From the Founder</span>
+            
+            <div class="books-intro">
+                <h2 class="books-title font-serif">A Connected Body of Work</h2>
+                <p class="books-description">
+                    These five works form an intellectual system — each building upon the last, 
+                    together offering a framework for seeing clearly in a world designed to obscure.
+                </p>
+            </div>
+            
+            <div class="books-list">
+                <!-- Book 1 -->
+                <a href="https://www.amazon.com/Devils-Dismissive-ArgumentTM-Society-Accountability-ebook/dp/B0G6V3T227" target="_blank" rel="noopener noreferrer" class="book-item">
+                    <div class="book-header">
+                        <div>
+                            <span class="book-number font-mono">01</span>
+                            <span class="book-title font-serif">The Devil's Dismissive Argument</span>
+                            <span class="book-subtitle">How Society Blocks Truth, Accountability, and Growth</span>
+                            <p class="book-role">The foundational text. It names the mechanism by which accountability is deflected and truth is suppressed in everyday discourse.</p>
+                        </div>
+                        <div class="book-link font-mono">
+                            <span>Amazon</span>
+                            <i data-lucide="arrow-up-right"></i>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Book 2 -->
+                <a href="https://www.amazon.com/dp/B0GC413RV6" target="_blank" rel="noopener noreferrer" class="book-item">
+                    <div class="book-header">
+                        <div>
+                            <span class="book-number font-mono">02</span>
+                            <span class="book-title font-serif">Before You Call It Out</span>
+                            <span class="book-subtitle">A Companion to The Devil's Dismissive Argument</span>
+                            <p class="book-role">The bridge work. A practical guide for recognizing and responding to dismissive patterns before they take hold.</p>
+                        </div>
+                        <div class="book-link font-mono">
+                            <span>Amazon</span>
+                            <i data-lucide="arrow-up-right"></i>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Book 3 -->
+                <a href="https://www.amazon.com/dp/B0GCC5MHMD" target="_blank" rel="noopener noreferrer" class="book-item">
+                    <div class="book-header">
+                        <div>
+                            <span class="book-number font-mono">03</span>
+                            <span class="book-title font-serif">The Devil's Deceitful Master Plan</span>
+                            <span class="book-subtitle">How Deception Works, Hides, and Repeats Across All Human Thought</span>
+                            <p class="book-role">The expansion. It traces the architecture of deception across systems — personal, institutional, and cultural.</p>
+                        </div>
+                        <div class="book-link font-mono">
+                            <span>Amazon</span>
+                            <i data-lucide="arrow-up-right"></i>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Book 4 -->
+                <a href="https://www.amazon.com/dp/B0GCLBZ534" target="_blank" rel="noopener noreferrer" class="book-item">
+                    <div class="book-header">
+                        <div>
+                            <span class="book-number font-mono">04</span>
+                            <span class="book-title font-serif">The Light God Wants You to See</span>
+                            <span class="book-subtitle">A Spiritual Framework for Clarity</span>
+                            <p class="book-role">The anchor. A spiritual grounding that positions clarity and truth as divine imperatives, not just intellectual exercises.</p>
+                        </div>
+                        <div class="book-link font-mono">
+                            <span>Amazon</span>
+                            <i data-lucide="arrow-up-right"></i>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Book 5 -->
+                <a href="https://www.amazon.com/dp/B0GF6SH8QL" target="_blank" rel="noopener noreferrer" class="book-item">
+                    <div class="book-header">
+                        <div>
+                            <span class="book-number font-mono">05</span>
+                            <span class="book-title font-serif">Human Decision Operating System</span>
+                            <span class="book-subtitle">An Explanatory Model of Human Choice Under Pressure</span>
+                            <p class="book-role">The system. HDOS provides the operational framework for understanding how humans make decisions when stakes are real.</p>
+                        </div>
+                        <div class="book-link font-mono">
+                            <span>Amazon</span>
+                            <i data-lucide="arrow-up-right"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Waitlist Section -->
+    <section class="section waitlist-section" id="waitlist">
+        <div class="waitlist-container">
+            <span class="section-label font-mono">Early Access</span>
+            
+            <h2 class="waitlist-title font-serif">Be Part of What's Next</h2>
+            <p class="waitlist-text">
+                BANIBS is in active development. Join the waitlist to be notified when we launch.
+            </p>
+            
+            <form class="waitlist-form" id="waitlistForm">
+                <div class="form-container">
+                    <div class="form-icon">
+                        <i data-lucide="mail"></i>
+                    </div>
+                    <input 
+                        type="email" 
+                        placeholder="Enter your email" 
+                        required 
+                        class="form-input"
+                        id="emailInput"
+                    >
+                    <button type="submit" class="form-button">Join Waitlist</button>
+                </div>
+            </form>
+            
+            <div class="success-message" id="successMessage">
+                <div class="success-icon">✓</div>
+                <h3 class="success-title font-serif">You're on the list</h3>
+                <p class="success-text">We'll notify you when BANIBS launches.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-tagline font-mono">Peace • Love • Honor • Respect</p>
+        <p class="footer-copyright">© 2025 BANIBS. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+        
+        // Waitlist form handling
+        const form = document.getElementById('waitlistForm');
+        const successMessage = document.getElementById('successMessage');
+        const emailInput = document.getElementById('emailInput');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = emailInput.value;
+            
+            if (email) {
+                // Store in localStorage
+                const existing = JSON.parse(localStorage.getItem('banibs_early_access') || '[]');
+                existing.push({ email: email, timestamp: new Date().toISOString() });
+                localStorage.setItem('banibs_early_access', JSON.stringify(existing));
+                
+                // Show success message
+                form.classList.add('hidden');
+                successMessage.classList.add('show');
+            }
+        });
+        
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe sections for scroll reveal
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
