@@ -59,13 +59,15 @@ const ComingSoonPage = () => {
           <h1 style={{
             fontSize: 'clamp(3rem, 8vw, 5.5rem)',
             fontWeight: '800',
-            lineHeight: '1.05',
+            lineHeight: '1.1',
             marginBottom: '32px',
             color: '#FFFFFF',
             letterSpacing: '-1px',
             textShadow: '0 0 40px rgba(150, 200, 255, 0.4), 0 0 80px rgba(100, 160, 255, 0.2)'
           }}>
-            Encrypted. Ad-Free. Built for Our People.
+            <span style={{ display: 'block' }}>Encrypted.</span>
+            <span style={{ display: 'block' }}>Ad&#8209;Free.</span>
+            <span style={{ display: 'block' }}>Built for Our People.</span>
           </h1>
 
           {/* Secondary Line */}
