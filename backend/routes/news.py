@@ -122,8 +122,8 @@ async def get_latest_news_feed():
             continue
         seen_keys.add(dedupe_key)
         
-        # Ensure every item has an imageUrl (use fallback if missing)
-        if not item.get('imageUrl'):
+        # Validate and fix imageUrl - use fallback for invalid images
+        if not is_valid_image_url(item.get('imageUrl')):
             item['imageUrl'] = FALLBACK_IMAGE
         
         # Convert datetime to ISO string if needed
