@@ -129,9 +129,6 @@ async def get_latest_news_feed():
     This endpoint feeds the 'Latest Stories' section on the homepage.
     Returns empty array [] if no news items exist.
     """
-    # Fallback image URL for items without images
-    FALLBACK_IMAGE = "/static/img/fallbacks/news_default.jpg"
-    
     # Pull buffer of recent stories (newest first) to dedupe
     items = await news_collection.find(
         {},
@@ -153,9 +150,12 @@ async def get_latest_news_feed():
             continue
         seen_keys.add(dedupe_key)
         
-        # Validate and fix imageUrl - use fallback for invalid images
+        # Validate and fix imageUrl - use category-specific fallback for invalid images
         if not is_valid_image_url(item.get('imageUrl')):
-            item['imageUrl'] = FALLBACK_IMAGE
+            item['imageUrl'] = get_fallback_image_for_category(
+                item.get('category'),
+                item.get('mapped_section')
+            )
         
         # Convert datetime to ISO string if needed
         if 'publishedAt' in item and hasattr(item['publishedAt'], 'isoformat'):
