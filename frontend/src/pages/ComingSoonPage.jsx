@@ -95,12 +95,9 @@ const HeroImage = () => {
         className={`absolute inset-0 transition-opacity duration-1000 ease-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
       >
         <img
-          src="https://images.unsplash.com/photo-1560833237-3c277be42215?w=1200&q=80&auto=format&fit=crop"
-          alt="Black community gathering"
+          src="https://customer-assets.emergentagent.com/job_98eb7880-3cdf-494f-b92e-cec2c58a40ae/artifacts/fytksw5q_QARSP23-BlackStudies-WadeHudson-BlackStudiesFaculty_0.jpg"
+          alt="Black community in conversation"
           className="w-full h-full object-cover object-center"
-          style={{ 
-            filter: 'grayscale(15%)',
-          }}
           onLoad={() => setIsLoaded(true)}
         />
       </div>
@@ -110,8 +107,8 @@ const HeroImage = () => {
         className="absolute inset-0"
         style={{
           background: `
-            linear-gradient(90deg, #020408 0%, #020408 15%, rgba(2, 4, 8, 0.85) 35%, rgba(2, 4, 8, 0.6) 60%, rgba(2, 4, 8, 0.4) 100%),
-            linear-gradient(180deg, rgba(2, 4, 8, 0.3) 0%, transparent 30%, transparent 70%, rgba(2, 4, 8, 0.5) 100%)
+            linear-gradient(90deg, #020408 0%, #020408 10%, rgba(2, 4, 8, 0.9) 30%, rgba(2, 4, 8, 0.5) 60%, rgba(2, 4, 8, 0.3) 100%),
+            linear-gradient(180deg, rgba(2, 4, 8, 0.2) 0%, transparent 30%, transparent 70%, rgba(2, 4, 8, 0.4) 100%)
           `
         }}
       />
@@ -120,7 +117,7 @@ const HeroImage = () => {
       <div 
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(135deg, transparent 40%, rgba(197, 160, 89, 0.08) 100%)',
+          background: 'linear-gradient(135deg, transparent 40%, rgba(197, 160, 89, 0.06) 100%)',
           mixBlendMode: 'overlay'
         }}
       />
