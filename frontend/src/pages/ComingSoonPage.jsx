@@ -230,11 +230,11 @@ const ComingSoonPage = () => {
           }}
         />
 
-        {/* Animated dot grid - network/signal visualization */}
+        {/* Human visual anchor - editorial community image */}
+        <HeroImage />
+        
+        {/* Animated dot grid - subtle overlay on top of image */}
         <DotGrid />
-
-        {/* BANIBS Seal - right-side visual anchor (desktop only) */}
-        <BanibsSeal />
 
         <div className="relative z-10 max-w-5xl">
           {/* Label */}
