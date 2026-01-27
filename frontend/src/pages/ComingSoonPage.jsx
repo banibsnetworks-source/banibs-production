@@ -162,32 +162,32 @@ const ComingSoonPage = () => {
             style={{ fontFamily: 'Playfair Display, serif' }}
           >
             <RevealText delay={200}>
-              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-1">
                 <span style={{ color: '#C5A059' }}>B</span>lack
               </span>
             </RevealText>
             <RevealText delay={350}>
-              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-1">
                 <span style={{ color: '#C5A059' }}>A</span>merica
               </span>
             </RevealText>
             <RevealText delay={500}>
-              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-1">
                 <span style={{ color: '#C5A059' }}>N</span>ews
               </span>
             </RevealText>
             <RevealText delay={650}>
-              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-1">
                 <span style={{ color: '#C5A059' }}>I</span>nformation
               </span>
             </RevealText>
             <RevealText delay={800}>
-              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-1">
                 <span style={{ color: '#C5A059' }}>B</span>usiness
               </span>
             </RevealText>
             <RevealText delay={950}>
-              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight">
                 <span style={{ color: '#C5A059' }}>S</span>ocial
               </span>
             </RevealText>
