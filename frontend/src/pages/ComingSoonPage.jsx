@@ -44,6 +44,54 @@ const BOOKS = [
   }
 ];
 
+// Animated dot grid component - subtle network/signal visualization
+const DotGrid = () => {
+  return (
+    <div 
+      className="absolute right-0 top-0 bottom-0 w-1/2 overflow-hidden pointer-events-none hidden md:block"
+      style={{ opacity: 0.4 }}
+    >
+      {/* Animated dot grid */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `radial-gradient(circle, rgba(197, 160, 89, 0.3) 1px, transparent 1px)`,
+          backgroundSize: '40px 40px',
+          animation: 'drift 60s linear infinite',
+        }}
+      />
+      {/* Secondary layer with offset for depth */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px',
+          backgroundPosition: '30px 30px',
+          animation: 'drift 90s linear infinite reverse',
+        }}
+      />
+      {/* Fade gradient overlay */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(90deg, #020408 0%, transparent 30%, transparent 70%, #020408 100%), linear-gradient(180deg, #020408 0%, transparent 20%, transparent 80%, #020408 100%)'
+        }}
+      />
+      {/* CSS Animation */}
+      <style>{`
+        @keyframes drift {
+          from {
+            transform: translate(0, 0);
+          }
+          to {
+            transform: translate(40px, 40px);
+          }
+        }
+      `}</style>
+    </div>
+  );
+};
+
 // Animated text reveal component
 const RevealText = ({ children, delay = 0, className = "", block = false }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -57,7 +105,7 @@ const RevealText = ({ children, delay = 0, className = "", block = false }) => {
     <div 
       className={`transition-all duration-700 ease-out ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      } ${className}`}
+      } ${className}`}}
     >
       {children}
     </div>
