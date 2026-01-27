@@ -105,7 +105,7 @@ const RevealText = ({ children, delay = 0, className = "", block = false }) => {
     <div 
       className={`transition-all duration-700 ease-out ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      } ${className}`}}
+      } ${className}`}
     >
       {children}
     </div>
