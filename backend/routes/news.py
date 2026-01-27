@@ -566,9 +566,6 @@ async def get_homepage_news():
     from services.news_categorization_service import sort_items_by_section
     from db.featured_media import get_featured_media, get_latest_media_with_thumbnail
     
-    # Fallback image URL for items without images
-    FALLBACK_IMAGE = "/static/img/fallbacks/news_default.jpg"
-    
     # Fetch recent news items (over-fetch for categorization)
     items = await news_collection.find(
         {},
