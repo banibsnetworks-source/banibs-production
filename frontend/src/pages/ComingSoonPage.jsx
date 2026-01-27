@@ -48,8 +48,8 @@ const BOOKS = [
 const DotGrid = () => {
   return (
     <div 
-      className="absolute right-0 top-0 bottom-0 w-1/2 overflow-hidden pointer-events-none hidden md:block"
-      style={{ opacity: 0.4 }}
+      className="absolute right-0 top-0 bottom-0 w-1/2 overflow-hidden pointer-events-none hidden lg:block"
+      style={{ opacity: 0.25 }}
     >
       {/* Animated dot grid */}
       <div 
@@ -60,21 +60,11 @@ const DotGrid = () => {
           animation: 'drift 60s linear infinite',
         }}
       />
-      {/* Secondary layer with offset for depth */}
-      <div 
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px',
-          backgroundPosition: '30px 30px',
-          animation: 'drift 90s linear infinite reverse',
-        }}
-      />
       {/* Fade gradient overlay */}
       <div 
         className="absolute inset-0"
         style={{
-          background: 'linear-gradient(90deg, #020408 0%, transparent 30%, transparent 70%, #020408 100%), linear-gradient(180deg, #020408 0%, transparent 20%, transparent 80%, #020408 100%)'
+          background: 'linear-gradient(90deg, #020408 0%, transparent 50%)'
         }}
       />
       {/* CSS Animation */}
@@ -92,149 +82,55 @@ const DotGrid = () => {
   );
 };
 
-// BANIBS Seal - premium right-side visual anchor
-const BanibsSeal = () => {
+// Human visual anchor - editorial community image
+const HeroImage = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  
   return (
     <div 
-      className="absolute right-12 lg:right-24 top-1/2 -translate-y-1/2 hidden lg:flex items-center justify-center pointer-events-none"
-      style={{ 
-        width: '420px', 
-        height: '420px',
-        opacity: 0.12
-      }}
+      className="absolute right-0 top-0 bottom-0 w-full md:w-3/5 lg:w-1/2 overflow-hidden pointer-events-none hidden md:block"
     >
-      {/* Outer rotating ring */}
+      {/* Image container */}
+      <div 
+        className={`absolute inset-0 transition-opacity duration-1000 ease-out ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+      >
+        <img
+          src="https://images.unsplash.com/photo-1560833237-3c277be42215?w=1200&q=80&auto=format&fit=crop"
+          alt="Black community gathering"
+          className="w-full h-full object-cover object-center"
+          style={{ 
+            filter: 'grayscale(15%)',
+          }}
+          onLoad={() => setIsLoaded(true)}
+        />
+      </div>
+      
+      {/* Dark overlay gradients for blending */}
       <div 
         className="absolute inset-0"
-        style={{ animation: 'slowRotate 120s linear infinite' }}
-      >
-        <svg viewBox="0 0 400 400" className="w-full h-full">
-          {/* Outer circle */}
-          <circle 
-            cx="200" cy="200" r="195" 
-            fill="none" 
-            stroke="#C5A059" 
-            strokeWidth="0.5"
-          />
-          {/* Text path for outer ring */}
-          <defs>
-            <path 
-              id="textCircle" 
-              d="M 200,200 m -160,0 a 160,160 0 1,1 320,0 a 160,160 0 1,1 -320,0"
-            />
-          </defs>
-          <text fill="#C5A059" style={{ fontSize: '11px', letterSpacing: '0.3em', fontFamily: 'JetBrains Mono, monospace' }}>
-            <textPath href="#textCircle">
-              BLACK AMERICA NEWS INFORMATION & BUSINESS SYSTEM • BLACK AMERICA NEWS INFORMATION & BUSINESS SYSTEM •
-            </textPath>
-          </text>
-          {/* Inner decorative circle */}
-          <circle 
-            cx="200" cy="200" r="140" 
-            fill="none" 
-            stroke="#C5A059" 
-            strokeWidth="0.5"
-            strokeDasharray="4 8"
-          />
-        </svg>
-      </div>
+        style={{
+          background: `
+            linear-gradient(90deg, #020408 0%, #020408 15%, rgba(2, 4, 8, 0.85) 35%, rgba(2, 4, 8, 0.6) 60%, rgba(2, 4, 8, 0.4) 100%),
+            linear-gradient(180deg, rgba(2, 4, 8, 0.3) 0%, transparent 30%, transparent 70%, rgba(2, 4, 8, 0.5) 100%)
+          `
+        }}
+      />
       
-      {/* Inner static seal */}
-      <div className="absolute inset-0 flex items-center justify-center">
-        <svg viewBox="0 0 200 200" className="w-48 h-48">
-          {/* Shield/badge shape */}
-          <defs>
-            <linearGradient id="goldShimmer" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#C5A059" stopOpacity="0.8">
-                <animate attributeName="stopOpacity" values="0.8;1;0.8" dur="4s" repeatCount="indefinite" />
-              </stop>
-              <stop offset="50%" stopColor="#D4AF61" stopOpacity="1">
-                <animate attributeName="stopOpacity" values="1;0.8;1" dur="4s" repeatCount="indefinite" />
-              </stop>
-              <stop offset="100%" stopColor="#C5A059" stopOpacity="0.8">
-                <animate attributeName="stopOpacity" values="0.8;1;0.8" dur="4s" repeatCount="indefinite" />
-              </stop>
-            </linearGradient>
-          </defs>
-          
-          {/* Hexagonal frame */}
-          <polygon 
-            points="100,10 180,55 180,145 100,190 20,145 20,55" 
-            fill="none" 
-            stroke="url(#goldShimmer)" 
-            strokeWidth="1"
-          />
-          
-          {/* Inner hexagon */}
-          <polygon 
-            points="100,30 160,65 160,135 100,170 40,135 40,65" 
-            fill="none" 
-            stroke="#C5A059" 
-            strokeWidth="0.5"
-            strokeDasharray="2 4"
-          />
-          
-          {/* BANIBS text */}
-          <text 
-            x="100" y="95" 
-            textAnchor="middle" 
-            fill="url(#goldShimmer)" 
-            style={{ 
-              fontSize: '28px', 
-              fontFamily: 'Playfair Display, serif', 
-              fontWeight: '700',
-              letterSpacing: '0.1em'
-            }}
-          >
-            BANIBS
-          </text>
-          
-          {/* Decorative line */}
-          <line x1="50" y1="108" x2="150" y2="108" stroke="#C5A059" strokeWidth="0.5" />
-          
-          {/* Tagline */}
-          <text 
-            x="100" y="125" 
-            textAnchor="middle" 
-            fill="#C5A059" 
-            style={{ 
-              fontSize: '7px', 
-              fontFamily: 'JetBrains Mono, monospace',
-              letterSpacing: '0.15em'
-            }}
-          >
-            A NEW DIGITAL HOME
-          </text>
-          
-          {/* Year mark */}
-          <text 
-            x="100" y="145" 
-            textAnchor="middle" 
-            fill="#C5A059" 
-            style={{ 
-              fontSize: '9px', 
-              fontFamily: 'JetBrains Mono, monospace',
-              letterSpacing: '0.2em'
-            }}
-          >
-            EST. 2024
-          </text>
-        </svg>
-      </div>
-      
-      {/* CSS for rotation */}
-      <style>{`
-        @keyframes slowRotate {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-      `}</style>
+      {/* Subtle gold tint overlay */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          background: 'linear-gradient(135deg, transparent 40%, rgba(197, 160, 89, 0.08) 100%)',
+          mixBlendMode: 'overlay'
+        }}
+      />
     </div>
   );
+};
+
+// BANIBS Seal - reduced to subtle background element
+const BanibsSeal = () => {
+  return null; // Removed from hero - human image takes priority
 };
 
 // Animated text reveal component
