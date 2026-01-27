@@ -270,17 +270,17 @@ const ComingSoonPage = () => {
               </span>
             </RevealText>
             <RevealText delay={650}>
-              <span className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+              <span className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight">
                 <span style={{ color: '#C5A059' }}>I</span>nformation <span className="text-white/40">&</span>
               </span>
             </RevealText>
             <RevealText delay={800}>
-              <span className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+              <span className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight">
                 <span style={{ color: '#C5A059' }}>B</span>usiness
               </span>
             </RevealText>
             <RevealText delay={950}>
-              <span className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+              <span className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight">
                 <span style={{ color: '#C5A059' }}>S</span>ystem
               </span>
             </RevealText>
@@ -288,7 +288,7 @@ const ComingSoonPage = () => {
 
           {/* Tagline */}
           <RevealText delay={1200}>
-            <p className="text-lg md:text-xl text-white/60 max-w-xl leading-relaxed">
+            <p className="text-base md:text-lg text-white/50 max-w-sm leading-relaxed">
               Encrypted. Ad-free. Built for our people.
             </p>
           </RevealText>
