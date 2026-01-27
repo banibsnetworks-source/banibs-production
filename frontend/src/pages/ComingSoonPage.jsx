@@ -1,17 +1,109 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ArrowUpRight, Mail, ChevronDown, BookOpen, Shield, Users } from 'lucide-react';
 
 /**
- * BANIBS Coming Soon Page
- * Final Locked Copy - Production Ready
+ * BANIBS Guest Page - Full Redesign
+ * An orientation and presence page — editorial, intentional, alive.
  */
+
+const BOOKS = [
+  {
+    id: 1,
+    title: "The Devil's Dismissive Argument",
+    subtitle: "How Society Blocks Truth, Accountability, and Growth",
+    role: "The foundational text. It names the mechanism by which accountability is deflected and truth is suppressed in everyday discourse.",
+    url: "https://www.amazon.com/Devils-Dismissive-ArgumentTM-Society-Accountability-ebook/dp/B0G6V3T227"
+  },
+  {
+    id: 2,
+    title: "Before You Call It Out",
+    subtitle: "A Companion to The Devil's Dismissive Argument",
+    role: "The bridge work. A practical guide for recognizing and responding to dismissive patterns before they take hold.",
+    url: "https://www.amazon.com/dp/B0GC413RV6"
+  },
+  {
+    id: 3,
+    title: "The Devil's Deceitful Master Plan",
+    subtitle: "How Deception Works, Hides, and Repeats Across All Human Thought",
+    role: "The expansion. It traces the architecture of deception across systems — personal, institutional, and cultural.",
+    url: "https://www.amazon.com/dp/B0GCC5MHMD"
+  },
+  {
+    id: 4,
+    title: "The Light God Wants You to See",
+    subtitle: "A Spiritual Framework for Clarity",
+    role: "The anchor. A spiritual grounding that positions clarity and truth as divine imperatives, not just intellectual exercises.",
+    url: "https://www.amazon.com/dp/B0GCLBZ534"
+  },
+  {
+    id: 5,
+    title: "Human Decision Operating System",
+    subtitle: "An Explanatory Model of Human Choice Under Pressure",
+    role: "The system. HDOS provides the operational framework for understanding how humans make decisions when stakes are real.",
+    url: "https://www.amazon.com/dp/B0GF6SH8QL"
+  }
+];
+
+// Animated text reveal component
+const RevealText = ({ children, delay = 0, className = "" }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), delay);
+    return () => clearTimeout(timer);
+  }, [delay]);
+  
+  return (
+    <span 
+      className={`inline-block transition-all duration-700 ease-out ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+      } ${className}`}
+    >
+      {children}
+    </span>
+  );
+};
+
+// Section reveal on scroll
+const Section = ({ children, className = "", id = "" }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+    
+    const element = document.getElementById(id);
+    if (element) observer.observe(element);
+    
+    return () => observer.disconnect();
+  }, [id]);
+  
+  return (
+    <section 
+      id={id}
+      className={`transition-all duration-1000 ease-out ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+      } ${className}`}
+    >
+      {children}
+    </section>
+  );
+};
+
 const ComingSoonPage = () => {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [hoveredBook, setHoveredBook] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (email) {
-      // Store in localStorage for now (frontend only)
       const existing = JSON.parse(localStorage.getItem('banibs_early_access') || '[]');
       existing.push({ email, timestamp: new Date().toISOString() });
       localStorage.setItem('banibs_early_access', JSON.stringify(existing));
@@ -20,322 +112,390 @@ const ComingSoonPage = () => {
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(180deg, #0d1f3c 0%, #091428 50%, #050d1a 100%)',
-      color: '#FFFFFF',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-      display: 'flex',
-      flexDirection: 'column'
-    }}>
-      {/* Main Content */}
-      <div style={{
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '60px 20px',
-        textAlign: 'center',
-        position: 'relative',
-        background: 'radial-gradient(ellipse at center, rgba(80, 140, 255, 0.12) 0%, transparent 60%)'
-      }}>
-        {/* Luminous glow effect */}
-        <div style={{
-          position: 'absolute',
-          top: '35%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '800px',
-          height: '800px',
-          background: 'radial-gradient(circle, rgba(100, 160, 255, 0.18) 0%, rgba(60, 120, 220, 0.08) 40%, transparent 70%)',
-          filter: 'blur(60px)',
-          pointerEvents: 'none',
-          zIndex: 0
-        }} />
+    <div 
+      data-testid="guest-page"
+      className="min-h-screen text-white selection:bg-[#C5A059] selection:text-black"
+      style={{ 
+        backgroundColor: '#020408',
+        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif'
+      }}
+    >
+      {/* Hero Section */}
+      <section 
+        data-testid="hero-section"
+        className="relative min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 overflow-hidden"
+      >
+        {/* Subtle background gradient */}
+        <div 
+          className="absolute inset-0 opacity-40"
+          style={{
+            background: 'radial-gradient(ellipse at 30% 20%, rgba(30, 58, 138, 0.15) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(197, 160, 89, 0.08) 0%, transparent 50%)'
+          }}
+        />
+        
+        {/* Noise texture overlay */}
+        <div 
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage: "url('https://grainy-gradients.vercel.app/noise.svg')"
+          }}
+        />
 
-        <div style={{ position: 'relative', zIndex: 1, maxWidth: '800px' }}>
-          {/* Primary Headline */}
-          <h1 style={{
-            fontSize: 'clamp(3rem, 8vw, 5.5rem)',
-            fontWeight: '800',
-            lineHeight: '1.1',
-            marginBottom: '32px',
-            color: '#FFFFFF',
-            letterSpacing: '-1px',
-            textShadow: '0 0 40px rgba(150, 200, 255, 0.4), 0 0 80px rgba(100, 160, 255, 0.2)'
-          }}>
-            <span style={{ display: 'block' }}>Encrypted.</span>
-            <span style={{ display: 'block' }}>Ad&#8209;Free.</span>
-            <span style={{ display: 'block' }}>Built for Our People.</span>
+        <div className="relative z-10 max-w-5xl">
+          {/* Label */}
+          <RevealText delay={100}>
+            <span 
+              className="text-xs tracking-[0.25em] uppercase mb-8 block"
+              style={{ 
+                fontFamily: 'JetBrains Mono, monospace',
+                color: '#C5A059'
+              }}
+            >
+              A New Digital Home
+            </span>
+          </RevealText>
+
+          {/* Acronym Expansion */}
+          <h1 
+            data-testid="hero-title"
+            className="mb-12"
+            style={{ fontFamily: 'Playfair Display, serif' }}
+          >
+            <RevealText delay={200}>
+              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+                <span style={{ color: '#C5A059' }}>B</span>lack
+              </span>
+            </RevealText>
+            <RevealText delay={350}>
+              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+                <span style={{ color: '#C5A059' }}>A</span>merica
+              </span>
+            </RevealText>
+            <RevealText delay={500}>
+              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+                <span style={{ color: '#C5A059' }}>N</span>ews
+              </span>
+            </RevealText>
+            <RevealText delay={650}>
+              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+                <span style={{ color: '#C5A059' }}>I</span>nformation
+              </span>
+            </RevealText>
+            <RevealText delay={800}>
+              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+                <span style={{ color: '#C5A059' }}>B</span>usiness
+              </span>
+            </RevealText>
+            <RevealText delay={950}>
+              <span className="block text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
+                <span style={{ color: '#C5A059' }}>S</span>ocial
+              </span>
+            </RevealText>
           </h1>
 
-          {/* Secondary Line */}
-          <p style={{
-            fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)',
-            lineHeight: '1.5',
-            color: '#FFFFFF',
-            marginBottom: '32px',
-            fontWeight: '600',
-            textShadow: '0 0 30px rgba(150, 200, 255, 0.3)'
-          }}>
-            A new digital home for our people — built with privacy and dignity at the core.
-          </p>
+          {/* Tagline */}
+          <RevealText delay={1200}>
+            <p className="text-lg md:text-xl text-white/60 max-w-xl leading-relaxed">
+              Encrypted. Ad-free. Built for our people.
+            </p>
+          </RevealText>
+        </div>
 
-          {/* Description */}
-          <p style={{
-            fontSize: 'clamp(1rem, 1.8vw, 1.2rem)',
-            lineHeight: '1.8',
-            color: 'rgba(255, 255, 255, 0.88)',
-            marginBottom: '56px',
-            maxWidth: '650px',
-            margin: '0 auto 56px',
-            fontWeight: '400'
-          }}>
-            BANIBS brings together stories, perspectives, and information from across the Black diaspora — alongside tools for business, culture, and community.
-          </p>
+        {/* Scroll indicator */}
+        <RevealText delay={1500}>
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40">
+            <span 
+              className="text-[10px] tracking-[0.2em] uppercase"
+              style={{ fontFamily: 'JetBrains Mono, monospace' }}
+            >
+              Scroll to explore
+            </span>
+            <ChevronDown className="w-4 h-4 animate-bounce" />
+          </div>
+        </RevealText>
+      </section>
 
-          {/* Waitlist Form */}
-          {!submitted ? (
-            <form onSubmit={handleSubmit} style={{ maxWidth: '440px', margin: '0 auto' }}>
-              <div style={{
-                background: 'rgba(8, 18, 35, 0.85)',
-                border: '1px solid rgba(100, 150, 220, 0.2)',
-                borderRadius: '18px',
-                padding: '36px',
-                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.4), 0 0 50px rgba(80, 130, 200, 0.1)',
-                backdropFilter: 'blur(10px)'
-              }}>
-                <h3 style={{
-                  fontSize: '1.2rem',
-                  marginBottom: '22px',
-                  color: '#FFFFFF',
-                  fontWeight: '600',
-                  textShadow: '0 0 20px rgba(150, 200, 255, 0.25)'
-                }}>
-                  Get Early Access
-                </h3>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '14px 18px',
-                    fontSize: '1rem',
-                    background: 'rgba(0, 10, 25, 0.6)',
-                    border: '1px solid rgba(100, 150, 220, 0.25)',
-                    borderRadius: '10px',
-                    color: 'white',
-                    marginBottom: '16px',
-                    outline: 'none',
-                    boxSizing: 'border-box',
-                    transition: 'border-color 0.2s ease, box-shadow 0.2s ease'
-                  }}
-                  onFocus={(e) => {
-                    e.target.style.borderColor = 'rgba(120, 170, 255, 0.5)';
-                    e.target.style.boxShadow = '0 0 12px rgba(100, 150, 255, 0.2)';
-                  }}
-                  onBlur={(e) => {
-                    e.target.style.borderColor = 'rgba(100, 150, 220, 0.25)';
-                    e.target.style.boxShadow = 'none';
-                  }}
-                />
-                <button
-                  type="submit"
-                  style={{
-                    width: '100%',
-                    padding: '14px 28px',
-                    fontSize: '1.05rem',
-                    fontWeight: '600',
-                    background: 'linear-gradient(135deg, #FFFFFF 0%, #E8F0FF 100%)',
-                    color: '#0a1628',
-                    border: 'none',
-                    borderRadius: '10px',
-                    cursor: 'pointer',
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                    boxShadow: '0 2px 15px rgba(255, 255, 255, 0.2), 0 0 25px rgba(200, 220, 255, 0.15)'
-                  }}
-                  onMouseOver={(e) => {
-                    e.target.style.transform = 'scale(1.02)';
-                    e.target.style.boxShadow = '0 4px 20px rgba(255, 255, 255, 0.3), 0 0 35px rgba(200, 220, 255, 0.2)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.target.style.transform = 'scale(1)';
-                    e.target.style.boxShadow = '0 2px 15px rgba(255, 255, 255, 0.2), 0 0 25px rgba(200, 220, 255, 0.15)';
-                  }}
+      {/* Mission Section */}
+      <Section id="mission-section" className="px-6 md:px-12 lg:px-24 py-24 md:py-32">
+        <div className="max-w-6xl mx-auto">
+          {/* Section Label */}
+          <span 
+            className="text-xs tracking-[0.25em] uppercase mb-12 block"
+            style={{ 
+              fontFamily: 'JetBrains Mono, monospace',
+              color: '#C5A059'
+            }}
+          >
+            Why We Exist
+          </span>
+
+          <div className="grid md:grid-cols-2 gap-12 md:gap-24">
+            <div>
+              <h2 
+                data-testid="mission-title"
+                className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-8"
+                style={{ fontFamily: 'Playfair Display, serif' }}
+              >
+                A platform built with intention.
+              </h2>
+            </div>
+            
+            <div className="space-y-6 text-white/70 text-lg leading-relaxed">
+              <p>
+                BANIBS brings together stories, perspectives, and information from across 
+                the Black diaspora — alongside tools for business, culture, and community.
+              </p>
+              <p>
+                This is not another social network chasing engagement metrics. This is a 
+                digital home where privacy is foundational, not an afterthought. Where 
+                dignity shapes every design decision.
+              </p>
+              <p>
+                We're building for those who want more than what the current platforms offer — 
+                a space that respects your attention, protects your data, and centers your needs.
+              </p>
+            </div>
+          </div>
+
+          {/* Core Principles */}
+          <div className="grid md:grid-cols-3 gap-8 mt-20 pt-16 border-t border-white/10">
+            <div className="group">
+              <div className="flex items-center gap-3 mb-4">
+                <Shield className="w-5 h-5 text-[#C5A059]" />
+                <span 
+                  className="text-xs tracking-[0.15em] uppercase text-white/50"
+                  style={{ fontFamily: 'JetBrains Mono, monospace' }}
                 >
-                  Join the Waitlist
-                </button>
+                  Privacy
+                </span>
+              </div>
+              <p className="text-white/60 leading-relaxed">
+                End-to-end encryption by default. Your data belongs to you.
+              </p>
+            </div>
+            
+            <div className="group">
+              <div className="flex items-center gap-3 mb-4">
+                <Users className="w-5 h-5 text-[#C5A059]" />
+                <span 
+                  className="text-xs tracking-[0.15em] uppercase text-white/50"
+                  style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                >
+                  Community
+                </span>
+              </div>
+              <p className="text-white/60 leading-relaxed">
+                Built by us, for us. No algorithms designed to divide.
+              </p>
+            </div>
+            
+            <div className="group">
+              <div className="flex items-center gap-3 mb-4">
+                <BookOpen className="w-5 h-5 text-[#C5A059]" />
+                <span 
+                  className="text-xs tracking-[0.15em] uppercase text-white/50"
+                  style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                >
+                  Knowledge
+                </span>
+              </div>
+              <p className="text-white/60 leading-relaxed">
+                Curated information and perspectives that matter.
+              </p>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Books Section */}
+      <Section id="books-section" className="px-6 md:px-12 lg:px-24 py-24 md:py-32 border-t border-white/5">
+        <div className="max-w-6xl mx-auto">
+          {/* Section Label */}
+          <span 
+            className="text-xs tracking-[0.25em] uppercase mb-6 block"
+            style={{ 
+              fontFamily: 'JetBrains Mono, monospace',
+              color: '#C5A059'
+            }}
+          >
+            From the Founder
+          </span>
+
+          <div className="mb-16">
+            <h2 
+              data-testid="books-title"
+              className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-6"
+              style={{ fontFamily: 'Playfair Display, serif' }}
+            >
+              A Connected Body of Work
+            </h2>
+            <p className="text-white/60 text-lg max-w-2xl leading-relaxed">
+              These five works form an intellectual system — each building upon the last, 
+              together offering a framework for seeing clearly in a world designed to obscure.
+            </p>
+          </div>
+
+          {/* Book List */}
+          <div data-testid="books-list" className="border-t border-white/10">
+            {BOOKS.map((book) => (
+              <a
+                key={book.id}
+                href={book.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid={`book-${book.id}`}
+                className="block py-8 border-b border-white/10 group cursor-pointer"
+                onMouseEnter={() => setHoveredBook(book.id)}
+                onMouseLeave={() => setHoveredBook(null)}
+                style={{
+                  opacity: hoveredBook === null || hoveredBook === book.id ? 1 : 0.3,
+                  transition: 'all 0.4s ease'
+                }}
+              >
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span 
+                        className="text-xs text-white/30"
+                        style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                      >
+                        {String(book.id).padStart(2, '0')}
+                      </span>
+                      <h3 
+                        className="text-xl md:text-2xl lg:text-3xl font-semibold tracking-tight group-hover:text-[#C5A059] transition-colors duration-300"
+                        style={{ fontFamily: 'Playfair Display, serif' }}
+                      >
+                        {book.title}
+                      </h3>
+                    </div>
+                    
+                    <p className="text-white/40 text-sm md:text-base ml-9 mb-3">
+                      {book.subtitle}
+                    </p>
+                    
+                    <p className="text-white/60 text-sm md:text-base ml-9 max-w-2xl leading-relaxed">
+                      {book.role}
+                    </p>
+                  </div>
+                  
+                  <div className="flex items-center gap-2 text-white/40 group-hover:text-[#C5A059] transition-all duration-300 ml-9 md:ml-0">
+                    <span 
+                      className="text-xs tracking-wider uppercase"
+                      style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                    >
+                      Amazon
+                    </span>
+                    <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      {/* Waitlist Section */}
+      <Section id="waitlist-section" className="px-6 md:px-12 lg:px-24 py-24 md:py-32 border-t border-white/5">
+        <div className="max-w-2xl mx-auto text-center">
+          <span 
+            className="text-xs tracking-[0.25em] uppercase mb-6 block"
+            style={{ 
+              fontFamily: 'JetBrains Mono, monospace',
+              color: '#C5A059'
+            }}
+          >
+            Early Access
+          </span>
+
+          <h2 
+            data-testid="waitlist-title"
+            className="text-3xl md:text-4xl font-bold tracking-tight mb-6"
+            style={{ fontFamily: 'Playfair Display, serif' }}
+          >
+            Be Part of What's Next
+          </h2>
+          
+          <p className="text-white/60 text-lg mb-12 leading-relaxed">
+            BANIBS is in active development. Join the waitlist to be notified when we launch.
+          </p>
+
+          {!submitted ? (
+            <form 
+              onSubmit={handleSubmit} 
+              data-testid="waitlist-form"
+              className="max-w-md mx-auto"
+            >
+              <div 
+                className="p-1 rounded-full"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}
+              >
+                <div className="flex items-center">
+                  <div className="flex items-center pl-4">
+                    <Mail className="w-4 h-4 text-white/40" />
+                  </div>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    required
+                    data-testid="email-input"
+                    className="flex-1 bg-transparent px-4 py-3 text-white placeholder-white/40 focus:outline-none text-sm"
+                  />
+                  <button
+                    type="submit"
+                    data-testid="submit-button"
+                    className="px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105"
+                    style={{
+                      backgroundColor: '#C5A059',
+                      color: '#020408'
+                    }}
+                  >
+                    Join Waitlist
+                  </button>
+                </div>
               </div>
             </form>
           ) : (
-            <div style={{
-              background: 'rgba(16, 185, 129, 0.1)',
-              border: '2px solid rgba(16, 185, 129, 0.3)',
-              borderRadius: '12px',
-              padding: '32px',
-              maxWidth: '440px',
-              margin: '0 auto'
-            }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: '12px' }}>✓</div>
-              <h3 style={{
-                fontSize: '1.3rem',
-                marginBottom: '8px',
-                color: '#10B981',
-                fontWeight: '600'
-              }}>
+            <div 
+              data-testid="success-message"
+              className="p-8 rounded-2xl"
+              style={{
+                background: 'rgba(197, 160, 89, 0.1)',
+                border: '1px solid rgba(197, 160, 89, 0.2)'
+              }}
+            >
+              <div className="text-2xl mb-3" style={{ color: '#C5A059' }}>✓</div>
+              <h3 className="text-xl font-semibold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
                 You're on the list
               </h3>
-              <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '0.95rem' }}>
+              <p className="text-white/60">
                 We'll notify you when BANIBS launches.
               </p>
             </div>
           )}
         </div>
-      </div>
-
-      {/* From the Founder Section */}
-      <div style={{
-        padding: '60px 20px',
-        background: 'rgba(80, 140, 255, 0.03)',
-        borderTop: '1px solid rgba(150, 190, 255, 0.1)',
-        textAlign: 'center'
-      }}>
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <h3 style={{
-            fontSize: '1.1rem',
-            fontWeight: '600',
-            color: 'rgba(220, 235, 255, 0.9)',
-            marginBottom: '12px',
-            letterSpacing: '1px'
-          }}>
-            From the Founder
-          </h3>
-          <p style={{
-            fontSize: '0.95rem',
-            color: 'rgba(255, 255, 255, 0.55)',
-            marginBottom: '28px'
-          }}>
-            Explore the founder's works, available on Amazon:
-          </p>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '18px',
-            fontSize: '0.95rem',
-            textAlign: 'left',
-            maxWidth: '520px',
-            margin: '0 auto'
-          }}>
-            {/* Book 1: The Devil's Dismissive Argument */}
-            <a
-              href="https://www.amazon.com/Devils-Dismissive-ArgumentTM-Society-Accountability-ebook/dp/B0G6V3T227"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: 'rgba(180, 210, 255, 0.85)',
-                textDecoration: 'none',
-                transition: 'color 0.2s ease'
-              }}
-              onMouseOver={(e) => e.target.style.color = '#FFFFFF'}
-              onMouseOut={(e) => e.target.style.color = 'rgba(180, 210, 255, 0.85)'}
-            >
-              <strong>The Devil's Dismissive Argument</strong>
-              <span style={{ display: 'block', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.5)', marginTop: '2px' }}>
-                How Society Blocks Truth, Accountability, and Growth
-              </span>
-            </a>
-
-            {/* Book 2: Before You Call It Out */}
-            <a
-              href="https://www.amazon.com/dp/B0GC413RV6"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: 'rgba(180, 210, 255, 0.85)',
-                textDecoration: 'none',
-                transition: 'color 0.2s ease'
-              }}
-              onMouseOver={(e) => e.target.style.color = '#FFFFFF'}
-              onMouseOut={(e) => e.target.style.color = 'rgba(180, 210, 255, 0.85)'}
-            >
-              <strong>Before You Call It Out</strong>
-              <span style={{ display: 'block', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.5)', marginTop: '2px' }}>
-                A Companion to The Devil's Dismissive Argument
-              </span>
-            </a>
-
-            {/* Book 3: The Devil's Deceitful Master Plan */}
-            <a
-              href="https://www.amazon.com/dp/B0GCC5MHMD"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: 'rgba(180, 210, 255, 0.85)',
-                textDecoration: 'none',
-                transition: 'color 0.2s ease'
-              }}
-              onMouseOver={(e) => e.target.style.color = '#FFFFFF'}
-              onMouseOut={(e) => e.target.style.color = 'rgba(180, 210, 255, 0.85)'}
-            >
-              <strong>The Devil's Deceitful Master Plan</strong>
-              <span style={{ display: 'block', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.5)', marginTop: '2px' }}>
-                How Deception Works, Hides, and Repeats Across All Human Thought
-              </span>
-            </a>
-
-            {/* Book 4: The Light God Wants You to See */}
-            <a
-              href="https://www.amazon.com/dp/B0GCLBZ534"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: 'rgba(180, 210, 255, 0.85)',
-                textDecoration: 'none',
-                transition: 'color 0.2s ease'
-              }}
-              onMouseOver={(e) => e.target.style.color = '#FFFFFF'}
-              onMouseOut={(e) => e.target.style.color = 'rgba(180, 210, 255, 0.85)'}
-            >
-              <strong>The Light God Wants You to See</strong>
-            </a>
-
-            {/* Book 5: Human Decision Operating System (HDOS) */}
-            <a
-              href="https://www.amazon.com/dp/B0GF6SH8QL"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: 'rgba(180, 210, 255, 0.85)',
-                textDecoration: 'none',
-                transition: 'color 0.2s ease'
-              }}
-              onMouseOver={(e) => e.target.style.color = '#FFFFFF'}
-              onMouseOut={(e) => e.target.style.color = 'rgba(180, 210, 255, 0.85)'}
-            >
-              <strong>Human Decision Operating System (HDOS)</strong>
-              <span style={{ display: 'block', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.5)', marginTop: '2px' }}>
-                An Explanatory Model of Human Choice Under Pressure
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
+      </Section>
 
       {/* Footer */}
-      <div style={{
-        padding: '40px 20px',
-        borderTop: '1px solid rgba(150, 190, 255, 0.1)',
-        textAlign: 'center',
-        color: 'rgba(255, 255, 255, 0.5)',
-        fontSize: '0.9rem',
-        letterSpacing: '2px'
-      }}>
-        Peace • Love • Honor • Respect
-      </div>
+      <footer 
+        data-testid="footer"
+        className="px-6 md:px-12 lg:px-24 py-16 border-t border-white/5 text-center"
+      >
+        <p 
+          className="text-white/40 tracking-[0.3em] text-sm uppercase"
+          style={{ fontFamily: 'JetBrains Mono, monospace' }}
+        >
+          Peace • Love • Honor • Respect
+        </p>
+        
+        <p className="text-white/20 text-xs mt-6">
+          © {new Date().getFullYear()} BANIBS. All rights reserved.
+        </p>
+      </footer>
     </div>
   );
 };
