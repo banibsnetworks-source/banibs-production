@@ -202,7 +202,7 @@ const ComingSoonPage = () => {
         borderTop: '1px solid rgba(150, 190, 255, 0.1)',
         textAlign: 'center'
       }}>
-        <div style={{ maxWidth: '500px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
           <h3 style={{
             fontSize: '1.1rem',
             fontWeight: '600',
@@ -217,34 +217,108 @@ const ComingSoonPage = () => {
             color: 'rgba(255, 255, 255, 0.55)',
             marginBottom: '28px'
           }}>
-            Explore the founder's current works, now available on Amazon:
+            Explore the founder's works, available on Amazon:
           </p>
           <div style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '14px',
-            fontSize: '0.95rem'
+            gap: '18px',
+            fontSize: '0.95rem',
+            textAlign: 'left',
+            maxWidth: '520px',
+            margin: '0 auto'
           }}>
-            <div style={{ color: 'rgba(180, 210, 255, 0.7)' }}>
-              Before You Call It Out <span style={{ color: 'rgba(255, 255, 255, 0.4)', fontSize: '0.85rem' }}>(Amazon link coming soon)</span>
-            </div>
+            {/* Book 1: The Devil's Dismissive Argument */}
             <a
               href="https://www.amazon.com/Devils-Dismissive-ArgumentTM-Society-Accountability-ebook/dp/B0G6V3T227"
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                color: 'rgba(180, 210, 255, 0.7)',
+                color: 'rgba(180, 210, 255, 0.85)',
                 textDecoration: 'none',
                 transition: 'color 0.2s ease'
               }}
               onMouseOver={(e) => e.target.style.color = '#FFFFFF'}
-              onMouseOut={(e) => e.target.style.color = 'rgba(180, 210, 255, 0.7)'}
+              onMouseOut={(e) => e.target.style.color = 'rgba(180, 210, 255, 0.85)'}
             >
-              The Devil's Dismissive Argument
+              <strong>The Devil's Dismissive Argument</strong>
+              <span style={{ display: 'block', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.5)', marginTop: '2px' }}>
+                How Society Blocks Truth, Accountability, and Growth
+              </span>
             </a>
-            <div style={{ color: 'rgba(180, 210, 255, 0.7)' }}>
-              The Light God Wants You to See <span style={{ color: 'rgba(255, 255, 255, 0.4)', fontSize: '0.85rem' }}>(Amazon link coming soon)</span>
-            </div>
+
+            {/* Book 2: Before You Call It Out */}
+            <a
+              href="https://www.amazon.com/dp/B0GC413RV6"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: 'rgba(180, 210, 255, 0.85)',
+                textDecoration: 'none',
+                transition: 'color 0.2s ease'
+              }}
+              onMouseOver={(e) => e.target.style.color = '#FFFFFF'}
+              onMouseOut={(e) => e.target.style.color = 'rgba(180, 210, 255, 0.85)'}
+            >
+              <strong>Before You Call It Out</strong>
+              <span style={{ display: 'block', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.5)', marginTop: '2px' }}>
+                A Companion to The Devil's Dismissive Argument
+              </span>
+            </a>
+
+            {/* Book 3: The Devil's Deceitful Master Plan */}
+            <a
+              href="https://www.amazon.com/dp/B0GCC5MHMD"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: 'rgba(180, 210, 255, 0.85)',
+                textDecoration: 'none',
+                transition: 'color 0.2s ease'
+              }}
+              onMouseOver={(e) => e.target.style.color = '#FFFFFF'}
+              onMouseOut={(e) => e.target.style.color = 'rgba(180, 210, 255, 0.85)'}
+            >
+              <strong>The Devil's Deceitful Master Plan</strong>
+              <span style={{ display: 'block', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.5)', marginTop: '2px' }}>
+                How Deception Works, Hides, and Repeats Across All Human Thought
+              </span>
+            </a>
+
+            {/* Book 4: The Light God Wants You to See */}
+            <a
+              href="https://www.amazon.com/dp/B0GCLBZ534"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: 'rgba(180, 210, 255, 0.85)',
+                textDecoration: 'none',
+                transition: 'color 0.2s ease'
+              }}
+              onMouseOver={(e) => e.target.style.color = '#FFFFFF'}
+              onMouseOut={(e) => e.target.style.color = 'rgba(180, 210, 255, 0.85)'}
+            >
+              <strong>The Light God Wants You to See</strong>
+            </a>
+
+            {/* Book 5: Human Decision Operating System (HDOS) */}
+            <a
+              href="https://www.amazon.com/dp/B0GF6SH8QL"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: 'rgba(180, 210, 255, 0.85)',
+                textDecoration: 'none',
+                transition: 'color 0.2s ease'
+              }}
+              onMouseOver={(e) => e.target.style.color = '#FFFFFF'}
+              onMouseOut={(e) => e.target.style.color = 'rgba(180, 210, 255, 0.85)'}
+            >
+              <strong>Human Decision Operating System (HDOS)</strong>
+              <span style={{ display: 'block', fontSize: '0.85rem', color: 'rgba(255, 255, 255, 0.5)', marginTop: '2px' }}>
+                An Explanatory Model of Human Choice Under Pressure
+              </span>
+            </a>
           </div>
         </div>
       </div>
