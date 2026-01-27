@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://coming-soon-fix.preview.emergentagent.com"
+BACKEND_URL="https://founder-books.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output

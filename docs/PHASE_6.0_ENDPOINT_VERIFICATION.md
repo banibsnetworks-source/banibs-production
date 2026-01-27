@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://coming-soon-fix.preview.emergentagent.com/api/auth
+https://founder-books.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
