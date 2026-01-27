@@ -337,6 +337,9 @@ const ComingSoonPage = () => {
         {/* Animated dot grid - network/signal visualization */}
         <DotGrid />
 
+        {/* BANIBS Seal - right-side visual anchor (desktop only) */}
+        <BanibsSeal />
+
         <div className="relative z-10 max-w-5xl">
           {/* Label */}
           <RevealText delay={100}>
