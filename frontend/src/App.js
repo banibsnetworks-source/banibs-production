@@ -694,20 +694,20 @@ function App() {
                 <Route path="docs" element={<DevDocsPage />} />
               </Route>
               
-              {/* Phase 16.0 - Global Marketplace */}
-              <Route path="/portal/marketplace" element={<MarketplaceHomePage />} />
-              <Route path="/portal/marketplace/region/:regionId" element={<MarketplaceRegionPage />} />
-              <Route path="/portal/marketplace/store/:storeId" element={<MarketplaceStorePage />} />
-              <Route path="/portal/marketplace/product/:productId" element={<MarketplaceProductPage />} />
-              <Route path="/portal/marketplace/checkout" element={<MarketplaceCheckoutPage />} />
-              <Route path="/portal/marketplace/orders" element={<MarketplaceOrdersPage />} />
-              <Route path="/portal/marketplace/seller/dashboard" element={<MarketplaceSellerDashboardPage />} />
+              {/* Phase 16.0 - Global Marketplace - Hidden for News-first */}
+              <Route path="/portal/marketplace" element={<ModuleComingSoon />} />
+              <Route path="/portal/marketplace/region/:regionId" element={<ModuleComingSoon />} />
+              <Route path="/portal/marketplace/store/:storeId" element={<ModuleComingSoon />} />
+              <Route path="/portal/marketplace/product/:productId" element={<ModuleComingSoon />} />
+              <Route path="/portal/marketplace/checkout" element={<ModuleComingSoon />} />
+              <Route path="/portal/marketplace/orders" element={<ModuleComingSoon />} />
+              <Route path="/portal/marketplace/seller/dashboard" element={<ModuleComingSoon />} />
 
-              {/* Phase 11.6-11.9 - Community Life Hub */}
-              <Route path="/portal/community" element={<CommunityHomePage />} />
-              <Route path="/portal/community/health" element={<HealthHomePage />} />
-              <Route path="/portal/community/health/resources/:slug" element={<HealthResourceDetailPage />} />
-              <Route path="/portal/community/health/providers" element={<HealthProvidersPage />} />
+              {/* Phase 11.6-11.9 - Community Life Hub - Hidden for News-first */}
+              <Route path="/portal/community" element={<ModuleComingSoon />} />
+              <Route path="/portal/community/health" element={<ModuleComingSoon />} />
+              <Route path="/portal/community/health/resources/:slug" element={<ModuleComingSoon />} />
+              <Route path="/portal/community/health/providers" element={<ModuleComingSoon />} />
               <Route path="/portal/community/health/providers/:providerId" element={<HealthProviderDetailPage />} />
               <Route path="/portal/community/fitness" element={<FitnessHomePage />} />
               <Route path="/portal/community/fitness/programs/:programId" element={<FitnessProgramDetailPage />} />
