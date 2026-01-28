@@ -180,8 +180,8 @@ const NewsHomePage = () => {
           {/* Right Rail (4 columns) */}
           <aside className="lg:col-span-4 space-y-6">
             <div className="sticky top-32 space-y-6">
-              {/* BANIBS TV Card */}
-              <BanibsTVCard media={banibs_tv} />
+              {/* BANIBS TV Card - Hidden for News-first launch */}
+              {/* <BanibsTVCard media={banibs_tv} /> */}
               
               {/* Phase 7.6.4 - BANIBS TV Trending Rail */}
               {/* <BanibsTVTrendingRail items={tv_trending?.items || []} /> */}
