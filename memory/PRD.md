@@ -134,9 +134,20 @@ Download: `https://banibs-launcher.preview.emergentagent.com/guest_site.zip`
 2. **Some images**: Show placeholder text watermarks (Unsplash fallbacks)
 3. **Minor HTML in descriptions**: Some RSS sources include raw HTML tags
 
+## Super Admin Access (Configured January 28, 2026)
+Two accounts have been granted `super_admin` role with access to:
+- `/founder/command` - Founder Control Center
+- `/admin/*` - All admin dashboards (opportunities, moderation, analytics)
+
+**Super Admin Accounts:**
+1. `raymondneely@banibs.com` - Founder account
+2. `raymond3x@gmail.com` - Admin account
+
+**Note:** Temporary passwords were set during configuration. Rotate these credentials once SMTP/password reset is configured.
+
 ## Notes
 - BGLIS phone auth system remains MOCKED
 - Gmail SMTP blocked pending credentials
 - Unfinished modules hidden but routes still accessible if URL typed directly
 
-*Last Updated: January 2026*
+*Last Updated: January 28, 2026*
