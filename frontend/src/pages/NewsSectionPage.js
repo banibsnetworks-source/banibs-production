@@ -281,8 +281,8 @@ const NewsSectionPage = () => {
           {/* Right Rail (4 columns) */}
           <aside className="lg:col-span-4 space-y-6">
             <div className="sticky top-32 space-y-6">
-              {/* BANIBS TV Card */}
-              <BanibsTVCard />
+              {/* BANIBS TV Card - Hidden for News-first launch */}
+              {/* <BanibsTVCard /> */}
 
               {/* Phase 7.6.4 - Trending in This Section */}
               {trending && (
