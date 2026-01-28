@@ -199,7 +199,9 @@ export const AuthProvider = ({ children }) => {
     updateUserProfile,
     loading,
     isAuthenticated: !!accessToken && !!user,
-    isAdmin: user?.roles?.includes('admin') || user?.roles?.includes('super_admin') || user?.roles?.includes('moderator')
+    // Support both 'role' (string) and 'roles' (array) formats from backend
+    isAdmin: user?.role === 'admin' || user?.role === 'super_admin' || user?.role === 'moderator' ||
+             user?.roles?.includes('admin') || user?.roles?.includes('super_admin') || user?.roles?.includes('moderator')
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
