@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
@@ -14,6 +14,7 @@ import SignInBrandPanel from '../../components/auth/SignInBrandPanel';
  */
 const SignInPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { login } = useAuth();
   const { t } = useTranslation();
   
@@ -33,8 +34,10 @@ const SignInPage = () => {
     try {
       const userData = await login(formData.email, formData.password);
       
-      // Successful login - hard redirect to ensure auth state is loaded
-      window.location.href = '/portal/social';
+      // Check for redirect parameter, otherwise default to /portal/social
+      const redirectTo = searchParams.get('redirect') || '/portal/social';
+      // Hard redirect to ensure auth state is loaded
+      window.location.href = redirectTo;
     } catch (err) {
       setError(err.message || t('auth.signInFailed'));
     } finally {
