@@ -7,17 +7,29 @@ import certifi
 ROOT_DIR = Path(__file__).parent.parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection with TLS/SSL support for MongoDB Atlas
+# MongoDB connection - supports both local and MongoDB Atlas
 mongo_url = os.environ['MONGO_URL']
 
-# Configure MongoDB client with TLS and certificate authority
-client = AsyncIOMotorClient(
-    mongo_url,
-    tlsCAFile=certifi.where(),  # Use certifi bundle for SSL verification
-    serverSelectionTimeoutMS=5000,  # 5 second timeout
-    connectTimeoutMS=5000,
-    socketTimeoutMS=5000
-)
+# Configure MongoDB client - use SSL only for remote connections (Atlas)
+is_localhost = 'localhost' in mongo_url or '127.0.0.1' in mongo_url
+
+if is_localhost:
+    # Local MongoDB - no SSL needed
+    client = AsyncIOMotorClient(
+        mongo_url,
+        serverSelectionTimeoutMS=5000,
+        connectTimeoutMS=5000,
+        socketTimeoutMS=5000
+    )
+else:
+    # Remote MongoDB (Atlas) - use TLS/SSL with certifi
+    client = AsyncIOMotorClient(
+        mongo_url,
+        tlsCAFile=certifi.where(),
+        serverSelectionTimeoutMS=5000,
+        connectTimeoutMS=5000,
+        socketTimeoutMS=5000
+    )
 
 db = client[os.environ['DB_NAME']]
 
