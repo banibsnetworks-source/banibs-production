@@ -31,59 +31,25 @@ const SocialLandingPage = () => {
     fetchVariant();
   }, []);
 
-  // Variant-aware styling
+  // Variant-aware styling - Using dark theme as default for brand consistency
   const getStyles = () => {
-    switch (variant) {
-      case 'dark':
-        return {
-          bgPrimary: 'linear-gradient(180deg, #0B0B0B 0%, #1A1A1A 100%)',
-          bgSecondary: '#1A1A1A',
-          bgTertiary: '#0B0B0B',
-          textPrimary: '#FFFFFF',
-          textSecondary: 'rgba(255, 255, 255, 0.85)',
-          accent: '#C49A3A',
-          accentGradient: 'linear-gradient(135deg, #C49A3A 0%, #D4AF37 100%)',
-          cardBg: 'rgba(255, 255, 255, 0.04)',
-          cardBorder: 'rgba(196, 154, 58, 0.3)',
-          buttonPrimary: 'linear-gradient(135deg, #C49A3A 0%, #D4AF37 100%)',
-          buttonPrimaryText: '#000000',
-          buttonSecondaryBorder: '#C49A3A',
-          buttonSecondaryText: '#C49A3A',
-        };
-      case 'blue':
-        return {
-          bgPrimary: 'linear-gradient(180deg, #F8FBFF 0%, #FFFFFF 100%)',
-          bgSecondary: '#FFFFFF',
-          bgTertiary: 'rgba(188, 227, 255, 0.2)',
-          textPrimary: '#1A3A52',
-          textSecondary: '#2A4A62',
-          accent: '#87bce9',
-          accentGradient: 'linear-gradient(135deg, #87bce9 0%, #5A8FBD 100%)',
-          cardBg: 'rgba(255, 255, 255, 0.9)',
-          cardBorder: 'rgba(135, 188, 233, 0.4)',
-          buttonPrimary: 'linear-gradient(135deg, #87bce9 0%, #5A8FBD 100%)',
-          buttonPrimaryText: '#FFFFFF',
-          buttonSecondaryBorder: '#87bce9',
-          buttonSecondaryText: '#1A3A52',
-        };
-      case 'gold':
-      default:
-        return {
-          bgPrimary: 'linear-gradient(180deg, #F7F0E3 0%, #FFFEF8 100%)',
-          bgSecondary: '#FFFEF8',
-          bgTertiary: 'rgba(247, 240, 227, 0.4)',
-          textPrimary: '#2A2A2A',
-          textSecondary: '#3A3A3A',
-          accent: '#D9B77A',
-          accentGradient: 'linear-gradient(135deg, #D9B77A 0%, #B89968 100%)',
-          cardBg: 'rgba(255, 255, 255, 0.85)',
-          cardBorder: 'rgba(217, 183, 122, 0.4)',
-          buttonPrimary: 'linear-gradient(135deg, #D9B77A 0%, #B89968 100%)',
-          buttonPrimaryText: '#1A1A1A',
-          buttonSecondaryBorder: '#D9B77A',
-          buttonSecondaryText: '#2A2A2A',
-        };
-    }
+    // Force dark theme for captivating, brand-consistent look
+    return {
+      bgPrimary: 'linear-gradient(180deg, #0A0A0F 0%, #12121A 100%)',
+      bgSecondary: '#0E0E14',
+      bgTertiary: '#16161F',
+      textPrimary: '#FFFFFF',
+      textSecondary: 'rgba(255, 255, 255, 0.75)',
+      accent: '#C5A059',  // BANIBS gold
+      accentLight: '#D4B068',
+      accentGradient: 'linear-gradient(135deg, #C5A059 0%, #D4B068 50%, #C5A059 100%)',
+      cardBg: 'rgba(255, 255, 255, 0.03)',
+      cardBorder: 'rgba(197, 160, 89, 0.25)',
+      buttonPrimary: 'linear-gradient(135deg, #C5A059 0%, #D4B068 100%)',
+      buttonPrimaryText: '#0A0A0F',
+      buttonSecondaryBorder: '#C5A059',
+      buttonSecondaryText: '#C5A059',
+    };
   };
 
   const styles = getStyles();
