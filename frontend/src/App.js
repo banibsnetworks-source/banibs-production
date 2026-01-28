@@ -558,8 +558,8 @@ function App() {
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/settings/emoji-identity" element={<EmojiIdentitySettingsPanel />} />
               
-              <Route path="/portal/marketplace/*" element={<MarketplacePortal />} />
-              <Route path="/portal/tv" element={<TVPortal />} />
+              <Route path="/portal/marketplace/*" element={<ModuleComingSoon />} />
+              <Route path="/portal/tv" element={<ModuleComingSoon />} />
               <Route path="/portal/search" element={<SearchPortal />} />
               
               {/* Phase 7.6.3 - Section-Specific News Pages */}
@@ -573,23 +573,23 @@ function App() {
               <Route path="/hub" element={<HubPage />} />
               {/* Phase 6.2.1 - Notifications (Auth Required) */}
               <Route path="/notifications" element={<NotificationsPage />} />
-              {/* Phase 6.2.3 - Resources & Events */}
-              <Route path="/resources" element={<ResourcesPage />} />
-              <Route path="/resources/:id" element={<ResourceDetailPage />} />
-              <Route path="/events" element={<EventsPage />} />
-              <Route path="/events/:id" element={<EventDetailPage />} />
+              {/* Phase 6.2.3 - Resources & Events - Hidden for News-first */}
+              <Route path="/resources" element={<ModuleComingSoon />} />
+              <Route path="/resources/:id" element={<ModuleComingSoon />} />
+              <Route path="/events" element={<ModuleComingSoon />} />
+              <Route path="/events/:id" element={<ModuleComingSoon />} />
               {/* Phase 6.2.4 - Unified Search */}
               <Route path="/search" element={<SearchPage />} />
-              {/* Phase A6 - BANIBS Social Landing Page */}
-              <Route path="/social" element={<SocialLandingPage />} />
+              {/* Phase A6 - BANIBS Social Landing Page - Hidden for News-first */}
+              <Route path="/social" element={<ModuleComingSoon />} />
               
-              {/* Stub Pages */}
+              {/* Stub Pages - Hidden for News-first */}
               <Route path="/business" element={<Navigate to="/portal/business" replace />} />
-              <Route path="/business-directory" element={<BusinessDirectoryPage />} /> {/* Phase B.0 - Redesigned */}
-              <Route path="/business/register" element={<BusinessRegistrationPlaceholder />} /> {/* Phase B.0 - Registration placeholder */}
-              <Route path="/information" element={<InformationPage />} />
-              <Route path="/education" element={<EducationPage />} />
-              <Route path="/youth" element={<YouthPage />} />
+              <Route path="/business-directory" element={<ModuleComingSoon />} />
+              <Route path="/business/register" element={<ModuleComingSoon />} />
+              <Route path="/information" element={<ModuleComingSoon />} />
+              <Route path="/education" element={<ModuleComingSoon />} />
+              <Route path="/youth" element={<ModuleComingSoon />} />
               <Route path="/opportunities" element={<OpportunitiesPage />} />
               <Route path="/jobs/:id" element={<BusinessJobDetailPage />} />
               <Route path="/opportunities/dashboard" element={<RecruiterDashboard />} />
