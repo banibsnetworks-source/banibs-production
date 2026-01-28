@@ -316,7 +316,7 @@ const SocialLandingPage = () => {
                   height: '36px',
                   borderRadius: '50%',
                   background: styles.accentGradient,
-                  color: variant === 'dark' ? '#000' : '#FFF',
+                  color: '#0A0A0F',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
