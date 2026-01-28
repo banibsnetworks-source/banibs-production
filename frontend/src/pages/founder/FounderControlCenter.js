@@ -155,7 +155,7 @@ const SYSTEM_STATUS = [
 
 const FounderControlCenter = () => {
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   
@@ -163,6 +163,9 @@ const FounderControlCenter = () => {
   
   // Access control - founder only (hard-coded for now)
   useEffect(() => {
+    // Wait for auth to finish loading before checking access
+    if (loading) return;
+    
     if (!isAuthenticated) {
       navigate('/auth/signin?redirect=/founder/command');
       return;
@@ -179,7 +182,22 @@ const FounderControlCenter = () => {
       // Redirect non-founders to home
       navigate('/');
     }
-  }, [isAuthenticated, user, navigate]);
+  }, [isAuthenticated, user, navigate, loading]);
+  
+  // Show loading while auth is initializing
+  if (loading) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        backgroundColor: isDark ? '#0C0C0C' : '#F7F7F7',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <p style={{ color: isDark ? '#F7F7F7' : '#111217' }}>Loading...</p>
+      </div>
+    );
+  }
   
   // Status badge helper
   const StatusBadge = ({ status }) => {
