@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://founder-books.preview.emergentagent.com/api/admin/analytics/sentiment
+https://banibs-launcher.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints

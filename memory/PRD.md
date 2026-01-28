@@ -125,7 +125,7 @@ Hidden modules (for later phases):
 
 ## Static Guest Page Build
 Location: `/app/deploy/guest_site/`
-Download: `https://founder-books.preview.emergentagent.com/guest_site.zip`
+Download: `https://banibs-launcher.preview.emergentagent.com/guest_site.zip`
 
 ---
 

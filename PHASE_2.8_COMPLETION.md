@@ -306,7 +306,7 @@ INITIAL_ADMIN_PASSWORD="BanibsAdmin#2025"
 
 ### Frontend Configuration
 ```env
-REACT_APP_BACKEND_URL="https://founder-books.preview.emergentagent.com"
+REACT_APP_BACKEND_URL="https://banibs-launcher.preview.emergentagent.com"
 ```
 
 ---

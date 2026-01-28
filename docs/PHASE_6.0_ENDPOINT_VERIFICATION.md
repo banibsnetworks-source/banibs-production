@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://founder-books.preview.emergentagent.com/api/auth
+https://banibs-launcher.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

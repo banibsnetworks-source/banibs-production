@@ -7,7 +7,7 @@ import requests
 import json
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://founder-books.preview.emergentagent.com"
+BACKEND_URL = "https://banibs-launcher.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 def test_admin_role():
