@@ -376,8 +376,16 @@ function App() {
   // Show Coming Soon page ONLY if:
   // 1. Coming Soon mode is enabled AND
   // 2. We're NOT in development mode AND
-  // 3. Current path is not an /about/* page
-  const shouldShowComingSoon = comingSoonMode && !isDevelopment && !window.location.pathname.startsWith('/about');
+  // 3. Current path is not an allowed control-plane route
+  const currentPath = window.location.pathname;
+  const isControlPlanePath = 
+    currentPath.startsWith('/about') ||
+    currentPath.startsWith('/auth') ||
+    currentPath.startsWith('/login') ||
+    currentPath.startsWith('/founder') ||
+    currentPath.startsWith('/admin');
+  
+  const shouldShowComingSoon = comingSoonMode && !isDevelopment && !isControlPlanePath;
   
   if (shouldShowComingSoon) {
     // Select variant based on flag
