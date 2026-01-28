@@ -170,7 +170,9 @@ const FounderControlCenter = () => {
     
     // Founder access check - production-safe
     // Access granted ONLY to founder@banibs.com or users with super_admin role
+    // Support both 'role' (string) and 'roles' (array) formats
     const isFounder = user?.email === 'founder@banibs.com' || 
+                      user?.role === 'super_admin' ||
                       user?.roles?.includes('super_admin');
     
     if (!isFounder) {
