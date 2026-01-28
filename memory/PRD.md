@@ -145,6 +145,16 @@ Two accounts have been granted `super_admin` role with access to:
 
 **Note:** Temporary passwords were set during configuration. Rotate these credentials once SMTP/password reset is configured.
 
+### Auth Access Routes (Control Plane)
+The following routes are always accessible regardless of Coming Soon mode:
+- `/auth/signin` - Main sign-in page
+- `/auth/register` - Registration page
+- `/auth/forgot-password` - Password reset
+- `/login` - Alias that redirects to `/auth/signin`
+- `/founder/*` - Founder control routes (redirects to signin if unauthenticated)
+- `/admin/*` - Admin routes (redirects to signin if unauthenticated)
+- `/about/*` - About pages
+
 ## Notes
 - BGLIS phone auth system remains MOCKED
 - Gmail SMTP blocked pending credentials
