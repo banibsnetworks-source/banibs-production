@@ -51,13 +51,20 @@ const GlobalNavBar = () => {
     return () => window.removeEventListener('open-auth-modal', handleOpenAuthModal);
   }, []);
 
+  // News-first public navigation - hiding unfinished modules
   const navLinks = [
     { label: 'BANIBS News', path: '/', icon: '📰' },
-    { label: 'Business Directory', path: '/business-directory', icon: '💼' },
-    { label: 'BANIBS Social', path: '/social', icon: '🌐' },
-    { label: 'Resources', path: '/resources', icon: '📚' },
-    { label: 'Marketplace', path: '/portal/marketplace', icon: '🛍️' },
-    { label: 'BANIBS TV', path: '/portal/tv', icon: '📺' },
+    { label: 'Black News', path: '/news/black', icon: '✊🏿' },
+    { label: 'U.S.', path: '/news/us', icon: '🇺🇸' },
+    { label: 'World', path: '/news/world', icon: '🌍' },
+    { label: 'Business', path: '/news/business', icon: '💼' },
+    { label: 'Sports', path: '/news/sports', icon: '⚽' },
+    // Hidden for News-first launch:
+    // { label: 'Business Directory', path: '/business-directory', icon: '💼' },
+    // { label: 'BANIBS Social', path: '/social', icon: '🌐' },
+    // { label: 'Resources', path: '/resources', icon: '📚' },
+    // { label: 'Marketplace', path: '/portal/marketplace', icon: '🛍️' },
+    // { label: 'BANIBS TV', path: '/portal/tv', icon: '📺' },
   ];
 
   const isActive = (path) => {
