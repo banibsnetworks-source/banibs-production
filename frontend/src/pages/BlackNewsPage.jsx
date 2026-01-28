@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import GlobalNavBar from '../components/GlobalNavBar';
 import TopStoriesGrid from '../components/TopStoriesGrid';
 import NewsNavigationBar from '../components/NewsNavigationBar';
 import { Loader2 } from 'lucide-react';
@@ -61,7 +62,10 @@ const BlackNewsPage = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
+      {/* Global Navigation */}
+      <GlobalNavBar />
+      
+      {/* News Category Navigation */}
       <NewsNavigationBar activeSection="black" />
 
       {/* Main Content */}
