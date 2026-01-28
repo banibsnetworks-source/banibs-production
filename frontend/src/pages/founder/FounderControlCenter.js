@@ -168,13 +168,13 @@ const FounderControlCenter = () => {
       return;
     }
     
-    // TODO: Add proper founder role check
-    // For now, allow access to any authenticated user in dev
+    // Founder access check - production-safe
+    // Access granted ONLY to founder@banibs.com or users with super_admin role
     const isFounder = user?.email === 'founder@banibs.com' || 
-                      user?.roles?.includes('super_admin') ||
-                      process.env.NODE_ENV === 'development';
+                      user?.roles?.includes('super_admin');
     
-    if (!isFounder && process.env.NODE_ENV !== 'development') {
+    if (!isFounder) {
+      // Redirect non-founders to home
       navigate('/');
     }
   }, [isAuthenticated, user, navigate]);
