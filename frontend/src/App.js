@@ -12,6 +12,8 @@ import { MediaViewerProvider } from "./hooks/useMediaViewer";
 import { MediaViewer } from "./components/media/MediaViewer";
 import { initializeAnalytics } from "./utils/analytics"; // Phase 7.5.1
 import ProtectedRoute from "./components/ProtectedRoute";
+// Module Coming Soon page for hidden/unreleased features
+import ModuleComingSoon from "./pages/ModuleComingSoon";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminOpportunitiesDashboard from "./pages/admin/AdminOpportunitiesDashboard";
 // Phase 8.3.1 - Social Moderation
