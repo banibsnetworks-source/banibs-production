@@ -409,6 +409,8 @@ function App() {
               <Route path="/auth/register" element={<RegisterPage />} />
               <Route path="/auth/signin" element={<SignInPage />} />
               <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+              {/* Hidden /login alias - redirects to /auth/signin (no public exposure) */}
+              <Route path="/login" element={<Navigate to="/auth/signin" replace />} />
               
               {/* Phase 8.5 - Onboarding Routes */}
               <Route path="/onboarding/welcome" element={<WelcomePage />} />
