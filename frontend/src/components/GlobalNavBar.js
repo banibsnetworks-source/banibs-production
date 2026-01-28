@@ -139,7 +139,7 @@ const GlobalNavBar = () => {
               </Link>
             </div>
 
-            {/* Right: Actions */}
+            {/* Right: Actions - Simplified for News-first launch */}
             <div className="flex items-center gap-2">
               {/* Theme Toggle */}
               <button
@@ -151,30 +151,15 @@ const GlobalNavBar = () => {
                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </button>
 
-              {/* Mood Meter - Desktop only */}
+              {/* Hidden for News-first launch - No login prompts */}
+              {/* 
               <div className="hidden md:block">
                 <MoodMeter />
               </div>
+              */}
 
-              {/* Auth / User */}
-              {!isAuthenticated ? (
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => window.location.href = '/auth/signin'}
-                    className="btn-v2 btn-v2-ghost btn-v2-sm text-sm"
-                    data-testid="sign-in-btn"
-                  >
-                    Sign In
-                  </button>
-                  <button
-                    onClick={() => window.location.href = '/auth/register'}
-                    className="btn-v2 btn-v2-primary btn-v2-sm text-sm hidden sm:block"
-                    data-testid="join-btn"
-                  >
-                    Join
-                  </button>
-                </div>
-              ) : (
+              {/* Auth hidden for News-first public launch */}
+              {isAuthenticated && (
                 <div className="flex items-center gap-2">
                   <AccountModeSwitcher />
                   
