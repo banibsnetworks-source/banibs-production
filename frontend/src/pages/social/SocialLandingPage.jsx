@@ -93,55 +93,57 @@ const SocialLandingPage = () => {
       
       {/* Hero Section */}
       <div style={{
-        padding: '120px 20px 100px',
+        padding: '100px 20px 80px',
         textAlign: 'center',
         position: 'relative'
       }}>
+        {/* Animated gradient background */}
         <div style={{
           position: 'absolute',
-          top: '15%',
+          top: '0',
           left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '900px',
-          height: '900px',
-          background: `radial-gradient(circle, ${styles.accent}30 0%, transparent 70%)`,
-          filter: 'blur(120px)',
+          transform: 'translateX(-50%)',
+          width: '120%',
+          height: '100%',
+          background: `radial-gradient(ellipse at 30% 20%, rgba(197, 160, 89, 0.15) 0%, transparent 50%),
+                       radial-gradient(ellipse at 70% 60%, rgba(197, 160, 89, 0.1) 0%, transparent 40%)`,
+          filter: 'blur(60px)',
           pointerEvents: 'none'
         }} />
         
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '780px', margin: '0 auto' }}>
           <h1 style={{
-            fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
+            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
             fontWeight: '800',
-            lineHeight: '1.2',
-            marginBottom: '32px',
-            background: variant === 'gold' 
-              ? `linear-gradient(135deg, ${styles.accent} 0%, ${styles.textPrimary} 50%, ${styles.accent} 100%)`
-              : styles.textPrimary,
-            WebkitBackgroundClip: variant === 'gold' ? 'text' : 'initial',
-            WebkitTextFillColor: variant === 'gold' ? 'transparent' : 'initial',
-            backgroundClip: variant === 'gold' ? 'text' : 'initial'
+            lineHeight: '1.15',
+            marginBottom: '28px',
+            background: `linear-gradient(135deg, #FFFFFF 0%, ${styles.accent} 50%, #FFFFFF 100%)`,
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
           }}>
             Welcome to BANIBS Social
           </h1>
           
           <p style={{
-            fontSize: 'clamp(1.3rem, 2.5vw, 1.8rem)',
+            fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)',
             lineHeight: '1.6',
-            marginBottom: '28px',
-            fontWeight: '600',
+            marginBottom: '24px',
+            fontWeight: '500',
             color: styles.accent
           }}>
             A calm, beautiful space to connect, share, grow, and belong.
           </p>
           
           <p style={{
-            fontSize: '1.15rem',
+            fontSize: '1.1rem',
             lineHeight: '1.8',
             color: styles.textSecondary,
-            fontWeight: '400'
+            fontWeight: '400',
+            maxWidth: '600px',
+            margin: '0 auto'
           }}>
-            BANIBS Social is your digital community home - built to uplift, empower, and center our people with dignity, peace, and purpose.
+            Your digital community home — built to uplift, empower, and center our people with dignity, peace, and purpose.
           </p>
         </div>
       </div>
