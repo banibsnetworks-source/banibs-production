@@ -10,6 +10,33 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 - **AWS Production Server (BANIBS-PROD-01)**: Live and stable
 - **HTTPS**: Fully configured (banibs.com / www.banibs.com)
 - **SSL**: Let's Encrypt with auto-renewal
+- **Public Launch Mode**: News-first (read-only news experience)
+
+---
+
+## NEWS-FIRST PUBLIC LAUNCH (Current State)
+
+### Public Navigation (GlobalNavBar)
+Only News-related links visible:
+- BANIBS News (/)
+- Black News (/news/black)
+- U.S. (/news/us)
+- World (/news/world)
+- Business (/news/business)
+- Sports (/news/sports)
+
+Hidden modules (for later phases):
+- Business Directory
+- BANIBS Social
+- Resources
+- Marketplace
+- BANIBS TV
+
+### Public Features
+- ✅ No Sign In/Join buttons displayed
+- ✅ No BANIBS TV cards on news pages
+- ✅ Theme toggle (dark/light) available
+- ✅ Category-level image fallbacks (no blank images)
 
 ---
 
@@ -27,16 +54,20 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 - [x] BANIBS acronym expansion (Black America News Information & Business System)
 - [x] Hero image with Black community visual anchor
 - [x] Mission section explaining BANIBS purpose
-- [x] Founder's book section with 5 canonical books:
-  1. The Devil's Dismissive Argument
-  2. Before You Call It Out
-  3. The Devil's Deceitful Master Plan
-  4. The Light God Wants You to See
-  5. Human Decision Operating System (HDOS)
+- [x] Founder's book section with 5 canonical books
 - [x] Waitlist functionality
 - [x] Status signal: "The full system is opening in phases."
 - [x] Static build package ready at `/app/deploy/guest_site/`
 - Route: `/guest`
+
+### News System (COMPLETE)
+- [x] News Homepage with CNN-style layout
+- [x] Section pages: Black News, U.S., World, Business, Sports, etc.
+- [x] RSS aggregation from multiple sources
+- [x] Image validation and category-level fallbacks
+- [x] Trending panels
+- [x] Sentiment indicators
+- [x] Mood filtering
 
 ### CCR Anchor Module - CCRAM (COMPLETE)
 - [x] Phase 1 (MVP): GPT-4o text classification and response generation
@@ -44,97 +75,68 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 - [x] Phase 2.1: NQR (No Quick Response) timing logic
 - Route: `/ccram`
 
-### News System Fixes (Jan 2026)
-- [x] Image validation - filters out tracking pixels and invalid URLs
-- [x] Category routing working correctly (US, World, Business, Sports, etc.)
-- [x] Fallback images for stories without valid images
-
 ---
 
 ## Prioritized Backlog
 
 ### P0 - Critical (Current)
-- [ ] Nav Bar dropdown consistency (under investigation)
-- [ ] News category data quality (RSS sources need better image extraction)
+- [x] News-first public launch configuration
+- [x] Hide unfinished modules from public nav
+- [x] Remove BANIBS TV cards from news pages
 
-### P1 - High Priority
+### P1 - High Priority (Post-Launch)
 - [ ] HDOS (Circle Trust Order System v2) - 7-level trust system
 - [ ] BANIBS Book Vault Studio - Book authoring module
+- [ ] Re-enable Social with full functionality
 
 ### P2 - Medium Priority
 - [ ] Raymond Health Core System - Daily tracker
-- [ ] Navigation v2.0 Integration
-- [ ] News Taxonomy v2
-- [ ] CCOS (Circle Consolidation OS) Phase 1
+- [ ] Business Directory public release
+- [ ] Marketplace launch
+- [ ] BANIBS TV content
 
 ### P3 - Low Priority / Blocked
 - [ ] Password reset emails (BLOCKED - awaiting SMTP credentials)
-- [ ] Backend route refactoring (messaging, business, auth)
-- [ ] BGLIS v1.0 Full Implementation (Paused)
+- [ ] BGLIS phone auth (currently mocked)
+- [ ] Backend route refactoring
 
 ---
 
 ## Technical Architecture
 
-### Backend
-```
-/app/backend/
-├── models/ccram.py          # CCRAM Pydantic models
-├── routes/
-│   ├── ccram.py             # CCRAM analysis API
-│   ├── ccram_audio.py       # CCRAM audio/TTS API
-│   └── news.py              # News API with image validation
-├── services/
-│   ├── ccram_service.py     # Core CCRAM logic
-│   ├── ccram_audio_service.py
-│   ├── ccram_templates.py
-│   └── news_categorization_service.py  # Category routing logic
-└── server.py
-```
+### Frontend Key Files
+- `/components/GlobalNavBar.js` - Public nav (News-first links only)
+- `/components/NewsNavigationBar.js` - Category tabs
+- `/pages/NewsHomePage.js` - Main news page (TV card hidden)
+- `/pages/NewsSectionPage.js` - Section pages (TV card hidden)
+- `/pages/BlackNewsPage.jsx` - Black News page
+- `/pages/ComingSoonPage.jsx` - Guest Page
 
-### Frontend
-```
-/app/frontend/src/
-├── components/
-│   ├── GlobalNavBar.js      # Main navigation
-│   ├── NewsNavigationBar.js # News category tabs
-│   └── NewsSectionBlock.js  # News story blocks
-├── pages/
-│   ├── ComingSoonPage.jsx   # Guest Page (redesigned)
-│   ├── NewsHomePage.js      # Main news homepage
-│   └── ccram/CCRAMPage.jsx  # CCRAM module
-└── App.js
-```
+### Backend Key Files
+- `/routes/news.py` - News API with image validation
+- `/services/news_categorization_service.py` - Category routing
 
 ### Key API Endpoints
-- `GET /api/news/homepage` - Structured news data for homepage
+- `GET /api/news/homepage` - Structured news data
 - `GET /api/news/section?section=<name>` - Section-specific news
-- `POST /api/ccram/analyze` - Question analysis
-- `POST /api/ccram/audio/generate-cue` - TTS generation
-
-### 3rd Party Integrations
-- OpenAI GPT-4o (via Emergent LLM Key)
-- OpenAI Whisper STT
-- OpenAI TTS
-- MongoDB Atlas
-- Let's Encrypt SSL
+- `GET /api/news/black` - Black-focused news
 
 ---
 
 ## Static Guest Page Build
 Location: `/app/deploy/guest_site/`
-Contents:
-- `index.html` - Complete standalone page
-- `assets/images/hero.jpg` - Hero image
-
 Download: `https://founder-books.preview.emergentagent.com/guest_site.zip`
 
 ---
 
+## Known Issues / Edge Cases
+1. **Sports section**: Currently 0 stories (no sports RSS sources configured)
+2. **Some images**: Show placeholder text watermarks (Unsplash fallbacks)
+3. **Minor HTML in descriptions**: Some RSS sources include raw HTML tags
+
 ## Notes
 - BGLIS phone auth system remains MOCKED
 - Gmail SMTP blocked pending credentials
-- Infrastructure is LOCKED - do not modify without explicit request
-- News images issue: Many RSS feeds return tracking pixels instead of real images
+- Unfinished modules hidden but routes still accessible if URL typed directly
 
 *Last Updated: January 2026*
