@@ -113,11 +113,27 @@ const ROLE_CAPABILITIES = {
 };
 
 /**
+ * Helper to get user roles as array (handles both 'role' string and 'roles' array)
+ */
+const getUserRolesArray = (user) => {
+  if (!user) return [];
+  // Support both 'role' (string) and 'roles' (array) from backend
+  if (user.roles && Array.isArray(user.roles)) {
+    return user.roles;
+  }
+  if (user.role) {
+    return [user.role];
+  }
+  return [ROLES.USER];
+};
+
+/**
  * Check if user has specific role
  */
 export const hasRole = (user, requiredRole) => {
   if (!user) return requiredRole === ROLES.PUBLIC;
-  return user.roles?.includes(requiredRole) || false;
+  const userRoles = getUserRolesArray(user);
+  return userRoles.includes(requiredRole);
 };
 
 /**
@@ -126,7 +142,8 @@ export const hasRole = (user, requiredRole) => {
 export const hasAnyRole = (user, requiredRoles = []) => {
   if (requiredRoles.includes(ROLES.PUBLIC)) return true;
   if (!user) return false;
-  return requiredRoles.some(role => user.roles?.includes(role));
+  const userRoles = getUserRolesArray(user);
+  return requiredRoles.some(role => userRoles.includes(role));
 };
 
 /**
@@ -138,7 +155,7 @@ export const hasCapability = (user, capability) => {
   }
   
   // Check each user role's capabilities
-  const userRoles = user.roles || [ROLES.USER];
+  const userRoles = getUserRolesArray(user);
   return userRoles.some(role => {
     const capabilities = ROLE_CAPABILITIES[role] || [];
     return capabilities.includes(capability);
@@ -166,7 +183,7 @@ export const getUserCapabilities = (user) => {
     return ROLE_CAPABILITIES[ROLES.PUBLIC] || [];
   }
   
-  const userRoles = user.roles || [ROLES.USER];
+  const userRoles = getUserRolesArray(user);
   const capabilities = new Set();
   
   userRoles.forEach(role => {
