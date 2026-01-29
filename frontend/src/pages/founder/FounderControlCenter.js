@@ -162,6 +162,27 @@ const FounderControlCenter = () => {
   const isDark = theme === 'dark';
   
   const [currentDate] = useState(new Date());
+  const [moduleSearch, setModuleSearch] = useState('');
+  
+  // Get modules from registry
+  const enabledModules = getEnabledModules();
+  const upcomingModules = getUpcomingModules();
+  
+  // Filter modules based on search
+  const filterModules = (modules) => {
+    if (!moduleSearch.trim()) return modules;
+    const search = moduleSearch.toLowerCase();
+    return modules.filter(m => 
+      m.name.toLowerCase().includes(search) ||
+      m.id.toLowerCase().includes(search) ||
+      m.route.toLowerCase().includes(search) ||
+      m.phase.toString().includes(search) ||
+      m.description?.toLowerCase().includes(search)
+    );
+  };
+  
+  const filteredEnabledModules = filterModules(enabledModules);
+  const filteredUpcomingModules = filterModules(upcomingModules);
   
   // Access control - founder only (hard-coded for now)
   useEffect(() => {
