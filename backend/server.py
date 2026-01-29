@@ -430,6 +430,10 @@ app.include_router(ccram_router)
 from routes.ccram_audio import router as ccram_audio_router
 app.include_router(ccram_audio_router)
 
+# Founder Ops Hub - Ops Log, Tasks, Documents (super_admin only)
+from routes.founder_ops import router as founder_ops_router
+app.include_router(founder_ops_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
