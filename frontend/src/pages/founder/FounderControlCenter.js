@@ -12,7 +12,8 @@ import {
   Wrench, Lightbulb, Code, Video, Mic,
   UserCircle, BookOpen, Calendar, Shield,
   Radar, Play, Pause, Trash2, Edit3, Plus,
-  GripVertical, ArrowRight
+  GripVertical, ArrowRight, Crown, Star,
+  ThumbsUp, Check, User, Ban
 } from 'lucide-react';
 import { getEnabledModules, getUpcomingModules } from '../../config/moduleRegistry';
 import {
