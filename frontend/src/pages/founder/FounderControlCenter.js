@@ -563,6 +563,21 @@ const FounderControlCenter = () => {
     canonical_rules: []
   });
   
+  // Drag and drop state
+  const [activeTask, setActiveTask] = useState(null);
+  
+  // DnD Kit sensors
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+  
   // API base URL
   const API_URL = process.env.REACT_APP_BACKEND_URL || '';
   
