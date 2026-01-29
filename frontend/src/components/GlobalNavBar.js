@@ -348,6 +348,35 @@ const GlobalNavBar = () => {
             ))}
           </ul>
 
+          {/* Control Plane Section - Founder/Admin */}
+          {controlPlaneLinks.some(link => link.visible) && (
+            <div className="mt-4 pt-4 border-t border-border">
+              <p className="px-4 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                Control Plane
+              </p>
+              <ul className="space-y-1">
+                {controlPlaneLinks.filter(link => link.visible).map((link) => (
+                  <li key={link.path}>
+                    <button
+                      onClick={() => handleControlPlaneClick(link)}
+                      className={`
+                        w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all
+                        ${isActive(link.path)
+                          ? 'bg-amber-600 text-white'
+                          : 'text-amber-500 hover:bg-amber-500/10 border border-amber-500/30'
+                        }
+                      `}
+                      data-testid={`nav-control-${link.path.replace(/\//g, '-')}`}
+                    >
+                      <span className="text-lg">{link.icon}</span>
+                      <span>{link.label}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           {/* Drawer Footer - Version info */}
           <div className="mt-6 pt-4 border-t border-border px-4">
             <p className="text-xs text-muted-foreground">
