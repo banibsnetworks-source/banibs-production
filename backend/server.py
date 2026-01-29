@@ -435,6 +435,9 @@ app.include_router(ccram_audio_router)
 from routes.founder_ops import router as founder_ops_router
 app.include_router(founder_ops_router)
 
+# HDOS v2 - Circle Trust Order (7 levels)
+app.include_router(hdos_trust_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
