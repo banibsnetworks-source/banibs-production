@@ -549,8 +549,8 @@ function App() {
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/settings/emoji-identity" element={<EmojiIdentitySettingsPanel />} />
               
-              <Route path="/portal/marketplace/*" element={<ModuleComingSoon />} />
-              <Route path="/portal/tv" element={<ModuleComingSoon />} />
+              <Route path="/portal/marketplace/*" element={<MarketplacePortal />} />
+              <Route path="/portal/tv" element={<TVPortal />} />
               <Route path="/portal/search" element={<SearchPortal />} />
               
               {/* Phase 7.6.3 - Section-Specific News Pages */}
