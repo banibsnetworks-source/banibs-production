@@ -207,6 +207,21 @@ const FounderControlCenter = () => {
     status: 'Open'
   });
   
+  // Tasks state
+  const [tasks, setTasks] = useState([]);
+  const [tasksLoading, setTasksLoading] = useState(false);
+  const [tasksError, setTasksError] = useState(null);
+  const [showTaskForm, setShowTaskForm] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
+  const [taskForm, setTaskForm] = useState({
+    title: '',
+    description: '',
+    column: 'P1',
+    status: 'Open',
+    owner: 'Founder',
+    related_link: ''
+  });
+  
   // API base URL
   const API_URL = process.env.REACT_APP_BACKEND_URL || '';
   
