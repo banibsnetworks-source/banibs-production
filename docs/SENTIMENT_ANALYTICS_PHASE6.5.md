@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://opshub-tasks.preview.emergentagent.com/api/admin/analytics/sentiment
+https://founder-tools-3.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints

@@ -306,7 +306,7 @@ INITIAL_ADMIN_PASSWORD="BanibsAdmin#2025"
 
 ### Frontend Configuration
 ```env
-REACT_APP_BACKEND_URL="https://opshub-tasks.preview.emergentagent.com"
+REACT_APP_BACKEND_URL="https://founder-tools-3.preview.emergentagent.com"
 ```
 
 ---

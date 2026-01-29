@@ -186,7 +186,7 @@ for source in RSS_SOURCES:
 
 ### 3.3 Frontend Rendering
 
-**Test**: Visited `https://opshub-tasks.preview.emergentagent.com/`
+**Test**: Visited `https://founder-tools-3.preview.emergentagent.com/`
 
 **Results**:
 - ✅ Homepage loads successfully

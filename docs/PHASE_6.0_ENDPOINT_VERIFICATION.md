@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://opshub-tasks.preview.emergentagent.com/api/auth
+https://founder-tools-3.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
