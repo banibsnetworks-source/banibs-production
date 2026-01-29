@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import FullWidthLayout from '../../components/layouts/FullWidthLayout';
@@ -7,8 +7,10 @@ import SEO from '../../components/SEO';
 import { 
   Folder, CheckCircle, Clock, AlertCircle, 
   FileText, Scale, DollarSign, Heart, 
-  Server, Globe, Activity
+  Server, Globe, Activity, Map, Search,
+  ExternalLink, Lock, Users, Zap
 } from 'lucide-react';
+import { getEnabledModules, getUpcomingModules } from '../../config/moduleRegistry';
 
 /**
  * Founder Control Center v1.0
