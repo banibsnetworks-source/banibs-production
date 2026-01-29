@@ -3400,6 +3400,430 @@ const FounderControlCenter = () => {
             </Card>
           </div>
           )}
+          
+          {/* Documents Tab Content */}
+          {activeTab === 'documents' && (
+          <div data-testid="documents-tab-content">
+            <Card isDark={isDark} title="Documents Vault" icon={Folder}>
+              {/* Header with Upload Button */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '24px'
+              }}>
+                <p style={{
+                  fontSize: '14px',
+                  color: isDark ? '#9CA3AF' : '#6B7280',
+                  margin: 0
+                }}>
+                  Secure document storage — Canonical artifacts only
+                </p>
+                <button
+                  onClick={() => {
+                    setUploadForm({ title: '', description: '', doc_type: 'Other', tags: '' });
+                    setUploadFile(null);
+                    setShowUploadForm(true);
+                  }}
+                  data-testid="upload-document-btn"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '10px 20px',
+                    backgroundColor: '#C8A857',
+                    color: '#0C0C0C',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Plus size={16} />
+                  Upload Document
+                </button>
+              </div>
+              
+              {/* Upload Form Modal */}
+              {showUploadForm && (
+                <div style={{
+                  marginBottom: '24px',
+                  padding: '20px',
+                  backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                  borderRadius: '8px',
+                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+                }}>
+                  <h4 style={{
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    color: isDark ? '#F7F7F7' : '#111217',
+                    marginBottom: '16px'
+                  }}>
+                    Upload New Document
+                  </h4>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <div style={{ gridColumn: '1 / -1' }}>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Title *
+                      </label>
+                      <input
+                        type="text"
+                        value={uploadForm.title}
+                        onChange={(e) => setUploadForm({...uploadForm, title: e.target.value})}
+                        placeholder="Document title"
+                        data-testid="document-title-input"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217',
+                          outline: 'none'
+                        }}
+                      />
+                    </div>
+                    
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Type
+                      </label>
+                      <select
+                        value={uploadForm.doc_type}
+                        onChange={(e) => setUploadForm({...uploadForm, doc_type: e.target.value})}
+                        data-testid="document-type-select"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217'
+                        }}
+                      >
+                        <option value="Architecture">Architecture</option>
+                        <option value="Module">Module</option>
+                        <option value="Legal">Legal</option>
+                        <option value="Book">Book</option>
+                        <option value="HDOS">HDOS</option>
+                        <option value="Spec">Spec</option>
+                        <option value="Canonical">Canonical</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Tags (comma-separated)
+                      </label>
+                      <input
+                        type="text"
+                        value={uploadForm.tags}
+                        onChange={(e) => setUploadForm({...uploadForm, tags: e.target.value})}
+                        placeholder="hdos, canonical, spec"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217',
+                          outline: 'none'
+                        }}
+                      />
+                    </div>
+                    
+                    <div style={{ gridColumn: '1 / -1' }}>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Description
+                      </label>
+                      <textarea
+                        value={uploadForm.description}
+                        onChange={(e) => setUploadForm({...uploadForm, description: e.target.value})}
+                        placeholder="Brief description of this document..."
+                        rows={2}
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217',
+                          outline: 'none',
+                          resize: 'vertical'
+                        }}
+                      />
+                    </div>
+                    
+                    <div style={{ gridColumn: '1 / -1' }}>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        File *
+                      </label>
+                      <input
+                        type="file"
+                        onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
+                        data-testid="document-file-input"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217'
+                        }}
+                      />
+                      {uploadFile && (
+                        <p style={{ fontSize: '12px', color: '#10B981', marginTop: '6px' }}>
+                          Selected: {uploadFile.name} ({(uploadFile.size / 1024).toFixed(1)} KB)
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div style={{ display: 'flex', gap: '12px', marginTop: '16px', justifyContent: 'flex-end' }}>
+                    <button
+                      onClick={() => { setShowUploadForm(false); setUploadFile(null); }}
+                      style={{
+                        padding: '10px 20px',
+                        backgroundColor: 'transparent',
+                        color: isDark ? '#9CA3AF' : '#6B7280',
+                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                        borderRadius: '8px',
+                        fontSize: '14px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={uploadDocument}
+                      disabled={uploading}
+                      data-testid="submit-upload-btn"
+                      style={{
+                        padding: '10px 20px',
+                        backgroundColor: uploading ? '#6B7280' : '#C8A857',
+                        color: '#0C0C0C',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        cursor: uploading ? 'not-allowed' : 'pointer'
+                      }}
+                    >
+                      {uploading ? 'Uploading...' : 'Upload Document'}
+                    </button>
+                  </div>
+                </div>
+              )}
+              
+              {/* Loading State */}
+              {documentsLoading && (
+                <div style={{ textAlign: 'center', padding: '40px', color: isDark ? '#9CA3AF' : '#6B7280' }}>
+                  Loading documents...
+                </div>
+              )}
+              
+              {/* Error State */}
+              {documentsError && (
+                <div style={{
+                  padding: '16px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  borderRadius: '8px',
+                  color: '#EF4444',
+                  marginBottom: '16px'
+                }}>
+                  Error: {documentsError}
+                </div>
+              )}
+              
+              {/* Documents List */}
+              {!documentsLoading && !documentsError && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {documents.length === 0 ? (
+                    <div style={{
+                      textAlign: 'center',
+                      padding: '60px 20px',
+                      color: isDark ? '#6B7280' : '#9CA3AF'
+                    }}>
+                      <Folder size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
+                      <p style={{ fontSize: '16px', marginBottom: '8px' }}>No documents yet</p>
+                      <p style={{ fontSize: '14px' }}>Upload your first canonical document above</p>
+                    </div>
+                  ) : (
+                    documents.map(doc => {
+                      const typeColors = {
+                        'Architecture': '#6366F1',
+                        'Module': '#10B981',
+                        'Legal': '#F59E0B',
+                        'Book': '#EC4899',
+                        'HDOS': '#C8A857',
+                        'Spec': '#0EA5E9',
+                        'Canonical': '#8B5CF6',
+                        'Other': '#6B7280'
+                      };
+                      
+                      const formatBytes = (bytes) => {
+                        if (!bytes) return '0 B';
+                        if (bytes < 1024) return bytes + ' B';
+                        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+                        return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+                      };
+                      
+                      return (
+                        <div key={doc.id} data-testid={`document-${doc.id}`} style={{
+                          padding: '16px 20px',
+                          backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`,
+                          borderLeft: `4px solid ${typeColors[doc.doc_type] || '#6B7280'}`
+                        }}>
+                          <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'flex-start',
+                            marginBottom: '8px'
+                          }}>
+                            <div style={{ flex: 1 }}>
+                              <h4 style={{
+                                fontSize: '15px',
+                                fontWeight: '600',
+                                color: isDark ? '#F7F7F7' : '#111217',
+                                margin: 0,
+                                marginBottom: '4px'
+                              }}>
+                                {doc.title}
+                              </h4>
+                              <p style={{
+                                fontSize: '12px',
+                                color: isDark ? '#6B7280' : '#9CA3AF',
+                                margin: 0
+                              }}>
+                                {doc.filename} • {formatBytes(doc.size_bytes)} • {doc.content_type}
+                              </p>
+                            </div>
+                            <span style={{
+                              padding: '4px 10px',
+                              borderRadius: '4px',
+                              backgroundColor: `${typeColors[doc.doc_type] || '#6B7280'}20`,
+                              color: typeColors[doc.doc_type] || '#6B7280',
+                              fontSize: '11px',
+                              fontWeight: '600'
+                            }}>
+                              {doc.doc_type}
+                            </span>
+                          </div>
+                          
+                          {doc.description && (
+                            <p style={{
+                              fontSize: '14px',
+                              color: isDark ? '#B3B3C2' : '#4A4B57',
+                              marginBottom: '8px',
+                              lineHeight: '1.5'
+                            }}>
+                              {doc.description}
+                            </p>
+                          )}
+                          
+                          {doc.tags && doc.tags.length > 0 && (
+                            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '12px' }}>
+                              {doc.tags.map((tag, idx) => (
+                                <span key={idx} style={{
+                                  padding: '2px 8px',
+                                  borderRadius: '4px',
+                                  backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                                  color: isDark ? '#9CA3AF' : '#6B7280',
+                                  fontSize: '11px'
+                                }}>
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          
+                          <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
+                          }}>
+                            <span style={{
+                              fontSize: '11px',
+                              color: isDark ? '#6B7280' : '#9CA3AF'
+                            }}>
+                              SHA256: {doc.sha256?.substring(0, 16)}...
+                            </span>
+                            
+                            <div style={{ display: 'flex', gap: '8px' }}>
+                              <button
+                                onClick={() => downloadDocument(doc.id, doc.filename)}
+                                data-testid={`download-${doc.id}`}
+                                style={{
+                                  padding: '6px 14px',
+                                  backgroundColor: '#C8A857',
+                                  color: '#0C0C0C',
+                                  border: 'none',
+                                  borderRadius: '6px',
+                                  fontSize: '12px',
+                                  fontWeight: '600',
+                                  cursor: 'pointer',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '4px'
+                                }}
+                              >
+                                Download
+                              </button>
+                              <button
+                                onClick={() => deleteDocument(doc.id)}
+                                style={{
+                                  padding: '6px 14px',
+                                  backgroundColor: 'transparent',
+                                  color: '#EF4444',
+                                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                                  borderRadius: '6px',
+                                  fontSize: '12px',
+                                  cursor: 'pointer',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '4px'
+                                }}
+                              >
+                                <Trash2 size={12} />
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              )}
+              
+              {/* Document Count */}
+              {!documentsLoading && documents.length > 0 && (
+                <div style={{
+                  marginTop: '16px',
+                  padding: '12px',
+                  backgroundColor: isDark ? '#0C0C0C' : '#F3F4F6',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  color: isDark ? '#6B7280' : '#9CA3AF',
+                  textAlign: 'center'
+                }}>
+                  {documents.length} documents total
+                </div>
+              )}
+            </Card>
+          </div>
+          )}
         </div>
       </div>
     </FullWidthLayout>
