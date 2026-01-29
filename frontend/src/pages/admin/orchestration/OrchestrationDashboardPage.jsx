@@ -130,13 +130,15 @@ export default function OrchestrationDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-slate-100 mb-2">
-            BPOC Orchestration Dashboard
-          </h1>
+    <>
+      <GlobalNavBar />
+      <div className="min-h-screen bg-slate-950 text-slate-100 p-6">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold text-slate-100 mb-2">
+              BPOC Orchestration Dashboard
+            </h1>
           <p className="text-base text-slate-400">
             Manage BANIBS platform module rollouts, dependencies, and governance
           </p>

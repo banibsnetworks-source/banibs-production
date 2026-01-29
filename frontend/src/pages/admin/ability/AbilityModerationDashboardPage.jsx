@@ -241,13 +241,15 @@ export default function AbilityModerationDashboardPage() {
   const totalPending = pendingResources.length + pendingProviders.length;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-slate-100 mb-2">
-            Ability Network Moderation
-          </h1>
+    <>
+      <GlobalNavBar />
+      <div className="min-h-screen bg-slate-950 text-slate-100 p-6">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold text-slate-100 mb-2">
+              Ability Network Moderation
+            </h1>
           <p className="text-base text-slate-400">
             Review and approve community-submitted resources and providers
           </p>
