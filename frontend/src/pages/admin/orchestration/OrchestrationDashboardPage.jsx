@@ -189,5 +189,6 @@ export default function OrchestrationDashboardPage() {
         )}
       </div>
     </div>
+    </>
   );
 }

@@ -546,5 +546,6 @@ export default function AbilityModerationDashboardPage() {
         )}
       </div>
     </div>
+    </>
   );
 }
