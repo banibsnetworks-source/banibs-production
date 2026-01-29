@@ -986,7 +986,7 @@ const FounderControlCenter = () => {
             {/* Left Column - Projects & Build Status */}
             <div>
               {/* Active Builds */}
-              <Card title="Active Builds & Phases" icon={Folder}>
+              <Card isDark={isDark} title="Active Builds & Phases" icon={Folder}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   {ACTIVE_BUILDS.map(build => (
                     <div key={build.id} style={{
@@ -1010,7 +1010,7 @@ const FounderControlCenter = () => {
                         }}>
                           {build.title}
                         </h4>
-                        <StatusBadge status={build.status} />
+                        <StatusBadge isDark={isDark} status={build.status} />
                       </div>
                       <p style={{
                         fontSize: '13px',
@@ -1032,7 +1032,7 @@ const FounderControlCenter = () => {
               </Card>
               
               {/* Neo Handoffs */}
-              <Card title="Neo Handoffs" icon={FileText}>
+              <Card isDark={isDark} title="Neo Handoffs" icon={FileText}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   {NEO_HANDOFFS.map(handoff => (
                     <div key={handoff.id} style={{
@@ -1056,7 +1056,7 @@ const FounderControlCenter = () => {
                         }}>
                           {handoff.spec_name}
                         </h4>
-                        <StatusBadge status={handoff.status} />
+                        <StatusBadge isDark={isDark} status={handoff.status} />
                       </div>
                       <p style={{
                         fontSize: '13px',
@@ -1081,7 +1081,7 @@ const FounderControlCenter = () => {
             {/* Right Column - Life / Legal / Health */}
             <div>
               {/* Legal & Money Tasks */}
-              <Card title="Legal & Money Tasks" icon={Scale}>
+              <Card isDark={isDark} title="Legal & Money Tasks" icon={Scale}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   {LEGAL_MONEY_TASKS.map(task => (
                     <div key={task.id} style={{
@@ -1105,7 +1105,7 @@ const FounderControlCenter = () => {
                         }}>
                           {task.task}
                         </h4>
-                        <StatusBadge status={task.status} />
+                        <StatusBadge isDark={isDark} status={task.status} />
                       </div>
                       <p style={{
                         fontSize: '13px',
@@ -1127,7 +1127,7 @@ const FounderControlCenter = () => {
               </Card>
               
               {/* Health & Rest */}
-              <Card title="Health & Rest" icon={Heart}>
+              <Card isDark={isDark} title="Health & Rest" icon={Heart}>
                 <div style={{
                   padding: '20px',
                   backgroundColor: isDark ? '#1C1C1C' : '#FEF3C7',
@@ -1170,7 +1170,7 @@ const FounderControlCenter = () => {
               </Card>
               
               {/* System Status */}
-              <Card title="System Status (BANIBS)" icon={Server}>
+              <Card isDark={isDark} title="System Status (BANIBS)" icon={Server}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   {SYSTEM_STATUS.map(system => (
                     <div key={system.id} style={{
@@ -1199,7 +1199,7 @@ const FounderControlCenter = () => {
                           {system.environment} • {system.notes}
                         </p>
                       </div>
-                      <StatusBadge status={system.status} />
+                      <StatusBadge isDark={isDark} status={system.status} />
                     </div>
                   ))}
                 </div>
@@ -1212,7 +1212,7 @@ const FounderControlCenter = () => {
           {/* System Map Tab Content */}
           {activeTab === 'system-map' && (
           <div style={{ marginTop: '0' }}>
-            <Card title="System Map" icon={Map}>
+            <Card isDark={isDark} title="System Map" icon={Map}>
               {/* Search Box */}
               <div style={{
                 marginBottom: '24px',
@@ -1810,7 +1810,7 @@ const FounderControlCenter = () => {
           {/* Ops Log Tab Content */}
           {activeTab === 'ops-log' && (
           <div>
-            <Card title="Ops Log" icon={FileText}>
+            <Card isDark={isDark} title="Ops Log" icon={FileText}>
               {/* Header with Add Button */}
               <div style={{
                 display: 'flex',
@@ -2223,7 +2223,7 @@ const FounderControlCenter = () => {
           {/* Tasks Tab Content - Kanban Board */}
           {activeTab === 'tasks' && (
           <div data-testid="tasks-tab-content">
-            <Card title="Tasks Kanban" icon={CheckCircle}>
+            <Card isDark={isDark} title="Tasks Kanban" icon={CheckCircle}>
               {/* Header with Add Button */}
               <div style={{
                 display: 'flex',
@@ -2661,7 +2661,7 @@ const FounderControlCenter = () => {
           {/* Detectors Tab Content */}
           {activeTab === 'detectors' && (
           <div data-testid="detectors-tab-content">
-            <Card title="HDOS Detectors" icon={Radar}>
+            <Card isDark={isDark} title="HDOS Detectors" icon={Radar}>
               {/* Header with Add Button */}
               <div style={{
                 display: 'flex',
