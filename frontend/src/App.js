@@ -373,38 +373,7 @@ function App() {
   
   // P0 ROLLBACK: Coming Soon interception DISABLED
   // All routes accessible for internal debugging
-  // shouldShowComingSoon is always false
-  
-  // Show nothing while loading feature flags
-  if (!featureFlagsLoaded) {
-    return null;
-  }
-  
-  // Detect if we're in development mode
-  const isDevelopment = process.env.NODE_ENV === 'development' || 
-                        window.location.hostname === 'localhost' ||
-                        window.location.hostname.includes('preview.emergentagent.com');
-  
-  // Show Coming Soon page ONLY if:
-  // 1. Coming Soon mode is enabled AND
-  // 2. We're NOT in development mode AND
-  // 3. Current path is not an allowed control-plane route
-  const currentPath = window.location.pathname;
-  const isControlPlanePath = 
-    currentPath.startsWith('/about') ||
-    currentPath.startsWith('/auth') ||
-    currentPath.startsWith('/login') ||
-    currentPath.startsWith('/founder') ||
-    currentPath.startsWith('/admin');
-  
-  const shouldShowComingSoon = comingSoonMode && !isDevelopment && !isControlPlanePath;
-  
-  if (shouldShowComingSoon) {
-    // Select variant based on flag
-    if (comingSoonVariant === 'blue') return <ComingSoonPageBlue />;
-    if (comingSoonVariant === 'gold') return <ComingSoonPageGold />;
-    return <ComingSoonPage />; // Default to dark variant
-  }
+  // shouldShowComingSoon is always false - no gating
   
   return (
     <ThemeProvider>
