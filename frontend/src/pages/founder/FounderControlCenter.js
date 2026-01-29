@@ -783,6 +783,7 @@ const FounderControlCenter = () => {
               { id: 'system-map', label: 'System Map', icon: Map },
               { id: 'ops-log', label: 'Ops Log', icon: FileText },
               { id: 'tasks', label: 'Tasks', icon: CheckCircle },
+              { id: 'detectors', label: 'Detectors', icon: Radar },
             ].map(tab => {
               const TabIcon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -790,6 +791,7 @@ const FounderControlCenter = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
+                  data-testid={`tab-${tab.id}`}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
