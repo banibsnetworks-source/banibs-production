@@ -982,6 +982,240 @@ const FounderControlCenter = () => {
                 </div>
               )}
               
+              {/* System/Internal Modules Section */}
+              {filteredInternalModules.length > 0 && (
+                <div style={{ marginBottom: '32px' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    marginBottom: '16px'
+                  }}>
+                    <Wrench size={18} style={{ color: '#6366F1' }} />
+                    <h4 style={{
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      color: isDark ? '#F7F7F7' : '#111217',
+                      margin: 0
+                    }}>
+                      System / Internal ({filteredInternalModules.length})
+                    </h4>
+                  </div>
+                  
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+                    gap: '12px'
+                  }}>
+                    {filteredInternalModules.map(module => {
+                      const IconComponent = module.icon || Settings;
+                      return (
+                        <div key={module.id} style={{
+                          padding: '14px 16px',
+                          backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`,
+                          borderLeft: `4px solid ${module.color || '#6366F1'}`
+                        }}>
+                          <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'flex-start',
+                            marginBottom: '8px'
+                          }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
+                              <div style={{
+                                width: '32px',
+                                height: '32px',
+                                borderRadius: '6px',
+                                backgroundColor: `${module.color}20`,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                              }}>
+                                <IconComponent size={16} style={{ color: module.color }} />
+                              </div>
+                              <div>
+                                <h5 style={{
+                                  fontSize: '14px',
+                                  fontWeight: '600',
+                                  color: isDark ? '#F7F7F7' : '#111217',
+                                  margin: 0
+                                }}>
+                                  {module.name}
+                                </h5>
+                              </div>
+                            </div>
+                            <div style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              padding: '3px 8px',
+                              borderRadius: '4px',
+                              backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                              border: '1px solid rgba(99, 102, 241, 0.3)',
+                              fontSize: '10px',
+                              fontWeight: '600',
+                              color: '#6366F1',
+                              textTransform: 'uppercase'
+                            }}>
+                              Internal
+                            </div>
+                          </div>
+                          
+                          <p style={{
+                            fontSize: '12px',
+                            color: isDark ? '#9CA3AF' : '#6B7280',
+                            marginBottom: '10px',
+                            lineHeight: '1.4'
+                          }}>
+                            {module.description}
+                          </p>
+                          
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between'
+                          }}>
+                            <code style={{
+                              fontSize: '11px',
+                              padding: '3px 6px',
+                              borderRadius: '4px',
+                              backgroundColor: isDark ? '#0C0C0C' : '#E5E7EB',
+                              color: isDark ? '#9CA3AF' : '#374151',
+                              fontFamily: 'monospace'
+                            }}>
+                              {module.route}
+                            </code>
+                            
+                            <Link
+                              to={module.route}
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                padding: '5px 10px',
+                                borderRadius: '5px',
+                                backgroundColor: module.color || '#6366F1',
+                                color: '#FFFFFF',
+                                fontSize: '11px',
+                                fontWeight: '500',
+                                textDecoration: 'none'
+                              }}
+                            >
+                              Open
+                              <ExternalLink size={10} />
+                            </Link>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+              
+              {/* Planned/Conceptual Modules Section */}
+              {filteredPlannedModules.length > 0 && (
+                <div style={{ marginBottom: '32px' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    marginBottom: '16px'
+                  }}>
+                    <Lightbulb size={18} style={{ color: '#F59E0B' }} />
+                    <h4 style={{
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      color: isDark ? '#F7F7F7' : '#111217',
+                      margin: 0
+                    }}>
+                      Planned / Conceptual ({filteredPlannedModules.length})
+                    </h4>
+                  </div>
+                  
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+                    gap: '12px'
+                  }}>
+                    {filteredPlannedModules.map(module => (
+                      <div key={module.id} style={{
+                        padding: '14px 16px',
+                        backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                        borderRadius: '8px',
+                        border: `1px dashed ${isDark ? 'rgba(245, 158, 11, 0.3)' : 'rgba(245, 158, 11, 0.5)'}`,
+                        opacity: 0.85
+                      }}>
+                        <div style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'flex-start',
+                          marginBottom: '8px'
+                        }}>
+                          <div style={{ flex: 1 }}>
+                            <h5 style={{
+                              fontSize: '14px',
+                              fontWeight: '600',
+                              color: isDark ? '#F7F7F7' : '#111217',
+                              margin: 0,
+                              marginBottom: '2px'
+                            }}>
+                              {module.name}
+                            </h5>
+                            {module.expectedPhase && (
+                              <p style={{
+                                fontSize: '11px',
+                                color: isDark ? '#6B7280' : '#9CA3AF',
+                                margin: 0
+                              }}>
+                                Expected Phase {module.expectedPhase}
+                              </p>
+                            )}
+                          </div>
+                          <div style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            padding: '3px 8px',
+                            borderRadius: '4px',
+                            backgroundColor: module.status === 'mocked' 
+                              ? 'rgba(239, 68, 68, 0.1)' 
+                              : 'rgba(245, 158, 11, 0.1)',
+                            border: `1px solid ${module.status === 'mocked' 
+                              ? 'rgba(239, 68, 68, 0.3)' 
+                              : 'rgba(245, 158, 11, 0.3)'}`,
+                            fontSize: '10px',
+                            fontWeight: '600',
+                            color: module.status === 'mocked' ? '#EF4444' : '#F59E0B',
+                            textTransform: 'uppercase'
+                          }}>
+                            {module.status === 'mocked' ? 'Mocked' : 'Planned'}
+                          </div>
+                        </div>
+                        
+                        <p style={{
+                          fontSize: '12px',
+                          color: isDark ? '#9CA3AF' : '#6B7280',
+                          marginBottom: '8px',
+                          lineHeight: '1.4'
+                        }}>
+                          {module.description}
+                        </p>
+                        
+                        <div style={{
+                          fontSize: '11px',
+                          color: isDark ? '#4B5563' : '#9CA3AF',
+                          fontStyle: 'italic'
+                        }}>
+                          Not runnable – development pending
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
               {/* Summary Stats */}
               <div style={{
                 marginTop: '24px',
@@ -1005,9 +1239,21 @@ const FounderControlCenter = () => {
                   </span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Wrench size={16} style={{ color: '#6366F1' }} />
+                  <span style={{ fontSize: '13px', color: isDark ? '#B3B3C2' : '#4A4B57' }}>
+                    <strong>{INTERNAL_MODULES.length}</strong> Internal
+                  </span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Lightbulb size={16} style={{ color: '#F59E0B' }} />
+                  <span style={{ fontSize: '13px', color: isDark ? '#B3B3C2' : '#4A4B57' }}>
+                    <strong>{PLANNED_MODULES.length}</strong> Planned
+                  </span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <Globe size={16} style={{ color: '#C8A857' }} />
                   <span style={{ fontSize: '13px', color: isDark ? '#B3B3C2' : '#4A4B57' }}>
-                    <strong>{enabledModules.length + upcomingModules.length}</strong> Total Modules
+                    <strong>{enabledModules.length + upcomingModules.length + INTERNAL_MODULES.length + PLANNED_MODULES.length}</strong> Total
                   </span>
                 </div>
               </div>
