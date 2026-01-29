@@ -3,17 +3,21 @@ Founder Ops Hub API Routes
 - Ops Log CRUD
 - Tasks CRUD + Move (Kanban drag/drop)
 - Detectors CRUD (HDOS)
-- Documents CRUD + File Upload
+- Documents CRUD + File Upload/Download
 
 Access: super_admin only (RBAC enforced)
 All responses wrapped in { success, data, error } envelope
 """
 
-from fastapi import APIRouter, HTTPException, Depends, UploadFile, File, Query
+from fastapi import APIRouter, HTTPException, Depends, UploadFile, File, Query, Form
+from fastapi.responses import FileResponse
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from typing import List, Optional, Any
 from datetime import datetime, timezone
 import uuid
+import os
+import hashlib
+import re
 
 from db.connection import get_db
 from models.founder_ops import (
