@@ -533,6 +533,57 @@ const FounderControlCenter = () => {
             </p>
           </div>
           
+          {/* Tabs Navigation */}
+          <div style={{
+            display: 'flex',
+            gap: '8px',
+            marginBottom: '24px',
+            borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+            paddingBottom: '12px'
+          }}>
+            {[
+              { id: 'dashboard', label: 'Dashboard', icon: Activity },
+              { id: 'system-map', label: 'System Map', icon: Map },
+              { id: 'ops-log', label: 'Ops Log', icon: FileText },
+            ].map(tab => {
+              const TabIcon = tab.icon;
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '10px 20px',
+                    borderRadius: '8px 8px 0 0',
+                    border: 'none',
+                    backgroundColor: isActive 
+                      ? (isDark ? '#1C1C1C' : '#FFFFFF')
+                      : 'transparent',
+                    color: isActive 
+                      ? '#C8A857'
+                      : (isDark ? '#9CA3AF' : '#6B7280'),
+                    fontSize: '14px',
+                    fontWeight: isActive ? '600' : '500',
+                    cursor: 'pointer',
+                    borderBottom: isActive 
+                      ? '2px solid #C8A857' 
+                      : '2px solid transparent',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <TabIcon size={18} />
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+          
+          {/* Dashboard Tab Content */}
+          {activeTab === 'dashboard' && (
+          <>
           {/* Two-column layout */}
           <div style={{
             display: 'grid',
