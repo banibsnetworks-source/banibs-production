@@ -137,6 +137,7 @@ function SentimentAnalytics() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

@@ -464,6 +464,7 @@ const AdminOpportunitiesDashboard = () => {
         )}
       </main>
     </div>
+    </>
   );
 };
 

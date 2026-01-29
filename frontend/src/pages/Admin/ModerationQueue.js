@@ -363,6 +363,7 @@ function ModerationQueue() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
