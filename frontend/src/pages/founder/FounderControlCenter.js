@@ -581,6 +581,24 @@ const FounderControlCenter = () => {
   const [uploadFile, setUploadFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   
+  // Trust Order state (HDOS v2)
+  const [trustLevels, setTrustLevels] = useState([]);
+  const [trustPolicies, setTrustPolicies] = useState([]);
+  const [trustAssignments, setTrustAssignments] = useState([]);
+  const [trustLoading, setTrustLoading] = useState(false);
+  const [trustError, setTrustError] = useState(null);
+  const [trustSubTab, setTrustSubTab] = useState('levels');
+  const [showPolicyForm, setShowPolicyForm] = useState(false);
+  const [editingPolicy, setEditingPolicy] = useState(null);
+  const [showAssignmentForm, setShowAssignmentForm] = useState(false);
+  const [assignmentForm, setAssignmentForm] = useState({
+    subject_type: 'EMAIL',
+    subject_id: '',
+    subject_label: '',
+    level_key: 'OTHERS',
+    reason: ''
+  });
+  
   // DnD Kit sensors
   const sensors = useSensors(
     useSensor(PointerSensor, {
