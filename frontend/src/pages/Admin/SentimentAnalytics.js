@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import GlobalNavBar from '../../components/GlobalNavBar';
 import SummaryStats from '../../components/admin/SummaryStats';
 import FilterPanel from '../../components/admin/FilterPanel';
 import TrendsChart from '../../components/admin/TrendsChart';

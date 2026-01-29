@@ -6,6 +6,7 @@ import AdminOpportunityCard from '../../components/admin/AdminOpportunityCard';
 import RevenueOverview from '../../components/admin/RevenueOverview';
 import AbuseControls from '../../components/admin/AbuseControls';
 import RegionalInsightsPanel from '../../components/admin/RegionalInsightsPanel';
+import GlobalNavBar from '../../components/GlobalNavBar';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
