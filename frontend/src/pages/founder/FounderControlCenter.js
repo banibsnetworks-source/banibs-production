@@ -703,7 +703,127 @@ const FounderControlCenter = () => {
     if (activeTab === 'documents' && accessToken) {
       fetchDocuments();
     }
+    if (activeTab === 'trust-order' && accessToken) {
+      fetchTrustData();
+    }
   }, [activeTab, accessToken]);
+  
+  // =====================
+  // TRUST ORDER API FUNCTIONS (HDOS v2)
+  // =====================
+  
+  const fetchTrustData = async () => {
+    if (!accessToken) return;
+    setTrustLoading(true);
+    setTrustError(null);
+    try {
+      // Fetch all trust data in parallel
+      const [levelsRes, policiesRes, assignmentsRes] = await Promise.all([
+        fetch(`${API_URL}/api/hdos/trust/levels`, { headers: { 'Authorization': `Bearer ${accessToken}` } }),
+        fetch(`${API_URL}/api/hdos/trust/policies`, { headers: { 'Authorization': `Bearer ${accessToken}` } }),
+        fetch(`${API_URL}/api/hdos/trust/assignments`, { headers: { 'Authorization': `Bearer ${accessToken}` } })
+      ]);
+      
+      const levelsData = await levelsRes.json();
+      const policiesData = await policiesRes.json();
+      const assignmentsData = await assignmentsRes.json();
+      
+      setTrustLevels(levelsData.data || []);
+      setTrustPolicies(policiesData.data || []);
+      setTrustAssignments(assignmentsData.data || []);
+    } catch (err) {
+      setTrustError(err.message);
+    } finally {
+      setTrustLoading(false);
+    }
+  };
+  
+  const saveTrustPolicy = async (levelKey, policyData) => {
+    if (!accessToken) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/hdos/trust/policies/by-level/${levelKey}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(policyData)
+      });
+      
+      if (!response.ok) throw new Error('Failed to save policy');
+      fetchTrustData();
+      setShowPolicyForm(false);
+      setEditingPolicy(null);
+    } catch (err) {
+      alert('Failed to save: ' + err.message);
+    }
+  };
+  
+  const createTrustAssignment = async () => {
+    if (!accessToken || !assignmentForm.subject_id.trim()) {
+      alert('Subject ID is required');
+      return;
+    }
+    
+    try {
+      const response = await fetch(`${API_URL}/api/hdos/trust/assignments`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(assignmentForm)
+      });
+      
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.detail?.error?.message || 'Failed to create assignment');
+      }
+      
+      setAssignmentForm({ subject_type: 'EMAIL', subject_id: '', subject_label: '', level_key: 'OTHERS', reason: '' });
+      setShowAssignmentForm(false);
+      fetchTrustData();
+    } catch (err) {
+      alert('Failed to create: ' + err.message);
+    }
+  };
+  
+  const updateTrustAssignment = async (assignmentId, newLevelKey) => {
+    if (!accessToken) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/hdos/trust/assignments/${assignmentId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({ level_key: newLevelKey })
+      });
+      
+      if (!response.ok) throw new Error('Failed to update');
+      fetchTrustData();
+    } catch (err) {
+      alert('Failed to update: ' + err.message);
+    }
+  };
+  
+  const deleteTrustAssignment = async (assignmentId) => {
+    if (!accessToken || !window.confirm('Remove this trust assignment?')) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/hdos/trust/assignments/${assignmentId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      
+      if (!response.ok) throw new Error('Failed to delete');
+      fetchTrustData();
+    } catch (err) {
+      alert('Failed to delete: ' + err.message);
+    }
+  };
   
   // =====================
   // DOCUMENTS API FUNCTIONS
