@@ -17,7 +17,8 @@ from db.connection import get_db
 from models.founder_ops import (
     OpsLogEntryCreate, OpsLogEntryUpdate, OpsLogEntry,
     TaskCreate, TaskUpdate, Task,
-    DocumentCreate, DocumentUpdate, Document
+    DocumentCreate, DocumentUpdate, Document,
+    DetectorCreate, DetectorUpdate, Detector
 )
 from middleware.auth_guard import get_current_user
 
