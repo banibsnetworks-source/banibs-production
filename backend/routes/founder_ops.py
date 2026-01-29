@@ -21,7 +21,7 @@ from models.founder_ops import (
 )
 from middleware.auth_guard import get_current_user
 
-router = APIRouter(prefix="/founder-ops", tags=["Founder Ops Hub"])
+router = APIRouter(prefix="/api/founder-ops", tags=["Founder Ops Hub"])
 
 
 # =====================
