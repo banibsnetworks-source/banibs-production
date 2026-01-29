@@ -564,11 +564,11 @@ function App() {
               <Route path="/hub" element={<HubPage />} />
               {/* Phase 6.2.1 - Notifications (Auth Required) */}
               <Route path="/notifications" element={<NotificationsPage />} />
-              {/* Phase 6.2.3 - Resources & Events - Hidden for News-first */}
-              <Route path="/resources" element={<ModuleComingSoon />} />
-              <Route path="/resources/:id" element={<ModuleComingSoon />} />
-              <Route path="/events" element={<ModuleComingSoon />} />
-              <Route path="/events/:id" element={<ModuleComingSoon />} />
+              {/* Phase 6.2.3 - Resources & Events - RESTORED for internal mode */}
+              <Route path="/resources" element={<ResourcesPage />} />
+              <Route path="/resources/:id" element={<ResourceDetailPage />} />
+              <Route path="/events" element={<EventsPage />} />
+              <Route path="/events/:id" element={<EventDetailPage />} />
               {/* Phase 6.2.4 - Unified Search */}
               <Route path="/search" element={<SearchPage />} />
               {/* Phase A6 - BANIBS Social Landing Page - Hidden for News-first */}
