@@ -8,9 +8,9 @@ import AuthModal from './AuthModal';
 import AccountModeSwitcher from './common/AccountModeSwitcher';
 
 /**
- * Global BANIBS Navigation Bar - Vertical Dropdown Design
- * Left-aligned command nav that drops down vertically
- * Same model for desktop and mobile
+ * Global BANIBS Navigation Bar - Overlay Drawer Design
+ * Fixed position overlay that doesn't push content
+ * P0 UI Fix: Menu overlays content instead of pushing it down
  */
 const GlobalNavBar = () => {
   const [navOpen, setNavOpen] = useState(false);
@@ -18,22 +18,34 @@ const GlobalNavBar = () => {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState('signin');
   const navRef = useRef(null);
+  const drawerRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
 
-  // Close nav when clicking outside
+  // Lock body scroll when drawer is open
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (navRef.current && !navRef.current.contains(event.target)) {
+    if (navOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [navOpen]);
+
+  // Close drawer on ESC key
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape' && navOpen) {
         setNavOpen(false);
       }
     };
-    
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    document.addEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEsc);
+  }, [navOpen]);
 
   // Close nav on route change
   useEffect(() => {
@@ -93,8 +105,11 @@ const GlobalNavBar = () => {
     navigate(portalRoute);
   };
 
+  const closeDrawer = () => setNavOpen(false);
+
   return (
     <>
+      {/* Fixed Header Bar */}
       <nav 
         ref={navRef}
         className="bg-surface-v2 backdrop-blur-lg border-b border-surface-alt-v2 shadow-md-v2 sticky top-0 z-50"
@@ -141,7 +156,7 @@ const GlobalNavBar = () => {
               </Link>
             </div>
 
-            {/* Right: Actions - Simplified for News-first launch */}
+            {/* Right: Actions */}
             <div className="flex items-center gap-2">
               {/* Theme Toggle */}
               <button
@@ -153,12 +168,12 @@ const GlobalNavBar = () => {
                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </button>
 
-              {/* RESTORED for internal mode - MoodMeter visible */}
+              {/* MoodMeter - desktop only */}
               <div className="hidden md:block">
                 <MoodMeter />
               </div>
 
-              {/* RESTORED for internal mode - Sign In visible for unauthenticated users */}
+              {/* Sign In - visible for unauthenticated users */}
               {!isAuthenticated && (
                 <Link
                   to="/auth/signin"
@@ -179,49 +194,44 @@ const GlobalNavBar = () => {
                   <div className="relative">
                     <button
                       onClick={() => setUserMenuOpen(!userMenuOpen)}
-                      className="flex items-center gap-1 px-2 py-1 rounded-lg text-foreground hover:bg-muted transition-colors"
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors"
                       data-testid="user-menu-toggle"
                     >
-                      {user?.profile?.avatar_url || user?.avatar_url ? (
+                      {user?.avatar_url ? (
                         <img 
-                          src={user.profile?.avatar_url || user.avatar_url} 
-                          alt={user.name}
+                          src={user.avatar_url} 
+                          alt={user.name || 'User'} 
                           className="w-8 h-8 rounded-full object-cover"
                         />
                       ) : (
-                        <div className="w-8 h-8 rounded-full bg-primary-v2 flex items-center justify-center text-white text-sm font-bold">
-                          {(user?.name || user?.email || 'U').charAt(0).toUpperCase()}
+                        <div className="w-8 h-8 rounded-full bg-primary-v2 flex items-center justify-center text-white text-sm font-medium">
+                          {(user?.name || user?.email || 'U')[0].toUpperCase()}
                         </div>
                       )}
-                      <ChevronDown size={14} className={`transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
+                      <ChevronDown 
+                        size={16} 
+                        className={`transition-transform duration-200 ${userMenuOpen ? 'rotate-180' : 'rotate-0'}`}
+                      />
                     </button>
 
                     {/* User Dropdown */}
                     {userMenuOpen && (
-                      <div className="absolute right-0 mt-2 w-56 bg-card rounded-lg shadow-lg border border-border py-2 z-50">
+                      <div className="absolute right-0 top-full mt-2 w-56 bg-surface-v2 rounded-lg shadow-lg border border-border py-2 z-50">
                         <div className="px-4 py-2 border-b border-border">
-                          <p className="font-medium text-foreground truncate">{user?.name || 'User'}</p>
+                          <p className="text-sm font-medium text-foreground truncate">{user?.name || 'User'}</p>
                           <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
                         </div>
                         <Link
-                          to="/settings/profile"
-                          onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
-                        >
-                          <User size={16} />
-                          Profile
-                        </Link>
-                        <Link
                           to="/settings"
                           onClick={() => setUserMenuOpen(false)}
-                          className="flex items-center gap-2 px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+                          className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
                         >
                           <Settings size={16} />
                           Settings
                         </Link>
                         <button
                           onClick={handleLogout}
-                          className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-500 hover:bg-muted transition-colors"
+                          className="flex items-center gap-3 px-4 py-2 text-sm text-red-500 hover:bg-muted transition-colors w-full text-left"
                         >
                           <LogOut size={16} />
                           Sign Out
@@ -234,40 +244,78 @@ const GlobalNavBar = () => {
             </div>
           </div>
         </div>
+      </nav>
 
-        {/* Vertical Dropdown Nav - FULL INTERNAL MODE */}
-        <div 
-          className={`
-            overflow-hidden transition-all duration-300 ease-in-out border-t border-border
-            ${navOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0 border-t-0'}
-          `}
-          data-testid="nav-dropdown"
-        >
-          <div className="px-4 py-3 bg-muted/50">
-            <ul className="space-y-1 max-h-[70vh] overflow-y-auto">
-              {navLinks.map((link) => (
-                <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    onClick={() => setNavOpen(false)}
-                    className={`
-                      flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all
-                      ${isActive(link.path)
-                        ? 'bg-primary-v2 text-white'
-                        : 'text-foreground hover:bg-muted'
-                      }
-                    `}
-                    data-testid={`nav-link-${link.path.replace(/\//g, '-') || 'home'}`}
-                  >
-                    <span className="text-lg">{link.icon}</span>
-                    <span>{link.label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+      {/* Overlay Backdrop - clicking closes drawer */}
+      <div 
+        className={`
+          fixed inset-0 bg-black/50 backdrop-blur-sm z-[999] transition-opacity duration-300
+          ${navOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
+        `}
+        onClick={closeDrawer}
+        data-testid="nav-backdrop"
+        aria-hidden="true"
+      />
+
+      {/* Slide-in Drawer - Fixed position overlay */}
+      <div 
+        ref={drawerRef}
+        className={`
+          fixed top-0 left-0 h-full w-[300px] max-w-[80vw] bg-surface-v2 z-[1000]
+          shadow-2xl border-r border-border
+          transition-transform duration-300 ease-out
+          ${navOpen ? 'translate-x-0' : '-translate-x-full'}
+        `}
+        data-testid="nav-drawer"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Navigation menu"
+      >
+        {/* Drawer Header */}
+        <div className="flex items-center justify-between h-16 px-4 border-b border-border">
+          <span className="text-lg font-bold text-foreground">Menu</span>
+          <button
+            onClick={closeDrawer}
+            className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            aria-label="Close menu"
+            data-testid="nav-drawer-close"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Drawer Navigation Links */}
+        <div className="overflow-y-auto h-[calc(100vh-4rem)] py-4 px-3">
+          <ul className="space-y-1">
+            {navLinks.map((link) => (
+              <li key={link.path}>
+                <Link
+                  to={link.path}
+                  onClick={closeDrawer}
+                  className={`
+                    flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all
+                    ${isActive(link.path)
+                      ? 'bg-primary-v2 text-white'
+                      : 'text-foreground hover:bg-muted'
+                    }
+                  `}
+                  data-testid={`nav-link-${link.path.replace(/\//g, '-') || 'home'}`}
+                >
+                  <span className="text-lg">{link.icon}</span>
+                  <span>{link.label}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          {/* Drawer Footer - Version info */}
+          <div className="mt-6 pt-4 border-t border-border px-4">
+            <p className="text-xs text-muted-foreground">
+              BANIBS v1.0 • Internal Build
+            </p>
           </div>
         </div>
-      </nav>
+      </div>
 
       {/* Auth Modal */}
       <AuthModal
