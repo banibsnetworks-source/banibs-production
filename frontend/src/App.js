@@ -338,11 +338,14 @@ const Home = () => {
 };
 
 function App() {
-  const [comingSoonMode, setComingSoonMode] = useState(false);
+  // P0 ROLLBACK: Coming Soon mode DISABLED for full internal/builder access
+  // All modules visible for founder debugging and stabilization
+  const [comingSoonMode, setComingSoonMode] = useState(false); // DISABLED - was dynamic
   const [comingSoonVariant, setComingSoonVariant] = useState('dark');
-  const [featureFlagsLoaded, setFeatureFlagsLoaded] = useState(false);
+  const [featureFlagsLoaded, setFeatureFlagsLoaded] = useState(true); // Skip loading
   
-  // Check feature flags on app load
+  // Feature flag check DISABLED - full internal mode
+  /*
   useEffect(() => {
     const checkFeatureFlags = async () => {
       try {
@@ -351,7 +354,6 @@ function App() {
         setComingSoonVariant(response.data.coming_soon_variant || 'dark');
       } catch (error) {
         console.error('Failed to load feature flags:', error);
-        // Default to false if we can't load flags
         setComingSoonMode(false);
         setComingSoonVariant('dark');
       } finally {
@@ -362,6 +364,16 @@ function App() {
     checkFeatureFlags();
     initializeAnalytics();
   }, []);
+  */
+  
+  // Initialize analytics only
+  useEffect(() => {
+    initializeAnalytics();
+  }, []);
+  
+  // P0 ROLLBACK: Coming Soon interception DISABLED
+  // All routes accessible for internal debugging
+  // shouldShowComingSoon is always false
   
   // Show nothing while loading feature flags
   if (!featureFlagsLoaded) {
