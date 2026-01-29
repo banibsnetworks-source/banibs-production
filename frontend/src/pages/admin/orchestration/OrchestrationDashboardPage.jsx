@@ -8,6 +8,7 @@ import ModuleTable from "./components/ModuleTable";
 import ReadinessSummary from "./components/ReadinessSummary";
 import EventHistory from "./components/EventHistory";
 import ModuleDetailDrawer from "./components/ModuleDetailDrawer";
+import GlobalNavBar from "../../../components/GlobalNavBar";
 
 export default function OrchestrationDashboardPage() {
   const navigate = useNavigate();

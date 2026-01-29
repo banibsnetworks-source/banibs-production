@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle, XCircle, AlertCircle, User, FileText, Calendar, Mail } from "lucide-react";
+import GlobalNavBar from "../../../components/GlobalNavBar";
 
 export default function AbilityModerationDashboardPage() {
   const navigate = useNavigate();
