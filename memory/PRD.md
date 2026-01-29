@@ -196,6 +196,10 @@ All links visible:
 - `ops_log` - Operational log entries
 - `founder_ops_tasks` - Kanban tasks
 - `founder_ops_detectors` - HDOS detectors
+- `founder_ops_documents` - Document vault
+
+### File Storage
+- `/app/data/founder_docs/` - Document files (protected, super_admin only)
 
 ### Test Coverage
 - `/app/backend/tests/test_founder_ops_p1.py` - Comprehensive API tests
