@@ -109,5 +109,6 @@ export default function CommunityLayout({ children }) {
         {children}
       </main>
     </div>
+    </>
   );
 }
