@@ -813,9 +813,12 @@ const FounderControlCenter = () => {
               </Card>
             </div>
           </div>
+          </>
+          )}
           
-          {/* System Map - Full Width */}
-          <div style={{ marginTop: '24px' }}>
+          {/* System Map Tab Content */}
+          {activeTab === 'system-map' && (
+          <div style={{ marginTop: '0' }}>
             <Card title="System Map" icon={Map}>
               {/* Search Box */}
               <div style={{
