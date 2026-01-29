@@ -235,16 +235,16 @@ const GlobalNavBar = () => {
           </div>
         </div>
 
-        {/* Vertical Dropdown Nav */}
+        {/* Vertical Dropdown Nav - FULL INTERNAL MODE */}
         <div 
           className={`
             overflow-hidden transition-all duration-300 ease-in-out border-t border-border
-            ${navOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0 border-t-0'}
+            ${navOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0 border-t-0'}
           `}
           data-testid="nav-dropdown"
         >
           <div className="px-4 py-3 bg-muted/50">
-            <ul className="space-y-1">
+            <ul className="space-y-1 max-h-[70vh] overflow-y-auto">
               {navLinks.map((link) => (
                 <li key={link.path}>
                   <Link
