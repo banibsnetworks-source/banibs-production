@@ -2650,161 +2650,146 @@ const FounderControlCenter = () => {
                 </div>
               )}
               
-              {/* Kanban Board */}
+              {/* Kanban Board with Drag and Drop */}
               {!tasksLoading && !tasksError && (
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(3, 1fr)',
-                  gap: '16px',
-                  minHeight: '400px'
-                }}>
-                  {/* P0 Column */}
+                <DndContext
+                  sensors={sensors}
+                  collisionDetection={closestCorners}
+                  onDragStart={handleDragStart}
+                  onDragOver={handleDragOver}
+                  onDragEnd={handleDragEnd}
+                >
                   <div style={{
-                    backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    border: `2px solid ${isDark ? 'rgba(239, 68, 68, 0.3)' : 'rgba(239, 68, 68, 0.2)'}`
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: '16px',
+                    minHeight: '400px'
                   }}>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      marginBottom: '16px',
-                      paddingBottom: '12px',
-                      borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-                    }}>
-                      <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#EF4444' }} />
-                      <h4 style={{ fontSize: '15px', fontWeight: '600', color: isDark ? '#F7F7F7' : '#111217', margin: 0 }}>
-                        P0 (Now)
-                      </h4>
-                      <span style={{ fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF', marginLeft: 'auto' }}>
-                        {tasksByColumn.P0.length}
-                      </span>
-                    </div>
-                    
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {/* P0 Column */}
+                    <DroppableColumn
+                      columnId="P0"
+                      columnLabel="P0 (Now)"
+                      columnColor="#EF4444"
+                      tasks={tasksByColumn.P0}
+                      isDark={isDark}
+                    >
                       {tasksByColumn.P0.map(task => (
-                        <TaskCard key={task.id} task={task} isDark={isDark} onEdit={(t) => {
-                          setTaskForm({
-                            title: t.title,
-                            description: t.description || '',
-                            column: t.column,
-                            status: t.status,
-                            priority: t.priority,
-                            tags: t.tags || [],
-                            owner: t.owner,
-                            due_at: t.due_at || ''
-                          });
-                          setEditingTask(t);
-                          setShowTaskForm(true);
-                        }} onDelete={deleteTask} onMove={moveTask} onStatusChange={updateTaskStatus} />
+                        <SortableTaskCard
+                          key={task.id}
+                          task={task}
+                          isDark={isDark}
+                          onEdit={(t) => {
+                            setTaskForm({
+                              title: t.title,
+                              description: t.description || '',
+                              column: t.column,
+                              status: t.status,
+                              priority: t.priority,
+                              tags: t.tags || [],
+                              owner: t.owner,
+                              due_at: t.due_at || ''
+                            });
+                            setEditingTask(t);
+                            setShowTaskForm(true);
+                          }}
+                          onDelete={deleteTask}
+                          onMove={moveTask}
+                          onStatusChange={updateTaskStatus}
+                        />
                       ))}
-                      {tasksByColumn.P0.length === 0 && (
-                        <div style={{ textAlign: 'center', padding: '20px', color: isDark ? '#6B7280' : '#9CA3AF', fontSize: '13px' }}>
-                          No tasks
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  
-                  {/* P1 Column */}
-                  <div style={{
-                    backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    border: `2px solid ${isDark ? 'rgba(200, 168, 87, 0.3)' : 'rgba(200, 168, 87, 0.2)'}`
-                  }}>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      marginBottom: '16px',
-                      paddingBottom: '12px',
-                      borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-                    }}>
-                      <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#C8A857' }} />
-                      <h4 style={{ fontSize: '15px', fontWeight: '600', color: isDark ? '#F7F7F7' : '#111217', margin: 0 }}>
-                        P1 (Next)
-                      </h4>
-                      <span style={{ fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF', marginLeft: 'auto' }}>
-                        {tasksByColumn.P1.length}
-                      </span>
-                    </div>
+                    </DroppableColumn>
                     
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {/* P1 Column */}
+                    <DroppableColumn
+                      columnId="P1"
+                      columnLabel="P1 (Next)"
+                      columnColor="#C8A857"
+                      tasks={tasksByColumn.P1}
+                      isDark={isDark}
+                    >
                       {tasksByColumn.P1.map(task => (
-                        <TaskCard key={task.id} task={task} isDark={isDark} onEdit={(t) => {
-                          setTaskForm({
-                            title: t.title,
-                            description: t.description || '',
-                            column: t.column,
-                            status: t.status,
-                            priority: t.priority,
-                            tags: t.tags || [],
-                            owner: t.owner,
-                            due_at: t.due_at || ''
-                          });
-                          setEditingTask(t);
-                          setShowTaskForm(true);
-                        }} onDelete={deleteTask} onMove={moveTask} onStatusChange={updateTaskStatus} />
+                        <SortableTaskCard
+                          key={task.id}
+                          task={task}
+                          isDark={isDark}
+                          onEdit={(t) => {
+                            setTaskForm({
+                              title: t.title,
+                              description: t.description || '',
+                              column: t.column,
+                              status: t.status,
+                              priority: t.priority,
+                              tags: t.tags || [],
+                              owner: t.owner,
+                              due_at: t.due_at || ''
+                            });
+                            setEditingTask(t);
+                            setShowTaskForm(true);
+                          }}
+                          onDelete={deleteTask}
+                          onMove={moveTask}
+                          onStatusChange={updateTaskStatus}
+                        />
                       ))}
-                      {tasksByColumn.P1.length === 0 && (
-                        <div style={{ textAlign: 'center', padding: '20px', color: isDark ? '#6B7280' : '#9CA3AF', fontSize: '13px' }}>
-                          No tasks
-                        </div>
-                      )}
-                    </div>
+                    </DroppableColumn>
+                    
+                    {/* Later Column */}
+                    <DroppableColumn
+                      columnId="LATER"
+                      columnLabel="Later"
+                      columnColor="#6B7280"
+                      tasks={tasksByColumn.LATER}
+                      isDark={isDark}
+                    >
+                      {tasksByColumn.LATER.map(task => (
+                        <SortableTaskCard
+                          key={task.id}
+                          task={task}
+                          isDark={isDark}
+                          onEdit={(t) => {
+                            setTaskForm({
+                              title: t.title,
+                              description: t.description || '',
+                              column: t.column,
+                              status: t.status,
+                              priority: t.priority,
+                              tags: t.tags || [],
+                              owner: t.owner,
+                              due_at: t.due_at || ''
+                            });
+                            setEditingTask(t);
+                            setShowTaskForm(true);
+                          }}
+                          onDelete={deleteTask}
+                          onMove={moveTask}
+                          onStatusChange={updateTaskStatus}
+                        />
+                      ))}
+                    </DroppableColumn>
                   </div>
                   
-                  {/* Later Column */}
-                  <div style={{
-                    backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
-                    borderRadius: '8px',
-                    padding: '16px',
-                    border: `2px solid ${isDark ? 'rgba(107, 114, 128, 0.3)' : 'rgba(107, 114, 128, 0.2)'}`
-                  }}>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      marginBottom: '16px',
-                      paddingBottom: '12px',
-                      borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-                    }}>
-                      <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#6B7280' }} />
-                      <h4 style={{ fontSize: '15px', fontWeight: '600', color: isDark ? '#F7F7F7' : '#111217', margin: 0 }}>
-                        Later
-                      </h4>
-                      <span style={{ fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF', marginLeft: 'auto' }}>
-                        {tasksByColumn.LATER.length}
-                      </span>
-                    </div>
-                    
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      {tasksByColumn.LATER.map(task => (
-                        <TaskCard key={task.id} task={task} isDark={isDark} onEdit={(t) => {
-                          setTaskForm({
-                            title: t.title,
-                            description: t.description || '',
-                            column: t.column,
-                            status: t.status,
-                            priority: t.priority,
-                            tags: t.tags || [],
-                            owner: t.owner,
-                            due_at: t.due_at || ''
-                          });
-                          setEditingTask(t);
-                          setShowTaskForm(true);
-                        }} onDelete={deleteTask} onMove={moveTask} onStatusChange={updateTaskStatus} />
-                      ))}
-                      {tasksByColumn.LATER.length === 0 && (
-                        <div style={{ textAlign: 'center', padding: '20px', color: isDark ? '#6B7280' : '#9CA3AF', fontSize: '13px' }}>
-                          No tasks
+                  {/* Drag Overlay - shows the dragged item */}
+                  <DragOverlay>
+                    {activeTask ? (
+                      <div style={{
+                        padding: '12px',
+                        backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                        borderRadius: '6px',
+                        border: '2px solid #C8A857',
+                        boxShadow: '0 10px 25px rgba(0,0,0,0.3)',
+                        opacity: 0.9,
+                        width: '280px'
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <GripVertical size={14} style={{ color: '#C8A857' }} />
+                          <span style={{ fontSize: '14px', fontWeight: '600', color: isDark ? '#F7F7F7' : '#111217' }}>
+                            {activeTask.title}
+                          </span>
                         </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
+                      </div>
+                    ) : null}
+                  </DragOverlay>
+                </DndContext>
               )}
               
               {/* Task Count */}
