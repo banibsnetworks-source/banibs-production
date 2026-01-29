@@ -1412,6 +1412,420 @@ const FounderControlCenter = () => {
               </div>
             </Card>
           </div>
+          )}
+          
+          {/* Ops Log Tab Content */}
+          {activeTab === 'ops-log' && (
+          <div>
+            <Card title="Ops Log" icon={FileText}>
+              {/* Header with Add Button */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '24px'
+              }}>
+                <p style={{
+                  fontSize: '14px',
+                  color: isDark ? '#9CA3AF' : '#6B7280',
+                  margin: 0
+                }}>
+                  Operational memory • Decisions • Bugs • Features • Notes
+                </p>
+                <button
+                  onClick={() => {
+                    setOpsLogForm({ title: '', notes: '', category: '', status: 'Open' });
+                    setEditingEntry(null);
+                    setShowOpsLogForm(true);
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '10px 20px',
+                    backgroundColor: '#C8A857',
+                    color: '#0C0C0C',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: 'pointer'
+                  }}
+                >
+                  + New Entry
+                </button>
+              </div>
+              
+              {/* Entry Form */}
+              {showOpsLogForm && (
+                <div style={{
+                  marginBottom: '24px',
+                  padding: '20px',
+                  backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                  borderRadius: '8px',
+                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+                }}>
+                  <h4 style={{
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    color: isDark ? '#F7F7F7' : '#111217',
+                    marginBottom: '16px'
+                  }}>
+                    {editingEntry ? 'Edit Entry' : 'New Entry'}
+                  </h4>
+                  
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <div>
+                      <label style={{
+                        display: 'block',
+                        fontSize: '13px',
+                        fontWeight: '500',
+                        color: isDark ? '#9CA3AF' : '#6B7280',
+                        marginBottom: '6px'
+                      }}>
+                        Title *
+                      </label>
+                      <input
+                        type="text"
+                        value={opsLogForm.title}
+                        onChange={(e) => setOpsLogForm({...opsLogForm, title: e.target.value})}
+                        placeholder="Brief title for this entry"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217',
+                          outline: 'none'
+                        }}
+                      />
+                    </div>
+                    
+                    <div>
+                      <label style={{
+                        display: 'block',
+                        fontSize: '13px',
+                        fontWeight: '500',
+                        color: isDark ? '#9CA3AF' : '#6B7280',
+                        marginBottom: '6px'
+                      }}>
+                        Notes
+                      </label>
+                      <textarea
+                        value={opsLogForm.notes}
+                        onChange={(e) => setOpsLogForm({...opsLogForm, notes: e.target.value})}
+                        placeholder="Detailed notes, context, or description..."
+                        rows={4}
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217',
+                          outline: 'none',
+                          resize: 'vertical'
+                        }}
+                      />
+                    </div>
+                    
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                      <div>
+                        <label style={{
+                          display: 'block',
+                          fontSize: '13px',
+                          fontWeight: '500',
+                          color: isDark ? '#9CA3AF' : '#6B7280',
+                          marginBottom: '6px'
+                        }}>
+                          Category
+                        </label>
+                        <select
+                          value={opsLogForm.category}
+                          onChange={(e) => setOpsLogForm({...opsLogForm, category: e.target.value})}
+                          style={{
+                            width: '100%',
+                            padding: '12px',
+                            fontSize: '14px',
+                            borderRadius: '8px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                            backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                            color: isDark ? '#F7F7F7' : '#111217',
+                            outline: 'none'
+                          }}
+                        >
+                          <option value="">-- Select --</option>
+                          <option value="Decision">Decision</option>
+                          <option value="Bug">Bug</option>
+                          <option value="Feature">Feature</option>
+                          <option value="Ops">Ops</option>
+                          <option value="Infra">Infra</option>
+                          <option value="HDOS">HDOS</option>
+                          <option value="Note">Note</option>
+                        </select>
+                      </div>
+                      
+                      <div>
+                        <label style={{
+                          display: 'block',
+                          fontSize: '13px',
+                          fontWeight: '500',
+                          color: isDark ? '#9CA3AF' : '#6B7280',
+                          marginBottom: '6px'
+                        }}>
+                          Status
+                        </label>
+                        <select
+                          value={opsLogForm.status}
+                          onChange={(e) => setOpsLogForm({...opsLogForm, status: e.target.value})}
+                          style={{
+                            width: '100%',
+                            padding: '12px',
+                            fontSize: '14px',
+                            borderRadius: '8px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                            backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                            color: isDark ? '#F7F7F7' : '#111217',
+                            outline: 'none'
+                          }}
+                        >
+                          <option value="Open">Open</option>
+                          <option value="Locked">Locked</option>
+                          <option value="Superseded">Superseded</option>
+                        </select>
+                      </div>
+                    </div>
+                    
+                    <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                      <button
+                        onClick={() => {
+                          setShowOpsLogForm(false);
+                          setEditingEntry(null);
+                        }}
+                        style={{
+                          padding: '10px 20px',
+                          backgroundColor: 'transparent',
+                          color: isDark ? '#9CA3AF' : '#6B7280',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          borderRadius: '8px',
+                          fontSize: '14px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        onClick={saveOpsLogEntry}
+                        disabled={!opsLogForm.title.trim()}
+                        style={{
+                          padding: '10px 24px',
+                          backgroundColor: opsLogForm.title.trim() ? '#C8A857' : '#4B5563',
+                          color: '#0C0C0C',
+                          border: 'none',
+                          borderRadius: '8px',
+                          fontSize: '14px',
+                          fontWeight: '600',
+                          cursor: opsLogForm.title.trim() ? 'pointer' : 'not-allowed'
+                        }}
+                      >
+                        {editingEntry ? 'Update' : 'Save'}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Loading State */}
+              {opsLogLoading && (
+                <div style={{ textAlign: 'center', padding: '40px', color: isDark ? '#9CA3AF' : '#6B7280' }}>
+                  Loading entries...
+                </div>
+              )}
+              
+              {/* Error State */}
+              {opsLogError && (
+                <div style={{
+                  padding: '16px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  borderRadius: '8px',
+                  color: '#EF4444',
+                  marginBottom: '16px'
+                }}>
+                  Error: {opsLogError}
+                </div>
+              )}
+              
+              {/* Entries List */}
+              {!opsLogLoading && !opsLogError && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {opsLogEntries.length === 0 ? (
+                    <div style={{
+                      textAlign: 'center',
+                      padding: '60px 20px',
+                      color: isDark ? '#6B7280' : '#9CA3AF'
+                    }}>
+                      <FileText size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
+                      <p style={{ fontSize: '16px', marginBottom: '8px' }}>No entries yet</p>
+                      <p style={{ fontSize: '14px' }}>Create your first ops log entry above</p>
+                    </div>
+                  ) : (
+                    opsLogEntries.map(entry => {
+                      const categoryColors = {
+                        'Decision': '#8B5CF6',
+                        'Bug': '#EF4444',
+                        'Feature': '#10B981',
+                        'Ops': '#F59E0B',
+                        'Infra': '#6366F1',
+                        'HDOS': '#C8A857',
+                        'Note': '#6B7280'
+                      };
+                      const statusColors = {
+                        'Open': '#10B981',
+                        'Locked': '#6B7280',
+                        'Superseded': '#9CA3AF'
+                      };
+                      
+                      return (
+                        <div key={entry.id} style={{
+                          padding: '16px 20px',
+                          backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`,
+                          borderLeft: `4px solid ${categoryColors[entry.category] || '#6B7280'}`
+                        }}>
+                          <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'flex-start',
+                            marginBottom: '8px'
+                          }}>
+                            <div style={{ flex: 1 }}>
+                              <h4 style={{
+                                fontSize: '15px',
+                                fontWeight: '600',
+                                color: isDark ? '#F7F7F7' : '#111217',
+                                margin: 0,
+                                marginBottom: '4px'
+                              }}>
+                                {entry.title}
+                              </h4>
+                              <p style={{
+                                fontSize: '12px',
+                                color: isDark ? '#6B7280' : '#9CA3AF',
+                                margin: 0
+                              }}>
+                                {new Date(entry.timestamp).toLocaleString()}
+                              </p>
+                            </div>
+                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                              {entry.category && (
+                                <span style={{
+                                  padding: '4px 10px',
+                                  borderRadius: '4px',
+                                  backgroundColor: `${categoryColors[entry.category]}20`,
+                                  color: categoryColors[entry.category],
+                                  fontSize: '11px',
+                                  fontWeight: '600'
+                                }}>
+                                  {entry.category}
+                                </span>
+                              )}
+                              <span style={{
+                                padding: '4px 10px',
+                                borderRadius: '4px',
+                                backgroundColor: `${statusColors[entry.status]}20`,
+                                color: statusColors[entry.status],
+                                fontSize: '11px',
+                                fontWeight: '600'
+                              }}>
+                                {entry.status}
+                              </span>
+                            </div>
+                          </div>
+                          
+                          {entry.notes && (
+                            <p style={{
+                              fontSize: '14px',
+                              color: isDark ? '#B3B3C2' : '#4A4B57',
+                              marginBottom: '12px',
+                              lineHeight: '1.5',
+                              whiteSpace: 'pre-wrap'
+                            }}>
+                              {entry.notes}
+                            </p>
+                          )}
+                          
+                          <div style={{
+                            display: 'flex',
+                            gap: '12px',
+                            justifyContent: 'flex-end'
+                          }}>
+                            <button
+                              onClick={() => {
+                                setOpsLogForm({
+                                  title: entry.title,
+                                  notes: entry.notes || '',
+                                  category: entry.category || '',
+                                  status: entry.status
+                                });
+                                setEditingEntry(entry);
+                                setShowOpsLogForm(true);
+                              }}
+                              style={{
+                                padding: '6px 14px',
+                                backgroundColor: 'transparent',
+                                color: isDark ? '#9CA3AF' : '#6B7280',
+                                border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                                borderRadius: '6px',
+                                fontSize: '12px',
+                                cursor: 'pointer'
+                              }}
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => deleteOpsLogEntry(entry.id)}
+                              style={{
+                                padding: '6px 14px',
+                                backgroundColor: 'transparent',
+                                color: '#EF4444',
+                                border: '1px solid rgba(239, 68, 68, 0.3)',
+                                borderRadius: '6px',
+                                fontSize: '12px',
+                                cursor: 'pointer'
+                              }}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              )}
+              
+              {/* Entry Count */}
+              {!opsLogLoading && opsLogEntries.length > 0 && (
+                <div style={{
+                  marginTop: '16px',
+                  padding: '12px',
+                  backgroundColor: isDark ? '#0C0C0C' : '#F3F4F6',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  color: isDark ? '#6B7280' : '#9CA3AF',
+                  textAlign: 'center'
+                }}>
+                  {opsLogEntries.length} entries total
+                </div>
+              )}
+            </Card>
+          </div>
+          )}
         </div>
       </div>
     </FullWidthLayout>
