@@ -197,21 +197,51 @@ const FounderControlCenter = () => {
   const enabledModules = getEnabledModules();
   const upcomingModules = getUpcomingModules();
   
-  // Filter modules based on search
+  // Filter modules based on search (handles registry modules)
   const filterModules = (modules) => {
     if (!moduleSearch.trim()) return modules;
     const search = moduleSearch.toLowerCase();
     return modules.filter(m => 
       m.name.toLowerCase().includes(search) ||
       m.id.toLowerCase().includes(search) ||
-      m.route.toLowerCase().includes(search) ||
-      m.phase.toString().includes(search) ||
+      m.route?.toLowerCase().includes(search) ||
+      m.phase?.toString().includes(search) ||
       m.description?.toLowerCase().includes(search)
+    );
+  };
+  
+  // Filter internal modules
+  const filterInternalModules = (modules) => {
+    if (!moduleSearch.trim()) return modules;
+    const search = moduleSearch.toLowerCase();
+    return modules.filter(m => 
+      m.name.toLowerCase().includes(search) ||
+      m.id.toLowerCase().includes(search) ||
+      m.route?.toLowerCase().includes(search) ||
+      m.description?.toLowerCase().includes(search)
+    );
+  };
+  
+  // Filter planned modules
+  const filterPlannedModules = (modules) => {
+    if (!moduleSearch.trim()) return modules;
+    const search = moduleSearch.toLowerCase();
+    return modules.filter(m => 
+      m.name.toLowerCase().includes(search) ||
+      m.id.toLowerCase().includes(search) ||
+      m.description?.toLowerCase().includes(search) ||
+      m.status?.toLowerCase().includes(search)
     );
   };
   
   const filteredEnabledModules = filterModules(enabledModules);
   const filteredUpcomingModules = filterModules(upcomingModules);
+  const filteredInternalModules = filterInternalModules(INTERNAL_MODULES);
+  const filteredPlannedModules = filterPlannedModules(PLANNED_MODULES);
+  
+  // Total counts for search results
+  const totalFilteredCount = filteredEnabledModules.length + filteredUpcomingModules.length + 
+                             filteredInternalModules.length + filteredPlannedModules.length;
   
   // Access control - founder only (hard-coded for now)
   useEffect(() => {
