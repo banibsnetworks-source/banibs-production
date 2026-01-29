@@ -15,6 +15,23 @@ import {
   GripVertical, ArrowRight
 } from 'lucide-react';
 import { getEnabledModules, getUpcomingModules } from '../../config/moduleRegistry';
+import {
+  DndContext,
+  DragOverlay,
+  closestCorners,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 /**
  * Founder Control Center v1.0
