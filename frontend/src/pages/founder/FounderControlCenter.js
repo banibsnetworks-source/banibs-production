@@ -865,6 +865,96 @@ const FounderControlCenter = () => {
     LATER: tasks.filter(t => t.column === 'LATER').sort((a, b) => a.order - b.order)
   };
   
+  // Find which column a task belongs to
+  const findColumn = (taskId) => {
+    for (const [col, colTasks] of Object.entries(tasksByColumn)) {
+      if (colTasks.find(t => t.id === taskId)) {
+        return col;
+      }
+    }
+    return null;
+  };
+  
+  // Handle drag start
+  const handleDragStart = (event) => {
+    const { active } = event;
+    const task = tasks.find(t => t.id === active.id);
+    setActiveTask(task);
+  };
+  
+  // Handle drag over (for cross-column drops)
+  const handleDragOver = (event) => {
+    const { active, over } = event;
+    if (!over) return;
+    
+    const activeId = active.id;
+    const overId = over.id;
+    
+    const activeColumn = findColumn(activeId);
+    const overColumn = findColumn(overId);
+    
+    // If dragging to a different column
+    if (activeColumn && overColumn && activeColumn !== overColumn) {
+      // Optimistic update - move locally first
+      const activeTask = tasks.find(t => t.id === activeId);
+      if (activeTask) {
+        const overTasks = tasksByColumn[overColumn];
+        const overIndex = overTasks.findIndex(t => t.id === overId);
+        const newOrder = overIndex >= 0 
+          ? (overTasks[overIndex]?.order || 0) - 0.5
+          : (overTasks.length > 0 ? overTasks[overTasks.length - 1].order + 1 : 0);
+        
+        // Update local state immediately
+        setTasks(prev => prev.map(t => 
+          t.id === activeId 
+            ? { ...t, column: overColumn, order: newOrder }
+            : t
+        ));
+      }
+    }
+  };
+  
+  // Handle drag end
+  const handleDragEnd = async (event) => {
+    const { active, over } = event;
+    setActiveTask(null);
+    
+    if (!over) return;
+    
+    const activeId = active.id;
+    const overId = over.id;
+    
+    const activeTask = tasks.find(t => t.id === activeId);
+    if (!activeTask) return;
+    
+    // Determine target column
+    let targetColumn = activeTask.column;
+    const overTask = tasks.find(t => t.id === overId);
+    if (overTask && overTask.column !== activeTask.column) {
+      targetColumn = overTask.column;
+    }
+    
+    // Calculate new order
+    const columnTasks = tasks.filter(t => t.column === targetColumn && t.id !== activeId).sort((a, b) => a.order - b.order);
+    const overIndex = columnTasks.findIndex(t => t.id === overId);
+    
+    let newOrder;
+    if (columnTasks.length === 0) {
+      newOrder = 0;
+    } else if (overIndex === -1) {
+      newOrder = columnTasks[columnTasks.length - 1].order + 1;
+    } else if (overIndex === 0) {
+      newOrder = columnTasks[0].order / 2;
+    } else {
+      const prevOrder = columnTasks[overIndex - 1]?.order || 0;
+      const nextOrder = columnTasks[overIndex]?.order || prevOrder + 2;
+      newOrder = (prevOrder + nextOrder) / 2;
+    }
+    
+    // Call API to persist the move
+    await moveTask(activeId, targetColumn, newOrder);
+  };
+  
   // Get modules from registry
   const enabledModules = getEnabledModules();
   const upcomingModules = getUpcomingModules();
