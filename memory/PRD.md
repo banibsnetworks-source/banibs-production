@@ -40,21 +40,21 @@ All links visible:
 - Black News (/news/black)
 - U.S. (/news/us)
 - World (/news/world)
-- Business (/news/business)
+- Business News (/news/business)
 - Sports (/news/sports)
-
-Hidden modules (for later phases):
-- Business Directory
-- BANIBS Social
-- Resources
-- Marketplace
-- BANIBS TV
+- Business Directory (/business-directory)
+- BANIBS Social (/social)
+- Resources (/resources)
+- Marketplace (/portal/marketplace)
+- BANIBS TV (/portal/tv)
+- Wallet (/portal/wallet)
+- Community (/portal/community)
 
 ### Public Features
-- ✅ No Sign In/Join buttons displayed
-- ✅ No BANIBS TV cards on news pages
+- ✅ Sign In button visible in header
+- ✅ All modules accessible for debugging
 - ✅ Theme toggle (dark/light) available
-- ✅ Category-level image fallbacks (no blank images)
+- ✅ RBAC permissions still enforced
 
 ---
 
