@@ -179,6 +179,19 @@ All links visible:
 ### UI Fix (January 29, 2026)
 - [x] Added GlobalNavBar to CommunityLayout - fixes missing left nav on Community route
 
+### P2: Documents Vault (COMPLETE - LOCKED - January 29, 2026)
+- [x] Collection: `founder_ops_documents`
+- [x] Endpoints: CRUD + upload + download
+- [x] File storage: `/app/data/founder_docs` (server filesystem)
+- [x] Metadata: id, title, description, tags[], filename, content_type, size_bytes, storage_path, sha256, audit
+- [x] SHA256 integrity verification on download
+- [x] No public exposure; all endpoints require `super_admin`
+- [x] Frontend Documents tab with:
+  - Upload form (title, type, tags, description, file)
+  - List view with type colors, tags display
+  - Download + Delete actions
+  - File integrity (SHA256) display
+
 ### Database Collections
 - `ops_log` - Operational log entries
 - `founder_ops_tasks` - Kanban tasks
