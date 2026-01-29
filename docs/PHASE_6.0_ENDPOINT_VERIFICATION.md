@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://banibs-launcher.preview.emergentagent.com/api/auth
+https://opshub-tasks.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
