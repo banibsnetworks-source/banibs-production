@@ -115,6 +115,17 @@ const GlobalNavBar = () => {
     return location.pathname.startsWith(path);
   };
 
+  // Handle control plane navigation with auth redirect
+  const handleControlPlaneClick = (link) => {
+    closeDrawer();
+    if (!isAuthenticated && link.requiresAuth) {
+      // Redirect to signin with return URL
+      navigate(`/auth/signin?redirect=${encodeURIComponent(link.path)}`);
+    } else {
+      navigate(link.path);
+    }
+  };
+
   const handleLogout = () => {
     logout();
     setUserMenuOpen(false);
