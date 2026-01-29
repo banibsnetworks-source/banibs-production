@@ -683,6 +683,7 @@ const FounderControlCenter = () => {
               { id: 'dashboard', label: 'Dashboard', icon: Activity },
               { id: 'system-map', label: 'System Map', icon: Map },
               { id: 'ops-log', label: 'Ops Log', icon: FileText },
+              { id: 'tasks', label: 'Tasks', icon: CheckCircle },
             ].map(tab => {
               const TabIcon = tab.icon;
               const isActive = activeTab === tab.id;
