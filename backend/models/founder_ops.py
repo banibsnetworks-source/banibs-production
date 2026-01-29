@@ -270,23 +270,27 @@ class DocumentType(str, Enum):
     BOOK = "Book"
     HDOS = "HDOS"
     SPEC = "Spec"
+    CANONICAL = "Canonical"
     OTHER = "Other"
+
+
+class DocumentAudit(BaseModel):
+    created_at: datetime
+    updated_at: datetime
 
 
 class DocumentCreate(BaseModel):
     title: str = Field(..., min_length=1, max_length=200)
     description: str = Field(default="")
     doc_type: DocumentType = DocumentType.OTHER
-    external_url: Optional[str] = None
-    internal_path: Optional[str] = None
+    tags: List[str] = Field(default_factory=list)
 
 
 class DocumentUpdate(BaseModel):
     title: Optional[str] = Field(None, min_length=1, max_length=200)
     description: Optional[str] = None
     doc_type: Optional[DocumentType] = None
-    external_url: Optional[str] = None
-    internal_path: Optional[str] = None
+    tags: Optional[List[str]] = None
 
 
 class Document(BaseModel):
@@ -294,14 +298,15 @@ class Document(BaseModel):
     title: str
     description: str
     doc_type: str
-    external_url: Optional[str] = None
-    internal_path: Optional[str] = None
-    file_id: Optional[str] = None
-    file_name: Optional[str] = None
-    file_size: Optional[int] = None
-    created_at: datetime
-    updated_at: Optional[datetime] = None
-    created_by: str
+    tags: List[str] = Field(default_factory=list)
+    # File metadata
+    filename: Optional[str] = None
+    content_type: Optional[str] = None
+    size_bytes: Optional[int] = None
+    storage_path: Optional[str] = None
+    sha256: Optional[str] = None
+    # Audit
+    audit: DocumentAudit
 
 
 # =====================
