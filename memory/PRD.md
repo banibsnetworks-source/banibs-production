@@ -141,6 +141,52 @@ All links visible:
 
 ---
 
+## Founder Ops Hub (January 29, 2026) - COMPLETE
+
+### P0: Ops Log (COMPLETE - LOCKED)
+- [x] Full CRUD API for operational log entries
+- [x] Categories: Decision, Bug, Feature, Ops, Infra, HDOS, Note
+- [x] Status: Open, Locked, Superseded
+- [x] UI integrated in Founder Control Center
+
+### P1: Tasks Kanban (COMPLETE - January 29, 2026)
+- [x] Tasks CRUD API with exact data model specification
+  - Columns: P0 (Now), P1 (Next), LATER
+  - Status: OPEN, IN_PROGRESS, DONE, BLOCKED, ARCHIVED
+  - Priority: LOW, MEDIUM, HIGH, CRITICAL
+  - Fields: title, description, column, status, priority, tags, order, due_at, owner, linked, audit
+- [x] Move endpoint for drag/drop (POST /api/founder-ops/tasks/:id/move)
+- [x] Response envelope: {success, data, error}
+- [x] Frontend Kanban board with 3 columns
+- [x] Task cards with priority badges, status badges, move arrows
+- [x] New Task form with all fields
+- [x] Edit and delete functionality
+
+### P1: HDOS Detectors (COMPLETE - January 29, 2026)
+- [x] Detectors CRUD API with exact data model specification
+  - Domains: HDOS, BANIBS, TRUST, IDENTITY, SOCIAL, BUSINESS, NEWS, SECURITY
+  - Types: DOG, BDL_BIS, LPL, SPOOFING_*, TRUST_EROSION_LOOP, PRESSURE_TRANSFER, CUSTOM
+  - Status: DRAFT, ACTIVE, PAUSED, DEPRECATED
+  - Severity: INFO, LOW, MEDIUM, HIGH, CRITICAL
+  - Fields: name, domain, type, status, severity_default, description, canonical_rules, signals, actions, ui, linked, audit
+- [x] Response envelope: {success, data, error}
+- [x] Frontend Detectors list with domain colors, severity badges, status badges
+- [x] Canonical rules displayed on detector cards
+- [x] New Detector form with all fields
+- [x] Edit and delete functionality
+
+### Database Collections
+- `ops_log` - Operational log entries
+- `founder_ops_tasks` - Kanban tasks
+- `founder_ops_detectors` - HDOS detectors
+
+### Test Coverage
+- `/app/backend/tests/test_founder_ops_p1.py` - Comprehensive API tests
+- 100% backend success rate
+- 100% frontend success rate
+
+---
+
 ## Static Guest Page Build
 Location: `/app/deploy/guest_site/`
 Download: `https://opshub-tasks.preview.emergentagent.com/guest_site.zip`
@@ -151,6 +197,7 @@ Download: `https://opshub-tasks.preview.emergentagent.com/guest_site.zip`
 1. **Sports section**: Currently 0 stories (no sports RSS sources configured)
 2. **Some images**: Show placeholder text watermarks (Unsplash fallbacks)
 3. **Minor HTML in descriptions**: Some RSS sources include raw HTML tags
+4. **Password reset emails**: NOT WORKING - blocked on SMTP credentials
 
 ## Super Admin Access (Configured January 28, 2026)
 Two accounts have been granted `super_admin` role with access to:
@@ -160,6 +207,7 @@ Two accounts have been granted `super_admin` role with access to:
 **Super Admin Accounts:**
 1. `raymondneely@banibs.com` - Founder account
 2. `raymond3x@gmail.com` - Admin account
+3. `test_admin@banibs.com` - Test admin account (Admin123!)
 
 **Note:** Temporary passwords were set during configuration. Rotate these credentials once SMTP/password reset is configured.
 
@@ -178,4 +226,4 @@ The following routes are always accessible regardless of Coming Soon mode:
 - Gmail SMTP blocked pending credentials
 - Unfinished modules hidden but routes still accessible if URL typed directly
 
-*Last Updated: January 28, 2026*
+*Last Updated: January 29, 2026*
