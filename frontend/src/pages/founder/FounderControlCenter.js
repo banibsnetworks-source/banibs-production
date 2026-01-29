@@ -1156,7 +1156,7 @@ const FounderControlCenter = () => {
                     marginBottom: '12px',
                     lineHeight: '1.6'
                   }}>
-                    <strong>Today's rest focus:</strong> Medium load
+                    <strong>Today&apos;s rest focus:</strong> Medium load
                   </p>
                   <p style={{
                     fontSize: '13px',
