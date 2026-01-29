@@ -266,6 +266,165 @@ async def delete_task(
 
 
 # =====================
+# DETECTORS ENDPOINTS (HDOS)
+# =====================
+
+@router.get("/detectors", response_model=List[Detector])
+async def get_detectors(
+    status: Optional[str] = None,
+    trigger_type: Optional[str] = None,
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    """Get detectors (super_admin only)"""
+    require_super_admin(current_user)
+    
+    query = {}
+    if status:
+        query["status"] = status
+    if trigger_type:
+        query["trigger_type"] = trigger_type
+    
+    cursor = db.founder_detectors.find(query, {"_id": 0}).sort("created_at", -1)
+    detectors = await cursor.to_list(length=500)
+    
+    return detectors
+
+
+@router.post("/detectors", response_model=Detector)
+async def create_detector(
+    detector: DetectorCreate,
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    """Create new detector (super_admin only)"""
+    require_super_admin(current_user)
+    
+    now = datetime.now(timezone.utc)
+    
+    new_detector = {
+        "id": str(uuid.uuid4()),
+        "name": detector.name,
+        "description": detector.description,
+        "detection_logic": detector.detection_logic,
+        "response_action": detector.response_action,
+        "trigger_type": detector.trigger_type.value,
+        "status": detector.status.value,
+        "related_system": detector.related_system,
+        "last_triggered": None,
+        "trigger_count": 0,
+        "created_at": now,
+        "updated_at": None,
+        "created_by": current_user.get("id") or current_user.get("email")
+    }
+    
+    await db.founder_detectors.insert_one(new_detector)
+    new_detector.pop("_id", None)
+    
+    return new_detector
+
+
+@router.get("/detectors/{detector_id}", response_model=Detector)
+async def get_detector(
+    detector_id: str,
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    """Get single detector (super_admin only)"""
+    require_super_admin(current_user)
+    
+    detector = await db.founder_detectors.find_one({"id": detector_id}, {"_id": 0})
+    if not detector:
+        raise HTTPException(status_code=404, detail="Detector not found")
+    
+    return detector
+
+
+@router.put("/detectors/{detector_id}", response_model=Detector)
+async def update_detector(
+    detector_id: str,
+    update: DetectorUpdate,
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    """Update detector (super_admin only)"""
+    require_super_admin(current_user)
+    
+    existing = await db.founder_detectors.find_one({"id": detector_id})
+    if not existing:
+        raise HTTPException(status_code=404, detail="Detector not found")
+    
+    update_dict = {"updated_at": datetime.now(timezone.utc)}
+    
+    if update.name is not None:
+        update_dict["name"] = update.name
+    if update.description is not None:
+        update_dict["description"] = update.description
+    if update.detection_logic is not None:
+        update_dict["detection_logic"] = update.detection_logic
+    if update.response_action is not None:
+        update_dict["response_action"] = update.response_action
+    if update.trigger_type is not None:
+        update_dict["trigger_type"] = update.trigger_type.value
+    if update.status is not None:
+        update_dict["status"] = update.status.value
+    if update.related_system is not None:
+        update_dict["related_system"] = update.related_system
+    
+    await db.founder_detectors.update_one({"id": detector_id}, {"$set": update_dict})
+    
+    updated = await db.founder_detectors.find_one({"id": detector_id}, {"_id": 0})
+    return updated
+
+
+@router.post("/detectors/{detector_id}/trigger")
+async def trigger_detector(
+    detector_id: str,
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    """Manually trigger a detector (super_admin only)"""
+    require_super_admin(current_user)
+    
+    existing = await db.founder_detectors.find_one({"id": detector_id})
+    if not existing:
+        raise HTTPException(status_code=404, detail="Detector not found")
+    
+    now = datetime.now(timezone.utc)
+    
+    await db.founder_detectors.update_one(
+        {"id": detector_id},
+        {
+            "$set": {"last_triggered": now, "updated_at": now},
+            "$inc": {"trigger_count": 1}
+        }
+    )
+    
+    return {
+        "message": "Detector triggered",
+        "id": detector_id,
+        "triggered_at": now.isoformat()
+    }
+
+
+@router.delete("/detectors/{detector_id}")
+async def delete_detector(
+    detector_id: str,
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    """Delete detector (super_admin only)"""
+    require_super_admin(current_user)
+    
+    result = await db.founder_detectors.delete_one({"id": detector_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Detector not found")
+    
+    return {"message": "Detector deleted", "id": detector_id}
+
+
+# =====================
 # DOCUMENTS ENDPOINTS
 # =====================
 
