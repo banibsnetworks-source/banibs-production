@@ -604,6 +604,356 @@ const FounderControlCenter = () => {
               </Card>
             </div>
           </div>
+          
+          {/* System Map - Full Width */}
+          <div style={{ marginTop: '24px' }}>
+            <Card title="System Map" icon={Map}>
+              {/* Search Box */}
+              <div style={{
+                marginBottom: '24px',
+                position: 'relative'
+              }}>
+                <Search 
+                  size={18} 
+                  style={{
+                    position: 'absolute',
+                    left: '14px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    color: isDark ? '#6B7280' : '#9CA3AF'
+                  }}
+                />
+                <input
+                  type="text"
+                  placeholder="Search modules by name, route, phase..."
+                  value={moduleSearch}
+                  onChange={(e) => setModuleSearch(e.target.value)}
+                  style={{
+                    width: '100%',
+                    maxWidth: '400px',
+                    padding: '12px 12px 12px 44px',
+                    fontSize: '14px',
+                    borderRadius: '8px',
+                    border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                    backgroundColor: isDark ? '#1C1C1C' : '#FFFFFF',
+                    color: isDark ? '#F7F7F7' : '#111217',
+                    outline: 'none'
+                  }}
+                />
+                {moduleSearch && (
+                  <span style={{
+                    marginLeft: '12px',
+                    fontSize: '13px',
+                    color: isDark ? '#9CA3AF' : '#6B7280'
+                  }}>
+                    {filteredEnabledModules.length + filteredUpcomingModules.length} results
+                  </span>
+                )}
+              </div>
+              
+              {/* Enabled Modules Section */}
+              <div style={{ marginBottom: '32px' }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginBottom: '16px'
+                }}>
+                  <Zap size={18} style={{ color: '#10B981' }} />
+                  <h4 style={{
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    color: isDark ? '#F7F7F7' : '#111217',
+                    margin: 0
+                  }}>
+                    Enabled Modules ({filteredEnabledModules.length})
+                  </h4>
+                </div>
+                
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+                  gap: '12px'
+                }}>
+                  {filteredEnabledModules.map(module => (
+                    <div key={module.id} style={{
+                      padding: '16px',
+                      backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                      borderRadius: '8px',
+                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`,
+                      borderLeft: `4px solid ${module.color || '#C8A857'}`
+                    }}>
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start',
+                        marginBottom: '8px'
+                      }}>
+                        <div style={{ flex: 1 }}>
+                          <h5 style={{
+                            fontSize: '15px',
+                            fontWeight: '600',
+                            color: isDark ? '#F7F7F7' : '#111217',
+                            margin: 0,
+                            marginBottom: '4px'
+                          }}>
+                            {module.name}
+                          </h5>
+                          <p style={{
+                            fontSize: '12px',
+                            color: isDark ? '#9CA3AF' : '#6B7280',
+                            margin: 0
+                          }}>
+                            Phase {module.phase}
+                          </p>
+                        </div>
+                        <div style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          padding: '4px 8px',
+                          borderRadius: '4px',
+                          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                          border: '1px solid rgba(16, 185, 129, 0.3)',
+                          fontSize: '11px',
+                          fontWeight: '500',
+                          color: '#10B981'
+                        }}>
+                          <CheckCircle size={12} />
+                          Enabled
+                        </div>
+                      </div>
+                      
+                      <p style={{
+                        fontSize: '13px',
+                        color: isDark ? '#B3B3C2' : '#4A4B57',
+                        marginBottom: '12px',
+                        lineHeight: '1.4',
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      }}>
+                        {module.description}
+                      </p>
+                      
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        gap: '12px'
+                      }}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px'
+                        }}>
+                          <code style={{
+                            fontSize: '12px',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            backgroundColor: isDark ? '#0C0C0C' : '#E5E7EB',
+                            color: isDark ? '#9CA3AF' : '#374151',
+                            fontFamily: 'monospace'
+                          }}>
+                            {module.route}
+                          </code>
+                          {module.permissions?.includes('user') && !module.permissions?.includes('public') && (
+                            <span style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              fontSize: '11px',
+                              color: isDark ? '#6B7280' : '#9CA3AF'
+                            }}>
+                              <Lock size={10} />
+                              Auth
+                            </span>
+                          )}
+                          {module.subModules?.length > 0 && (
+                            <span style={{
+                              fontSize: '11px',
+                              color: isDark ? '#6B7280' : '#9CA3AF'
+                            }}>
+                              {module.subModules.length} sub-modules
+                            </span>
+                          )}
+                        </div>
+                        
+                        <Link
+                          to={module.route}
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            padding: '6px 12px',
+                            borderRadius: '6px',
+                            backgroundColor: module.color || '#C8A857',
+                            color: '#FFFFFF',
+                            fontSize: '12px',
+                            fontWeight: '500',
+                            textDecoration: 'none',
+                            transition: 'opacity 0.2s'
+                          }}
+                        >
+                          Open
+                          <ExternalLink size={12} />
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Upcoming/Disabled Modules Section */}
+              {filteredUpcomingModules.length > 0 && (
+                <div>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    marginBottom: '16px'
+                  }}>
+                    <Clock size={18} style={{ color: '#6B7280' }} />
+                    <h4 style={{
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      color: isDark ? '#F7F7F7' : '#111217',
+                      margin: 0
+                    }}>
+                      Upcoming / Disabled ({filteredUpcomingModules.length})
+                    </h4>
+                  </div>
+                  
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+                    gap: '12px'
+                  }}>
+                    {filteredUpcomingModules.map(module => (
+                      <div key={module.id} style={{
+                        padding: '16px',
+                        backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                        borderRadius: '8px',
+                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`,
+                        borderLeft: `4px solid ${isDark ? '#374151' : '#D1D5DB'}`,
+                        opacity: 0.7
+                      }}>
+                        <div style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'flex-start',
+                          marginBottom: '8px'
+                        }}>
+                          <div style={{ flex: 1 }}>
+                            <h5 style={{
+                              fontSize: '15px',
+                              fontWeight: '600',
+                              color: isDark ? '#F7F7F7' : '#111217',
+                              margin: 0,
+                              marginBottom: '4px'
+                            }}>
+                              {module.name}
+                            </h5>
+                            <p style={{
+                              fontSize: '12px',
+                              color: isDark ? '#9CA3AF' : '#6B7280',
+                              margin: 0
+                            }}>
+                              Phase {module.phase}
+                            </p>
+                          </div>
+                          <div style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            backgroundColor: isDark ? 'rgba(107, 114, 128, 0.1)' : 'rgba(107, 114, 128, 0.15)',
+                            border: `1px solid ${isDark ? 'rgba(107, 114, 128, 0.3)' : 'rgba(107, 114, 128, 0.3)'}`,
+                            fontSize: '11px',
+                            fontWeight: '500',
+                            color: '#6B7280'
+                          }}>
+                            <Clock size={12} />
+                            Upcoming
+                          </div>
+                        </div>
+                        
+                        <p style={{
+                          fontSize: '13px',
+                          color: isDark ? '#B3B3C2' : '#4A4B57',
+                          marginBottom: '12px',
+                          lineHeight: '1.4',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden'
+                        }}>
+                          {module.description}
+                        </p>
+                        
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px'
+                        }}>
+                          <code style={{
+                            fontSize: '12px',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            backgroundColor: isDark ? '#0C0C0C' : '#E5E7EB',
+                            color: isDark ? '#6B7280' : '#9CA3AF',
+                            fontFamily: 'monospace'
+                          }}>
+                            {module.route}
+                          </code>
+                          {module.subModules?.length > 0 && (
+                            <span style={{
+                              fontSize: '11px',
+                              color: isDark ? '#6B7280' : '#9CA3AF'
+                            }}>
+                              {module.subModules.length} sub-modules planned
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {/* Summary Stats */}
+              <div style={{
+                marginTop: '24px',
+                padding: '16px',
+                backgroundColor: isDark ? '#0C0C0C' : '#F3F4F6',
+                borderRadius: '8px',
+                display: 'flex',
+                gap: '24px',
+                flexWrap: 'wrap'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <CheckCircle size={16} style={{ color: '#10B981' }} />
+                  <span style={{ fontSize: '13px', color: isDark ? '#B3B3C2' : '#4A4B57' }}>
+                    <strong>{enabledModules.length}</strong> Enabled
+                  </span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Clock size={16} style={{ color: '#6B7280' }} />
+                  <span style={{ fontSize: '13px', color: isDark ? '#B3B3C2' : '#4A4B57' }}>
+                    <strong>{upcomingModules.length}</strong> Upcoming
+                  </span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <Globe size={16} style={{ color: '#C8A857' }} />
+                  <span style={{ fontSize: '13px', color: isDark ? '#B3B3C2' : '#4A4B57' }}>
+                    <strong>{enabledModules.length + upcomingModules.length}</strong> Total Modules
+                  </span>
+                </div>
+              </div>
+            </Card>
+          </div>
         </div>
       </div>
     </FullWidthLayout>
