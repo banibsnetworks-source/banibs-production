@@ -566,6 +566,20 @@ const FounderControlCenter = () => {
   // Drag and drop state
   const [activeTask, setActiveTask] = useState(null);
   
+  // Documents state
+  const [documents, setDocuments] = useState([]);
+  const [documentsLoading, setDocumentsLoading] = useState(false);
+  const [documentsError, setDocumentsError] = useState(null);
+  const [showUploadForm, setShowUploadForm] = useState(false);
+  const [uploadForm, setUploadForm] = useState({
+    title: '',
+    description: '',
+    doc_type: 'Other',
+    tags: ''
+  });
+  const [uploadFile, setUploadFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  
   // DnD Kit sensors
   const sensors = useSensors(
     useSensor(PointerSensor, {
