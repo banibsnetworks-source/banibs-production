@@ -555,9 +555,32 @@ async def delete_detector(
 # DOCUMENTS ENDPOINTS
 # =====================
 
+# Storage configuration
+DOCS_STORAGE_PATH = "/app/data/founder_docs"
+
+
+def safe_filename(filename: str) -> str:
+    """Generate safe filename from original"""
+    # Remove path components and keep only filename
+    filename = os.path.basename(filename)
+    # Replace spaces and special chars
+    filename = re.sub(r'[^\w\-_\.]', '_', filename)
+    return filename
+
+
+def compute_sha256(file_path: str) -> str:
+    """Compute SHA256 hash of file"""
+    sha256_hash = hashlib.sha256()
+    with open(file_path, "rb") as f:
+        for byte_block in iter(lambda: f.read(4096), b""):
+            sha256_hash.update(byte_block)
+    return sha256_hash.hexdigest()
+
+
 @router.get("/documents")
 async def get_documents(
     doc_type: Optional[str] = None,
+    tag: Optional[str] = None,
     db: AsyncIOMotorDatabase = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
@@ -567,40 +590,91 @@ async def get_documents(
     query = {}
     if doc_type:
         query["doc_type"] = doc_type
+    if tag:
+        query["tags"] = tag
     
-    cursor = db.founder_documents.find(query, {"_id": 0}).sort("created_at", -1)
+    cursor = db.founder_ops_documents.find(query, {"_id": 0}).sort("audit.created_at", -1)
     docs = await cursor.to_list(length=500)
     
     return success_response(docs)
 
 
-@router.post("/documents", status_code=201)
-async def create_document(
-    doc: DocumentCreate,
+@router.get("/documents/{doc_id}")
+async def get_document(
+    doc_id: str,
     db: AsyncIOMotorDatabase = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    """Create document reference (super_admin only)"""
+    """Get single document metadata (super_admin only)"""
+    require_super_admin(current_user)
+    
+    doc = await db.founder_ops_documents.find_one({"id": doc_id}, {"_id": 0})
+    if not doc:
+        error_response("NOT_FOUND", "Document not found", status_code=404)
+    
+    return success_response(doc)
+
+
+@router.post("/documents", status_code=201)
+async def create_document(
+    title: str = Form(...),
+    description: str = Form(""),
+    doc_type: str = Form("Other"),
+    tags: str = Form(""),  # comma-separated
+    file: UploadFile = File(...),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    """Upload document with file (super_admin only)"""
     require_super_admin(current_user)
     
     now = datetime.now(timezone.utc)
+    doc_id = str(uuid.uuid4())
     
+    # Parse tags
+    tag_list = [t.strip() for t in tags.split(",") if t.strip()] if tags else []
+    
+    # Generate safe storage path
+    original_filename = file.filename or "document"
+    safe_name = safe_filename(original_filename)
+    storage_filename = f"{doc_id}_{safe_name}"
+    storage_path = os.path.join(DOCS_STORAGE_PATH, storage_filename)
+    
+    # Ensure storage directory exists
+    os.makedirs(DOCS_STORAGE_PATH, exist_ok=True)
+    
+    # Save file
+    try:
+        contents = await file.read()
+        with open(storage_path, "wb") as f:
+            f.write(contents)
+        
+        # Compute hash
+        sha256 = compute_sha256(storage_path)
+        size_bytes = os.path.getsize(storage_path)
+        
+    except Exception as e:
+        error_response("UPLOAD_FAILED", f"Failed to save file: {str(e)}", status_code=500)
+    
+    # Create document record
     new_doc = {
-        "id": str(uuid.uuid4()),
-        "title": doc.title,
-        "description": doc.description,
-        "doc_type": doc.doc_type.value,
-        "external_url": doc.external_url,
-        "internal_path": doc.internal_path,
-        "file_id": None,
-        "file_name": None,
-        "file_size": None,
-        "created_at": now,
-        "updated_at": None,
-        "created_by": current_user.get("id") or current_user.get("email")
+        "id": doc_id,
+        "title": title,
+        "description": description,
+        "doc_type": doc_type,
+        "tags": tag_list,
+        "filename": original_filename,
+        "content_type": file.content_type or "application/octet-stream",
+        "size_bytes": size_bytes,
+        "storage_path": storage_path,
+        "sha256": sha256,
+        "audit": {
+            "created_at": now,
+            "updated_at": now
+        }
     }
     
-    await db.founder_documents.insert_one(new_doc)
+    await db.founder_ops_documents.insert_one(new_doc)
     new_doc.pop("_id", None)
     
     return success_response(new_doc)
@@ -613,14 +687,14 @@ async def update_document(
     db: AsyncIOMotorDatabase = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    """Update document (super_admin only)"""
+    """Update document metadata (super_admin only)"""
     require_super_admin(current_user)
     
-    existing = await db.founder_documents.find_one({"id": doc_id})
+    existing = await db.founder_ops_documents.find_one({"id": doc_id})
     if not existing:
         error_response("NOT_FOUND", "Document not found", status_code=404)
     
-    update_dict = {"updated_at": datetime.now(timezone.utc)}
+    update_dict = {"audit.updated_at": datetime.now(timezone.utc)}
     
     if update.title is not None:
         update_dict["title"] = update.title
@@ -628,6 +702,69 @@ async def update_document(
         update_dict["description"] = update.description
     if update.doc_type is not None:
         update_dict["doc_type"] = update.doc_type.value
+    if update.tags is not None:
+        update_dict["tags"] = update.tags
+    
+    await db.founder_ops_documents.update_one({"id": doc_id}, {"$set": update_dict})
+    
+    updated = await db.founder_ops_documents.find_one({"id": doc_id}, {"_id": 0})
+    return success_response(updated)
+
+
+@router.get("/documents/{doc_id}/download")
+async def download_document(
+    doc_id: str,
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    """Download document file (super_admin only)"""
+    require_super_admin(current_user)
+    
+    doc = await db.founder_ops_documents.find_one({"id": doc_id})
+    if not doc:
+        error_response("NOT_FOUND", "Document not found", status_code=404)
+    
+    storage_path = doc.get("storage_path")
+    if not storage_path or not os.path.exists(storage_path):
+        error_response("FILE_NOT_FOUND", "Document file not found on server", status_code=404)
+    
+    # Verify integrity
+    current_hash = compute_sha256(storage_path)
+    if current_hash != doc.get("sha256"):
+        error_response("INTEGRITY_ERROR", "Document file has been modified", status_code=500)
+    
+    return FileResponse(
+        path=storage_path,
+        filename=doc.get("filename", "document"),
+        media_type=doc.get("content_type", "application/octet-stream")
+    )
+
+
+@router.delete("/documents/{doc_id}")
+async def delete_document(
+    doc_id: str,
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    """Delete document and file (super_admin only)"""
+    require_super_admin(current_user)
+    
+    doc = await db.founder_ops_documents.find_one({"id": doc_id})
+    if not doc:
+        error_response("NOT_FOUND", "Document not found", status_code=404)
+    
+    # Delete file from storage
+    storage_path = doc.get("storage_path")
+    if storage_path and os.path.exists(storage_path):
+        try:
+            os.remove(storage_path)
+        except Exception:
+            pass  # File might already be deleted
+    
+    # Delete from database
+    await db.founder_ops_documents.delete_one({"id": doc_id})
+    
+    return success_response({"deleted": True, "id": doc_id})
     if update.external_url is not None:
         update_dict["external_url"] = update.external_url
     if update.internal_path is not None:
