@@ -705,7 +705,7 @@ const FounderControlCenter = () => {
                     fontSize: '13px',
                     color: isDark ? '#9CA3AF' : '#6B7280'
                   }}>
-                    {filteredEnabledModules.length + filteredUpcomingModules.length} results
+                    {totalFilteredCount} results
                   </span>
                 )}
               </div>
