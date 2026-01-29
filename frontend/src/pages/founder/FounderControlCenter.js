@@ -681,7 +681,106 @@ const FounderControlCenter = () => {
     if (activeTab === 'detectors' && accessToken) {
       fetchDetectors();
     }
+    if (activeTab === 'documents' && accessToken) {
+      fetchDocuments();
+    }
   }, [activeTab, accessToken]);
+  
+  // =====================
+  // DOCUMENTS API FUNCTIONS
+  // =====================
+  
+  const fetchDocuments = async () => {
+    if (!accessToken) return;
+    setDocumentsLoading(true);
+    setDocumentsError(null);
+    try {
+      const response = await fetch(`${API_URL}/api/founder-ops/documents`, {
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      if (!response.ok) throw new Error('Failed to fetch documents');
+      const result = await response.json();
+      setDocuments(result.data || []);
+    } catch (err) {
+      setDocumentsError(err.message);
+    } finally {
+      setDocumentsLoading(false);
+    }
+  };
+  
+  const uploadDocument = async () => {
+    if (!accessToken || !uploadForm.title.trim() || !uploadFile) {
+      alert('Title and file are required');
+      return;
+    }
+    
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('title', uploadForm.title);
+      formData.append('description', uploadForm.description);
+      formData.append('doc_type', uploadForm.doc_type);
+      formData.append('tags', uploadForm.tags);
+      formData.append('file', uploadFile);
+      
+      const response = await fetch(`${API_URL}/api/founder-ops/documents`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+        body: formData
+      });
+      
+      if (!response.ok) throw new Error('Failed to upload document');
+      
+      setUploadForm({ title: '', description: '', doc_type: 'Other', tags: '' });
+      setUploadFile(null);
+      setShowUploadForm(false);
+      fetchDocuments();
+    } catch (err) {
+      alert('Failed to upload: ' + err.message);
+    } finally {
+      setUploading(false);
+    }
+  };
+  
+  const downloadDocument = async (docId, filename) => {
+    if (!accessToken) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/founder-ops/documents/${docId}/download`, {
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      
+      if (!response.ok) throw new Error('Failed to download');
+      
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename || 'document';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (err) {
+      alert('Failed to download: ' + err.message);
+    }
+  };
+  
+  const deleteDocument = async (docId) => {
+    if (!accessToken || !window.confirm('Delete this document? This cannot be undone.')) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/founder-ops/documents/${docId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      
+      if (!response.ok) throw new Error('Failed to delete');
+      fetchDocuments();
+    } catch (err) {
+      alert('Failed to delete: ' + err.message);
+    }
+  };
   
   // =====================
   // TASKS API FUNCTIONS
