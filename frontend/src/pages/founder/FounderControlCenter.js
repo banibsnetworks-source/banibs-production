@@ -2066,6 +2066,921 @@ const FounderControlCenter = () => {
             </Card>
           </div>
           )}
+          
+          {/* Tasks Tab Content - Kanban Board */}
+          {activeTab === 'tasks' && (
+          <div data-testid="tasks-tab-content">
+            <Card title="Tasks Kanban" icon={CheckCircle}>
+              {/* Header with Add Button */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '24px'
+              }}>
+                <p style={{
+                  fontSize: '14px',
+                  color: isDark ? '#9CA3AF' : '#6B7280',
+                  margin: 0
+                }}>
+                  P0 (Now) • P1 (Next) • Later — Drag tasks between columns
+                </p>
+                <button
+                  onClick={() => {
+                    setTaskForm({ title: '', description: '', column: 'P0', status: 'OPEN', priority: 'MEDIUM', tags: [], owner: 'Founder', due_at: '' });
+                    setEditingTask(null);
+                    setShowTaskForm(true);
+                  }}
+                  data-testid="new-task-btn"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '10px 20px',
+                    backgroundColor: '#C8A857',
+                    color: '#0C0C0C',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Plus size={16} />
+                  New Task
+                </button>
+              </div>
+              
+              {/* Task Form Modal */}
+              {showTaskForm && (
+                <div style={{
+                  marginBottom: '24px',
+                  padding: '20px',
+                  backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                  borderRadius: '8px',
+                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+                }}>
+                  <h4 style={{
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    color: isDark ? '#F7F7F7' : '#111217',
+                    marginBottom: '16px'
+                  }}>
+                    {editingTask ? 'Edit Task' : 'New Task'}
+                  </h4>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <div style={{ gridColumn: '1 / -1' }}>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Title *
+                      </label>
+                      <input
+                        type="text"
+                        value={taskForm.title}
+                        onChange={(e) => setTaskForm({...taskForm, title: e.target.value})}
+                        placeholder="Task title"
+                        data-testid="task-title-input"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217',
+                          outline: 'none'
+                        }}
+                      />
+                    </div>
+                    
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Column
+                      </label>
+                      <select
+                        value={taskForm.column}
+                        onChange={(e) => setTaskForm({...taskForm, column: e.target.value})}
+                        data-testid="task-column-select"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217'
+                        }}
+                      >
+                        <option value="P0">P0 (Now)</option>
+                        <option value="P1">P1 (Next)</option>
+                        <option value="LATER">Later</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Priority
+                      </label>
+                      <select
+                        value={taskForm.priority}
+                        onChange={(e) => setTaskForm({...taskForm, priority: e.target.value})}
+                        data-testid="task-priority-select"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217'
+                        }}
+                      >
+                        <option value="LOW">Low</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="HIGH">High</option>
+                        <option value="CRITICAL">Critical</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Status
+                      </label>
+                      <select
+                        value={taskForm.status}
+                        onChange={(e) => setTaskForm({...taskForm, status: e.target.value})}
+                        data-testid="task-status-select"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217'
+                        }}
+                      >
+                        <option value="OPEN">Open</option>
+                        <option value="IN_PROGRESS">In Progress</option>
+                        <option value="DONE">Done</option>
+                        <option value="BLOCKED">Blocked</option>
+                        <option value="ARCHIVED">Archived</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Owner
+                      </label>
+                      <input
+                        type="text"
+                        value={taskForm.owner}
+                        onChange={(e) => setTaskForm({...taskForm, owner: e.target.value})}
+                        placeholder="Owner"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217',
+                          outline: 'none'
+                        }}
+                      />
+                    </div>
+                    
+                    <div style={{ gridColumn: '1 / -1' }}>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Description
+                      </label>
+                      <textarea
+                        value={taskForm.description}
+                        onChange={(e) => setTaskForm({...taskForm, description: e.target.value})}
+                        placeholder="Task description..."
+                        rows={3}
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217',
+                          outline: 'none',
+                          resize: 'vertical'
+                        }}
+                      />
+                    </div>
+                  </div>
+                  
+                  <div style={{ display: 'flex', gap: '12px', marginTop: '16px', justifyContent: 'flex-end' }}>
+                    <button
+                      onClick={() => { setShowTaskForm(false); setEditingTask(null); }}
+                      style={{
+                        padding: '10px 20px',
+                        backgroundColor: 'transparent',
+                        color: isDark ? '#9CA3AF' : '#6B7280',
+                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                        borderRadius: '8px',
+                        fontSize: '14px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={saveTask}
+                      data-testid="save-task-btn"
+                      style={{
+                        padding: '10px 20px',
+                        backgroundColor: '#C8A857',
+                        color: '#0C0C0C',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {editingTask ? 'Update Task' : 'Create Task'}
+                    </button>
+                  </div>
+                </div>
+              )}
+              
+              {/* Loading State */}
+              {tasksLoading && (
+                <div style={{ textAlign: 'center', padding: '40px', color: isDark ? '#9CA3AF' : '#6B7280' }}>
+                  Loading tasks...
+                </div>
+              )}
+              
+              {/* Error State */}
+              {tasksError && (
+                <div style={{
+                  padding: '16px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  borderRadius: '8px',
+                  color: '#EF4444',
+                  marginBottom: '16px'
+                }}>
+                  Error: {tasksError}
+                </div>
+              )}
+              
+              {/* Kanban Board */}
+              {!tasksLoading && !tasksError && (
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, 1fr)',
+                  gap: '16px',
+                  minHeight: '400px'
+                }}>
+                  {/* P0 Column */}
+                  <div style={{
+                    backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                    borderRadius: '8px',
+                    padding: '16px',
+                    border: `2px solid ${isDark ? 'rgba(239, 68, 68, 0.3)' : 'rgba(239, 68, 68, 0.2)'}`
+                  }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      marginBottom: '16px',
+                      paddingBottom: '12px',
+                      borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+                    }}>
+                      <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#EF4444' }} />
+                      <h4 style={{ fontSize: '15px', fontWeight: '600', color: isDark ? '#F7F7F7' : '#111217', margin: 0 }}>
+                        P0 (Now)
+                      </h4>
+                      <span style={{ fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF', marginLeft: 'auto' }}>
+                        {tasksByColumn.P0.length}
+                      </span>
+                    </div>
+                    
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {tasksByColumn.P0.map(task => (
+                        <TaskCard key={task.id} task={task} isDark={isDark} onEdit={(t) => {
+                          setTaskForm({
+                            title: t.title,
+                            description: t.description || '',
+                            column: t.column,
+                            status: t.status,
+                            priority: t.priority,
+                            tags: t.tags || [],
+                            owner: t.owner,
+                            due_at: t.due_at || ''
+                          });
+                          setEditingTask(t);
+                          setShowTaskForm(true);
+                        }} onDelete={deleteTask} onMove={moveTask} onStatusChange={updateTaskStatus} />
+                      ))}
+                      {tasksByColumn.P0.length === 0 && (
+                        <div style={{ textAlign: 'center', padding: '20px', color: isDark ? '#6B7280' : '#9CA3AF', fontSize: '13px' }}>
+                          No tasks
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  
+                  {/* P1 Column */}
+                  <div style={{
+                    backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                    borderRadius: '8px',
+                    padding: '16px',
+                    border: `2px solid ${isDark ? 'rgba(200, 168, 87, 0.3)' : 'rgba(200, 168, 87, 0.2)'}`
+                  }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      marginBottom: '16px',
+                      paddingBottom: '12px',
+                      borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+                    }}>
+                      <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#C8A857' }} />
+                      <h4 style={{ fontSize: '15px', fontWeight: '600', color: isDark ? '#F7F7F7' : '#111217', margin: 0 }}>
+                        P1 (Next)
+                      </h4>
+                      <span style={{ fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF', marginLeft: 'auto' }}>
+                        {tasksByColumn.P1.length}
+                      </span>
+                    </div>
+                    
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {tasksByColumn.P1.map(task => (
+                        <TaskCard key={task.id} task={task} isDark={isDark} onEdit={(t) => {
+                          setTaskForm({
+                            title: t.title,
+                            description: t.description || '',
+                            column: t.column,
+                            status: t.status,
+                            priority: t.priority,
+                            tags: t.tags || [],
+                            owner: t.owner,
+                            due_at: t.due_at || ''
+                          });
+                          setEditingTask(t);
+                          setShowTaskForm(true);
+                        }} onDelete={deleteTask} onMove={moveTask} onStatusChange={updateTaskStatus} />
+                      ))}
+                      {tasksByColumn.P1.length === 0 && (
+                        <div style={{ textAlign: 'center', padding: '20px', color: isDark ? '#6B7280' : '#9CA3AF', fontSize: '13px' }}>
+                          No tasks
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  
+                  {/* Later Column */}
+                  <div style={{
+                    backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                    borderRadius: '8px',
+                    padding: '16px',
+                    border: `2px solid ${isDark ? 'rgba(107, 114, 128, 0.3)' : 'rgba(107, 114, 128, 0.2)'}`
+                  }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      marginBottom: '16px',
+                      paddingBottom: '12px',
+                      borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+                    }}>
+                      <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#6B7280' }} />
+                      <h4 style={{ fontSize: '15px', fontWeight: '600', color: isDark ? '#F7F7F7' : '#111217', margin: 0 }}>
+                        Later
+                      </h4>
+                      <span style={{ fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF', marginLeft: 'auto' }}>
+                        {tasksByColumn.LATER.length}
+                      </span>
+                    </div>
+                    
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {tasksByColumn.LATER.map(task => (
+                        <TaskCard key={task.id} task={task} isDark={isDark} onEdit={(t) => {
+                          setTaskForm({
+                            title: t.title,
+                            description: t.description || '',
+                            column: t.column,
+                            status: t.status,
+                            priority: t.priority,
+                            tags: t.tags || [],
+                            owner: t.owner,
+                            due_at: t.due_at || ''
+                          });
+                          setEditingTask(t);
+                          setShowTaskForm(true);
+                        }} onDelete={deleteTask} onMove={moveTask} onStatusChange={updateTaskStatus} />
+                      ))}
+                      {tasksByColumn.LATER.length === 0 && (
+                        <div style={{ textAlign: 'center', padding: '20px', color: isDark ? '#6B7280' : '#9CA3AF', fontSize: '13px' }}>
+                          No tasks
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Task Count */}
+              {!tasksLoading && tasks.length > 0 && (
+                <div style={{
+                  marginTop: '16px',
+                  padding: '12px',
+                  backgroundColor: isDark ? '#0C0C0C' : '#F3F4F6',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  color: isDark ? '#6B7280' : '#9CA3AF',
+                  textAlign: 'center'
+                }}>
+                  {tasks.length} tasks total
+                </div>
+              )}
+            </Card>
+          </div>
+          )}
+          
+          {/* Detectors Tab Content */}
+          {activeTab === 'detectors' && (
+          <div data-testid="detectors-tab-content">
+            <Card title="HDOS Detectors" icon={Radar}>
+              {/* Header with Add Button */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '24px'
+              }}>
+                <p style={{
+                  fontSize: '14px',
+                  color: isDark ? '#9CA3AF' : '#6B7280',
+                  margin: 0
+                }}>
+                  HDOS / BANIBS Detectors & Safety Layers — First-class systems
+                </p>
+                <button
+                  onClick={() => {
+                    setDetectorForm({ name: '', domain: 'HDOS', type: 'CUSTOM', status: 'DRAFT', severity_default: 'MEDIUM', description: '', canonical_rules: [] });
+                    setEditingDetector(null);
+                    setShowDetectorForm(true);
+                  }}
+                  data-testid="new-detector-btn"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '10px 20px',
+                    backgroundColor: '#C8A857',
+                    color: '#0C0C0C',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Plus size={16} />
+                  New Detector
+                </button>
+              </div>
+              
+              {/* Detector Form Modal */}
+              {showDetectorForm && (
+                <div style={{
+                  marginBottom: '24px',
+                  padding: '20px',
+                  backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                  borderRadius: '8px',
+                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+                }}>
+                  <h4 style={{
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    color: isDark ? '#F7F7F7' : '#111217',
+                    marginBottom: '16px'
+                  }}>
+                    {editingDetector ? 'Edit Detector' : 'New Detector'}
+                  </h4>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                    <div style={{ gridColumn: '1 / -1' }}>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Name *
+                      </label>
+                      <input
+                        type="text"
+                        value={detectorForm.name}
+                        onChange={(e) => setDetectorForm({...detectorForm, name: e.target.value})}
+                        placeholder="Detector name (e.g., DOG Detector v1)"
+                        data-testid="detector-name-input"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217',
+                          outline: 'none'
+                        }}
+                      />
+                    </div>
+                    
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Domain
+                      </label>
+                      <select
+                        value={detectorForm.domain}
+                        onChange={(e) => setDetectorForm({...detectorForm, domain: e.target.value})}
+                        data-testid="detector-domain-select"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217'
+                        }}
+                      >
+                        <option value="HDOS">HDOS</option>
+                        <option value="BANIBS">BANIBS</option>
+                        <option value="TRUST">TRUST</option>
+                        <option value="IDENTITY">IDENTITY</option>
+                        <option value="SOCIAL">SOCIAL</option>
+                        <option value="BUSINESS">BUSINESS</option>
+                        <option value="NEWS">NEWS</option>
+                        <option value="SECURITY">SECURITY</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Type *
+                      </label>
+                      <select
+                        value={detectorForm.type}
+                        onChange={(e) => setDetectorForm({...detectorForm, type: e.target.value})}
+                        data-testid="detector-type-select"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217'
+                        }}
+                      >
+                        <option value="DOG">DOG</option>
+                        <option value="BDL_BIS">BDL/BIS</option>
+                        <option value="LPL">LPL</option>
+                        <option value="SPOOFING_FRIEND">Spoofing Friend</option>
+                        <option value="SPOOFING_FAMILY">Spoofing Family</option>
+                        <option value="SPOOFING_IDENTITY">Spoofing Identity</option>
+                        <option value="SPOOFING_WORKPLACE">Spoofing Workplace</option>
+                        <option value="TRUST_EROSION_LOOP">Trust Erosion Loop</option>
+                        <option value="PRESSURE_TRANSFER">Pressure Transfer</option>
+                        <option value="CUSTOM">Custom</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Status
+                      </label>
+                      <select
+                        value={detectorForm.status}
+                        onChange={(e) => setDetectorForm({...detectorForm, status: e.target.value})}
+                        data-testid="detector-status-select"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217'
+                        }}
+                      >
+                        <option value="DRAFT">Draft</option>
+                        <option value="ACTIVE">Active</option>
+                        <option value="PAUSED">Paused</option>
+                        <option value="DEPRECATED">Deprecated</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Default Severity
+                      </label>
+                      <select
+                        value={detectorForm.severity_default}
+                        onChange={(e) => setDetectorForm({...detectorForm, severity_default: e.target.value})}
+                        data-testid="detector-severity-select"
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217'
+                        }}
+                      >
+                        <option value="INFO">Info</option>
+                        <option value="LOW">Low</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="HIGH">High</option>
+                        <option value="CRITICAL">Critical</option>
+                      </select>
+                    </div>
+                    
+                    <div style={{ gridColumn: '1 / -1' }}>
+                      <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                        Description
+                      </label>
+                      <textarea
+                        value={detectorForm.description}
+                        onChange={(e) => setDetectorForm({...detectorForm, description: e.target.value})}
+                        placeholder="Detector description..."
+                        rows={3}
+                        style={{
+                          width: '100%',
+                          padding: '12px',
+                          fontSize: '14px',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                          backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                          color: isDark ? '#F7F7F7' : '#111217',
+                          outline: 'none',
+                          resize: 'vertical'
+                        }}
+                      />
+                    </div>
+                  </div>
+                  
+                  <div style={{ display: 'flex', gap: '12px', marginTop: '16px', justifyContent: 'flex-end' }}>
+                    <button
+                      onClick={() => { setShowDetectorForm(false); setEditingDetector(null); }}
+                      style={{
+                        padding: '10px 20px',
+                        backgroundColor: 'transparent',
+                        color: isDark ? '#9CA3AF' : '#6B7280',
+                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                        borderRadius: '8px',
+                        fontSize: '14px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={saveDetector}
+                      data-testid="save-detector-btn"
+                      style={{
+                        padding: '10px 20px',
+                        backgroundColor: '#C8A857',
+                        color: '#0C0C0C',
+                        border: 'none',
+                        borderRadius: '8px',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {editingDetector ? 'Update Detector' : 'Create Detector'}
+                    </button>
+                  </div>
+                </div>
+              )}
+              
+              {/* Loading State */}
+              {detectorsLoading && (
+                <div style={{ textAlign: 'center', padding: '40px', color: isDark ? '#9CA3AF' : '#6B7280' }}>
+                  Loading detectors...
+                </div>
+              )}
+              
+              {/* Error State */}
+              {detectorsError && (
+                <div style={{
+                  padding: '16px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  borderRadius: '8px',
+                  color: '#EF4444',
+                  marginBottom: '16px'
+                }}>
+                  Error: {detectorsError}
+                </div>
+              )}
+              
+              {/* Detectors List */}
+              {!detectorsLoading && !detectorsError && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {detectors.length === 0 ? (
+                    <div style={{
+                      textAlign: 'center',
+                      padding: '60px 20px',
+                      color: isDark ? '#6B7280' : '#9CA3AF'
+                    }}>
+                      <Radar size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
+                      <p style={{ fontSize: '16px', marginBottom: '8px' }}>No detectors yet</p>
+                      <p style={{ fontSize: '14px' }}>Create your first HDOS detector above</p>
+                    </div>
+                  ) : (
+                    detectors.map(detector => {
+                      const statusColors = {
+                        'DRAFT': '#6B7280',
+                        'ACTIVE': '#10B981',
+                        'PAUSED': '#F59E0B',
+                        'DEPRECATED': '#9CA3AF'
+                      };
+                      const severityColors = {
+                        'INFO': '#6B7280',
+                        'LOW': '#10B981',
+                        'MEDIUM': '#F59E0B',
+                        'HIGH': '#EF4444',
+                        'CRITICAL': '#DC2626'
+                      };
+                      const domainColors = {
+                        'HDOS': '#C8A857',
+                        'BANIBS': '#6366F1',
+                        'TRUST': '#10B981',
+                        'IDENTITY': '#8B5CF6',
+                        'SOCIAL': '#0EA5E9',
+                        'BUSINESS': '#F59E0B',
+                        'NEWS': '#EC4899',
+                        'SECURITY': '#EF4444'
+                      };
+                      
+                      return (
+                        <div key={detector.id} data-testid={`detector-${detector.id}`} style={{
+                          padding: '16px 20px',
+                          backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                          borderRadius: '8px',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`,
+                          borderLeft: `4px solid ${domainColors[detector.domain] || '#C8A857'}`
+                        }}>
+                          <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'flex-start',
+                            marginBottom: '8px'
+                          }}>
+                            <div style={{ flex: 1 }}>
+                              <h4 style={{
+                                fontSize: '15px',
+                                fontWeight: '600',
+                                color: isDark ? '#F7F7F7' : '#111217',
+                                margin: 0,
+                                marginBottom: '4px'
+                              }}>
+                                {detector.name}
+                              </h4>
+                              <p style={{
+                                fontSize: '12px',
+                                color: isDark ? '#6B7280' : '#9CA3AF',
+                                margin: 0
+                              }}>
+                                {detector.type} • {detector.domain}
+                              </p>
+                            </div>
+                            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                              <span style={{
+                                padding: '4px 10px',
+                                borderRadius: '4px',
+                                backgroundColor: `${severityColors[detector.severity_default]}20`,
+                                color: severityColors[detector.severity_default],
+                                fontSize: '11px',
+                                fontWeight: '600'
+                              }}>
+                                {detector.severity_default}
+                              </span>
+                              <span style={{
+                                padding: '4px 10px',
+                                borderRadius: '4px',
+                                backgroundColor: `${statusColors[detector.status]}20`,
+                                color: statusColors[detector.status],
+                                fontSize: '11px',
+                                fontWeight: '600'
+                              }}>
+                                {detector.status}
+                              </span>
+                            </div>
+                          </div>
+                          
+                          {detector.description && (
+                            <p style={{
+                              fontSize: '14px',
+                              color: isDark ? '#B3B3C2' : '#4A4B57',
+                              marginBottom: '12px',
+                              lineHeight: '1.5'
+                            }}>
+                              {detector.description}
+                            </p>
+                          )}
+                          
+                          {detector.canonical_rules && detector.canonical_rules.length > 0 && (
+                            <div style={{ marginBottom: '12px' }}>
+                              <p style={{ fontSize: '12px', fontWeight: '600', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '6px' }}>
+                                Canonical Rules:
+                              </p>
+                              <ul style={{ margin: 0, paddingLeft: '20px' }}>
+                                {detector.canonical_rules.map((rule, idx) => (
+                                  <li key={idx} style={{ fontSize: '13px', color: isDark ? '#B3B3C2' : '#4A4B57', marginBottom: '4px' }}>
+                                    {rule}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                          
+                          <div style={{
+                            display: 'flex',
+                            gap: '12px',
+                            justifyContent: 'flex-end'
+                          }}>
+                            <button
+                              onClick={() => {
+                                setDetectorForm({
+                                  name: detector.name,
+                                  domain: detector.domain,
+                                  type: detector.type,
+                                  status: detector.status,
+                                  severity_default: detector.severity_default,
+                                  description: detector.description || '',
+                                  canonical_rules: detector.canonical_rules || []
+                                });
+                                setEditingDetector(detector);
+                                setShowDetectorForm(true);
+                              }}
+                              style={{
+                                padding: '6px 14px',
+                                backgroundColor: 'transparent',
+                                color: isDark ? '#9CA3AF' : '#6B7280',
+                                border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                                borderRadius: '6px',
+                                fontSize: '12px',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px'
+                              }}
+                            >
+                              <Edit3 size={12} />
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => deleteDetector(detector.id)}
+                              style={{
+                                padding: '6px 14px',
+                                backgroundColor: 'transparent',
+                                color: '#EF4444',
+                                border: '1px solid rgba(239, 68, 68, 0.3)',
+                                borderRadius: '6px',
+                                fontSize: '12px',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px'
+                              }}
+                            >
+                              <Trash2 size={12} />
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              )}
+              
+              {/* Detector Count */}
+              {!detectorsLoading && detectors.length > 0 && (
+                <div style={{
+                  marginTop: '16px',
+                  padding: '12px',
+                  backgroundColor: isDark ? '#0C0C0C' : '#F3F4F6',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  color: isDark ? '#6B7280' : '#9CA3AF',
+                  textAlign: 'center'
+                }}>
+                  {detectors.length} detectors total
+                </div>
+              )}
+            </Card>
+          </div>
+          )}
         </div>
       </div>
     </FullWidthLayout>
