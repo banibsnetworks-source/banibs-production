@@ -52,6 +52,7 @@ from routes.groups import router as groups_router  # Phase 8.5 - Groups & Member
 from adcs.admin_api import router as adcs_router  # ADCS v1.0 - AI Double-Check System
 from routes.region import router as region_router  # RCS-X Phase 1 - Region Content System
 from routes.bcee import router as bcee_router  # BCEE v1.0 - Currency & Exchange Engine
+from routes.hdos_trust import router as hdos_trust_router  # HDOS v2 - Circle Trust Order
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
