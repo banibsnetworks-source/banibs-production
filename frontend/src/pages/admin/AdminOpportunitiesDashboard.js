@@ -171,7 +171,9 @@ const AdminOpportunitiesDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black">
+    <>
+      <GlobalNavBar />
+      <div className="min-h-screen bg-black">
       {/* Header */}
       <header className="bg-black border-b-2 border-[#FFD700] sticky top-0 z-50 shadow-[0_2px_20px_rgba(255,215,0,0.3)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
