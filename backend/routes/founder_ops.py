@@ -765,29 +765,3 @@ async def delete_document(
     await db.founder_ops_documents.delete_one({"id": doc_id})
     
     return success_response({"deleted": True, "id": doc_id})
-    if update.external_url is not None:
-        update_dict["external_url"] = update.external_url
-    if update.internal_path is not None:
-        update_dict["internal_path"] = update.internal_path
-    
-    await db.founder_documents.update_one({"id": doc_id}, {"$set": update_dict})
-    
-    updated = await db.founder_documents.find_one({"id": doc_id}, {"_id": 0})
-    return success_response(updated)
-
-
-@router.delete("/documents/{doc_id}")
-async def delete_document(
-    doc_id: str,
-    db: AsyncIOMotorDatabase = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
-):
-    """Delete document (super_admin only)"""
-    require_super_admin(current_user)
-    
-    result = await db.founder_documents.delete_one({"id": doc_id})
-    
-    if result.deleted_count == 0:
-        error_response("NOT_FOUND", "Document not found", status_code=404)
-    
-    return success_response({"deleted": True, "id": doc_id})
