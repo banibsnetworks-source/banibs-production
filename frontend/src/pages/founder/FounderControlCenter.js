@@ -186,6 +186,159 @@ const SYSTEM_STATUS = [
   }
 ];
 
+// Task Card Component for Kanban
+const TaskCard = ({ task, isDark, onEdit, onDelete, onMove, onStatusChange }) => {
+  const priorityColors = {
+    'LOW': '#6B7280',
+    'MEDIUM': '#F59E0B',
+    'HIGH': '#EF4444',
+    'CRITICAL': '#DC2626'
+  };
+  const statusColors = {
+    'OPEN': '#10B981',
+    'IN_PROGRESS': '#C8A857',
+    'DONE': '#6B7280',
+    'BLOCKED': '#EF4444',
+    'ARCHIVED': '#9CA3AF'
+  };
+  
+  return (
+    <div
+      data-testid={`task-card-${task.id}`}
+      style={{
+        padding: '12px',
+        backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+        borderRadius: '6px',
+        border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`,
+        cursor: 'pointer'
+      }}
+    >
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+        <h5 style={{
+          fontSize: '14px',
+          fontWeight: '600',
+          color: isDark ? '#F7F7F7' : '#111217',
+          margin: 0,
+          flex: 1
+        }}>
+          {task.title}
+        </h5>
+        <span style={{
+          padding: '2px 6px',
+          borderRadius: '3px',
+          backgroundColor: `${priorityColors[task.priority]}20`,
+          color: priorityColors[task.priority],
+          fontSize: '10px',
+          fontWeight: '600'
+        }}>
+          {task.priority}
+        </span>
+      </div>
+      
+      {task.description && (
+        <p style={{
+          fontSize: '12px',
+          color: isDark ? '#9CA3AF' : '#6B7280',
+          margin: '0 0 8px 0',
+          lineHeight: '1.4',
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden'
+        }}>
+          {task.description}
+        </p>
+      )}
+      
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{
+          padding: '3px 8px',
+          borderRadius: '4px',
+          backgroundColor: `${statusColors[task.status]}15`,
+          color: statusColors[task.status],
+          fontSize: '10px',
+          fontWeight: '500'
+        }}>
+          {task.status.replace('_', ' ')}
+        </span>
+        
+        <div style={{ display: 'flex', gap: '4px' }}>
+          {task.column !== 'P0' && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onMove(task.id, task.column === 'LATER' ? 'P1' : 'P0', task.order); }}
+              title="Move left"
+              style={{
+                padding: '4px 6px',
+                backgroundColor: 'transparent',
+                color: isDark ? '#6B7280' : '#9CA3AF',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '10px'
+              }}
+            >
+              ←
+            </button>
+          )}
+          {task.column !== 'LATER' && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onMove(task.id, task.column === 'P0' ? 'P1' : 'LATER', task.order); }}
+              title="Move right"
+              style={{
+                padding: '4px 6px',
+                backgroundColor: 'transparent',
+                color: isDark ? '#6B7280' : '#9CA3AF',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '10px'
+              }}
+            >
+              →
+            </button>
+          )}
+          <button
+            onClick={(e) => { e.stopPropagation(); onEdit(task); }}
+            title="Edit"
+            style={{
+              padding: '4px 6px',
+              backgroundColor: 'transparent',
+              color: isDark ? '#9CA3AF' : '#6B7280',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '10px'
+            }}
+          >
+            ✎
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); onDelete(task.id); }}
+            title="Delete"
+            style={{
+              padding: '4px 6px',
+              backgroundColor: 'transparent',
+              color: '#EF4444',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '10px'
+            }}
+          >
+            ×
+          </button>
+        </div>
+      </div>
+      
+      {task.owner && task.owner !== 'Founder' && (
+        <div style={{ marginTop: '6px', fontSize: '10px', color: isDark ? '#6B7280' : '#9CA3AF' }}>
+          Owner: {task.owner}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const FounderControlCenter = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated, loading, accessToken } = useAuth();
