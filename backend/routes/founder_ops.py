@@ -1,28 +1,47 @@
 """
 Founder Ops Hub API Routes
 - Ops Log CRUD
-- Tasks CRUD  
+- Tasks CRUD + Move (Kanban drag/drop)
+- Detectors CRUD (HDOS)
 - Documents CRUD + File Upload
 
 Access: super_admin only (RBAC enforced)
+All responses wrapped in { success, data, error } envelope
 """
 
-from fastapi import APIRouter, HTTPException, Depends, UploadFile, File
+from fastapi import APIRouter, HTTPException, Depends, UploadFile, File, Query
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from typing import List, Optional
+from typing import List, Optional, Any
 from datetime import datetime, timezone
 import uuid
 
 from db.connection import get_db
 from models.founder_ops import (
     OpsLogEntryCreate, OpsLogEntryUpdate, OpsLogEntry,
-    TaskCreate, TaskUpdate, Task,
-    DocumentCreate, DocumentUpdate, Document,
-    DetectorCreate, DetectorUpdate, Detector
+    TaskCreate, TaskUpdate, TaskMove, Task,
+    DetectorCreate, DetectorUpdate, Detector,
+    DocumentCreate, DocumentUpdate, Document
 )
 from middleware.auth_guard import get_current_user
 
 router = APIRouter(prefix="/api/founder-ops", tags=["Founder Ops Hub"])
+
+
+# =====================
+# RESPONSE HELPERS
+# =====================
+
+def success_response(data: Any):
+    """Wrap successful response"""
+    return {"success": True, "data": data, "error": None}
+
+
+def error_response(code: str, message: str, details: Any = None, status_code: int = 400):
+    """Raise HTTP exception with error envelope"""
+    raise HTTPException(
+        status_code=status_code,
+        detail={"success": False, "data": None, "error": {"code": code, "message": message, "details": details}}
+    )
 
 
 # =====================
@@ -32,16 +51,15 @@ router = APIRouter(prefix="/api/founder-ops", tags=["Founder Ops Hub"])
 def require_super_admin(user: dict):
     """Verify user has super_admin role"""
     if not user:
-        raise HTTPException(status_code=401, detail="Authentication required")
+        error_response("UNAUTHORIZED", "Authentication required", status_code=401)
     
-    # Support both 'role' (string) and 'roles' (array) formats
     is_super_admin = (
         user.get("role") == "super_admin" or
         "super_admin" in user.get("roles", [])
     )
     
     if not is_super_admin:
-        raise HTTPException(status_code=403, detail="Super admin access required")
+        error_response("FORBIDDEN", "Super admin access required", status_code=403)
     
     return user
 
@@ -50,7 +68,7 @@ def require_super_admin(user: dict):
 # OPS LOG ENDPOINTS
 # =====================
 
-@router.get("/ops-log", response_model=List[OpsLogEntry])
+@router.get("/ops-log")
 async def get_ops_log(
     limit: int = 100,
     skip: int = 0,
@@ -71,10 +89,10 @@ async def get_ops_log(
     cursor = db.ops_log.find(query, {"_id": 0}).sort("timestamp", -1).skip(skip).limit(limit)
     entries = await cursor.to_list(length=limit)
     
-    return entries
+    return success_response(entries)
 
 
-@router.post("/ops-log", response_model=OpsLogEntry)
+@router.post("/ops-log", status_code=201)
 async def create_ops_log_entry(
     entry: OpsLogEntryCreate,
     db: AsyncIOMotorDatabase = Depends(get_db),
@@ -97,13 +115,12 @@ async def create_ops_log_entry(
     }
     
     await db.ops_log.insert_one(new_entry)
-    
-    # Remove MongoDB _id before returning
     new_entry.pop("_id", None)
-    return new_entry
+    
+    return success_response(new_entry)
 
 
-@router.put("/ops-log/{entry_id}", response_model=OpsLogEntry)
+@router.put("/ops-log/{entry_id}")
 async def update_ops_log_entry(
     entry_id: str,
     update: OpsLogEntryUpdate,
@@ -113,12 +130,10 @@ async def update_ops_log_entry(
     """Update ops log entry (super_admin only)"""
     require_super_admin(current_user)
     
-    # Find existing entry
     existing = await db.ops_log.find_one({"id": entry_id})
     if not existing:
-        raise HTTPException(status_code=404, detail="Entry not found")
+        error_response("NOT_FOUND", "Entry not found", status_code=404)
     
-    # Build update dict
     update_dict = {"updated_at": datetime.now(timezone.utc)}
     
     if update.title is not None:
@@ -132,9 +147,8 @@ async def update_ops_log_entry(
     
     await db.ops_log.update_one({"id": entry_id}, {"$set": update_dict})
     
-    # Return updated entry
     updated = await db.ops_log.find_one({"id": entry_id}, {"_id": 0})
-    return updated
+    return success_response(updated)
 
 
 @router.delete("/ops-log/{entry_id}")
@@ -149,20 +163,22 @@ async def delete_ops_log_entry(
     result = await db.ops_log.delete_one({"id": entry_id})
     
     if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="Entry not found")
+        error_response("NOT_FOUND", "Entry not found", status_code=404)
     
-    return {"message": "Entry deleted", "id": entry_id}
+    return success_response({"deleted": True, "id": entry_id})
 
 
 # =====================
 # TASKS ENDPOINTS
 # =====================
 
-@router.get("/tasks", response_model=List[Task])
+@router.get("/tasks")
 async def get_tasks(
     column: Optional[str] = None,
     status: Optional[str] = None,
-    owner: Optional[str] = None,
+    limit: int = Query(200, le=500),
+    offset: int = 0,
+    sort: str = "order",
     db: AsyncIOMotorDatabase = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
@@ -174,16 +190,34 @@ async def get_tasks(
         query["column"] = column
     if status:
         query["status"] = status
-    if owner:
-        query["owner"] = owner
     
-    cursor = db.founder_tasks.find(query, {"_id": 0}).sort("created_at", -1)
-    tasks = await cursor.to_list(length=500)
+    # Determine sort direction
+    sort_field = sort.lstrip("-")
+    sort_dir = -1 if sort.startswith("-") else 1
     
-    return tasks
+    cursor = db.founder_ops_tasks.find(query, {"_id": 0}).sort(sort_field, sort_dir).skip(offset).limit(limit)
+    tasks = await cursor.to_list(length=limit)
+    
+    return success_response(tasks)
 
 
-@router.post("/tasks", response_model=Task)
+@router.get("/tasks/{task_id}")
+async def get_task(
+    task_id: str,
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    """Get single task (super_admin only)"""
+    require_super_admin(current_user)
+    
+    task = await db.founder_ops_tasks.find_one({"id": task_id}, {"_id": 0})
+    if not task:
+        error_response("NOT_FOUND", "Task not found", status_code=404)
+    
+    return success_response(task)
+
+
+@router.post("/tasks", status_code=201)
 async def create_task(
     task: TaskCreate,
     db: AsyncIOMotorDatabase = Depends(get_db),
@@ -194,40 +228,53 @@ async def create_task(
     
     now = datetime.now(timezone.utc)
     
+    # Build linked object
+    linked = {
+        "module_key": task.linked.module_key if task.linked else None,
+        "discovery_id": task.linked.discovery_id if task.linked else None,
+        "detector_id": task.linked.detector_id if task.linked else None,
+        "ops_log_id": task.linked.ops_log_id if task.linked else None
+    }
+    
     new_task = {
         "id": str(uuid.uuid4()),
         "title": task.title,
         "description": task.description,
         "column": task.column.value,
         "status": task.status.value,
-        "owner": task.owner.value,
-        "related_link": task.related_link,
-        "created_at": now,
-        "updated_at": None,
-        "created_by": current_user.get("id") or current_user.get("email")
+        "priority": task.priority.value,
+        "tags": task.tags,
+        "order": task.order,
+        "due_at": task.due_at,
+        "owner": task.owner,
+        "linked": linked,
+        "audit": {
+            "created_at": now,
+            "updated_at": now
+        }
     }
     
-    await db.founder_tasks.insert_one(new_task)
+    await db.founder_ops_tasks.insert_one(new_task)
     new_task.pop("_id", None)
     
-    return new_task
+    return success_response(new_task)
 
 
-@router.put("/tasks/{task_id}", response_model=Task)
+@router.patch("/tasks/{task_id}")
 async def update_task(
     task_id: str,
     update: TaskUpdate,
     db: AsyncIOMotorDatabase = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    """Update task (super_admin only)"""
+    """Update/patch task (super_admin only)"""
     require_super_admin(current_user)
     
-    existing = await db.founder_tasks.find_one({"id": task_id})
+    existing = await db.founder_ops_tasks.find_one({"id": task_id})
     if not existing:
-        raise HTTPException(status_code=404, detail="Task not found")
+        error_response("NOT_FOUND", "Task not found", status_code=404)
     
-    update_dict = {"updated_at": datetime.now(timezone.utc)}
+    update_dict = {"audit.updated_at": datetime.now(timezone.utc)}
     
     if update.title is not None:
         update_dict["title"] = update.title
@@ -237,15 +284,56 @@ async def update_task(
         update_dict["column"] = update.column.value
     if update.status is not None:
         update_dict["status"] = update.status.value
+    if update.priority is not None:
+        update_dict["priority"] = update.priority.value
+    if update.tags is not None:
+        update_dict["tags"] = update.tags
+    if update.order is not None:
+        update_dict["order"] = update.order
+    if update.due_at is not None:
+        update_dict["due_at"] = update.due_at
     if update.owner is not None:
-        update_dict["owner"] = update.owner.value
-    if update.related_link is not None:
-        update_dict["related_link"] = update.related_link
+        update_dict["owner"] = update.owner
+    if update.linked is not None:
+        update_dict["linked"] = {
+            "module_key": update.linked.module_key,
+            "discovery_id": update.linked.discovery_id,
+            "detector_id": update.linked.detector_id,
+            "ops_log_id": update.linked.ops_log_id
+        }
     
-    await db.founder_tasks.update_one({"id": task_id}, {"$set": update_dict})
+    await db.founder_ops_tasks.update_one({"id": task_id}, {"$set": update_dict})
     
-    updated = await db.founder_tasks.find_one({"id": task_id}, {"_id": 0})
-    return updated
+    updated = await db.founder_ops_tasks.find_one({"id": task_id}, {"_id": 0})
+    return success_response(updated)
+
+
+@router.post("/tasks/{task_id}/move")
+async def move_task(
+    task_id: str,
+    move: TaskMove,
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    """Move task (drag/drop) - update column and order (super_admin only)"""
+    require_super_admin(current_user)
+    
+    existing = await db.founder_ops_tasks.find_one({"id": task_id})
+    if not existing:
+        error_response("NOT_FOUND", "Task not found", status_code=404)
+    
+    now = datetime.now(timezone.utc)
+    
+    update_dict = {
+        "column": move.to_column.value,
+        "order": move.to_order,
+        "audit.updated_at": now
+    }
+    
+    await db.founder_ops_tasks.update_one({"id": task_id}, {"$set": update_dict})
+    
+    updated = await db.founder_ops_tasks.find_one({"id": task_id}, {"_id": 0})
+    return success_response(updated)
 
 
 @router.delete("/tasks/{task_id}")
@@ -257,22 +345,25 @@ async def delete_task(
     """Delete task (super_admin only)"""
     require_super_admin(current_user)
     
-    result = await db.founder_tasks.delete_one({"id": task_id})
+    result = await db.founder_ops_tasks.delete_one({"id": task_id})
     
     if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="Task not found")
+        error_response("NOT_FOUND", "Task not found", status_code=404)
     
-    return {"message": "Task deleted", "id": task_id}
+    return success_response({"deleted": True, "id": task_id})
 
 
 # =====================
-# DETECTORS ENDPOINTS (HDOS)
+# DETECTORS ENDPOINTS
 # =====================
 
-@router.get("/detectors", response_model=List[Detector])
+@router.get("/detectors")
 async def get_detectors(
+    domain: Optional[str] = None,
+    type: Optional[str] = None,
     status: Optional[str] = None,
-    trigger_type: Optional[str] = None,
+    limit: int = Query(200, le=500),
+    offset: int = 0,
     db: AsyncIOMotorDatabase = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
@@ -280,18 +371,36 @@ async def get_detectors(
     require_super_admin(current_user)
     
     query = {}
+    if domain:
+        query["domain"] = domain
+    if type:
+        query["type"] = type
     if status:
         query["status"] = status
-    if trigger_type:
-        query["trigger_type"] = trigger_type
     
-    cursor = db.founder_detectors.find(query, {"_id": 0}).sort("created_at", -1)
-    detectors = await cursor.to_list(length=500)
+    cursor = db.founder_ops_detectors.find(query, {"_id": 0}).sort("audit.created_at", -1).skip(offset).limit(limit)
+    detectors = await cursor.to_list(length=limit)
     
-    return detectors
+    return success_response(detectors)
 
 
-@router.post("/detectors", response_model=Detector)
+@router.get("/detectors/{detector_id}")
+async def get_detector(
+    detector_id: str,
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    """Get single detector (super_admin only)"""
+    require_super_admin(current_user)
+    
+    detector = await db.founder_ops_detectors.find_one({"id": detector_id}, {"_id": 0})
+    if not detector:
+        error_response("NOT_FOUND", "Detector not found", status_code=404)
+    
+    return success_response(detector)
+
+
+@router.post("/detectors", status_code=201)
 async def create_detector(
     detector: DetectorCreate,
     db: AsyncIOMotorDatabase = Depends(get_db),
@@ -302,109 +411,123 @@ async def create_detector(
     
     now = datetime.now(timezone.utc)
     
+    # Build signals list
+    signals = [
+        {
+            "key": s.key,
+            "label": s.label,
+            "description": s.description,
+            "weight": s.weight
+        }
+        for s in detector.signals
+    ] if detector.signals else []
+    
+    # Build actions list
+    actions = [
+        {
+            "key": a.key,
+            "label": a.label,
+            "description": a.description
+        }
+        for a in detector.actions
+    ] if detector.actions else []
+    
+    # Build UI object
+    ui = {
+        "visible": detector.ui.visible if detector.ui else True,
+        "color_hint": detector.ui.color_hint if detector.ui else None,
+        "icon": detector.ui.icon if detector.ui else None
+    }
+    
+    # Build linked object
+    linked = {
+        "module_key": detector.linked.module_key if detector.linked else None,
+        "discovery_ids": detector.linked.discovery_ids if detector.linked else [],
+        "related_detector_ids": detector.linked.related_detector_ids if detector.linked else []
+    }
+    
     new_detector = {
         "id": str(uuid.uuid4()),
         "name": detector.name,
-        "description": detector.description,
-        "detection_logic": detector.detection_logic,
-        "response_action": detector.response_action,
-        "trigger_type": detector.trigger_type.value,
+        "domain": detector.domain.value,
+        "type": detector.type.value,
         "status": detector.status.value,
-        "related_system": detector.related_system,
-        "last_triggered": None,
-        "trigger_count": 0,
-        "created_at": now,
-        "updated_at": None,
-        "created_by": current_user.get("id") or current_user.get("email")
+        "severity_default": detector.severity_default.value,
+        "description": detector.description,
+        "canonical_rules": detector.canonical_rules,
+        "signals": signals,
+        "actions": actions,
+        "ui": ui,
+        "linked": linked,
+        "audit": {
+            "created_at": now,
+            "updated_at": now
+        }
     }
     
-    await db.founder_detectors.insert_one(new_detector)
+    await db.founder_ops_detectors.insert_one(new_detector)
     new_detector.pop("_id", None)
     
-    return new_detector
+    return success_response(new_detector)
 
 
-@router.get("/detectors/{detector_id}", response_model=Detector)
-async def get_detector(
-    detector_id: str,
-    db: AsyncIOMotorDatabase = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
-):
-    """Get single detector (super_admin only)"""
-    require_super_admin(current_user)
-    
-    detector = await db.founder_detectors.find_one({"id": detector_id}, {"_id": 0})
-    if not detector:
-        raise HTTPException(status_code=404, detail="Detector not found")
-    
-    return detector
-
-
-@router.put("/detectors/{detector_id}", response_model=Detector)
+@router.patch("/detectors/{detector_id}")
 async def update_detector(
     detector_id: str,
     update: DetectorUpdate,
     db: AsyncIOMotorDatabase = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    """Update detector (super_admin only)"""
+    """Update/patch detector (super_admin only)"""
     require_super_admin(current_user)
     
-    existing = await db.founder_detectors.find_one({"id": detector_id})
+    existing = await db.founder_ops_detectors.find_one({"id": detector_id})
     if not existing:
-        raise HTTPException(status_code=404, detail="Detector not found")
+        error_response("NOT_FOUND", "Detector not found", status_code=404)
     
-    update_dict = {"updated_at": datetime.now(timezone.utc)}
+    update_dict = {"audit.updated_at": datetime.now(timezone.utc)}
     
     if update.name is not None:
         update_dict["name"] = update.name
-    if update.description is not None:
-        update_dict["description"] = update.description
-    if update.detection_logic is not None:
-        update_dict["detection_logic"] = update.detection_logic
-    if update.response_action is not None:
-        update_dict["response_action"] = update.response_action
-    if update.trigger_type is not None:
-        update_dict["trigger_type"] = update.trigger_type.value
+    if update.domain is not None:
+        update_dict["domain"] = update.domain.value
+    if update.type is not None:
+        update_dict["type"] = update.type.value
     if update.status is not None:
         update_dict["status"] = update.status.value
-    if update.related_system is not None:
-        update_dict["related_system"] = update.related_system
-    
-    await db.founder_detectors.update_one({"id": detector_id}, {"$set": update_dict})
-    
-    updated = await db.founder_detectors.find_one({"id": detector_id}, {"_id": 0})
-    return updated
-
-
-@router.post("/detectors/{detector_id}/trigger")
-async def trigger_detector(
-    detector_id: str,
-    db: AsyncIOMotorDatabase = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
-):
-    """Manually trigger a detector (super_admin only)"""
-    require_super_admin(current_user)
-    
-    existing = await db.founder_detectors.find_one({"id": detector_id})
-    if not existing:
-        raise HTTPException(status_code=404, detail="Detector not found")
-    
-    now = datetime.now(timezone.utc)
-    
-    await db.founder_detectors.update_one(
-        {"id": detector_id},
-        {
-            "$set": {"last_triggered": now, "updated_at": now},
-            "$inc": {"trigger_count": 1}
+    if update.severity_default is not None:
+        update_dict["severity_default"] = update.severity_default.value
+    if update.description is not None:
+        update_dict["description"] = update.description
+    if update.canonical_rules is not None:
+        update_dict["canonical_rules"] = update.canonical_rules
+    if update.signals is not None:
+        update_dict["signals"] = [
+            {"key": s.key, "label": s.label, "description": s.description, "weight": s.weight}
+            for s in update.signals
+        ]
+    if update.actions is not None:
+        update_dict["actions"] = [
+            {"key": a.key, "label": a.label, "description": a.description}
+            for a in update.actions
+        ]
+    if update.ui is not None:
+        update_dict["ui"] = {
+            "visible": update.ui.visible,
+            "color_hint": update.ui.color_hint,
+            "icon": update.ui.icon
         }
-    )
+    if update.linked is not None:
+        update_dict["linked"] = {
+            "module_key": update.linked.module_key,
+            "discovery_ids": update.linked.discovery_ids,
+            "related_detector_ids": update.linked.related_detector_ids
+        }
     
-    return {
-        "message": "Detector triggered",
-        "id": detector_id,
-        "triggered_at": now.isoformat()
-    }
+    await db.founder_ops_detectors.update_one({"id": detector_id}, {"$set": update_dict})
+    
+    updated = await db.founder_ops_detectors.find_one({"id": detector_id}, {"_id": 0})
+    return success_response(updated)
 
 
 @router.delete("/detectors/{detector_id}")
@@ -416,19 +539,19 @@ async def delete_detector(
     """Delete detector (super_admin only)"""
     require_super_admin(current_user)
     
-    result = await db.founder_detectors.delete_one({"id": detector_id})
+    result = await db.founder_ops_detectors.delete_one({"id": detector_id})
     
     if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="Detector not found")
+        error_response("NOT_FOUND", "Detector not found", status_code=404)
     
-    return {"message": "Detector deleted", "id": detector_id}
+    return success_response({"deleted": True, "id": detector_id})
 
 
 # =====================
 # DOCUMENTS ENDPOINTS
 # =====================
 
-@router.get("/documents", response_model=List[Document])
+@router.get("/documents")
 async def get_documents(
     doc_type: Optional[str] = None,
     db: AsyncIOMotorDatabase = Depends(get_db),
@@ -444,10 +567,10 @@ async def get_documents(
     cursor = db.founder_documents.find(query, {"_id": 0}).sort("created_at", -1)
     docs = await cursor.to_list(length=500)
     
-    return docs
+    return success_response(docs)
 
 
-@router.post("/documents", response_model=Document)
+@router.post("/documents", status_code=201)
 async def create_document(
     doc: DocumentCreate,
     db: AsyncIOMotorDatabase = Depends(get_db),
@@ -476,10 +599,10 @@ async def create_document(
     await db.founder_documents.insert_one(new_doc)
     new_doc.pop("_id", None)
     
-    return new_doc
+    return success_response(new_doc)
 
 
-@router.put("/documents/{doc_id}", response_model=Document)
+@router.patch("/documents/{doc_id}")
 async def update_document(
     doc_id: str,
     update: DocumentUpdate,
@@ -491,7 +614,7 @@ async def update_document(
     
     existing = await db.founder_documents.find_one({"id": doc_id})
     if not existing:
-        raise HTTPException(status_code=404, detail="Document not found")
+        error_response("NOT_FOUND", "Document not found", status_code=404)
     
     update_dict = {"updated_at": datetime.now(timezone.utc)}
     
@@ -509,7 +632,7 @@ async def update_document(
     await db.founder_documents.update_one({"id": doc_id}, {"$set": update_dict})
     
     updated = await db.founder_documents.find_one({"id": doc_id}, {"_id": 0})
-    return updated
+    return success_response(updated)
 
 
 @router.delete("/documents/{doc_id}")
@@ -524,6 +647,6 @@ async def delete_document(
     result = await db.founder_documents.delete_one({"id": doc_id})
     
     if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="Document not found")
+        error_response("NOT_FOUND", "Document not found", status_code=404)
     
-    return {"message": "Document deleted", "id": doc_id}
+    return success_response({"deleted": True, "id": doc_id})
