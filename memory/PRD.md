@@ -176,6 +176,9 @@ All links visible:
 - [x] New Detector form with all fields
 - [x] Edit and delete functionality
 
+### UI Fix (January 29, 2026)
+- [x] Added GlobalNavBar to CommunityLayout - fixes missing left nav on Community route
+
 ### Database Collections
 - `ops_log` - Operational log entries
 - `founder_ops_tasks` - Kanban tasks
