@@ -8,7 +8,9 @@ import {
   Folder, CheckCircle, Clock, AlertCircle, 
   FileText, Scale, DollarSign, Heart, 
   Server, Globe, Activity, Map, Search,
-  ExternalLink, Lock, Users, Zap
+  ExternalLink, Lock, Users, Zap, Settings,
+  Wrench, Lightbulb, Code, Video, Mic,
+  UserCircle, BookOpen, Calendar, Shield
 } from 'lucide-react';
 import { getEnabledModules, getUpcomingModules } from '../../config/moduleRegistry';
 
@@ -21,10 +23,37 @@ import { getEnabledModules, getUpcomingModules } from '../../config/moduleRegist
  * - Legal/money tasks
  * - Health reminders
  * - System status
+ * - System Map (3-tier view)
  * 
  * Route: /founder/command
- * Access: Founder only (hard-coded for now)
+ * Access: Founder only (super_admin role)
  */
+
+// System/Internal Modules - NOT in moduleRegistry (static list)
+const INTERNAL_MODULES = [
+  { id: 'founder', name: 'Founder Tools', route: '/founder/command', icon: Shield, color: '#C8A857', description: 'Founder command center and control tools' },
+  { id: 'admin', name: 'Admin Dashboards', route: '/admin/opportunities', icon: Settings, color: '#6366F1', description: 'Admin panels, moderation, analytics' },
+  { id: 'settings', name: 'Settings Hub', route: '/settings', icon: Settings, color: '#64748B', description: 'User account and app settings' },
+  { id: 'developer', name: 'Developer Portal', route: '/developer', icon: Code, color: '#10B981', description: 'API access and developer tools' },
+  { id: 'contributor', name: 'Contributor Portal', route: '/contributor/login', icon: UserCircle, color: '#8B5CF6', description: 'Content contributor system' },
+  { id: 'onboarding', name: 'Onboarding', route: '/onboarding', icon: Users, color: '#F59E0B', description: 'New user onboarding flow' },
+  { id: 'resources', name: 'Resources', route: '/resources', icon: BookOpen, color: '#EC4899', description: 'Community resources and guides' },
+  { id: 'events', name: 'Events', route: '/events', icon: Calendar, color: '#EF4444', description: 'Community events system' },
+  { id: 'tv', name: 'BANIBS TV', route: '/portal/tv', icon: Video, color: '#DC2626', description: 'Video content and streaming' },
+  { id: 'ccram', name: 'CCRAM', route: '/ccram', icon: Mic, color: '#7C3AED', description: 'CCR Anchor Module - Interview AI assistant' },
+  { id: 'socialworld', name: 'SocialWorld', route: '/socialworld', icon: Globe, color: '#0EA5E9', description: 'Social experience cluster (ShortForm, Moments, Stories, Live, etc.)' },
+  { id: 'ability', name: 'Ability Network', route: '/ability', icon: Zap, color: '#A855F7', description: 'Skills and ability marketplace' },
+  { id: 'connect', name: 'BANIBS Connect', route: '/connect', icon: Users, color: '#14B8A6', description: 'Connection and networking hub' },
+  { id: 'circles', name: 'Infinite Circles', route: '/social/circles', icon: Users, color: '#F97316', description: 'Trust circles and relationship engine' },
+];
+
+// Planned/Conceptual Modules - NOT built yet (static list)
+const PLANNED_MODULES = [
+  { id: 'hdos', name: 'HDOS Circle Trust Order System v2', status: 'planned', description: '7-level trust system for community hierarchy', expectedPhase: '17.0' },
+  { id: 'bookvault', name: 'BANIBS Book Vault Studio', status: 'planned', description: 'Book authoring and publishing module', expectedPhase: '18.0' },
+  { id: 'healthcore', name: 'Raymond Health Core System', status: 'planned', description: 'Daily health and wellness tracker', expectedPhase: '19.0' },
+  { id: 'bglis', name: 'BGLIS Phone Authentication', status: 'mocked', description: 'Phone-first authentication system (currently mocked)', expectedPhase: '8.5' },
+];
 
 // Static data configuration
 const ACTIVE_BUILDS = [
