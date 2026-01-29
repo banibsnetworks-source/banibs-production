@@ -10,14 +10,32 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 - **AWS Production Server (BANIBS-PROD-01)**: Live and stable
 - **HTTPS**: Fully configured (banibs.com / www.banibs.com)
 - **SSL**: Let's Encrypt with auto-renewal
-- **Public Launch Mode**: News-first (read-only news experience)
+- **Mode**: FULL INTERNAL / BUILDER MODE (All modules visible)
 
 ---
 
-## NEWS-FIRST PUBLIC LAUNCH (Current State)
+## P0 ROLLBACK - FULL INTERNAL MODE (January 29, 2026)
 
-### Public Navigation (GlobalNavBar)
-Only News-related links visible:
+The system has been rolled back from News-First gating to Full Internal Mode:
+- **All Coming Soon interception DISABLED**
+- **All module routes RESTORED** (Social, Marketplace, TV, Wallet, Community, etc.)
+- **Sign In visible** in navigation header for internal use
+- **RBAC still enforces permissions** - visibility ≠ permission escalation
+
+### Rationale
+News-First gating was blocking visibility and troubleshooting during debug phase.
+Founder needs full access to ALL modules to stabilize the system.
+
+### Next Phase (Later, Explicit)
+After auth + routing + module health is verified, News-First mode can be reintroduced with:
+- Explicit allowlists
+- Founder-only overrides
+- Zero chance of lockout
+
+---
+
+## Navigation (GlobalNavBar) - FULL INTERNAL MODE
+All links visible:
 - BANIBS News (/)
 - Black News (/news/black)
 - U.S. (/news/us)
