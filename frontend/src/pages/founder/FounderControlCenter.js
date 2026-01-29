@@ -218,10 +218,12 @@ const FounderControlCenter = () => {
   const [taskForm, setTaskForm] = useState({
     title: '',
     description: '',
-    column: 'P1',
-    status: 'Open',
+    column: 'P0',
+    status: 'OPEN',
+    priority: 'MEDIUM',
+    tags: [],
     owner: 'Founder',
-    related_link: ''
+    due_at: ''
   });
   
   // Detectors state
@@ -232,12 +234,12 @@ const FounderControlCenter = () => {
   const [editingDetector, setEditingDetector] = useState(null);
   const [detectorForm, setDetectorForm] = useState({
     name: '',
+    domain: 'HDOS',
+    type: 'CUSTOM',
+    status: 'DRAFT',
+    severity_default: 'MEDIUM',
     description: '',
-    detection_logic: '',
-    response_action: '',
-    trigger_type: 'Manual',
-    status: 'Active',
-    related_system: ''
+    canonical_rules: []
   });
   
   // API base URL
@@ -255,8 +257,8 @@ const FounderControlCenter = () => {
         }
       });
       if (!response.ok) throw new Error('Failed to fetch ops log');
-      const data = await response.json();
-      setOpsLogEntries(data);
+      const result = await response.json();
+      setOpsLogEntries(result.data || []);
     } catch (err) {
       setOpsLogError(err.message);
     } finally {
