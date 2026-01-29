@@ -112,6 +112,59 @@ class Task(BaseModel):
 
 
 # =====================
+# DETECTORS (HDOS)
+# =====================
+
+class DetectorStatus(str, Enum):
+    ACTIVE = "Active"
+    PAUSED = "Paused"
+    RETIRED = "Retired"
+
+
+class DetectorTrigger(str, Enum):
+    MANUAL = "Manual"
+    SCHEDULED = "Scheduled"
+    EVENT = "Event"
+    CONTINUOUS = "Continuous"
+
+
+class DetectorCreate(BaseModel):
+    name: str = Field(..., min_length=1, max_length=200)
+    description: str = Field(default="")
+    detection_logic: str = Field(default="")  # What this detector looks for
+    response_action: str = Field(default="")  # What happens when triggered
+    trigger_type: DetectorTrigger = DetectorTrigger.MANUAL
+    status: DetectorStatus = DetectorStatus.ACTIVE
+    related_system: Optional[str] = None  # Which system/module it relates to
+
+
+class DetectorUpdate(BaseModel):
+    name: Optional[str] = Field(None, min_length=1, max_length=200)
+    description: Optional[str] = None
+    detection_logic: Optional[str] = None
+    response_action: Optional[str] = None
+    trigger_type: Optional[DetectorTrigger] = None
+    status: Optional[DetectorStatus] = None
+    related_system: Optional[str] = None
+
+
+class Detector(BaseModel):
+    id: str
+    name: str
+    description: str
+    detection_logic: str
+    response_action: str
+    trigger_type: str
+    status: str
+    related_system: Optional[str] = None
+    last_triggered: Optional[datetime] = None
+    trigger_count: int = 0
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+    created_by: str
+
+
+# =====================
 # DOCUMENTS
 # =====================
 
