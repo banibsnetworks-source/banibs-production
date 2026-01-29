@@ -571,16 +571,16 @@ function App() {
               <Route path="/events/:id" element={<EventDetailPage />} />
               {/* Phase 6.2.4 - Unified Search */}
               <Route path="/search" element={<SearchPage />} />
-              {/* Phase A6 - BANIBS Social Landing Page - Hidden for News-first */}
-              <Route path="/social" element={<ModuleComingSoon />} />
+              {/* Phase A6 - BANIBS Social Landing Page - RESTORED for internal mode */}
+              <Route path="/social" element={<SocialLandingPage />} />
               
-              {/* Stub Pages - Hidden for News-first */}
+              {/* Stub Pages - RESTORED for internal mode */}
               <Route path="/business" element={<Navigate to="/portal/business" replace />} />
-              <Route path="/business-directory" element={<ModuleComingSoon />} />
-              <Route path="/business/register" element={<ModuleComingSoon />} />
-              <Route path="/information" element={<ModuleComingSoon />} />
-              <Route path="/education" element={<ModuleComingSoon />} />
-              <Route path="/youth" element={<ModuleComingSoon />} />
+              <Route path="/business-directory" element={<BusinessDirectoryPage />} />
+              <Route path="/business/register" element={<BusinessRegistrationPlaceholder />} />
+              <Route path="/information" element={<InformationPage />} />
+              <Route path="/education" element={<EducationPage />} />
+              <Route path="/youth" element={<YouthPage />} />
               <Route path="/opportunities" element={<OpportunitiesPage />} />
               <Route path="/jobs/:id" element={<BusinessJobDetailPage />} />
               <Route path="/opportunities/dashboard" element={<RecruiterDashboard />} />
