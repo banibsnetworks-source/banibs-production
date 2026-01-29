@@ -186,12 +186,111 @@ const SYSTEM_STATUS = [
 
 const FounderControlCenter = () => {
   const navigate = useNavigate();
-  const { user, isAuthenticated, loading } = useAuth();
+  const { user, isAuthenticated, loading, accessToken } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   
   const [currentDate] = useState(new Date());
   const [moduleSearch, setModuleSearch] = useState('');
+  const [activeTab, setActiveTab] = useState('dashboard');
+  
+  // Ops Log state
+  const [opsLogEntries, setOpsLogEntries] = useState([]);
+  const [opsLogLoading, setOpsLogLoading] = useState(false);
+  const [opsLogError, setOpsLogError] = useState(null);
+  const [showOpsLogForm, setShowOpsLogForm] = useState(false);
+  const [editingEntry, setEditingEntry] = useState(null);
+  const [opsLogForm, setOpsLogForm] = useState({
+    title: '',
+    notes: '',
+    category: '',
+    status: 'Open'
+  });
+  
+  // API base URL
+  const API_URL = process.env.REACT_APP_BACKEND_URL || '';
+  
+  // Fetch Ops Log entries
+  const fetchOpsLog = async () => {
+    if (!accessToken) return;
+    setOpsLogLoading(true);
+    setOpsLogError(null);
+    try {
+      const response = await fetch(`${API_URL}/api/founder-ops/ops-log`, {
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      });
+      if (!response.ok) throw new Error('Failed to fetch ops log');
+      const data = await response.json();
+      setOpsLogEntries(data);
+    } catch (err) {
+      setOpsLogError(err.message);
+    } finally {
+      setOpsLogLoading(false);
+    }
+  };
+  
+  // Create/Update Ops Log entry
+  const saveOpsLogEntry = async () => {
+    if (!accessToken || !opsLogForm.title.trim()) return;
+    
+    try {
+      const url = editingEntry 
+        ? `${API_URL}/api/founder-ops/ops-log/${editingEntry.id}`
+        : `${API_URL}/api/founder-ops/ops-log`;
+      
+      const response = await fetch(url, {
+        method: editingEntry ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({
+          title: opsLogForm.title,
+          notes: opsLogForm.notes,
+          category: opsLogForm.category || null,
+          status: opsLogForm.status
+        })
+      });
+      
+      if (!response.ok) throw new Error('Failed to save entry');
+      
+      // Reset form and refresh
+      setOpsLogForm({ title: '', notes: '', category: '', status: 'Open' });
+      setShowOpsLogForm(false);
+      setEditingEntry(null);
+      fetchOpsLog();
+    } catch (err) {
+      alert('Failed to save: ' + err.message);
+    }
+  };
+  
+  // Delete Ops Log entry
+  const deleteOpsLogEntry = async (entryId) => {
+    if (!accessToken || !window.confirm('Delete this entry?')) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/founder-ops/ops-log/${entryId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      });
+      
+      if (!response.ok) throw new Error('Failed to delete');
+      fetchOpsLog();
+    } catch (err) {
+      alert('Failed to delete: ' + err.message);
+    }
+  };
+  
+  // Load ops log when tab changes
+  useEffect(() => {
+    if (activeTab === 'ops-log' && accessToken) {
+      fetchOpsLog();
+    }
+  }, [activeTab, accessToken]);
   
   // Get modules from registry
   const enabledModules = getEnabledModules();
