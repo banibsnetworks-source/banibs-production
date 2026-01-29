@@ -224,6 +224,22 @@ const FounderControlCenter = () => {
     related_link: ''
   });
   
+  // Detectors state
+  const [detectors, setDetectors] = useState([]);
+  const [detectorsLoading, setDetectorsLoading] = useState(false);
+  const [detectorsError, setDetectorsError] = useState(null);
+  const [showDetectorForm, setShowDetectorForm] = useState(false);
+  const [editingDetector, setEditingDetector] = useState(null);
+  const [detectorForm, setDetectorForm] = useState({
+    name: '',
+    description: '',
+    detection_logic: '',
+    response_action: '',
+    trigger_type: 'Manual',
+    status: 'Active',
+    related_system: ''
+  });
+  
   // API base URL
   const API_URL = process.env.REACT_APP_BACKEND_URL || '';
   
