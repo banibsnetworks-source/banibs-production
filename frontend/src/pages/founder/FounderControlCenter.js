@@ -203,8 +203,8 @@ const SYSTEM_STATUS = [
   }
 ];
 
-// Task Card Component for Kanban
-const TaskCard = ({ task, isDark, onEdit, onDelete, onMove, onStatusChange }) => {
+// Task Card Component for Kanban (inner component)
+const TaskCardInner = ({ task, isDark, onEdit, onDelete, onMove, onStatusChange, dragHandleProps }) => {
   const priorityColors = {
     'LOW': '#6B7280',
     'MEDIUM': '#F59E0B',
@@ -220,26 +220,23 @@ const TaskCard = ({ task, isDark, onEdit, onDelete, onMove, onStatusChange }) =>
   };
   
   return (
-    <div
-      data-testid={`task-card-${task.id}`}
-      style={{
-        padding: '12px',
-        backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
-        borderRadius: '6px',
-        border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`,
-        cursor: 'pointer'
-      }}
-    >
+    <>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-        <h5 style={{
-          fontSize: '14px',
-          fontWeight: '600',
-          color: isDark ? '#F7F7F7' : '#111217',
-          margin: 0,
-          flex: 1
-        }}>
-          {task.title}
-        </h5>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: 1 }}>
+          {/* Drag Handle */}
+          <div {...dragHandleProps} style={{ cursor: 'grab', color: isDark ? '#6B7280' : '#9CA3AF', touchAction: 'none' }}>
+            <GripVertical size={14} />
+          </div>
+          <h5 style={{
+            fontSize: '14px',
+            fontWeight: '600',
+            color: isDark ? '#F7F7F7' : '#111217',
+            margin: 0,
+            flex: 1
+          }}>
+            {task.title}
+          </h5>
+        </div>
         <span style={{
           padding: '2px 6px',
           borderRadius: '3px',
@@ -280,40 +277,6 @@ const TaskCard = ({ task, isDark, onEdit, onDelete, onMove, onStatusChange }) =>
         </span>
         
         <div style={{ display: 'flex', gap: '4px' }}>
-          {task.column !== 'P0' && (
-            <button
-              onClick={(e) => { e.stopPropagation(); onMove(task.id, task.column === 'LATER' ? 'P1' : 'P0', task.order); }}
-              title="Move left"
-              style={{
-                padding: '4px 6px',
-                backgroundColor: 'transparent',
-                color: isDark ? '#6B7280' : '#9CA3AF',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '10px'
-              }}
-            >
-              ←
-            </button>
-          )}
-          {task.column !== 'LATER' && (
-            <button
-              onClick={(e) => { e.stopPropagation(); onMove(task.id, task.column === 'P0' ? 'P1' : 'LATER', task.order); }}
-              title="Move right"
-              style={{
-                padding: '4px 6px',
-                backgroundColor: 'transparent',
-                color: isDark ? '#6B7280' : '#9CA3AF',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '10px'
-              }}
-            >
-              →
-            </button>
-          )}
           <button
             onClick={(e) => { e.stopPropagation(); onEdit(task); }}
             title="Edit"
@@ -327,7 +290,7 @@ const TaskCard = ({ task, isDark, onEdit, onDelete, onMove, onStatusChange }) =>
               fontSize: '10px'
             }}
           >
-            ✎
+            <Edit3 size={12} />
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); onDelete(task.id); }}
@@ -342,7 +305,7 @@ const TaskCard = ({ task, isDark, onEdit, onDelete, onMove, onStatusChange }) =>
               fontSize: '10px'
             }}
           >
-            ×
+            <Trash2 size={12} />
           </button>
         </div>
       </div>
@@ -352,6 +315,88 @@ const TaskCard = ({ task, isDark, onEdit, onDelete, onMove, onStatusChange }) =>
           Owner: {task.owner}
         </div>
       )}
+    </>
+  );
+};
+
+// Sortable Task Card Component with @dnd-kit
+const SortableTaskCard = ({ task, isDark, onEdit, onDelete, onMove, onStatusChange }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: task.id });
+  
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    padding: '12px',
+    backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+    borderRadius: '6px',
+    border: `1px solid ${isDragging ? '#C8A857' : (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)')}`,
+    cursor: 'default',
+    touchAction: 'none'
+  };
+  
+  return (
+    <div ref={setNodeRef} style={style} data-testid={`task-card-${task.id}`} {...attributes}>
+      <TaskCardInner
+        task={task}
+        isDark={isDark}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        onMove={onMove}
+        onStatusChange={onStatusChange}
+        dragHandleProps={listeners}
+      />
+    </div>
+  );
+};
+
+// Droppable Column Component
+const DroppableColumn = ({ columnId, columnLabel, columnColor, tasks, isDark, children }) => {
+  return (
+    <div
+      data-testid={`column-${columnId}`}
+      style={{
+        backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+        borderRadius: '8px',
+        padding: '16px',
+        border: `2px solid ${isDark ? `${columnColor}50` : `${columnColor}30`}`,
+        minHeight: '300px'
+      }}
+    >
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        marginBottom: '16px',
+        paddingBottom: '12px',
+        borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+      }}>
+        <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: columnColor }} />
+        <h4 style={{ fontSize: '15px', fontWeight: '600', color: isDark ? '#F7F7F7' : '#111217', margin: 0 }}>
+          {columnLabel}
+        </h4>
+        <span style={{ fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF', marginLeft: 'auto' }}>
+          {tasks.length}
+        </span>
+      </div>
+      
+      <SortableContext items={tasks.map(t => t.id)} strategy={verticalListSortingStrategy}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', minHeight: '100px' }}>
+          {children}
+          {tasks.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '20px', color: isDark ? '#6B7280' : '#9CA3AF', fontSize: '13px' }}>
+              Drop tasks here
+            </div>
+          )}
+        </div>
+      </SortableContext>
     </div>
   );
 };
