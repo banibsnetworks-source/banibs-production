@@ -1,7 +1,8 @@
 """
 Founder Ops Hub Models
 - Ops Log: Operational memory/changelog
-- Tasks: Priority-based kanban
+- Tasks: Priority-based kanban (P0, P1, Later)
+- Detectors: HDOS / BANIBS Detectors & Safety Layers
 - Documents: Secure document vault
 
 Access: super_admin only
@@ -59,109 +60,203 @@ class OpsLogEntry(BaseModel):
 
 
 # =====================
-# TASKS
+# TASKS (Kanban)
 # =====================
 
 class TaskColumn(str, Enum):
-    P0 = "P0"  # Now
-    P1 = "P1"  # Next
-    LATER = "Later"
+    P0 = "P0"      # Now
+    P1 = "P1"      # Next
+    LATER = "LATER"
 
 
 class TaskStatus(str, Enum):
-    OPEN = "Open"
-    IN_PROGRESS = "In Progress"
-    DONE = "Done"
+    OPEN = "OPEN"
+    IN_PROGRESS = "IN_PROGRESS"
+    DONE = "DONE"
+    BLOCKED = "BLOCKED"
+    ARCHIVED = "ARCHIVED"
 
 
-class TaskOwner(str, Enum):
-    FOUNDER = "Founder"
-    NEO = "Neo"
-    SYSTEM = "System"
+class TaskPriority(str, Enum):
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    CRITICAL = "CRITICAL"
+
+
+class TaskLinked(BaseModel):
+    module_key: Optional[str] = None
+    discovery_id: Optional[str] = None
+    detector_id: Optional[str] = None
+    ops_log_id: Optional[str] = None
+
+
+class TaskAudit(BaseModel):
+    created_at: datetime
+    updated_at: datetime
 
 
 class TaskCreate(BaseModel):
-    title: str = Field(..., min_length=1, max_length=200)
-    description: str = Field(default="")
-    column: TaskColumn = TaskColumn.P1
+    title: str = Field(..., min_length=1, max_length=120)
+    description: Optional[str] = Field(None, max_length=5000)
+    column: TaskColumn = TaskColumn.P0
     status: TaskStatus = TaskStatus.OPEN
-    owner: TaskOwner = TaskOwner.FOUNDER
-    related_link: Optional[str] = None
+    priority: TaskPriority = TaskPriority.MEDIUM
+    tags: List[str] = Field(default_factory=list)
+    order: float = 0.0
+    due_at: Optional[datetime] = None
+    owner: str = "Founder"
+    linked: Optional[TaskLinked] = None
 
 
 class TaskUpdate(BaseModel):
-    title: Optional[str] = Field(None, min_length=1, max_length=200)
-    description: Optional[str] = None
+    title: Optional[str] = Field(None, min_length=1, max_length=120)
+    description: Optional[str] = Field(None, max_length=5000)
     column: Optional[TaskColumn] = None
     status: Optional[TaskStatus] = None
-    owner: Optional[TaskOwner] = None
-    related_link: Optional[str] = None
+    priority: Optional[TaskPriority] = None
+    tags: Optional[List[str]] = None
+    order: Optional[float] = None
+    due_at: Optional[datetime] = None
+    owner: Optional[str] = None
+    linked: Optional[TaskLinked] = None
+
+
+class TaskMove(BaseModel):
+    to_column: TaskColumn
+    to_order: float
 
 
 class Task(BaseModel):
     id: str
     title: str
-    description: str
+    description: Optional[str] = None
     column: str
     status: str
-    owner: str
-    related_link: Optional[str] = None
-    created_at: datetime
-    updated_at: Optional[datetime] = None
-    created_by: str
+    priority: str
+    tags: List[str] = Field(default_factory=list)
+    order: float = 0.0
+    due_at: Optional[datetime] = None
+    owner: str = "Founder"
+    linked: Optional[TaskLinked] = None
+    audit: TaskAudit
 
 
 # =====================
 # DETECTORS (HDOS)
 # =====================
 
+class DetectorDomain(str, Enum):
+    HDOS = "HDOS"
+    BANIBS = "BANIBS"
+    TRUST = "TRUST"
+    IDENTITY = "IDENTITY"
+    SOCIAL = "SOCIAL"
+    BUSINESS = "BUSINESS"
+    NEWS = "NEWS"
+    SECURITY = "SECURITY"
+
+
+class DetectorType(str, Enum):
+    DOG = "DOG"
+    BDL_BIS = "BDL_BIS"
+    LPL = "LPL"
+    SPOOFING_FRIEND = "SPOOFING_FRIEND"
+    SPOOFING_FAMILY = "SPOOFING_FAMILY"
+    SPOOFING_IDENTITY = "SPOOFING_IDENTITY"
+    SPOOFING_WORKPLACE = "SPOOFING_WORKPLACE"
+    TRUST_EROSION_LOOP = "TRUST_EROSION_LOOP"
+    PRESSURE_TRANSFER = "PRESSURE_TRANSFER"
+    CUSTOM = "CUSTOM"
+
+
 class DetectorStatus(str, Enum):
-    ACTIVE = "Active"
-    PAUSED = "Paused"
-    RETIRED = "Retired"
+    DRAFT = "DRAFT"
+    ACTIVE = "ACTIVE"
+    PAUSED = "PAUSED"
+    DEPRECATED = "DEPRECATED"
 
 
-class DetectorTrigger(str, Enum):
-    MANUAL = "Manual"
-    SCHEDULED = "Scheduled"
-    EVENT = "Event"
-    CONTINUOUS = "Continuous"
+class Severity(str, Enum):
+    INFO = "INFO"
+    LOW = "LOW"
+    MEDIUM = "MEDIUM"
+    HIGH = "HIGH"
+    CRITICAL = "CRITICAL"
+
+
+class DetectorSignal(BaseModel):
+    key: str
+    label: str
+    description: Optional[str] = None
+    weight: float = 1.0
+
+
+class DetectorAction(BaseModel):
+    key: str
+    label: str
+    description: Optional[str] = None
+
+
+class DetectorUI(BaseModel):
+    visible: bool = True
+    color_hint: Optional[str] = None
+    icon: Optional[str] = None
+
+
+class DetectorLinked(BaseModel):
+    module_key: Optional[str] = None
+    discovery_ids: List[str] = Field(default_factory=list)
+    related_detector_ids: List[str] = Field(default_factory=list)
+
+
+class DetectorAudit(BaseModel):
+    created_at: datetime
+    updated_at: datetime
 
 
 class DetectorCreate(BaseModel):
-    name: str = Field(..., min_length=1, max_length=200)
-    description: str = Field(default="")
-    detection_logic: str = Field(default="")  # What this detector looks for
-    response_action: str = Field(default="")  # What happens when triggered
-    trigger_type: DetectorTrigger = DetectorTrigger.MANUAL
-    status: DetectorStatus = DetectorStatus.ACTIVE
-    related_system: Optional[str] = None  # Which system/module it relates to
+    name: str = Field(..., min_length=1, max_length=120)
+    domain: DetectorDomain = DetectorDomain.HDOS
+    type: DetectorType
+    status: DetectorStatus = DetectorStatus.DRAFT
+    severity_default: Severity = Severity.MEDIUM
+    description: Optional[str] = Field(None, max_length=8000)
+    canonical_rules: List[str] = Field(default_factory=list)
+    signals: List[DetectorSignal] = Field(default_factory=list)
+    actions: List[DetectorAction] = Field(default_factory=list)
+    ui: Optional[DetectorUI] = None
+    linked: Optional[DetectorLinked] = None
 
 
 class DetectorUpdate(BaseModel):
-    name: Optional[str] = Field(None, min_length=1, max_length=200)
-    description: Optional[str] = None
-    detection_logic: Optional[str] = None
-    response_action: Optional[str] = None
-    trigger_type: Optional[DetectorTrigger] = None
+    name: Optional[str] = Field(None, min_length=1, max_length=120)
+    domain: Optional[DetectorDomain] = None
+    type: Optional[DetectorType] = None
     status: Optional[DetectorStatus] = None
-    related_system: Optional[str] = None
+    severity_default: Optional[Severity] = None
+    description: Optional[str] = Field(None, max_length=8000)
+    canonical_rules: Optional[List[str]] = None
+    signals: Optional[List[DetectorSignal]] = None
+    actions: Optional[List[DetectorAction]] = None
+    ui: Optional[DetectorUI] = None
+    linked: Optional[DetectorLinked] = None
 
 
 class Detector(BaseModel):
     id: str
     name: str
-    description: str
-    detection_logic: str
-    response_action: str
-    trigger_type: str
+    domain: str
+    type: str
     status: str
-    related_system: Optional[str] = None
-    last_triggered: Optional[datetime] = None
-    trigger_count: int = 0
-    created_at: datetime
-    updated_at: Optional[datetime] = None
-    created_by: str
+    severity_default: str
+    description: Optional[str] = None
+    canonical_rules: List[str] = Field(default_factory=list)
+    signals: List[dict] = Field(default_factory=list)
+    actions: List[dict] = Field(default_factory=list)
+    ui: dict = Field(default_factory=lambda: {"visible": True, "color_hint": None, "icon": None})
+    linked: dict = Field(default_factory=lambda: {"module_key": None, "discovery_ids": [], "related_detector_ids": []})
+    audit: DetectorAudit
 
 
 # =====================
@@ -182,8 +277,8 @@ class DocumentCreate(BaseModel):
     title: str = Field(..., min_length=1, max_length=200)
     description: str = Field(default="")
     doc_type: DocumentType = DocumentType.OTHER
-    external_url: Optional[str] = None  # For links to external resources
-    internal_path: Optional[str] = None  # For internal file references
+    external_url: Optional[str] = None
+    internal_path: Optional[str] = None
 
 
 class DocumentUpdate(BaseModel):
@@ -201,9 +296,25 @@ class Document(BaseModel):
     doc_type: str
     external_url: Optional[str] = None
     internal_path: Optional[str] = None
-    file_id: Optional[str] = None  # GridFS file ID if uploaded
+    file_id: Optional[str] = None
     file_name: Optional[str] = None
     file_size: Optional[int] = None
     created_at: datetime
     updated_at: Optional[datetime] = None
     created_by: str
+
+
+# =====================
+# API RESPONSE ENVELOPE
+# =====================
+
+class APIError(BaseModel):
+    code: str
+    message: str
+    details: Optional[dict] = None
+
+
+class APIResponse(BaseModel):
+    success: bool
+    data: Optional[dict] = None
+    error: Optional[APIError] = None
