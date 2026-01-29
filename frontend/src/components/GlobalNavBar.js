@@ -63,6 +63,17 @@ const GlobalNavBar = () => {
     return () => window.removeEventListener('open-auth-modal', handleOpenAuthModal);
   }, []);
 
+  // Check if user has super_admin role (supports both 'role' string and 'roles' array)
+  const isSuperAdmin = user?.role === 'super_admin' || 
+                       user?.roles?.includes('super_admin');
+  
+  // Check if user has any admin role
+  const isAdmin = isSuperAdmin || 
+                  user?.role === 'admin' || 
+                  user?.role === 'moderator' ||
+                  user?.roles?.includes('admin') ||
+                  user?.roles?.includes('moderator');
+
   // FULL INTERNAL MODE - All modules visible for founder debugging
   const navLinks = [
     { label: 'BANIBS News', path: '/', icon: '📰' },
@@ -79,6 +90,24 @@ const GlobalNavBar = () => {
     { label: 'BANIBS TV', path: '/portal/tv', icon: '📺' },
     { label: 'Wallet', path: '/portal/wallet', icon: '💰' },
     { label: 'Community', path: '/portal/community', icon: '🏠' },
+  ];
+
+  // Control plane links - visible based on role
+  const controlPlaneLinks = [
+    { 
+      label: 'Founder Command Center', 
+      path: '/founder/command', 
+      icon: '🎯',
+      visible: isSuperAdmin,
+      requiresAuth: true
+    },
+    { 
+      label: 'Admin Dashboard', 
+      path: '/admin/opportunities', 
+      icon: '⚙️',
+      visible: isAdmin,
+      requiresAuth: true
+    },
   ];
 
   const isActive = (path) => {
