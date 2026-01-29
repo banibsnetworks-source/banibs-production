@@ -153,14 +153,24 @@ const GlobalNavBar = () => {
                 {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
               </button>
 
-              {/* Hidden for News-first launch - No login prompts */}
-              {/* 
+              {/* RESTORED for internal mode - MoodMeter visible */}
               <div className="hidden md:block">
                 <MoodMeter />
               </div>
-              */}
 
-              {/* Auth hidden for News-first public launch */}
+              {/* RESTORED for internal mode - Sign In visible for unauthenticated users */}
+              {!isAuthenticated && (
+                <Link
+                  to="/auth/signin"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-v2 text-white hover:bg-primary-v2/90 transition-colors text-sm font-medium"
+                  data-testid="nav-signin"
+                >
+                  <User size={16} />
+                  Sign In
+                </Link>
+              )}
+
+              {/* User menu for authenticated users */}
               {isAuthenticated && (
                 <div className="flex items-center gap-2">
                   <AccountModeSwitcher />
