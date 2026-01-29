@@ -342,12 +342,12 @@ const FounderControlCenter = () => {
     setTasksLoading(true);
     setTasksError(null);
     try {
-      const response = await fetch(`${API_URL}/api/founder-ops/tasks`, {
+      const response = await fetch(`${API_URL}/api/founder-ops/tasks?sort=order`, {
         headers: { 'Authorization': `Bearer ${accessToken}` }
       });
       if (!response.ok) throw new Error('Failed to fetch tasks');
-      const data = await response.json();
-      setTasks(data);
+      const result = await response.json();
+      setTasks(result.data || []);
     } catch (err) {
       setTasksError(err.message);
     } finally {
@@ -364,24 +364,26 @@ const FounderControlCenter = () => {
         : `${API_URL}/api/founder-ops/tasks`;
       
       const response = await fetch(url, {
-        method: editingTask ? 'PUT' : 'POST',
+        method: editingTask ? 'PATCH' : 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${accessToken}`
         },
         body: JSON.stringify({
           title: taskForm.title,
-          description: taskForm.description,
+          description: taskForm.description || null,
           column: taskForm.column,
           status: taskForm.status,
+          priority: taskForm.priority,
+          tags: taskForm.tags,
           owner: taskForm.owner,
-          related_link: taskForm.related_link || null
+          due_at: taskForm.due_at || null
         })
       });
       
       if (!response.ok) throw new Error('Failed to save task');
       
-      setTaskForm({ title: '', description: '', column: 'P1', status: 'Open', owner: 'Founder', related_link: '' });
+      setTaskForm({ title: '', description: '', column: 'P0', status: 'OPEN', priority: 'MEDIUM', tags: [], owner: 'Founder', due_at: '' });
       setShowTaskForm(false);
       setEditingTask(null);
       fetchTasks();
@@ -390,17 +392,17 @@ const FounderControlCenter = () => {
     }
   };
   
-  const updateTaskColumn = async (taskId, newColumn) => {
+  const moveTask = async (taskId, toColumn, toOrder) => {
     if (!accessToken) return;
     
     try {
-      const response = await fetch(`${API_URL}/api/founder-ops/tasks/${taskId}`, {
-        method: 'PUT',
+      const response = await fetch(`${API_URL}/api/founder-ops/tasks/${taskId}/move`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${accessToken}`
         },
-        body: JSON.stringify({ column: newColumn })
+        body: JSON.stringify({ to_column: toColumn, to_order: toOrder })
       });
       
       if (!response.ok) throw new Error('Failed to move task');
@@ -415,7 +417,7 @@ const FounderControlCenter = () => {
     
     try {
       const response = await fetch(`${API_URL}/api/founder-ops/tasks/${taskId}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${accessToken}`
@@ -441,6 +443,80 @@ const FounderControlCenter = () => {
       
       if (!response.ok) throw new Error('Failed to delete');
       fetchTasks();
+    } catch (err) {
+      alert('Failed to delete: ' + err.message);
+    }
+  };
+  
+  // =====================
+  // DETECTORS API FUNCTIONS
+  // =====================
+  
+  const fetchDetectors = async () => {
+    if (!accessToken) return;
+    setDetectorsLoading(true);
+    setDetectorsError(null);
+    try {
+      const response = await fetch(`${API_URL}/api/founder-ops/detectors`, {
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      if (!response.ok) throw new Error('Failed to fetch detectors');
+      const result = await response.json();
+      setDetectors(result.data || []);
+    } catch (err) {
+      setDetectorsError(err.message);
+    } finally {
+      setDetectorsLoading(false);
+    }
+  };
+  
+  const saveDetector = async () => {
+    if (!accessToken || !detectorForm.name.trim() || !detectorForm.type) return;
+    
+    try {
+      const url = editingDetector 
+        ? `${API_URL}/api/founder-ops/detectors/${editingDetector.id}`
+        : `${API_URL}/api/founder-ops/detectors`;
+      
+      const response = await fetch(url, {
+        method: editingDetector ? 'PATCH' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({
+          name: detectorForm.name,
+          domain: detectorForm.domain,
+          type: detectorForm.type,
+          status: detectorForm.status,
+          severity_default: detectorForm.severity_default,
+          description: detectorForm.description || null,
+          canonical_rules: detectorForm.canonical_rules
+        })
+      });
+      
+      if (!response.ok) throw new Error('Failed to save detector');
+      
+      setDetectorForm({ name: '', domain: 'HDOS', type: 'CUSTOM', status: 'DRAFT', severity_default: 'MEDIUM', description: '', canonical_rules: [] });
+      setShowDetectorForm(false);
+      setEditingDetector(null);
+      fetchDetectors();
+    } catch (err) {
+      alert('Failed to save: ' + err.message);
+    }
+  };
+  
+  const deleteDetector = async (detectorId) => {
+    if (!accessToken || !window.confirm('Delete this detector?')) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/founder-ops/detectors/${detectorId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      
+      if (!response.ok) throw new Error('Failed to delete');
+      fetchDetectors();
     } catch (err) {
       alert('Failed to delete: ' + err.message);
     }
