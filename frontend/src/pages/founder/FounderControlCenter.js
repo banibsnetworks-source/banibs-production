@@ -305,7 +305,130 @@ const FounderControlCenter = () => {
     if (activeTab === 'ops-log' && accessToken) {
       fetchOpsLog();
     }
+    if (activeTab === 'tasks' && accessToken) {
+      fetchTasks();
+    }
   }, [activeTab, accessToken]);
+  
+  // =====================
+  // TASKS API FUNCTIONS
+  // =====================
+  
+  const fetchTasks = async () => {
+    if (!accessToken) return;
+    setTasksLoading(true);
+    setTasksError(null);
+    try {
+      const response = await fetch(`${API_URL}/api/founder-ops/tasks`, {
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      if (!response.ok) throw new Error('Failed to fetch tasks');
+      const data = await response.json();
+      setTasks(data);
+    } catch (err) {
+      setTasksError(err.message);
+    } finally {
+      setTasksLoading(false);
+    }
+  };
+  
+  const saveTask = async () => {
+    if (!accessToken || !taskForm.title.trim()) return;
+    
+    try {
+      const url = editingTask 
+        ? `${API_URL}/api/founder-ops/tasks/${editingTask.id}`
+        : `${API_URL}/api/founder-ops/tasks`;
+      
+      const response = await fetch(url, {
+        method: editingTask ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({
+          title: taskForm.title,
+          description: taskForm.description,
+          column: taskForm.column,
+          status: taskForm.status,
+          owner: taskForm.owner,
+          related_link: taskForm.related_link || null
+        })
+      });
+      
+      if (!response.ok) throw new Error('Failed to save task');
+      
+      setTaskForm({ title: '', description: '', column: 'P1', status: 'Open', owner: 'Founder', related_link: '' });
+      setShowTaskForm(false);
+      setEditingTask(null);
+      fetchTasks();
+    } catch (err) {
+      alert('Failed to save: ' + err.message);
+    }
+  };
+  
+  const updateTaskColumn = async (taskId, newColumn) => {
+    if (!accessToken) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/founder-ops/tasks/${taskId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({ column: newColumn })
+      });
+      
+      if (!response.ok) throw new Error('Failed to move task');
+      fetchTasks();
+    } catch (err) {
+      alert('Failed to move: ' + err.message);
+    }
+  };
+  
+  const updateTaskStatus = async (taskId, newStatus) => {
+    if (!accessToken) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/founder-ops/tasks/${taskId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({ status: newStatus })
+      });
+      
+      if (!response.ok) throw new Error('Failed to update status');
+      fetchTasks();
+    } catch (err) {
+      alert('Failed to update: ' + err.message);
+    }
+  };
+  
+  const deleteTask = async (taskId) => {
+    if (!accessToken || !window.confirm('Delete this task?')) return;
+    
+    try {
+      const response = await fetch(`${API_URL}/api/founder-ops/tasks/${taskId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      
+      if (!response.ok) throw new Error('Failed to delete');
+      fetchTasks();
+    } catch (err) {
+      alert('Failed to delete: ' + err.message);
+    }
+  };
+  
+  // Group tasks by column for Kanban view
+  const tasksByColumn = {
+    P0: tasks.filter(t => t.column === 'P0'),
+    P1: tasks.filter(t => t.column === 'P1'),
+    Later: tasks.filter(t => t.column === 'Later')
+  };
   
   // Get modules from registry
   const enabledModules = getEnabledModules();
