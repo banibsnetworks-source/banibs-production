@@ -524,9 +524,9 @@ const FounderControlCenter = () => {
   
   // Group tasks by column for Kanban view
   const tasksByColumn = {
-    P0: tasks.filter(t => t.column === 'P0'),
-    P1: tasks.filter(t => t.column === 'P1'),
-    Later: tasks.filter(t => t.column === 'Later')
+    P0: tasks.filter(t => t.column === 'P0').sort((a, b) => a.order - b.order),
+    P1: tasks.filter(t => t.column === 'P1').sort((a, b) => a.order - b.order),
+    LATER: tasks.filter(t => t.column === 'LATER').sort((a, b) => a.order - b.order)
   };
   
   // Get modules from registry
