@@ -320,13 +320,16 @@ const FounderControlCenter = () => {
     }
   };
   
-  // Load ops log when tab changes
+  // Load data when tab changes
   useEffect(() => {
     if (activeTab === 'ops-log' && accessToken) {
       fetchOpsLog();
     }
     if (activeTab === 'tasks' && accessToken) {
       fetchTasks();
+    }
+    if (activeTab === 'detectors' && accessToken) {
+      fetchDetectors();
     }
   }, [activeTab, accessToken]);
   
