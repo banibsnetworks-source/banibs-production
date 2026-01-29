@@ -149,7 +149,7 @@ All links visible:
 - [x] Status: Open, Locked, Superseded
 - [x] UI integrated in Founder Control Center
 
-### P1: Tasks Kanban (COMPLETE - January 29, 2026)
+### P1: Tasks Kanban (COMPLETE - LOCKED - January 29, 2026)
 - [x] Tasks CRUD API with exact data model specification
   - Columns: P0 (Now), P1 (Next), LATER
   - Status: OPEN, IN_PROGRESS, DONE, BLOCKED, ARCHIVED
@@ -158,11 +158,12 @@ All links visible:
 - [x] Move endpoint for drag/drop (POST /api/founder-ops/tasks/:id/move)
 - [x] Response envelope: {success, data, error}
 - [x] Frontend Kanban board with 3 columns
-- [x] Task cards with priority badges, status badges, move arrows
+- [x] **Drag-and-drop using @dnd-kit/core + @dnd-kit/sortable**
+- [x] Task cards with drag handle, priority badges, status badges
 - [x] New Task form with all fields
 - [x] Edit and delete functionality
 
-### P1: HDOS Detectors (COMPLETE - January 29, 2026)
+### P1: HDOS Detectors (COMPLETE - LOCKED - January 29, 2026)
 - [x] Detectors CRUD API with exact data model specification
   - Domains: HDOS, BANIBS, TRUST, IDENTITY, SOCIAL, BUSINESS, NEWS, SECURITY
   - Types: DOG, BDL_BIS, LPL, SPOOFING_*, TRUST_EROSION_LOOP, PRESSURE_TRANSFER, CUSTOM
