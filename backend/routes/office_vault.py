@@ -376,9 +376,10 @@ async def get_vault_item(
 
 @router.post("/ingest", response_model=IngestResponse)
 async def trigger_ingest(
-    user: dict = Depends(require_super_admin)
+    current_user: dict = Depends(get_current_user)
 ):
     """Trigger inbox ingestion process."""
+    require_super_admin(current_user)
     import subprocess
     
     ingest_script = os.path.join(OFFICE_ROOT, "office_ingest")
