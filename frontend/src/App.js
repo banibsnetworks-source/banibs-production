@@ -419,6 +419,10 @@ function App() {
               {/* Phase 7.6.2 - CNN-Style News Homepage (Main Site) */}
               <Route path="/" element={<NewsHomePage />} />
               
+              {/* BANIBS & HDOS Foundation Pages */}
+              <Route path="/about" element={<BanibsHomePage />} />
+              <Route path="/foundation" element={<FoundationPage />} />
+              
               {/* Phase B2 - Black News Tab */}
               <Route path="/news/black" element={<BlackNewsPage />} />
               
