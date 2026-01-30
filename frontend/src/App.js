@@ -423,6 +423,7 @@ function App() {
               {/* BANIBS & HDOS Foundation Pages */}
               <Route path="/about" element={<BanibsHomePage />} />
               <Route path="/foundation" element={<FoundationPage />} />
+              <Route path="/circles" element={<CirclesPage />} />
               
               {/* Phase B2 - Black News Tab */}
               <Route path="/news/black" element={<BlackNewsPage />} />
