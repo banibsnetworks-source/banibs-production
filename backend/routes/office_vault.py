@@ -235,7 +235,22 @@ async def list_vault_items(
     for t in types_to_search:
         items = index.get("items", {}).get(t, [])
         for item in items:
-            all_items.append({**item, "type": t.upper().rstrip('S') if t != "ops" else "OPS"})
+            # Map type name correctly
+            type_mapping = {
+                "discoveries": "DISCOVERY",
+                "inventions": "INVENTION",
+                "contacts": "CONTACT",
+                "projects": "PROJECT",
+                "tasks": "TASK",
+                "books": "BOOK",
+                "glossary": "GLOSSARY",
+                "mechanisms": "MECHANISM",
+                "scripts": "SCRIPT",
+                "detectors": "DETECTOR",
+                "policies": "POLICY",
+                "ops": "OPS"
+            }
+            all_items.append({**item, "type": type_mapping.get(t, t.upper())})
     
     # Apply filters
     filtered = all_items
