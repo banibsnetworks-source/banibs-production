@@ -33,18 +33,27 @@ const BanibsHomePage = () => {
       {/* Minimal Header */}
       <header className={`border-b ${isDark ? 'border-white/10' : 'border-black/10'}`}>
         <div className="max-w-4xl mx-auto px-6 py-6 flex justify-between items-center">
-          <h1 
+          <Link
+            to="/"
             className={`text-xl font-semibold tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}
           >
             BANIBS & HDOS
-          </h1>
-          <Link
-            to="/foundation"
-            className={`text-sm font-medium ${isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}
-            data-testid="header-foundation-link"
-          >
-            Foundation
           </Link>
+          <div className="flex gap-6">
+            <Link
+              to="/foundation"
+              className={`text-sm font-medium ${isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}
+              data-testid="header-foundation-link"
+            >
+              Foundation
+            </Link>
+            <Link
+              to="/news"
+              className={`text-sm font-medium ${isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}
+            >
+              News
+            </Link>
+          </div>
         </div>
       </header>
 
