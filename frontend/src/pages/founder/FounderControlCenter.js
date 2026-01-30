@@ -4972,6 +4972,587 @@ const FounderControlCenter = () => {
             </Card>
           </div>
           )}
+          
+          {/* Office Vault Tab Content (Phase 2) */}
+          {activeTab === 'vault' && (
+          <div data-testid="vault-tab-content">
+            <Card isDark={isDark} title="Founder Office Vault" icon={BookOpen}>
+              {/* Description */}
+              <p style={{
+                fontSize: '14px',
+                color: isDark ? '#9CA3AF' : '#6B7280',
+                marginBottom: '24px',
+                lineHeight: '1.6'
+              }}>
+                Server-side vault for canonical work: discoveries, inventions, contacts, books, and more.
+                Filesystem at /opt/banibs-office/ is source of truth.
+              </p>
+              
+              {/* Stats Bar */}
+              {vaultStats && (
+                <div style={{
+                  display: 'flex',
+                  gap: '16px',
+                  marginBottom: '24px',
+                  padding: '16px',
+                  backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                  borderRadius: '8px',
+                  flexWrap: 'wrap'
+                }}>
+                  <div>
+                    <span style={{ fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF' }}>Total</span>
+                    <div style={{ fontSize: '20px', fontWeight: '700', color: '#C8A857' }}>{vaultStats.total_items}</div>
+                  </div>
+                  <div style={{ borderLeft: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`, paddingLeft: '16px' }}>
+                    <span style={{ fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF' }}>Locked</span>
+                    <div style={{ fontSize: '20px', fontWeight: '700', color: '#10B981' }}>{vaultStats.by_status?.LOCKED || 0}</div>
+                  </div>
+                  <div style={{ borderLeft: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`, paddingLeft: '16px' }}>
+                    <span style={{ fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF' }}>Draft</span>
+                    <div style={{ fontSize: '20px', fontWeight: '700', color: '#F59E0B' }}>{vaultStats.by_status?.DRAFT || 0}</div>
+                  </div>
+                  <div style={{ borderLeft: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`, paddingLeft: '16px' }}>
+                    <span style={{ fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF' }}>Private</span>
+                    <div style={{ fontSize: '20px', fontWeight: '700', color: '#EF4444' }}>{vaultStats.by_confidentiality?.PRIVATE || 0}</div>
+                  </div>
+                  <div style={{ marginLeft: 'auto' }}>
+                    <button
+                      onClick={triggerVaultIngest}
+                      style={{
+                        padding: '8px 16px',
+                        backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                        borderRadius: '6px',
+                        color: isDark ? '#F7F7F7' : '#111217',
+                        fontSize: '13px',
+                        cursor: 'pointer'
+                      }}
+                      data-testid="vault-ingest-btn"
+                    >
+                      Process Inbox
+                    </button>
+                  </div>
+                </div>
+              )}
+              
+              {/* Ingest Result */}
+              {ingestResult && (
+                <div style={{
+                  padding: '12px 16px',
+                  backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                  borderRadius: '8px',
+                  marginBottom: '24px',
+                  fontSize: '13px',
+                  color: '#10B981'
+                }}>
+                  Ingest complete: {ingestResult.result?.inserted || 0} inserted, {ingestResult.result?.versioned || 0} versioned, {ingestResult.result?.skipped || 0} skipped
+                </div>
+              )}
+              
+              {/* Sub-tabs for Archive, Contacts, Inventions, Books */}
+              <div style={{
+                display: 'flex',
+                gap: '4px',
+                marginBottom: '24px',
+                borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                paddingBottom: '12px'
+              }}>
+                {[
+                  { id: 'archive', label: 'Archive', icon: Folder },
+                  { id: 'contacts', label: 'Contacts', icon: Users },
+                  { id: 'inventions', label: 'Inventions', icon: Lightbulb },
+                  { id: 'books', label: 'Books', icon: BookOpen }
+                ].map(subTab => {
+                  const SubIcon = subTab.icon;
+                  const isSubActive = vaultSubTab === subTab.id;
+                  return (
+                    <button
+                      key={subTab.id}
+                      onClick={() => {
+                        setVaultSubTab(subTab.id);
+                        setSelectedVaultItem(null);
+                        setVaultItemDetail(null);
+                        // Fetch with type filter
+                        if (subTab.id === 'contacts') fetchVaultItems('contacts');
+                        else if (subTab.id === 'inventions') fetchVaultItems('inventions');
+                        else if (subTab.id === 'books') fetchVaultItems('books');
+                        else fetchVaultItems();
+                      }}
+                      data-testid={`vault-subtab-${subTab.id}`}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '8px 16px',
+                        borderRadius: '6px 6px 0 0',
+                        border: 'none',
+                        backgroundColor: isSubActive 
+                          ? (isDark ? '#0C0C0C' : '#FFFFFF')
+                          : 'transparent',
+                        color: isSubActive 
+                          ? '#C8A857'
+                          : (isDark ? '#6B7280' : '#9CA3AF'),
+                        fontSize: '13px',
+                        fontWeight: isSubActive ? '600' : '500',
+                        cursor: 'pointer',
+                        borderBottom: isSubActive 
+                          ? '2px solid #C8A857' 
+                          : '2px solid transparent',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <SubIcon size={14} />
+                      {subTab.label}
+                    </button>
+                  );
+                })}
+              </div>
+              
+              {/* Loading and Error States */}
+              {vaultLoading && (
+                <div style={{ textAlign: 'center', padding: '40px', color: isDark ? '#9CA3AF' : '#6B7280' }}>
+                  Loading vault data...
+                </div>
+              )}
+              
+              {vaultError && (
+                <div style={{
+                  padding: '16px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  color: '#EF4444',
+                  marginBottom: '24px'
+                }}>
+                  Error: {vaultError}
+                </div>
+              )}
+              
+              {/* Search/Filter Bar */}
+              {!vaultLoading && (
+                <div style={{
+                  display: 'flex',
+                  gap: '12px',
+                  marginBottom: '16px',
+                  flexWrap: 'wrap'
+                }}>
+                  <input
+                    type="text"
+                    placeholder="Search by title..."
+                    value={vaultFilter.search}
+                    onChange={(e) => setVaultFilter({ ...vaultFilter, search: e.target.value })}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        if (vaultSubTab === 'contacts') fetchVaultItems('contacts');
+                        else if (vaultSubTab === 'inventions') fetchVaultItems('inventions');
+                        else if (vaultSubTab === 'books') fetchVaultItems('books');
+                        else fetchVaultItems();
+                      }
+                    }}
+                    style={{
+                      flex: 1,
+                      minWidth: '200px',
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                      backgroundColor: isDark ? '#1C1C1C' : '#FFFFFF',
+                      color: isDark ? '#F7F7F7' : '#111217',
+                      fontSize: '14px'
+                    }}
+                    data-testid="vault-search-input"
+                  />
+                  <select
+                    value={vaultFilter.status}
+                    onChange={(e) => {
+                      setVaultFilter({ ...vaultFilter, status: e.target.value });
+                    }}
+                    style={{
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                      backgroundColor: isDark ? '#1C1C1C' : '#FFFFFF',
+                      color: isDark ? '#F7F7F7' : '#111217',
+                      fontSize: '14px'
+                    }}
+                    data-testid="vault-status-filter"
+                  >
+                    <option value="">All Status</option>
+                    <option value="LOCKED">Locked</option>
+                    <option value="DRAFT">Draft</option>
+                  </select>
+                  <select
+                    value={vaultFilter.confidentiality}
+                    onChange={(e) => {
+                      setVaultFilter({ ...vaultFilter, confidentiality: e.target.value });
+                    }}
+                    style={{
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                      backgroundColor: isDark ? '#1C1C1C' : '#FFFFFF',
+                      color: isDark ? '#F7F7F7' : '#111217',
+                      fontSize: '14px'
+                    }}
+                    data-testid="vault-confidentiality-filter"
+                  >
+                    <option value="">All Confidentiality</option>
+                    <option value="PUBLIC">Public</option>
+                    <option value="PRIVATE">Private</option>
+                  </select>
+                  <button
+                    onClick={() => {
+                      if (vaultSubTab === 'contacts') fetchVaultItems('contacts');
+                      else if (vaultSubTab === 'inventions') fetchVaultItems('inventions');
+                      else if (vaultSubTab === 'books') fetchVaultItems('books');
+                      else fetchVaultItems();
+                    }}
+                    style={{
+                      padding: '8px 16px',
+                      backgroundColor: '#C8A857',
+                      color: '#0C0C0C',
+                      border: 'none',
+                      borderRadius: '6px',
+                      fontWeight: '600',
+                      cursor: 'pointer'
+                    }}
+                    data-testid="vault-apply-filter-btn"
+                  >
+                    Apply
+                  </button>
+                </div>
+              )}
+              
+              {/* Items List */}
+              {!vaultLoading && !selectedVaultItem && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {vaultItems.length === 0 ? (
+                    <div style={{
+                      textAlign: 'center',
+                      padding: '40px',
+                      color: isDark ? '#6B7280' : '#9CA3AF'
+                    }}>
+                      <Folder size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
+                      <p style={{ margin: 0 }}>No items found.</p>
+                      <p style={{ margin: '8px 0 0 0', fontSize: '13px' }}>
+                        {vaultSubTab === 'archive' 
+                          ? 'Drop JSON files in /opt/banibs-office/inbox/ and click "Process Inbox".'
+                          : `No ${vaultSubTab} in the vault yet.`}
+                      </p>
+                    </div>
+                  ) : (
+                    vaultItems.map(item => {
+                      const typeColors = {
+                        'DISCOVERY': '#8B5CF6',
+                        'INVENTION': '#EC4899',
+                        'CONTACT': '#3B82F6',
+                        'PROJECT': '#10B981',
+                        'TASK': '#F59E0B',
+                        'BOOK': '#06B6D4',
+                        'GLOSSARY': '#84CC16',
+                        'MECHANISM': '#F97316',
+                        'SCRIPT': '#6366F1',
+                        'DETECTOR': '#EF4444',
+                        'POLICY': '#14B8A6',
+                        'OPS': '#A855F7'
+                      };
+                      const typeColor = typeColors[item.type] || '#6B7280';
+                      
+                      return (
+                        <div
+                          key={item.id}
+                          onClick={() => {
+                            setSelectedVaultItem(item);
+                            fetchVaultItemDetail(item.id);
+                          }}
+                          data-testid={`vault-item-${item.id}`}
+                          style={{
+                            padding: '16px',
+                            backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                            borderRadius: '8px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`,
+                            borderLeft: `4px solid ${typeColor}`,
+                            cursor: 'pointer',
+                            transition: 'all 0.2s'
+                          }}
+                        >
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                            <div style={{ flex: 1 }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                                <h5 style={{
+                                  fontSize: '15px',
+                                  fontWeight: '600',
+                                  color: isDark ? '#F7F7F7' : '#111217',
+                                  margin: 0
+                                }}>
+                                  {item.title}
+                                </h5>
+                                <span style={{
+                                  fontSize: '10px',
+                                  padding: '2px 6px',
+                                  borderRadius: '4px',
+                                  backgroundColor: `${typeColor}20`,
+                                  color: typeColor,
+                                  fontWeight: '600'
+                                }}>
+                                  {item.type}
+                                </span>
+                                {item.confidentiality === 'PRIVATE' && (
+                                  <Lock size={12} style={{ color: '#EF4444' }} />
+                                )}
+                              </div>
+                              <div style={{ display: 'flex', gap: '12px', fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF' }}>
+                                <span>v{item.version}</span>
+                                <span>{item.status}</span>
+                                {item.created_at && (
+                                  <span>{new Date(item.created_at).toLocaleDateString()}</span>
+                                )}
+                              </div>
+                            </div>
+                            <ArrowRight size={16} style={{ color: isDark ? '#6B7280' : '#9CA3AF' }} />
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              )}
+              
+              {/* Item Detail View */}
+              {selectedVaultItem && (
+                <div data-testid="vault-item-detail">
+                  <button
+                    onClick={() => {
+                      setSelectedVaultItem(null);
+                      setVaultItemDetail(null);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '8px 0',
+                      backgroundColor: 'transparent',
+                      border: 'none',
+                      color: isDark ? '#9CA3AF' : '#6B7280',
+                      fontSize: '13px',
+                      cursor: 'pointer',
+                      marginBottom: '16px'
+                    }}
+                    data-testid="vault-back-to-list"
+                  >
+                    ← Back to list
+                  </button>
+                  
+                  {vaultDetailLoading ? (
+                    <div style={{ textAlign: 'center', padding: '40px', color: isDark ? '#9CA3AF' : '#6B7280' }}>
+                      Loading item details...
+                    </div>
+                  ) : vaultItemDetail ? (
+                    <div style={{
+                      padding: '24px',
+                      backgroundColor: isDark ? '#1C1C1C' : '#FFFFFF',
+                      borderRadius: '8px',
+                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                        <h3 style={{
+                          fontSize: '20px',
+                          fontWeight: '700',
+                          color: isDark ? '#F7F7F7' : '#111217',
+                          margin: 0
+                        }}>
+                          {vaultItemDetail.title}
+                        </h3>
+                        {vaultItemDetail.confidentiality === 'PRIVATE' && (
+                          <span style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            fontSize: '11px',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            color: '#EF4444'
+                          }}>
+                            <Lock size={10} />
+                            PRIVATE
+                          </span>
+                        )}
+                      </div>
+                      
+                      {/* Metadata Grid */}
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+                        gap: '12px',
+                        marginBottom: '24px',
+                        padding: '16px',
+                        backgroundColor: isDark ? '#0C0C0C' : '#F9FAFB',
+                        borderRadius: '6px'
+                      }}>
+                        <div>
+                          <span style={{ fontSize: '11px', color: isDark ? '#6B7280' : '#9CA3AF' }}>Type</span>
+                          <div style={{ fontSize: '14px', fontWeight: '600', color: isDark ? '#F7F7F7' : '#111217' }}>
+                            {vaultItemDetail.type}
+                          </div>
+                        </div>
+                        <div>
+                          <span style={{ fontSize: '11px', color: isDark ? '#6B7280' : '#9CA3AF' }}>Status</span>
+                          <div style={{ fontSize: '14px', fontWeight: '600', color: vaultItemDetail.status === 'LOCKED' ? '#10B981' : '#F59E0B' }}>
+                            {vaultItemDetail.status}
+                          </div>
+                        </div>
+                        <div>
+                          <span style={{ fontSize: '11px', color: isDark ? '#6B7280' : '#9CA3AF' }}>Version</span>
+                          <div style={{ fontSize: '14px', fontWeight: '600', color: isDark ? '#F7F7F7' : '#111217' }}>
+                            v{vaultItemDetail.version}
+                          </div>
+                        </div>
+                        {vaultItemDetail.source_thread && (
+                          <div>
+                            <span style={{ fontSize: '11px', color: isDark ? '#6B7280' : '#9CA3AF' }}>Source Thread</span>
+                            <div style={{ fontSize: '14px', color: isDark ? '#B3B3C2' : '#4A4B57' }}>
+                              {vaultItemDetail.source_thread}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Tags */}
+                      {vaultItemDetail.tags && vaultItemDetail.tags.length > 0 && (
+                        <div style={{ marginBottom: '24px' }}>
+                          <span style={{ fontSize: '12px', fontWeight: '500', color: isDark ? '#6B7280' : '#9CA3AF' }}>Tags</span>
+                          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginTop: '8px' }}>
+                            {vaultItemDetail.tags.map(tag => (
+                              <span key={tag} style={{
+                                fontSize: '12px',
+                                padding: '4px 10px',
+                                borderRadius: '4px',
+                                backgroundColor: isDark ? '#0C0C0C' : '#E5E7EB',
+                                color: isDark ? '#B3B3C2' : '#374151'
+                              }}>
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Content - For PRIVATE inventions, show summary only */}
+                      {vaultItemDetail.summary && (
+                        <div style={{ marginBottom: '24px' }}>
+                          <span style={{ fontSize: '12px', fontWeight: '500', color: isDark ? '#6B7280' : '#9CA3AF' }}>Summary</span>
+                          <p style={{
+                            fontSize: '14px',
+                            color: isDark ? '#9CA3AF' : '#6B7280',
+                            marginTop: '8px',
+                            fontStyle: 'italic'
+                          }}>
+                            {vaultItemDetail.summary}
+                          </p>
+                          <p style={{
+                            fontSize: '12px',
+                            color: '#EF4444',
+                            marginTop: '8px'
+                          }}>
+                            Implementation details hidden (PRIVATE inventory)
+                          </p>
+                        </div>
+                      )}
+                      
+                      {vaultItemDetail.body && (
+                        <div>
+                          <span style={{ fontSize: '12px', fontWeight: '500', color: isDark ? '#6B7280' : '#9CA3AF' }}>Content</span>
+                          <div style={{
+                            marginTop: '8px',
+                            padding: '16px',
+                            backgroundColor: isDark ? '#0C0C0C' : '#F9FAFB',
+                            borderRadius: '6px',
+                            fontFamily: 'monospace',
+                            fontSize: '13px',
+                            lineHeight: '1.6',
+                            color: isDark ? '#B3B3C2' : '#4A4B57',
+                            whiteSpace: 'pre-wrap',
+                            maxHeight: '400px',
+                            overflowY: 'auto'
+                          }}>
+                            {vaultItemDetail.body}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Contact Data */}
+                      {vaultItemDetail.data && (
+                        <div>
+                          <span style={{ fontSize: '12px', fontWeight: '500', color: isDark ? '#6B7280' : '#9CA3AF' }}>Contact Data</span>
+                          <div style={{
+                            marginTop: '8px',
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                            gap: '12px'
+                          }}>
+                            {vaultItemDetail.data.email && (
+                              <div>
+                                <span style={{ fontSize: '11px', color: isDark ? '#6B7280' : '#9CA3AF' }}>Email</span>
+                                <div style={{ fontSize: '14px', color: isDark ? '#F7F7F7' : '#111217' }}>{vaultItemDetail.data.email}</div>
+                              </div>
+                            )}
+                            {vaultItemDetail.data.phone && (
+                              <div>
+                                <span style={{ fontSize: '11px', color: isDark ? '#6B7280' : '#9CA3AF' }}>Phone</span>
+                                <div style={{ fontSize: '14px', color: isDark ? '#F7F7F7' : '#111217' }}>{vaultItemDetail.data.phone}</div>
+                              </div>
+                            )}
+                            {vaultItemDetail.data.organization && (
+                              <div>
+                                <span style={{ fontSize: '11px', color: isDark ? '#6B7280' : '#9CA3AF' }}>Organization</span>
+                                <div style={{ fontSize: '14px', color: isDark ? '#F7F7F7' : '#111217' }}>{vaultItemDetail.data.organization}</div>
+                              </div>
+                            )}
+                            {vaultItemDetail.data.role && (
+                              <div>
+                                <span style={{ fontSize: '11px', color: isDark ? '#6B7280' : '#9CA3AF' }}>Role</span>
+                                <div style={{ fontSize: '14px', color: isDark ? '#F7F7F7' : '#111217' }}>{vaultItemDetail.data.role}</div>
+                              </div>
+                            )}
+                            {vaultItemDetail.data.trust_level && (
+                              <div>
+                                <span style={{ fontSize: '11px', color: isDark ? '#6B7280' : '#9CA3AF' }}>Trust Level</span>
+                                <div style={{ fontSize: '14px', color: isDark ? '#F7F7F7' : '#111217' }}>{vaultItemDetail.data.trust_level}</div>
+                              </div>
+                            )}
+                            {vaultItemDetail.data.notes && (
+                              <div style={{ gridColumn: '1 / -1' }}>
+                                <span style={{ fontSize: '11px', color: isDark ? '#6B7280' : '#9CA3AF' }}>Notes</span>
+                                <div style={{ fontSize: '14px', color: isDark ? '#B3B3C2' : '#4A4B57', marginTop: '4px' }}>{vaultItemDetail.data.notes}</div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Hash */}
+                      {vaultItemDetail.hash_sha256 && (
+                        <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}` }}>
+                          <span style={{ fontSize: '11px', color: isDark ? '#6B7280' : '#9CA3AF' }}>SHA256</span>
+                          <code style={{
+                            display: 'block',
+                            marginTop: '4px',
+                            fontSize: '11px',
+                            fontFamily: 'monospace',
+                            color: isDark ? '#6B7280' : '#9CA3AF',
+                            wordBreak: 'break-all'
+                          }}>
+                            {vaultItemDetail.hash_sha256}
+                          </code>
+                        </div>
+                      )}
+                    </div>
+                  ) : null}
+                </div>
+              )}
+            </Card>
+          </div>
+          )}
         </div>
       </div>
     </FullWidthLayout>
