@@ -68,9 +68,27 @@ const CirclesPage = () => {
 
   return (
     <div 
-      className={`min-h-screen ${isDark ? 'bg-[#0C0C0C]' : 'bg-[#FAFAFA]'}`}
+      className={`min-h-screen relative ${isDark ? 'bg-[#0C0C0C]' : 'bg-[#FAFAFA]'}`}
       data-testid="circles-page"
     >
+      {/* Subtle atmospheric background - visual enhancement only */}
+      <div 
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          background: isDark 
+            ? 'radial-gradient(ellipse at 50% 30%, rgba(200, 168, 87, 0.04) 0%, transparent 60%), radial-gradient(ellipse at 80% 70%, rgba(139, 90, 43, 0.03) 0%, transparent 50%)'
+            : 'radial-gradient(ellipse at 50% 30%, rgba(251, 191, 36, 0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 70%, rgba(180, 83, 9, 0.04) 0%, transparent 50%)',
+          zIndex: 0
+        }}
+      />
+      {/* Subtle grain texture overlay */}
+      <div 
+        className="fixed inset-0 pointer-events-none opacity-[0.015]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          zIndex: 0
+        }}
+      />
       <SEO 
         title="BANIBS — A Different Way to Connect"
         description="BANIBS is built around circles, not hierarchies. Choose proximity, participation, and pace — without pressure."
