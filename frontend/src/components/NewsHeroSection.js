@@ -15,7 +15,7 @@ const NewsHeroSection = ({ story }) => {
 
   if (!story) {
     return (
-      <div className="bg-card rounded-lg p-8 text-center border border-border">
+      <div className="bg-card rounded-lg p-8 text-center border border-border" data-testid="hero-empty-state">
         <p className="text-muted-foreground">No featured story available</p>
       </div>
     );
@@ -43,22 +43,88 @@ const NewsHeroSection = ({ story }) => {
     }
   };
 
+  // Generate category-specific gradient fallback
+  const getCategoryGradient = () => {
+    const category = story.mapped_section || story.category || 'news';
+    const gradients = {
+      'world': 'from-blue-600 to-blue-900',
+      'us': 'from-red-600 to-red-900',
+      'business': 'from-green-600 to-green-900',
+      'moneywatch': 'from-emerald-600 to-emerald-900',
+      'tech': 'from-purple-600 to-purple-900',
+      'sports': 'from-orange-600 to-orange-900',
+      'entertainment': 'from-pink-600 to-pink-900',
+      'health': 'from-teal-600 to-teal-900',
+      'crime': 'from-slate-700 to-slate-900',
+      'politics': 'from-indigo-600 to-indigo-900',
+      'civil_rights': 'from-amber-600 to-amber-900',
+      'culture': 'from-rose-600 to-rose-900',
+      'black': 'from-yellow-600 to-yellow-900',
+      'global_diaspora': 'from-cyan-600 to-cyan-900',
+    };
+    return gradients[category?.toLowerCase()] || 'from-gray-700 to-gray-900';
+  };
+
+  const getCategoryIcon = () => {
+    const category = story.mapped_section || story.category || 'news';
+    const icons = {
+      'world': '🌍',
+      'us': '🇺🇸',
+      'business': '💼',
+      'moneywatch': '💰',
+      'tech': '🔬',
+      'sports': '⚽',
+      'entertainment': '🎬',
+      'health': '🏥',
+      'crime': '🚨',
+      'politics': '🏛️',
+      'civil_rights': '✊',
+      'culture': '🎭',
+      'black': '💜',
+      'global_diaspora': '🌐',
+    };
+    return icons[category?.toLowerCase()] || '📰';
+  };
+
+  // Check if image URL is valid (not a static fallback path)
+  const hasValidImage = story.imageUrl && !story.imageUrl.includes('/static/');
+
   return (
-    <div className="rounded-xl overflow-hidden shadow-xl border border-border bg-card transition-all duration-300 group hover:border-yellow-500/30">
+    <div className="rounded-xl overflow-hidden shadow-xl border border-border bg-card transition-all duration-300 group hover:border-yellow-500/30" data-testid="news-hero-section">
       <div className="grid lg:grid-cols-2 gap-0">
         {/* Image Section */}
         <div
           onClick={handleClick}
           className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[400px] bg-muted overflow-hidden cursor-pointer"
+          data-testid="hero-image-container"
         >
-          <img
-            src={story.imageUrl}
-            alt={story.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            onError={(e) => {
-              e.target.src = 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80';
-            }}
-          />
+          {hasValidImage ? (
+            <img
+              src={story.imageUrl}
+              alt={story.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              onError={(e) => {
+                // Hide image and show gradient fallback
+                e.target.style.display = 'none';
+                const fallback = e.target.parentElement.querySelector('.hero-fallback-gradient');
+                if (fallback) fallback.style.display = 'flex';
+              }}
+            />
+          ) : null}
+          
+          {/* Category-specific Gradient Fallback */}
+          <div 
+            className={`hero-fallback-gradient absolute inset-0 bg-gradient-to-br ${getCategoryGradient()} flex items-center justify-center`}
+            style={{ display: hasValidImage ? 'none' : 'flex' }}
+            data-testid="hero-fallback-gradient"
+          >
+            <div className="text-center p-8">
+              <div className="text-white/90 text-7xl mb-4">{getCategoryIcon()}</div>
+              <div className="text-white/80 text-sm font-semibold uppercase tracking-wider">
+                {story.mapped_section || story.category || 'Featured News'}
+              </div>
+            </div>
+          </div>
           
           {/* Category Badge */}
           <div className="absolute top-4 left-4">
