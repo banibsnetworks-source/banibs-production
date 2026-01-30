@@ -444,8 +444,9 @@ async def trigger_ingest(
 
 
 @router.get("/types")
-async def get_item_types(user: dict = Depends(require_super_admin)):
+async def get_item_types(current_user: dict = Depends(get_current_user)):
     """Get available item types."""
+    require_super_admin(current_user)
     return {
         "success": True,
         "types": ITEM_TYPES
