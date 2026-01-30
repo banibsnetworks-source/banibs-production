@@ -426,7 +426,7 @@ const FoundationPage = () => {
         {/* Back to Home CTA */}
         <div className={`mt-16 pt-8 border-t border-dashed ${isDark ? 'border-white/10' : 'border-gray-200'}`}>
           <Link
-            to="/about"
+            to="/"
             className={`inline-flex items-center gap-2 text-lg font-medium ${
               isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
             } transition-colors`}
@@ -447,13 +447,13 @@ const FoundationPage = () => {
           </p>
           <div className="flex gap-6">
             <Link
-              to="/about"
+              to="/"
               className={`text-sm ${isDark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'} transition-colors`}
             >
               Home
             </Link>
             <Link
-              to="/"
+              to="/news"
               className={`text-sm ${isDark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'} transition-colors`}
             >
               News
