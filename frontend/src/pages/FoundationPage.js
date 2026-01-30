@@ -26,39 +26,34 @@ const FoundationPage = () => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
-  // Section component for consistent styling
-  const Section = ({ id, title, children }) => (
-    <section 
-      id={id} 
-      className="mb-16 scroll-mt-24"
-      data-testid={`section-${id}`}
-    >
-      <h2 
-        className={`text-2xl md:text-3xl font-semibold mb-6 pb-3 border-b ${
-          isDark ? 'text-white border-white/10' : 'text-gray-900 border-gray-200'
-        }`}
-      >
-        {title}
-      </h2>
-      <div className={`prose prose-lg max-w-none ${isDark ? 'prose-invert' : ''}`}>
-        {children}
-      </div>
-    </section>
-  );
+  // Style classes
+  const sectionClass = "mb-16 scroll-mt-24";
+  const titleClass = `text-2xl md:text-3xl font-semibold mb-6 pb-3 border-b ${
+    isDark ? 'text-white border-white/10' : 'text-gray-900 border-gray-200'
+  }`;
+  const pClass = `text-lg leading-relaxed mb-4 ${isDark ? 'text-gray-300' : 'text-gray-700'}`;
+  const liClass = `text-lg leading-relaxed mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`;
+  const highlightBox = `my-6 p-4 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-100'}`;
+  const definitionBox = `my-6 p-6 rounded-lg ${isDark ? 'bg-white/5 border border-white/10' : 'bg-gray-100 border border-gray-200'}`;
+  const quoteBox = `my-6 pl-6 border-l-4 ${isDark ? 'border-[#C8A857]/50' : 'border-amber-400'}`;
 
-  // Paragraph component
-  const P = ({ children }) => (
-    <p className={`text-lg leading-relaxed mb-4 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-      {children}
-    </p>
-  );
-
-  // List item component
-  const Li = ({ children }) => (
-    <li className={`text-lg leading-relaxed mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-      {children}
-    </li>
-  );
+  const tocItems = [
+    { id: 'what-banibs-is', title: 'What BANIBS Is' },
+    { id: 'order-of-discovery', title: 'Order of Discovery & Invention' },
+    { id: 'core-discoveries', title: 'Core Discoveries Identified in This Work' },
+    { id: 'discovery-context', title: 'Discovery Context' },
+    { id: 'hdos-as-lens', title: 'HDOS as a Lens' },
+    { id: 'the-guard', title: 'The Guard' },
+    { id: 'exit-preservation', title: 'Exit Preservation' },
+    { id: 'dismissiveness', title: 'Dismissiveness' },
+    { id: 'hdos-affects-falsehood', title: 'How HDOS Affects Falsehood' },
+    { id: 'accuracy', title: 'Accuracy' },
+    { id: 'pain-sorrow-suffering', title: 'Pain, Sorrow, and Suffering' },
+    { id: 'application-scope', title: 'Application Scope' },
+    { id: 'scripture-scope', title: 'Scripture Scope' },
+    { id: 'origins', title: 'Origins / Independence / No Backers' },
+    { id: 'books', title: 'Books' },
+  ];
 
   return (
     <div 
@@ -128,23 +123,7 @@ const FoundationPage = () => {
             Contents
           </h3>
           <ol className={`list-decimal list-inside space-y-2 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-            {[
-              { id: 'what-banibs-is', title: 'What BANIBS Is' },
-              { id: 'order-of-discovery', title: 'Order of Discovery & Invention' },
-              { id: 'core-discoveries', title: 'Core Discoveries Identified in This Work' },
-              { id: 'discovery-context', title: 'Discovery Context' },
-              { id: 'hdos-as-lens', title: 'HDOS as a Lens' },
-              { id: 'the-guard', title: 'The Guard' },
-              { id: 'exit-preservation', title: 'Exit Preservation' },
-              { id: 'dismissiveness', title: 'Dismissiveness' },
-              { id: 'hdos-affects-falsehood', title: 'How HDOS Affects Falsehood' },
-              { id: 'accuracy', title: 'Accuracy' },
-              { id: 'pain-sorrow-suffering', title: 'Pain, Sorrow, and Suffering' },
-              { id: 'application-scope', title: 'Application Scope' },
-              { id: 'scripture-scope', title: 'Scripture Scope' },
-              { id: 'origins', title: 'Origins / Independence / No Backers' },
-              { id: 'books', title: 'Books' },
-            ].map((item, index) => (
+            {tocItems.map((item) => (
               <li key={item.id}>
                 <a 
                   href={`#${item.id}`}
@@ -158,53 +137,55 @@ const FoundationPage = () => {
         </nav>
 
         {/* Section 1: What BANIBS Is */}
-        <Section id="what-banibs-is" title="1. What BANIBS Is">
-          <P>
+        <section id="what-banibs-is" className={sectionClass} data-testid="section-what-banibs-is">
+          <h2 className={titleClass}>1. What BANIBS Is</h2>
+          <p className={pClass}>
             BANIBS (Black America News, Information & Business System) is a global connection 
             hub being built to link Black America, Africa, and the global African diaspora 
             across information, business, community, and culture.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             BANIBS is not a social network chasing engagement, a media outlet built on outrage, 
             or a movement asking for agreement. BANIBS is an architecture — designed to allow 
             connection without collapsing agency.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             The system is intentionally built to separate pressure from participation, preserve 
             choice, and allow examination without coercion. There is no urgency, no forced 
             engagement, and no requirement to agree in order to participate.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             BANIBS serves as the vehicle that makes the discoveries described below usable at scale.
-          </P>
-        </Section>
+          </p>
+        </section>
 
         {/* Section 2: Order of Discovery & Invention */}
-        <Section id="order-of-discovery" title="2. Order of Discovery & Invention (Canonical)">
-          <P>The following sequence is canonical and non-overlapping.</P>
-          <P>
+        <section id="order-of-discovery" className={sectionClass} data-testid="section-order-of-discovery">
+          <h2 className={titleClass}>2. Order of Discovery & Invention (Canonical)</h2>
+          <p className={pClass}>The following sequence is canonical and non-overlapping.</p>
+          <p className={pClass}>
             <strong>BANIBS came first.</strong> BANIBS is not itself a discovery or an invention; 
             it is the build context in which discoveries and inventions occurred.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             <strong>Circle Server Architecture came next.</strong> This is an invention — an 
             intentionally designed system that replaces forced hierarchies with exit-preserving 
             circles and non-coercive participation. Implementation details are intentionally not disclosed.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             <strong>Dismissiveness was then identified as a discovery.</strong> It was recognized 
             as a real mechanism already operating in human interaction — not created, not designed.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             <strong>HDOS (Human Decision-Space Operating System) was discovered after dismissiveness.</strong> HDOS 
             explains why dismissiveness works and how decision space collapses or survives under pressure.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             <strong>Finally, detection and analysis tooling were developed</strong> as applications 
             built on these discoveries. These tools are operational but intentionally not documented 
             in full public detail.
-          </P>
-          <div className={`mt-6 p-4 rounded-lg ${isDark ? 'bg-white/5' : 'bg-gray-100'}`}>
+          </p>
+          <div className={highlightBox}>
             <p className={`text-sm font-semibold mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
               Canonical sequence:
             </p>
@@ -212,37 +193,39 @@ const FoundationPage = () => {
               BANIBS (context) → Circle Architecture (invention) → Dismissiveness (discovery) → HDOS (discovery) → Applications & Tooling (invention)
             </p>
           </div>
-        </Section>
+        </section>
 
         {/* Section 3: Core Discoveries */}
-        <Section id="core-discoveries" title="3. Core Discoveries Identified in This Work (Named, Locked)">
-          <P>
+        <section id="core-discoveries" className={sectionClass} data-testid="section-core-discoveries">
+          <h2 className={titleClass}>3. Core Discoveries Identified in This Work (Named, Locked)</h2>
+          <p className={pClass}>
             The following are discoveries, not inventions. They were identified through observation 
             during the BANIBS build process and are organized within HDOS.
-          </P>
+          </p>
           <ul className={`list-none space-y-3 my-6 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-            <Li>• Dismissiveness as a decision-routing mechanism</Li>
-            <Li>• The Guard as the pre-decision pause that preserves agency</Li>
-            <Li>• Exit Preservation as a necessary condition for real choice</Li>
-            <Li>• Decision Space as the operative field in which choice occurs</Li>
-            <Li>• Decision Space Collapse as a structural failure mode</Li>
-            <Li>• Pressure as a routing force rather than a neutral condition</Li>
-            <Li>• Agency loss without physical force</Li>
-            <Li>• Falsehood dependence on pressure</Li>
-            <Li>• Clarity as a stabilizing condition, not a preference</Li>
+            <li className={liClass}>• Dismissiveness as a decision-routing mechanism</li>
+            <li className={liClass}>• The Guard as the pre-decision pause that preserves agency</li>
+            <li className={liClass}>• Exit Preservation as a necessary condition for real choice</li>
+            <li className={liClass}>• Decision Space as the operative field in which choice occurs</li>
+            <li className={liClass}>• Decision Space Collapse as a structural failure mode</li>
+            <li className={liClass}>• Pressure as a routing force rather than a neutral condition</li>
+            <li className={liClass}>• Agency loss without physical force</li>
+            <li className={liClass}>• Falsehood dependence on pressure</li>
+            <li className={liClass}>• Clarity as a stabilizing condition, not a preference</li>
           </ul>
-          <P>
+          <p className={pClass}>
             These discoveries are named here to prevent attribution drift and conceptual collapse.
-          </P>
-        </Section>
+          </p>
+        </section>
 
         {/* Section 4: Discovery Context */}
-        <Section id="discovery-context" title="4. Discovery Context">
-          <P>
+        <section id="discovery-context" className={sectionClass} data-testid="section-discovery-context">
+          <h2 className={titleClass}>4. Discovery Context</h2>
+          <p className={pClass}>
             While building BANIBS, the same pattern appeared repeatedly across families, 
             institutions, politics, religion, and everyday life.
-          </P>
-          <div className={`my-6 pl-6 border-l-4 ${isDark ? 'border-[#C8A857]/50' : 'border-amber-400'}`}>
+          </p>
+          <div className={quoteBox}>
             <p className={`text-lg leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
               Pressure increased.<br />
               Examination decreased.<br />
@@ -252,77 +235,81 @@ const FoundationPage = () => {
               People complied without choosing.
             </p>
           </div>
-          <P>
+          <p className={pClass}>
             This was not speculative or theory-first. It was identified through direct observation, 
             demonstrated repeatability across domains, and showed durable structural consistency.
-          </P>
-        </Section>
+          </p>
+        </section>
 
         {/* Section 5: HDOS as a Lens */}
-        <Section id="hdos-as-lens" title="5. HDOS as a Lens">
-          <P>
+        <section id="hdos-as-lens" className={sectionClass} data-testid="section-hdos-as-lens">
+          <h2 className={titleClass}>5. HDOS as a Lens</h2>
+          <p className={pClass}>
             HDOS (Human Decision-Space Operating System) is a discovery, not an ideology.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             HDOS functions as a lens for understanding how decision space behaves under pressure 
             and how agency is preserved or collapsed. It does not tell people what to think. It 
             explains what happens before thinking is even allowed.
-          </P>
-          <P>Through this lens, freedom is defined precisely:</P>
+          </p>
+          <p className={pClass}>Through this lens, freedom is defined precisely:</p>
           <ul className={`list-none space-y-2 my-4 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-            <Li>• Truth is examinable</Li>
-            <Li>• Agency is preserved</Li>
-            <Li>• Clarity is maintained</Li>
+            <li className={liClass}>• Truth is examinable</li>
+            <li className={liClass}>• Agency is preserved</li>
+            <li className={liClass}>• Clarity is maintained</li>
           </ul>
-          <P>
+          <p className={pClass}>
             <strong>Freedom exists only where decision space does not collapse.</strong>
-          </P>
-        </Section>
+          </p>
+        </section>
 
         {/* Section 6: The Guard */}
-        <Section id="the-guard" title="6. The Guard">
-          <P>Every human has a Guard.</P>
-          <P>
+        <section id="the-guard" className={sectionClass} data-testid="section-the-guard">
+          <h2 className={titleClass}>6. The Guard</h2>
+          <p className={pClass}>Every human has a Guard.</p>
+          <p className={pClass}>
             The Guard is the pause before a decision — the moment where truth can be examined, 
             options remain real, and choice still exists.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             When the Guard is bypassed, pressure replaces choice, compliance replaces consent, 
             and harm begins upstream.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             <strong>HDOS exists to protect the Guard.</strong>
-          </P>
-        </Section>
+          </p>
+        </section>
 
         {/* Section 7: Exit Preservation */}
-        <Section id="exit-preservation" title="7. Exit Preservation">
-          <P>
+        <section id="exit-preservation" className={sectionClass} data-testid="section-exit-preservation">
+          <h2 className={titleClass}>7. Exit Preservation</h2>
+          <p className={pClass}>
             <strong>If exit is not preserved, agency is not preserved.</strong>
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             Choice is not real without the ability to leave, pause, refuse, or reconsider. 
             A forced decision is not a decision — it is compliance.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             HDOS treats exit preservation as a core requirement, not a courtesy.
-          </P>
-        </Section>
+          </p>
+        </section>
 
         {/* Section 8: Dismissiveness */}
-        <Section id="dismissiveness" title="8. Dismissiveness (Reclassification + Definition)">
-          <P>
+        <section id="dismissiveness" className={sectionClass} data-testid="section-dismissiveness">
+          <h2 className={titleClass}>8. Dismissiveness (Reclassification + Definition)</h2>
+          <p className={pClass}>
             Historically, dismissiveness was treated as an adjective — a tone, an attitude, 
             or a personality trait. Because of this, it was judged morally or psychologically 
             rather than examined structurally.
-          </P>
-          <P>Within this work, dismissiveness is reclassified as:</P>
+          </p>
+          <p className={pClass}>Within this work, dismissiveness is reclassified as:</p>
           <ul className={`list-none space-y-2 my-4 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-            <Li>• a noun</Li>
-            <Li>• an action noun</Li>
-            <Li>• a decision-routing mechanism</Li>
+            <li className={liClass}>• a noun</li>
+            <li className={liClass}>• an action noun</li>
+            <li className={liClass}>• a decision-routing mechanism</li>
           </ul>
-          <div className={`my-6 p-6 rounded-lg ${isDark ? 'bg-white/5 border border-white/10' : 'bg-gray-100 border border-gray-200'}`}>
+          <div className={definitionBox}>
             <p className={`text-sm font-semibold mb-2 ${isDark ? 'text-[#C8A857]' : 'text-amber-700'}`}>
               Canonical definition:
             </p>
@@ -331,106 +318,113 @@ const FoundationPage = () => {
               bypasses the Guard, removes exit, collapses decision space, and results in loss of agency.
             </p>
           </div>
-        </Section>
+        </section>
 
         {/* Section 9: How HDOS Affects Falsehood */}
-        <Section id="hdos-affects-falsehood" title="9. How HDOS Affects Falsehood">
-          <P>
+        <section id="hdos-affects-falsehood" className={sectionClass} data-testid="section-hdos-affects-falsehood">
+          <h2 className={titleClass}>9. How HDOS Affects Falsehood</h2>
+          <p className={pClass}>
             HDOS does not attack falsehood. It removes the conditions falsehood requires to survive.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             Falsehood depends on pressure, urgency, blocked examination, removed exit, and forced 
             conclusions. When examination is restored and exit is preserved, falsehood becomes 
             visible and unstable.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             <strong>Truth does not require force. Falsehood does.</strong>
-          </P>
-        </Section>
+          </p>
+        </section>
 
         {/* Section 10: Accuracy */}
-        <Section id="accuracy" title="10. Accuracy (Properly Stated)">
-          <P>
+        <section id="accuracy" className={sectionClass} data-testid="section-accuracy">
+          <h2 className={titleClass}>10. Accuracy (Properly Stated)</h2>
+          <p className={pClass}>
             <strong>HDOS does not claim 100% accuracy and never will.</strong>
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             HDOS is an observational framework, not a predictive engine. Across real-world 
             application, it has demonstrated approximately 96–98% accuracy in post-hoc 
             identification of decision-space collapse, agency bypass, exit removal, 
             dismissiveness in operation, and falsehood-preservation mechanisms.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             The remaining margin reflects incomplete information, not model failure. This is 
             epistemic honesty.
-          </P>
-        </Section>
+          </p>
+        </section>
 
         {/* Section 11: Pain, Sorrow, and Suffering */}
-        <Section id="pain-sorrow-suffering" title="11. Pain, Sorrow, and Suffering">
-          <P>
+        <section id="pain-sorrow-suffering" className={sectionClass} data-testid="section-pain-sorrow-suffering">
+          <h2 className={titleClass}>11. Pain, Sorrow, and Suffering</h2>
+          <p className={pClass}>
             HDOS eliminates specific forms of pain, sorrow, and suffering by preventing the 
             mechanisms that create them.
-          </P>
-          <P><strong>HDOS eliminates:</strong></P>
+          </p>
+          <p className={pClass}><strong>HDOS eliminates:</strong></p>
           <ul className={`list-none space-y-2 my-4 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-            <Li>• collapse-based pain</Li>
-            <Li>• agency-loss sorrow</Li>
-            <Li>• blame-driven suffering</Li>
+            <li className={liClass}>• collapse-based pain</li>
+            <li className={liClass}>• agency-loss sorrow</li>
+            <li className={liClass}>• blame-driven suffering</li>
           </ul>
-          <P>
+          <p className={pClass}>
             HDOS does not claim to eliminate physical pain, illness, injury, sensory pain, 
             or natural grief. Those are part of being human. HDOS prevents unnecessary suffering 
             layered on top of them.
-          </P>
-        </Section>
+          </p>
+        </section>
 
         {/* Section 12: Application Scope */}
-        <Section id="application-scope" title="12. Application Scope">
-          <P>
+        <section id="application-scope" className={sectionClass} data-testid="section-application-scope">
+          <h2 className={titleClass}>12. Application Scope</h2>
+          <p className={pClass}>
             HDOS can be applied to individuals, families, institutions, governments, history, 
             law, media, and religion.
-          </P>
-        </Section>
+          </p>
+        </section>
 
         {/* Section 13: Scripture Scope */}
-        <Section id="scripture-scope" title="13. Scripture Scope">
-          <P>
+        <section id="scripture-scope" className={sectionClass} data-testid="section-scripture-scope">
+          <h2 className={titleClass}>13. Scripture Scope</h2>
+          <p className={pClass}>
             HDOS can be used to examine any book of the Bible, carefully and extensively, on request.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             This is demonstration, not debate. No belief is forced. No doctrine is collapsed.
-          </P>
-        </Section>
+          </p>
+        </section>
 
         {/* Section 14: Origins / Independence / No Backers */}
-        <Section id="origins" title="14. Origins / Independence / No Backers">
-          <P>
+        <section id="origins" className={sectionClass} data-testid="section-origins">
+          <h2 className={titleClass}>14. Origins / Independence / No Backers</h2>
+          <p className={pClass}>
             This work is not tied to any organization, church, political party, ideology, 
             donor, backer, or lobbyist.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             There is no upstream authority directing this framework. The origin is here — 
             in this work, in this sequence, in this explanation.
-          </P>
-          <P>
+          </p>
+          <p className={pClass}>
             The discoveries described above were identified through direct observation of 
             real human behavior under pressure and can be independently examined.
-          </P>
-        </Section>
+          </p>
+        </section>
 
         {/* Section 15: Books */}
-        <Section id="books" title="15. Books">
+        <section id="books" className={sectionClass} data-testid="section-books">
+          <h2 className={titleClass}>15. Books</h2>
           <ul className={`list-none space-y-3 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-            <Li>• The Devil's Dismissive Argument</Li>
-            <Li>• Before You Call It Out</Li>
-            <Li>• The Devil's Deceitful Master Plan</Li>
-            <Li>• The Light God Wants You to See</Li>
-            <Li>• How Not To Be Dismissive</Li>
+            <li className={liClass}>• The Devil&apos;s Dismissive Argument</li>
+            <li className={liClass}>• Before You Call It Out</li>
+            <li className={liClass}>• The Devil&apos;s Deceitful Master Plan</li>
+            <li className={liClass}>• The Light God Wants You to See</li>
+            <li className={liClass}>• How Not To Be Dismissive</li>
           </ul>
-        </Section>
+        </section>
 
         {/* Back to Home CTA */}
-        <div className="mt-16 pt-8 border-t border-dashed ${isDark ? 'border-white/10' : 'border-gray-200'}">
+        <div className={`mt-16 pt-8 border-t border-dashed ${isDark ? 'border-white/10' : 'border-gray-200'}`}>
           <Link
             to="/about"
             className={`inline-flex items-center gap-2 text-lg font-medium ${
