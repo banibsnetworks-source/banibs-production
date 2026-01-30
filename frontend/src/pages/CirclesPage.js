@@ -121,12 +121,23 @@ const CirclesPage = () => {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-3xl mx-auto px-6 py-16 md:py-24">
+      <main className="max-w-3xl mx-auto px-6 py-16 md:py-24 relative z-10">
         
         {/* Hero Section with Visual Circles */}
         <section className="mb-24 text-center" data-testid="hero-section">
           {/* Animated Circles Visual */}
           <div className="relative w-64 h-64 mx-auto mb-12">
+            {/* Warm glow behind circles */}
+            <div 
+              className="absolute inset-0 rounded-full"
+              style={{
+                background: isDark 
+                  ? 'radial-gradient(circle, rgba(200, 168, 87, 0.08) 0%, transparent 70%)'
+                  : 'radial-gradient(circle, rgba(251, 191, 36, 0.15) 0%, transparent 70%)',
+                transform: 'scale(1.3)',
+                filter: 'blur(20px)'
+              }}
+            />
             {/* Outer circle */}
             <div 
               className={`absolute inset-0 rounded-full border-2 ${isDark ? 'border-white/10' : 'border-gray-200'}`}
@@ -146,7 +157,10 @@ const CirclesPage = () => {
             <div 
               className="absolute inset-0 flex items-center justify-center"
             >
-              <div className={`w-4 h-4 rounded-full ${isDark ? 'bg-[#C8A857]' : 'bg-amber-500'}`} />
+              <div 
+                className={`w-4 h-4 rounded-full ${isDark ? 'bg-[#C8A857]' : 'bg-amber-500'}`}
+                style={{ boxShadow: isDark ? '0 0 12px rgba(200, 168, 87, 0.5)' : '0 0 12px rgba(251, 191, 36, 0.6)' }}
+              />
             </div>
             {/* You indicator - on the edge */}
             <div 
