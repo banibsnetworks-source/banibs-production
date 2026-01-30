@@ -377,8 +377,24 @@ const GlobalNavBar = () => {
             </div>
           )}
 
-          {/* Drawer Footer - Version info */}
+          {/* Drawer Footer - Foundation + Version info */}
           <div className="mt-6 pt-4 border-t border-border px-4">
+            <Link
+              to="/about"
+              onClick={closeDrawer}
+              className="block text-sm text-muted-foreground hover:text-foreground transition-colors mb-3"
+              data-testid="nav-foundation-link"
+            >
+              About BANIBS & HDOS
+            </Link>
+            <Link
+              to="/foundation"
+              onClick={closeDrawer}
+              className="block text-sm text-muted-foreground hover:text-foreground transition-colors mb-3"
+              data-testid="nav-foundation-full-link"
+            >
+              Read the Foundation
+            </Link>
             <p className="text-xs text-muted-foreground">
               BANIBS v1.0 • Internal Build
             </p>
