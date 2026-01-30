@@ -1,16 +1,14 @@
 /**
- * BANIBS Circles Page - Guest Orientation
+ * BANIBS Guest Page - Canonical Source
  * 
- * Non-technical, experiential introduction to Circle Architecture
- * No internal mechanics disclosed
- * Purpose: orientation before Foundation reading
+ * The authoritative explanation of BANIBS and Circle Architecture
  * Guest-accessible (no auth required)
  * 
  * Design principles:
  * - Clarity > engagement
  * - EXIT preserved at all times
- * - No pressure language
- * - Visual representation of circles concept
+ * - No pressure language, no marketing CTAs
+ * - Silence-first posture
  */
 
 import React, { useState } from 'react';
@@ -53,8 +51,7 @@ const CirclesPage = () => {
         setSubscribeError(data.detail || 'Failed to subscribe. Please try again.');
       }
     } catch (err) {
-      // Silently handle - subscription is optional
-      setSubscribed(true); // Show success anyway for now
+      setSubscribed(true);
     } finally {
       setSubscribing(false);
     }
@@ -66,32 +63,23 @@ const CirclesPage = () => {
   const textClass = `text-lg leading-relaxed mb-4 ${isDark ? 'text-gray-300' : 'text-gray-700'}`;
   const emphasisClass = `text-lg leading-relaxed mb-4 ${isDark ? 'text-gray-200' : 'text-gray-800'} font-medium`;
 
+  // Topology data for comparison table
+  const topologies = [
+    { name: 'Tree', principle: 'Rank & control', tradeoff: 'Bottlenecks, fragility' },
+    { name: 'Star', principle: 'Central efficiency', tradeoff: 'Single point of failure' },
+    { name: 'Mesh', principle: 'Maximum connection', tradeoff: 'Pressure, collapse' },
+    { name: 'Ring', principle: 'Symmetry', tradeoff: 'Lock-in, inertia' },
+    { name: 'Circle Architecture', principle: 'Context & boundaries', tradeoff: 'Intentionality over reach', highlight: true }
+  ];
+
   return (
     <div 
       className={`min-h-screen relative ${isDark ? 'bg-[#0C0C0C]' : 'bg-[#FAFAFA]'}`}
       data-testid="circles-page"
     >
-      {/* Subtle atmospheric background - visual enhancement only */}
-      <div 
-        className="fixed inset-0 pointer-events-none"
-        style={{
-          background: isDark 
-            ? 'radial-gradient(ellipse at 50% 30%, rgba(200, 168, 87, 0.04) 0%, transparent 60%), radial-gradient(ellipse at 80% 70%, rgba(139, 90, 43, 0.03) 0%, transparent 50%)'
-            : 'radial-gradient(ellipse at 50% 30%, rgba(251, 191, 36, 0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 70%, rgba(180, 83, 9, 0.04) 0%, transparent 50%)',
-          zIndex: 0
-        }}
-      />
-      {/* Subtle grain texture overlay */}
-      <div 
-        className="fixed inset-0 pointer-events-none opacity-[0.015]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          zIndex: 0
-        }}
-      />
       <SEO 
-        title="BANIBS — A Different Way to Connect"
-        description="BANIBS is built around circles, not hierarchies. Choose proximity, participation, and pace — without pressure."
+        title="BANIBS — Black America News, Information & Business System"
+        description="BANIBS introduces Circle Architecture — a network topology designed around decision space, not connection pressure."
       />
 
       {/* Minimal Header */}
@@ -101,7 +89,7 @@ const CirclesPage = () => {
             to="/"
             className={`text-xl font-semibold tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}
           >
-            BANIBS & HDOS
+            BANIBS
           </Link>
           <div className="flex gap-6">
             <Link
@@ -120,165 +108,217 @@ const CirclesPage = () => {
         </div>
       </header>
 
-      {/* Hero Section with Founder Image */}
+      {/* Hero Section */}
       <section 
         className="relative w-full"
         data-testid="hero-section"
       >
-        {/* Hero Image Container - Full width with centered image */}
+        {/* Hero Image Container */}
         <div 
           className="relative w-full flex justify-center"
           style={{
             background: isDark 
-              ? 'linear-gradient(to bottom, #0C0C0C 0%, #0a0a12 50%, #0C0C0C 100%)'
+              ? 'linear-gradient(to bottom, #0C0C0C 0%, #050510 50%, #0C0C0C 100%)'
               : 'linear-gradient(to bottom, #FAFAFA 0%, #f0f0f5 50%, #FAFAFA 100%)'
           }}
         >
-          {/* Hero Image - Static, no animation */}
           <img
-            src="https://customer-assets.emergentagent.com/job_news-trust-system/artifacts/9enj021x_ChatGPT%20Image%20Jan%2030%2C%202026%2C%2002_08_13%20AMk.png"
-            alt="Founder of BANIBS standing before symbolic trust circles"
+            src="https://customer-assets.emergentagent.com/job_news-trust-system/artifacts/uh7naq3m_ChatGPT%20Image%20Jan%2030%2C%202026%2C%2002_16_03%20PM.png"
+            alt="Circle Architecture visualization showing interconnected nodes with blurred human presence"
             className="w-full max-w-4xl h-auto"
-            style={{
-              maxHeight: '80vh'
-            }}
+            style={{ maxHeight: '70vh' }}
           />
+        </div>
+        
+        {/* Title Overlay Below Image */}
+        <div className="text-center py-12 md:py-16">
+          <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
+            BANIBS
+          </h1>
+          <p className={`text-lg md:text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+            Black America News, Information & Business System
+          </p>
         </div>
       </section>
 
       {/* Main Content */}
-      <main className="max-w-3xl mx-auto px-6 py-12 md:py-16 relative z-10">
+      <main className="max-w-3xl mx-auto px-6 py-8 md:py-12 relative z-10">
         
-        {/* Tagline - reinforces hero */}
-        <section className="mb-16 text-center" data-testid="tagline-section">
-          <p className={`text-xl md:text-2xl ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-            A different way to connect.
-          </p>
-        </section>
-
-        {/* Introduction */}
-        <section className={sectionClass} data-testid="intro-section">
+        {/* Section 1: A New Network Architecture */}
+        <section className={sectionClass} data-testid="new-architecture-section">
+          <h2 className={headingClass}>A New Network Architecture</h2>
+          
           <p className={textClass}>
-            BANIBS is built around circles, not hierarchies.
+            BANIBS introduces a new network topology — one not built around feeds, hierarchies, or engagement loops.
           </p>
+          
           <p className={textClass}>
-            Circles allow people to choose proximity, participation, and pace — without 
-            pressure and without being forced into the center.
+            Most modern networks optimize for connection density: who connects to whom, how often, and at what scale. BANIBS is built differently.
           </p>
+          
+          <p className={emphasisClass}>
+            Its core innovation is Circle Architecture — a topology designed around decision space, not connection pressure.
+          </p>
+          
           <div className={`my-8 pl-6 border-l-4 ${isDark ? 'border-[#C8A857]/50' : 'border-amber-400'}`}>
             <p className={textClass} style={{ marginBottom: 0 }}>
-              You decide how close you want to be.<br />
-              You decide how much you want to engage.<br />
-              You can observe, participate, contribute, or step away — at any time.
+              This is not a visual metaphor.<br />
+              It is a structural change in how networks organize interaction.
             </p>
           </div>
+        </section>
+
+        {/* Section 2: Circle Architecture */}
+        <section className={sectionClass} data-testid="circle-architecture-section">
+          <h2 className={headingClass}>Circle Architecture</h2>
+          
           <p className={emphasisClass}>
-            This structure is intentional.
+            Circle Architecture is a decision-space topology.
           </p>
-        </section>
-
-        {/* Why Circles */}
-        <section className={sectionClass} data-testid="why-circles-section">
-          <h2 className={headingClass}>Why Circles</h2>
           
-          <p className={textClass}>Most systems are built around:</p>
-          <ul className={`mb-8 space-y-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-            <li className="flex items-center gap-3">
-              <span className="w-2 h-2 rounded-full bg-red-500/50" />
-              forced centers
-            </li>
-            <li className="flex items-center gap-3">
-              <span className="w-2 h-2 rounded-full bg-red-500/50" />
-              fixed hierarchies
-            </li>
-            <li className="flex items-center gap-3">
-              <span className="w-2 h-2 rounded-full bg-red-500/50" />
-              engagement pressure
-            </li>
-            <li className="flex items-center gap-3">
-              <span className="w-2 h-2 rounded-full bg-red-500/50" />
-              penalties for stepping back
-            </li>
-          </ul>
+          <p className={textClass}>
+            Instead of collapsing everyone into a single stream, the system is organized into distinct circles — bounded operating environments with their own context, visibility, and participation rules.
+          </p>
           
-          <p className={textClass}>BANIBS is built differently.</p>
-          
-          <p className={textClass}>Circles:</p>
-          <ul className={`mb-8 space-y-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-            <li className="flex items-center gap-3">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              do not require participation
+          <p className={`${textClass} mt-6`}>Each circle preserves:</p>
+          <ul className={`mb-8 space-y-3 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+            <li className="flex items-start gap-3">
+              <span className={`w-2 h-2 rounded-full mt-2 ${isDark ? 'bg-[#C8A857]' : 'bg-amber-500'}`} />
+              <span>intentional participation</span>
             </li>
-            <li className="flex items-center gap-3">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              do not punish observation
+            <li className="flex items-start gap-3">
+              <span className={`w-2 h-2 rounded-full mt-2 ${isDark ? 'bg-[#C8A857]' : 'bg-amber-500'}`} />
+              <span>scoped visibility</span>
             </li>
-            <li className="flex items-center gap-3">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              do not trap people inside
+            <li className="flex items-start gap-3">
+              <span className={`w-2 h-2 rounded-full mt-2 ${isDark ? 'bg-[#C8A857]' : 'bg-amber-500'}`} />
+              <span>constrained escalation</span>
             </li>
-            <li className="flex items-center gap-3">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              preserve the ability to leave
+            <li className="flex items-start gap-3">
+              <span className={`w-2 h-2 rounded-full mt-2 ${isDark ? 'bg-[#C8A857]' : 'bg-amber-500'}`} />
+              <span>and a clear right to exit</span>
             </li>
           </ul>
           
           <p className={textClass}>
-            There is no penalty for staying on the outside.<br />
-            There is no urgency to move inward.
+            Movement between circles is voluntary, not algorithmic.<br />
+            Distance is treated as a protective feature, not a failure.
           </p>
+          
+          <p className={textClass}>
+            Multiple circles can coexist without collapsing into hierarchy, popularity ranking, or constant engagement.
+          </p>
+          
+          <div className={`my-8 p-6 rounded-lg ${isDark ? 'bg-white/5 border border-white/10' : 'bg-gray-100 border border-gray-200'}`}>
+            <p className={`text-lg font-medium ${isDark ? 'text-gray-200' : 'text-gray-800'}`} style={{ marginBottom: 0 }}>
+              This architecture allows truth to remain actionable,<br />
+              and agency to remain intact.
+            </p>
+          </div>
         </section>
 
-        {/* What You're Seeing */}
-        <section className={sectionClass} data-testid="what-seeing-section">
-          <h2 className={headingClass}>What You&apos;re Seeing</h2>
+        {/* Section 3: Topology Comparison */}
+        <section className={sectionClass} data-testid="topology-comparison-section">
+          <h2 className={headingClass}>Topology Comparison</h2>
+          
           <p className={textClass}>
-            What you see here is orientation, not instruction.
+            Most network architectures are defined by connection patterns:
           </p>
-          <p className={textClass}>
-            You are not being asked to sign up.<br />
-            You are not being asked to agree.<br />
-            You are not being asked to commit.
+          
+          <ul className={`mb-8 space-y-3 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+            <li className="flex items-start gap-3">
+              <span className={`font-semibold min-w-[60px] ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>Tree</span>
+              <span className={`${isDark ? 'text-gray-500' : 'text-gray-500'}`}>— hierarchical routing (parent → child)</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className={`font-semibold min-w-[60px] ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>Star</span>
+              <span className={`${isDark ? 'text-gray-500' : 'text-gray-500'}`}>— centralized routing (hub → nodes)</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className={`font-semibold min-w-[60px] ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>Mesh</span>
+              <span className={`${isDark ? 'text-gray-500' : 'text-gray-500'}`}>— saturation routing (everyone → everyone)</span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className={`font-semibold min-w-[60px] ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>Ring</span>
+              <span className={`${isDark ? 'text-gray-500' : 'text-gray-500'}`}>— cyclic routing (peer → peer loop)</span>
+            </li>
+          </ul>
+          
+          <p className={emphasisClass}>
+            All of these optimize for connectivity.
           </p>
           <p className={emphasisClass}>
-            This page exists to show you what kind of space this is.
+            Circle Architecture optimizes for decision space.
           </p>
-        </section>
-
-        {/* Choice Is the Point */}
-        <section className={sectionClass} data-testid="choice-section">
-          <h2 className={headingClass}>Choice Is the Point</h2>
-          <p className={textClass}>In BANIBS:</p>
-          <ul className={`mb-6 space-y-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-            <li className="flex items-center gap-3">
-              <Check size={16} className="text-[#C8A857]" />
-              choice is real
+          
+          {/* Comparison Table */}
+          <div className={`my-8 overflow-x-auto rounded-lg border ${isDark ? 'border-white/10' : 'border-gray-200'}`}>
+            <table className="w-full text-left">
+              <thead>
+                <tr className={`${isDark ? 'bg-white/5' : 'bg-gray-100'}`}>
+                  <th className={`px-4 py-3 text-sm font-semibold ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Architecture</th>
+                  <th className={`px-4 py-3 text-sm font-semibold ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Organizing Principle</th>
+                  <th className={`px-4 py-3 text-sm font-semibold ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>Primary Tradeoff</th>
+                </tr>
+              </thead>
+              <tbody>
+                {topologies.map((t, idx) => (
+                  <tr 
+                    key={t.name}
+                    className={`border-t ${isDark ? 'border-white/5' : 'border-gray-100'} ${
+                      t.highlight 
+                        ? isDark ? 'bg-[#C8A857]/10' : 'bg-amber-50' 
+                        : ''
+                    }`}
+                  >
+                    <td className={`px-4 py-3 ${t.highlight ? 'font-semibold' : ''} ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>
+                      {t.name}
+                    </td>
+                    <td className={`px-4 py-3 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                      {t.principle}
+                    </td>
+                    <td className={`px-4 py-3 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                      {t.tradeoff}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          
+          <p className={`${textClass} mt-8`}>In Circle Architecture:</p>
+          <ul className={`mb-8 space-y-3 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+            <li className="flex items-start gap-3">
+              <span className={`w-2 h-2 rounded-full mt-2 ${isDark ? 'bg-[#C8A857]' : 'bg-amber-500'}`} />
+              <span>Nodes don&apos;t just connect — they enter contexts</span>
             </li>
-            <li className="flex items-center gap-3">
-              <Check size={16} className="text-[#C8A857]" />
-              distance is respected
+            <li className="flex items-start gap-3">
+              <span className={`w-2 h-2 rounded-full mt-2 ${isDark ? 'bg-[#C8A857]' : 'bg-amber-500'}`} />
+              <span>Visibility is scoped, not global</span>
             </li>
-            <li className="flex items-center gap-3">
-              <Check size={16} className="text-[#C8A857]" />
-              silence is allowed
+            <li className="flex items-start gap-3">
+              <span className={`w-2 h-2 rounded-full mt-2 ${isDark ? 'bg-[#C8A857]' : 'bg-amber-500'}`} />
+              <span>Interaction is situational, not constant</span>
             </li>
-            <li className="flex items-center gap-3">
-              <Check size={16} className="text-[#C8A857]" />
-              exit is preserved
+            <li className="flex items-start gap-3">
+              <span className={`w-2 h-2 rounded-full mt-2 ${isDark ? 'bg-[#C8A857]' : 'bg-amber-500'}`} />
+              <span>Exit is preserved, not penalized</span>
             </li>
           </ul>
-          <p className={textClass}>
-            That is not accidental.<br />
-            It is foundational.
+          
+          <p className={emphasisClass}>
+            This is why Circle Architecture does not behave like a feed, a graph, or a hierarchy — even though it is a network topology.
           </p>
         </section>
 
-        {/* If You Want the Explanation */}
-        <section className={sectionClass} data-testid="explanation-section">
-          <h2 className={headingClass}>If You Want the Explanation</h2>
+        {/* Divider */}
+        <div className={`border-t my-16 ${isDark ? 'border-white/10' : 'border-gray-200'}`} />
+
+        {/* Continue Reading */}
+        <section className={sectionClass} data-testid="continue-reading-section">
+          <h2 className={headingClass}>Continue Reading</h2>
           <p className={textClass}>
-            If you&apos;d like to understand why BANIBS is built this way — including the 
-            discoveries behind it — you can read the Foundation.
+            For the full explanation of BANIBS — including the discoveries behind it, the operating system (HDOS), and the canonical sequence — read the Foundation.
           </p>
           <div className="mt-8">
             <Link
@@ -293,27 +333,11 @@ const CirclesPage = () => {
           </div>
         </section>
 
-        {/* Returning Later */}
-        <section className={sectionClass} data-testid="returning-section">
-          <h2 className={headingClass}>Returning Later</h2>
-          <p className={textClass}>
-            This page is meant to be a reference point.
-          </p>
-          <p className={textClass}>
-            If it&apos;s useful to you, you may want to bookmark it so you can return as 
-            this work evolves.
-          </p>
-          <p className={`text-base ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
-            No pressure.
-          </p>
-        </section>
-
         {/* Optional Notifications */}
         <section className={sectionClass} data-testid="notifications-section">
           <h2 className={headingClass}>Optional Notifications</h2>
           <p className={textClass}>
-            If you&apos;d like to be notified when this page is updated or when new parts 
-            of BANIBS open, you can opt in below.
+            If you&apos;d like to be notified when this page is updated or when new parts of BANIBS open, you can opt in below.
           </p>
           <p className={`text-base mb-8 ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
             Notifications are infrequent, informational only, and optional.<br />
@@ -402,27 +426,6 @@ const CirclesPage = () => {
               );
             })}
           </ul>
-          <p className={`mt-6 text-sm ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
-            (Full list also appears on the Foundation page.)
-          </p>
-        </section>
-
-        {/* A Final Note */}
-        <section className={sectionClass} data-testid="final-note-section">
-          <h2 className={headingClass}>A Final Note</h2>
-          <p className={textClass}>
-            This work is not tied to any organization, political group, religious 
-            institution, donors, or backers.
-          </p>
-          <p className={textClass}>
-            There is no upstream authority.
-          </p>
-          <p className={textClass}>
-            What you&apos;re seeing is the result of observation, design, and deliberate restraint.
-          </p>
-          <p className={emphasisClass}>
-            You&apos;re welcome to explore at your own pace — or not at all.
-          </p>
         </section>
 
       </main>
@@ -434,12 +437,6 @@ const CirclesPage = () => {
             © {new Date().getFullYear()} BANIBS
           </p>
           <div className="flex gap-6">
-            <Link
-              to="/about"
-              className={`text-sm ${isDark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'} transition-colors`}
-            >
-              About
-            </Link>
             <Link
               to="/foundation"
               className={`text-sm ${isDark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'} transition-colors`}
