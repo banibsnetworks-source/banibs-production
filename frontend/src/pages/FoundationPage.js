@@ -71,7 +71,7 @@ const FoundationPage = () => {
       }`}>
         <div className="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
           <Link
-            to="/about"
+            to="/"
             className={`inline-flex items-center gap-2 text-sm font-medium ${
               isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
             } transition-colors`}
@@ -81,7 +81,7 @@ const FoundationPage = () => {
             Back to Home
           </Link>
           <Link
-            to="/"
+            to="/news"
             className={`inline-flex items-center gap-2 text-sm font-medium ${
               isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
             } transition-colors`}
