@@ -106,6 +106,9 @@ All links visible:
 - [x] **Founder Office Vault Phase 1 (COMPLETE - January 30, 2026)**
 - [x] **BANIBS & HDOS Foundation Pages (COMPLETE - January 30, 2026)**
 - [x] **Circles Guest Page (COMPLETE - January 30, 2026)**
+- [x] **Book Links Refactoring (COMPLETE - January 30, 2026)** - Centralized into booksConfig.js
+- [x] **Circles Page Visual Enhancement (COMPLETE - January 30, 2026)** - Warm gradient, glow effects
+- [x] **Founder Office Valuation Posture Audit (COMPLETE - January 30, 2026)** - Confirmed no valuation UI exists
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
@@ -122,8 +125,9 @@ All links visible:
 
 ### P3 - Low Priority / Blocked
 - [ ] Password reset emails (BLOCKED - awaiting SMTP credentials)
-- [ ] BGLIS phone auth (currently mocked)
+- [ ] BGLIS phone auth (MOCKED - awaiting provider selection)
 - [ ] Backend route refactoring
+- [ ] Raw HTML rendering in news description (low priority)
 
 ---
 
