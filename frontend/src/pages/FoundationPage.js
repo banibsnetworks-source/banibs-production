@@ -19,8 +19,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
-import { ArrowLeft, Home } from 'lucide-react';
+import { ArrowLeft, Home, ExternalLink } from 'lucide-react';
 import SEO from '../components/SEO';
+import { BANIBS_BOOKS, FOUNDATION_BOOKS } from '../config/booksConfig';
 
 const FoundationPage = () => {
   const { theme } = useTheme();
