@@ -68,6 +68,10 @@ import SocialWorldMarketplace from "./pages/socialworld/MarketplacePage";
 // Phase B2 - Black News Tab
 import BlackNewsPage from "./pages/BlackNewsPage";
 
+// BANIBS & HDOS Foundation Pages
+import BanibsHomePage from "./pages/BanibsHomePage";
+import FoundationPage from "./pages/FoundationPage";
+
 // Phase A2 - Mission & Values Page
 import MissionValuesPage from "./pages/MissionValuesPage";
 
