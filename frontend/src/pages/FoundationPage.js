@@ -187,12 +187,57 @@ const FoundationPage = () => {
             in full public detail.
           </p>
           <div className={highlightBox}>
-            <p className={`text-sm font-semibold mb-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-sm font-semibold mb-4 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
               Canonical sequence:
             </p>
-            <p className={`text-base font-mono ${isDark ? 'text-[#C8A857]' : 'text-amber-700'}`}>
-              BANIBS (context) → Circle Architecture (invention) → Dismissiveness (discovery) → HDOS (discovery) → Applications & Tooling (invention)
-            </p>
+            {/* Structured Sequence Layout */}
+            <div className="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-3 sm:gap-2">
+              {/* BANIBS */}
+              <div className={`px-4 py-2 rounded-lg ${isDark ? 'bg-white/5 border border-white/10' : 'bg-white border border-gray-200'}`}>
+                <span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>BANIBS</span>
+                <span className={`ml-2 text-sm ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>context</span>
+              </div>
+              
+              {/* Arrow */}
+              <span className={`hidden sm:block text-lg ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>→</span>
+              <span className={`sm:hidden text-lg ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>↓</span>
+              
+              {/* Circle Architecture */}
+              <div className={`px-4 py-2 rounded-lg ${isDark ? 'bg-white/5 border border-white/10' : 'bg-white border border-gray-200'}`}>
+                <span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Circle Architecture</span>
+                <span className={`ml-2 text-sm ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>invention</span>
+              </div>
+              
+              {/* Arrow */}
+              <span className={`hidden sm:block text-lg ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>→</span>
+              <span className={`sm:hidden text-lg ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>↓</span>
+              
+              {/* Dismissiveness */}
+              <div className={`px-4 py-2 rounded-lg ${isDark ? 'bg-white/5 border border-white/10' : 'bg-white border border-gray-200'}`}>
+                <span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Dismissiveness</span>
+                <span className={`ml-2 text-sm ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>discovery</span>
+              </div>
+              
+              {/* Arrow */}
+              <span className={`hidden sm:block text-lg ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>→</span>
+              <span className={`sm:hidden text-lg ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>↓</span>
+              
+              {/* HDOS */}
+              <div className={`px-4 py-2 rounded-lg ${isDark ? 'bg-white/5 border border-white/10' : 'bg-white border border-gray-200'}`}>
+                <span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>HDOS</span>
+                <span className={`ml-2 text-sm ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>discovery</span>
+              </div>
+              
+              {/* Arrow */}
+              <span className={`hidden sm:block text-lg ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>→</span>
+              <span className={`sm:hidden text-lg ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>↓</span>
+              
+              {/* Applications & Tooling */}
+              <div className={`px-4 py-2 rounded-lg ${isDark ? 'bg-white/5 border border-white/10' : 'bg-white border border-gray-200'}`}>
+                <span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Applications & Tooling</span>
+                <span className={`ml-2 text-sm ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>invention</span>
+              </div>
+            </div>
           </div>
         </section>
 
