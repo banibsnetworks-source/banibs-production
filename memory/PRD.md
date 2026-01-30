@@ -330,3 +330,4 @@ The following routes are always accessible regardless of Coming Soon mode:
 3. **Founder Office Vault Phase 1** - Filesystem MVP with CLI tools
 4. **BANIBS & HDOS Foundation Pages** - /about (orientation) + /foundation (15-section canonical source)
 5. **Founder Office Vault Phase 2** - UI integration in Founder Hub (Archive, Contacts, Inventions, Books tabs)
+6. **Circles Guest Page** - Visual orientation for Circle Architecture (/circles)
