@@ -320,7 +320,7 @@ const ComingSoonPage = () => {
                 dignity shapes every design decision.
               </p>
               <p>
-                We're building for those who want more than what the current platforms offer — 
+                We&apos;re building for those who want more than what the current platforms offer — 
                 a space that respects your attention, protects your data, and centers your needs.
               </p>
             </div>
@@ -481,7 +481,7 @@ const ComingSoonPage = () => {
             className="text-3xl md:text-4xl font-bold tracking-tight mb-6"
             style={{ fontFamily: 'Playfair Display, serif' }}
           >
-            Be Part of What's Next
+            Be Part of What&apos;s Next
           </h2>
           
           <p className="text-white/60 text-lg mb-12 leading-relaxed">
@@ -539,10 +539,10 @@ const ComingSoonPage = () => {
             >
               <div className="text-2xl mb-3" style={{ color: '#C5A059' }}>✓</div>
               <h3 className="text-xl font-semibold mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
-                You're on the list
+                You&apos;re on the list
               </h3>
               <p className="text-white/60">
-                We'll notify you when BANIBS launches.
+                We&apos;ll notify you when BANIBS launches.
               </p>
             </div>
           )}
