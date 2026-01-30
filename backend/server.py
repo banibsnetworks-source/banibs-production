@@ -439,6 +439,9 @@ app.include_router(founder_ops_router)
 # HDOS v2 - Circle Trust Order (7 levels)
 app.include_router(hdos_trust_router)
 
+# Founder Office Vault Phase 2 - UI Integration
+app.include_router(office_vault_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
