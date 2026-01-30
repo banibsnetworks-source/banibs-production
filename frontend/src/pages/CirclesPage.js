@@ -131,7 +131,7 @@ const CirclesPage = () => {
           <div 
             className="absolute inset-0 z-10 pointer-events-none"
             style={{
-              background: 'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.2) 100%)'
+              background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.1) 100%)'
             }}
           />
           
@@ -139,10 +139,10 @@ const CirclesPage = () => {
           <img
             src="https://customer-assets.emergentagent.com/job_news-trust-system/artifacts/8uwstelr_ChatGPT%20Image%20Jan%2030%2C%202026%2C%2001_49_36%20AM.png"
             alt="Founder of BANIBS standing before symbolic trust circles"
-            className="w-full h-auto object-cover object-center"
+            className="w-full h-auto"
             style={{
-              maxHeight: '70vh',
-              objectPosition: 'center top'
+              maxHeight: '85vh',
+              objectFit: 'contain'
             }}
           />
         </div>
