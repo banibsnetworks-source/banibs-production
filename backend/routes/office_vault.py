@@ -196,8 +196,9 @@ def get_summary_from_body(body: str, max_length: int = 200) -> str:
 
 
 @router.get("/stats", response_model=VaultIndexResponse)
-async def get_vault_stats(user: dict = Depends(require_super_admin)):
+async def get_vault_stats(current_user: dict = Depends(get_current_user)):
     """Get vault statistics from index."""
+    require_super_admin(current_user)
     index = load_index()
     
     return VaultIndexResponse(
