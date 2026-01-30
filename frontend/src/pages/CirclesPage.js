@@ -136,7 +136,7 @@ const CirclesPage = () => {
         >
           {/* Hero Image - Static, no animation */}
           <img
-            src="https://customer-assets.emergentagent.com/job_news-trust-system/artifacts/8uwstelr_ChatGPT%20Image%20Jan%2030%2C%202026%2C%2001_49_36%20AM.png"
+            src="https://customer-assets.emergentagent.com/job_news-trust-system/artifacts/ustj5v0r_ChatGPT%20Image%20Jan%2030%2C%202026%2C%2001_57_25%20AM.png"
             alt="Founder of BANIBS standing before symbolic trust circles"
             className="w-full max-w-4xl h-auto"
             style={{
