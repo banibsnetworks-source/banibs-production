@@ -16,8 +16,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
-import { ArrowRight, BookOpen, Mail, Bell, Check } from 'lucide-react';
+import { ArrowRight, BookOpen, Mail, Bell, Check, ExternalLink } from 'lucide-react';
 import SEO from '../components/SEO';
+import { BANIBS_BOOKS, FOUNDATION_BOOKS } from '../config/booksConfig';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
