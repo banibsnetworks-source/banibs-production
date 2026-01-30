@@ -285,9 +285,10 @@ async def list_vault_items(
 @router.get("/items/{item_id}", response_model=VaultItemDetailResponse)
 async def get_vault_item(
     item_id: str,
-    user: dict = Depends(require_super_admin)
+    current_user: dict = Depends(get_current_user)
 ):
     """Get a single vault item by ID."""
+    require_super_admin(current_user)
     index = load_index()
     
     # Find item in index
