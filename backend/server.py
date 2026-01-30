@@ -116,6 +116,18 @@ class StatusCheckCreate(BaseModel):
 async def root():
     return {"message": "Hello World"}
 
+@api_router.get("/download/guest-page")
+async def download_guest_page():
+    """Direct download of BANIBS guest page static bundle"""
+    zip_path = Path("/app/backend/static/banibs_guest_page.zip")
+    if not zip_path.exists():
+        raise HTTPException(status_code=404, detail="ZIP file not found")
+    return FileResponse(
+        path=str(zip_path),
+        filename="banibs_guest_page.zip",
+        media_type="application/zip"
+    )
+
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
     status_dict = input.model_dump()
