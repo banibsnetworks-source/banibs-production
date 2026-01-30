@@ -718,6 +718,10 @@ const FounderControlCenter = () => {
     if (activeTab === 'trust-order' && accessToken) {
       fetchTrustData();
     }
+    if (activeTab === 'vault' && accessToken) {
+      fetchVaultStats();
+      fetchVaultItems();
+    }
   }, [activeTab, accessToken]);
   
   // =====================
