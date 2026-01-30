@@ -120,59 +120,40 @@ const CirclesPage = () => {
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-3xl mx-auto px-6 py-16 md:py-24 relative z-10">
-        
-        {/* Hero Section with Visual Circles */}
-        <section className="mb-24 text-center" data-testid="hero-section">
-          {/* Animated Circles Visual */}
-          <div className="relative w-64 h-64 mx-auto mb-12">
-            {/* Warm glow behind circles */}
-            <div 
-              className="absolute inset-0 rounded-full"
-              style={{
-                background: isDark 
-                  ? 'radial-gradient(circle, rgba(200, 168, 87, 0.08) 0%, transparent 70%)'
-                  : 'radial-gradient(circle, rgba(251, 191, 36, 0.15) 0%, transparent 70%)',
-                transform: 'scale(1.3)',
-                filter: 'blur(20px)'
-              }}
-            />
-            {/* Outer circle */}
-            <div 
-              className={`absolute inset-0 rounded-full border-2 ${isDark ? 'border-white/10' : 'border-gray-200'}`}
-              style={{ animation: 'pulse 4s ease-in-out infinite' }}
-            />
-            {/* Middle circle */}
-            <div 
-              className={`absolute inset-8 rounded-full border-2 ${isDark ? 'border-white/20' : 'border-gray-300'}`}
-              style={{ animation: 'pulse 4s ease-in-out infinite 0.5s' }}
-            />
-            {/* Inner circle */}
-            <div 
-              className={`absolute inset-16 rounded-full border-2 ${isDark ? 'border-white/30' : 'border-gray-400'}`}
-              style={{ animation: 'pulse 4s ease-in-out infinite 1s' }}
-            />
-            {/* Center dot */}
-            <div 
-              className="absolute inset-0 flex items-center justify-center"
-            >
-              <div 
-                className={`w-4 h-4 rounded-full ${isDark ? 'bg-[#C8A857]' : 'bg-amber-500'}`}
-                style={{ boxShadow: isDark ? '0 0 12px rgba(200, 168, 87, 0.5)' : '0 0 12px rgba(251, 191, 36, 0.6)' }}
-              />
-            </div>
-            {/* You indicator - on the edge */}
-            <div 
-              className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            >
-              <div className={`px-3 py-1 rounded-full text-xs font-medium ${isDark ? 'bg-white/10 text-white' : 'bg-gray-200 text-gray-700'}`}>
-                You
-              </div>
-            </div>
-          </div>
+      {/* Hero Section with Founder Image */}
+      <section 
+        className="relative w-full overflow-hidden"
+        data-testid="hero-section"
+      >
+        {/* Hero Image Container */}
+        <div className="relative w-full max-w-5xl mx-auto">
+          {/* Dark overlay for text contrast if needed - subtle */}
+          <div 
+            className="absolute inset-0 z-10 pointer-events-none"
+            style={{
+              background: 'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.2) 100%)'
+            }}
+          />
           
-          <p className={`text-xl md:text-2xl mb-8 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+          {/* Hero Image - Static, no animation */}
+          <img
+            src="https://customer-assets.emergentagent.com/job_news-trust-system/artifacts/8uwstelr_ChatGPT%20Image%20Jan%2030%2C%202026%2C%2001_49_36%20AM.png"
+            alt="Founder of BANIBS standing before symbolic trust circles"
+            className="w-full h-auto object-cover object-center"
+            style={{
+              maxHeight: '70vh',
+              objectPosition: 'center top'
+            }}
+          />
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <main className="max-w-3xl mx-auto px-6 py-12 md:py-16 relative z-10">
+        
+        {/* Tagline - reinforces hero */}
+        <section className="mb-16 text-center" data-testid="tagline-section">
+          <p className={`text-xl md:text-2xl ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
             A different way to connect.
           </p>
         </section>
