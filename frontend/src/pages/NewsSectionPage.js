@@ -183,6 +183,24 @@ const NewsSectionPage = () => {
               </div>
             )}
 
+            {/* Low Coverage Notice for sparse sections (1-3 stories) */}
+            {items && items.length > 0 && items.length <= 3 && (
+              <div 
+                className="bg-muted/50 rounded-lg p-4 border border-border mb-6 flex items-center gap-3"
+                data-testid="low-coverage-notice"
+              >
+                <div className="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-yellow-500 text-lg">📡</span>
+                </div>
+                <div>
+                  <p className="text-muted-foreground text-sm">
+                    <span className="font-medium text-foreground">Limited coverage available.</span>
+                    {' '}We&apos;re expanding our {label?.toLowerCase()} sources. Check back soon for more stories.
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Section Stories List */}
             {items && items.length > 0 && (
               <NewsSectionBlock
@@ -192,18 +210,35 @@ const NewsSectionPage = () => {
               />
             )}
 
-            {/* Empty State */}
+            {/* Empty State - More graceful message */}
             {(!items || items.length === 0) && (
-              <div className="bg-card rounded-lg p-12 text-center border border-border">
-                <p className="text-muted-foreground text-lg mb-4">
-                  No stories available in this section at the moment.
+              <div className="bg-card rounded-xl p-12 text-center border border-border" data-testid="empty-section-state">
+                <div className="w-20 h-20 rounded-full bg-muted mx-auto mb-6 flex items-center justify-center">
+                  <span className="text-4xl">{getSectionIcon(section)}</span>
+                </div>
+                <h3 className="text-xl font-semibold text-foreground mb-2">
+                  No {label} Stories Yet
+                </h3>
+                <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                  We&apos;re working on expanding our {label?.toLowerCase()} coverage. 
+                  In the meantime, explore other sections for the latest news.
                 </p>
-                <Link
-                  to="/"
-                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors inline-block"
-                >
-                  Back to Homepage
-                </Link>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <Link
+                    to="/"
+                    className="px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-semibold rounded-lg transition-colors inline-block"
+                    data-testid="back-to-homepage-btn"
+                  >
+                    Back to Homepage
+                  </Link>
+                  <Link
+                    to="/news/black"
+                    className="px-6 py-3 bg-card hover:bg-muted text-foreground border border-border rounded-lg transition-colors inline-block"
+                    data-testid="explore-black-news-btn"
+                  >
+                    Explore Black News
+                  </Link>
+                </div>
               </div>
             )}
 
