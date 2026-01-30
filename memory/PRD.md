@@ -199,6 +199,46 @@ All links visible:
 - `founder_ops_tasks` - Kanban tasks
 - `founder_ops_detectors` - HDOS detectors
 - `founder_ops_documents` - Document vault
+- `hdos_trust_levels` - 7 canonical trust levels (seeded, read-only)
+- `hdos_trust_policies` - Trust policies per level (CRUD)
+- `hdos_subject_trust` - Subject trust assignments (CRUD)
+
+### P0: HDOS v2 Circle Trust Order (COMPLETE - LOCKED - January 30, 2026)
+**7-level trust hierarchy for managing access and permissions across BANIBS systems.**
+
+**Trust Levels (Canonical Order):**
+1. **Peoples** - Highest trust. Inner circle. Full access.
+2. **Cool** - High trust. Trusted associates.
+3. **CHILL** - Good trust. Relaxed access.
+4. **Alright** - Neutral trust. Standard access.
+5. **Others** - Default trust. Limited access.
+6. **Others • Safe Mode** - Low trust with protection.
+7. **Blocked** - No trust. Access denied.
+
+**Backend API Endpoints:**
+- `GET /api/hdos/trust/levels` - List all 7 levels (read-only)
+- `GET /api/hdos/trust/levels/{level_key}` - Single level
+- `POST /api/hdos/trust/levels/seed` - Seed levels (idempotent)
+- `GET /api/hdos/trust/policies` - List policies
+- `POST /api/hdos/trust/policies` - Create policy
+- `PATCH /api/hdos/trust/policies/{id}` - Update policy
+- `PATCH /api/hdos/trust/policies/by-level/{level_key}` - Upsert policy by level
+- `GET /api/hdos/trust/assignments` - List assignments
+- `POST /api/hdos/trust/assignments` - Create assignment
+- `PATCH /api/hdos/trust/assignments/{id}` - Update assignment
+- `DELETE /api/hdos/trust/assignments/{id}` - Delete assignment
+- `GET /api/hdos/trust/check/{subject_id}` - Check effective trust level
+
+**Frontend UI (Founder Control Center > Trust Order tab):**
+- Levels sub-tab: Read-only display of 7 canonical levels with colors/icons
+- Policies sub-tab: CRUD for managing rules per trust level
+- Assignments sub-tab: CRUD for assigning subjects (users/emails/etc.) to levels
+- Extensible structure for future "Modes" feature
+
+**Test Coverage:**
+- `/app/backend/tests/test_hdos_trust.py` - 17 backend API tests
+- 100% backend success rate
+- 100% frontend success rate
 
 ### File Storage
 - `/app/data/founder_docs/` - Document files (protected, super_admin only)
