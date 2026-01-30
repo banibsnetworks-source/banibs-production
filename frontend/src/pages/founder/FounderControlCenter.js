@@ -3964,6 +3964,919 @@ const FounderControlCenter = () => {
             </Card>
           </div>
           )}
+          
+          {/* Trust Order Tab Content (HDOS v2) */}
+          {activeTab === 'trust-order' && (
+          <div data-testid="trust-order-tab-content">
+            <Card isDark={isDark} title="Circle Trust Order (HDOS v2)" icon={Crown}>
+              {/* Description */}
+              <p style={{
+                fontSize: '14px',
+                color: isDark ? '#9CA3AF' : '#6B7280',
+                marginBottom: '24px',
+                lineHeight: '1.6'
+              }}>
+                7-level trust hierarchy for managing access and permissions across BANIBS systems.
+                Structure is extensible for future modes and configurations.
+              </p>
+              
+              {/* Sub-tabs for Levels, Policies, Assignments */}
+              <div style={{
+                display: 'flex',
+                gap: '4px',
+                marginBottom: '24px',
+                borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                paddingBottom: '12px'
+              }}>
+                {[
+                  { id: 'levels', label: 'Levels', icon: Crown },
+                  { id: 'policies', label: 'Policies', icon: Shield },
+                  { id: 'assignments', label: 'Assignments', icon: Users }
+                ].map(subTab => {
+                  const SubIcon = subTab.icon;
+                  const isSubActive = trustSubTab === subTab.id;
+                  return (
+                    <button
+                      key={subTab.id}
+                      onClick={() => setTrustSubTab(subTab.id)}
+                      data-testid={`trust-subtab-${subTab.id}`}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '8px 16px',
+                        borderRadius: '6px 6px 0 0',
+                        border: 'none',
+                        backgroundColor: isSubActive 
+                          ? (isDark ? '#0C0C0C' : '#FFFFFF')
+                          : 'transparent',
+                        color: isSubActive 
+                          ? '#C8A857'
+                          : (isDark ? '#6B7280' : '#9CA3AF'),
+                        fontSize: '13px',
+                        fontWeight: isSubActive ? '600' : '500',
+                        cursor: 'pointer',
+                        borderBottom: isSubActive 
+                          ? '2px solid #C8A857' 
+                          : '2px solid transparent',
+                        transition: 'all 0.2s'
+                      }}
+                    >
+                      <SubIcon size={14} />
+                      {subTab.label}
+                    </button>
+                  );
+                })}
+              </div>
+              
+              {/* Loading and Error States */}
+              {trustLoading && (
+                <div style={{ textAlign: 'center', padding: '40px', color: isDark ? '#9CA3AF' : '#6B7280' }}>
+                  Loading trust data...
+                </div>
+              )}
+              
+              {trustError && (
+                <div style={{
+                  padding: '16px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  color: '#EF4444',
+                  marginBottom: '24px'
+                }}>
+                  Error: {trustError}
+                </div>
+              )}
+              
+              {/* LEVELS SUB-TAB (Read-Only) */}
+              {!trustLoading && trustSubTab === 'levels' && (
+                <div data-testid="trust-levels-section">
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginBottom: '16px'
+                  }}>
+                    <h4 style={{
+                      fontSize: '15px',
+                      fontWeight: '600',
+                      color: isDark ? '#F7F7F7' : '#111217',
+                      margin: 0
+                    }}>
+                      Trust Levels ({trustLevels.length})
+                    </h4>
+                    <span style={{
+                      fontSize: '12px',
+                      color: isDark ? '#6B7280' : '#9CA3AF',
+                      fontStyle: 'italic'
+                    }}>
+                      Read-only • Canonical hierarchy
+                    </span>
+                  </div>
+                  
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {trustLevels.map((level, index) => {
+                      // Map icon strings to components
+                      const iconMap = {
+                        'crown': Crown,
+                        'star': Star,
+                        'thumbs-up': ThumbsUp,
+                        'check': Check,
+                        'user': User,
+                        'shield': Shield,
+                        'ban': Ban
+                      };
+                      const LevelIcon = iconMap[level.icon] || User;
+                      
+                      return (
+                        <div
+                          key={level.id || level.key}
+                          data-testid={`trust-level-${level.key}`}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '16px',
+                            padding: '16px',
+                            backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                            borderRadius: '8px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`,
+                            borderLeft: `4px solid ${level.color}`
+                          }}
+                        >
+                          {/* Order Badge */}
+                          <div style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            backgroundColor: `${level.color}20`,
+                            color: level.color,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontWeight: '700',
+                            fontSize: '14px'
+                          }}>
+                            {level.order}
+                          </div>
+                          
+                          {/* Icon */}
+                          <div style={{
+                            width: '40px',
+                            height: '40px',
+                            borderRadius: '8px',
+                            backgroundColor: `${level.color}15`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}>
+                            <LevelIcon size={20} style={{ color: level.color }} />
+                          </div>
+                          
+                          {/* Info */}
+                          <div style={{ flex: 1 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                              <h5 style={{
+                                fontSize: '15px',
+                                fontWeight: '600',
+                                color: isDark ? '#F7F7F7' : '#111217',
+                                margin: 0
+                              }}>
+                                {level.name}
+                              </h5>
+                              <code style={{
+                                fontSize: '11px',
+                                padding: '2px 6px',
+                                borderRadius: '4px',
+                                backgroundColor: isDark ? '#0C0C0C' : '#E5E7EB',
+                                color: isDark ? '#6B7280' : '#374151',
+                                fontFamily: 'monospace'
+                              }}>
+                                {level.key}
+                              </code>
+                            </div>
+                            <p style={{
+                              fontSize: '13px',
+                              color: isDark ? '#9CA3AF' : '#6B7280',
+                              margin: 0,
+                              lineHeight: '1.4'
+                            }}>
+                              {level.description}
+                            </p>
+                          </div>
+                          
+                          {/* Color Swatch */}
+                          <div style={{
+                            width: '24px',
+                            height: '24px',
+                            borderRadius: '4px',
+                            backgroundColor: level.color,
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+                          }} title={level.color} />
+                        </div>
+                      );
+                    })}
+                    
+                    {trustLevels.length === 0 && (
+                      <div style={{
+                        textAlign: 'center',
+                        padding: '40px',
+                        color: isDark ? '#6B7280' : '#9CA3AF'
+                      }}>
+                        No trust levels found. Levels will be seeded on first API access.
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+              
+              {/* POLICIES SUB-TAB (CRUD) */}
+              {!trustLoading && trustSubTab === 'policies' && (
+                <div data-testid="trust-policies-section">
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginBottom: '16px'
+                  }}>
+                    <h4 style={{
+                      fontSize: '15px',
+                      fontWeight: '600',
+                      color: isDark ? '#F7F7F7' : '#111217',
+                      margin: 0
+                    }}>
+                      Trust Policies ({trustPolicies.length})
+                    </h4>
+                    <span style={{
+                      fontSize: '12px',
+                      color: isDark ? '#6B7280' : '#9CA3AF'
+                    }}>
+                      Define rules per trust level
+                    </span>
+                  </div>
+                  
+                  {/* Policy Edit Form */}
+                  {showPolicyForm && editingPolicy && (
+                    <div style={{
+                      marginBottom: '24px',
+                      padding: '20px',
+                      backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                      borderRadius: '8px',
+                      border: `2px solid #C8A857`
+                    }}>
+                      <h5 style={{
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        color: isDark ? '#F7F7F7' : '#111217',
+                        marginBottom: '16px'
+                      }}>
+                        Edit Policy: {editingPolicy.level_key}
+                      </h5>
+                      
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={{
+                          display: 'block',
+                          fontSize: '13px',
+                          fontWeight: '500',
+                          color: isDark ? '#9CA3AF' : '#6B7280',
+                          marginBottom: '6px'
+                        }}>
+                          Allowed Modules (comma-separated)
+                        </label>
+                        <input
+                          type="text"
+                          value={editingPolicy.allowed_modules?.join(', ') || ''}
+                          onChange={(e) => setEditingPolicy({
+                            ...editingPolicy,
+                            allowed_modules: e.target.value.split(',').map(s => s.trim()).filter(Boolean)
+                          })}
+                          placeholder="news, social, marketplace..."
+                          style={{
+                            width: '100%',
+                            padding: '10px 12px',
+                            fontSize: '14px',
+                            borderRadius: '6px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                            backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                            color: isDark ? '#F7F7F7' : '#111217',
+                            outline: 'none'
+                          }}
+                        />
+                      </div>
+                      
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={{
+                          display: 'block',
+                          fontSize: '13px',
+                          fontWeight: '500',
+                          color: isDark ? '#9CA3AF' : '#6B7280',
+                          marginBottom: '6px'
+                        }}>
+                          Notes / Canonical Rules
+                        </label>
+                        <textarea
+                          value={editingPolicy.notes || ''}
+                          onChange={(e) => setEditingPolicy({ ...editingPolicy, notes: e.target.value })}
+                          placeholder="Enter policy notes and rules..."
+                          rows={3}
+                          style={{
+                            width: '100%',
+                            padding: '10px 12px',
+                            fontSize: '14px',
+                            borderRadius: '6px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                            backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                            color: isDark ? '#F7F7F7' : '#111217',
+                            outline: 'none',
+                            resize: 'vertical'
+                          }}
+                        />
+                      </div>
+                      
+                      <div style={{ display: 'flex', gap: '12px' }}>
+                        <button
+                          onClick={() => saveTrustPolicy(editingPolicy.level_key, {
+                            allowed_modules: editingPolicy.allowed_modules,
+                            notes: editingPolicy.notes
+                          })}
+                          data-testid="save-policy-btn"
+                          style={{
+                            padding: '10px 20px',
+                            backgroundColor: '#C8A857',
+                            color: '#0C0C0C',
+                            border: 'none',
+                            borderRadius: '6px',
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          Save Policy
+                        </button>
+                        <button
+                          onClick={() => { setShowPolicyForm(false); setEditingPolicy(null); }}
+                          style={{
+                            padding: '10px 20px',
+                            backgroundColor: 'transparent',
+                            color: isDark ? '#9CA3AF' : '#6B7280',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                            borderRadius: '6px',
+                            fontSize: '14px',
+                            fontWeight: '500',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Policies List - Show all levels with policy status */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {trustLevels.map(level => {
+                      const policy = trustPolicies.find(p => p.level_key === level.key);
+                      const hasPolicy = !!policy;
+                      
+                      return (
+                        <div
+                          key={level.key}
+                          data-testid={`policy-row-${level.key}`}
+                          style={{
+                            padding: '16px',
+                            backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                            borderRadius: '8px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`,
+                            borderLeft: `4px solid ${level.color}`
+                          }}
+                        >
+                          <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'flex-start',
+                            marginBottom: hasPolicy ? '12px' : '0'
+                          }}>
+                            <div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                                <span style={{
+                                  width: '20px',
+                                  height: '20px',
+                                  borderRadius: '50%',
+                                  backgroundColor: level.color,
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  color: '#fff',
+                                  fontSize: '11px',
+                                  fontWeight: '700'
+                                }}>
+                                  {level.order}
+                                </span>
+                                <h5 style={{
+                                  fontSize: '14px',
+                                  fontWeight: '600',
+                                  color: isDark ? '#F7F7F7' : '#111217',
+                                  margin: 0
+                                }}>
+                                  {level.name}
+                                </h5>
+                                {hasPolicy ? (
+                                  <span style={{
+                                    fontSize: '11px',
+                                    padding: '2px 8px',
+                                    borderRadius: '4px',
+                                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                    color: '#10B981',
+                                    fontWeight: '500'
+                                  }}>
+                                    Configured
+                                  </span>
+                                ) : (
+                                  <span style={{
+                                    fontSize: '11px',
+                                    padding: '2px 8px',
+                                    borderRadius: '4px',
+                                    backgroundColor: 'rgba(156, 163, 175, 0.1)',
+                                    color: '#9CA3AF',
+                                    fontWeight: '500'
+                                  }}>
+                                    No Policy
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            
+                            <button
+                              onClick={() => {
+                                setEditingPolicy(policy || { level_key: level.key, allowed_modules: [], notes: '' });
+                                setShowPolicyForm(true);
+                              }}
+                              data-testid={`edit-policy-${level.key}`}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                padding: '6px 12px',
+                                backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                                color: isDark ? '#F7F7F7' : '#111217',
+                                border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                                borderRadius: '6px',
+                                fontSize: '12px',
+                                fontWeight: '500',
+                                cursor: 'pointer'
+                              }}
+                            >
+                              <Edit3 size={12} />
+                              {hasPolicy ? 'Edit' : 'Configure'}
+                            </button>
+                          </div>
+                          
+                          {/* Policy Details */}
+                          {hasPolicy && (
+                            <div style={{
+                              padding: '12px',
+                              backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                              borderRadius: '6px'
+                            }}>
+                              <div style={{ marginBottom: '8px' }}>
+                                <span style={{
+                                  fontSize: '12px',
+                                  fontWeight: '500',
+                                  color: isDark ? '#6B7280' : '#9CA3AF'
+                                }}>
+                                  Allowed Modules:
+                                </span>
+                                <div style={{ marginTop: '4px', display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                                  {policy.allowed_modules?.length > 0 ? (
+                                    policy.allowed_modules.map(mod => (
+                                      <span key={mod} style={{
+                                        fontSize: '11px',
+                                        padding: '2px 8px',
+                                        borderRadius: '4px',
+                                        backgroundColor: isDark ? '#1C1C1C' : '#E5E7EB',
+                                        color: isDark ? '#B3B3C2' : '#374151'
+                                      }}>
+                                        {mod}
+                                      </span>
+                                    ))
+                                  ) : (
+                                    <span style={{ fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF', fontStyle: 'italic' }}>
+                                      All modules (default)
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                              
+                              {policy.notes && (
+                                <div>
+                                  <span style={{
+                                    fontSize: '12px',
+                                    fontWeight: '500',
+                                    color: isDark ? '#6B7280' : '#9CA3AF'
+                                  }}>
+                                    Notes:
+                                  </span>
+                                  <p style={{
+                                    fontSize: '12px',
+                                    color: isDark ? '#B3B3C2' : '#4A4B57',
+                                    margin: '4px 0 0 0',
+                                    lineHeight: '1.4'
+                                  }}>
+                                    {policy.notes}
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+              
+              {/* ASSIGNMENTS SUB-TAB (CRUD) */}
+              {!trustLoading && trustSubTab === 'assignments' && (
+                <div data-testid="trust-assignments-section">
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginBottom: '16px'
+                  }}>
+                    <h4 style={{
+                      fontSize: '15px',
+                      fontWeight: '600',
+                      color: isDark ? '#F7F7F7' : '#111217',
+                      margin: 0
+                    }}>
+                      Trust Assignments ({trustAssignments.length})
+                    </h4>
+                    <button
+                      onClick={() => {
+                        setAssignmentForm({ subject_type: 'EMAIL', subject_id: '', subject_label: '', level_key: 'OTHERS', reason: '' });
+                        setShowAssignmentForm(true);
+                      }}
+                      data-testid="add-assignment-btn"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '8px 16px',
+                        backgroundColor: '#C8A857',
+                        color: '#0C0C0C',
+                        border: 'none',
+                        borderRadius: '6px',
+                        fontSize: '13px',
+                        fontWeight: '600',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <Plus size={14} />
+                      Add Assignment
+                    </button>
+                  </div>
+                  
+                  {/* Assignment Create Form */}
+                  {showAssignmentForm && (
+                    <div style={{
+                      marginBottom: '24px',
+                      padding: '20px',
+                      backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                      borderRadius: '8px',
+                      border: `2px solid #C8A857`
+                    }}>
+                      <h5 style={{
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        color: isDark ? '#F7F7F7' : '#111217',
+                        marginBottom: '16px'
+                      }}>
+                        New Trust Assignment
+                      </h5>
+                      
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                        <div>
+                          <label style={{
+                            display: 'block',
+                            fontSize: '13px',
+                            fontWeight: '500',
+                            color: isDark ? '#9CA3AF' : '#6B7280',
+                            marginBottom: '6px'
+                          }}>
+                            Subject Type
+                          </label>
+                          <select
+                            value={assignmentForm.subject_type}
+                            onChange={(e) => setAssignmentForm({ ...assignmentForm, subject_type: e.target.value })}
+                            style={{
+                              width: '100%',
+                              padding: '10px 12px',
+                              fontSize: '14px',
+                              borderRadius: '6px',
+                              border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                              backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                              color: isDark ? '#F7F7F7' : '#111217',
+                              outline: 'none'
+                            }}
+                          >
+                            <option value="EMAIL">Email</option>
+                            <option value="USER">User ID</option>
+                            <option value="PHONE">Phone</option>
+                            <option value="DEVICE">Device</option>
+                            <option value="IP">IP Address</option>
+                          </select>
+                        </div>
+                        
+                        <div>
+                          <label style={{
+                            display: 'block',
+                            fontSize: '13px',
+                            fontWeight: '500',
+                            color: isDark ? '#9CA3AF' : '#6B7280',
+                            marginBottom: '6px'
+                          }}>
+                            Trust Level
+                          </label>
+                          <select
+                            value={assignmentForm.level_key}
+                            onChange={(e) => setAssignmentForm({ ...assignmentForm, level_key: e.target.value })}
+                            style={{
+                              width: '100%',
+                              padding: '10px 12px',
+                              fontSize: '14px',
+                              borderRadius: '6px',
+                              border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                              backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                              color: isDark ? '#F7F7F7' : '#111217',
+                              outline: 'none'
+                            }}
+                          >
+                            {trustLevels.map(level => (
+                              <option key={level.key} value={level.key}>
+                                {level.order}. {level.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                      
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={{
+                          display: 'block',
+                          fontSize: '13px',
+                          fontWeight: '500',
+                          color: isDark ? '#9CA3AF' : '#6B7280',
+                          marginBottom: '6px'
+                        }}>
+                          Subject ID *
+                        </label>
+                        <input
+                          type="text"
+                          value={assignmentForm.subject_id}
+                          onChange={(e) => setAssignmentForm({ ...assignmentForm, subject_id: e.target.value })}
+                          placeholder="e.g., user@example.com"
+                          style={{
+                            width: '100%',
+                            padding: '10px 12px',
+                            fontSize: '14px',
+                            borderRadius: '6px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                            backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                            color: isDark ? '#F7F7F7' : '#111217',
+                            outline: 'none'
+                          }}
+                        />
+                      </div>
+                      
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={{
+                          display: 'block',
+                          fontSize: '13px',
+                          fontWeight: '500',
+                          color: isDark ? '#9CA3AF' : '#6B7280',
+                          marginBottom: '6px'
+                        }}>
+                          Label (optional)
+                        </label>
+                        <input
+                          type="text"
+                          value={assignmentForm.subject_label}
+                          onChange={(e) => setAssignmentForm({ ...assignmentForm, subject_label: e.target.value })}
+                          placeholder="Human-readable name"
+                          style={{
+                            width: '100%',
+                            padding: '10px 12px',
+                            fontSize: '14px',
+                            borderRadius: '6px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                            backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                            color: isDark ? '#F7F7F7' : '#111217',
+                            outline: 'none'
+                          }}
+                        />
+                      </div>
+                      
+                      <div style={{ marginBottom: '16px' }}>
+                        <label style={{
+                          display: 'block',
+                          fontSize: '13px',
+                          fontWeight: '500',
+                          color: isDark ? '#9CA3AF' : '#6B7280',
+                          marginBottom: '6px'
+                        }}>
+                          Reason
+                        </label>
+                        <textarea
+                          value={assignmentForm.reason}
+                          onChange={(e) => setAssignmentForm({ ...assignmentForm, reason: e.target.value })}
+                          placeholder="Why this trust level?"
+                          rows={2}
+                          style={{
+                            width: '100%',
+                            padding: '10px 12px',
+                            fontSize: '14px',
+                            borderRadius: '6px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                            backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                            color: isDark ? '#F7F7F7' : '#111217',
+                            outline: 'none',
+                            resize: 'vertical'
+                          }}
+                        />
+                      </div>
+                      
+                      <div style={{ display: 'flex', gap: '12px' }}>
+                        <button
+                          onClick={createTrustAssignment}
+                          data-testid="save-assignment-btn"
+                          style={{
+                            padding: '10px 20px',
+                            backgroundColor: '#C8A857',
+                            color: '#0C0C0C',
+                            border: 'none',
+                            borderRadius: '6px',
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          Create Assignment
+                        </button>
+                        <button
+                          onClick={() => setShowAssignmentForm(false)}
+                          style={{
+                            padding: '10px 20px',
+                            backgroundColor: 'transparent',
+                            color: isDark ? '#9CA3AF' : '#6B7280',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                            borderRadius: '6px',
+                            fontSize: '14px',
+                            fontWeight: '500',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Assignments List */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {trustAssignments.map(assignment => {
+                      const level = trustLevels.find(l => l.key === assignment.level_key);
+                      const levelColor = level?.color || '#6B7280';
+                      
+                      return (
+                        <div
+                          key={assignment.id}
+                          data-testid={`assignment-row-${assignment.id}`}
+                          style={{
+                            padding: '16px',
+                            backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                            borderRadius: '8px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`,
+                            borderLeft: `4px solid ${levelColor}`
+                          }}
+                        >
+                          <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'flex-start'
+                          }}>
+                            <div style={{ flex: 1 }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                                <h5 style={{
+                                  fontSize: '14px',
+                                  fontWeight: '600',
+                                  color: isDark ? '#F7F7F7' : '#111217',
+                                  margin: 0
+                                }}>
+                                  {assignment.subject_label || assignment.subject_id}
+                                </h5>
+                                <span style={{
+                                  fontSize: '11px',
+                                  padding: '2px 6px',
+                                  borderRadius: '4px',
+                                  backgroundColor: `${levelColor}20`,
+                                  color: levelColor,
+                                  fontWeight: '600'
+                                }}>
+                                  {assignment.level_name || assignment.level_key}
+                                </span>
+                              </div>
+                              
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '6px' }}>
+                                <span style={{
+                                  fontSize: '12px',
+                                  color: isDark ? '#6B7280' : '#9CA3AF'
+                                }}>
+                                  {assignment.subject_type}: <code style={{ fontFamily: 'monospace' }}>{assignment.subject_id}</code>
+                                </span>
+                              </div>
+                              
+                              {assignment.reason && (
+                                <p style={{
+                                  fontSize: '12px',
+                                  color: isDark ? '#9CA3AF' : '#6B7280',
+                                  margin: 0,
+                                  fontStyle: 'italic'
+                                }}>
+                                  "{assignment.reason}"
+                                </p>
+                              )}
+                              
+                              <div style={{ marginTop: '8px', fontSize: '11px', color: isDark ? '#6B7280' : '#9CA3AF' }}>
+                                Assigned by: {assignment.assigned_by || 'System'}
+                              </div>
+                            </div>
+                            
+                            <div style={{ display: 'flex', gap: '8px' }}>
+                              {/* Level Quick Change */}
+                              <select
+                                value={assignment.level_key}
+                                onChange={(e) => updateTrustAssignment(assignment.id, e.target.value)}
+                                data-testid={`change-level-${assignment.id}`}
+                                style={{
+                                  padding: '6px 10px',
+                                  fontSize: '12px',
+                                  borderRadius: '6px',
+                                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                                  backgroundColor: isDark ? '#0C0C0C' : '#FFFFFF',
+                                  color: isDark ? '#F7F7F7' : '#111217',
+                                  outline: 'none',
+                                  cursor: 'pointer'
+                                }}
+                              >
+                                {trustLevels.map(level => (
+                                  <option key={level.key} value={level.key}>
+                                    {level.order}. {level.name}
+                                  </option>
+                                ))}
+                              </select>
+                              
+                              <button
+                                onClick={() => deleteTrustAssignment(assignment.id)}
+                                data-testid={`delete-assignment-${assignment.id}`}
+                                title="Remove assignment"
+                                style={{
+                                  padding: '6px 10px',
+                                  backgroundColor: 'transparent',
+                                  color: '#EF4444',
+                                  border: `1px solid rgba(239, 68, 68, 0.3)`,
+                                  borderRadius: '6px',
+                                  fontSize: '12px',
+                                  cursor: 'pointer'
+                                }}
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                    
+                    {trustAssignments.length === 0 && (
+                      <div style={{
+                        textAlign: 'center',
+                        padding: '40px',
+                        color: isDark ? '#6B7280' : '#9CA3AF'
+                      }}>
+                        <Users size={48} style={{ marginBottom: '16px', opacity: 0.5 }} />
+                        <p style={{ margin: 0 }}>No trust assignments yet.</p>
+                        <p style={{ margin: '8px 0 0 0', fontSize: '13px' }}>
+                          Add subjects (users, emails, etc.) to assign trust levels.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </Card>
+          </div>
+          )}
         </div>
       </div>
     </FullWidthLayout>
