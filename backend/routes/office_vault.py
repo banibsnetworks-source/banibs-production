@@ -16,7 +16,8 @@ from typing import Optional, List
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 
-# Import auth dependency
+# Import auth dependencies
+from middleware.auth_guard import get_current_user
 from routes.founder_ops import require_super_admin
 
 router = APIRouter(prefix="/api/office", tags=["Office Vault"])
