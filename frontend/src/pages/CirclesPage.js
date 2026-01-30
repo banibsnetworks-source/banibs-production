@@ -122,27 +122,25 @@ const CirclesPage = () => {
 
       {/* Hero Section with Founder Image */}
       <section 
-        className="relative w-full overflow-hidden"
+        className="relative w-full"
         data-testid="hero-section"
       >
-        {/* Hero Image Container */}
-        <div className="relative w-full max-w-5xl mx-auto">
-          {/* Dark overlay for text contrast if needed - subtle */}
-          <div 
-            className="absolute inset-0 z-10 pointer-events-none"
-            style={{
-              background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.1) 100%)'
-            }}
-          />
-          
+        {/* Hero Image Container - Full width with centered image */}
+        <div 
+          className="relative w-full flex justify-center"
+          style={{
+            background: isDark 
+              ? 'linear-gradient(to bottom, #0C0C0C 0%, #0a0a12 50%, #0C0C0C 100%)'
+              : 'linear-gradient(to bottom, #FAFAFA 0%, #f0f0f5 50%, #FAFAFA 100%)'
+          }}
+        >
           {/* Hero Image - Static, no animation */}
           <img
             src="https://customer-assets.emergentagent.com/job_news-trust-system/artifacts/8uwstelr_ChatGPT%20Image%20Jan%2030%2C%202026%2C%2001_49_36%20AM.png"
             alt="Founder of BANIBS standing before symbolic trust circles"
-            className="w-full h-auto"
+            className="w-full max-w-4xl h-auto"
             style={{
-              maxHeight: '85vh',
-              objectFit: 'contain'
+              maxHeight: '80vh'
             }}
           />
         </div>
