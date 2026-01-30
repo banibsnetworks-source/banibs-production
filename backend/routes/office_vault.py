@@ -358,6 +358,23 @@ async def get_vault_item(
         parsed = parse_markdown_frontmatter(filepath)
         body = parsed.get("_body", "")
         
+        # Map type name correctly
+        type_mapping = {
+            "discoveries": "DISCOVERY",
+            "inventions": "INVENTION",
+            "contacts": "CONTACT",
+            "projects": "PROJECT",
+            "tasks": "TASK",
+            "books": "BOOK",
+            "glossary": "GLOSSARY",
+            "mechanisms": "MECHANISM",
+            "scripts": "SCRIPT",
+            "detectors": "DETECTOR",
+            "policies": "POLICY",
+            "ops": "OPS"
+        }
+        type_name = type_mapping.get(item_type, item_type.upper())
+        
         # For PRIVATE inventions, only show summary
         is_invention = item_type == "inventions"
         is_private = confidentiality == "PRIVATE"
@@ -370,7 +387,7 @@ async def get_vault_item(
             success=True,
             item=VaultItemDetail(
                 id=parsed.get("id", item_id),
-                type=item_type.upper().rstrip('S') if item_type != "ops" else "OPS",
+                type=type_name,
                 title=parsed.get("title", ""),
                 status=parsed.get("status", "DRAFT"),
                 confidentiality=parsed.get("confidentiality", "PRIVATE"),
