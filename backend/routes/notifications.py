@@ -185,3 +185,90 @@ async def create_notification_endpoint(
     )
     
     return NotificationPublic(**created)
+
+
+# ======================
+# GUEST SUBSCRIPTION ENDPOINTS (No Auth Required)
+# ======================
+from pydantic import BaseModel, EmailStr
+from typing import Optional
+from datetime import datetime, timezone
+from motor.motor_asyncio import AsyncIOMotorClient
+import os
+
+MONGO_URL = os.environ.get("MONGO_URL", "mongodb://localhost:27017")
+DB_NAME = os.environ.get("DB_NAME", "banibs")
+
+
+class GuestSubscribeRequest(BaseModel):
+    email: EmailStr
+    source: Optional[str] = "unknown"
+
+
+class GuestSubscribeResponse(BaseModel):
+    success: bool
+    message: str
+
+
+def get_db_client():
+    client = AsyncIOMotorClient(MONGO_URL)
+    return client[DB_NAME]
+
+
+@router.post("/subscribe", response_model=GuestSubscribeResponse)
+async def guest_subscribe_to_notifications(request: GuestSubscribeRequest):
+    """
+    Subscribe to optional update notifications.
+    Guest accessible - no auth required.
+    Notifications are infrequent, informational only, and optional.
+    """
+    db = get_db_client()
+    
+    # Check if already subscribed
+    existing = await db.guest_subscribers.find_one({"email": request.email.lower()})
+    
+    if existing:
+        return GuestSubscribeResponse(
+            success=True,
+            message="Already subscribed"
+        )
+    
+    # Create subscription
+    subscription = {
+        "email": request.email.lower(),
+        "source": request.source,
+        "subscribed_at": datetime.now(timezone.utc),
+        "status": "active",
+        "unsubscribed_at": None
+    }
+    
+    await db.guest_subscribers.insert_one(subscription)
+    
+    return GuestSubscribeResponse(
+        success=True,
+        message="Subscribed successfully"
+    )
+
+
+@router.post("/unsubscribe-guest")
+async def guest_unsubscribe_from_notifications(email: str):
+    """
+    Unsubscribe from update notifications.
+    Guest accessible - no auth required.
+    """
+    db = get_db_client()
+    
+    result = await db.guest_subscribers.update_one(
+        {"email": email.lower()},
+        {
+            "$set": {
+                "status": "unsubscribed",
+                "unsubscribed_at": datetime.now(timezone.utc)
+            }
+        }
+    )
+    
+    if result.modified_count == 0:
+        raise HTTPException(status_code=404, detail="Email not found")
+    
+    return {"success": True, "message": "Unsubscribed successfully"}
