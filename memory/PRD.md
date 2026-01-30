@@ -102,12 +102,15 @@ All links visible:
 - [x] Hide unfinished modules from public nav
 - [x] Remove BANIBS TV cards from news pages
 - [x] **HDOS v2 Circle Trust Order System (COMPLETE - January 30, 2026)**
+- [x] **News Feed Aesthetics Pass (COMPLETE - January 30, 2026)**
+- [x] **Founder Office Vault Phase 1 (COMPLETE - January 30, 2026)**
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
+- [x] Fix News Feed Aesthetics (thumbnails, empty sections) ✅ COMPLETE
 - [ ] BANIBS Book Vault Studio - Book authoring module
 - [ ] Re-enable Social with full functionality
-- [ ] Fix News Feed Aesthetics (thumbnails, empty sections)
+- [ ] Founder Office Vault Phase 2 - UI integration (Archive, Contacts, Inventions tabs)
 
 ### P2 - Medium Priority
 - [ ] Raymond Health Core System - Daily tracker
