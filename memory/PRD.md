@@ -105,6 +105,7 @@ All links visible:
 - [x] **News Feed Aesthetics Pass (COMPLETE - January 30, 2026)**
 - [x] **Founder Office Vault Phase 1 (COMPLETE - January 30, 2026)**
 - [x] **BANIBS & HDOS Foundation Pages (COMPLETE - January 30, 2026)**
+- [x] **Circles Guest Page (COMPLETE - January 30, 2026)**
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
