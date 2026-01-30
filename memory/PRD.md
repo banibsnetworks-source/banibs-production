@@ -206,6 +206,30 @@ All links visible:
 - `hdos_trust_policies` - Trust policies per level (CRUD)
 - `hdos_subject_trust` - Subject trust assignments (CRUD)
 
+### Founder Office Vault (Server Filesystem - COMPLETE Phase 1)
+**Location:** `/opt/banibs-office/`
+
+**Directory Structure:**
+```
+/opt/banibs-office/
+├── index.json              # Master registry (dedupe, versioning, stats)
+├── inbox/                  # Thread sweep JSON imports
+├── items/{discoveries,inventions,contacts,projects,tasks,books,glossary,mechanisms,scripts,detectors,policies,ops}/
+├── documents/{legal,patents,contracts,ids,screenshots,drafts}/
+├── threads/YYYY/MM/        # Thread extracts by date
+├── media/{images,audio,video}/
+├── exports/                # Exported archives
+└── backups/
+```
+
+**CLI Tools:**
+- `./office_ingest [--file] [--dry-run] [--verbose]` - Process thread sweep JSON
+- `./office_export --type TYPE [--confidentiality] [--format zip|md]` - Export filtered items
+
+**Item Schema:** Markdown with YAML frontmatter (id, type, title, status, classification, confidentiality, hash_sha256, version, supersedes)
+
+**Dedupe Logic:** SHA256 hash match → SKIP | Title match with different hash → VERSION | Otherwise → INSERT
+
 ### P0: HDOS v2 Circle Trust Order (COMPLETE - LOCKED - January 30, 2026)
 **7-level trust hierarchy for managing access and permissions across BANIBS systems.**
 
