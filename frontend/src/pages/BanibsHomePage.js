@@ -125,13 +125,19 @@ const BanibsHomePage = () => {
           </p>
           <div className="flex gap-6">
             <Link
+              to="/"
+              className={`text-sm ${isDark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'} transition-colors`}
+            >
+              Home
+            </Link>
+            <Link
               to="/foundation"
               className={`text-sm ${isDark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'} transition-colors`}
             >
               Foundation
             </Link>
             <Link
-              to="/"
+              to="/news"
               className={`text-sm ${isDark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'} transition-colors`}
             >
               News
