@@ -417,8 +417,11 @@ function App() {
               {/* Guest Page / Coming Soon Preview */}
               <Route path="/guest" element={<ComingSoonPage />} />
               
-              {/* Phase 7.6.2 - CNN-Style News Homepage (Main Site) */}
-              <Route path="/" element={<NewsHomePage />} />
+              {/* Home - Circles Guest Page (Canonical) */}
+              <Route path="/" element={<CirclesPage />} />
+              
+              {/* News Homepage */}
+              <Route path="/news" element={<NewsHomePage />} />
               
               {/* BANIBS & HDOS Foundation Pages */}
               <Route path="/about" element={<BanibsHomePage />} />
