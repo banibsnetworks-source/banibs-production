@@ -366,26 +366,30 @@ const CirclesPage = () => {
             If that&apos;s you, the following books expand on the concepts behind BANIBS & HDOS:
           </p>
           <ul className={`mt-6 space-y-3 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-            <li className="flex items-start gap-3">
-              <BookOpen size={18} className={`mt-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
-              The Devil&apos;s Dismissive Argument
-            </li>
-            <li className="flex items-start gap-3">
-              <BookOpen size={18} className={`mt-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
-              Before You Call It Out
-            </li>
-            <li className="flex items-start gap-3">
-              <BookOpen size={18} className={`mt-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
-              The Devil&apos;s Deceitful Master Plan
-            </li>
-            <li className="flex items-start gap-3">
-              <BookOpen size={18} className={`mt-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
-              The Light God Wants You to See
-            </li>
-            <li className="flex items-start gap-3">
-              <BookOpen size={18} className={`mt-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
-              How Not To Be Dismissive
-            </li>
+            {FOUNDATION_BOOKS.map(title => {
+              const book = BANIBS_BOOKS.find(b => b.title === title);
+              const hasLink = book && book.url;
+              
+              return (
+                <li key={title} className="flex items-start gap-3">
+                  <BookOpen size={18} className={`mt-1 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
+                  {hasLink ? (
+                    <a
+                      href={book.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`hover:underline flex items-center gap-2 ${isDark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'}`}
+                      data-testid={`book-link-${book.id}`}
+                    >
+                      {title}
+                      <ExternalLink size={14} className="opacity-50" />
+                    </a>
+                  ) : (
+                    <span>{title}</span>
+                  )}
+                </li>
+              );
+            })}
           </ul>
           <p className={`mt-6 text-sm ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
             (Full list also appears on the Foundation page.)
