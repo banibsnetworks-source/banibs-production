@@ -449,7 +449,7 @@ const CirclesPage = () => {
       </main>
 
       {/* Minimal Footer */}
-      <footer className={`border-t ${isDark ? 'border-white/10' : 'border-black/10'}`}>
+      <footer className={`border-t relative z-10 ${isDark ? 'border-white/10' : 'border-black/10'}`}>
         <div className="max-w-4xl mx-auto px-6 py-6 flex justify-between items-center">
           <p className={`text-sm ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
             © {new Date().getFullYear()} BANIBS
