@@ -599,6 +599,18 @@ const FounderControlCenter = () => {
     reason: ''
   });
   
+  // Office Vault state (Phase 2)
+  const [vaultStats, setVaultStats] = useState(null);
+  const [vaultItems, setVaultItems] = useState([]);
+  const [vaultLoading, setVaultLoading] = useState(false);
+  const [vaultError, setVaultError] = useState(null);
+  const [vaultSubTab, setVaultSubTab] = useState('archive');
+  const [vaultFilter, setVaultFilter] = useState({ type: '', status: '', confidentiality: '', search: '' });
+  const [selectedVaultItem, setSelectedVaultItem] = useState(null);
+  const [vaultItemDetail, setVaultItemDetail] = useState(null);
+  const [vaultDetailLoading, setVaultDetailLoading] = useState(false);
+  const [ingestResult, setIngestResult] = useState(null);
+  
   // DnD Kit sensors
   const sensors = useSensors(
     useSensor(PointerSensor, {
