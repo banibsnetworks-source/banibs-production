@@ -4803,7 +4803,7 @@ const FounderControlCenter = () => {
                                   margin: 0,
                                   fontStyle: 'italic'
                                 }}>
-                                  "{assignment.reason}"
+                                  &ldquo;{assignment.reason}&rdquo;
                                 </p>
                               )}
                               
