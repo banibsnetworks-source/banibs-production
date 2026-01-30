@@ -27,7 +27,7 @@ export default defineConfig({
   // Shared settings for all the projects below
   use: {
     // Base URL for tests - using the preview environment
-    baseURL: 'https://founder-tools-3.preview.emergentagent.com',
+    baseURL: 'https://news-trust-system.preview.emergentagent.com',
     
     // Browser context options
     trace: 'retain-on-failure',

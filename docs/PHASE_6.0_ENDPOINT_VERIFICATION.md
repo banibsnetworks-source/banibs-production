@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://founder-tools-3.preview.emergentagent.com/api/auth
+https://news-trust-system.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
