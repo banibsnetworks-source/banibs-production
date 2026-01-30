@@ -135,7 +135,7 @@ const CirclesPage = () => {
           <h1 className={`text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
             BANIBS
           </h1>
-          <p className={`text-lg md:text-xl ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+          <p className={`text-lg md:text-xl font-semibold ${isDark ? 'text-white/90' : 'text-gray-800'}`}>
             Black America News, Information & Business System
           </p>
         </div>
