@@ -48,7 +48,7 @@ const BanibsHomePage = () => {
               Foundation
             </Link>
             <Link
-              to="/news"
+              to="/foundation"
               className={`text-sm font-medium ${isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}
             >
               News
@@ -146,7 +146,7 @@ const BanibsHomePage = () => {
               Foundation
             </Link>
             <Link
-              to="/news"
+              to="/foundation"
               className={`text-sm ${isDark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'} transition-colors`}
             >
               News
