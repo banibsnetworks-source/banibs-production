@@ -838,6 +838,84 @@ const FounderControlCenter = () => {
   };
   
   // =====================
+  // OFFICE VAULT API FUNCTIONS
+  // =====================
+  
+  const fetchVaultStats = async () => {
+    if (!accessToken) return;
+    try {
+      const response = await fetch(`${API_URL}/api/office/stats`, {
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      if (!response.ok) throw new Error('Failed to fetch vault stats');
+      const result = await response.json();
+      setVaultStats(result.stats);
+    } catch (err) {
+      console.error('Vault stats error:', err);
+    }
+  };
+  
+  const fetchVaultItems = async (typeFilter = null) => {
+    if (!accessToken) return;
+    setVaultLoading(true);
+    setVaultError(null);
+    try {
+      const params = new URLSearchParams();
+      if (typeFilter) params.append('item_type', typeFilter);
+      if (vaultFilter.status) params.append('status', vaultFilter.status);
+      if (vaultFilter.confidentiality) params.append('confidentiality', vaultFilter.confidentiality);
+      if (vaultFilter.search) params.append('search', vaultFilter.search);
+      
+      const response = await fetch(`${API_URL}/api/office/items?${params}`, {
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      if (!response.ok) throw new Error('Failed to fetch vault items');
+      const result = await response.json();
+      setVaultItems(result.items || []);
+    } catch (err) {
+      setVaultError(err.message);
+    } finally {
+      setVaultLoading(false);
+    }
+  };
+  
+  const fetchVaultItemDetail = async (itemId) => {
+    if (!accessToken) return;
+    setVaultDetailLoading(true);
+    try {
+      const response = await fetch(`${API_URL}/api/office/items/${itemId}`, {
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      if (!response.ok) throw new Error('Failed to fetch item detail');
+      const result = await response.json();
+      setVaultItemDetail(result.item);
+    } catch (err) {
+      alert('Failed to load item: ' + err.message);
+    } finally {
+      setVaultDetailLoading(false);
+    }
+  };
+  
+  const triggerVaultIngest = async () => {
+    if (!accessToken) return;
+    setIngestResult(null);
+    try {
+      const response = await fetch(`${API_URL}/api/office/ingest`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      if (!response.ok) throw new Error('Ingest failed');
+      const result = await response.json();
+      setIngestResult(result);
+      // Refresh items and stats
+      fetchVaultStats();
+      fetchVaultItems();
+    } catch (err) {
+      alert('Ingest failed: ' + err.message);
+    }
+  };
+  
+  // =====================
   // DOCUMENTS API FUNCTIONS
   // =====================
   
