@@ -416,11 +416,29 @@ const FoundationPage = () => {
         <section id="books" className={sectionClass} data-testid="section-books">
           <h2 className={titleClass}>15. Books</h2>
           <ul className={`list-none space-y-3 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-            <li className={liClass}>• The Devil&apos;s Dismissive Argument</li>
-            <li className={liClass}>• Before You Call It Out</li>
-            <li className={liClass}>• The Devil&apos;s Deceitful Master Plan</li>
-            <li className={liClass}>• The Light God Wants You to See</li>
-            <li className={liClass}>• How Not To Be Dismissive</li>
+            {FOUNDATION_BOOKS.map(title => {
+              const book = BANIBS_BOOKS.find(b => b.title === title);
+              const hasLink = book && book.url;
+              
+              return (
+                <li key={title} className={liClass}>
+                  {hasLink ? (
+                    <a
+                      href={book.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`hover:underline inline-flex items-center gap-2 ${isDark ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'}`}
+                      data-testid={`book-link-${book.id}`}
+                    >
+                      • {title}
+                      <ExternalLink size={14} className="opacity-50" />
+                    </a>
+                  ) : (
+                    <span>• {title}</span>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </section>
 
