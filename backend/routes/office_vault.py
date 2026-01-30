@@ -221,9 +221,10 @@ async def list_vault_items(
     search: Optional[str] = Query(None, description="Search in title"),
     limit: int = Query(50, ge=1, le=200),
     offset: int = Query(0, ge=0),
-    user: dict = Depends(require_super_admin)
+    current_user: dict = Depends(get_current_user)
 ):
     """List vault items with filtering."""
+    require_super_admin(current_user)
     index = load_index()
     
     all_items = []
