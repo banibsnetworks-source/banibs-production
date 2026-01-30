@@ -79,7 +79,7 @@ const CirclesPage = () => {
       <header className={`border-b ${isDark ? 'border-white/10' : 'border-black/10'}`}>
         <div className="max-w-4xl mx-auto px-6 py-6 flex justify-between items-center">
           <Link 
-            to="/about"
+            to="/"
             className={`text-xl font-semibold tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}
           >
             BANIBS & HDOS
@@ -92,7 +92,7 @@ const CirclesPage = () => {
               Foundation
             </Link>
             <Link
-              to="/"
+              to="/news"
               className={`text-sm font-medium ${isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors`}
             >
               News
