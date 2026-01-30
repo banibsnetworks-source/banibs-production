@@ -1452,6 +1452,7 @@ const FounderControlCenter = () => {
               { id: 'detectors', label: 'Detectors', icon: Radar },
               { id: 'documents', label: 'Documents', icon: Folder },
               { id: 'trust-order', label: 'Trust Order', icon: Crown },
+              { id: 'vault', label: 'Office Vault', icon: BookOpen },
             ].map(tab => {
               const TabIcon = tab.icon;
               const isActive = activeTab === tab.id;
