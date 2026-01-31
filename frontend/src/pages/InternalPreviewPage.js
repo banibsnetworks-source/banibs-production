@@ -50,8 +50,7 @@ const InternalPreviewPage = () => {
 
   useEffect(() => {
     fetchNewsData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); // Run once on mount
 
   // Disabled action handler - shows toast/alert that action is disabled
   const handleDisabledAction = (actionName) => {
