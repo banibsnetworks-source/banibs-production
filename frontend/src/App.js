@@ -418,8 +418,12 @@ function App() {
               {/* Guest Page / Coming Soon Preview */}
               <Route path="/guest" element={<ComingSoonPage />} />
               
-              {/* Home - Main App (NewsPage) */}
-              <Route path="/" element={<NewsHomePage />} />
+              {/* Home - Main App (Auth Gated) */}
+              <Route path="/" element={
+                <RequireAuth>
+                  <NewsHomePage />
+                </RequireAuth>
+              } />
               
               {/* News Homepage */}
               <Route path="/news" element={<NewsHomePage />} />
