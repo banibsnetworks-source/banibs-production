@@ -12,6 +12,7 @@ import { MediaViewerProvider } from "./hooks/useMediaViewer";
 import { MediaViewer } from "./components/media/MediaViewer";
 import { initializeAnalytics } from "./utils/analytics"; // Phase 7.5.1
 import ProtectedRoute from "./components/ProtectedRoute";
+import RequireAuth from "./components/RequireAuth";
 // Module Coming Soon page for hidden/unreleased features
 import ModuleComingSoon from "./pages/ModuleComingSoon";
 import AdminLogin from "./pages/admin/AdminLogin";
