@@ -436,6 +436,9 @@ function App() {
               <Route path="/foundation" element={<FoundationPage />} />
               <Route path="/circles" element={<CirclesPage />} />
               
+              {/* Internal Preview - Read-Only (No Auth) */}
+              <Route path="/internal-preview" element={<InternalPreviewPage />} />
+              
               {/* Phase B2 - Black News Tab */}
               <Route path="/news/black" element={<BlackNewsPage />} />
               
