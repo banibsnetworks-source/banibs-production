@@ -238,21 +238,21 @@ const InternalPreviewPage = () => {
             </section>
             
             {/* Section Blocks */}
-            {newsData?.sections?.map((section, idx) => (
-              <section key={section.name || idx} className="mt-10">
+            {newsData?.sections && Object.entries(newsData.sections).map(([sectionName, items], idx) => (
+              <section key={sectionName || idx} className="mt-10">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                    {section.name}
+                    {sectionName}
                   </h3>
                   <button
-                    onClick={() => handleDisabledAction(`View all ${section.name}`)}
+                    onClick={() => handleDisabledAction(`View all ${sectionName}`)}
                     className={`text-sm font-medium ${isDark ? 'text-amber-400' : 'text-amber-600'} cursor-default`}
                   >
                     View All →
                   </button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {section.items?.slice(0, 4).map((item, itemIdx) => (
+                  {Array.isArray(items) && items.slice(0, 4).map((item, itemIdx) => (
                     <article 
                       key={item.id || itemIdx}
                       className={`rounded-lg overflow-hidden ${isDark ? 'bg-white/5 border border-white/10' : 'bg-white border border-gray-200'} cursor-default`}
