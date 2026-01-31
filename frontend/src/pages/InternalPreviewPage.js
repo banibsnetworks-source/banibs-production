@@ -32,10 +32,6 @@ const InternalPreviewPage = () => {
   const [showPreviewBanner, setShowPreviewBanner] = useState(true);
   const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
 
-  useEffect(() => {
-    fetchNewsData();
-  }, []);
-
   const fetchNewsData = async () => {
     setLoading(true);
     setError(null);
@@ -51,6 +47,11 @@ const InternalPreviewPage = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchNewsData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Disabled action handler - shows toast/alert that action is disabled
   const handleDisabledAction = (actionName) => {
