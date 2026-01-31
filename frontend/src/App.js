@@ -74,6 +74,9 @@ import BanibsHomePage from "./pages/BanibsHomePage";
 import FoundationPage from "./pages/FoundationPage";
 import CirclesPage from "./pages/CirclesPage";
 
+// Internal Preview (Read-Only)
+import InternalPreviewPage from "./pages/InternalPreviewPage";
+
 // Phase A2 - Mission & Values Page
 import MissionValuesPage from "./pages/MissionValuesPage";
 
