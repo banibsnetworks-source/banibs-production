@@ -31,14 +31,25 @@ const SignInPage = () => {
     setError('');
     setLoading(true);
     
+    console.log('🔐 [SignInPage] Login submit started', { email: formData.email });
+    
     try {
-      const userData = await login(formData.email, formData.password);
+      const result = await login(formData.email, formData.password);
       
-      // Check for redirect parameter, otherwise default to /portal/social
-      const redirectTo = searchParams.get('redirect') || '/portal/social';
+      console.log('🔐 [SignInPage] Login result:', result);
+      
+      if (!result.success) {
+        throw new Error(result.error || t('auth.signInFailed'));
+      }
+      
+      // Check for redirect parameter, otherwise default to home
+      const redirectTo = searchParams.get('redirect') || '/';
+      console.log('🔐 [SignInPage] Login successful, redirecting to:', redirectTo);
+      
       // Hard redirect to ensure auth state is loaded
       window.location.href = redirectTo;
     } catch (err) {
+      console.error('🔐 [SignInPage] Login error:', err);
       setError(err.message || t('auth.signInFailed'));
     } finally {
       setLoading(false);
