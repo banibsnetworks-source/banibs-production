@@ -417,8 +417,8 @@ function App() {
               {/* Guest Page / Coming Soon Preview */}
               <Route path="/guest" element={<ComingSoonPage />} />
               
-              {/* Home - Circles Guest Page (Canonical) */}
-              <Route path="/" element={<CirclesPage />} />
+              {/* Home - Main App (NewsPage) */}
+              <Route path="/" element={<NewsHomePage />} />
               
               {/* News Homepage */}
               <Route path="/news" element={<NewsHomePage />} />
