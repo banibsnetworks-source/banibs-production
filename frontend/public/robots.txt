@@ -13,3 +13,6 @@ Disallow: /login
 Disallow: /register
 Disallow: /candidate/applications
 Disallow: /recruiter/
+
+# Disallow internal preview routes
+Disallow: /internal-preview
