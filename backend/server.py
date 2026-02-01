@@ -118,13 +118,26 @@ async def root():
 
 @api_router.get("/download/guest-page")
 async def download_guest_page():
-    """Direct download of BANIBS guest page static bundle"""
-    zip_path = Path("/app/backend/static/banibs_guest_page.zip")
+    """Direct download of BANIBS guest page static bundle (latest dated version)"""
+    import glob
+    static_dir = "/app/backend/static"
+    # Find the most recent dated ZIP
+    dated_zips = glob.glob(f"{static_dir}/guest-page_*.zip")
+    if dated_zips:
+        # Sort by modification time, get newest
+        latest_zip = max(dated_zips, key=lambda x: Path(x).stat().st_mtime)
+        zip_path = Path(latest_zip)
+        filename = zip_path.name
+    else:
+        # Fallback to legacy name
+        zip_path = Path(f"{static_dir}/banibs_guest_page.zip")
+        filename = "banibs_guest_page.zip"
+    
     if not zip_path.exists():
         raise HTTPException(status_code=404, detail="ZIP file not found")
     return FileResponse(
         path=str(zip_path),
-        filename="banibs_guest_page.zip",
+        filename=filename,
         media_type="application/zip"
     )
 
