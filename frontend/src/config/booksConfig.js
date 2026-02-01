@@ -2,6 +2,8 @@
  * BANIBS Books Configuration
  * Single source of truth for book titles and links
  * Used across: /circles, /foundation, ComingSoonPage
+ * 
+ * CANONICAL ORDER - DO NOT REARRANGE
  */
 
 export const BANIBS_BOOKS = [
@@ -21,31 +23,31 @@ export const BANIBS_BOOKS = [
   },
   {
     id: 3,
-    title: "The Devil's Deceitful Master Plan",
-    subtitle: "How Deception Works, Hides, and Repeats Across All Human Thought",
-    role: "The expansion. It traces the architecture of deception across systems — personal, institutional, and cultural.",
-    url: "https://www.amazon.com/dp/B0GCC5MHMD"
-  },
-  {
-    id: 4,
-    title: "The Light God Wants You to See",
-    subtitle: "A Spiritual Framework for Clarity",
-    role: "The anchor. A spiritual grounding that positions clarity and truth as divine imperatives, not just intellectual exercises.",
-    url: "https://www.amazon.com/dp/B0GCLBZ534"
-  },
-  {
-    id: 5,
     title: "HDOS",
     subtitle: "Human Decision-Space Operating System",
     role: "The system. A framework for understanding how decisions propagate through trust networks and bounded contexts.",
     url: "https://www.amazon.com/dp/B0GF6SH8QL"
   },
   {
+    id: 4,
+    title: "The Devil's Deceitful Master Plan",
+    subtitle: "How Deception Works, Hides, and Repeats Across All Human Thought",
+    role: "The expansion. It traces the architecture of deception across systems — personal, institutional, and cultural.",
+    url: "https://www.amazon.com/dp/B0GCC5MHMD"
+  },
+  {
+    id: 5,
+    title: "The Light God Wants You to See",
+    subtitle: "A Spiritual Framework for Clarity",
+    role: "The anchor. A spiritual grounding that positions clarity and truth as divine imperatives, not just intellectual exercises.",
+    url: "https://www.amazon.com/dp/B0GCLBZ534"
+  },
+  {
     id: 6,
     title: "How Not To Be Dismissive",
     subtitle: "Practical Guide to Preserving Agency",
     role: "The application. A practical guide for avoiding dismissive patterns in everyday communication.",
-    url: null, // Not yet published
+    url: null,
     comingSoon: true
   }
 ];
@@ -57,12 +59,12 @@ export const getBookByTitle = (titleFragment) => {
   );
 };
 
-// Books that appear on Foundation/Circles pages (canonical list)
+// Books that appear on Foundation/Circles pages (canonical order)
 export const FOUNDATION_BOOKS = [
   "The Devil's Dismissive Argument",
   "Before You Call It Out",
+  "HDOS",
   "The Devil's Deceitful Master Plan",
   "The Light God Wants You to See",
-  "HDOS",
   "How Not To Be Dismissive"
 ];
