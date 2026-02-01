@@ -35,10 +35,18 @@ export const BANIBS_BOOKS = [
   },
   {
     id: 5,
+    title: "HDOS",
+    subtitle: "Human Decision-Space Operating System",
+    role: "The system. A framework for understanding how decisions propagate through trust networks and bounded contexts.",
+    url: "https://www.amazon.com/dp/B0GF6SH8QL"
+  },
+  {
+    id: 6,
     title: "How Not To Be Dismissive",
     subtitle: "Practical Guide to Preserving Agency",
     role: "The application. A practical guide for avoiding dismissive patterns in everyday communication.",
-    url: null // Link not yet available
+    url: null, // Not yet published
+    comingSoon: true
   }
 ];
 
@@ -55,5 +63,6 @@ export const FOUNDATION_BOOKS = [
   "Before You Call It Out",
   "The Devil's Deceitful Master Plan",
   "The Light God Wants You to See",
+  "HDOS",
   "How Not To Be Dismissive"
 ];
