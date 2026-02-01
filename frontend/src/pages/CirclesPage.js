@@ -404,6 +404,7 @@ const CirclesPage = () => {
             {FOUNDATION_BOOKS.map(title => {
               const book = BANIBS_BOOKS.find(b => b.title === title);
               const hasLink = book && book.url;
+              const isComingSoon = book && book.comingSoon;
               
               return (
                 <li key={title} className="flex items-start gap-3">
@@ -419,6 +420,13 @@ const CirclesPage = () => {
                       {title}
                       <ExternalLink size={14} className="opacity-50" />
                     </a>
+                  ) : isComingSoon ? (
+                    <span className="flex items-center gap-2">
+                      <span className={`${isDark ? 'text-gray-500' : 'text-gray-400'}`}>{title}</span>
+                      <span className={`text-xs px-2 py-0.5 rounded-full ${isDark ? 'bg-amber-500/20 text-amber-400' : 'bg-amber-100 text-amber-700'}`}>
+                        Coming Soon
+                      </span>
+                    </span>
                   ) : (
                     <span>{title}</span>
                   )}
