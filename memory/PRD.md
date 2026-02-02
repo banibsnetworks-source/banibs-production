@@ -114,6 +114,8 @@ All links visible:
   - Refactored `ImageWithFallback.js` with deterministic hash-based fallback selection
   - Updated `NewsSectionBlock.js`, `TopStoriesGrid.js`, `NewsHeroSection.js` to use new `itemId` prop
   - Same article always gets same fallback image (consistent UX)
+  - **Coverage Gap Fix**: Added detection of old backend Unsplash fallback URLs (10 patterns) to force local fallback usage
+  - Now ALL sections (Top Stories, US Hero, World News, Section Blocks) use new fallback rotation
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
