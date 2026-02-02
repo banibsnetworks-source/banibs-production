@@ -1,6 +1,7 @@
 import React from 'react';
 import { ExternalLink, Clock } from 'lucide-react';
 import SentimentBadge from './SentimentBadge';
+import ImageWithFallback from './ImageWithFallback';
 
 /**
  * News Section Block
@@ -34,22 +35,6 @@ const NewsSectionBlock = ({ title, stories, icon }) => {
     }
   };
 
-  // Generate fallback placeholder based on category
-  const getCategoryFallback = (story) => {
-    const category = story.mapped_section || story.category || 'news';
-    const categoryColors = {
-      'world': 'from-blue-600 to-blue-800',
-      'us': 'from-red-600 to-red-800',
-      'business': 'from-green-600 to-green-800',
-      'tech': 'from-purple-600 to-purple-800',
-      'sports': 'from-orange-600 to-orange-800',
-      'entertainment': 'from-pink-600 to-pink-800',
-      'health': 'from-teal-600 to-teal-800',
-      'civil_rights': 'from-indigo-600 to-indigo-800',
-    };
-    return categoryColors[category?.toLowerCase()] || 'from-gray-600 to-gray-800';
-  };
-
   // Featured item (first one, larger)
   const featuredItem = stories[0];
   // List items (remaining)
@@ -74,33 +59,15 @@ const NewsSectionBlock = ({ title, stories, icon }) => {
           <div className="grid sm:grid-cols-3 gap-4">
             {/* Thumbnail */}
             <div className="sm:col-span-1 relative aspect-video sm:aspect-square bg-muted rounded-lg overflow-hidden">
-              {featuredItem.imageUrl && !featuredItem.imageUrl.includes('/static/') ? (
-                <img
-                  src={featuredItem.imageUrl}
-                  alt={featuredItem.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.parentElement.querySelector('.fallback-gradient').style.display = 'flex';
-                  }}
-                />
-              ) : null}
-              
-              {/* Gradient Fallback */}
-              <div 
-                className={`fallback-gradient absolute inset-0 bg-gradient-to-br ${getCategoryFallback(featuredItem)} ${featuredItem.imageUrl && !featuredItem.imageUrl.includes('/static/') ? 'hidden' : 'flex'} items-center justify-center`}
-                style={{ display: featuredItem.imageUrl && !featuredItem.imageUrl.includes('/static/') ? 'none' : 'flex' }}
-              >
-                <div className="text-center p-4">
-                  <div className="text-white/90 text-4xl mb-2">📰</div>
-                  <div className="text-white/70 text-xs font-medium uppercase tracking-wider">
-                    {featuredItem.mapped_section || featuredItem.category || 'News'}
-                  </div>
-                </div>
-              </div>
+              <ImageWithFallback
+                src={featuredItem.imageUrl || featuredItem.image_url}
+                alt={featuredItem.title}
+                category={featuredItem.mapped_section || featuredItem.category}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
               
               {featuredItem.sentiment_label && (
-                <div className="absolute top-2 right-2">
+                <div className="absolute top-2 right-2 z-10">
                   <SentimentBadge
                     sentiment={featuredItem.sentiment_label}
                     score={featuredItem.sentiment_score}
@@ -149,25 +116,13 @@ const NewsSectionBlock = ({ title, stories, icon }) => {
             >
               {/* Small Thumbnail */}
               <div className="relative w-24 h-24 flex-shrink-0 bg-muted rounded overflow-hidden">
-                {story.imageUrl && !story.imageUrl.includes('/static/') ? (
-                  <img
-                    src={story.imageUrl}
-                    alt={story.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.parentElement.querySelector('.fallback-gradient').style.display = 'flex';
-                    }}
-                  />
-                ) : null}
-                
-                {/* Gradient Fallback */}
-                <div 
-                  className={`fallback-gradient absolute inset-0 bg-gradient-to-br ${getCategoryFallback(story)} ${story.imageUrl && !story.imageUrl.includes('/static/') ? 'hidden' : 'flex'} items-center justify-center`}
-                  style={{ display: story.imageUrl && !story.imageUrl.includes('/static/') ? 'none' : 'flex' }}
-                >
-                  <div className="text-white/90 text-2xl">📰</div>
-                </div>
+                <ImageWithFallback
+                  src={story.imageUrl || story.image_url}
+                  alt={story.title}
+                  category={story.mapped_section || story.category}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  showIcon={false}
+                />
               </div>
 
               {/* Content */}
