@@ -1,43 +1,45 @@
 /**
  * ImageWithFallback - Global Image Component
  * 
- * Handles broken images gracefully with category/region fallbacks.
+ * Handles broken images gracefully with deterministic multi-image fallbacks.
+ * Uses hash-based selection so the same item always gets the same fallback.
  * Use this component for ALL news/feed images to ensure consistent behavior.
  */
 
-import React, { useState } from 'react';
-import { ImageOff } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
 
-// Category fallback images
-const CATEGORY_FALLBACKS = {
-  politics: 'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&q=80',
-  business: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80',
-  technology: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80',
-  tech: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80',
-  sports: 'https://images.unsplash.com/photo-1461896836934- voices-of-the-game?w=800&q=80',
-  entertainment: 'https://images.unsplash.com/photo-1603190287605-e6ade32fa852?w=800&q=80',
-  health: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80',
-  world: 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=800&q=80',
-  us: 'https://images.unsplash.com/photo-1422464804701-7d8356b3a42f?w=800&q=80',
-  diaspora: 'https://images.unsplash.com/photo-1489424731084-a5d8b219a865?w=800&q=80',
-  africa: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&q=80',
-  caribbean: 'https://images.unsplash.com/photo-1580541631950-7282082b53ce?w=800&q=80',
-  default: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&q=80'
+// Local fallback images array - network/circles/connection style + bokeh city
+const LOCAL_FALLBACKS = [
+  '/fallbacks/news-fallback-01.jpg', // Network nodes world map
+  '/fallbacks/news-fallback-02.jpg', // Bokeh city lights
+  '/fallbacks/news-fallback-03.jpg', // Connected people network
+  '/fallbacks/news-fallback-04.jpg', // Social network circles
+];
+
+/**
+ * Simple hash function for deterministic fallback selection
+ * Ensures same item always gets same fallback
+ */
+const hashString = (str) => {
+  if (!str) return 0;
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash);
 };
 
-// Region-specific fallbacks
-const REGION_FALLBACKS = {
-  'Africa': 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&q=80',
-  'Caribbean': 'https://images.unsplash.com/photo-1580541631950-7282082b53ce?w=800&q=80',
-  'Europe': 'https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=800&q=80',
-  'Latin America': 'https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?w=800&q=80',
-  'Asia': 'https://images.unsplash.com/photo-1480796927426-f609979314bd?w=800&q=80',
-  'Middle East': 'https://images.unsplash.com/photo-1466442929976-97f336a657be?w=800&q=80',
-  'Global': 'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?w=800&q=80'
+/**
+ * Get deterministic fallback based on item identifier
+ * @param {string} itemId - Unique identifier (id, url, title, etc.)
+ */
+const getDeterministicFallback = (itemId) => {
+  const hash = hashString(itemId || `random-${Date.now()}`);
+  const index = hash % LOCAL_FALLBACKS.length;
+  return LOCAL_FALLBACKS[index];
 };
-
-// Global fallback
-const GLOBAL_FALLBACK = 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&q=80';
 
 /**
  * Normalize image URL - handles protocol-relative URLs and empty strings
