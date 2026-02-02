@@ -109,6 +109,11 @@ All links visible:
 - [x] **Book Links Refactoring (COMPLETE - January 30, 2026)** - Centralized into booksConfig.js
 - [x] **Circles Page Visual Enhancement (COMPLETE - January 30, 2026)** - Warm gradient, glow effects
 - [x] **Founder Office Valuation Posture Audit (COMPLETE - January 30, 2026)** - Confirmed no valuation UI exists
+- [x] **Global Image Fix - Multi-Fallback Rotation (COMPLETE - February 2, 2026)**
+  - Created `/frontend/public/fallbacks/` with 4 high-quality fallback images (network nodes, bokeh city, connected people)
+  - Refactored `ImageWithFallback.js` with deterministic hash-based fallback selection
+  - Updated `NewsSectionBlock.js`, `TopStoriesGrid.js`, `NewsHeroSection.js` to use new `itemId` prop
+  - Same article always gets same fallback image (consistent UX)
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
