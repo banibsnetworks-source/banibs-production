@@ -99,36 +99,16 @@ const NewsHeroSection = ({ story }) => {
           className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[400px] bg-muted overflow-hidden cursor-pointer"
           data-testid="hero-image-container"
         >
-          {hasValidImage ? (
-            <img
-              src={story.imageUrl}
-              alt={story.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              onError={(e) => {
-                // Hide image and show gradient fallback
-                e.target.style.display = 'none';
-                const fallback = e.target.parentElement.querySelector('.hero-fallback-gradient');
-                if (fallback) fallback.style.display = 'flex';
-              }}
-            />
-          ) : null}
-          
-          {/* Category-specific Gradient Fallback */}
-          <div 
-            className={`hero-fallback-gradient absolute inset-0 bg-gradient-to-br ${getCategoryGradient()} flex items-center justify-center`}
-            style={{ display: hasValidImage ? 'none' : 'flex' }}
-            data-testid="hero-fallback-gradient"
-          >
-            <div className="text-center p-8">
-              <div className="text-white/90 text-7xl mb-4">{getCategoryIcon()}</div>
-              <div className="text-white/80 text-sm font-semibold uppercase tracking-wider">
-                {story.mapped_section || story.category || 'Featured News'}
-              </div>
-            </div>
-          </div>
+          <ImageWithFallback
+            src={story.imageUrl || story.image_url}
+            alt={story.title}
+            itemId={story.id || story.sourceUrl || story.title}
+            category={story.mapped_section || story.category}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
           
           {/* Category Badge */}
-          <div className="absolute top-4 left-4">
+          <div className="absolute top-4 left-4 z-10">
             <span className="px-3 py-1.5 bg-yellow-500 text-gray-900 text-xs font-bold uppercase rounded-md shadow-lg">
               Featured Story
             </span>
@@ -136,7 +116,7 @@ const NewsHeroSection = ({ story }) => {
 
           {/* Sentiment Badge */}
           {story.sentiment_label && (
-            <div className="absolute top-4 right-4">
+            <div className="absolute top-4 right-4 z-10">
               <SentimentBadge
                 sentiment={story.sentiment_label}
                 score={story.sentiment_score}
