@@ -2,7 +2,6 @@ import React from 'react';
 import { ExternalLink, Clock } from 'lucide-react';
 import SentimentBadge from './SentimentBadge';
 import ImageWithFallback from './ImageWithFallback';
-import { useTheme } from '../contexts/ThemeContext';
 
 /**
  * News Hero Section
