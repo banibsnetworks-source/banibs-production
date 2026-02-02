@@ -58,103 +58,69 @@ const normalizeImageUrl = (url) => {
 };
 
 /**
- * Get fallback image based on category and region
- */
-const getFallbackImage = (category, region) => {
-  // Try region first
-  if (region && REGION_FALLBACKS[region]) {
-    return REGION_FALLBACKS[region];
-  }
-  
-  // Try category
-  if (category) {
-    const normalizedCategory = category.toLowerCase().replace(/[\s-]/g, '');
-    if (CATEGORY_FALLBACKS[normalizedCategory]) {
-      return CATEGORY_FALLBACKS[normalizedCategory];
-    }
-  }
-  
-  return GLOBAL_FALLBACK;
-};
-
-/**
  * ImageWithFallback Component
  * 
  * @param {string} src - Image URL
  * @param {string} alt - Alt text
  * @param {string} className - CSS classes
- * @param {string} category - News category for fallback selection
- * @param {string} region - Region for fallback selection
- * @param {string} fallbackText - Text to show on fallback (default: category/region)
- * @param {boolean} showIcon - Show icon in fallback (default: true)
+ * @param {string} itemId - Unique identifier for deterministic fallback selection (id, url, title)
+ * @param {string} category - News category (optional, for display)
+ * @param {string} region - Region (optional, for display)
+ * @param {object} style - Inline styles
  */
 const ImageWithFallback = ({ 
   src, 
   alt, 
   className = '', 
+  itemId,
   category,
   region,
-  fallbackText,
-  showIcon = true,
   style = {}
 }) => {
-  const [imageError, setImageError] = useState(false);
+  const [currentSrc, setCurrentSrc] = useState(null);
+  const [hasTriedFallback, setHasTriedFallback] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   
   const normalizedSrc = normalizeImageUrl(src);
-  const fallbackImage = getFallbackImage(category, region);
-  const displayText = fallbackText || region || category || 'BANIBS News';
+  
+  // Deterministic fallback based on itemId (or src/alt as backup identifiers)
+  const fallbackImage = useMemo(() => {
+    return getDeterministicFallback(itemId || src || alt);
+  }, [itemId, src, alt]);
+  
+  // Initialize currentSrc on mount or when src changes
+  React.useEffect(() => {
+    setCurrentSrc(normalizedSrc || fallbackImage);
+    setHasTriedFallback(!normalizedSrc);
+    setIsLoading(true);
+  }, [normalizedSrc, fallbackImage]);
   
   const handleImageLoad = () => {
     setIsLoading(false);
-    setImageError(false);
   };
   
-  const handleImageError = (e) => {
+  const handleImageError = () => {
     setIsLoading(false);
-    // Try fallback image before showing placeholder
-    if (e.target.src !== fallbackImage) {
-      e.target.src = fallbackImage;
-    } else {
-      setImageError(true);
+    // If primary failed and haven't tried fallback yet, switch to fallback
+    if (!hasTriedFallback) {
+      setCurrentSrc(fallbackImage);
+      setHasTriedFallback(true);
+      setIsLoading(true);
     }
+    // If fallback also failed, just keep displaying it (local files should work)
   };
-  
-  // Show placeholder if no source or error on fallback
-  if (!normalizedSrc || imageError) {
-    return (
-      <div 
-        className={`w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center ${className}`}
-        style={style}
-      >
-        <div className="text-center p-4">
-          {showIcon && (
-            <div className="text-amber-400/60 mb-2">
-              <ImageOff size={32} className="mx-auto" />
-            </div>
-          )}
-          <div className="text-amber-300/80 text-sm font-medium">
-            {displayText}
-          </div>
-        </div>
-      </div>
-    );
-  }
   
   return (
-    <div className="relative w-full h-full" style={style}>
+    <div className="relative w-full h-full overflow-hidden" style={style}>
       {/* Loading state */}
       {isLoading && (
         <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center z-10">
-          <div className="text-center">
-            <div className="w-6 h-6 border-2 border-amber-400/30 border-t-amber-400 rounded-full animate-spin mb-2 mx-auto" />
-            <div className="text-amber-300/60 text-xs">Loading...</div>
-          </div>
+          <div className="w-6 h-6 border-2 border-amber-400/30 border-t-amber-400 rounded-full animate-spin" />
         </div>
       )}
       <img
-        src={normalizedSrc}
-        alt={alt || displayText}
+        src={currentSrc}
+        alt={alt || category || region || 'BANIBS News'}
         className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
         loading="lazy"
         onLoad={handleImageLoad}
@@ -165,4 +131,4 @@ const ImageWithFallback = ({
 };
 
 export default ImageWithFallback;
-export { CATEGORY_FALLBACKS, REGION_FALLBACKS, GLOBAL_FALLBACK, getFallbackImage, normalizeImageUrl };
+export { LOCAL_FALLBACKS, getDeterministicFallback, normalizeImageUrl };
