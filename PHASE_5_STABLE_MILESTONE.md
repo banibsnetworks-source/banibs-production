@@ -157,7 +157,7 @@ MONGO_URL=mongodb://localhost:27017
 DB_NAME=test_database
 
 # Frontend
-REACT_APP_BACKEND_URL=https://news-trust-system.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://newsfix-dev.preview.emergentagent.com
 ```
 
 ---

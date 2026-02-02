@@ -186,7 +186,7 @@ for source in RSS_SOURCES:
 
 ### 3.3 Frontend Rendering
 
-**Test**: Visited `https://news-trust-system.preview.emergentagent.com/`
+**Test**: Visited `https://newsfix-dev.preview.emergentagent.com/`
 
 **Results**:
 - ✅ Homepage loads successfully

@@ -1,174 +1,258 @@
-<analysis>**original_problem_statement:**
-The user's initial focus was a series of iterative fixes and a complete redesign of the public-facing Guest Page. This included content updates, layout adjustments, adding human-centric imagery, creating a static build for deployment, and correcting the BANIBS acronym.
+<analysis>
+APPROVAL NOTE — FORK REVIEW (CLARIFICATIONS INCLUDED)
 
-The project then pivoted to stabilizing the core BANIBS application for a News-first public launch. This involved:
-1.  **Navigation Overhaul:** Replacing the main navigation with a consistent, vertical dropdown menu.
-2.  **News Integrity:** Implementing category-specific image fallbacks to prevent blank placeholders.
-3.  **Layout Parity:** Fixing inconsistent navigation layouts on the Black News and BANIBS Social pages.
-4.  **Theme System:** Refactoring the BANIBS Social page to support the app-wide dark/light theme toggle.
-5.  **Module Hiding:** Configuring the app to hide all unfinished modules (Social, Marketplace, TV, etc.) from public view, redirecting direct URL access to a Coming Soon page.
-6.  **Admin Access:** Conducting several inspections of admin/founder routes and finally, a request to lock down  access to two specific user accounts.
+Approved to proceed with this fork.
+
+Clarifications to carry forward into the next session:
+
+1) P0 — Global Image Fix
+   Status is PARTIAL, not complete.
+   - ImageWithFallback.js created
+   - NewsSectionBlock.js and TopStoriesGrid.js refactored
+   - NewsHeroSection.js still needs refactor
+   - No final verification pass yet, especially for Global Diaspora sources
+   - Fallback image direction is an OPEN decision (newspapers fallback flagged as weak and likely to be replaced)
+
+2) P1 — Marketplace Page
+   Intent clarification:
+   - Logged-in users must ALWAYS see a populated visual grid (featured/demo items or placeholders)
+   - Region/category filters should layer on top, never result in a blank or header-only page
+
+3) Founder Office Vault
+   - System audited and confirmed viable
+   - Vault code (backend/frontend) is NOT yet present in the current AWS deployment
+   - Requires a clean pull from Emergent after final lock
+   - Do not assume /api/office/* routes exist on AWS yet
+
+4) Guest Page
+   - Guest Page (/circles) is COMPLETE and LOCKED
+   - Do NOT modify unless explicitly instructed
+
+Proceed with these clarifications as authoritative.
+
+THIS BLOCK IS FOR SYSTEM LOADING ONLY — NOT A HANDOFF REQUEST
+**original_problem_statement:**
+The user's project, BANIBS, is a complex news and information system. The development has been highly sequential and directed by the user. The primary goals of this session were to finalize a public-facing Guest Page (), troubleshoot critical login/authentication issues for the main application, and then begin a list of prioritized fixes for the main application's user experience.
+
+The user provided a detailed list of prioritized tasks:
+- **P0 — GLOBAL IMAGE FIX**: Systemically fix broken images, especially for Global Diaspora news sources.
+- **P1 — MARKETPLACE PAGE “NO BOXES / ONLY CARIBBEAN”**: Fix an issue where the marketplace page renders an empty state incorrectly for logged-in users.
+- **P2 — SOCIAL PAGE VISUAL LAYER**: Add some lightweight imagery to the Social page.
+- **P3 — ANALYTICS (Basic + Advanced)**: Introduce a founder-only analytics dashboard.
+
+Additionally, the user requested an audit of the existing Founder Office Vault feature.
 
 **User's preferred language**: English
 
 **what currently exists?**
-The application is a full-stack platform (React/FastAPI/MongoDB) configured for a News-first public launch. All user-facing navigation links to incomplete modules have been removed, and direct URL access to those modules redirects to a polished Coming Soon page.
-
-Key components:
--   A fully redesigned, responsive Guest Page ().
--   A functional News section (, ) with real-time RSS data and category-specific image fallbacks.
--   A new, consistent vertical dropdown main navigation system ().
--   Protected admin and founder dashboards (, ).
--   A working dark/light theme system across the application.
+The BANIBS application consists of two main parts:
+1.  **The Main Application (Auth-Gated)**: This is the core platform with a  as its entry point (). It includes a  for internal tools, a news feed, a marketplace, and social features. Access is controlled by an authentication system that was recently debugged and fixed.
+2.  **The Static Guest Page ()**: A separate, publicly accessible landing page built from a guest-only version of the frontend. It explains the BANIBS concept and has its own content, including a specific book list. It has no authentication logic and is deployed as a static ZIP bundle.
+A read-only  route was also created for review purposes, which displays the main app's news feed without requiring authentication.
 
 **Last working item**:
--   **Last item agent was working**: Configuring two specific user accounts ( and ) to have  privileges. The agent was in the process of investigating the user models and authentication routes to determine the correct method for creating/updating user roles in the database.
+-   **Last item agent was working**: P0 - Global Image Fix. The agent was implementing a systemic fix for broken images in the news feed. It had already identified that the backend has a decent fallback mechanism. The focus shifted to the frontend, where the agent created a new shared component  to handle  events gracefully. It then refactored  and  to use this new shared component. The next step was to update  as well.
 -   **Status**: IN PROGRESS
 -   **Agent Testing Done**: N
--   **Which testing method agent to use?**: backend testing agent
+-   **Which testing method agent to use?**: frontend testing agent
 -   **User Testing Done**: N
 
 **All Pending/In progress Issue list**:
--   **Issue 1**: Configure Super Admin Access (P0)
--   **Issue 2**: Password reset emails are not sending (P2, Blocked)
+-   **Issue 1**: P0 - Global Image Fix (P0, IN PROGRESS)
+-   **Issue 2**: P1 - Marketplace Page NO BOXES / ONLY CARIBBEAN (P1, NOT STARTED)
+-   **Issue 3**: P2 - Social Page Visual Layer (P2, NOT STARTED)
+-   **Issue 4**: P3 - Analytics (Basic + Advanced) (P3, NOT STARTED)
+-   **Issue 5**: Password reset emails are not being sent (P2, BLOCKED)
+-   **Issue 6**: Raw HTML in news story description (Low priority, NOT STARTED)
+-   **Issue 7**: Backend route duplication (Future refactor, NOT STARTED)
 
-Issues Detail:
--   **Issue 1: Configure Super Admin Access**
-    -   **Attempted fixes**: None. The agent was investigating the codebase to find the correct implementation path.
+**Issues Detail**:
+-   **Issue 1: P0 - Global Image Fix**
+    -   **Attempted fixes**: Created a shared  component and refactored  and  to use it.
     -   **Next debug checklist**:
-        1.  Connect to the MongoDB database.
-        2.  Check the  collection to see if  and  exist.
-        3.  If a user exists, update their document to set the  field to .
-        4.  If a user does not exist, use the  endpoint to create the account, then update its role in the database.
-        5.  Document a temporary password or the password reset procedure for the user.
-        6.  Verify the fix by logging in as one of the super admins and successfully accessing .
-    -   **Why fix this issue and what will be achieved with the fix?**: To secure the application by ensuring only authorized personnel have super admin privileges, a critical step for production readiness.
+        1.  Refactor  to also use the new  component.
+        2.  Lint all modified frontend files (, , , ).
+        3.  Take screenshots of the  () and  to verify that images are rendering correctly and that broken image links are gracefully replaced by fallbacks.
+        4.  Specifically check a Global Diaspora news source if possible.
+    -   **Why fix this issue and what will be achieved with the fix?**: Provides a professional and unbroken user experience by ensuring news articles always display an image, even if the source URL is invalid.
     -   **Status**: IN PROGRESS
+    -   **Is recurring issue?**: Y
+    -   **Should Test frontend/backend/both after fix?**: frontend
+    -   **Blocked on other issue**: None.
+-   **Issue 2: P1 - Marketplace Page NO BOXES / ONLY CARIBBEAN**
+    -   **Attempted fixes**: None.
+    -   **Next debug checklist**:
+        1.  Log in as a user and navigate to the marketplace page to reproduce the issue.
+        2.  Inspect the network request to the marketplace API and its response.
+        3.  Verify the frontend component correctly handles the API response, especially empty states or filtered results.
+        4.  Implement a robust placeholder/empty-state UI.
+    -   **Why fix this issue and what will be achieved with the fix?**: Ensures the marketplace is a reliable and user-friendly feature.
+    -   **Status**: NOT STARTED
+    -   **Is recurring issue?**: Y
+    -   **Should Test frontend/backend/both after fix?**: both
+    -   **Blocked on other issue**: P0 - Global Image Fix.
+-   **Issue 3: P2 - Social Page Visual Layer**
+    -   **Attempted fixes**: None.
+    -   **Next debug checklist**:
+        1.  Review the current  page.
+        2.  Propose a design for a lightweight visual strip (e.g., Recent Community Moments).
+        3.  Implement the UI with static placeholder images.
+    -   **Why fix this issue and what will be achieved with the fix?**: Makes the social page more visually engaging.
+    -   **Status**: NOT STARTED
+    -   **Is recurring issue?**: N
+    -   **Should Test frontend/backend/both after fix?**: frontend
+    -   **Blocked on other issue**: P1 - Marketplace Page.
+-   **Issue 4: P3 - Analytics (Basic + Advanced)**
+    -   **Attempted fixes**: None.
+    -   **Next debug checklist**:
+        1.  Design a simple UI for a new founder-only analytics page.
+        2.  Create a new backend endpoint to serve basic analytics data (e.g., page views). This can be mocked initially.
+        3.  Create the frontend page, gated to the 'super_admin' role.
+    -   **Why fix this issue and what will be achieved with the fix?**: Provides the founder with insights into application usage.
+    -   **Status**: NOT STARTED
     -   **Is recurring issue?**: N
     -   **Should Test frontend/backend/both after fix?**: both
-    -   **Blocked on other issue**: None.
--   **Issue 2: Password reset emails are not being sent**
-    -   **Attempted fixes**: None in this session. The issue is long-standing.
-    -   **Next debug checklist**: Await SMTP credentials from the user.
-    -   **Why fix this issue and what will be achieved with the fix?**: Enables users to recover their accounts, a basic and essential feature for any application with user authentication.
-    -   **Status**: BLOCKED
+    -   **Blocked on other issue**: P2 - Social Page Visual Layer.
+-   **Issue 5: Password reset emails are not being sent**
+    -   **Attempted fixes**: None.
+    -   **Status**: BLOCKED (awaiting user-provided SMTP credentials).
     -   **Is recurring issue?**: Y
-    -   **Should Test frontend/backend/both after fix?**: backend
-    -   **Blocked on other issue**: Awaiting user-provided SMTP credentials.
+-   **Issue 6 & 7**: See Earlier issues found/mentioned but not fixed.
 
 **In progress Task List**:
-None.
+-   **Task 1: EMERGENT FIX LIST (P0-P3)**
+    -   **Where to resume**: Continuing with P0 (Global Image Fix). The agent has created the  component and updated two other components. The next step is to update , then lint and test.
+    -   **What will be achieved with this?**: Systemically fix key UX issues across the application before the user syncs the codebase from Emergent to their own GitHub and production environment.
+    -   **Status**: IN PROGRESS
+    -   **Should Test frontend/backend/both after fix?**: both
+    -   **Blocked on something**: No.
 
 **Upcoming and Future Tasks**
 *   **Upcoming Tasks:**
-    *   **P1: BGLIS v1.0 Full Implementation**: The phone authentication system is currently mocked and needs to be connected to a live service.
-    *   **P1: Resume development of previously hidden modules**: Social, Marketplace, TV, Wallet, etc.
-    *   **P1: HDOS (Circle Trust Order System v2) Implementation**: Implement the 7-level trust system based on the user's spec.
+    *   **P1**: Fix Marketplace page rendering. (P1)
+    *   **P2**: Add visual layer to Social page. (P2)
+    *   **P3**: Implement basic and advanced Analytics page for founders. (P3)
 *   **Future Tasks:**
-    *   BANIBS Book Vault Studio implementation.
-    *   Raymond Health Core System (daily tracker).
-    *   Refactor duplicated backend routes for , , and .
-    *   Implement an  fetching service for news articles that lack a valid image in their RSS feed.
+    *   **User Pinning + Pin Boards Feature**: Implement a core feature for pinning content to user profiles. The spec has been received and documented.
+    *   **BGLIS v1.0**: Phone Authentication integration.
+    *   **Backend route deduplication**: A technical debt item to refactor backend code.
 
 **Completed work in this session**
--   **Guest Page Full Redesign**: Completely overhauled  with a modern, responsive, animated, dark-theme design and created a static build ().
--   **Navigation Overhaul**: Replaced the previous top navigation with a consistent, left-aligned, vertical dropdown menu () across the entire application.
--   **News Module Stabilization**:
-    -   Implemented category-specific fallback images to ensure no news story appears without an image.
-    -   Validated image URLs to filter out tracking pixels from RSS feeds.
--   **Layout & Theme Parity**:
-    -   Fixed the  page to include the global navigation bar, matching other news sections.
-    -   Rewrote the  landing page to use the app's global theme system (dark/light mode) and a more captivating blue-accented color palette.
--   **News-First Launch Configuration**:
-    -   Hid all links to unfinished modules (Social, Marketplace, etc.) from the main navigation.
-    -   Created a Module Coming Soon placeholder page and redirected all direct URL access for hidden modules to it.
--   **Stabilization & Inspection**:
-    -   Conducted a full inventory of all user-facing modules, admin panels, and data states.
-    -   Produced a  summarizing the app's readiness for a production deployment.
+-   **Login & Auth System Overhaul**:
+    -   Fixed the application's root () routing to be correctly auth-gated, redirecting unauthenticated users to .
+    -   Diagnosed and fixed a critical login failure by discovering that new user accounts were being created in the wrong MongoDB collection ( instead of ).
+    -   Created correct super admin accounts for the user.
+-   **Guest Page Finalization (Static ZIP builds)**:
+    -   Created multiple versions of a guest-only static site ZIP for deployment, progressively adding:
+        -   Correct book list order and a Coming Soon label for an unreleased book.
+        -   A visible build version stamp in the footer.
+        -   A complete separation from the main app's auth logic to prevent redirects to .
+    -   Created a backend endpoint () to serve the latest ZIP build with the correct headers.
+-   **Feature Implementation & Polish**:
+    -   Created a read-only, no-auth  route for external review, complete with security measures ( meta tag,  rule).
+    -   Replaced the hero section of the  page multiple times with user-provided images, adjusting styles for correct presentation.
+    -   Polished the UI of several components on  and .
+-   **System Audits**:
+    -   Audited the Founder Office Vault system, confirming it supports text entries (not just files) and provided a detailed recommendation for extending it to meet the user's Registry requirements without building a new system.
 
 **Earlier issues found/mentioned but not fixed**
--   The backend has significant route duplication for , , and .
--   A minor issue where a news story on the  page renders raw HTML in its description.
--   The  MongoDB connection from the agent environment was reported as  due to a potential SSL misconfiguration. This may impact database operations in the next session.
+-   **Issue 1: Raw HTML in news story description**
+    -   **Debug checklist**: Locate the component rendering the news story description. Use a library like  or React's  (with sanitization) to render the HTML content correctly.
+    -   **Why to solve this issue and what will be achieved with this?**: Improves the visual presentation and readability of news content.
+    -   **Should Test frontend/backend/both after fix**: frontend
+    -   **Is recurring issue?**: N
+-   **Issue 2: Backend has significant route duplication**
+    -   **Debug checklist**: Review the routers for , , and . Identify common patterns and create shared utility functions or consolidate routers.
+    -   **Why to solve this issue and what will be achieved with this?**: Improves code maintainability and scalability.
+    -   **Should Test frontend/backend/both after fix**: backend
+    -   **Is recurring issue?**: N
 
 **Known issue recurrence from previous fork**
 -   **Issue recurrence in previous fork**: Password reset emails not sending.
--   **Recurrence count**: 4
--   **Status**: BLOCKED (Awaiting user SMTP credentials).
+-   **Recurrence count**: 5+
+-   **Status**: BLOCKED
 
 **Code Architecture**
-roles
+
 
 **Key Technical Concepts**
--   **Role-Based Access Control (RBAC)**: The current task involves manipulating user roles () to control access to protected frontend routes and backend APIs.
--   **Static Site Generation**: The final Guest Page was packaged into a single, self-contained  file for direct hosting.
--   **CSS Theming**: A page was refactored from using hardcoded colors to using theme-aware CSS variables and Tailwind classes (, ) to support dark/light modes.
--   **Client-Side Routing & Redirects**: Used React Router to redirect users from incomplete module URLs to a unified Coming Soon page, effectively creating a News-first public view.
+-   **Static Site Generation (Guest-Only Build)**: The agent created a separate application entry point ( and ) to produce a lightweight static build of the guest page, completely stripping out all authentication logic, protected routes, and main app components. This solved a critical deployment issue where the full app was being deployed as a public landing page.
+-   **Database Collection Mismatch**: A critical login issue was traced back to user accounts being created in a legacy  collection while the active authentication system () was querying the  collection. This highlights the importance of understanding the active data schema.
+-   **Dynamic File Serving via API**: A FastAPI endpoint was created to serve a large ZIP file with the correct  and  headers, providing a reliable direct download method when the default preview server failed.
+-   **Component-Based Fallbacks**: The agent centralized image error handling by creating a reusable  component, promoting DRY principles and ensuring a consistent fix across the application.
 
 **key DB schema**
--   :  - The  field is an array used for RBAC. The value  grants access to founder/admin dashboards.
+-   ****: The canonical collection for user authentication. The agent discovered this is the correct collection to use, as opposed to the legacy  collection. It contains , , and  (array).
+-   **Founder Office Vault**: This is a filesystem-based database located at . It stores data as markdown files with front-matter for metadata (uid=0(root) gid=0(root) groups=0(root), , , , etc.) organized into typed subdirectories (, ).
 
 **changes in tech stack**
 -   None.
 
 **All files of reference**
--   : Source of truth for the User model and role definitions.
--   : (Expected location) Contains user creation logic.
--   : Contains the frontend logic for checking  access.
--   : A detailed summary of the app's state at the end of the stabilization sprint.
+*   : The new shared component for the P0 image fix.
+*   : The main application entry point, which renders news components that need the image fix.
+*   , , : Components being refactored for the image fix.
+*   : Contains the backend logic for fetching news and provides image fallbacks.
+*   : Contains the database logic for user creation and verification in the correct  collection.
+*   : The main router configuration file.
 
 **Areas that need refactoring**:
--   Backend routes for , , and  have significant code duplication and should be consolidated.
+-   The backend route duplication for , , and  remains an outstanding technical debt item.
+-   The presence of two user collections ( and ) is a potential source of future bugs. The legacy  collection should be migrated or removed.
 
 **key api endpoints**
--   : Creates a new user.
--   : Authenticates a user and returns a JWT.
+-   : The primary login endpoint, now confirmed to be working correctly with the  collection.
+-   : The endpoint that provides data for the main news feed, which is the target of the P0 image fix.
+-   : A custom endpoint created to serve the static guest page ZIP file for deployment.
 
 **Critical Info for New Agent**
--   Your immediate task is to ensure two specific email addresses are assigned the  role. This will likely require direct database manipulation or interaction with backend APIs.
--   The application is currently in a News-first configuration. Do not expose or work on other modules (Social, Marketplace, etc.) unless explicitly instructed by the user.
--   The local database connection from the agent environment was previously reported as unhealthy. You may need to troubleshoot this connection before you can modify user roles in the database.
+-   **Your immediate priority is to complete P0: Global Image Fix**. You need to refactor  to use the new  component, then lint and thoroughly test the changes to ensure images render correctly across the news feed.
+-   After completing P0, proceed sequentially through the user's fix list: P1 (Marketplace), P2 (Social Page), P3 (Analytics). Do not skip ahead.
+-   All work on the Guest Page is **complete and locked**. Do not modify the guest page (), its build process, or the static ZIP unless explicitly instructed. The user deploys this ZIP to a separate production environment.
+-   The main login system is now stable. The correct super admin credentials have been provided in the session history. The key insight was the existence of two user collections;  is the correct one.
 
 **documents and test reports created in this job**
--   
--   
--   
+-   No new test reports were created.
+-   The agent created multiple static site ZIP files (e.g., ) stored in  for download.
 
 **Last 10 User Messages and any pending HUMAN messages**
-1.  **Request:** Lock Super Admin access to  and . (CURRENT TASK)
-2.  **Request:** Provide a full inventory of all BANIBS modules, systems, and data states. (Completed)
-3.  **Request:** Find the URL and access requirements for the internal admin dashboard SB. (Completed)
-4.  **Request:** Fix the theme toggle on the Social page and refresh its color palette to a blue theme. (Completed)
-5.  **Request:** Fix the missing navigation bar on the Benev Social page and improve its color scheme. (Completed)
-6.  **Request:** Fix the missing left navigation bar on the Black News page for layout parity. (Completed)
-7.  **Request:** Replace the existing top navigation with a vertical, left-aligned dropdown menu. (Completed)
-8.  **Request:** Fix news navigation and category routing issues, ensuring no blank images. (Completed)
-9.  **Request:** Add a subtle Opening in phases status line to the Guest Page. (Completed)
-10. **Request:** Package the final Guest Page as a static ZIP file for deployment. (Completed)
+1.  **USER**: Asks for a fresh guest-page static ZIP with a visible version marker. (COMPLETED)
+2.  **AGENT**: Delivers the v2 ZIP with the version stamp. (COMPLETED)
+3.  **USER**: Reports the v2 ZIP is not being served correctly by the download endpoint and the stamp is missing. Asks for verification via SHA256. (COMPLETED)
+4.  **AGENT**: Discovers the build was stale, rebuilds, updates the file, verifies the stamp is present, and provides the new SHA256 and download link. (COMPLETED)
+5.  **USER**: Reports they can't log in with . (COMPLETED)
+6.  **AGENT**: Investigates, confirms the account exists and the API works, and advises the user to check the password (). (COMPLETED)
+7.  **USER**: Reports a critical issue: the deployed guest page ZIP includes the full app's auth logic and is redirecting to a login page. Requests a new guest-only build with all auth stripped out. (COMPLETED)
+8.  **AGENT**: Creates a separate guest-only entry point (), builds a new lightweight static ZIP (v3) with no auth logic, verifies with , and provides the new ZIP for download. (COMPLETED)
+9.  **USER**: Asks for an audit of the existing upload/vault feature to see if it can be extended for a Registry feature. (COMPLETED)
+10. **USER**: Provides a prioritized list of four major fixes (P0-P3) for the main Emergent app: Global Image Fix, Marketplace fix, Social page visuals, and Analytics. (IN PROGRESS)
 
 **Project Health Check:**
 -   **Broken**:
-    -   Password reset email functionality (blocked on SMTP credentials).
-    -   The agent's  DB connection was previously unhealthy (SSL error).
+    -   Password reset email functionality (BLOCKED on credentials).
+    -   Marketplace page rendering (Pending fix in P1).
 -   **Mocked**:
     -   BGLIS (Phone authentication system).
-    -   Backend functionality for major modules like Social Feed, Marketplace, and BANIBS TV remains as stubs.
 
 **3rd Party Integrations**
-*   **OpenAI GPT-4o, Whisper, TTS**: Used in the CCRAM module, accessed via Emergent LLM Key.
-*   **MongoDB Atlas**: Live production database.
-*   **Let's Encrypt**: Used for production SSL.
-*   **Google Fonts & Lucide Icons**: Used via CDN for frontend styling.
-*   **Unsplash**: Provides fallback images for the news module.
+*   OpenAI GPT-4o, Whisper, TTS (via Emergent LLM Key)
+*   MongoDB Atlas
+*   Let's Encrypt
+*   Google Fonts & Lucide Icons
+*   Unsplash
+*    & 
 
 **Testing status**
 -   **Testing agent used after significant changes**: NO
 -   **Troubleshoot agent used after agent stuck in loop**: NO
--   **Test files created**: []
--   **Known regressions**: None identified.
+-   **Test files created**: None.
+-   **Known regressions**: None.
 
 **Credentials to test flow:**
--   You will need to create or confirm credentials for the two new super admin accounts (, ) to test the current task.
+-   **Email**:  (or )
+-   **Password**: 
+-   **Role**: 
 
 **What agent forgot to execute**
--   The agent was in the middle of the Configure Super Admin Access task. It has completed the investigation but has not yet performed the database/API actions to create or update the user roles.</analysis>
+The agent was mid-task on P0 - Global Image Fix. It successfully refactored two components but did not get to refactor  or lint/test the changes before the session ended.
+</analysis>

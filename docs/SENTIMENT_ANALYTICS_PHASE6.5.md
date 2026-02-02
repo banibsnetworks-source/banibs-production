@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://news-trust-system.preview.emergentagent.com/api/admin/analytics/sentiment
+https://newsfix-dev.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints

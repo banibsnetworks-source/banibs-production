@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://news-trust-system.preview.emergentagent.com/api/auth
+https://newsfix-dev.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

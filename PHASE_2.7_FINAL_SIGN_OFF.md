@@ -46,8 +46,8 @@
 | `/api/opportunities/{id}/feature` | PATCH | ✅ 200 | ✅ Yes |
 
 **Total Endpoints:** 8/8 Active ✅  
-**Swagger UI:** https://news-trust-system.preview.emergentagent.com/docs ✅  
-**ReDoc:** https://news-trust-system.preview.emergentagent.com/redoc ✅
+**Swagger UI:** https://newsfix-dev.preview.emergentagent.com/docs ✅  
+**ReDoc:** https://newsfix-dev.preview.emergentagent.com/redoc ✅
 
 ---
 
@@ -84,7 +84,7 @@ def check_admin(x_api_key: str = Header(None)):
 
 **Frontend Environment:**
 ```env
-REACT_APP_BACKEND_URL=https://news-trust-system.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://newsfix-dev.preview.emergentagent.com
 ```
 
 **Status:** ✅ Frontend is pointed at the live backend

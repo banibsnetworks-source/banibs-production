@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://news-trust-system.preview.emergentagent.com"
+BACKEND_URL="https://newsfix-dev.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output
