@@ -141,10 +141,21 @@ All links visible:
 ### Frontend Key Files
 - `/components/GlobalNavBar.js` - Public nav (News-first links only)
 - `/components/NewsNavigationBar.js` - Category tabs
+- `/components/ImageWithFallback.js` - **Shared image component with deterministic multi-fallback rotation**
+- `/components/NewsSectionBlock.js` - News section blocks with fallback images
+- `/components/TopStoriesGrid.js` - Top stories grid with fallback images
+- `/components/NewsHeroSection.js` - Hero section with fallback images
 - `/pages/NewsHomePage.js` - Main news page (TV card hidden)
 - `/pages/NewsSectionPage.js` - Section pages (TV card hidden)
 - `/pages/BlackNewsPage.jsx` - Black News page
 - `/pages/ComingSoonPage.jsx` - Guest Page
+
+### Public Assets
+- `/public/fallbacks/` - 4 fallback images for broken news images
+  - `news-fallback-01.jpg` - Network nodes world map
+  - `news-fallback-02.jpg` - Bokeh city lights  
+  - `news-fallback-03.jpg` - Connected people network
+  - `news-fallback-04.jpg` - Social network circles
 
 ### Backend Key Files
 - `/routes/news.py` - News API with image validation
