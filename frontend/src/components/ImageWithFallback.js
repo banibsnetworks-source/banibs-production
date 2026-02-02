@@ -41,11 +41,39 @@ const getDeterministicFallback = (itemId) => {
   return LOCAL_FALLBACKS[index];
 };
 
+// Known OLD backend fallback URLs that should be replaced with new local fallbacks
+// These are the Unsplash URLs the backend uses as category fallbacks
+const OLD_BACKEND_FALLBACKS = [
+  'photo-1504711434969-e33886168f5c', // Newspaper (default)
+  'photo-1568515387631-8b650bbcdb90', // US cityscape
+  'photo-1526778548025-fa2f459cd5c1', // World/globe
+  'photo-1460925895917-afdab827c52f', // Business/charts
+  'photo-1518770660439-4636190af475', // Technology
+  'photo-1461896836934-ffe607ba8211', // Sports/running
+  'photo-1514525253161-7a46d19cd819', // Concert
+  'photo-1529107386315-e1a2ed48a620', // Capitol
+  'photo-1505751172876-fa1923c5c528', // Health
+  'photo-1533174072545-7a4b6ad7a6c3', // Festival
+];
+
 /**
- * Normalize image URL - handles protocol-relative URLs and empty strings
+ * Check if URL is a known old backend fallback that should be replaced
+ */
+const isOldBackendFallback = (url) => {
+  if (!url) return false;
+  return OLD_BACKEND_FALLBACKS.some(id => url.includes(id));
+};
+
+/**
+ * Normalize image URL - handles protocol-relative URLs, empty strings, and old fallbacks
  */
 const normalizeImageUrl = (url) => {
   if (!url || url.trim() === '' || url === 'null' || url === 'undefined') {
+    return null;
+  }
+  
+  // Reject old backend fallback URLs - let frontend use new local fallbacks
+  if (isOldBackendFallback(url)) {
     return null;
   }
   
