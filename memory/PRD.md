@@ -117,6 +117,10 @@ All links visible:
   - **Coverage Gap Fix**: Added detection of old backend Unsplash fallback URLs (10 patterns) to force local fallback usage
   - **Regression Fix**: Added detection of tracking pixels and invalid image URLs (npr-rss-pixel, 1x1, spacer, etc.)
   - Now ALL pages (Homepage, US, Politics, World, etc.) use new fallback rotation consistently
+- [x] **Social Page Auth Redirect Loop Fix (COMPLETE - February 2, 2026)**
+  - Fixed nav link: Changed "BANIBS Social" from `/social` (landing page) to `/portal/social` (actual feed)
+  - Authenticated users now see full social feed with composer and sidebar
+  - Unauthenticated users see preview page with "Join" and "Sign In" CTAs (no redirect loop)
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
