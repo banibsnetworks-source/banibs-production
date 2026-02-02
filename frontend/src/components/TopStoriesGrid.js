@@ -1,6 +1,7 @@
 import React from 'react';
 import { ExternalLink, Clock } from 'lucide-react';
 import SentimentBadge from './SentimentBadge';
+import ImageWithFallback from './ImageWithFallback';
 import { useTheme } from '../contexts/ThemeContext';
 import { getThemeStyles } from '../utils/themeStyles';
 
@@ -38,22 +39,6 @@ const TopStoriesGrid = ({ stories }) => {
     }
   };
 
-  // Generate fallback placeholder based on category
-  const getCategoryFallback = (story) => {
-    const category = story.mapped_section || story.category || 'news';
-    const categoryColors = {
-      'world': 'from-blue-600 to-blue-800',
-      'us': 'from-red-600 to-red-800',
-      'business': 'from-green-600 to-green-800',
-      'tech': 'from-purple-600 to-purple-800',
-      'sports': 'from-orange-600 to-orange-800',
-      'entertainment': 'from-pink-600 to-pink-800',
-      'health': 'from-teal-600 to-teal-800',
-      'civil_rights': 'from-indigo-600 to-indigo-800',
-    };
-    return categoryColors[category?.toLowerCase()] || 'from-gray-600 to-gray-800';
-  };
-
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -70,34 +55,15 @@ const TopStoriesGrid = ({ stories }) => {
           >
             {/* Thumbnail */}
             <div className="relative aspect-video overflow-hidden bg-muted">
-              {story.imageUrl && !story.imageUrl.includes('/static/') ? (
-                <img
-                  src={story.imageUrl}
-                  alt={story.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  onError={(e) => {
-                    // Hide broken image and show gradient fallback
-                    e.target.style.display = 'none';
-                    e.target.parentElement.querySelector('.fallback-gradient').style.display = 'flex';
-                  }}
-                />
-              ) : null}
-              
-              {/* Gradient Fallback */}
-              <div 
-                className={`fallback-gradient absolute inset-0 bg-gradient-to-br ${getCategoryFallback(story)} ${story.imageUrl && !story.imageUrl.includes('/static/') ? 'hidden' : 'flex'} items-center justify-center`}
-                style={{ display: story.imageUrl && !story.imageUrl.includes('/static/') ? 'none' : 'flex' }}
-              >
-                <div className="text-center p-6">
-                  <div className="text-white/90 text-5xl mb-2">📰</div>
-                  <div className="text-white/70 text-xs font-medium uppercase tracking-wider">
-                    {story.mapped_section || story.category || 'News'}
-                  </div>
-                </div>
-              </div>
+              <ImageWithFallback
+                src={story.imageUrl || story.image_url}
+                alt={story.title}
+                category={story.mapped_section || story.category}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
               
               {/* Category Badge */}
-              <div className="absolute top-2 left-2">
+              <div className="absolute top-2 left-2 z-10">
                 <span className="px-2 py-1 bg-black/70 backdrop-blur-sm text-white text-xs font-semibold rounded capitalize">
                   {story.mapped_section || story.category || 'News'}
                 </span>
@@ -105,7 +71,7 @@ const TopStoriesGrid = ({ stories }) => {
 
               {/* Sentiment Badge */}
               {story.sentiment_label && (
-                <div className="absolute top-2 right-2">
+                <div className="absolute top-2 right-2 z-10">
                   <SentimentBadge
                     sentiment={story.sentiment_label}
                     score={story.sentiment_score}
