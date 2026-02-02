@@ -11,9 +11,6 @@ import { useTheme } from '../contexts/ThemeContext';
  * Theme-aware design
  */
 const NewsHeroSection = ({ story }) => {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
-
   if (!story) {
     return (
       <div className="bg-card rounded-lg p-8 text-center border border-border" data-testid="hero-empty-state">
