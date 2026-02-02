@@ -118,13 +118,13 @@ async def root():
 
 @api_router.get("/download/guest-page")
 async def download_guest_page():
-    """Direct download of BANIBS guest page static bundle (v2)"""
-    zip_path = Path("/app/backend/static/guest-page_books-order-corrected_2026-02-01_v2.zip")
+    """Direct download of BANIBS guest page static bundle (v3 - guest-only, no auth)"""
+    zip_path = Path("/app/backend/static/guest-page_guest-only_2026-02-01_v3.zip")
     if not zip_path.exists():
         raise HTTPException(status_code=404, detail="ZIP file not found")
     return FileResponse(
         path=str(zip_path),
-        filename="guest-page_books-order-corrected_2026-02-01_v2.zip",
+        filename="guest-page_guest-only_2026-02-01_v3.zip",
         media_type="application/zip"
     )
 
