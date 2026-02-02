@@ -56,6 +56,19 @@ const OLD_BACKEND_FALLBACKS = [
   'photo-1533174072545-7a4b6ad7a6c3', // Festival
 ];
 
+// Invalid image URL patterns - tracking pixels, broken URLs, placeholders
+const INVALID_IMAGE_PATTERNS = [
+  'tracking',
+  'pixel',
+  'rss-pixel',
+  'npr-rss-pixel',
+  '1x1',
+  'spacer',
+  'blank.gif',
+  'clear.gif',
+  '/static/img/fallbacks/',
+];
+
 /**
  * Check if URL is a known old backend fallback that should be replaced
  */
@@ -65,7 +78,16 @@ const isOldBackendFallback = (url) => {
 };
 
 /**
- * Normalize image URL - handles protocol-relative URLs, empty strings, and old fallbacks
+ * Check if URL is a tracking pixel or invalid image
+ */
+const isInvalidImageUrl = (url) => {
+  if (!url) return true;
+  const lowerUrl = url.toLowerCase();
+  return INVALID_IMAGE_PATTERNS.some(pattern => lowerUrl.includes(pattern));
+};
+
+/**
+ * Normalize image URL - handles protocol-relative URLs, empty strings, old fallbacks, and tracking pixels
  */
 const normalizeImageUrl = (url) => {
   if (!url || url.trim() === '' || url === 'null' || url === 'undefined') {
@@ -74,6 +96,11 @@ const normalizeImageUrl = (url) => {
   
   // Reject old backend fallback URLs - let frontend use new local fallbacks
   if (isOldBackendFallback(url)) {
+    return null;
+  }
+  
+  // Reject tracking pixels and invalid image URLs
+  if (isInvalidImageUrl(url)) {
     return null;
   }
   
