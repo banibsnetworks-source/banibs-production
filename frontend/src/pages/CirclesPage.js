@@ -461,7 +461,7 @@ const CirclesPage = () => {
         </div>
         {/* Version Stamp for Static ZIP Build */}
         <div className={`text-center pb-4 ${isDark ? 'text-gray-700' : 'text-gray-400'}`}>
-          <span className="text-xs font-mono">GUEST ZIP BUILD: 2026-02-01 v2</span>
+          <span className="text-xs font-mono">GUEST ZIP BUILD: 2026-02-01 v3</span>
         </div>
       </footer>
     </div>
