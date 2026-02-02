@@ -62,6 +62,7 @@ const NewsSectionBlock = ({ title, stories, icon }) => {
               <ImageWithFallback
                 src={featuredItem.imageUrl || featuredItem.image_url}
                 alt={featuredItem.title}
+                itemId={featuredItem.id || featuredItem.sourceUrl || featuredItem.title}
                 category={featuredItem.mapped_section || featuredItem.category}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
@@ -119,9 +120,9 @@ const NewsSectionBlock = ({ title, stories, icon }) => {
                 <ImageWithFallback
                   src={story.imageUrl || story.image_url}
                   alt={story.title}
+                  itemId={story.id || story.sourceUrl || story.title}
                   category={story.mapped_section || story.category}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  showIcon={false}
                 />
               </div>
 

@@ -58,6 +58,7 @@ const TopStoriesGrid = ({ stories }) => {
               <ImageWithFallback
                 src={story.imageUrl || story.image_url}
                 alt={story.title}
+                itemId={story.id || story.sourceUrl || story.title}
                 category={story.mapped_section || story.category}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
