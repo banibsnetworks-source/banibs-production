@@ -53,6 +53,7 @@ import { CSS } from '@dnd-kit/utilities';
 const INTERNAL_MODULES = [
   { id: 'founder', name: 'Founder Tools', route: '/founder/command', icon: Shield, color: '#C8A857', description: 'Founder command center and control tools' },
   { id: 'analytics', name: 'Founder Analytics', route: '/founder/analytics', icon: Settings, color: '#10B981', description: 'System health and usage metrics dashboard' },
+  { id: 'book-vault', name: 'Book Vault Studio', route: '/founder/book-vault', icon: BookMarked, color: '#F59E0B', description: 'Write and manage books chapter-by-chapter' },
   { id: 'admin', name: 'Admin Dashboards', route: '/admin/opportunities', icon: Settings, color: '#6366F1', description: 'Admin panels, moderation, analytics' },
   { id: 'settings', name: 'Settings Hub', route: '/settings', icon: Settings, color: '#64748B', description: 'User account and app settings' },
   { id: 'developer', name: 'Developer Portal', route: '/developer', icon: Code, color: '#10B981', description: 'API access and developer tools' },
