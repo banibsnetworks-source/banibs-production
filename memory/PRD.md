@@ -158,6 +158,13 @@ All links visible:
   - **Frontend**: Show `black_focus_type` badges (Africa, Caribbean, Diaspora, etc.) instead of category
   - **DB Cleanup**: Removed incorrectly tagged items from non-Black sources
   - Files: `black_news_tagging_service.py`, `TopStoriesGrid.js`, `BlackNewsPage.jsx`
+- [x] **Book Vault Studio v1 (COMPLETE - February 3, 2026)**
+  - Founder-only book authoring system (super_admin access)
+  - **Backend**: `/api/book-vault/*` endpoints for books and chapters
+  - **Frontend**: `BookVaultStudio.jsx` (book list) + `BookEditor.jsx` (chapter editor)
+  - Features: Create/edit/delete books, chapter-based writing, autosave (2s debounce)
+  - Distraction-free editor with Georgia serif font
+  - Link added to Founder Control Center
   - **Left drawer**: Primary BANIBS modules only (News, Directory, Social, Resources, Marketplace, TV, Wallet, Community)
   - **Top bar**: Section title ("News") + global actions (Search) - minimal, no category overload
   - **Sub-nav**: News categories only appear on news pages (Top Stories, Black News, U.S., World, etc.)
