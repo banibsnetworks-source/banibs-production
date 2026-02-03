@@ -173,6 +173,15 @@ All links visible:
   - Made top bar compact (no icons, reduced padding, shortened labels) to eliminate horizontal scrolling
   - Control Plane section retained for Founder/Admin access
   - Added `sectionTitle` prop to GlobalNavBar for context
+- [x] **Community Circles Exposure (COMPLETE - February 3, 2026)**
+  - Backend: Auto-seeding of 6 default community circles via `GET /api/circles`
+  - Circles: Black Entrepreneurs Network, Parents & Caregivers Support, Mental Health & Wellness, Black in Tech, Black Creatives Collective, Faith & Spirituality
+  - Frontend: `SocialCirclesPage.jsx` listing all circles with cards
+  - Card displays: name, description, tags, member count, privacy level, verified badge
+  - Left rail "Circles" link navigates to `/portal/social/circles`
+  - Intentional empty state for when no circles exist
+  - UI surfacing only (no creation, join rules, or moderation)
+  - Route: `/portal/social/circles`
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
