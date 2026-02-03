@@ -1,14 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Image as ImageIcon, X, Upload, ZoomIn } from 'lucide-react';
+import { Image as ImageIcon, X, Upload, ZoomIn, Crop } from 'lucide-react';
 import { downscaleIfNeeded, createPreviewURL, revokePreviewURL, formatFileSize } from '../../utils/imageUtils';
+import CoverCropper from './CoverCropper';
 
 /**
  * CoverUploader Component
  * Handles profile cover/banner image upload with drag & drop support
  * - Max 20MB (client-side downscaling before upload)
  * - Image files only (JPEG, PNG, WebP)
- * - Target: 1500×500 or adaptive (fit with smart padding)
- * - Preserve full composition - no aggressive cropping
+ * - Opens cropper immediately after file selection
+ * - 3:1 aspect ratio crop
  * - Immediate local preview, swaps to server URL on success
  */
 const CoverUploader = ({ initialUrl, onUploaded }) => {
@@ -19,6 +20,8 @@ const CoverUploader = ({ initialUrl, onUploaded }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const [showCropper, setShowCropper] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
   const inputRef = useRef(null);
 
   // Update preview when initialUrl changes
