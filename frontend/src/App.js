@@ -284,6 +284,8 @@ import OrchestrationDashboardPage from "./pages/admin/orchestration/Orchestratio
 import FounderControlCenter from "./pages/founder/FounderControlCenter";
 import FounderAnalyticsDashboard from "./pages/founder/FounderAnalyticsDashboard";
 import NavV2Preview from "./pages/founder/NavV2Preview";
+import BookVaultStudio from "./pages/founder/BookVaultStudio";
+import BookEditor from "./pages/founder/BookEditor";
 
 // Coming Soon Pages (Variants)
 import ComingSoonPage from "./pages/ComingSoonPage";
