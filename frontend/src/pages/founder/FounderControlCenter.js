@@ -1853,15 +1853,14 @@ const FounderControlCenter = () => {
                           display: 'inline-flex',
                           alignItems: 'center',
                           gap: '4px',
-                          padding: '4px 8px',
+                          padding: '3px 8px',
                           borderRadius: '4px',
-                          backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                          border: '1px solid rgba(16, 185, 129, 0.3)',
+                          backgroundColor: isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.08)',
                           fontSize: '11px',
                           fontWeight: '500',
                           color: '#10B981'
                         }}>
-                          <CheckCircle size={12} />
+                          <CheckCircle size={11} />
                           Enabled
                         </div>
                       </div>
