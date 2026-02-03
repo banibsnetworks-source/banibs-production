@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, MessageCircle, MoreHorizontal, Trash2, Flag } from 'lucide-react';
+import { Heart, MessageCircle, MoreHorizontal, Trash2, Flag, Share2 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import SocialCommentSection from './SocialCommentSection';
 import ReportPostModal from './ReportPostModal';
@@ -12,8 +12,14 @@ import ConfirmModal from '../common/ConfirmModal';
 import { SocialPostMediaGrid } from './SocialPostMediaGrid';
 
 /**
- * SocialPostCard - Phase 8.3 + Phase 3.3 (Delete functionality)
- * Component for displaying a single social post with engagement actions
+ * SocialPostCard - Polished UI v2
+ * Clean, readable social post with clear visual hierarchy
+ * 
+ * UI Improvements:
+ * - Clear author + timestamp header with better spacing
+ * - Improved post body readability (line-height, max-width)
+ * - Normalized action bar (Like / High Five / Comment / Share)
+ * - Clean link/media previews
  * 
  * @param {boolean} compact - When true, hides author header (for profile pages)
  */
@@ -56,7 +62,6 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
     setIsLiking(true);
     
     try {
-      // Get token from localStorage
       const token = localStorage.getItem('access_token');
       
       const response = await fetch(
@@ -76,7 +81,6 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
 
       const result = await response.json();
       
-      // Update local state
       const updatedPost = {
         ...localPost,
         viewer_has_liked: result.liked,
@@ -96,7 +100,6 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
   };
 
   const handleCommentAdded = (comment) => {
-    // Update comment count
     const updatedPost = {
       ...localPost,
       comment_count: localPost.comment_count + 1
@@ -113,7 +116,6 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
     try {
       const token = localStorage.getItem('access_token');
       
-      // Use XMLHttpRequest to bypass rrweb "Response body already used" error
       const result = await new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', `${process.env.REACT_APP_BACKEND_URL}/api/social/posts/${postId}/highfive`, true);
@@ -137,7 +139,6 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
         xhr.send();
       });
       
-      // Update local state
       const updatedPost = {
         ...localPost,
         viewer_has_highfived: result.highfived,
@@ -151,11 +152,10 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
       }
     } catch (err) {
       console.error('Error toggling high five:', err);
-      throw err; // Re-throw for HighFiveButton to handle rollback
+      throw err;
     }
   };
 
-  // Phase 3.3: Delete post handler
   const handleDeletePost = async () => {
     setIsDeleting(true);
     
@@ -177,7 +177,6 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
         throw new Error('Failed to delete post');
       }
 
-      // Call parent callback
       if (onDelete) {
         onDelete(localPost.id);
       }
@@ -191,114 +190,91 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
     }
   };
 
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Post by ${localPost.author.display_name}`,
+          text: localPost.text?.substring(0, 100) || 'Check out this post on BANIBS',
+          url: window.location.href,
+        });
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error('Share failed:', err);
+        }
+      }
+    } else {
+      // Fallback: copy link
+      navigator.clipboard.writeText(window.location.href);
+    }
+  };
+
   const isAuthor = user?.id === localPost.author.id;
 
-  // Determine profile path (handle or ID fallback)
   const profilePath = localPost.author.handle 
     ? `/portal/social/u/${localPost.author.handle}`
     : `/portal/social/id/${localPost.author.id}`;
 
   return (
-    <div className="bg-card rounded-xl border border-border overflow-hidden">
-      {/* Post Header */}
-      <div className="p-4">
+    <article 
+      className="bg-card rounded-xl border border-border overflow-hidden transition-shadow hover:shadow-sm"
+      data-testid={`post-card-${localPost.id}`}
+    >
+      {/* ===== Post Header ===== */}
+      <header className="px-4 pt-4 pb-3">
         {!compact && (
-          <div className="flex items-start justify-between mb-3">
-            <Link 
-              to={profilePath}
-              className="flex items-center space-x-3 hover:opacity-80 transition-opacity flex-1"
-            >
-              {/* Author Avatar */}
+          <div className="flex items-start gap-3">
+            {/* Author Avatar */}
+            <Link to={profilePath} className="flex-shrink-0">
               <ProfileAvatar 
                 name={localPost.author.display_name}
                 avatarUrl={localPost.author.avatar_url}
                 size="md"
               />
-              
-              {/* Author Info */}
-              <div>
-                <p className="text-sm font-semibold text-card-foreground">
-                  {localPost.author.display_name}
-                </p>
-                {localPost.author.handle && (
-                  <p className="text-xs text-amber-500">
-                    @{localPost.author.handle}
-                  </p>
-                )}
-                <p className="text-xs text-muted-foreground">
-                  {formatTimestamp(localPost.created_at)}
-                </p>
-              </div>
             </Link>
-
-            {/* More Options */}
-            <div className="flex items-center space-x-1">
-              {/* Report button for non-authors */}
-              {!isAuthor && (
-                <button
-                  type="button"
-                  onClick={() => setShowReportModal(true)}
-                  className="p-1 rounded-lg text-muted-foreground hover:bg-muted hover:text-red-400 transition-colors"
-                  title="Report post"
-                >
-                  <Flag size={16} />
-                </button>
-              )}
-              
-              {/* More options for authors - Phase 3.3 */}
-              {isAuthor && (
-                <DropdownMenu
-                  trigger={
-                    <button
-                      type="button"
-                      className="p-1 rounded-lg text-muted-foreground hover:bg-muted transition-colors"
-                      title="Options"
-                    >
-                      <MoreHorizontal size={18} />
-                    </button>
-                  }
-                >
-                  <DropdownMenuItem
-                    icon={Trash2}
-                    label="Delete post"
-                    destructive
-                    onClick={() => setShowDeleteModal(true)}
-                  />
-                </DropdownMenu>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Compact mode: Just show timestamp and options */}
-        {compact && (
-          <div className="flex items-center justify-between mb-3">
-            <p className="text-xs text-muted-foreground">
-              {formatTimestamp(localPost.created_at)}
-            </p>
             
-            {/* More Options */}
-            <div className="flex items-center space-x-1">
-              {/* Report button for non-authors */}
+            {/* Author Info + Timestamp */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <Link 
+                  to={profilePath}
+                  className="font-semibold text-card-foreground hover:underline truncate"
+                >
+                  {localPost.author.display_name}
+                </Link>
+                {localPost.author.handle && (
+                  <span className="text-sm text-amber-500 truncate">
+                    @{localPost.author.handle}
+                  </span>
+                )}
+              </div>
+              <time className="text-xs text-muted-foreground mt-0.5 block">
+                {formatTimestamp(localPost.created_at)}
+              </time>
+            </div>
+
+            {/* Options Menu */}
+            <div className="flex-shrink-0 flex items-center gap-1">
               {!isAuthor && (
                 <button
                   type="button"
                   onClick={() => setShowReportModal(true)}
-                  className="p-1 rounded-lg text-muted-foreground hover:bg-muted hover:text-red-400 transition-colors"
+                  className="p-2 rounded-full text-muted-foreground hover:bg-muted hover:text-red-400 transition-colors"
                   title="Report post"
+                  aria-label="Report post"
                 >
                   <Flag size={16} />
                 </button>
               )}
               
-              {/* More options for authors - Phase 3.3 */}
               {isAuthor && (
                 <DropdownMenu
                   trigger={
                     <button
                       type="button"
-                      className="p-1 rounded-lg text-muted-foreground hover:bg-muted transition-colors"
-                      title="Options"
+                      className="p-2 rounded-full text-muted-foreground hover:bg-muted transition-colors"
+                      title="More options"
+                      aria-label="More options"
                     >
                       <MoreHorizontal size={18} />
                     </button>
@@ -316,39 +292,96 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
           </div>
         )}
 
-        {/* Post Content */}
-        <PostTextWithEmojis 
-          text={localPost.text}
-          className="text-card-foreground text-sm leading-relaxed whitespace-pre-wrap"
-        />
+        {/* Compact mode header */}
+        {compact && (
+          <div className="flex items-center justify-between">
+            <time className="text-xs text-muted-foreground">
+              {formatTimestamp(localPost.created_at)}
+            </time>
+            
+            <div className="flex items-center gap-1">
+              {!isAuthor && (
+                <button
+                  type="button"
+                  onClick={() => setShowReportModal(true)}
+                  className="p-2 rounded-full text-muted-foreground hover:bg-muted hover:text-red-400 transition-colors"
+                  title="Report post"
+                >
+                  <Flag size={16} />
+                </button>
+              )}
+              
+              {isAuthor && (
+                <DropdownMenu
+                  trigger={
+                    <button
+                      type="button"
+                      className="p-2 rounded-full text-muted-foreground hover:bg-muted transition-colors"
+                      title="More options"
+                    >
+                      <MoreHorizontal size={18} />
+                    </button>
+                  }
+                >
+                  <DropdownMenuItem
+                    icon={Trash2}
+                    label="Delete post"
+                    destructive
+                    onClick={() => setShowDeleteModal(true)}
+                  />
+                </DropdownMenu>
+              )}
+            </div>
+          </div>
+        )}
+      </header>
 
-        {/* Media Grid - BANIBS Social Media Upgrade Spec v1.0 */}
-        <SocialPostMediaGrid mediaUrls={localPost.media_urls || []} />
+      {/* ===== Post Body ===== */}
+      <div className="px-4 pb-3">
+        {/* Post Text - improved readability */}
+        {localPost.text && (
+          <div className="max-w-prose">
+            <PostTextWithEmojis 
+              text={localPost.text}
+              className="text-card-foreground text-[15px] leading-[1.6] whitespace-pre-wrap break-words"
+            />
+          </div>
+        )}
 
-        {/* Link Preview (Phase 8.1) - Rich preview when metadata exists */}
+        {/* Media Grid */}
+        {localPost.media_urls && localPost.media_urls.length > 0 && (
+          <div className="mt-3">
+            <SocialPostMediaGrid mediaUrls={localPost.media_urls} />
+          </div>
+        )}
+
+        {/* Link Preview */}
         {localPost.link_meta && (
           <a
             href={localPost.link_meta.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 block border border-border rounded-lg overflow-hidden hover:border-yellow-500 transition-colors"
+            className="mt-3 block border border-border rounded-lg overflow-hidden hover:border-amber-500/50 transition-colors"
           >
             {localPost.link_meta.image && (
-              <div className="w-full aspect-[2/1] bg-muted">
+              <div className="aspect-[2/1] bg-muted overflow-hidden">
                 <img
                   src={localPost.link_meta.image}
-                  alt={localPost.link_meta.title}
+                  alt=""
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
             )}
-            <div className="p-3 bg-muted">
-              <p className="text-xs text-muted-foreground mb-1">{localPost.link_meta.site}</p>
-              <p className="text-sm font-semibold text-card-foreground mb-1 line-clamp-2">
+            <div className="p-3 bg-muted/50">
+              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">
+                {localPost.link_meta.site}
+              </p>
+              <p className="text-sm font-medium text-card-foreground line-clamp-2">
                 {localPost.link_meta.title}
               </p>
               {localPost.link_meta.description && (
-                <p className="text-xs text-muted-foreground line-clamp-2">
+                <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
                   {localPost.link_meta.description}
                 </p>
               )}
@@ -356,89 +389,115 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
           </a>
         )}
 
-        {/* Fallback: Show plain link if no metadata but link_url exists */}
+        {/* Plain URL fallback */}
         {!localPost.link_meta && localPost.link_url && (
           <a
             href={localPost.link_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 block text-sm text-blue-500 hover:text-blue-400 hover:underline break-all"
+            className="mt-3 inline-block text-sm text-blue-500 hover:text-blue-400 hover:underline break-all"
           >
             {localPost.link_url}
           </a>
         )}
 
-        {/* Legacy media_url support (Phase 8.0 backwards compatibility) */}
-        {!localPost.media && localPost.media_url && (
+        {/* Legacy media_url support */}
+        {!localPost.media_urls?.length && localPost.media_url && (
           <div className="mt-3 rounded-lg overflow-hidden">
             <img
               src={localPost.media_url}
               alt="Post media"
-              className="w-full h-auto"
-              onError={(e) => {
-                e.target.style.display = 'none';
-              }}
+              className="w-full h-auto max-h-96 object-cover"
+              loading="lazy"
+              onError={(e) => { e.target.style.display = 'none'; }}
             />
           </div>
         )}
       </div>
 
-      {/* Engagement Stats */}
-      <div className="px-4 py-2 border-t border-border flex items-center justify-between text-xs text-muted-foreground">
-        <div className="flex items-center space-x-3">
-          <span>{localPost.like_count} {localPost.like_count === 1 ? 'like' : 'likes'}</span>
-          <span>{localPost.highfive_count || 0} {localPost.highfive_count === 1 ? 'high five' : 'high fives'}</span>
+      {/* ===== Engagement Stats ===== */}
+      <div className="px-4 py-2 border-t border-border/50">
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center gap-4">
+            {localPost.like_count > 0 && (
+              <span>{localPost.like_count} {localPost.like_count === 1 ? 'like' : 'likes'}</span>
+            )}
+            {(localPost.highfive_count || 0) > 0 && (
+              <span>{localPost.highfive_count} {localPost.highfive_count === 1 ? 'high five' : 'high fives'}</span>
+            )}
+          </div>
+          {localPost.comment_count > 0 && (
+            <span>{localPost.comment_count} {localPost.comment_count === 1 ? 'comment' : 'comments'}</span>
+          )}
         </div>
-        <span>{localPost.comment_count} {localPost.comment_count === 1 ? 'comment' : 'comments'}</span>
       </div>
 
-      {/* Action Buttons */}
-      <div className="px-4 py-2 border-t border-border flex items-center space-x-2">
-        {/* Like Button */}
-        <button
-          type="button"
-          onClick={handleLike}
-          disabled={isLiking}
-          className={`flex-1 flex items-center justify-center space-x-2 py-2 rounded-lg transition-all ${
-            localPost.viewer_has_liked
-              ? 'text-red-400 bg-red-400/10 hover:bg-red-400/20'
-              : 'text-muted-foreground hover:bg-muted'
-          } disabled:opacity-50 disabled:cursor-not-allowed`}
-        >
-          <Heart
-            size={18}
-            fill={localPost.viewer_has_liked ? 'currentColor' : 'none'}
-          />
-          <span className="text-sm font-medium">
-            {localPost.viewer_has_liked ? 'Liked' : 'Like'}
-          </span>
-        </button>
+      {/* ===== Action Bar ===== */}
+      <div className="px-2 py-1 border-t border-border/50">
+        <div className="flex items-center">
+          {/* Like Button */}
+          <button
+            type="button"
+            onClick={handleLike}
+            disabled={isLiking}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-medium text-sm transition-all ${
+              localPost.viewer_has_liked
+                ? 'text-red-400 hover:bg-red-400/10'
+                : 'text-muted-foreground hover:bg-muted hover:text-card-foreground'
+            } disabled:opacity-50`}
+            aria-label={localPost.viewer_has_liked ? 'Unlike' : 'Like'}
+          >
+            <Heart
+              size={18}
+              fill={localPost.viewer_has_liked ? 'currentColor' : 'none'}
+              strokeWidth={localPost.viewer_has_liked ? 0 : 2}
+            />
+            <span className="hidden sm:inline">Like</span>
+          </button>
 
-        {/* High Five Button */}
-        <div className="flex-1 flex items-center justify-center">
-          <HighFiveButton
-            postId={localPost.id}
-            hasHighFived={localPost.viewer_has_highfived || false}
-            highFiveCount={localPost.highfive_count || 0}
-            userTier={user?.subscription_tier || 'free'}
-            onHighFive={handleHighFive}
-            size={24}
-            showCount={false}
-          />
+          {/* High Five Button */}
+          <div className="flex-1 flex items-center justify-center py-2.5">
+            <HighFiveButton
+              postId={localPost.id}
+              hasHighFived={localPost.viewer_has_highfived || false}
+              highFiveCount={localPost.highfive_count || 0}
+              userTier={user?.subscription_tier || 'free'}
+              onHighFive={handleHighFive}
+              size={20}
+              showCount={false}
+            />
+          </div>
+
+          {/* Comment Button */}
+          <button
+            type="button"
+            onClick={() => setShowComments(!showComments)}
+            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-medium text-sm transition-all ${
+              showComments
+                ? 'text-amber-500 hover:bg-amber-500/10'
+                : 'text-muted-foreground hover:bg-muted hover:text-card-foreground'
+            }`}
+            aria-label="Comment"
+            aria-expanded={showComments}
+          >
+            <MessageCircle size={18} />
+            <span className="hidden sm:inline">Comment</span>
+          </button>
+
+          {/* Share Button */}
+          <button
+            type="button"
+            onClick={handleShare}
+            className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-medium text-sm text-muted-foreground hover:bg-muted hover:text-card-foreground transition-all"
+            aria-label="Share"
+          >
+            <Share2 size={18} />
+            <span className="hidden sm:inline">Share</span>
+          </button>
         </div>
-
-        {/* Comment Button */}
-        <button
-          type="button"
-          onClick={() => setShowComments(!showComments)}
-          className="flex-1 flex items-center justify-center space-x-2 py-2 rounded-lg text-muted-foreground hover:bg-muted transition-all"
-        >
-          <MessageCircle size={18} />
-          <span className="text-sm font-medium">Comment</span>
-        </button>
       </div>
 
-      {/* Comments Section */}
+      {/* ===== Comments Section ===== */}
       {showComments && (
         <div className="border-t border-border">
           <SocialCommentSection
@@ -448,19 +507,17 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
         </div>
       )}
 
-      {/* Report Modal (Phase 8.3.1) */}
+      {/* ===== Modals ===== */}
       {showReportModal && (
         <ReportPostModal
           postId={localPost.id}
           onClose={() => setShowReportModal(false)}
           onReported={() => {
             setShowReportModal(false);
-            // Optionally show a toast notification here
           }}
         />
       )}
 
-      {/* Delete Confirmation Modal - Phase 3.3 */}
       {showDeleteModal && (
         <ConfirmModal
           isOpen={showDeleteModal}
@@ -474,7 +531,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
           isLoading={isDeleting}
         />
       )}
-    </div>
+    </article>
   );
 };
 
