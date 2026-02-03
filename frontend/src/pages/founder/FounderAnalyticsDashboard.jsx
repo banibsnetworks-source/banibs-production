@@ -181,14 +181,24 @@ export default function FounderAnalyticsDashboard() {
     }
   };
   
-  if (!isSuperAdmin) {
+  if (!authChecked || !isSuperAdmin) {
     return (
       <FullWidthLayout>
         <div className="flex items-center justify-center min-h-[60vh]">
           <div className="text-center">
-            <AlertCircle size={48} className="mx-auto mb-4 text-red-500" />
-            <h2 className="text-xl font-bold mb-2">Access Denied</h2>
-            <p className="text-muted-foreground">This page is restricted to founders only.</p>
+            {!authChecked ? (
+              <>
+                <RefreshCw size={48} className="mx-auto mb-4 text-amber-500 animate-spin" />
+                <h2 className="text-xl font-bold mb-2">Loading...</h2>
+                <p className="text-muted-foreground">Checking access permissions</p>
+              </>
+            ) : (
+              <>
+                <AlertCircle size={48} className="mx-auto mb-4 text-red-500" />
+                <h2 className="text-xl font-bold mb-2">Access Denied</h2>
+                <p className="text-muted-foreground">This page is restricted to founders only.</p>
+              </>
+            )}
           </div>
         </div>
       </FullWidthLayout>
