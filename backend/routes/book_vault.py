@@ -16,7 +16,7 @@ from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime, timezone
 from bson import ObjectId
-from db.mongodb import get_db
+from db import db
 from routes.auth import get_current_user
 
 router = APIRouter(prefix="/api/book-vault", tags=["Book Vault"])
