@@ -172,7 +172,7 @@ const CoverUploader = ({ initialUrl, onUploaded }) => {
       );
 
       if (!response.ok) {
-        // Read response once
+        // Read response body exactly ONCE
         const errorText = await response.text();
         let errorMessage = 'Could not remove cover image';
         try {
@@ -185,8 +185,16 @@ const CoverUploader = ({ initialUrl, onUploaded }) => {
         throw new Error(errorMessage);
       }
 
-      // Read success response once
-      await response.json();
+      // Success - read body once (may be empty for DELETE)
+      const successText = await response.text();
+      // Optionally parse if needed, but don't require it for DELETE
+      if (successText) {
+        try {
+          JSON.parse(successText);
+        } catch (e) {
+          // Ignore parse errors for DELETE success response
+        }
+      }
 
       // Clean up previews
       if (localPreview) {
