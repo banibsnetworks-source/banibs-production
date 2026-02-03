@@ -410,7 +410,14 @@ const GlobalNavBar = () => {
 
           {/* Control Plane Section - Founder/Admin */}
           {controlPlaneLinks.some(link => link.visible) && (
-            <div className={`mt-4 pt-4 border-t ${drawerStyle === 'glass' ? 'border-white/10' : 'border-border'}`}>
+            <div 
+              className="mt-4 pt-4 border-t"
+              style={{ 
+                borderColor: drawerStyle === 'glass' 
+                  ? (theme === 'dark' ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)') 
+                  : undefined 
+              }}
+            >
               <p 
                 className="px-4 mb-2 text-xs font-semibold uppercase tracking-wider"
                 style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.5)' : '#6B7280' }}
