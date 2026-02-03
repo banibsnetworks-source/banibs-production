@@ -9,14 +9,14 @@ export const SECTION_MAP = {
   'black': { label: 'Black News', icon: '🖤' },
   'us': { label: 'U.S.', icon: '🇺🇸' },
   'world': { label: 'World', icon: '🌍' },
-  'politics': { label: 'Politics & Government', icon: '⚖️' },  // Updated for v2
-  'healthwatch': { label: 'Health', icon: '🏥' },  // Updated for v2 (was HealthWatch)
+  'politics': { label: 'Politics', icon: '⚖️' },  // Shortened from "Politics & Government"
+  'healthwatch': { label: 'Health', icon: '🏥' },
   'moneywatch': { label: 'MoneyWatch', icon: '💰' },
   'entertainment': { label: 'Entertainment', icon: '🎬' },
   'crime': { label: 'Crime', icon: '🚨' },
   'sports': { label: 'Sports', icon: '⚽' },
   'culture': { label: 'Culture', icon: '🎨' },
-  'science-tech': { label: 'Science & Tech', icon: '🔬' },
+  'science-tech': { label: 'Sci & Tech', icon: '🔬' },  // Shortened from "Science & Tech"
   'civil-rights': { label: 'Civil Rights', icon: '✊' },
   // 'business': { label: 'Business', icon: '📈' },  // HIDDEN - redundant with MoneyWatch (v2 alignment)
   'education': { label: 'Education', icon: '🎓' },
