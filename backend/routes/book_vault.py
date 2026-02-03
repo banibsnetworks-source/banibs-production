@@ -48,9 +48,15 @@ class ChapterAutosave(BaseModel):
 
 # ============== Helper Functions ==============
 
-def require_super_admin(current_user: dict = Depends(get_current_user)):
+async def require_super_admin(current_user: dict = Depends(get_current_user)):
     """Ensure user is super_admin"""
-    if current_user.get("role") != "super_admin":
+    user_role = current_user.get("role")
+    user_roles = current_user.get("roles", [])
+    
+    # Check both single role and roles array
+    is_super_admin = user_role == "super_admin" or "super_admin" in user_roles
+    
+    if not is_super_admin:
         raise HTTPException(status_code=403, detail="Access denied. Founder-only feature.")
     return current_user
 
@@ -65,8 +71,8 @@ def serialize_book(book: dict) -> dict:
         "status": book.get("status", "draft"),
         "chapter_count": book.get("chapter_count", 0),
         "word_count": book.get("word_count", 0),
-        "created_at": book.get("created_at", "").isoformat() if book.get("created_at") else None,
-        "updated_at": book.get("updated_at", "").isoformat() if book.get("updated_at") else None,
+        "created_at": book.get("created_at").isoformat() if book.get("created_at") else None,
+        "updated_at": book.get("updated_at").isoformat() if book.get("updated_at") else None,
     }
 
 def serialize_chapter(chapter: dict) -> dict:
@@ -78,8 +84,8 @@ def serialize_chapter(chapter: dict) -> dict:
         "content": chapter.get("content", ""),
         "order": chapter.get("order", 0),
         "word_count": len(chapter.get("content", "").split()),
-        "created_at": chapter.get("created_at", "").isoformat() if chapter.get("created_at") else None,
-        "updated_at": chapter.get("updated_at", "").isoformat() if chapter.get("updated_at") else None,
+        "created_at": chapter.get("created_at").isoformat() if chapter.get("created_at") else None,
+        "updated_at": chapter.get("updated_at").isoformat() if chapter.get("updated_at") else None,
     }
 
 # ============== Book Endpoints ==============
@@ -87,15 +93,12 @@ def serialize_chapter(chapter: dict) -> dict:
 @router.get("/books")
 async def list_books(current_user: dict = Depends(require_super_admin)):
     """List all books for the current user"""
-    # db imported at module level
-    
-    books = list(db.books.find(
-        {"author_id": current_user["id"]}
-    ).sort("updated_at", -1))
+    cursor = db.books.find({"author_id": current_user["id"]}).sort("updated_at", -1)
+    books = await cursor.to_list(length=100)
     
     # Add chapter counts
     for book in books:
-        book["chapter_count"] = db.chapters.count_documents({"book_id": book["_id"]})
+        book["chapter_count"] = await db.chapters.count_documents({"book_id": book["_id"]})
     
     return {
         "books": [serialize_book(b) for b in books],
@@ -105,8 +108,6 @@ async def list_books(current_user: dict = Depends(require_super_admin)):
 @router.post("/books")
 async def create_book(data: BookCreate, current_user: dict = Depends(require_super_admin)):
     """Create a new book"""
-    # db imported at module level
-    
     now = datetime.now(timezone.utc)
     book = {
         "title": data.title,
@@ -119,7 +120,7 @@ async def create_book(data: BookCreate, current_user: dict = Depends(require_sup
         "updated_at": now,
     }
     
-    result = db.books.insert_one(book)
+    result = await db.books.insert_one(book)
     book["_id"] = result.inserted_id
     book["chapter_count"] = 0
     
@@ -128,10 +129,8 @@ async def create_book(data: BookCreate, current_user: dict = Depends(require_sup
 @router.get("/books/{book_id}")
 async def get_book(book_id: str, current_user: dict = Depends(require_super_admin)):
     """Get a single book with its chapters"""
-    # db imported at module level
-    
     try:
-        book = db.books.find_one({
+        book = await db.books.find_one({
             "_id": ObjectId(book_id),
             "author_id": current_user["id"]
         })
@@ -142,7 +141,8 @@ async def get_book(book_id: str, current_user: dict = Depends(require_super_admi
         raise HTTPException(status_code=404, detail="Book not found")
     
     # Get chapters
-    chapters = list(db.chapters.find({"book_id": book["_id"]}).sort("order", 1))
+    cursor = db.chapters.find({"book_id": book["_id"]}).sort("order", 1)
+    chapters = await cursor.to_list(length=100)
     book["chapter_count"] = len(chapters)
     
     return {
@@ -153,10 +153,8 @@ async def get_book(book_id: str, current_user: dict = Depends(require_super_admi
 @router.patch("/books/{book_id}")
 async def update_book(book_id: str, data: BookUpdate, current_user: dict = Depends(require_super_admin)):
     """Update a book"""
-    # db imported at module level
-    
     try:
-        book = db.books.find_one({
+        book = await db.books.find_one({
             "_id": ObjectId(book_id),
             "author_id": current_user["id"]
         })
@@ -176,20 +174,18 @@ async def update_book(book_id: str, data: BookUpdate, current_user: dict = Depen
     if data.status is not None:
         update_data["status"] = data.status
     
-    db.books.update_one({"_id": ObjectId(book_id)}, {"$set": update_data})
+    await db.books.update_one({"_id": ObjectId(book_id)}, {"$set": update_data})
     
-    updated_book = db.books.find_one({"_id": ObjectId(book_id)})
-    updated_book["chapter_count"] = db.chapters.count_documents({"book_id": ObjectId(book_id)})
+    updated_book = await db.books.find_one({"_id": ObjectId(book_id)})
+    updated_book["chapter_count"] = await db.chapters.count_documents({"book_id": ObjectId(book_id)})
     
     return {"book": serialize_book(updated_book), "message": "Book updated successfully"}
 
 @router.delete("/books/{book_id}")
 async def delete_book(book_id: str, current_user: dict = Depends(require_super_admin)):
     """Delete a book and all its chapters"""
-    # db imported at module level
-    
     try:
-        book = db.books.find_one({
+        book = await db.books.find_one({
             "_id": ObjectId(book_id),
             "author_id": current_user["id"]
         })
@@ -200,10 +196,10 @@ async def delete_book(book_id: str, current_user: dict = Depends(require_super_a
         raise HTTPException(status_code=404, detail="Book not found")
     
     # Delete all chapters first
-    db.chapters.delete_many({"book_id": ObjectId(book_id)})
+    await db.chapters.delete_many({"book_id": ObjectId(book_id)})
     
     # Delete the book
-    db.books.delete_one({"_id": ObjectId(book_id)})
+    await db.books.delete_one({"_id": ObjectId(book_id)})
     
     return {"message": "Book and all chapters deleted successfully"}
 
@@ -212,11 +208,9 @@ async def delete_book(book_id: str, current_user: dict = Depends(require_super_a
 @router.post("/books/{book_id}/chapters")
 async def create_chapter(book_id: str, data: ChapterCreate, current_user: dict = Depends(require_super_admin)):
     """Create a new chapter in a book"""
-    # db imported at module level
-    
     # Verify book ownership
     try:
-        book = db.books.find_one({
+        book = await db.books.find_one({
             "_id": ObjectId(book_id),
             "author_id": current_user["id"]
         })
@@ -227,7 +221,7 @@ async def create_chapter(book_id: str, data: ChapterCreate, current_user: dict =
         raise HTTPException(status_code=404, detail="Book not found")
     
     # Get next order number
-    last_chapter = db.chapters.find_one(
+    last_chapter = await db.chapters.find_one(
         {"book_id": ObjectId(book_id)},
         sort=[("order", -1)]
     )
@@ -243,11 +237,11 @@ async def create_chapter(book_id: str, data: ChapterCreate, current_user: dict =
         "updated_at": now,
     }
     
-    result = db.chapters.insert_one(chapter)
+    result = await db.chapters.insert_one(chapter)
     chapter["_id"] = result.inserted_id
     
     # Update book's updated_at
-    db.books.update_one(
+    await db.books.update_one(
         {"_id": ObjectId(book_id)},
         {"$set": {"updated_at": now}}
     )
@@ -257,10 +251,8 @@ async def create_chapter(book_id: str, data: ChapterCreate, current_user: dict =
 @router.get("/chapters/{chapter_id}")
 async def get_chapter(chapter_id: str, current_user: dict = Depends(require_super_admin)):
     """Get a single chapter"""
-    # db imported at module level
-    
     try:
-        chapter = db.chapters.find_one({"_id": ObjectId(chapter_id)})
+        chapter = await db.chapters.find_one({"_id": ObjectId(chapter_id)})
     except:
         raise HTTPException(status_code=400, detail="Invalid chapter ID")
     
@@ -268,7 +260,7 @@ async def get_chapter(chapter_id: str, current_user: dict = Depends(require_supe
         raise HTTPException(status_code=404, detail="Chapter not found")
     
     # Verify book ownership
-    book = db.books.find_one({
+    book = await db.books.find_one({
         "_id": chapter["book_id"],
         "author_id": current_user["id"]
     })
@@ -281,10 +273,8 @@ async def get_chapter(chapter_id: str, current_user: dict = Depends(require_supe
 @router.patch("/chapters/{chapter_id}")
 async def update_chapter(chapter_id: str, data: ChapterUpdate, current_user: dict = Depends(require_super_admin)):
     """Update a chapter"""
-    # db imported at module level
-    
     try:
-        chapter = db.chapters.find_one({"_id": ObjectId(chapter_id)})
+        chapter = await db.chapters.find_one({"_id": ObjectId(chapter_id)})
     except:
         raise HTTPException(status_code=400, detail="Invalid chapter ID")
     
@@ -292,7 +282,7 @@ async def update_chapter(chapter_id: str, data: ChapterUpdate, current_user: dic
         raise HTTPException(status_code=404, detail="Chapter not found")
     
     # Verify book ownership
-    book = db.books.find_one({
+    book = await db.books.find_one({
         "_id": chapter["book_id"],
         "author_id": current_user["id"]
     })
@@ -310,29 +300,27 @@ async def update_chapter(chapter_id: str, data: ChapterUpdate, current_user: dic
     if data.order is not None:
         update_data["order"] = data.order
     
-    db.chapters.update_one({"_id": ObjectId(chapter_id)}, {"$set": update_data})
+    await db.chapters.update_one({"_id": ObjectId(chapter_id)}, {"$set": update_data})
     
     # Update book's updated_at and word count
-    total_words = sum(
-        len(c.get("content", "").split()) 
-        for c in db.chapters.find({"book_id": chapter["book_id"]})
-    )
-    db.books.update_one(
+    cursor = db.chapters.find({"book_id": chapter["book_id"]})
+    all_chapters = await cursor.to_list(length=100)
+    total_words = sum(len(c.get("content", "").split()) for c in all_chapters)
+    
+    await db.books.update_one(
         {"_id": chapter["book_id"]},
         {"$set": {"updated_at": now, "word_count": total_words}}
     )
     
-    updated_chapter = db.chapters.find_one({"_id": ObjectId(chapter_id)})
+    updated_chapter = await db.chapters.find_one({"_id": ObjectId(chapter_id)})
     
     return {"chapter": serialize_chapter(updated_chapter), "message": "Chapter updated successfully"}
 
 @router.post("/chapters/{chapter_id}/autosave")
 async def autosave_chapter(chapter_id: str, data: ChapterAutosave, current_user: dict = Depends(require_super_admin)):
     """Autosave chapter content (lightweight endpoint for frequent saves)"""
-    # db imported at module level
-    
     try:
-        chapter = db.chapters.find_one({"_id": ObjectId(chapter_id)})
+        chapter = await db.chapters.find_one({"_id": ObjectId(chapter_id)})
     except:
         raise HTTPException(status_code=400, detail="Invalid chapter ID")
     
@@ -340,7 +328,7 @@ async def autosave_chapter(chapter_id: str, data: ChapterAutosave, current_user:
         raise HTTPException(status_code=404, detail="Chapter not found")
     
     # Verify book ownership
-    book = db.books.find_one({
+    book = await db.books.find_one({
         "_id": chapter["book_id"],
         "author_id": current_user["id"]
     })
@@ -350,17 +338,17 @@ async def autosave_chapter(chapter_id: str, data: ChapterAutosave, current_user:
     
     now = datetime.now(timezone.utc)
     
-    db.chapters.update_one(
+    await db.chapters.update_one(
         {"_id": ObjectId(chapter_id)},
         {"$set": {"content": data.content, "updated_at": now}}
     )
     
     # Update book's word count
-    total_words = sum(
-        len(c.get("content", "").split()) 
-        for c in db.chapters.find({"book_id": chapter["book_id"]})
-    )
-    db.books.update_one(
+    cursor = db.chapters.find({"book_id": chapter["book_id"]})
+    all_chapters = await cursor.to_list(length=100)
+    total_words = sum(len(c.get("content", "").split()) for c in all_chapters)
+    
+    await db.books.update_one(
         {"_id": chapter["book_id"]},
         {"$set": {"updated_at": now, "word_count": total_words}}
     )
@@ -374,10 +362,8 @@ async def autosave_chapter(chapter_id: str, data: ChapterAutosave, current_user:
 @router.delete("/chapters/{chapter_id}")
 async def delete_chapter(chapter_id: str, current_user: dict = Depends(require_super_admin)):
     """Delete a chapter"""
-    # db imported at module level
-    
     try:
-        chapter = db.chapters.find_one({"_id": ObjectId(chapter_id)})
+        chapter = await db.chapters.find_one({"_id": ObjectId(chapter_id)})
     except:
         raise HTTPException(status_code=400, detail="Invalid chapter ID")
     
@@ -385,7 +371,7 @@ async def delete_chapter(chapter_id: str, current_user: dict = Depends(require_s
         raise HTTPException(status_code=404, detail="Chapter not found")
     
     # Verify book ownership
-    book = db.books.find_one({
+    book = await db.books.find_one({
         "_id": chapter["book_id"],
         "author_id": current_user["id"]
     })
@@ -397,20 +383,20 @@ async def delete_chapter(chapter_id: str, current_user: dict = Depends(require_s
     deleted_order = chapter["order"]
     
     # Delete the chapter
-    db.chapters.delete_one({"_id": ObjectId(chapter_id)})
+    await db.chapters.delete_one({"_id": ObjectId(chapter_id)})
     
     # Reorder remaining chapters
-    db.chapters.update_many(
+    await db.chapters.update_many(
         {"book_id": book_id, "order": {"$gt": deleted_order}},
         {"$inc": {"order": -1}}
     )
     
     # Update book's word count
-    total_words = sum(
-        len(c.get("content", "").split()) 
-        for c in db.chapters.find({"book_id": book_id})
-    )
-    db.books.update_one(
+    cursor = db.chapters.find({"book_id": book_id})
+    all_chapters = await cursor.to_list(length=100)
+    total_words = sum(len(c.get("content", "").split()) for c in all_chapters)
+    
+    await db.books.update_one(
         {"_id": book_id},
         {"$set": {"updated_at": datetime.now(timezone.utc), "word_count": total_words}}
     )
@@ -420,11 +406,9 @@ async def delete_chapter(chapter_id: str, current_user: dict = Depends(require_s
 @router.post("/books/{book_id}/chapters/reorder")
 async def reorder_chapters(book_id: str, chapter_ids: List[str], current_user: dict = Depends(require_super_admin)):
     """Reorder chapters in a book"""
-    # db imported at module level
-    
     # Verify book ownership
     try:
-        book = db.books.find_one({
+        book = await db.books.find_one({
             "_id": ObjectId(book_id),
             "author_id": current_user["id"]
         })
@@ -436,7 +420,7 @@ async def reorder_chapters(book_id: str, chapter_ids: List[str], current_user: d
     
     # Update order for each chapter
     for idx, chapter_id in enumerate(chapter_ids):
-        db.chapters.update_one(
+        await db.chapters.update_one(
             {"_id": ObjectId(chapter_id), "book_id": ObjectId(book_id)},
             {"$set": {"order": idx + 1}}
         )
