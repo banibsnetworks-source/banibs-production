@@ -40,7 +40,7 @@ const CoverUploader = ({ initialUrl, onUploaded }) => {
     };
   }, [localPreview]);
 
-  const handleFile = async (file) => {
+  const handleFileSelect = (file) => {
     if (!file) return;
 
     setError(null);
@@ -57,6 +57,15 @@ const CoverUploader = ({ initialUrl, onUploaded }) => {
       return;
     }
 
+    // Open cropper
+    setSelectedFile(file);
+    setShowCropper(true);
+  };
+
+  const handleFile = async (file, skipDownscale = false) => {
+    if (!file) return;
+
+    setError(null);
     setUploadProgress('Validating...');
     setBusy(true);
 
@@ -66,10 +75,15 @@ const CoverUploader = ({ initialUrl, onUploaded }) => {
       setLocalPreview(localUrl);
       setPreview(localUrl);
 
-      // Downscale if needed (for faster upload)
-      setUploadProgress('Processing image...');
-      const processedFile = await downscaleIfNeeded(file, 3000); // Max 3000px for cover images
-      console.log(`Cover: Original: ${formatFileSize(file.size)}, Processed: ${formatFileSize(processedFile.size)}`);
+      // Downscale if needed (skip if already cropped)
+      let processedFile = file;
+      if (!skipDownscale) {
+        setUploadProgress('Processing image...');
+        processedFile = await downscaleIfNeeded(file, 3000);
+        console.log(`Cover: Original: ${formatFileSize(file.size)}, Processed: ${formatFileSize(processedFile.size)}`);
+      } else {
+        console.log(`Using cropped cover: ${formatFileSize(file.size)}`);
+      }
 
       // Upload to server
       setUploadProgress('Uploading...');
