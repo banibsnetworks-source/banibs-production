@@ -324,10 +324,10 @@ const GlobalNavBar = () => {
         `}
         style={{ 
           backgroundColor: drawerStyle === 'glass'
-            ? (theme === 'dark' ? 'rgba(13, 13, 13, 0.65)' : 'rgba(255, 255, 255, 0.70)')
+            ? (theme === 'dark' ? 'rgba(13, 13, 13, 0.45)' : 'rgba(255, 255, 255, 0.50)')
             : (theme === 'dark' ? '#0D0D0D' : '#FFFFFF'),
-          backdropFilter: drawerStyle === 'glass' ? 'blur(20px) saturate(180%)' : 'none',
-          WebkitBackdropFilter: drawerStyle === 'glass' ? 'blur(20px) saturate(180%)' : 'none',
+          backdropFilter: drawerStyle === 'glass' ? 'blur(24px) saturate(200%)' : 'none',
+          WebkitBackdropFilter: drawerStyle === 'glass' ? 'blur(24px) saturate(200%)' : 'none',
         }}
         data-testid="nav-drawer"
         data-drawer-style={drawerStyle}
