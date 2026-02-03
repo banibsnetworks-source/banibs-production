@@ -274,9 +274,8 @@ const SocialCirclesPage = () => {
   };
 
   const handleCircleClick = (circle) => {
-    // Navigate to circle detail (placeholder for now)
-    console.log('Circle clicked:', circle.name);
-    // Future: navigate(`/portal/social/circles/${circle.slug}`);
+    // Navigate to circle detail page
+    navigate(`/portal/social/circles/${circle.slug}`);
   };
 
   return (
