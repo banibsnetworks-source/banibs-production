@@ -435,7 +435,7 @@ const GlobalNavBar = () => {
               to="/about"
               onClick={closeDrawer}
               className="block text-sm transition-colors mb-3"
-              style={{ color: 'var(--nav-drawer-text-muted)' }}
+              style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.5)' : '#6B7280' }}
               data-testid="nav-foundation-link"
             >
               About BANIBS & HDOS
@@ -444,14 +444,31 @@ const GlobalNavBar = () => {
               to="/foundation"
               onClick={closeDrawer}
               className="block text-sm transition-colors mb-3"
-              style={{ color: 'var(--nav-drawer-text-muted)' }}
+              style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.5)' : '#6B7280' }}
               data-testid="nav-foundation-full-link"
             >
               Read the Foundation
             </Link>
+            
+            {/* Glass Drawer Toggle */}
+            <button
+              onClick={toggleDrawerStyle}
+              className={`
+                flex items-center gap-2 w-full px-3 py-2 rounded-lg text-xs font-medium transition-all mb-3
+                ${drawerStyle === 'glass' 
+                  ? 'bg-amber-500/20 text-amber-500 border border-amber-500/30' 
+                  : 'bg-gray-500/10 text-gray-500 border border-gray-500/20 hover:bg-gray-500/20'
+                }
+              `}
+              data-testid="nav-glass-toggle"
+            >
+              <Sparkles size={14} />
+              <span>Glass Drawer: {drawerStyle === 'glass' ? 'ON' : 'OFF'}</span>
+            </button>
+            
             <p 
               className="text-xs"
-              style={{ color: 'var(--nav-drawer-text-muted)' }}
+              style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.4)' : '#9CA3AF' }}
             >
               BANIBS v1.0 • Internal Build
             </p>
