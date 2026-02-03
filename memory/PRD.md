@@ -121,6 +121,14 @@ All links visible:
   - Fixed nav link: Changed "BANIBS Social" from `/social` (landing page) to `/portal/social` (actual feed)
   - Authenticated users now see full social feed with composer and sidebar
   - Unauthenticated users see preview page with "Join" and "Sign In" CTAs (no redirect loop)
+- [x] **Glass Drawer Toggle (COMPLETE & LOCKED - February 3, 2026)**
+  - Added user preference toggle at bottom of nav drawer ("Glass Drawer: ON/OFF")
+  - localStorage persistence (`navDrawerStyle = "solid" | "glass"`)
+  - **Solid mode (default)**: Pure white/black opaque drawer for maximum readability
+  - **Glass mode**: Dark 15% opacity / Light 18% opacity with `blur(16px) saturate(180%)`
+  - Both modes work in Light and Dark themes
+  - Original translucent aesthetic restored with toggle option
+  - **DO NOT MODIFY** unless explicitly reopened by user
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
