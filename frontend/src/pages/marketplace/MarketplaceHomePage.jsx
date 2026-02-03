@@ -270,18 +270,17 @@ export default function MarketplaceHomePage() {
               Featured Marketplace Products
             </h2>
             <span className="text-[0.7rem] text-slate-500">
-              Curated from BANIBS sellers across regions
+              {featuredProducts.length > 0 
+                ? "Curated from BANIBS sellers across regions"
+                : "Sample products • Real listings coming soon"
+              }
             </span>
           </div>
           {loading ? (
             <div className="text-xs text-slate-500">Loading products…</div>
-          ) : featuredProducts.length === 0 ? (
-            <div className="text-xs text-slate-500">
-              No featured products yet.
-            </div>
           ) : (
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {featuredProducts.map((p) => (
+              {(featuredProducts.length > 0 ? featuredProducts : DEMO_PRODUCTS.slice(0, 8)).map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
             </div>
