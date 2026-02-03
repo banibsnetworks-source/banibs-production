@@ -5,10 +5,112 @@ import { useTheme } from '../../contexts/ThemeContext';
 import GlobalNavBar from '../../components/GlobalNavBar';
 import NewsNavigationBar from '../../components/NewsNavigationBar';
 import SEO from '../../components/SEO';
-import { Users, MessageCircle, Heart, User } from 'lucide-react';
+import { Users, MessageCircle, Heart, User, Camera, ChevronRight } from 'lucide-react';
 import SocialPostComposer from '../../components/social/SocialPostComposer';
 import SocialFeed from '../../components/social/SocialFeed';
 import SocialLayout from '../../components/social/SocialLayout';
+
+/**
+ * CommunityMomentsStrip - P2 Social Page Visual Layer
+ * Lightweight imagery strip for visual engagement
+ */
+const CommunityMomentsStrip = () => {
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
+  
+  // Curated community moment images (Black community/social context)
+  const moments = [
+    {
+      src: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=300&q=80',
+      alt: 'Friends laughing together'
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=300&q=80', 
+      alt: 'Woman smiling'
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=300&q=80',
+      alt: 'Community gathering'
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1543269664-7eef42226a21?w=300&q=80',
+      alt: 'Family moment'
+    },
+    {
+      src: 'https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=300&q=80',
+      alt: 'Friends celebrating'
+    }
+  ];
+
+  return (
+    <div className="mb-6" data-testid="community-moments-strip">
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-2">
+          <Camera size={16} className="text-amber-500" />
+          <span className="text-sm font-medium" style={{
+            color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)'
+          }}>
+            Community Moments
+          </span>
+        </div>
+        <button 
+          className="flex items-center gap-1 text-xs transition-colors hover:text-amber-500"
+          style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}
+        >
+          <span>Share yours</span>
+          <ChevronRight size={14} />
+        </button>
+      </div>
+      
+      <div 
+        className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide"
+        style={{
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none'
+        }}
+      >
+        {moments.map((moment, idx) => (
+          <div
+            key={idx}
+            className="flex-shrink-0 relative rounded-lg overflow-hidden cursor-pointer group"
+            style={{
+              width: '100px',
+              height: '100px',
+            }}
+          >
+            <img
+              src={moment.src}
+              alt={moment.alt}
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+              loading="lazy"
+            />
+            <div 
+              className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300"
+            />
+          </div>
+        ))}
+        
+        {/* Add your moment CTA */}
+        <div
+          className="flex-shrink-0 rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all hover:border-amber-500"
+          style={{
+            width: '100px',
+            height: '100px',
+            backgroundColor: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.03)',
+            border: `2px dashed ${isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.1)'}`,
+          }}
+        >
+          <Camera size={24} className="text-amber-500/60 mb-1" />
+          <span className="text-xs text-center" style={{
+            color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)'
+          }}>
+            Add yours
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 /**
  * SocialFeedContent - Phase 8.3
