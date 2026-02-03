@@ -452,6 +452,10 @@ app.include_router(founder_ops_router)
 from routes.founder_analytics import router as founder_analytics_router
 app.include_router(founder_analytics_router)
 
+# Book Vault Studio v1 - Founder book authoring
+from routes.book_vault import router as book_vault_router
+app.include_router(book_vault_router)
+
 # HDOS v2 - Circle Trust Order (7 levels)
 app.include_router(hdos_trust_router)
 
