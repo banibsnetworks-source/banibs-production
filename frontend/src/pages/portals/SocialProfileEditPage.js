@@ -262,6 +262,12 @@ const SocialProfileEditPage = () => {
                     if (response.ok) {
                       const data = await response.json();
                       setProfile(data);
+                      
+                      // Sync avatar to AuthContext so header updates
+                      if (data.avatar_url) {
+                        updateUserAvatar(data.avatar_url);
+                      }
+                      
                       setSuccess(true);
                       setTimeout(() => setSuccess(false), 3000);
                     }
