@@ -27,75 +27,85 @@ async def get_analytics_overview(user=Depends(require_role("super_admin"))):
         # Get database collections
         users_col = db["banibs_users"]
         news_col = db.get("news_stories")
-        marketplace_col = db.get("marketplace_products")
+        marketplace_col = db.get("marketplace_orders")
         social_col = db.get("social_posts")
         
         # User metrics
-        total_users = await users_col.count_documents({}) if users_col else 0
-        
-        # Recent users (last 7 days)
-        seven_days_ago = datetime.utcnow() - timedelta(days=7)
-        recent_users = await users_col.count_documents({
-            "created_at": {"$gte": seven_days_ago.isoformat()}
-        }) if users_col else 0
-        
-        # Active users (logged in last 24h) - placeholder
-        active_users_24h = 0  # Would need login tracking
+        total_users = 0
+        try:
+            total_users = await users_col.count_documents({})
+        except:
+            pass
         
         # Content metrics
-        total_news_stories = await news_col.count_documents({}) if news_col else 0
-        total_products = await marketplace_col.count_documents({}) if marketplace_col else 0
-        total_social_posts = await social_col.count_documents({}) if social_col else 0
+        total_articles = 0
+        try:
+            if news_col:
+                total_articles = await news_col.count_documents({})
+        except:
+            pass
         
-        # System health (basic checks)
-        db_status = "healthy" if db else "disconnected"
+        # Marketplace demo orders (mock_paid)
+        demo_orders = 0
+        try:
+            if marketplace_col:
+                demo_orders = await marketplace_col.count_documents({"payment_status": "mock_paid"})
+        except:
+            pass
+        
+        # Social posts
+        total_posts = 0
+        try:
+            if social_col:
+                total_posts = await social_col.count_documents({})
+        except:
+            pass
+        
+        # Last 24h activity (placeholder - would need activity logging)
+        activity_24h = "coming soon"
+        
+        # Database connection status
+        db_connected = db is not None
         
         return {
             "success": True,
             "data": {
                 "users": {
                     "total": total_users,
-                    "new_7d": recent_users,
-                    "active_24h": active_users_24h,
                 },
                 "content": {
-                    "news_stories": total_news_stories,
-                    "marketplace_products": total_products,
-                    "social_posts": total_social_posts,
+                    "total_articles": total_articles,
+                    "total_posts": total_posts,
+                    "demo_orders": demo_orders,
                 },
+                "activity_24h": activity_24h,
                 "system": {
-                    "status": "operational",
-                    "database": db_status,
-                    "api": "healthy",
-                    "uptime": "99.9%",  # Placeholder
+                    "backend_health": "healthy",
+                    "db_connected": db_connected,
+                    "build_version": "BANIBS v1.0.0-preview",
                 },
                 "generated_at": datetime.utcnow().isoformat(),
             }
         }
         
-    except Exception:
-        # Return placeholder data on error
+    except Exception as e:
         return {
             "success": True,
             "data": {
-                "users": {
-                    "total": 0,
-                    "new_7d": 0,
-                    "active_24h": 0,
-                },
+                "users": {"total": 0},
                 "content": {
-                    "news_stories": 0,
-                    "marketplace_products": 0,
-                    "social_posts": 0,
+                    "total_articles": 0,
+                    "total_posts": 0,
+                    "demo_orders": 0,
                 },
+                "activity_24h": "coming soon",
                 "system": {
-                    "status": "operational",
-                    "database": "checking...",
-                    "api": "healthy",
-                    "uptime": "99.9%",
+                    "backend_health": "error",
+                    "db_connected": False,
+                    "build_version": "BANIBS v1.0.0-preview",
                 },
                 "generated_at": datetime.utcnow().isoformat(),
-                "note": "Some metrics unavailable"
+                "error": str(e)
             }
         }
 
