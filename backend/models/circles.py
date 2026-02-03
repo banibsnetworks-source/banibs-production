@@ -70,6 +70,7 @@ class Circle(BaseModel):
     name: str
     slug: str
     description: str
+    circle_type: CircleType = CircleType.COMMUNITY  # v1: presentation layer
     pillar: CirclePillar
     tags: List[str] = []
     primary_disability_type: Optional[DisabilityType] = None
