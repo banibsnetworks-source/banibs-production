@@ -404,76 +404,95 @@ const DroppableColumn = ({ columnId, columnLabel, columnColor, tasks, isDark, ch
   );
 };
 
-// Status badge helper component
+// Status badge helper component - Constrained palette (max 5 statuses)
+// Open=neutral, In Progress=blue, Blocked=red, Done=green, Pending=amber
 const StatusBadge = ({ status, isDark }) => {
   const configs = {
+    // Green - Success states
     complete: { 
       label: 'Complete', 
       color: '#10B981',
-      bg: isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.15)',
+      bg: isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.08)',
       icon: CheckCircle 
     },
     done: { 
       label: 'Done', 
       color: '#10B981',
-      bg: isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.15)',
+      bg: isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.08)',
       icon: CheckCircle 
-    },
-    in_progress: { 
-      label: 'In Progress', 
-      color: '#C8A857',
-      bg: isDark ? 'rgba(200, 168, 87, 0.1)' : 'rgba(200, 168, 87, 0.15)',
-      icon: Clock 
-    },
-    planned: { 
-      label: 'Planned', 
-      color: '#6366F1',
-      bg: isDark ? 'rgba(99, 102, 241, 0.1)' : 'rgba(99, 102, 241, 0.15)',
-      icon: Folder 
-    },
-    waiting: { 
-      label: 'Waiting', 
-      color: '#9CA3AF',
-      bg: isDark ? 'rgba(156, 163, 175, 0.1)' : 'rgba(156, 163, 175, 0.15)',
-      icon: Clock 
-    },
-    not_started: { 
-      label: 'Not Started', 
-      color: '#9CA3AF',
-      bg: isDark ? 'rgba(156, 163, 175, 0.1)' : 'rgba(156, 163, 175, 0.15)',
-      icon: AlertCircle 
-    },
-    pending: { 
-      label: 'Pending', 
-      color: '#F59E0B',
-      bg: isDark ? 'rgba(245, 158, 11, 0.1)' : 'rgba(245, 158, 11, 0.15)',
-      icon: Clock 
     },
     online: { 
       label: 'Online', 
       color: '#10B981',
-      bg: isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.15)',
+      bg: isDark ? 'rgba(16, 185, 129, 0.1)' : 'rgba(16, 185, 129, 0.08)',
       icon: CheckCircle 
+    },
+    // Blue - Active/Progress states
+    in_progress: { 
+      label: 'In Progress', 
+      color: '#3B82F6',
+      bg: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.08)',
+      icon: Clock 
+    },
+    // Neutral - Open/Waiting states
+    open: { 
+      label: 'Open', 
+      color: isDark ? '#9CA3AF' : '#6B7280',
+      bg: isDark ? 'rgba(156, 163, 175, 0.1)' : 'rgba(107, 114, 128, 0.08)',
+      icon: AlertCircle 
+    },
+    planned: { 
+      label: 'Planned', 
+      color: isDark ? '#9CA3AF' : '#6B7280',
+      bg: isDark ? 'rgba(156, 163, 175, 0.1)' : 'rgba(107, 114, 128, 0.08)',
+      icon: Folder 
+    },
+    waiting: { 
+      label: 'Waiting', 
+      color: isDark ? '#9CA3AF' : '#6B7280',
+      bg: isDark ? 'rgba(156, 163, 175, 0.1)' : 'rgba(107, 114, 128, 0.08)',
+      icon: Clock 
+    },
+    not_started: { 
+      label: 'Not Started', 
+      color: isDark ? '#9CA3AF' : '#6B7280',
+      bg: isDark ? 'rgba(156, 163, 175, 0.1)' : 'rgba(107, 114, 128, 0.08)',
+      icon: AlertCircle 
+    },
+    // Amber - Pending/Warning states
+    pending: { 
+      label: 'Pending', 
+      color: '#F59E0B',
+      bg: isDark ? 'rgba(245, 158, 11, 0.1)' : 'rgba(245, 158, 11, 0.08)',
+      icon: Clock 
+    },
+    // Red - Blocked states
+    blocked: { 
+      label: 'Blocked', 
+      color: '#EF4444',
+      bg: isDark ? 'rgba(239, 68, 68, 0.1)' : 'rgba(239, 68, 68, 0.08)',
+      icon: AlertCircle 
     }
   };
   
-  const config = configs[status] || configs.not_started;
+  // Normalize status key
+  const normalizedStatus = status?.toLowerCase?.().replace(/\s+/g, '_') || 'not_started';
+  const config = configs[normalizedStatus] || configs.not_started;
   const Icon = config.icon;
   
   return (
     <div style={{
       display: 'inline-flex',
       alignItems: 'center',
-      gap: '6px',
-      padding: '4px 12px',
-      borderRadius: '6px',
+      gap: '5px',
+      padding: '3px 10px',
+      borderRadius: '4px',
       backgroundColor: config.bg,
-      border: `1px solid ${config.color}40`,
-      fontSize: '13px',
+      fontSize: '12px',
       fontWeight: '500',
       color: config.color
     }}>
-      <Icon size={14} />
+      <Icon size={12} />
       {config.label}
     </div>
   );
