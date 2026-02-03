@@ -758,6 +758,10 @@ function App() {
               {/* Founder Analytics Dashboard v1.0 */}
               <Route path="/founder/analytics" element={<FounderAnalyticsDashboard />} />
               
+              {/* Book Vault Studio v1.0 */}
+              <Route path="/founder/book-vault" element={<BookVaultStudio />} />
+              <Route path="/founder/book-vault/:bookId" element={<BookEditor />} />
+              
               {/* Navigation V2 Preview (do not deploy until approved) */}
               <Route path="/founder/nav-v2-preview" element={<NavV2Preview />} />
               
