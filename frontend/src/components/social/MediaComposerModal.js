@@ -275,23 +275,27 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
                   <div className="absolute bottom-full left-0 mb-2 z-50">
                     <EmojiPicker
                       onSelect={(emoji) => {
-                        let emojiChar = '';
-                        if (emoji.type === 'unicode') {
+                        // Get the unicode character from the emoji object
+                        // Priority: emoji.char (native unicode), then emoji.native, then emoji.emoji
+                        let emojiChar = emoji.char || emoji.native || emoji.emoji || '';
+                        
+                        // Apply skin tone if supported
+                        if (emojiChar && emoji.supportsSkinTone) {
                           const userSkinTone = user?.emoji_identity?.skinTone || 'tone4';
-                          const supportsSkinTone = emoji.supportsSkinTone !== undefined ? emoji.supportsSkinTone : false;
-                          emojiChar = supportsSkinTone 
-                            ? applySkinTone(emoji.char, userSkinTone, true)
-                            : emoji.char;
+                          emojiChar = applySkinTone(emojiChar, userSkinTone, true);
                         }
                         
+                        // Insert at cursor position
                         if (textareaRef.current && emojiChar) {
                           const start = textareaRef.current.selectionStart;
                           const end = textareaRef.current.selectionEnd;
                           const newText = text.substring(0, start) + emojiChar + text.substring(end);
                           setText(newText);
                           setTimeout(() => {
-                            textareaRef.current.selectionStart = textareaRef.current.selectionEnd = start + emojiChar.length;
-                            textareaRef.current.focus();
+                            if (textareaRef.current) {
+                              textareaRef.current.selectionStart = textareaRef.current.selectionEnd = start + emojiChar.length;
+                              textareaRef.current.focus();
+                            }
                           }, 0);
                         }
                         setShowEmojiPicker(false);
