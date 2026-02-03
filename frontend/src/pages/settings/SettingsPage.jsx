@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   User, 
   Lock, 
@@ -11,7 +12,9 @@ import {
   Eye,
   EyeOff,
   Save,
-  ExternalLink
+  ExternalLink,
+  ArrowLeft,
+  X
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -21,6 +24,7 @@ import { useAuth } from '../../contexts/AuthContext';
  */
 const SettingsPage = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState('profile');
   const [saveMessage, setSaveMessage] = useState('');
 
@@ -38,6 +42,19 @@ const SettingsPage = () => {
     setTimeout(() => setSaveMessage(''), 3000);
   };
 
+  const handleBack = () => {
+    // Try to go back, fallback to social portal
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate('/portal/social');
+    }
+  };
+
+  const handleClose = () => {
+    navigate('/portal/social');
+  };
+
   const sections = [
     { id: 'profile', label: 'Profile', icon: User },
     { id: 'account', label: 'Account', icon: Lock },
@@ -48,13 +65,35 @@ const SettingsPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+      {/* Header with Navigation */}
       <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-          <p className="mt-1 text-sm text-gray-600">
-            Manage your account settings and preferences
-          </p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            {/* Left: Back button */}
+            <button 
+              onClick={handleBack}
+              className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+              data-testid="settings-back"
+            >
+              <ArrowLeft size={18} />
+              <span className="text-sm font-medium">Back</span>
+            </button>
+            
+            {/* Center: Title */}
+            <div className="text-center">
+              <h1 className="text-xl font-bold text-gray-900">Settings</h1>
+              <p className="text-xs text-gray-500">Manage your account</p>
+            </div>
+            
+            {/* Right: Close/Done button */}
+            <button 
+              onClick={handleClose}
+              className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white hover:bg-gray-800 rounded-lg transition-colors text-sm font-medium"
+              data-testid="settings-done"
+            >
+              Done
+            </button>
+          </div>
         </div>
       </div>
 
