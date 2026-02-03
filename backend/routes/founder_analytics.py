@@ -24,41 +24,36 @@ async def get_analytics_overview(user=Depends(require_role("super_admin"))):
     Returns system health, user metrics, and content stats.
     """
     try:
-        # Get database collections
-        users_col = db["banibs_users"]
-        news_col = db.get("news_stories")
-        marketplace_col = db.get("marketplace_orders")
-        social_col = db.get("social_posts")
-        
         # User metrics
         total_users = 0
         try:
+            users_col = db["banibs_users"]
             total_users = await users_col.count_documents({})
-        except:
+        except Exception:
             pass
         
-        # Content metrics
+        # Content metrics - articles
         total_articles = 0
         try:
-            if news_col:
-                total_articles = await news_col.count_documents({})
-        except:
+            news_col = db["news_stories"]
+            total_articles = await news_col.count_documents({})
+        except Exception:
             pass
         
         # Marketplace demo orders (mock_paid)
         demo_orders = 0
         try:
-            if marketplace_col:
-                demo_orders = await marketplace_col.count_documents({"payment_status": "mock_paid"})
-        except:
+            orders_col = db["marketplace_orders"]
+            demo_orders = await orders_col.count_documents({"payment_status": "mock_paid"})
+        except Exception:
             pass
         
         # Social posts
         total_posts = 0
         try:
-            if social_col:
-                total_posts = await social_col.count_documents({})
-        except:
+            social_col = db["social_posts"]
+            total_posts = await social_col.count_documents({})
+        except Exception:
             pass
         
         # Last 24h activity (placeholder - would need activity logging)
