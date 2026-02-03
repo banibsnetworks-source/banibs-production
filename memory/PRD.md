@@ -155,10 +155,13 @@ All links visible:
   - Strip is horizontally scrollable
 - [x] **Navigation IA Cleanup (COMPLETE - February 3, 2026)**
   - **Left drawer**: Primary BANIBS modules only (News, Directory, Social, Resources, Marketplace, TV, Wallet, Community)
-  - **Top bar**: News categories only (Top Stories, Black News, U.S., World, Politics, Health, MoneyWatch, Entertainment, Crime, Sports, Culture, Sci & Tech, Civil Rights, Education)
+  - **Top bar**: Section title ("News") + global actions (Search) - minimal, no category overload
+  - **Sub-nav**: News categories only appear on news pages (Top Stories, Black News, U.S., World, etc.)
+  - Clear separation: WHERE (drawer) → WHAT section (top bar) → WHICH category (sub-nav)
   - Removed duplicate news category items from left drawer
   - Made top bar compact (no icons, reduced padding, shortened labels) to eliminate horizontal scrolling
   - Control Plane section retained for Founder/Admin access
+  - Added `sectionTitle` prop to GlobalNavBar for context
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
