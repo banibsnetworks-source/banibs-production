@@ -109,7 +109,7 @@ const BlackNewsPage = () => {
         {/* Stories Grid */}
         {!loading && !error && stories.length > 0 && (
           <>
-            <TopStoriesGrid stories={stories} />
+            <TopStoriesGrid stories={stories} showBlackFocusType={true} />
             
             {/* Load More Button */}
             {page < totalPages && (
