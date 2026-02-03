@@ -1,313 +1,144 @@
-// /app/frontend/src/components/emoji/EmojiPicker.jsx
-
-import React, { useMemo, useState, useEffect } from 'react';
-import {
-  getAllEmojiPacks,
-  getDefaultEmojiPack,
-  searchEmojisInPack,
-} from '../../utils/emojiSystem';
-import { applySkinTone } from '../../utils/emojiToneUtils';
-import { useAuth } from '../../contexts/AuthContext';
-
 /**
- * Props:
- * @typedef EmojiPickerProps
- * @property {(emoji: any) => void} onSelect   - Called when user clicks an emoji
- * @property {() => void} [onClose]            - Called when picker should close
- * @property {boolean} [showHeader]            - Show pack tabs + search bar
- * @property {string} [className]              - Optional extra className(s)
+ * BANIBS Emoji Picker
+ * 
+ * Professional emoji picker using emoji-mart
+ * - Full emoji set with all categories
+ * - Search functionality
+ * - Skin tone support
+ * - Recent emojis
+ * - Clean, professional UI
  */
 
-/**
- * Phase 1 BANIBS Emoji Picker
- * - BANIBS pack first
- * - Unicode rendering only (for now)
- * - Image branch already wired for Phase 2
- *
- * @param {EmojiPickerProps} props
- */
-export default function EmojiPicker({
-  onSelect,
-  onClose,
-  showHeader = true,
-  className = '',
-}) {
-  const { user } = useAuth();
-  const [allPacks, setAllPacks] = useState([]);
-  const [defaultPack, setDefaultPack] = useState(null);
-  const [activePackId, setActivePackId] = useState(null);
-  const [search, setSearch] = useState('');
-  const [loading, setLoading] = useState(true);
+import React, { useEffect, useRef } from 'react';
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
+import { X } from 'lucide-react';
 
-  // Get user's emoji identity (default to tone4 for BANIBS)
-  const userSkinTone = user?.emoji_identity?.skinTone || 'tone4';
+const EmojiPicker = ({ onSelect, onClose }) => {
+  const containerRef = useRef(null);
 
-  // Load packs on mount
+  // Close on click outside
   useEffect(() => {
-    const loadPacks = async () => {
-      try {
-        const packs = await getAllEmojiPacks();
-        const defPack = await getDefaultEmojiPack();
-        setAllPacks(packs);
-        setDefaultPack(defPack);
-        setActivePackId(defPack?.id);
-      } catch (error) {
-        console.error('Failed to load emoji packs:', error);
-      } finally {
-        setLoading(false);
+    const handleClickOutside = (event) => {
+      if (containerRef.current && !containerRef.current.contains(event.target)) {
+        onClose?.();
       }
     };
-    loadPacks();
-  }, []);
 
-  const activePack = useMemo(
-    () => allPacks.find((p) => p.id === activePackId) || defaultPack,
-    [allPacks, activePackId, defaultPack]
-  );
+    // Close on Escape key
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        onClose?.();
+      }
+    };
 
-  const visibleEmojis = useMemo(
-    () => (activePack ? searchEmojisInPack(activePack, search) : []),
-    [activePack, search]
-  );
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [onClose]);
 
-  // DEBUG: Log active pack details (now safe after activePack is defined)
-  useEffect(() => {
-    if (activePack) {
-      const sampleEmojis = activePack.emojis?.slice(0, 5) || [];
-      console.log('🎨 EmojiPicker Active Pack:', {
-        id: activePack.id,
-        label: activePack.label,
-        totalEmojis: activePack.emojis?.length,
-        userSkinTone,
-        sampleEmojis: sampleEmojis.map(e => ({
-          id: e.id,
-          char: e.char,
-          supportsSkinTone: e.supportsSkinTone
-        }))
+  const handleEmojiSelect = (emoji) => {
+    // emoji-mart returns { native: '😀', shortcodes: ':grinning:', ... }
+    // We want to use the native unicode character
+    if (emoji && emoji.native) {
+      onSelect({
+        char: emoji.native,
+        native: emoji.native,
+        emoji: emoji.native,
+        id: emoji.id,
+        shortcodes: emoji.shortcodes,
+        supportsSkinTone: emoji.skin !== undefined
       });
-    }
-  }, [activePack, userSkinTone]);
-
-  const handleEmojiClick = (emoji) => {
-    if (typeof onSelect === 'function') {
-      onSelect(emoji);
     }
   };
 
-  if (loading) {
-    return (
-      <div
-        className={`
-          banibs-emoji-picker
-          bg-card text-foreground border border-border rounded-xl shadow-sm
-          p-4 text-center
-          ${className}
-        `}
-      >
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-500 mx-auto"></div>
-        <p className="text-sm text-muted-foreground mt-2">Loading emojis...</p>
-      </div>
-    );
-  }
-
-  if (!activePack) {
-    return null;
-  }
-
   return (
-    <div
-      className={`
-        banibs-emoji-picker
-        bg-card text-foreground border border-border rounded-xl shadow-lg
-        p-2 md:p-3
-        ${className}
-      `}
-      style={{ width: '350px', maxHeight: '450px' }}
+    <div 
+      ref={containerRef}
+      className="relative bg-card border border-border rounded-xl shadow-2xl overflow-hidden"
+      style={{ maxWidth: '352px' }}
     >
-      {showHeader && (
-        <div className="mb-2 space-y-2">
-          {/* Pack Tabs */}
-          {allPacks.length > 1 && (
-            <div className="flex flex-wrap items-center gap-1">
-              {allPacks.map((pack) => {
-                const isGoldSpark = pack.id === 'banibs_gold_spark';
-                const isActive = pack.id === activePackId;
-                
-                return (
-                  <button
-                    key={pack.id}
-                    type="button"
-                    onClick={() => setActivePackId(pack.id)}
-                    className={`
-                      text-xs md:text-sm px-3 py-1.5 rounded-lg border
-                      transition-all font-medium
-                      ${
-                        isActive
-                          ? isGoldSpark
-                            ? 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 border-yellow-500 shadow-lg'
-                            : 'bg-yellow-500 text-gray-900 border-yellow-500'
-                          : isGoldSpark
-                            ? 'bg-gradient-to-r from-yellow-400/20 to-yellow-600/20 text-yellow-500 border-yellow-500/50 hover:from-yellow-400/30 hover:to-yellow-600/30'
-                            : 'bg-muted text-muted-foreground border-border hover:bg-accent hover:text-accent-foreground'
-                      }
-                    `}
-                  >
-                    {/* Dynamic icon & label based on pack ID */}
-                    {pack.id === 'banibs_full' && '🎨 '}
-                    {pack.id === 'banibs_standard' && '👨🏿 '}
-                    {pack.id === 'banibs_gold_spark' && '⭐ '}
-                    {pack.id === 'base_yellow' && '😊 '}
-                    {pack.label}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Search Bar */}
-          <div className="relative">
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search emojis…"
-              className="
-                w-full px-3 py-2 text-sm rounded-lg
-                bg-background border border-input text-foreground
-                focus:outline-none focus:ring-2 focus:ring-yellow-500/50
-                placeholder:text-muted-foreground
-              "
-            />
-          </div>
-        </div>
-      )}
-
-      {/* Emoji Grid */}
-      <div
-        className="
-          grid grid-cols-8 gap-1
-          max-h-64 overflow-y-auto
-          py-2
-        "
-        style={{ scrollbarWidth: 'thin' }}
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className="absolute top-2 right-2 z-10 p-1.5 bg-black/50 hover:bg-black/70 text-white rounded-full transition-colors"
+        aria-label="Close emoji picker"
       >
-        {visibleEmojis.map((emoji) => (
-          <button
-            key={emoji.id}
-            type="button"
-            onClick={() => handleEmojiClick(emoji)}
-            className="
-              flex items-center justify-center
-              rounded-lg
-              hover:bg-accent
-              transition-all
-              aspect-square
-              p-1
-            "
-            title={emoji.shortcodes?.[0] || emoji.id}
-          >
-            <EmojiRenderer emoji={emoji} userSkinTone={userSkinTone} />
-          </button>
-        ))}
+        <X size={14} />
+      </button>
 
-        {visibleEmojis.length === 0 && (
-          <div className="col-span-full text-xs text-muted-foreground py-4 text-center">
-            No emojis found.
-          </div>
-        )}
-      </div>
+      {/* Emoji Mart Picker */}
+      <Picker
+        data={data}
+        onEmojiSelect={handleEmojiSelect}
+        theme="dark"
+        set="native"
+        skinTonePosition="search"
+        previewPosition="none"
+        searchPosition="sticky"
+        navPosition="bottom"
+        perLine={9}
+        emojiSize={28}
+        emojiButtonSize={36}
+        maxFrequentRows={2}
+        icons="outline"
+        categories={[
+          'frequent',
+          'people',
+          'nature',
+          'foods',
+          'activity',
+          'places',
+          'objects',
+          'symbols',
+          'flags'
+        ]}
+        locale="en"
+        autoFocus={true}
+      />
 
-      {/* Footer */}
-      {onClose && (
-        <div className="mt-2 pt-2 border-t border-border">
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-full text-xs text-muted-foreground hover:text-foreground transition"
-          >
-            Close
-          </button>
-        </div>
-      )}
+      <style>{`
+        em-emoji-picker {
+          --em-rgb-background: 17, 18, 23;
+          --em-rgb-input: 39, 39, 42;
+          --em-rgb-color: 250, 250, 250;
+          --em-rgb-accent: 200, 168, 87;
+          --border-radius: 12px;
+          width: 100%;
+          max-height: 400px;
+        }
+        
+        em-emoji-picker .search input {
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          color: #fff;
+        }
+        
+        em-emoji-picker .search input:focus {
+          border-color: rgba(200, 168, 87, 0.5);
+          outline: none;
+        }
+        
+        em-emoji-picker button[data-emoji-skin] {
+          border-radius: 6px;
+        }
+        
+        em-emoji-picker button:hover {
+          background: rgba(255, 255, 255, 0.1);
+        }
+        
+        em-emoji-picker .category-name {
+          color: rgba(255, 255, 255, 0.5);
+          font-size: 12px;
+          font-weight: 500;
+        }
+      `}</style>
     </div>
   );
-}
+};
 
-/**
- * EmojiRenderer
- * - Phase 1.1: Unicode with personalized skin tone
- * - Phase 2: Will support image-based with sprite sheets
- */
-function EmojiRenderer({ emoji, userSkinTone }) {
-  // Increased size for better visibility (especially for detailed emojis)
-  const sizePx = 44;
-
-  if (emoji.type === 'image') {
-    // Phase 2: Image-based rendering
-    // Support both sprite sheets and individual image files
-    if (emoji.src) {
-      // Individual image file (BANIBS full pack)
-      return (
-        <img
-          src={emoji.spriteSheet}
-          alt={emoji.label || emoji.id}
-          className="inline-block object-contain"
-          style={{
-            width: sizePx,
-            height: sizePx,
-          }}
-          aria-label={emoji.label || emoji.shortcodes?.[0] || emoji.id}
-        />
-      );
-    } else {
-      // Sprite sheet (legacy format)
-      const style = {
-        width: sizePx,
-        height: sizePx,
-        backgroundImage: `url(${emoji.spriteSheet})`,
-        backgroundPosition: `-${emoji.x}px -${emoji.y}px`,
-        backgroundSize: 'auto',
-      };
-
-      return (
-        <span
-          className="inline-block"
-          style={style}
-          aria-label={emoji.shortcodes?.[0] || emoji.id}
-        />
-      );
-    }
-  }
-
-  // Phase 1.1: Unicode with tone application
-  const supportsSkinTone = emoji.supportsSkinTone !== undefined ? emoji.supportsSkinTone : false;
-  const displayChar = supportsSkinTone 
-    ? applySkinTone(emoji.char, userSkinTone, true)
-    : emoji.char;
-
-  // DEBUG: Log first few emojis to verify tone application
-  if (Math.random() < 0.05) { // 5% sample
-    console.log('🎨 EmojiRenderer DEBUG:', {
-      id: emoji.id,
-      char: emoji.char,
-      supportsSkinTone,
-      userSkinTone,
-      displayChar,
-      charCodes: Array.from(displayChar).map(c => '0x' + c.codePointAt(0).toString(16)),
-      isActuallyToned: displayChar !== emoji.char
-    });
-  }
-
-  return (
-    <span
-      className="leading-none"
-      style={{
-        fontSize: sizePx,
-        lineHeight: 1,
-      }}
-      aria-label={emoji.shortcodes?.[0] || emoji.id}
-    >
-      {displayChar}
-    </span>
-  );
-}
+export default EmojiPicker;
