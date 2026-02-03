@@ -441,7 +441,14 @@ const GlobalNavBar = () => {
           )}
 
           {/* Drawer Footer - Foundation + Version info */}
-          <div className="mt-6 pt-4 border-t border-border px-4">
+          <div 
+            className="mt-6 pt-4 border-t px-4"
+            style={{ 
+              borderColor: drawerStyle === 'glass' 
+                ? (theme === 'dark' ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)') 
+                : undefined 
+            }}
+          >
             <Link
               to="/about"
               onClick={closeDrawer}
