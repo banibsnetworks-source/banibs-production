@@ -354,12 +354,29 @@ const CoverUploader = ({ initialUrl, onUploaded }) => {
         onChange={(e) => {
           const file = e.target.files?.[0];
           if (file) {
-            handleFile(file);
+            handleFileSelect(file);
           }
           // Reset input so same file can be selected again
           e.target.value = '';
         }}
       />
+
+      {/* Cover Cropper Modal */}
+      {showCropper && selectedFile && (
+        <CoverCropper
+          imageFile={selectedFile}
+          onCrop={(croppedFile) => {
+            setShowCropper(false);
+            setSelectedFile(null);
+            // Skip downscaling since cropper already processed the image
+            handleFile(croppedFile, true);
+          }}
+          onCancel={() => {
+            setShowCropper(false);
+            setSelectedFile(null);
+          }}
+        />
+      )}
 
       {/* Preview Modal */}
       {showPreviewModal && preview && (
