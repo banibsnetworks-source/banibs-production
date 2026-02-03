@@ -68,6 +68,14 @@
   --bn-color-text-main: #111111;
   --bn-color-text-muted: #6B7280;
   --bn-color-text-soft: #9CA3AF;
+  
+  /* Light mode nav drawer - solid background for readability */
+  --nav-drawer-bg: #FFFFFF;
+  --nav-drawer-text: #111111;
+  --nav-drawer-text-muted: #4B5563;
+  --nav-drawer-hover-bg: #F3F4F6;
+  --nav-drawer-active-bg: var(--banibs-primary);
+  --nav-drawer-active-text: #FFFFFF;
 }
 
 /* Dark Mode Overrides */
