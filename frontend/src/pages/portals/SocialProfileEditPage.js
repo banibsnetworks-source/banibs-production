@@ -205,8 +205,17 @@ const SocialProfileEditPage = () => {
           credentials: 'include'
         }
       );
-      if (response.ok) {
-        const data = await response.json();
+      
+      // Read body exactly once
+      const responseText = await response.text();
+      let data = null;
+      try {
+        data = responseText ? JSON.parse(responseText) : null;
+      } catch (e) {
+        // Not JSON
+      }
+      
+      if (response.ok && data) {
         setProfile(data);
         if (data.avatar_url) {
           updateUserAvatar(data.avatar_url);
