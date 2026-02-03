@@ -221,7 +221,7 @@ const CoverUploader = ({ initialUrl, onUploaded }) => {
 
     const file = e.dataTransfer.files[0];
     if (file) {
-      handleFile(file);
+      handleFileSelect(file);
     }
   };
 
