@@ -175,21 +175,22 @@ const SocialPostComposer = ({ onPostCreated }) => {
                 >
                   <EmojiPicker
                     onSelect={(emoji) => {
-                      let emojiContent = '';
+                      // Get the unicode character from the emoji object
+                      // Priority: emoji.char (native unicode), then fallback options
+                      let emojiContent = emoji.char || emoji.native || emoji.emoji || '';
                       
-                      if (emoji.type === 'unicode') {
+                      // Apply skin tone if supported
+                      if (emojiContent && emoji.supportsSkinTone) {
                         const userSkinTone = user?.emoji_identity?.skinTone || 'tone4';
-                        const supportsSkinTone = emoji.supportsSkinTone !== undefined ? emoji.supportsSkinTone : false;
-                        emojiContent = supportsSkinTone 
-                          ? applySkinTone(emoji.char, userSkinTone, true)
-                          : emoji.char;
-                      } else if (emoji.type === 'image') {
-                        emojiContent = `[emoji:${emoji.id}]`;
+                        emojiContent = applySkinTone(emojiContent, userSkinTone, true);
                       }
                       
-                      setInitialEmoji(emojiContent);
-                      setShowEmojiPicker(false);
-                      setIsModalOpen(true);
+                      // Only proceed if we have actual emoji content
+                      if (emojiContent) {
+                        setInitialEmoji(emojiContent);
+                        setShowEmojiPicker(false);
+                        setIsModalOpen(true);
+                      }
                     }}
                     onClose={() => setShowEmojiPicker(false)}
                   />
