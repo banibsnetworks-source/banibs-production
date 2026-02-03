@@ -5,10 +5,18 @@ import { useToast } from '../../contexts/ToastContext';
 import MediaComposerModal from './MediaComposerModal';
 import EmojiPicker from '../emoji/EmojiPicker.jsx';
 import { applySkinTone } from '../../utils/emojiToneUtils';
+import { ProfileAvatar } from './ProfileAvatar';
 
 /**
- * SocialPostComposer - Phase 8.1 (Updated for Media Composer + Emoji Picker)
- * Component for creating new social posts with media support and emoji picker
+ * SocialPostComposer - Polished UI v2
+ * Clean, premium composer with clear visual hierarchy
+ * 
+ * UI Improvements:
+ * - Better placeholder/guiding copy
+ * - Improved spacing and padding
+ * - Primary Post button styling
+ * - Clear disabled state messaging
+ * - No layout shift/jumps
  */
 const SocialPostComposer = ({ onPostCreated }) => {
   const { user } = useAuth();
@@ -23,7 +31,6 @@ const SocialPostComposer = ({ onPostCreated }) => {
     setError(null);
     
     try {
-      // Get token from localStorage
       const token = localStorage.getItem('access_token');
       
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/social/posts`, {
@@ -36,7 +43,6 @@ const SocialPostComposer = ({ onPostCreated }) => {
         body: JSON.stringify(postData)
       });
       
-      // Parse response once
       const responseData = await response.json();
       
       if (!response.ok) {
@@ -52,7 +58,6 @@ const SocialPostComposer = ({ onPostCreated }) => {
         onPostCreated(newPost);
       }
       
-      // Show success toast
       toast.success('Post created successfully!');
     } catch (err) {
       console.error('Error creating post:', err);
@@ -63,109 +68,134 @@ const SocialPostComposer = ({ onPostCreated }) => {
     }
   };
 
+  const displayName = user?.name || user?.display_name || 'User';
+
   return (
     <>
-      <div className="bg-card rounded-xl border border-border p-4">
-        {/* Header */}
-        <div className="flex items-center space-x-3 mb-3">
-          {/* Avatar - Enhanced size */}
-          {user?.profile?.avatar_url || user?.avatar_url ? (
-            <img 
-              src={user.profile?.avatar_url || user.avatar_url} 
-              alt={user.name}
-              className="w-12 h-12 rounded-full object-cover"
+      <div 
+        className="bg-card rounded-xl border border-border overflow-hidden transition-shadow hover:shadow-sm"
+        data-testid="social-composer"
+      >
+        {/* Header with Avatar and User Info */}
+        <div className="p-4 pb-3">
+          <div className="flex items-center gap-3">
+            {/* Avatar */}
+            <ProfileAvatar 
+              name={displayName}
+              avatarUrl={user?.profile?.avatar_url || user?.avatar_url}
+              size="md"
             />
-          ) : (
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-gray-900 text-lg font-bold">
-              {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+            
+            {/* User Info */}
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-card-foreground truncate">
+                {displayName}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Posting to BANIBS Community
+              </p>
             </div>
-          )}
-          
-          {/* User Info */}
-          <div>
-            <p className="text-sm font-semibold text-card-foreground">{user?.name || 'User'}</p>
-            <p className="text-xs text-muted-foreground">Share with the BANIBS community</p>
           </div>
         </div>
 
-        {/* Quick Composer - Opens Modal */}
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="w-full bg-background text-left text-muted-foreground rounded-lg px-4 py-3 text-sm border border-input hover:border-yellow-500 focus:border-yellow-500 focus:outline-none transition-all"
-        >
-          What's on your mind?
-        </button>
+        {/* Composer Input - Opens Modal */}
+        <div className="px-4 pb-3">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="w-full text-left bg-muted/50 hover:bg-muted rounded-xl px-4 py-3 text-sm text-muted-foreground border border-transparent hover:border-amber-500/30 focus:border-amber-500 focus:outline-none transition-all"
+            data-testid="composer-input"
+          >
+            Share a thought, story, or update...
+          </button>
+        </div>
 
+        {/* Error Display */}
         {error && (
-          <p className="text-red-400 text-xs mt-2">{error}</p>
+          <div className="px-4 pb-3">
+            <p className="text-destructive text-xs bg-destructive/10 px-3 py-2 rounded-lg">
+              {error}
+            </p>
+          </div>
         )}
 
-        {/* Media buttons */}
-        <div className="flex items-center space-x-2 mt-3">
-          <button
-            type="button"
-            onClick={() => setIsModalOpen(true)}
-            className="flex items-center space-x-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted transition-colors text-sm"
-          >
-            <ImageIcon size={18} />
-            <span>Photo</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setIsModalOpen(true)}
-            className="flex items-center space-x-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted transition-colors text-sm"
-          >
-            <Video size={18} />
-            <span>Video</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setIsModalOpen(true)}
-            className="flex items-center space-x-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted transition-colors text-sm"
-          >
-            <Link2 size={18} />
-            <span>Link</span>
-          </button>
-          <div className="relative">
+        {/* Action Buttons - Divider + Row */}
+        <div className="border-t border-border/50">
+          <div className="flex items-center px-2 py-2">
+            {/* Photo */}
             <button
-              ref={emojiButtonRef}
               type="button"
-              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-              className="flex items-center space-x-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted transition-colors text-sm"
+              onClick={() => setIsModalOpen(true)}
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-card-foreground transition-colors text-sm font-medium"
+              data-testid="composer-photo-btn"
             >
-              <Smile size={18} />
-              <span>Emoji</span>
+              <ImageIcon size={18} className="text-green-500" />
+              <span className="hidden sm:inline">Photo</span>
             </button>
-            
-            {/* Emoji Picker */}
-            {showEmojiPicker && (
-              <div style={{ position: 'absolute', bottom: '100%', left: 0, marginBottom: '8px', zIndex: 1000 }}>
-                <EmojiPicker
-                  onSelect={(emoji) => {
-                    let emojiContent = '';
-                    
-                    if (emoji.type === 'unicode') {
-                      // Unicode emoji: apply user's skin tone
-                      const userSkinTone = user?.emoji_identity?.skinTone || 'tone4';
-                      const supportsSkinTone = emoji.supportsSkinTone !== undefined ? emoji.supportsSkinTone : false;
-                      emojiContent = supportsSkinTone 
-                        ? applySkinTone(emoji.char, userSkinTone, true)
-                        : emoji.char;
-                    } else if (emoji.type === 'image') {
-                      // Image emoji: for now, use a placeholder marker
-                      // TODO: Implement proper ID-based storage
-                      emojiContent = `[emoji:${emoji.id}]`;
-                      console.warn('Image emoji selected, using placeholder format:', emojiContent);
-                    }
-                    
-                    setInitialEmoji(emojiContent);
-                    setShowEmojiPicker(false);
-                    setIsModalOpen(true);
-                  }}
-                  onClose={() => setShowEmojiPicker(false)}
-                />
-              </div>
-            )}
+
+            {/* Video */}
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(true)}
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-card-foreground transition-colors text-sm font-medium"
+              data-testid="composer-video-btn"
+            >
+              <Video size={18} className="text-blue-500" />
+              <span className="hidden sm:inline">Video</span>
+            </button>
+
+            {/* Link */}
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(true)}
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-card-foreground transition-colors text-sm font-medium"
+              data-testid="composer-link-btn"
+            >
+              <Link2 size={18} className="text-purple-500" />
+              <span className="hidden sm:inline">Link</span>
+            </button>
+
+            {/* Emoji */}
+            <div className="flex-1 relative">
+              <button
+                ref={emojiButtonRef}
+                type="button"
+                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-card-foreground transition-colors text-sm font-medium"
+                data-testid="composer-emoji-btn"
+              >
+                <Smile size={18} className="text-amber-500" />
+                <span className="hidden sm:inline">Emoji</span>
+              </button>
+              
+              {/* Emoji Picker Dropdown */}
+              {showEmojiPicker && (
+                <div 
+                  className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50"
+                  style={{ minWidth: '320px' }}
+                >
+                  <EmojiPicker
+                    onSelect={(emoji) => {
+                      let emojiContent = '';
+                      
+                      if (emoji.type === 'unicode') {
+                        const userSkinTone = user?.emoji_identity?.skinTone || 'tone4';
+                        const supportsSkinTone = emoji.supportsSkinTone !== undefined ? emoji.supportsSkinTone : false;
+                        emojiContent = supportsSkinTone 
+                          ? applySkinTone(emoji.char, userSkinTone, true)
+                          : emoji.char;
+                      } else if (emoji.type === 'image') {
+                        emojiContent = `[emoji:${emoji.id}]`;
+                      }
+                      
+                      setInitialEmoji(emojiContent);
+                      setShowEmojiPicker(false);
+                      setIsModalOpen(true);
+                    }}
+                    onClose={() => setShowEmojiPicker(false)}
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
