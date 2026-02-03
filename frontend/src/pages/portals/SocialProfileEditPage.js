@@ -132,12 +132,30 @@ const SocialProfileEditPage = () => {
       );
       
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Failed to update profile');
+        // Read body once for error
+        const errorText = await response.text();
+        let errorMessage = 'Failed to update profile';
+        try {
+          const errorData = JSON.parse(errorText);
+          errorMessage = errorData.detail || errorMessage;
+        } catch (e) {
+          errorMessage = errorText || errorMessage;
+        }
+        throw new Error(errorMessage);
       }
       
-      const updatedProfile = await response.json();
-      setProfile(updatedProfile);
+      // Read body once for success
+      const responseText = await response.text();
+      let updatedProfile = null;
+      try {
+        updatedProfile = responseText ? JSON.parse(responseText) : null;
+      } catch (e) {
+        // Ignore parse errors
+      }
+      
+      if (updatedProfile) {
+        setProfile(updatedProfile);
+      }
       setSuccess(true);
       setIsEditing(false);
       setTimeout(() => setSuccess(false), 3000);
