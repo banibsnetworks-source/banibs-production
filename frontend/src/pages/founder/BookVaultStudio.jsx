@@ -127,6 +127,14 @@ const BookVaultStudio = () => {
     });
   };
 
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="animate-spin text-amber-500" size={48} />
+      </div>
+    );
+  }
+
   if (!isSuperAdmin) {
     return null;
   }
