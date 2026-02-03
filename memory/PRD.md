@@ -128,6 +128,15 @@ All links visible:
   - **Glass mode**: Dark 15% opacity / Light 18% opacity with `blur(16px) saturate(180%)`
   - Both modes work in Light and Dark themes
   - Original translucent aesthetic restored with toggle option
+  - Backdrop dimming removed (zero page dim when drawer opens)
+  - **DO NOT MODIFY** unless explicitly reopened by user
+- [x] **Marketplace Demo/Seed Products (COMPLETE & LOCKED - February 3, 2026)**
+  - Created `/frontend/public/marketplace-images/` with 12 product-specific images
+  - Added demo products to `MarketplaceHomePage.jsx` (8 shown on home)
+  - Added region-specific demo products to `MarketplaceRegionPage.jsx` (4-6 per region)
+  - Products include: Kente cloth, spice jars, skincare, wooden sculptures, coffee, hair care, jewelry, drums, baskets, journals
+  - Demo products auto-hide when real products exist
+  - **DO NOT reuse news fallback images in Marketplace**
   - **DO NOT MODIFY** unless explicitly reopened by user
 
 ### P1 - High Priority (Post-Launch)
