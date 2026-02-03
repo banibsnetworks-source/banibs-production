@@ -5,7 +5,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://newsfix-dev.preview.emergentagent.com/sitemap.xml
+Sitemap: https://data-insights-hub-39.preview.emergentagent.com/sitemap.xml
 
 # Disallow admin and auth pages
 Disallow: /admin/

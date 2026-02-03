@@ -41,7 +41,7 @@ All critical testing has been completed with excellent results:
 ### Backend API Testing (10/10 Passed)
 
 **Test Environment:**
-- Base URL: https://newsfix-dev.preview.emergentagent.com
+- Base URL: https://data-insights-hub-39.preview.emergentagent.com
 - Test Suite: phase7_4_test.py
 - Test Duration: ~2 minutes
 

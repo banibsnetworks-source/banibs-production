@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://newsfix-dev.preview.emergentagent.com/api/auth
+https://data-insights-hub-39.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

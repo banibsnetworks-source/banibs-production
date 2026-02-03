@@ -306,7 +306,7 @@ INITIAL_ADMIN_PASSWORD="BanibsAdmin#2025"
 
 ### Frontend Configuration
 ```env
-REACT_APP_BACKEND_URL="https://newsfix-dev.preview.emergentagent.com"
+REACT_APP_BACKEND_URL="https://data-insights-hub-39.preview.emergentagent.com"
 ```
 
 ---

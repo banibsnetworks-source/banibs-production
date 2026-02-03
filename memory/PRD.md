@@ -325,7 +325,7 @@ All links visible:
 
 ## Static Guest Page Build
 Location: `/app/deploy/guest_site/`
-Download: `https://newsfix-dev.preview.emergentagent.com/guest_site.zip`
+Download: `https://data-insights-hub-39.preview.emergentagent.com/guest_site.zip`
 
 ---
 
