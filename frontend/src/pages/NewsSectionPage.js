@@ -84,7 +84,7 @@ const NewsSectionPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
-        <GlobalNavBar />
+        <GlobalNavBar sectionTitle="News" />
         <NewsNavigationBar activeSection={section} />
 
         <div className="container mx-auto px-4 py-12">
@@ -100,7 +100,7 @@ const NewsSectionPage = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-background">
-        <GlobalNavBar />
+        <GlobalNavBar sectionTitle="News" />
         <NewsNavigationBar activeSection={section} />
 
         <div className="container mx-auto px-4 py-12">
@@ -143,7 +143,7 @@ const NewsSectionPage = () => {
         keywords={`${label}, Black news, Indigenous news, BANIBS, community news`}
       />
 
-      <GlobalNavBar />
+      <GlobalNavBar sectionTitle="News" />
       <NewsNavigationBar activeSection={section} />
 
       <main className="container mx-auto px-4 py-8">
