@@ -20,6 +20,7 @@ class CirclesDB:
     
     async def get_circles(
         self,
+        circle_type: Optional[str] = None,
         pillar: Optional[str] = None,
         disability_type: Optional[str] = None,
         audience: Optional[str] = None,
@@ -30,6 +31,9 @@ class CirclesDB:
     ) -> List[Dict]:
         """Get circles with filters"""
         query = {"is_active": True}
+        
+        if circle_type:
+            query["circle_type"] = circle_type
         
         if pillar:
             query["pillar"] = pillar
@@ -52,7 +56,7 @@ class CirclesDB:
         circles = await self.circles.find(
             query,
             {"_id": 0}
-        ).sort("member_count", -1).limit(limit).to_list(limit)
+        ).sort([("circle_type", 1), ("member_count", -1)]).limit(limit).to_list(limit)
         
         return circles
     
