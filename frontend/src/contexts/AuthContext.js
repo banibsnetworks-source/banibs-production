@@ -188,6 +188,49 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Refresh user data from the backend
+   * Call this after avatar/profile updates to sync state across components
+   */
+  const refreshUser = async () => {
+    if (!accessToken) return null;
+    
+    try {
+      // Fetch latest user data from auth endpoint
+      const response = await axios.get(`${BACKEND_URL}/api/auth/me`, {
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      
+      const userData = response.data;
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+      return userData;
+    } catch (error) {
+      console.error('Error refreshing user:', error);
+      return null;
+    }
+  };
+
+  /**
+   * Update user avatar in state (call after avatar upload)
+   * This syncs the avatar across all components using AuthContext
+   */
+  const updateUserAvatar = (avatarUrl) => {
+    if (!user) return;
+    
+    const updatedUser = {
+      ...user,
+      avatar_url: avatarUrl,
+      profile: {
+        ...user.profile,
+        avatar_url: avatarUrl
+      }
+    };
+    
+    setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+  };
+
   const value = {
     user,
     accessToken,
@@ -197,6 +240,8 @@ export const AuthProvider = ({ children }) => {
     logout,
     refreshAccessToken,
     updateUserProfile,
+    refreshUser,
+    updateUserAvatar,
     loading,
     isAuthenticated: !!accessToken && !!user,
     // Support both 'role' (string) and 'roles' (array) formats from backend
