@@ -90,13 +90,35 @@ function SearchPage() {
       {/* Header */}
       <div className="bg-black border-b border-yellow-500/20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <Link to="/hub" className="text-yellow-500 hover:text-yellow-400 mb-4 inline-block">
-            ← Back to Hub
+          <Link to="/portal/social" className="text-yellow-500 hover:text-yellow-400 mb-4 inline-block">
+            ← Back to Social
           </Link>
-          <h1 className="text-3xl font-bold text-white mb-2">Search Results</h1>
+          <h1 className="text-3xl font-bold text-white mb-4">Search</h1>
+          
+          {/* Search Input Form */}
+          <form onSubmit={handleSearchSubmit} className="flex gap-3 mb-4" data-testid="search-form">
+            <input
+              type="text"
+              value={searchInput}
+              onChange={handleInputChange}
+              placeholder="Search news, businesses, events..."
+              autoFocus
+              className="flex-1 px-4 py-3 bg-gray-900 text-white border border-gray-700 rounded-lg focus:outline-none focus:border-yellow-400 focus:ring-1 focus:ring-yellow-400"
+              data-testid="search-input"
+            />
+            <button 
+              type="submit" 
+              disabled={searchInput.trim().length < 2}
+              className="px-6 py-3 bg-yellow-500 hover:bg-yellow-400 disabled:bg-gray-700 disabled:cursor-not-allowed text-black font-semibold rounded-lg transition-colors"
+              data-testid="search-submit"
+            >
+              Search
+            </button>
+          </form>
+          
           {query && (
             <p className="text-gray-400">
-              Searching for: <span className="text-white font-semibold">"{query}"</span>
+              Showing results for: <span className="text-white font-semibold">"{query}"</span>
             </p>
           )}
         </div>
