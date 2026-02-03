@@ -153,6 +153,12 @@ All links visible:
   - Includes "Share yours" and "Add yours" CTAs
   - Images have hover zoom effects
   - Strip is horizontally scrollable
+- [x] **Navigation IA Cleanup (COMPLETE - February 3, 2026)**
+  - **Left drawer**: Primary BANIBS modules only (News, Directory, Social, Resources, Marketplace, TV, Wallet, Community)
+  - **Top bar**: News categories only (Top Stories, Black News, U.S., World, Politics, Health, MoneyWatch, Entertainment, Crime, Sports, Culture, Sci & Tech, Civil Rights, Education)
+  - Removed duplicate news category items from left drawer
+  - Made top bar compact (no icons, reduced padding, shortened labels) to eliminate horizontal scrolling
+  - Control Plane section retained for Founder/Admin access
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
