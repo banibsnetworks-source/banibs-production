@@ -282,6 +282,7 @@ import OrchestrationDashboardPage from "./pages/admin/orchestration/Orchestratio
 
 // Founder Control Center
 import FounderControlCenter from "./pages/founder/FounderControlCenter";
+import FounderAnalyticsDashboard from "./pages/founder/FounderAnalyticsDashboard";
 import NavV2Preview from "./pages/founder/NavV2Preview";
 
 // Coming Soon Pages (Variants)
