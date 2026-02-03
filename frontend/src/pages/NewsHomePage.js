@@ -52,7 +52,7 @@ const NewsHomePage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-950">
-        <GlobalNavBar />
+        <GlobalNavBar sectionTitle="News" />
         <NewsNavigationBar activeSection="top-stories" />
         
         <div className="container mx-auto px-4 py-12">
@@ -68,7 +68,7 @@ const NewsHomePage = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-gray-950">
-        <GlobalNavBar />
+        <GlobalNavBar sectionTitle="News" />
         <NewsNavigationBar activeSection="top-stories" />
         
         <div className="container mx-auto px-4 py-12">
@@ -100,7 +100,7 @@ const NewsHomePage = () => {
         keywords="Black news, Indigenous news, community news, Black business, opportunities, BANIBS"
       />
 
-      <GlobalNavBar />
+      <GlobalNavBar sectionTitle="News" />
       <NewsNavigationBar activeSection="top-stories" />
 
       <main className="container mx-auto px-4 py-8">
