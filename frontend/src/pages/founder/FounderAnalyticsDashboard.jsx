@@ -116,21 +116,34 @@ export default function FounderAnalyticsDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [lastRefresh, setLastRefresh] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
   
   // Check access
   const isSuperAdmin = user?.roles?.includes('super_admin');
   
   useEffect(() => {
-    if (!isAuthenticated) {
+    // Wait for auth to be checked
+    const token = localStorage.getItem('token');
+    if (!token) {
       navigate('/auth/signin');
       return;
     }
+    
+    // If user hasn't loaded yet, wait
+    if (!user && token) {
+      setAuthChecked(false);
+      return;
+    }
+    
+    setAuthChecked(true);
+    
     if (!isSuperAdmin) {
       navigate('/');
       return;
     }
+    
     fetchAnalytics();
-  }, [isAuthenticated, isSuperAdmin, navigate]);
+  }, [user, isSuperAdmin, navigate]);
   
   const fetchAnalytics = async () => {
     setLoading(true);
