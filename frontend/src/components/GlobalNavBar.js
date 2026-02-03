@@ -269,17 +269,30 @@ const GlobalNavBar = ({ sectionTitle }) => {
                       className="flex items-center gap-2 px-3 py-2 rounded-lg text-foreground hover:bg-muted transition-colors"
                       data-testid="user-menu-toggle"
                     >
-                      {user?.avatar_url ? (
-                        <img 
-                          src={user.avatar_url} 
-                          alt={user.name || 'User'} 
-                          className="w-8 h-8 rounded-full object-cover"
-                        />
-                      ) : (
-                        <div className="w-8 h-8 rounded-full bg-primary-v2 flex items-center justify-center text-white text-sm font-medium">
-                          {(user?.name || user?.email || 'U')[0].toUpperCase()}
-                        </div>
-                      )}
+                      {/* Avatar - check multiple sources for avatar URL */}
+                      {(() => {
+                        const avatarUrl = user?.avatar_url || user?.profile?.avatar_url;
+                        const fullAvatarUrl = avatarUrl?.startsWith('http') 
+                          ? avatarUrl 
+                          : avatarUrl 
+                            ? `${process.env.REACT_APP_BACKEND_URL}${avatarUrl}`
+                            : null;
+                        
+                        return fullAvatarUrl ? (
+                          <img 
+                            src={fullAvatarUrl} 
+                            alt={user?.name || 'User'} 
+                            className="w-8 h-8 rounded-full object-cover"
+                            onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
+                          />
+                        ) : null;
+                      })()}
+                      <div 
+                        className="w-8 h-8 rounded-full bg-amber-500 flex items-center justify-center text-gray-900 text-sm font-semibold"
+                        style={{ display: (user?.avatar_url || user?.profile?.avatar_url) ? 'none' : 'flex' }}
+                      >
+                        {(user?.name || user?.display_name || user?.email || 'U')[0].toUpperCase()}
+                      </div>
                       <ChevronDown 
                         size={16} 
                         className={`transition-transform duration-200 ${userMenuOpen ? 'rotate-180' : 'rotate-0'}`}
