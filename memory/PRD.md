@@ -138,6 +138,21 @@ All links visible:
   - Demo products auto-hide when real products exist
   - **DO NOT reuse news fallback images in Marketplace**
   - **DO NOT MODIFY** unless explicitly reopened by user
+- [x] **P3 - Founder Analytics Dashboard (COMPLETE - February 3, 2026)**
+  - Created `/backend/routes/founder_analytics.py` with `/api/founder/analytics/overview` endpoint
+  - Created `/frontend/src/pages/founder/FounderAnalyticsDashboard.jsx`
+  - Dashboard displays: Total Users, Total Articles, Total Posts, Demo Orders (mock_paid)
+  - System Health panel: Backend Health, Database Connected, Build Version
+  - Refresh button and last updated timestamp
+  - Role-gated: super_admin only
+  - Fixed localStorage key: `access_token` (not `token`)
+- [x] **P2 - Social Page Visual Layer (COMPLETE - February 3, 2026)**
+  - Added `CommunityMomentsStrip` component to `SocialPortal.js`
+  - Displays 5 curated Unsplash images showing Black community/social moments
+  - Positioned between tip banner and post composer
+  - Includes "Share yours" and "Add yours" CTAs
+  - Images have hover zoom effects
+  - Strip is horizontally scrollable
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
@@ -145,6 +160,7 @@ All links visible:
 - [x] Founder Office Vault Phase 2 - UI integration ✅ COMPLETE
 - [ ] BANIBS Book Vault Studio - Book authoring module
 - [ ] Re-enable Social with full functionality
+- [ ] **Marketplace Page original bug fix** - Empty state rendering issue for logged-in users with real data
 
 ### P2 - Medium Priority
 - [ ] Raymond Health Core System - Daily tracker
