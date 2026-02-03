@@ -19,6 +19,14 @@ class CirclePillar(str, Enum):
     GENERAL = "general"
 
 
+class CircleType(str, Enum):
+    """Presentation type - how the circle appears in UI (v1)"""
+    COMMUNITY = "community"      # General community circles (default)
+    SUPPORT = "support"          # Support groups (Ability Network style)
+    PRAYER = "prayer"            # Prayer circles (UI shows as "Prayer Room")
+    FAITH = "faith"              # Faith-based circles
+
+
 class DisabilityType(str, Enum):
     """Disability types for Ability circles"""
     PHYSICAL = "physical"
