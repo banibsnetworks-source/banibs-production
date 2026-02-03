@@ -337,10 +337,30 @@ const GlobalNavBar = () => {
                   className={`
                     flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all
                     ${isActive(link.path)
-                      ? 'bg-primary-v2 text-white'
-                      : 'text-foreground hover:bg-muted'
+                      ? ''
+                      : ''
                     }
                   `}
+                  style={isActive(link.path) 
+                    ? { 
+                        backgroundColor: 'var(--nav-drawer-active-bg)', 
+                        color: 'var(--nav-drawer-active-text)' 
+                      }
+                    : { 
+                        color: 'var(--nav-drawer-text)',
+                        backgroundColor: 'transparent'
+                      }
+                  }
+                  onMouseEnter={(e) => {
+                    if (!isActive(link.path)) {
+                      e.currentTarget.style.backgroundColor = 'var(--nav-drawer-hover-bg)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive(link.path)) {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }
+                  }}
                   data-testid={`nav-link-${link.path.replace(/\//g, '-') || 'home'}`}
                 >
                   <span className="text-lg">{link.icon}</span>
