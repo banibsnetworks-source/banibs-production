@@ -163,6 +163,7 @@ const TopNav = ({ user, onLogout }) => {
 
           {/* BANIBS Network Dropdown */}
           <div 
+            ref={networkDropdownRef}
             className="relative hidden md:block"
           >
             <button 
