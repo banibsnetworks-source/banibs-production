@@ -427,7 +427,7 @@ async def get_circles(
     circles_db = CirclesDB(db)
     
     # Always seed missing circles (idempotent by slug)
-    seed_counts = await seed_circles(db)
+    await seed_circles(db)
     
     # Parse tags
     tag_list = tags.split(',') if tags else None
