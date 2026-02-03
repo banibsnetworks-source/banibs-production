@@ -53,11 +53,11 @@ const BookEditor = () => {
   const autosaveTimerRef = useRef(null);
   const editorRef = useRef(null);
 
-  const isSuperAdmin = user?.role === 'super_admin';
+  const isSuperAdmin = user?.role === 'super_admin' || user?.roles?.includes('super_admin');
 
   // Fetch book and chapters
   useEffect(() => {
-    if (!isSuperAdmin) {
+    if (user && !isSuperAdmin) {
       navigate('/');
       return;
     }
