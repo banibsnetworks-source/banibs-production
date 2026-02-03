@@ -301,11 +301,12 @@ const GlobalNavBar = () => {
       <div 
         ref={drawerRef}
         className={`
-          fixed top-0 left-0 h-full w-[300px] max-w-[80vw] bg-surface-v2 z-[1000]
+          fixed top-0 left-0 h-full w-[300px] max-w-[80vw] z-[1000]
           shadow-2xl border-r border-border
           transition-transform duration-300 ease-out
           ${navOpen ? 'translate-x-0' : '-translate-x-full'}
         `}
+        style={{ backgroundColor: 'var(--nav-drawer-bg)' }}
         data-testid="nav-drawer"
         role="dialog"
         aria-modal="true"
@@ -313,10 +314,11 @@ const GlobalNavBar = () => {
       >
         {/* Drawer Header */}
         <div className="flex items-center justify-between h-16 px-4 border-b border-border">
-          <span className="text-lg font-bold text-foreground">Menu</span>
+          <span className="text-lg font-bold" style={{ color: 'var(--nav-drawer-text)' }}>Menu</span>
           <button
             onClick={closeDrawer}
-            className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            className="p-2 rounded-lg transition-colors"
+            style={{ color: 'var(--nav-drawer-text-muted)' }}
             aria-label="Close menu"
             data-testid="nav-drawer-close"
           >
