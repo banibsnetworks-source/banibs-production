@@ -34,16 +34,18 @@ const BookVaultStudio = () => {
   const [newBook, setNewBook] = useState({ title: '', description: '' });
   const [creating, setCreating] = useState(false);
 
-  // Check super_admin access
-  const isSuperAdmin = user?.role === 'super_admin';
+  // Check super_admin access - check both role and roles array
+  const isSuperAdmin = user?.role === 'super_admin' || user?.roles?.includes('super_admin');
 
   useEffect(() => {
-    if (!isSuperAdmin) {
+    if (user && !isSuperAdmin) {
       navigate('/');
       return;
     }
-    fetchBooks();
-  }, [isSuperAdmin, navigate]);
+    if (isSuperAdmin) {
+      fetchBooks();
+    }
+  }, [user, isSuperAdmin, navigate]);
 
   const fetchBooks = async () => {
     setLoading(true);
