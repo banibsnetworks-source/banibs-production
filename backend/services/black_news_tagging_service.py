@@ -186,6 +186,10 @@ def tag_black_news_item(
     """
     Tag a news item with Black News metadata
     
+    STRICT MODE: Only source-level is_black_focus/is_black_owned triggers tagging.
+    Content-based keyword matching is DISABLED to prevent Global Diaspora items
+    from appearing in Black News feed via keyword coincidence.
+    
     Args:
         item: News item dictionary
         source_is_black_owned: Whether the source is Black-owned
@@ -195,7 +199,7 @@ def tag_black_news_item(
     Returns:
         Updated item with is_black_focus and black_focus_type fields
     """
-    # Layer 1: Source-based tagging (highest priority)
+    # STRICT: Only source-level tagging (no keyword-based inclusion)
     if source_is_black_owned or source_is_black_focus:
         item['is_black_focus'] = True
         
@@ -213,24 +217,20 @@ def tag_black_news_item(
         elif source_category == 'Business & Finance' and source_is_black_owned:
             item['black_focus_type'] = 'business'
         else:
-            item['black_focus_type'] = 'diaspora'
+            # For Black-focused sources in Global Diaspora, use content analysis
+            # to determine specific type (but source is already confirmed Black-focus)
+            title = item.get('title', '')
+            description = item.get('summary', '') or item.get('description', '')
+            combined_text = f"{title} {description}"
+            focus_type = determine_black_focus_type(combined_text, source_category)
+            item['black_focus_type'] = focus_type or 'diaspora'
         
         return item
     
-    # Layer 2: Content-based tagging (for non-Black sources)
-    title = item.get('title', '')
-    description = item.get('summary', '') or item.get('description', '')
-    
-    if is_black_focused_content(title, description):
-        item['is_black_focus'] = True
-        
-        # Determine specific type
-        combined_text = f"{title} {description}"
-        focus_type = determine_black_focus_type(combined_text, source_category)
-        item['black_focus_type'] = focus_type or 'diaspora'
-    else:
-        item['is_black_focus'] = False
-        item['black_focus_type'] = None
+    # Non-Black sources: explicitly mark as NOT Black-focused
+    # (No keyword-based inclusion - keeps Black News strictly curated)
+    item['is_black_focus'] = False
+    item['black_focus_type'] = None
     
     return item
 
