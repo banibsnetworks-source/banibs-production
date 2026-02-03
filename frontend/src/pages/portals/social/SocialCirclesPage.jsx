@@ -9,7 +9,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Shield, Users, Lock, Globe, ChevronRight, Loader2 } from 'lucide-react';
-import SocialLayout from '../../../components/social/SocialLayout/SocialLayout';
+import SocialLayout from '../../../components/social/SocialLayout';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
