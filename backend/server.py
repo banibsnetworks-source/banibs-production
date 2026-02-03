@@ -448,6 +448,10 @@ app.include_router(ccram_audio_router)
 from routes.founder_ops import router as founder_ops_router
 app.include_router(founder_ops_router)
 
+# Founder Analytics Dashboard
+from routes.founder_analytics import router as founder_analytics_router
+app.include_router(founder_analytics_router)
+
 # HDOS v2 - Circle Trust Order (7 levels)
 app.include_router(hdos_trust_router)
 
