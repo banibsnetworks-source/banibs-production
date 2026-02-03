@@ -96,6 +96,14 @@
   --bn-color-text-main: #f9fafb;
   --bn-color-text-muted: #9ca3af;
   --bn-color-text-soft: #6b7280;
+  
+  /* Dark mode nav drawer - keep existing translucent style */
+  --nav-drawer-bg: rgba(13, 13, 13, 0.98);
+  --nav-drawer-text: #FFFFFF;
+  --nav-drawer-text-muted: rgba(255, 255, 255, 0.6);
+  --nav-drawer-hover-bg: rgba(255, 255, 255, 0.08);
+  --nav-drawer-active-bg: var(--banibs-primary);
+  --nav-drawer-active-text: #111111;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
