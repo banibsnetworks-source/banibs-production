@@ -17,7 +17,7 @@ from typing import Optional, List
 from datetime import datetime, timezone
 from bson import ObjectId
 from db import db
-from routes.auth import get_current_user
+from middleware.auth_guard import get_current_user
 
 router = APIRouter(prefix="/api/book-vault", tags=["Book Vault"])
 
