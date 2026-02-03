@@ -54,18 +54,28 @@ const SocialProfileEditPage = () => {
           }
         );
         
-        if (!response.ok) throw new Error('Failed to load profile');
+        // Read body exactly once
+        const responseText = await response.text();
+        let data = null;
+        try {
+          data = responseText ? JSON.parse(responseText) : null;
+        } catch (e) {
+          // Not JSON
+        }
         
-        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data?.detail || 'Failed to load profile');
+        }
+        
         setProfile(data);
         setFormData({
-          display_name: data.display_name || '',
-          handle: data.handle || '',
-          headline: data.headline || '',
-          bio: data.bio || '',
-          location: data.location || '',
-          interests: data.interests || [],
-          is_public: data.is_public !== false
+          display_name: data?.display_name || '',
+          handle: data?.handle || '',
+          headline: data?.headline || '',
+          bio: data?.bio || '',
+          location: data?.location || '',
+          interests: data?.interests || [],
+          is_public: data?.is_public !== false
         });
       } catch (err) {
         console.error('Error loading profile:', err);
