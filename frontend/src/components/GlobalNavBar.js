@@ -307,6 +307,14 @@ const GlobalNavBar = ({ sectionTitle }) => {
                           <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
                         </div>
                         <Link
+                          to="/portal/social/profile"
+                          onClick={() => setUserMenuOpen(false)}
+                          className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
+                        >
+                          <User size={16} />
+                          My Profile
+                        </Link>
+                        <Link
                           to="/settings"
                           onClick={() => setUserMenuOpen(false)}
                           className="flex items-center gap-3 px-4 py-2 text-sm text-foreground hover:bg-muted transition-colors"
@@ -314,6 +322,7 @@ const GlobalNavBar = ({ sectionTitle }) => {
                           <Settings size={16} />
                           Settings
                         </Link>
+                        <div className="border-t border-border my-1" />
                         <button
                           onClick={handleLogout}
                           className="flex items-center gap-3 px-4 py-2 text-sm text-red-500 hover:bg-muted transition-colors w-full text-left"
