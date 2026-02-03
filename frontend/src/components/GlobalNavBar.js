@@ -304,7 +304,7 @@ const GlobalNavBar = () => {
       {/* Overlay Backdrop - clicking closes drawer */}
       <div 
         className={`
-          fixed inset-0 bg-black/50 backdrop-blur-sm z-[999] transition-opacity duration-300
+          fixed inset-0 bg-black/40 z-[999] transition-opacity duration-300
           ${navOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
         `}
         onClick={closeDrawer}
