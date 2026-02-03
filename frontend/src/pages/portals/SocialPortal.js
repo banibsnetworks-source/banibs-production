@@ -496,6 +496,9 @@ const SocialPortal = () => {
               </div>
             </div>
 
+            {/* P2 - Community Moments Visual Strip */}
+            <CommunityMomentsStrip />
+
             {/* Lazy load components */}
             <SocialFeedContent />
           </div>
