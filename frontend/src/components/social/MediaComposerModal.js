@@ -1,12 +1,23 @@
 import React, { useState, useRef } from 'react';
-import { X, Image as ImageIcon, Video, Link2, Loader2, Smile } from 'lucide-react';
+import { X, Image as ImageIcon, Video, Link2, Loader2, Smile, Send } from 'lucide-react';
 import MediaUploader from './MediaUploader';
 import LinkPreviewCard from './LinkPreviewCard';
 import EmojiPicker from '../emoji/EmojiPicker.jsx';
 import { applySkinTone } from '../../utils/emojiToneUtils';
 import { useAuth } from '../../contexts/AuthContext';
-import './MediaComposerModal.css';
+import { ProfileAvatar } from './ProfileAvatar';
 
+/**
+ * MediaComposerModal - Polished UI v2
+ * Full composer modal with improved UX
+ * 
+ * UI Improvements:
+ * - Better placeholder/guiding copy
+ * - Clear disabled state with "why" message
+ * - Premium Post button styling
+ * - Clean visual hierarchy
+ * - No layout shift
+ */
 const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => {
   const { user } = useAuth();
   const [text, setText] = useState('');
@@ -27,6 +38,13 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
     }
   }, [isOpen, initialText]);
 
+  // Focus textarea when modal opens
+  React.useEffect(() => {
+    if (isOpen && textareaRef.current) {
+      setTimeout(() => textareaRef.current?.focus(), 100);
+    }
+  }, [isOpen]);
+
   const handleAddLink = async () => {
     if (!linkUrl.trim()) return;
 
@@ -46,18 +64,11 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
 
       if (response.ok) {
         const data = await response.json();
-        console.log('✅ Link preview fetched successfully:', data);
         setLinkMeta(data);
-      } else {
-        // Log when preview fetch fails but don't block the post
-        const errorData = await response.text();
-        console.warn('⚠️ Link preview fetch failed:', response.status, errorData);
       }
-      // Always hide input and keep the URL (even if preview failed)
       setShowLinkInput(false);
     } catch (error) {
-      console.error('❌ Failed to fetch link preview:', error);
-      // Keep the URL even if preview fails - hide input
+      console.error('Failed to fetch link preview:', error);
       setShowLinkInput(false);
     } finally {
       setIsFetchingLink(false);
@@ -70,16 +81,12 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
   };
 
   const handlePost = async () => {
-    // Require at least one of: text, media, or link
-    if (!text.trim() && media.length === 0 && !linkMeta && !linkUrl) {
-      alert('Please add some content to your post (text, image, or link)');
-      return;
-    }
+    if (!canPost) return;
 
     setIsPosting(true);
     try {
       await onSubmit({
-        text: text.trim() || "", // Send empty string if no text (media-only or link-only posts)
+        text: text.trim() || "",
         media,
         link_url: linkMeta?.url || linkUrl || null,
         link_meta: linkMeta
@@ -93,31 +100,66 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
       onClose();
     } catch (error) {
       console.error('Failed to create post:', error);
-      alert('Failed to create post');
     } finally {
       setIsPosting(false);
     }
   };
 
+  // Determine if post button should be enabled
+  const canPost = text.trim() || media.length > 0 || linkMeta || linkUrl;
+  
+  // Get disabled reason for button hint
+  const getDisabledReason = () => {
+    if (isPosting) return 'Posting...';
+    if (!canPost) return 'Add text, photo, or link to post';
+    return '';
+  };
+
+  const displayName = user?.name || user?.display_name || 'User';
+
   if (!isOpen) return null;
 
   return (
-    <div className="media-composer-overlay" onClick={onClose}>
-      <div className="media-composer-modal" onClick={(e) => e.stopPropagation()}>
+    <div 
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[9999] p-4"
+      onClick={onClose}
+    >
+      <div 
+        className="bg-card rounded-2xl w-full max-w-xl max-h-[90vh] flex flex-col shadow-2xl border border-border overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="composer-header">
-          <h2>Create Post</h2>
-          <button className="close-btn" onClick={onClose}>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+          <h2 className="text-lg font-semibold text-card-foreground">Create Post</h2>
+          <button 
+            onClick={onClose}
+            className="p-2 -mr-2 rounded-full text-muted-foreground hover:bg-muted hover:text-card-foreground transition-colors"
+            aria-label="Close"
+          >
             <X size={20} />
           </button>
         </div>
 
-        {/* Text Area */}
-        <div className="composer-body">
+        {/* Author Info */}
+        <div className="px-5 py-3 flex items-center gap-3 border-b border-border/50">
+          <ProfileAvatar 
+            name={displayName}
+            avatarUrl={user?.profile?.avatar_url || user?.avatar_url}
+            size="sm"
+          />
+          <div>
+            <p className="text-sm font-medium text-card-foreground">{displayName}</p>
+            <p className="text-xs text-muted-foreground">Posting to Community</p>
+          </div>
+        </div>
+
+        {/* Body - Scrollable */}
+        <div className="flex-1 overflow-y-auto px-5 py-4">
+          {/* Textarea */}
           <textarea
             ref={textareaRef}
-            className="composer-textarea"
-            placeholder="What's on your mind?"
+            className="w-full bg-transparent text-card-foreground text-base leading-relaxed resize-none focus:outline-none placeholder:text-muted-foreground/60 min-h-[120px]"
+            placeholder="What's happening in your world? Share a thought, story, or update with the community..."
             value={text}
             onChange={(e) => setText(e.target.value)}
             maxLength={1000}
@@ -127,152 +169,176 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
           {/* Media Uploader */}
           <MediaUploader media={media} setMedia={setMedia} />
 
-          {/* Link Preview - Rich preview when metadata exists */}
+          {/* Link Preview - Rich */}
           {linkMeta && (
-            <LinkPreviewCard linkMeta={linkMeta} onRemove={handleRemoveLink} />
+            <div className="mt-4">
+              <LinkPreviewCard linkMeta={linkMeta} onRemove={handleRemoveLink} />
+            </div>
           )}
 
-          {/* Link Preview Fallback - Show URL when no metadata but URL exists */}
+          {/* Link Preview - Fallback (URL only) */}
           {!linkMeta && linkUrl && !showLinkInput && (
-            <div className="mt-3 relative border border-border rounded-lg overflow-hidden bg-muted">
+            <div className="mt-4 relative border border-border rounded-xl overflow-hidden bg-muted/50">
               <button
                 onClick={handleRemoveLink}
-                className="absolute top-2 right-2 z-10 p-1.5 bg-background/90 hover:bg-background rounded-full border border-border transition-colors"
+                className="absolute top-3 right-3 z-10 p-1.5 bg-background/90 hover:bg-background rounded-full border border-border transition-colors"
                 title="Remove link"
               >
-                <X size={16} className="text-muted-foreground" />
+                <X size={14} className="text-muted-foreground" />
               </button>
               <div className="p-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
-                    <span className="text-lg">🔗</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center flex-shrink-0">
+                    <Link2 size={20} className="text-purple-500" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-muted-foreground mb-1">Link Added</p>
-                    <p className="text-sm text-foreground font-medium truncate">{linkUrl}</p>
+                    <p className="text-xs font-medium text-muted-foreground mb-0.5">Link attached</p>
+                    <p className="text-sm text-card-foreground truncate">{linkUrl}</p>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground bg-background/50 p-2 rounded">
-                  Preview unavailable - link will be posted as clickable URL
-                </p>
               </div>
             </div>
           )}
 
-          {/* Link Input */}
+          {/* Link Input Field */}
           {showLinkInput && (
-            <div className="link-input-container">
+            <div className="mt-4 flex gap-2 p-3 bg-muted/50 rounded-xl">
               <input
                 ref={linkInputRef}
                 type="url"
-                className="link-input"
-                placeholder="Paste link URL..."
+                className="flex-1 bg-background border border-border rounded-lg px-3 py-2 text-sm text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500"
+                placeholder="Paste a link URL..."
                 value={linkUrl}
                 onChange={(e) => setLinkUrl(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter') {
-                    handleAddLink();
-                  }
-                }}
+                onKeyPress={(e) => e.key === 'Enter' && handleAddLink()}
               />
               <button
-                className="link-add-btn"
+                className="px-4 py-2 bg-amber-500 text-gray-900 font-medium rounded-lg hover:bg-amber-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 onClick={handleAddLink}
-                disabled={isFetchingLink}
+                disabled={isFetchingLink || !linkUrl.trim()}
               >
-                {isFetchingLink ? <Loader2 size={16} className="spinner" /> : 'Add'}
+                {isFetchingLink ? <Loader2 size={16} className="animate-spin" /> : 'Add'}
               </button>
             </div>
           )}
         </div>
 
-        {/* Toolbar */}
-        <div className="composer-toolbar">
-          <div className="toolbar-actions">
-            <button
-              className="toolbar-btn"
-              onClick={() => document.getElementById('media-file-input').click()}
-              disabled={media.length >= 4}
-              title="Add Images"
-            >
-              <ImageIcon size={20} />
-            </button>
-            <button
-              className="toolbar-btn"
-              onClick={() => document.getElementById('media-file-input').click()}
-              disabled={media.length >= 1 && media[0]?.type === 'video'}
-              title="Add Video"
-            >
-              <Video size={20} />
-            </button>
-            <button
-              className="toolbar-btn"
-              onClick={() => {
-                setShowLinkInput(!showLinkInput);
-                setTimeout(() => linkInputRef.current?.focus(), 100);
-              }}
-              disabled={!!linkMeta}
-              title="Add Link"
-            >
-              <Link2 size={20} />
-            </button>
-            <div className="relative">
+        {/* Footer Toolbar */}
+        <div className="px-5 py-3 border-t border-border bg-muted/30">
+          {/* Toolbar Actions */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1">
+              {/* Photo */}
               <button
-                className="toolbar-btn"
-                onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                title="Add Emoji"
+                className="p-2.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-green-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                onClick={() => document.getElementById('media-file-input')?.click()}
+                disabled={media.length >= 4}
+                title={media.length >= 4 ? 'Maximum 4 images' : 'Add Photo'}
               >
-                <Smile size={20} />
+                <ImageIcon size={20} />
               </button>
-              {showEmojiPicker && (
-                <div style={{ position: 'absolute', bottom: '100%', left: 0, marginBottom: '8px', zIndex: 1000 }}>
-                  <EmojiPicker
-                    onSelect={(emoji) => {
-                      // Apply user's skin tone for unicode emojis
-                      let emojiChar = '';
-                      if (emoji.type === 'unicode') {
-                        const userSkinTone = user?.emoji_identity?.skinTone || 'tone4';
-                        const supportsSkinTone = emoji.supportsSkinTone !== undefined ? emoji.supportsSkinTone : false;
-                        emojiChar = supportsSkinTone 
-                          ? applySkinTone(emoji.char, userSkinTone, true)
-                          : emoji.char;
-                      }
-                      
-                      // Insert emoji at cursor position
-                      const textarea = textareaRef.current;
-                      if (textarea && emojiChar) {
-                        const start = textarea.selectionStart;
-                        const end = textarea.selectionEnd;
-                        const newText = text.substring(0, start) + emojiChar + text.substring(end);
-                        setText(newText);
-                        // Set cursor after emoji
-                        setTimeout(() => {
-                          textarea.selectionStart = textarea.selectionEnd = start + emojiChar.length;
-                          textarea.focus();
-                        }, 0);
-                      }
-                      setShowEmojiPicker(false);
-                    }}
-                    onClose={() => setShowEmojiPicker(false)}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
 
-          <div className="toolbar-right">
-            <span className="char-count">{text.length}/1000</span>
-            <button
-              className="post-btn"
-              onClick={handlePost}
-              disabled={isPosting || (!text.trim() && media.length === 0 && !linkMeta)}
-            >
-              {isPosting ? (
-                <><Loader2 size={16} className="spinner" /> Posting...</>
-              ) : (
-                'Post'
-              )}
-            </button>
+              {/* Video */}
+              <button
+                className="p-2.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-blue-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                onClick={() => document.getElementById('media-file-input')?.click()}
+                disabled={media.length >= 1 && media[0]?.type === 'video'}
+                title="Add Video"
+              >
+                <Video size={20} />
+              </button>
+
+              {/* Link */}
+              <button
+                className="p-2.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-purple-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                onClick={() => {
+                  setShowLinkInput(!showLinkInput);
+                  setTimeout(() => linkInputRef.current?.focus(), 100);
+                }}
+                disabled={!!linkMeta || !!linkUrl}
+                title={linkMeta || linkUrl ? 'Link already added' : 'Add Link'}
+              >
+                <Link2 size={20} />
+              </button>
+
+              {/* Emoji */}
+              <div className="relative">
+                <button
+                  className="p-2.5 rounded-lg text-muted-foreground hover:bg-muted hover:text-amber-500 transition-colors"
+                  onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                  title="Add Emoji"
+                >
+                  <Smile size={20} />
+                </button>
+                
+                {showEmojiPicker && (
+                  <div className="absolute bottom-full left-0 mb-2 z-50">
+                    <EmojiPicker
+                      onSelect={(emoji) => {
+                        let emojiChar = '';
+                        if (emoji.type === 'unicode') {
+                          const userSkinTone = user?.emoji_identity?.skinTone || 'tone4';
+                          const supportsSkinTone = emoji.supportsSkinTone !== undefined ? emoji.supportsSkinTone : false;
+                          emojiChar = supportsSkinTone 
+                            ? applySkinTone(emoji.char, userSkinTone, true)
+                            : emoji.char;
+                        }
+                        
+                        if (textareaRef.current && emojiChar) {
+                          const start = textareaRef.current.selectionStart;
+                          const end = textareaRef.current.selectionEnd;
+                          const newText = text.substring(0, start) + emojiChar + text.substring(end);
+                          setText(newText);
+                          setTimeout(() => {
+                            textareaRef.current.selectionStart = textareaRef.current.selectionEnd = start + emojiChar.length;
+                            textareaRef.current.focus();
+                          }, 0);
+                        }
+                        setShowEmojiPicker(false);
+                      }}
+                      onClose={() => setShowEmojiPicker(false)}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Right side: Character count + Post button */}
+            <div className="flex items-center gap-4">
+              {/* Character count */}
+              <span className={`text-xs tabular-nums ${text.length > 900 ? 'text-amber-500' : 'text-muted-foreground'}`}>
+                {text.length}/1000
+              </span>
+
+              {/* Post Button with disabled state hint */}
+              <div className="relative group">
+                <button
+                  className="px-5 py-2.5 bg-amber-500 text-gray-900 font-semibold rounded-xl hover:bg-amber-600 active:bg-amber-700 transition-all disabled:bg-muted disabled:text-muted-foreground disabled:cursor-not-allowed flex items-center gap-2 shadow-sm"
+                  onClick={handlePost}
+                  disabled={isPosting || !canPost}
+                  data-testid="composer-post-btn"
+                >
+                  {isPosting ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      <span>Posting...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send size={16} />
+                      <span>Post</span>
+                    </>
+                  )}
+                </button>
+                
+                {/* Disabled state tooltip */}
+                {!canPost && !isPosting && (
+                  <div className="absolute bottom-full right-0 mb-2 px-3 py-1.5 bg-foreground text-background text-xs rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                    {getDisabledReason()}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
