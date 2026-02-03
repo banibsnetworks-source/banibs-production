@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, User, Settings, LogOut, ChevronDown, Sun, Moon } from 'lucide-react';
+import { Menu, X, User, Settings, LogOut, ChevronDown, Sun, Moon, Sparkles } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import MoodMeter from './MoodMeter';
@@ -11,18 +11,33 @@ import AccountModeSwitcher from './common/AccountModeSwitcher';
  * Global BANIBS Navigation Bar - Overlay Drawer Design
  * Fixed position overlay that doesn't push content
  * P0 UI Fix: Menu overlays content instead of pushing it down
+ * Supports both solid and glass drawer styles (user toggle)
  */
 const GlobalNavBar = () => {
   const [navOpen, setNavOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState('signin');
+  // Glass drawer preference: 'solid' (default) or 'glass'
+  const [drawerStyle, setDrawerStyle] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('navDrawerStyle') || 'solid';
+    }
+    return 'solid';
+  });
   const navRef = useRef(null);
   const drawerRef = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+
+  // Toggle drawer style and persist to localStorage
+  const toggleDrawerStyle = () => {
+    const newStyle = drawerStyle === 'solid' ? 'glass' : 'solid';
+    setDrawerStyle(newStyle);
+    localStorage.setItem('navDrawerStyle', newStyle);
+  };
 
   // Lock body scroll when drawer is open
   useEffect(() => {
