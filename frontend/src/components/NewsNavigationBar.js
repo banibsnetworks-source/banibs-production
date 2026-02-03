@@ -89,7 +89,7 @@ const NewsNavigationBar = ({ activeSection }) => {
                   key={section.id}
                   to={linkPath}
                   className={`
-                    flex items-center space-x-1.5 px-4 py-2 rounded-lg text-sm font-medium
+                    px-3 py-1.5 rounded-md text-sm font-medium
                     whitespace-nowrap transition-all duration-200
                     ${
                       isActive
@@ -98,8 +98,7 @@ const NewsNavigationBar = ({ activeSection }) => {
                     }
                   `}
                 >
-                  <span>{section.icon}</span>
-                  <span>{section.label}</span>
+                  {section.label}
                 </Link>
               );
             })}
