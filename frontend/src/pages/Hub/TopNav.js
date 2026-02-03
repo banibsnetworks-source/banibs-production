@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const TopNav = ({ user, onLogout }) => {
@@ -11,8 +11,27 @@ const TopNav = ({ user, onLogout }) => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loadingNotifications, setLoadingNotifications] = useState(false);
+  
+  // Refs for click-outside detection
+  const networkDropdownRef = useRef(null);
+  const profileMenuRef = useRef(null);
 
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
+  // Close dropdowns on outside click
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (networkDropdownRef.current && !networkDropdownRef.current.contains(event.target)) {
+        setShowNetworkDropdown(false);
+      }
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
+        setShowProfileMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Fetch unread count on mount and every 30 seconds
   useEffect(() => {
