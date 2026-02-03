@@ -109,7 +109,7 @@ export default function FounderAnalyticsDashboard() {
     setLoading(true);
     
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('access_token');
       const res = await fetch(`${BACKEND_URL}/api/founder/analytics/overview`, {
         headers: { Authorization: `Bearer ${token}` }
       });
