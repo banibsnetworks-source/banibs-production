@@ -148,6 +148,8 @@ import InfiniteCirclePage from "./pages/circles/InfiniteCirclePage";
 import SharedCirclePage from "./pages/circles/SharedCirclePage";
 import { InfiniteCirclePage as InfiniteCirclePageSocial } from "./pages/social/InfiniteCirclePage";
 import { SharedCirclePage as SharedCirclePageSocial } from "./pages/social/SharedCirclePage";
+// Community Circles (Support Groups)
+import SocialCirclesPage from "./pages/portals/social/SocialCirclesPage";
 // Phase 8.4 - Messaging Engine
 import { MessagesPage } from "./pages/social/messages/MessagesPage";
 // Phase 8.2 - Business Profiles
