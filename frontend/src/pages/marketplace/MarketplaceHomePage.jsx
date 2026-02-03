@@ -15,6 +15,106 @@ const REGIONS = [
   { id: "Asia", label: "Asia" },
 ];
 
+// Demo seed products - shown when no real products exist
+const DEMO_PRODUCTS = [
+  {
+    id: "demo-1",
+    title: "Handwoven Kente Cloth - Traditional Ghana Pattern",
+    price: 89.99,
+    images: ["/fallbacks/news-fallback-01.jpg"],
+    region: "Africa",
+    product_type: "physical",
+  },
+  {
+    id: "demo-2",
+    title: "Caribbean Spice Collection - Jerk & Island Blends",
+    price: 34.50,
+    images: ["/fallbacks/news-fallback-02.jpg"],
+    region: "Caribbean",
+    product_type: "physical",
+  },
+  {
+    id: "demo-3",
+    title: "Digital Art Print: Diaspora Dreams Series",
+    price: 25.00,
+    images: ["/fallbacks/news-fallback-03.jpg"],
+    region: "North America",
+    product_type: "digital",
+  },
+  {
+    id: "demo-4",
+    title: "Shea Butter Skincare Set - Natural & Organic",
+    price: 45.00,
+    images: ["/fallbacks/news-fallback-04.jpg"],
+    region: "Africa",
+    product_type: "physical",
+  },
+  {
+    id: "demo-5",
+    title: "Afrobeats Producer Sample Pack Vol. 3",
+    price: 19.99,
+    images: ["/fallbacks/news-fallback-01.jpg"],
+    region: "Europe",
+    product_type: "digital",
+  },
+  {
+    id: "demo-6",
+    title: "Hand-Carved Wooden Sculpture - Yoruba Design",
+    price: 275.00,
+    images: ["/fallbacks/news-fallback-02.jpg"],
+    region: "Africa",
+    product_type: "physical",
+  },
+  {
+    id: "demo-7",
+    title: "Jamaican Blue Mountain Coffee - Premium Roast",
+    price: 42.00,
+    images: ["/fallbacks/news-fallback-03.jpg"],
+    region: "Caribbean",
+    product_type: "physical",
+  },
+  {
+    id: "demo-8",
+    title: "Ankara Fashion eBook - Modern African Prints",
+    price: 12.99,
+    images: ["/fallbacks/news-fallback-04.jpg"],
+    region: "Africa",
+    product_type: "digital",
+  },
+  {
+    id: "demo-9",
+    title: "Natural Hair Care Bundle - Moisture & Growth",
+    price: 58.00,
+    images: ["/fallbacks/news-fallback-01.jpg"],
+    region: "North America",
+    product_type: "physical",
+  },
+  {
+    id: "demo-10",
+    title: "Steel Pan Music Lessons - Online Course",
+    price: 79.00,
+    images: ["/fallbacks/news-fallback-02.jpg"],
+    region: "Caribbean",
+    product_type: "digital",
+  },
+  {
+    id: "demo-11",
+    title: "African Print Laptop Sleeve - Wax Fabric",
+    price: 35.00,
+    images: ["/fallbacks/news-fallback-03.jpg"],
+    region: "Africa",
+    product_type: "physical",
+  },
+  {
+    id: "demo-12",
+    title: "Diaspora Business Toolkit - Digital Templates",
+    price: 49.99,
+    images: ["/fallbacks/news-fallback-04.jpg"],
+    region: "Global",
+    product_type: "digital",
+  },
+];
+
 export default function MarketplaceHomePage() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
