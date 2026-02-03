@@ -5,11 +5,27 @@ import ImageWithFallback from './ImageWithFallback';
 import { useTheme } from '../contexts/ThemeContext';
 import { getThemeStyles } from '../utils/themeStyles';
 
+// Black Focus Type Labels for display
+const BLACK_FOCUS_LABELS = {
+  'africa': 'Africa',
+  'caribbean': 'Caribbean',
+  'black_us': 'Black U.S.',
+  'diaspora': 'Diaspora',
+  'hbcu': 'HBCU',
+  'civil_rights': 'Civil Rights',
+  'culture': 'Culture',
+  'business': 'Black Business',
+};
+
 /**
  * Top Stories Grid
  * Displays 4-6 top stories in a 2-column grid below hero
+ * 
+ * Props:
+ *   stories: Array of story objects
+ *   showBlackFocusType: If true, show black_focus_type badge instead of category (for Black News page)
  */
-const TopStoriesGrid = ({ stories }) => {
+const TopStoriesGrid = ({ stories, showBlackFocusType = false }) => {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
   const styles = getThemeStyles(isDark);
@@ -17,6 +33,14 @@ const TopStoriesGrid = ({ stories }) => {
   if (!stories || stories.length === 0) {
     return null;
   }
+
+  // Get display label for badge
+  const getBadgeLabel = (story) => {
+    if (showBlackFocusType && story.black_focus_type) {
+      return BLACK_FOCUS_LABELS[story.black_focus_type] || story.black_focus_type;
+    }
+    return story.mapped_section || story.category || 'News';
+  };
 
   const formatDate = (dateString) => {
     try {
