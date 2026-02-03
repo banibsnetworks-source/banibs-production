@@ -306,18 +306,14 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
                 <div style={{ position: 'absolute', bottom: '100%', right: 0, marginBottom: '8px', zIndex: 1000 }}>
                   <EmojiPicker
                     onSelect={(emoji) => {
-                      let emojiContent = '';
+                      // Get the unicode character from the emoji object
+                      // Priority: emoji.char (native unicode), then fallback options
+                      let emojiContent = emoji.char || emoji.native || emoji.emoji || '';
                       
-                      if (emoji.type === 'unicode') {
-                        // Unicode emoji: apply user's skin tone
+                      // Apply skin tone if supported
+                      if (emojiContent && emoji.supportsSkinTone) {
                         const userSkinTone = user?.emoji_identity?.skinTone || 'tone4';
-                        const supportsSkinTone = emoji.supportsSkinTone !== undefined ? emoji.supportsSkinTone : false;
-                        emojiContent = supportsSkinTone 
-                          ? applySkinTone(emoji.char, userSkinTone, true)
-                          : emoji.char;
-                      } else if (emoji.type === 'image') {
-                        // Image emoji: use placeholder format
-                        emojiContent = `[emoji:${emoji.id}]`;
+                        emojiContent = applySkinTone(emojiContent, userSkinTone, true);
                       }
                       
                       // Append emoji to comment text
