@@ -490,12 +490,15 @@ function App() {
               {/* Phase 8.2 - Social Connections */}
               <Route path="/social/connections" element={<SocialConnectionsPage />} />
               
-              {/* Phase 9.2 - Infinite Circle Engine UI */}
+              {/* Community Circles (Support Groups) */}
+              <Route path="/portal/social/circles" element={<SocialCirclesPage />} />
+              
+              {/* Phase 9.2 - Infinite Circle Engine UI (Peoples of Peoples) */}
               <Route path="/social/circles" element={<InfiniteCirclePageSocial />} />
               <Route path="/social/circles/:userId" element={<InfiniteCirclePageSocial />} />
               <Route path="/social/circles/shared/:userId" element={<SharedCirclePageSocial />} />
-              <Route path="/portal/social/circles" element={<InfiniteCirclePageSocial />} />
-              <Route path="/portal/social/circles/shared/:userId" element={<SharedCirclePageSocial />} />
+              <Route path="/portal/social/my-peoples" element={<InfiniteCirclePageSocial />} />
+              <Route path="/portal/social/my-peoples/shared/:userId" element={<SharedCirclePageSocial />} />
               
               {/* Phase 8.4 - Messaging Engine */}
               <Route path="/portal/social/messages" element={<MessagesPage />} />
