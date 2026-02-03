@@ -73,7 +73,7 @@ async def get_analytics_overview(user=Depends(require_role("super_admin"))):
             }
         }
         
-    except Exception as e:
+    except Exception:
         # Return placeholder data on error
         return {
             "success": True,
