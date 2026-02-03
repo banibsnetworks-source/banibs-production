@@ -102,22 +102,24 @@ const CoverUploader = ({ initialUrl, onUploaded }) => {
         }
       );
 
+      // Read response body exactly ONCE
+      const responseText = await response.text();
+      let responseData = null;
+      try {
+        responseData = responseText ? JSON.parse(responseText) : null;
+      } catch (e) {
+        // Not JSON, keep as null
+      }
+
       if (!response.ok) {
-        // Read response once and store it
-        const errorText = await response.text();
-        let errorMessage = 'Upload failed';
-        try {
-          const errorData = JSON.parse(errorText);
-          errorMessage = errorData.detail || errorMessage;
-        } catch (e) {
-          errorMessage = errorText || errorMessage;
-        }
+        const errorMessage = responseData?.detail || responseText || 'Upload failed';
         throw new Error(errorMessage);
       }
 
-      // Read response once
-      const responseData = await response.json();
-      const { cover_url } = responseData;
+      const { cover_url } = responseData || {};
+      if (!cover_url) {
+        throw new Error('No cover URL returned');
+      }
       const fullUrl = `${process.env.REACT_APP_BACKEND_URL}${cover_url}?t=${Date.now()}`;
       
       // Swap to server URL
