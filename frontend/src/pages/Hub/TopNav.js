@@ -351,9 +351,9 @@ const TopNav = ({ user, onLogout }) => {
 
             {/* Profile Menu */}
             {user && (
-              <div className="relative">
+              <div ref={profileMenuRef} className="relative">
                 <button
-                  onClick={() => setShowProfileMenu(!showProfileMenu)}
+                  onClick={(e) => { e.stopPropagation(); setShowProfileMenu(!showProfileMenu); }}
                   className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-900 transition"
                 >
                   <div className="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center text-black font-semibold">
@@ -363,7 +363,7 @@ const TopNav = ({ user, onLogout }) => {
                 </button>
                 
                 {showProfileMenu && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
+                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
                     <div className="px-4 py-2 border-b border-gray-200">
                       <div className="text-sm font-semibold text-gray-800">{user.name}</div>
                       <div className="text-xs text-gray-500">{user.email}</div>
@@ -373,19 +373,22 @@ const TopNav = ({ user, onLogout }) => {
                     </div>
                     
                     <Link
-                      to="/profile"
+                      to="/portal/social/profile"
+                      onClick={() => setShowProfileMenu(false)}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                     >
                       My Profile
                     </Link>
                     <Link
                       to="/business/my-listings"
+                      onClick={() => setShowProfileMenu(false)}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                     >
                       My Businesses
                     </Link>
                     <Link
                       to="/settings"
+                      onClick={() => setShowProfileMenu(false)}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                     >
                       Settings
