@@ -5,21 +5,35 @@ import SentimentBadge from '../../components/SentimentBadge';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
 
 function SearchPage() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const query = searchParams.get('q') || '';
   
+  const [searchInput, setSearchInput] = useState(query);
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // Sync input with URL params
+    setSearchInput(query);
     if (query.length >= 2) {
       performSearch();
     } else {
       setResults(null);
     }
   }, [query]);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchInput.trim().length >= 2) {
+      setSearchParams({ q: searchInput.trim() });
+    }
+  };
+
+  const handleInputChange = (e) => {
+    setSearchInput(e.target.value);
+  };
 
   const performSearch = async () => {
     setLoading(true);
