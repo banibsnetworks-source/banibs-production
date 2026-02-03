@@ -255,10 +255,11 @@ const SocialProfileEditPage = () => {
   return (
     <SocialLayout>
       <div className="min-h-screen bg-background" data-testid="profile-page">
-        {/* Cover Image Area */}
+        {/* Cover Image Area - Responsive height for all screen widths */}
         <div 
-          className="h-32 sm:h-44 w-full relative"
+          className="w-full relative"
           style={{
+            height: 'clamp(180px, 22vh, 320px)',
             background: coverUrl 
               ? `url(${coverUrl}) center/cover no-repeat`
               : 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)'
@@ -270,8 +271,8 @@ const SocialProfileEditPage = () => {
 
         {/* Profile Header - Identity First */}
         <div className="max-w-2xl mx-auto px-4 sm:px-6">
-          {/* Avatar - Overlapping cover */}
-          <div className="relative -mt-16 sm:-mt-20 mb-4">
+          {/* Avatar - Overlapping cover with responsive offset */}
+          <div className="relative mb-4" style={{ marginTop: 'clamp(-64px, -8vw, -80px)' }}>
             <div className="flex items-end justify-between">
               {/* Avatar */}
               <div className="relative">
