@@ -93,20 +93,15 @@ const GlobalNavBar = () => {
                   user?.roles?.includes('admin') ||
                   user?.roles?.includes('moderator');
 
-  // FULL INTERNAL MODE - All modules visible for founder debugging
+  // Navigation IA: Left drawer = Primary BANIBS modules only
+  // News categories moved to top bar (NewsNavigationBar)
   const navLinks = [
-    { label: 'BANIBS News', path: '/', icon: '📰' },
-    { label: 'Black News', path: '/news/black', icon: '✊🏿' },
-    { label: 'U.S.', path: '/news/us', icon: '🇺🇸' },
-    { label: 'World', path: '/news/world', icon: '🌍' },
-    { label: 'Business News', path: '/news/business', icon: '💼' },
-    { label: 'Sports', path: '/news/sports', icon: '⚽' },
-    // RESTORED for internal mode:
-    { label: 'Business Directory', path: '/business-directory', icon: '🏢' },
-    { label: 'BANIBS Social', path: '/portal/social', icon: '🌐' },
+    { label: 'News', path: '/', icon: '📰' },
+    { label: 'Directory', path: '/business-directory', icon: '🏢' },
+    { label: 'Social', path: '/portal/social', icon: '🌐' },
     { label: 'Resources', path: '/resources', icon: '📚' },
     { label: 'Marketplace', path: '/portal/marketplace', icon: '🛍️' },
-    { label: 'BANIBS TV', path: '/portal/tv', icon: '📺' },
+    { label: 'TV', path: '/portal/tv', icon: '📺' },
     { label: 'Wallet', path: '/portal/wallet', icon: '💰' },
     { label: 'Community', path: '/portal/community', icon: '🏠' },
   ];
