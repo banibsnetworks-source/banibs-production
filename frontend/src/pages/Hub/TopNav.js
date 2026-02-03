@@ -145,16 +145,20 @@ const TopNav = ({ user, onLogout }) => {
           {/* BANIBS Network Dropdown */}
           <div 
             className="relative hidden md:block"
-            onMouseEnter={() => setShowNetworkDropdown(true)}
-            onMouseLeave={() => setShowNetworkDropdown(false)}
           >
-            <button className="flex items-center gap-1 px-4 py-2 text-gray-300 hover:text-yellow-400 transition font-semibold">
+            <button 
+              onClick={(e) => { e.stopPropagation(); setShowNetworkDropdown(!showNetworkDropdown); }}
+              className="flex items-center gap-1 px-4 py-2 text-gray-300 hover:text-yellow-400 transition font-semibold"
+            >
               BANIBS Network
               <span className="text-sm">▾</span>
             </button>
             
             {showNetworkDropdown && (
-              <div className="absolute top-full left-0 mt-1 w-56 bg-gray-900 border border-yellow-400/20 rounded-lg shadow-xl overflow-hidden">
+              <div 
+                className="absolute top-full left-0 mt-1 w-56 bg-gray-900 border border-yellow-400/20 rounded-lg shadow-xl overflow-hidden z-50"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <Link
                   to="/social"
                   className="block px-4 py-3 text-gray-300 hover:bg-yellow-400 hover:text-black transition"
