@@ -153,7 +153,11 @@ All links visible:
   - Includes "Share yours" and "Add yours" CTAs
   - Images have hover zoom effects
   - Strip is horizontally scrollable
-- [x] **Navigation IA Cleanup (COMPLETE - February 3, 2026)**
+- [x] **Black News Content Routing Fix (COMPLETE - February 3, 2026)**
+  - **Backend**: Strict source-level filtering only - no keyword-based inclusion from non-Black sources
+  - **Frontend**: Show `black_focus_type` badges (Africa, Caribbean, Diaspora, etc.) instead of category
+  - **DB Cleanup**: Removed incorrectly tagged items from non-Black sources
+  - Files: `black_news_tagging_service.py`, `TopStoriesGrid.js`, `BlackNewsPage.jsx`
   - **Left drawer**: Primary BANIBS modules only (News, Directory, Social, Resources, Marketplace, TV, Wallet, Community)
   - **Top bar**: Section title ("News") + global actions (Search) - minimal, no category overload
   - **Sub-nav**: News categories only appear on news pages (Top Stories, Black News, U.S., World, etc.)
