@@ -401,15 +401,28 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
           </a>
         )}
 
-        {/* Legacy media_url support */}
+        {/* Legacy media_url support - hide container if image fails */}
         {!localPost.media_urls?.length && localPost.media_url && (
-          <div className="mt-3 rounded-lg overflow-hidden">
+          <div 
+            className="mt-3 rounded-lg overflow-hidden"
+            style={{ display: 'block' }}
+            ref={(el) => {
+              if (el) {
+                const img = el.querySelector('img');
+                if (img) {
+                  img.onerror = () => { el.style.display = 'none'; };
+                }
+              }
+            }}
+          >
             <img
               src={localPost.media_url}
-              alt="Post media"
+              alt=""
               className="w-full h-auto max-h-96 object-cover"
               loading="lazy"
-              onError={(e) => { e.target.style.display = 'none'; }}
+              onError={(e) => { 
+                e.target.parentElement.style.display = 'none'; 
+              }}
             />
           </div>
         )}
