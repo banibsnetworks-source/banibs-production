@@ -8,7 +8,7 @@ import ProfileStatsStrip from '../../components/profile/ProfileStatsStrip';
 import SocialLayout from '../../components/social/SocialLayout';
 
 const SocialProfileEditPage = () => {
-  const { user } = useAuth();
+  const { user, updateUserAvatar } = useAuth();
   const navigate = useNavigate();
   
   const [profile, setProfile] = useState(null);
