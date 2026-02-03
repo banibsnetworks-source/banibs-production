@@ -318,17 +318,16 @@ const GlobalNavBar = () => {
         className={`
           fixed top-0 left-0 h-full w-[300px] max-w-[80vw] z-[1000]
           shadow-2xl border-r
-          transition-transform duration-300 ease-out
+          transition-all duration-300 ease-out
           ${navOpen ? 'translate-x-0' : '-translate-x-full'}
-          ${drawerStyle === 'glass' 
-            ? 'backdrop-blur-xl border-white/10' 
-            : 'border-border'
-          }
+          ${drawerStyle === 'glass' ? 'border-white/20' : 'border-border'}
         `}
         style={{ 
           backgroundColor: drawerStyle === 'glass'
-            ? (theme === 'dark' ? 'rgba(13, 13, 13, 0.85)' : 'rgba(255, 255, 255, 0.88)')
-            : (theme === 'dark' ? 'rgba(13, 13, 13, 0.98)' : '#FFFFFF')
+            ? (theme === 'dark' ? 'rgba(13, 13, 13, 0.65)' : 'rgba(255, 255, 255, 0.70)')
+            : (theme === 'dark' ? '#0D0D0D' : '#FFFFFF'),
+          backdropFilter: drawerStyle === 'glass' ? 'blur(20px) saturate(180%)' : 'none',
+          WebkitBackdropFilter: drawerStyle === 'glass' ? 'blur(20px) saturate(180%)' : 'none',
         }}
         data-testid="nav-drawer"
         data-drawer-style={drawerStyle}
@@ -337,20 +336,32 @@ const GlobalNavBar = () => {
         aria-label="Navigation menu"
       >
         {/* Drawer Header */}
-        <div className={`flex items-center justify-between h-16 px-4 border-b ${drawerStyle === 'glass' ? 'border-white/10' : 'border-border'}`}>
+        <div 
+          className="flex items-center justify-between h-16 px-4 border-b"
+          style={{ 
+            borderColor: drawerStyle === 'glass' 
+              ? (theme === 'dark' ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)') 
+              : undefined 
+          }}
+        >
           <span 
             className="text-lg font-bold"
             style={{ 
               color: theme === 'dark' ? '#FFFFFF' : '#111111',
-              textShadow: drawerStyle === 'glass' && theme === 'light' ? '0 1px 2px rgba(255,255,255,0.5)' : 'none'
+              textShadow: drawerStyle === 'glass' ? '0 1px 3px rgba(0,0,0,0.3)' : 'none'
             }}
           >
             Menu
           </span>
           <button
             onClick={closeDrawer}
-            className="p-2 rounded-lg transition-colors hover:bg-white/10"
-            style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.6)' : '#4B5563' }}
+            className="p-2 rounded-lg transition-colors"
+            style={{ 
+              color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : '#374151',
+              backgroundColor: 'transparent'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
             aria-label="Close menu"
             data-testid="nav-drawer-close"
           >
