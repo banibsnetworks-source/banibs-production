@@ -63,7 +63,7 @@ const BlackNewsPage = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Global Navigation */}
-      <GlobalNavBar />
+      <GlobalNavBar sectionTitle="News" />
       
       {/* News Category Navigation */}
       <NewsNavigationBar activeSection="black" />
