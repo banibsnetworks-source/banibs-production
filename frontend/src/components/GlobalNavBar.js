@@ -373,7 +373,10 @@ const GlobalNavBar = () => {
           {/* Control Plane Section - Founder/Admin */}
           {controlPlaneLinks.some(link => link.visible) && (
             <div className="mt-4 pt-4 border-t border-border">
-              <p className="px-4 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              <p 
+                className="px-4 mb-2 text-xs font-semibold uppercase tracking-wider"
+                style={{ color: 'var(--nav-drawer-text-muted)' }}
+              >
                 Control Plane
               </p>
               <ul className="space-y-1">
@@ -385,7 +388,7 @@ const GlobalNavBar = () => {
                         w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all
                         ${isActive(link.path)
                           ? 'bg-amber-600 text-white'
-                          : 'text-amber-500 hover:bg-amber-500/10 border border-amber-500/30'
+                          : 'text-amber-600 hover:bg-amber-500/10 border border-amber-500/30'
                         }
                       `}
                       data-testid={`nav-control-${link.path.replace(/\//g, '-')}`}
@@ -404,7 +407,8 @@ const GlobalNavBar = () => {
             <Link
               to="/about"
               onClick={closeDrawer}
-              className="block text-sm text-muted-foreground hover:text-foreground transition-colors mb-3"
+              className="block text-sm transition-colors mb-3"
+              style={{ color: 'var(--nav-drawer-text-muted)' }}
               data-testid="nav-foundation-link"
             >
               About BANIBS & HDOS
@@ -412,12 +416,16 @@ const GlobalNavBar = () => {
             <Link
               to="/foundation"
               onClick={closeDrawer}
-              className="block text-sm text-muted-foreground hover:text-foreground transition-colors mb-3"
+              className="block text-sm transition-colors mb-3"
+              style={{ color: 'var(--nav-drawer-text-muted)' }}
               data-testid="nav-foundation-full-link"
             >
               Read the Foundation
             </Link>
-            <p className="text-xs text-muted-foreground">
+            <p 
+              className="text-xs"
+              style={{ color: 'var(--nav-drawer-text-muted)' }}
+            >
               BANIBS v1.0 • Internal Build
             </p>
           </div>
