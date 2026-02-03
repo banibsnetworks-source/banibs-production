@@ -89,7 +89,7 @@ export default function FounderAnalyticsDashboard() {
   const isSuperAdmin = user?.roles?.includes('super_admin');
   
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
     if (!token) {
       navigate('/auth/signin');
       return;
