@@ -2185,11 +2185,12 @@ const FounderControlCenter = () => {
                                 gap: '4px',
                                 padding: '5px 10px',
                                 borderRadius: '5px',
-                                backgroundColor: module.color || '#6366F1',
-                                color: '#FFFFFF',
+                                backgroundColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
+                                color: isDark ? '#F7F7F7' : '#374151',
                                 fontSize: '11px',
                                 fontWeight: '500',
-                                textDecoration: 'none'
+                                textDecoration: 'none',
+                                border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
                               }}
                             >
                               Open
