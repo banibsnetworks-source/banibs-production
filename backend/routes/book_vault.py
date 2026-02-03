@@ -90,7 +90,7 @@ async def list_books(current_user: dict = Depends(require_super_admin)):
     # db imported at module level
     
     books = list(db.books.find(
-        {"author_id": ObjectId(current_user["id"])}
+        {"author_id": current_user["id"]}
     ).sort("updated_at", -1))
     
     # Add chapter counts
@@ -112,7 +112,7 @@ async def create_book(data: BookCreate, current_user: dict = Depends(require_sup
         "title": data.title,
         "description": data.description or "",
         "cover_url": data.cover_url,
-        "author_id": ObjectId(current_user["id"]),
+        "author_id": current_user["id"],
         "status": "draft",
         "word_count": 0,
         "created_at": now,
@@ -133,7 +133,7 @@ async def get_book(book_id: str, current_user: dict = Depends(require_super_admi
     try:
         book = db.books.find_one({
             "_id": ObjectId(book_id),
-            "author_id": ObjectId(current_user["id"])
+            "author_id": current_user["id"]
         })
     except:
         raise HTTPException(status_code=400, detail="Invalid book ID")
@@ -158,7 +158,7 @@ async def update_book(book_id: str, data: BookUpdate, current_user: dict = Depen
     try:
         book = db.books.find_one({
             "_id": ObjectId(book_id),
-            "author_id": ObjectId(current_user["id"])
+            "author_id": current_user["id"]
         })
     except:
         raise HTTPException(status_code=400, detail="Invalid book ID")
@@ -191,7 +191,7 @@ async def delete_book(book_id: str, current_user: dict = Depends(require_super_a
     try:
         book = db.books.find_one({
             "_id": ObjectId(book_id),
-            "author_id": ObjectId(current_user["id"])
+            "author_id": current_user["id"]
         })
     except:
         raise HTTPException(status_code=400, detail="Invalid book ID")
@@ -218,7 +218,7 @@ async def create_chapter(book_id: str, data: ChapterCreate, current_user: dict =
     try:
         book = db.books.find_one({
             "_id": ObjectId(book_id),
-            "author_id": ObjectId(current_user["id"])
+            "author_id": current_user["id"]
         })
     except:
         raise HTTPException(status_code=400, detail="Invalid book ID")
@@ -270,7 +270,7 @@ async def get_chapter(chapter_id: str, current_user: dict = Depends(require_supe
     # Verify book ownership
     book = db.books.find_one({
         "_id": chapter["book_id"],
-        "author_id": ObjectId(current_user["id"])
+        "author_id": current_user["id"]
     })
     
     if not book:
@@ -294,7 +294,7 @@ async def update_chapter(chapter_id: str, data: ChapterUpdate, current_user: dic
     # Verify book ownership
     book = db.books.find_one({
         "_id": chapter["book_id"],
-        "author_id": ObjectId(current_user["id"])
+        "author_id": current_user["id"]
     })
     
     if not book:
@@ -342,7 +342,7 @@ async def autosave_chapter(chapter_id: str, data: ChapterAutosave, current_user:
     # Verify book ownership
     book = db.books.find_one({
         "_id": chapter["book_id"],
-        "author_id": ObjectId(current_user["id"])
+        "author_id": current_user["id"]
     })
     
     if not book:
@@ -387,7 +387,7 @@ async def delete_chapter(chapter_id: str, current_user: dict = Depends(require_s
     # Verify book ownership
     book = db.books.find_one({
         "_id": chapter["book_id"],
-        "author_id": ObjectId(current_user["id"])
+        "author_id": current_user["id"]
     })
     
     if not book:
@@ -426,7 +426,7 @@ async def reorder_chapters(book_id: str, chapter_ids: List[str], current_user: d
     try:
         book = db.books.find_one({
             "_id": ObjectId(book_id),
-            "author_id": ObjectId(current_user["id"])
+            "author_id": current_user["id"]
         })
     except:
         raise HTTPException(status_code=400, detail="Invalid book ID")
