@@ -305,10 +305,10 @@ const GlobalNavBar = () => {
         </div>
       </nav>
 
-      {/* Overlay Backdrop - clicking closes drawer */}
+      {/* Invisible Backdrop - click to close drawer (no dimming) */}
       <div 
         className={`
-          fixed inset-0 bg-black/40 z-[999] transition-opacity duration-300
+          fixed inset-0 z-[999] transition-opacity duration-300
           ${navOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
         `}
         onClick={closeDrawer}
@@ -321,7 +321,7 @@ const GlobalNavBar = () => {
         ref={drawerRef}
         className={`
           fixed top-0 left-0 h-full w-[300px] max-w-[80vw] z-[1000]
-          shadow-2xl border-r
+          border-r
           transition-all duration-300 ease-out
           ${navOpen ? 'translate-x-0' : '-translate-x-full'}
           ${drawerStyle === 'glass' ? 'border-white/20' : 'border-border'}
@@ -332,6 +332,7 @@ const GlobalNavBar = () => {
             : (theme === 'dark' ? '#0D0D0D' : '#FFFFFF'),
           backdropFilter: drawerStyle === 'glass' ? 'blur(16px) saturate(180%)' : 'none',
           WebkitBackdropFilter: drawerStyle === 'glass' ? 'blur(16px) saturate(180%)' : 'none',
+          boxShadow: '4px 0 24px rgba(0, 0, 0, 0.15), 1px 0 0 rgba(0, 0, 0, 0.05)',
         }}
         data-testid="nav-drawer"
         data-drawer-style={drawerStyle}
