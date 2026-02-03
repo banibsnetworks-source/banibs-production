@@ -93,16 +93,16 @@ const GlobalNavBar = ({ sectionTitle }) => {
                   user?.roles?.includes('admin') ||
                   user?.roles?.includes('moderator');
 
-  // Navigation IA: Left drawer = Primary BANIBS modules only
+  // Navigation IA: Left drawer = Primary BANIBS modules (branded)
   // News categories moved to top bar (NewsNavigationBar)
   const navLinks = [
-    { label: 'News', path: '/', icon: '📰' },
-    { label: 'Directory', path: '/business-directory', icon: '🏢' },
-    { label: 'Social', path: '/portal/social', icon: '🌐' },
-    { label: 'Resources', path: '/resources', icon: '📚' },
-    { label: 'Marketplace', path: '/portal/marketplace', icon: '🛍️' },
-    { label: 'TV', path: '/portal/tv', icon: '📺' },
-    { label: 'Wallet', path: '/portal/wallet', icon: '💰' },
+    { label: 'BANIBS News', path: '/', icon: '📰' },
+    { label: 'BANIBS Business Directory', path: '/business-directory', icon: '🏢' },
+    { label: 'BANIBS Social', path: '/portal/social', icon: '🌐' },
+    { label: 'BANIBS Resources', path: '/resources', icon: '📚' },
+    { label: 'BANIBS Marketplace', path: '/portal/marketplace', icon: '🛍️' },
+    { label: 'BANIBS TV', path: '/portal/tv', icon: '📺' },
+    { label: 'BANIBS Wallet', path: '/portal/wallet', icon: '💰' },
     { label: 'Community', path: '/portal/community', icon: '🏠' },
   ];
 
@@ -116,7 +116,7 @@ const GlobalNavBar = ({ sectionTitle }) => {
       requiresAuth: true
     },
     { 
-      label: 'Admin Dashboard', 
+      label: 'Admin Dash', 
       path: '/admin/opportunities', 
       icon: '⚙️',
       visible: isAdmin,
