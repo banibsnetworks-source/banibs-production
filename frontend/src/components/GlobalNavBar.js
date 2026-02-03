@@ -361,53 +361,48 @@ const GlobalNavBar = () => {
         {/* Drawer Navigation Links */}
         <div className="overflow-y-auto h-[calc(100vh-4rem)] py-4 px-3">
           <ul className="space-y-1">
-            {navLinks.map((link) => (
-              <li key={link.path}>
-                <Link
-                  to={link.path}
-                  onClick={closeDrawer}
-                  className={`
-                    flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all
-                    ${isActive(link.path)
-                      ? ''
-                      : ''
+            {navLinks.map((link) => {
+              const textColor = theme === 'dark' ? '#FFFFFF' : '#111111';
+              const hoverBg = theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)';
+              const activeBg = 'var(--banibs-primary, #D4A017)';
+              const activeText = theme === 'dark' ? '#111111' : '#FFFFFF';
+              
+              return (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    onClick={closeDrawer}
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all"
+                    style={isActive(link.path) 
+                      ? { backgroundColor: activeBg, color: activeText }
+                      : { color: textColor, backgroundColor: 'transparent' }
                     }
-                  `}
-                  style={isActive(link.path) 
-                    ? { 
-                        backgroundColor: 'var(--nav-drawer-active-bg)', 
-                        color: 'var(--nav-drawer-active-text)' 
+                    onMouseEnter={(e) => {
+                      if (!isActive(link.path)) {
+                        e.currentTarget.style.backgroundColor = hoverBg;
                       }
-                    : { 
-                        color: 'var(--nav-drawer-text)',
-                        backgroundColor: 'transparent'
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!isActive(link.path)) {
+                        e.currentTarget.style.backgroundColor = 'transparent';
                       }
-                  }
-                  onMouseEnter={(e) => {
-                    if (!isActive(link.path)) {
-                      e.currentTarget.style.backgroundColor = 'var(--nav-drawer-hover-bg)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isActive(link.path)) {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }
-                  }}
-                  data-testid={`nav-link-${link.path.replace(/\//g, '-') || 'home'}`}
-                >
-                  <span className="text-lg">{link.icon}</span>
-                  <span>{link.label}</span>
-                </Link>
-              </li>
-            ))}
+                    }}
+                    data-testid={`nav-link-${link.path.replace(/\//g, '-') || 'home'}`}
+                  >
+                    <span className="text-lg">{link.icon}</span>
+                    <span>{link.label}</span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Control Plane Section - Founder/Admin */}
           {controlPlaneLinks.some(link => link.visible) && (
-            <div className="mt-4 pt-4 border-t border-border">
+            <div className={`mt-4 pt-4 border-t ${drawerStyle === 'glass' ? 'border-white/10' : 'border-border'}`}>
               <p 
                 className="px-4 mb-2 text-xs font-semibold uppercase tracking-wider"
-                style={{ color: 'var(--nav-drawer-text-muted)' }}
+                style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.5)' : '#6B7280' }}
               >
                 Control Plane
               </p>
