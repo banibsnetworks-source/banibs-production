@@ -605,6 +605,10 @@ function App() {
               <Route path="/events/:id" element={<EventDetailPage />} />
               {/* Phase 6.2.4 - Unified Search */}
               <Route path="/search" element={<SearchPage />} />
+              
+              {/* Profile redirect alias - /profile -> /portal/social/profile */}
+              <Route path="/profile" element={<Navigate to="/portal/social/profile" replace />} />
+              
               {/* Phase A6 - BANIBS Social Landing Page - RESTORED for internal mode */}
               <Route path="/social" element={<SocialLandingPage />} />
               
