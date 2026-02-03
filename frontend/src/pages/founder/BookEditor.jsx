@@ -61,8 +61,10 @@ const BookEditor = () => {
       navigate('/');
       return;
     }
-    fetchBook();
-  }, [bookId, isSuperAdmin, navigate]);
+    if (isSuperAdmin && bookId) {
+      fetchBook();
+    }
+  }, [bookId, user, isSuperAdmin, navigate]);
 
   const fetchBook = async () => {
     setLoading(true);
