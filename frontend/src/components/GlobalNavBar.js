@@ -317,23 +317,40 @@ const GlobalNavBar = () => {
         ref={drawerRef}
         className={`
           fixed top-0 left-0 h-full w-[300px] max-w-[80vw] z-[1000]
-          shadow-2xl border-r border-border
+          shadow-2xl border-r
           transition-transform duration-300 ease-out
           ${navOpen ? 'translate-x-0' : '-translate-x-full'}
+          ${drawerStyle === 'glass' 
+            ? 'backdrop-blur-xl border-white/10' 
+            : 'border-border'
+          }
         `}
-        style={{ backgroundColor: 'var(--nav-drawer-bg)' }}
+        style={{ 
+          backgroundColor: drawerStyle === 'glass'
+            ? (theme === 'dark' ? 'rgba(13, 13, 13, 0.85)' : 'rgba(255, 255, 255, 0.88)')
+            : (theme === 'dark' ? 'rgba(13, 13, 13, 0.98)' : '#FFFFFF')
+        }}
         data-testid="nav-drawer"
+        data-drawer-style={drawerStyle}
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
       >
         {/* Drawer Header */}
-        <div className="flex items-center justify-between h-16 px-4 border-b border-border">
-          <span className="text-lg font-bold" style={{ color: 'var(--nav-drawer-text)' }}>Menu</span>
+        <div className={`flex items-center justify-between h-16 px-4 border-b ${drawerStyle === 'glass' ? 'border-white/10' : 'border-border'}`}>
+          <span 
+            className="text-lg font-bold"
+            style={{ 
+              color: theme === 'dark' ? '#FFFFFF' : '#111111',
+              textShadow: drawerStyle === 'glass' && theme === 'light' ? '0 1px 2px rgba(255,255,255,0.5)' : 'none'
+            }}
+          >
+            Menu
+          </span>
           <button
             onClick={closeDrawer}
-            className="p-2 rounded-lg transition-colors"
-            style={{ color: 'var(--nav-drawer-text-muted)' }}
+            className="p-2 rounded-lg transition-colors hover:bg-white/10"
+            style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.6)' : '#4B5563' }}
             aria-label="Close menu"
             data-testid="nav-drawer-close"
           >
