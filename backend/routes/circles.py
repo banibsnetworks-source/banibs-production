@@ -21,6 +21,186 @@ from middleware.auth_guard import get_current_user as get_current_user_dependenc
 router = APIRouter(prefix="/api/circles", tags=["Circles - Support Groups"])
 
 
+# ==================== PRE-CREATED CIRCLES SEED DATA ====================
+
+SEED_CIRCLES = [
+    {
+        "id": "circle-black-entrepreneurs",
+        "name": "Black Entrepreneurs Network",
+        "slug": "black-entrepreneurs",
+        "description": "A space for Black business owners and aspiring entrepreneurs to connect, share resources, and support each other's ventures.",
+        "pillar": "community",
+        "tags": ["business", "entrepreneurship", "networking", "startups"],
+        "primary_disability_type": None,
+        "audience": "both",
+        "privacy_level": "public",
+        "is_featured_in_ability": False,
+        "safety_notes": "Business discussions only. No solicitation without approval.",
+        "rules": [
+            "Be supportive and constructive",
+            "No spam or unsolicited pitches",
+            "Share resources generously",
+            "Respect confidentiality"
+        ],
+        "created_by_user_id": "system",
+        "created_by_name": "BANIBS Team",
+        "member_count": 0,
+        "post_count": 0,
+        "is_active": True,
+        "is_verified": True
+    },
+    {
+        "id": "circle-parents-caregivers",
+        "name": "Parents & Caregivers Support",
+        "slug": "parents-caregivers",
+        "description": "For parents and caregivers in the Black community. Share experiences, get advice, and find support in your parenting journey.",
+        "pillar": "community",
+        "tags": ["parenting", "family", "support", "caregiving"],
+        "primary_disability_type": None,
+        "audience": "caregiver",
+        "privacy_level": "public",
+        "is_featured_in_ability": False,
+        "safety_notes": "Safe space for parents. Be mindful of sensitive topics.",
+        "rules": [
+            "No judgment - every family is different",
+            "Keep children's privacy protected",
+            "Support over criticism",
+            "Be respectful of different parenting styles"
+        ],
+        "created_by_user_id": "system",
+        "created_by_name": "BANIBS Team",
+        "member_count": 0,
+        "post_count": 0,
+        "is_active": True,
+        "is_verified": True
+    },
+    {
+        "id": "circle-mental-health",
+        "name": "Mental Health & Wellness",
+        "slug": "mental-health-wellness",
+        "description": "A supportive community focused on mental health awareness, self-care practices, and emotional well-being in the Black community.",
+        "pillar": "health",
+        "tags": ["mental health", "wellness", "self-care", "therapy", "support"],
+        "primary_disability_type": "mental_health",
+        "audience": "both",
+        "privacy_level": "request_to_join",
+        "is_featured_in_ability": True,
+        "safety_notes": "Trauma-aware space. No graphic descriptions. Crisis resources available.",
+        "rules": [
+            "This is not a substitute for professional help",
+            "Be kind and supportive",
+            "Respect privacy - what's shared here stays here",
+            "Use content warnings for sensitive topics",
+            "No diagnosis or medical advice"
+        ],
+        "created_by_user_id": "system",
+        "created_by_name": "BANIBS Team",
+        "member_count": 0,
+        "post_count": 0,
+        "is_active": True,
+        "is_verified": True
+    },
+    {
+        "id": "circle-tech-careers",
+        "name": "Black in Tech",
+        "slug": "black-in-tech",
+        "description": "Connect with Black professionals in technology. Share job opportunities, career advice, and industry insights.",
+        "pillar": "community",
+        "tags": ["technology", "careers", "coding", "jobs", "networking"],
+        "primary_disability_type": None,
+        "audience": "both",
+        "privacy_level": "public",
+        "is_featured_in_ability": False,
+        "safety_notes": None,
+        "rules": [
+            "Share opportunities freely",
+            "Mentor when you can",
+            "No gatekeeping",
+            "Support career growth at all levels"
+        ],
+        "created_by_user_id": "system",
+        "created_by_name": "BANIBS Team",
+        "member_count": 0,
+        "post_count": 0,
+        "is_active": True,
+        "is_verified": True
+    },
+    {
+        "id": "circle-creatives",
+        "name": "Black Creatives Collective",
+        "slug": "black-creatives",
+        "description": "Artists, writers, musicians, designers, and all creatives. Share your work, collaborate, and celebrate Black creativity.",
+        "pillar": "community",
+        "tags": ["art", "music", "writing", "design", "creativity", "culture"],
+        "primary_disability_type": None,
+        "audience": "both",
+        "privacy_level": "public",
+        "is_featured_in_ability": False,
+        "safety_notes": None,
+        "rules": [
+            "Credit original creators",
+            "Constructive feedback only",
+            "Celebrate all forms of creativity",
+            "Support emerging artists"
+        ],
+        "created_by_user_id": "system",
+        "created_by_name": "BANIBS Team",
+        "member_count": 0,
+        "post_count": 0,
+        "is_active": True,
+        "is_verified": True
+    },
+    {
+        "id": "circle-faith-spirituality",
+        "name": "Faith & Spirituality",
+        "slug": "faith-spirituality",
+        "description": "A respectful space for discussing faith, spirituality, and religious traditions in the Black community.",
+        "pillar": "community",
+        "tags": ["faith", "spirituality", "religion", "community"],
+        "primary_disability_type": None,
+        "audience": "both",
+        "privacy_level": "public",
+        "is_featured_in_ability": False,
+        "safety_notes": "All faiths welcome. Mutual respect required.",
+        "rules": [
+            "Respect all belief systems",
+            "No proselytizing or conversion attempts",
+            "Share, don't preach",
+            "Interfaith dialogue encouraged"
+        ],
+        "created_by_user_id": "system",
+        "created_by_name": "BANIBS Team",
+        "member_count": 0,
+        "post_count": 0,
+        "is_active": True,
+        "is_verified": True
+    }
+]
+
+
+async def seed_circles(db):
+    """Seed pre-created circles into database"""
+    circles_db = CirclesDB(db)
+    seeded_count = 0
+    
+    for circle_data in SEED_CIRCLES:
+        # Check if already exists
+        existing = await circles_db.get_circle_by_id(circle_data["id"])
+        if existing:
+            continue
+        
+        # Add timestamps
+        now = datetime.now(timezone.utc)
+        circle_data["created_at"] = now
+        circle_data["updated_at"] = now
+        circle_data["last_activity_at"] = now
+        
+        await circles_db.circles.insert_one(circle_data)
+        seeded_count += 1
+    
+    return seeded_count
+
+
 # ==================== CIRCLE ENDPOINTS ====================
 
 @router.get("", response_model=CirclesResponse)
@@ -34,7 +214,12 @@ async def get_circles(
 ):
     """Get support circles with filtering - Phase 11.5.3"""
     db = get_db_client()
+    
+    # Auto-seed circles on first request if none exist
     circles_db = CirclesDB(db)
+    count = await circles_db.circles.count_documents({})
+    if count == 0:
+        await seed_circles(db)
     
     # Parse tags
     tag_list = tags.split(',') if tags else None
