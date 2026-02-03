@@ -493,6 +493,7 @@ function App() {
               
               {/* Community Circles (Support Groups) */}
               <Route path="/portal/social/circles" element={<SocialCirclesPage />} />
+              <Route path="/portal/social/circles/:slug" element={<CircleDetailPage />} />
               
               {/* Phase 9.2 - Infinite Circle Engine UI (Peoples of Peoples) */}
               <Route path="/social/circles" element={<InfiniteCirclePageSocial />} />
