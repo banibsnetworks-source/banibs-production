@@ -1,270 +1,247 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { ZoomIn, ZoomOut, Move, Check, X } from 'lucide-react';
+import React, { useState, useCallback } from 'react';
+import Cropper from 'react-easy-crop';
+import { ZoomIn, ZoomOut, Check, X, Move } from 'lucide-react';
 
 /**
- * ImageCropper Component
- * Interactive image cropping with drag and zoom controls
+ * ImageCropper Component (Professional Version)
+ * 
+ * Uses react-easy-crop for smooth, professional image cropping
+ * - Circular crop for avatars
+ * - Drag to reposition
+ * - Zoom in/out with slider
+ * - Live preview
  */
-const ImageCropper = ({ imageFile, onCrop, onCancel }) => {
-  const canvasRef = useRef(null);
-  const [image, setImage] = useState(null);
-  const [scale, setScale] = useState(1);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
-  // Load image
-  useEffect(() => {
-    const img = new Image();
-    const reader = new FileReader();
+// Helper function to create image from file
+const createImage = (url) =>
+  new Promise((resolve, reject) => {
+    const image = new Image();
+    image.addEventListener('load', () => resolve(image));
+    image.addEventListener('error', (error) => reject(error));
+    image.setAttribute('crossOrigin', 'anonymous');
+    image.src = url;
+  });
 
-    reader.onload = (e) => {
-      img.onload = () => {
-        setImage(img);
-        // Center the image initially
-        const canvas = canvasRef.current;
-        if (canvas) {
-          const ctx = canvas.getContext('2d');
-          const size = 800; // Large canvas for maximum quality
-          canvas.width = size;
-          canvas.height = size;
+// Helper function to get cropped image blob
+const getCroppedImg = async (imageSrc, pixelCrop, circular = true) => {
+  const image = await createImage(imageSrc);
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
 
-          // Calculate initial scale to fit image in canvas
-          const imgAspect = img.width / img.height;
-          let initialScale;
-          if (imgAspect > 1) {
-            // Landscape
-            initialScale = size / img.width;
-          } else {
-            // Portrait
-            initialScale = size / img.height;
-          }
-          setScale(initialScale * 1.2); // Slightly larger than fit
+  if (!ctx) {
+    throw new Error('No 2d context');
+  }
 
-          // Center position
-          const scaledWidth = img.width * initialScale * 1.2;
-          const scaledHeight = img.height * initialScale * 1.2;
-          setPosition({
-            x: (size - scaledWidth) / 2,
-            y: (size - scaledHeight) / 2
-          });
-        }
-      };
-      img.src = e.target.result;
-    };
+  // Set canvas size to the cropped area
+  const size = Math.min(pixelCrop.width, pixelCrop.height);
+  canvas.width = size;
+  canvas.height = size;
 
-    reader.readAsDataURL(imageFile);
-  }, [imageFile]);
+  // Draw the cropped image
+  ctx.drawImage(
+    image,
+    pixelCrop.x,
+    pixelCrop.y,
+    pixelCrop.width,
+    pixelCrop.height,
+    0,
+    0,
+    size,
+    size
+  );
 
-  // Draw image on canvas
-  useEffect(() => {
-    if (!image || !canvasRef.current) return;
-
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    const size = 800;
-
-    // Clear canvas
-    ctx.clearRect(0, 0, size, size);
-
-    // Draw background grid
-    ctx.fillStyle = '#1f2937';
-    ctx.fillRect(0, 0, size, size);
-
-    // Draw image
-    const width = image.width * scale;
-    const height = image.height * scale;
-
-    ctx.save();
-    ctx.drawImage(image, position.x, position.y, width, height);
-    ctx.restore();
-
-    // Draw circular crop area overlay
-    ctx.save();
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-    ctx.fillRect(0, 0, size, size);
-
-    ctx.globalCompositeOperation = 'destination-out';
+  // Apply circular mask if needed
+  if (circular) {
+    ctx.globalCompositeOperation = 'destination-in';
     ctx.beginPath();
     ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
     ctx.fill();
-    ctx.restore();
+  }
 
-    // Draw circle outline
-    ctx.strokeStyle = '#f59e0b';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
-    ctx.stroke();
-  }, [image, scale, position]);
+  // Convert canvas to blob
+  return new Promise((resolve) => {
+    canvas.toBlob(
+      (blob) => {
+        resolve(blob);
+      },
+      'image/webp',
+      0.95
+    );
+  });
+};
 
-  // Mouse handlers for dragging
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    setDragStart({
-      x: e.clientX - position.x,
-      y: e.clientY - position.y
+const ImageCropper = ({ 
+  imageFile, 
+  onCrop, 
+  onCancel,
+  cropShape = 'round', // 'round' for avatar, 'rect' for cover
+  aspect = 1, // 1 for avatar, 3 for cover
+  title = 'Position Your Photo'
+}) => {
+  const [imageSrc, setImageSrc] = useState(null);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  // Load image from file
+  React.useEffect(() => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      setImageSrc(reader.result);
     });
+    reader.readAsDataURL(imageFile);
+  }, [imageFile]);
+
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  }, []);
+
+  const handleSave = async () => {
+    if (!imageSrc || !croppedAreaPixels) return;
+
+    setIsProcessing(true);
+    try {
+      const croppedBlob = await getCroppedImg(
+        imageSrc, 
+        croppedAreaPixels,
+        cropShape === 'round'
+      );
+      
+      if (croppedBlob) {
+        const croppedFile = new File(
+          [croppedBlob], 
+          imageFile.name.replace(/\.[^.]+$/, '.webp'), 
+          { type: 'image/webp', lastModified: Date.now() }
+        );
+        onCrop(croppedFile);
+      }
+    } catch (error) {
+      console.error('Error cropping image:', error);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
-  const handleMouseMove = (e) => {
-    if (!isDragging) return;
-    setPosition({
-      x: e.clientX - dragStart.x,
-      y: e.clientY - dragStart.y
-    });
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  // Touch handlers for mobile
-  const handleTouchStart = (e) => {
-    const touch = e.touches[0];
-    setIsDragging(true);
-    setDragStart({
-      x: touch.clientX - position.x,
-      y: touch.clientY - position.y
-    });
-  };
-
-  const handleTouchMove = (e) => {
-    if (!isDragging) return;
-    const touch = e.touches[0];
-    setPosition({
-      x: touch.clientX - dragStart.x,
-      y: touch.clientY - dragStart.y
-    });
-  };
-
-  const handleTouchEnd = () => {
-    setIsDragging(false);
-  };
-
-  // Zoom controls
   const handleZoomIn = () => {
-    setScale(prev => Math.min(prev * 1.2, 5));
+    setZoom((prev) => Math.min(prev + 0.2, 3));
   };
 
   const handleZoomOut = () => {
-    setScale(prev => Math.max(prev / 1.2, 0.1));
+    setZoom((prev) => Math.max(prev - 0.2, 1));
   };
 
-  // Crop and export
-  const handleCrop = () => {
-    if (!image || !canvasRef.current) return;
-
-    const canvas = canvasRef.current;
-    const size = 800;
-
-    // Create a new canvas for the cropped circular image
-    const cropCanvas = document.createElement('canvas');
-    cropCanvas.width = size;
-    cropCanvas.height = size;
-    const cropCtx = cropCanvas.getContext('2d');
-
-    // Draw the image
-    const width = image.width * scale;
-    const height = image.height * scale;
-    cropCtx.drawImage(image, position.x, position.y, width, height);
-
-    // Create circular mask
-    cropCtx.globalCompositeOperation = 'destination-in';
-    cropCtx.beginPath();
-    cropCtx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2);
-    cropCtx.fill();
-
-    // Convert to blob with maximum quality for best presentation
-    cropCanvas.toBlob((blob) => {
-      if (blob) {
-        const croppedFile = new File([blob], imageFile.name.replace(/\.[^.]+$/, '.webp'), {
-          type: 'image/webp',
-          lastModified: Date.now()
-        });
-        onCrop(croppedFile);
-      }
-    }, 'image/webp', 1.0); // Maximum quality
-  };
+  if (!imageSrc) {
+    return (
+      <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-10 w-10 border-2 border-white border-t-transparent" />
+      </div>
+    );
+  }
 
   return (
-    <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
-      <div className="bg-gray-900 rounded-2xl max-w-2xl w-full p-6">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-white">Position Your Photo</h2>
-          <button
-            onClick={onCancel}
-            className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
-          >
-            <X size={24} className="text-gray-400" />
-          </button>
+    <div className="fixed inset-0 bg-black/95 z-50 flex flex-col">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 sm:px-6 py-4 bg-gray-900/80 backdrop-blur border-b border-white/10">
+        <div>
+          <h2 className="text-lg sm:text-xl font-semibold text-white">{title}</h2>
+          <p className="text-sm text-gray-400 flex items-center gap-1.5 mt-0.5">
+            <Move size={14} />
+            Drag to reposition • Zoom to adjust
+          </p>
         </div>
+        <button
+          onClick={onCancel}
+          className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+          disabled={isProcessing}
+        >
+          <X size={24} className="text-gray-400" />
+        </button>
+      </div>
 
-        {/* Instructions */}
-        <p className="text-gray-400 text-sm mb-4">
-          <Move size={16} className="inline mr-1" />
-          Drag to reposition • Use zoom controls to adjust size
-        </p>
+      {/* Cropper Area */}
+      <div className="flex-1 relative">
+        <Cropper
+          image={imageSrc}
+          crop={crop}
+          zoom={zoom}
+          aspect={aspect}
+          cropShape={cropShape}
+          showGrid={false}
+          onCropChange={setCrop}
+          onZoomChange={setZoom}
+          onCropComplete={onCropComplete}
+          style={{
+            containerStyle: {
+              background: '#0a0a0a',
+            },
+            cropAreaStyle: {
+              border: '2px solid rgba(255, 255, 255, 0.6)',
+              boxShadow: '0 0 0 9999px rgba(0, 0, 0, 0.7)',
+            },
+          }}
+        />
+      </div>
 
-        {/* Canvas */}
-        <div className="flex justify-center mb-4">
-          <canvas
-            ref={canvasRef}
-            className={`border-4 border-gray-700 rounded-lg ${
-              isDragging ? 'cursor-grabbing' : 'cursor-grab'
-            }`}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-          />
-        </div>
-
-        {/* Zoom Controls */}
-        <div className="flex items-center justify-center gap-4 mb-6">
+      {/* Controls */}
+      <div className="bg-gray-900/80 backdrop-blur border-t border-white/10 px-4 sm:px-6 py-4">
+        {/* Zoom Slider */}
+        <div className="flex items-center justify-center gap-4 mb-4">
           <button
             onClick={handleZoomOut}
-            className="p-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
-            title="Zoom Out"
+            disabled={zoom <= 1 || isProcessing}
+            className="p-2.5 bg-white/10 hover:bg-white/20 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-colors"
           >
             <ZoomOut size={20} className="text-white" />
           </button>
-          <div className="flex items-center gap-2">
+          
+          <div className="flex items-center gap-3 flex-1 max-w-xs">
             <input
               type="range"
-              min="10"
-              max="500"
-              value={scale * 100}
-              onChange={(e) => setScale(parseFloat(e.target.value) / 100)}
-              className="w-48"
+              min={100}
+              max={300}
+              value={zoom * 100}
+              onChange={(e) => setZoom(parseFloat(e.target.value) / 100)}
+              disabled={isProcessing}
+              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-amber-500"
             />
-            <span className="text-white text-sm w-12">{Math.round(scale * 100)}%</span>
+            <span className="text-white text-sm font-medium w-14 text-right">
+              {Math.round(zoom * 100)}%
+            </span>
           </div>
+          
           <button
             onClick={handleZoomIn}
-            className="p-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
-            title="Zoom In"
+            disabled={zoom >= 3 || isProcessing}
+            className="p-2.5 bg-white/10 hover:bg-white/20 disabled:opacity-40 disabled:cursor-not-allowed rounded-lg transition-colors"
           >
             <ZoomIn size={20} className="text-white" />
           </button>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 max-w-md mx-auto">
           <button
-            onClick={handleCrop}
-            className="flex-1 py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+            onClick={handleSave}
+            disabled={isProcessing}
+            className="flex-1 py-3 bg-white hover:bg-gray-100 text-black font-semibold rounded-lg transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <Check size={20} />
-            Apply & Upload
+            {isProcessing ? (
+              <>
+                <div className="animate-spin rounded-full h-5 w-5 border-2 border-black border-t-transparent" />
+                Processing...
+              </>
+            ) : (
+              <>
+                <Check size={20} />
+                Apply & Save
+              </>
+            )}
           </button>
           <button
             onClick={onCancel}
-            className="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-colors"
+            disabled={isProcessing}
+            className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-lg transition-colors disabled:opacity-50"
           >
             Cancel
           </button>
