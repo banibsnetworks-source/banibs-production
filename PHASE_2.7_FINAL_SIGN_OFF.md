@@ -46,8 +46,8 @@
 | `/api/opportunities/{id}/feature` | PATCH | ✅ 200 | ✅ Yes |
 
 **Total Endpoints:** 8/8 Active ✅  
-**Swagger UI:** https://data-insights-hub-39.preview.emergentagent.com/docs ✅  
-**ReDoc:** https://data-insights-hub-39.preview.emergentagent.com/redoc ✅
+**Swagger UI:** https://banibs-news.preview.emergentagent.com/docs ✅  
+**ReDoc:** https://banibs-news.preview.emergentagent.com/redoc ✅
 
 ---
 
@@ -84,7 +84,7 @@ def check_admin(x_api_key: str = Header(None)):
 
 **Frontend Environment:**
 ```env
-REACT_APP_BACKEND_URL=https://data-insights-hub-39.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://banibs-news.preview.emergentagent.com
 ```
 
 **Status:** ✅ Frontend is pointed at the live backend

@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://data-insights-hub-39.preview.emergentagent.com/api/auth
+https://banibs-news.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

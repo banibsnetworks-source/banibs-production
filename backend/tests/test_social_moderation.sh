@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://data-insights-hub-39.preview.emergentagent.com"
+BACKEND_URL="https://banibs-news.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output
