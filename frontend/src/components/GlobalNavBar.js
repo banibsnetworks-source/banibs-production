@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, User, Settings, LogOut, ChevronDown, Sun, Moon, Sparkles } from 'lucide-react';
+import { Menu, X, User, Settings, LogOut, ChevronDown, Sun, Moon, Sparkles, Search } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import MoodMeter from './MoodMeter';
@@ -10,10 +10,10 @@ import AccountModeSwitcher from './common/AccountModeSwitcher';
 /**
  * Global BANIBS Navigation Bar - Overlay Drawer Design
  * Fixed position overlay that doesn't push content
- * P0 UI Fix: Menu overlays content instead of pushing it down
+ * Navigation IA: Top bar = Section title + global actions
  * Supports both solid and glass drawer styles (user toggle)
  */
-const GlobalNavBar = () => {
+const GlobalNavBar = ({ sectionTitle }) => {
   const [navOpen, setNavOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
