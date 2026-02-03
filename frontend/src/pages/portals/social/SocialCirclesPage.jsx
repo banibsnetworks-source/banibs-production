@@ -1,17 +1,56 @@
 /**
  * BANIBS Social Circles Page
  * 
- * Displays community circles (support groups) for users to discover and join
- * UI surfacing only — list + intentional empty states
+ * Displays circles organized by circle_type (community, support, prayer, faith)
+ * UI surfacing only — list + intentional empty states + tabs
  * No creation logic, no join rules, no moderation
+ * 
+ * Everything is a Circle underneath; types are presentation labels only.
  */
 
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Shield, Users, Lock, Globe, ChevronRight, Loader2 } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { 
+  Shield, Users, Lock, Globe, ChevronRight, Loader2,
+  Heart, Sparkles, BookHeart, UsersRound
+} from 'lucide-react';
 import SocialLayout from '../../../components/social/SocialLayout';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
+
+// Circle type configuration with UI labels and icons
+const CIRCLE_TYPES = {
+  all: { 
+    label: 'All Circles', 
+    icon: UsersRound, 
+    description: 'Browse all circles',
+    gradient: 'from-gray-500/20 to-gray-600/10'
+  },
+  community: { 
+    label: 'Community', 
+    icon: UsersRound, 
+    description: 'General community circles',
+    gradient: 'from-purple-500/20 to-indigo-500/10'
+  },
+  support: { 
+    label: 'Support Groups', 
+    icon: Heart, 
+    description: 'Support and wellness circles',
+    gradient: 'from-blue-500/20 to-cyan-500/10'
+  },
+  prayer: { 
+    label: 'Prayer Rooms', 
+    icon: Sparkles, 
+    description: 'Prayer and meditation circles',
+    gradient: 'from-amber-500/20 to-yellow-500/10'
+  },
+  faith: { 
+    label: 'Faith & Spirituality', 
+    icon: BookHeart, 
+    description: 'Faith-based circles',
+    gradient: 'from-emerald-500/20 to-teal-500/10'
+  }
+};
 
 // Circle card component
 const CircleCard = ({ circle, onClick }) => {
@@ -23,13 +62,10 @@ const CircleCard = ({ circle, onClick }) => {
 
   const privacyLabel = circle.privacy_level === 'public' ? 'Public' : 'Request to Join';
 
-  // Generate a gradient based on circle pillar
-  const pillarColors = {
-    community: 'from-purple-500/20 to-indigo-500/10',
-    health: 'from-emerald-500/20 to-teal-500/10',
-    ability: 'from-blue-500/20 to-cyan-500/10',
-  };
-  const gradientClass = pillarColors[circle.pillar] || pillarColors.community;
+  // Get gradient based on circle_type
+  const circleType = circle.circle_type || 'community';
+  const typeConfig = CIRCLE_TYPES[circleType] || CIRCLE_TYPES.community;
+  const gradientClass = typeConfig.gradient;
 
   return (
     <button
@@ -92,18 +128,66 @@ const CircleCard = ({ circle, onClick }) => {
   );
 };
 
-// Empty state component
-const EmptyState = () => (
-  <div className="flex flex-col items-center justify-center py-16 px-4 text-center" data-testid="circles-empty-state">
-    <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-6">
-      <Shield className="w-10 h-10 text-gray-600" />
+// Type tabs component
+const TypeTabs = ({ activeType, onTypeChange, counts }) => {
+  const types = ['all', 'community', 'support', 'prayer', 'faith'];
+  
+  return (
+    <div className="flex flex-wrap gap-2 mb-6" data-testid="circle-type-tabs">
+      {types.map((type) => {
+        const config = CIRCLE_TYPES[type];
+        const Icon = config.icon;
+        const count = type === 'all' ? counts.total : (counts[type] || 0);
+        const isActive = activeType === type;
+        
+        // Don't show tabs with 0 count (except 'all')
+        if (type !== 'all' && count === 0) return null;
+        
+        return (
+          <button
+            key={type}
+            onClick={() => onTypeChange(type)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${
+              isActive
+                ? 'bg-banibs-gold text-black'
+                : 'bg-white/10 text-gray-300 hover:bg-white/20'
+            }`}
+            data-testid={`tab-${type}`}
+          >
+            <Icon className="w-4 h-4" />
+            <span>{config.label}</span>
+            <span className={`text-xs px-1.5 py-0.5 rounded-full ${
+              isActive ? 'bg-black/20' : 'bg-white/10'
+            }`}>
+              {count}
+            </span>
+          </button>
+        );
+      })}
     </div>
-    <h3 className="text-xl font-semibold text-white mb-2">No Circles Yet</h3>
-    <p className="text-gray-400 max-w-md">
-      Community circles will appear here once they are created. Check back soon!
-    </p>
-  </div>
-);
+  );
+};
+
+// Empty state component
+const EmptyState = ({ type }) => {
+  const config = CIRCLE_TYPES[type] || CIRCLE_TYPES.all;
+  const Icon = config.icon;
+  
+  return (
+    <div className="flex flex-col items-center justify-center py-16 px-4 text-center" data-testid="circles-empty-state">
+      <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-6">
+        <Icon className="w-10 h-10 text-gray-600" />
+      </div>
+      <h3 className="text-xl font-semibold text-white mb-2">No {config.label} Yet</h3>
+      <p className="text-gray-400 max-w-md">
+        {type === 'all' 
+          ? 'Circles will appear here once they are created. Check back soon!'
+          : `No ${config.label.toLowerCase()} are available yet. Check back soon!`
+        }
+      </p>
+    </div>
+  );
+};
 
 // Loading state component
 const LoadingState = () => (
@@ -132,16 +216,20 @@ const ErrorState = ({ message, onRetry }) => (
 
 const SocialCirclesPage = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [circles, setCircles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  // Get active type from URL or default to 'all'
+  const activeType = searchParams.get('type') || 'all';
 
   const fetchCircles = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch(`${API_URL}/api/circles`);
+      const response = await fetch(`${API_URL}/api/circles?limit=100`);
       if (!response.ok) {
         throw new Error('Failed to fetch circles');
       }
@@ -159,11 +247,36 @@ const SocialCirclesPage = () => {
     fetchCircles();
   }, []);
 
+  // Calculate counts by type
+  const counts = useMemo(() => {
+    const result = { total: circles.length, community: 0, support: 0, prayer: 0, faith: 0 };
+    circles.forEach(c => {
+      const type = c.circle_type || 'community';
+      if (result[type] !== undefined) {
+        result[type]++;
+      }
+    });
+    return result;
+  }, [circles]);
+
+  // Filter circles by active type
+  const filteredCircles = useMemo(() => {
+    if (activeType === 'all') return circles;
+    return circles.filter(c => (c.circle_type || 'community') === activeType);
+  }, [circles, activeType]);
+
+  const handleTypeChange = (type) => {
+    if (type === 'all') {
+      setSearchParams({});
+    } else {
+      setSearchParams({ type });
+    }
+  };
+
   const handleCircleClick = (circle) => {
-    // Navigate to circle detail (placeholder for now - could expand later)
-    // For now, just log the click
+    // Navigate to circle detail (placeholder for now)
     console.log('Circle clicked:', circle.name);
-    // Future: navigate(`/portal/social/circles/${circle.id}`);
+    // Future: navigate(`/portal/social/circles/${circle.slug}`);
   };
 
   return (
@@ -191,17 +304,31 @@ const SocialCirclesPage = () => {
           ) : error ? (
             <ErrorState message={error} onRetry={fetchCircles} />
           ) : circles.length === 0 ? (
-            <EmptyState />
+            <EmptyState type="all" />
           ) : (
-            <div className="space-y-4" data-testid="circles-list">
-              {circles.map((circle) => (
-                <CircleCard
-                  key={circle.id}
-                  circle={circle}
-                  onClick={handleCircleClick}
-                />
-              ))}
-            </div>
+            <>
+              {/* Type Tabs */}
+              <TypeTabs 
+                activeType={activeType} 
+                onTypeChange={handleTypeChange}
+                counts={counts}
+              />
+              
+              {/* Circles List */}
+              {filteredCircles.length === 0 ? (
+                <EmptyState type={activeType} />
+              ) : (
+                <div className="space-y-4" data-testid="circles-list">
+                  {filteredCircles.map((circle) => (
+                    <CircleCard
+                      key={circle.id}
+                      circle={circle}
+                      onClick={handleCircleClick}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>
