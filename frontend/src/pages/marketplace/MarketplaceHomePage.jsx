@@ -224,7 +224,7 @@ export default function MarketplaceHomePage() {
               <li>
                 The system saves your order with{" "}
                 <span className="text-amber-300 font-semibold">
-                  payment_status: "mock_paid"
+                  payment_status: &quot;mock_paid&quot;
                 </span>
                 .
               </li>
