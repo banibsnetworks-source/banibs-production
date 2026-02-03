@@ -197,16 +197,34 @@ const GlobalNavBar = ({ sectionTitle }) => {
                 />
               </button>
 
-              {/* Logo */}
+              {/* Logo + Section Title */}
               <Link 
                 to="/" 
                 className="flex items-center gap-2 hover:opacity-80 transition-opacity"
                 data-testid="nav-logo"
               >
                 <span className="text-xl font-bold tracking-tight text-foreground">BANIBS</span>
-                <span className="hidden sm:block text-[10px] text-muted-foreground border-l border-border pl-2 leading-tight">
-                  Black America News<br/>Information & Business System
-                </span>
+                {sectionTitle ? (
+                  <span className="hidden sm:flex items-center text-sm text-muted-foreground border-l border-border pl-2">
+                    {sectionTitle}
+                  </span>
+                ) : (
+                  <span className="hidden sm:block text-[10px] text-muted-foreground border-l border-border pl-2 leading-tight">
+                    Black America News<br/>Information & Business System
+                  </span>
+                )}
+              </Link>
+            </div>
+
+            {/* Center: Global Actions (Search) */}
+            <div className="hidden md:flex items-center">
+              <Link
+                to="/search"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors text-sm"
+                data-testid="nav-search"
+              >
+                <Search size={16} />
+                <span>Search</span>
               </Link>
             </div>
 
