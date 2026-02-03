@@ -12,7 +12,7 @@ from typing import Optional
 import os
 
 from middleware.auth_guard import require_role
-from db.database import db
+from db import db
 
 router = APIRouter(prefix="/api/founder/analytics", tags=["founder-analytics"])
 
