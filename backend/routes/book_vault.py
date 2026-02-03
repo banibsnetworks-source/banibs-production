@@ -87,7 +87,7 @@ def serialize_chapter(chapter: dict) -> dict:
 @router.get("/books")
 async def list_books(current_user: dict = Depends(require_super_admin)):
     """List all books for the current user"""
-    db = get_db()
+    # db imported at module level
     
     books = list(db.books.find(
         {"author_id": ObjectId(current_user["user_id"])}
@@ -105,7 +105,7 @@ async def list_books(current_user: dict = Depends(require_super_admin)):
 @router.post("/books")
 async def create_book(data: BookCreate, current_user: dict = Depends(require_super_admin)):
     """Create a new book"""
-    db = get_db()
+    # db imported at module level
     
     now = datetime.now(timezone.utc)
     book = {
@@ -128,7 +128,7 @@ async def create_book(data: BookCreate, current_user: dict = Depends(require_sup
 @router.get("/books/{book_id}")
 async def get_book(book_id: str, current_user: dict = Depends(require_super_admin)):
     """Get a single book with its chapters"""
-    db = get_db()
+    # db imported at module level
     
     try:
         book = db.books.find_one({
@@ -153,7 +153,7 @@ async def get_book(book_id: str, current_user: dict = Depends(require_super_admi
 @router.patch("/books/{book_id}")
 async def update_book(book_id: str, data: BookUpdate, current_user: dict = Depends(require_super_admin)):
     """Update a book"""
-    db = get_db()
+    # db imported at module level
     
     try:
         book = db.books.find_one({
@@ -186,7 +186,7 @@ async def update_book(book_id: str, data: BookUpdate, current_user: dict = Depen
 @router.delete("/books/{book_id}")
 async def delete_book(book_id: str, current_user: dict = Depends(require_super_admin)):
     """Delete a book and all its chapters"""
-    db = get_db()
+    # db imported at module level
     
     try:
         book = db.books.find_one({
@@ -212,7 +212,7 @@ async def delete_book(book_id: str, current_user: dict = Depends(require_super_a
 @router.post("/books/{book_id}/chapters")
 async def create_chapter(book_id: str, data: ChapterCreate, current_user: dict = Depends(require_super_admin)):
     """Create a new chapter in a book"""
-    db = get_db()
+    # db imported at module level
     
     # Verify book ownership
     try:
@@ -257,7 +257,7 @@ async def create_chapter(book_id: str, data: ChapterCreate, current_user: dict =
 @router.get("/chapters/{chapter_id}")
 async def get_chapter(chapter_id: str, current_user: dict = Depends(require_super_admin)):
     """Get a single chapter"""
-    db = get_db()
+    # db imported at module level
     
     try:
         chapter = db.chapters.find_one({"_id": ObjectId(chapter_id)})
@@ -281,7 +281,7 @@ async def get_chapter(chapter_id: str, current_user: dict = Depends(require_supe
 @router.patch("/chapters/{chapter_id}")
 async def update_chapter(chapter_id: str, data: ChapterUpdate, current_user: dict = Depends(require_super_admin)):
     """Update a chapter"""
-    db = get_db()
+    # db imported at module level
     
     try:
         chapter = db.chapters.find_one({"_id": ObjectId(chapter_id)})
@@ -329,7 +329,7 @@ async def update_chapter(chapter_id: str, data: ChapterUpdate, current_user: dic
 @router.post("/chapters/{chapter_id}/autosave")
 async def autosave_chapter(chapter_id: str, data: ChapterAutosave, current_user: dict = Depends(require_super_admin)):
     """Autosave chapter content (lightweight endpoint for frequent saves)"""
-    db = get_db()
+    # db imported at module level
     
     try:
         chapter = db.chapters.find_one({"_id": ObjectId(chapter_id)})
@@ -374,7 +374,7 @@ async def autosave_chapter(chapter_id: str, data: ChapterAutosave, current_user:
 @router.delete("/chapters/{chapter_id}")
 async def delete_chapter(chapter_id: str, current_user: dict = Depends(require_super_admin)):
     """Delete a chapter"""
-    db = get_db()
+    # db imported at module level
     
     try:
         chapter = db.chapters.find_one({"_id": ObjectId(chapter_id)})
@@ -420,7 +420,7 @@ async def delete_chapter(chapter_id: str, current_user: dict = Depends(require_s
 @router.post("/books/{book_id}/chapters/reorder")
 async def reorder_chapters(book_id: str, chapter_ids: List[str], current_user: dict = Depends(require_super_admin)):
     """Reorder chapters in a book"""
-    db = get_db()
+    # db imported at module level
     
     # Verify book ownership
     try:
