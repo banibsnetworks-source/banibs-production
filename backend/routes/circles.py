@@ -408,76 +408,44 @@ async def seed_circles(db):
         counts[circle_type] = counts.get(circle_type, 0) + 1
     
     return counts
-    },
-    {
-        "id": "circle-parents-caregivers",
-        "name": "Parents & Caregivers Support",
-        "slug": "parents-caregivers",
-        "description": "For parents and caregivers in the Black community. Share experiences, get advice, and find support in your parenting journey.",
-        "pillar": "community",
-        "tags": ["parenting", "family", "support", "caregiving"],
-        "primary_disability_type": None,
-        "audience": "caregiver",
-        "privacy_level": "public",
-        "is_featured_in_ability": False,
-        "safety_notes": "Safe space for parents. Be mindful of sensitive topics.",
-        "rules": [
-            "No judgment - every family is different",
-            "Keep children's privacy protected",
-            "Support over criticism",
-            "Be respectful of different parenting styles"
-        ],
-        "created_by_user_id": "system",
-        "created_by_name": "BANIBS Team",
-        "member_count": 0,
-        "post_count": 0,
-        "is_active": True,
-        "is_verified": True
-    },
-    {
-        "id": "circle-mental-health",
-        "name": "Mental Health & Wellness",
-        "slug": "mental-health-wellness",
-        "description": "A supportive community focused on mental health awareness, self-care practices, and emotional well-being in the Black community.",
-        "pillar": "health",
-        "tags": ["mental health", "wellness", "self-care", "therapy", "support"],
-        "primary_disability_type": "mental_health",
-        "audience": "both",
-        "privacy_level": "request_to_join",
-        "is_featured_in_ability": True,
-        "safety_notes": "Trauma-aware space. No graphic descriptions. Crisis resources available.",
-        "rules": [
-            "This is not a substitute for professional help",
-            "Be kind and supportive",
-            "Respect privacy - what's shared here stays here",
-            "Use content warnings for sensitive topics",
-            "No diagnosis or medical advice"
-        ],
-        "created_by_user_id": "system",
-        "created_by_name": "BANIBS Team",
-        "member_count": 0,
-        "post_count": 0,
-        "is_active": True,
-        "is_verified": True
-    },
-    {
-        "id": "circle-tech-careers",
-        "name": "Black in Tech",
-        "slug": "black-in-tech",
-        "description": "Connect with Black professionals in technology. Share job opportunities, career advice, and industry insights.",
-        "pillar": "community",
-        "tags": ["technology", "careers", "coding", "jobs", "networking"],
-        "primary_disability_type": None,
-        "audience": "both",
-        "privacy_level": "public",
-        "is_featured_in_ability": False,
-        "safety_notes": None,
-        "rules": [
-            "Share opportunities freely",
-            "Mentor when you can",
-            "No gatekeeping",
-            "Support career growth at all levels"
-        ],
+
+
+# ==================== CIRCLE ENDPOINTS ====================
+
+@router.get("", response_model=CirclesResponse)
+async def get_circles(
+    circle_type: Optional[str] = Query(None, description="Filter by circle_type (community, support, prayer, faith)"),
+    pillar: Optional[str] = Query(None, description="Filter by pillar (ability, health, community)"),
+    disability_type: Optional[str] = Query(None, description="Filter by disability type"),
+    audience: Optional[str] = Query(None, description="Filter by audience (self, caregiver, both)"),
+    featured_only: bool = Query(False, description="Only featured circles"),
+    tags: Optional[str] = Query(None, description="Comma-separated tags"),
+    limit: int = Query(50, le=100, description="Max results")
+):
+    """Get circles with filtering. Auto-seeds missing circles on each request."""
+    db = get_db_client()
+    circles_db = CirclesDB(db)
+    
+    # Always seed missing circles (idempotent by slug)
+    seed_counts = await seed_circles(db)
+    
+    # Parse tags
+    tag_list = tags.split(',') if tags else None
+    
+    circles = await circles_db.get_circles(
+        circle_type=circle_type,
+        pillar=pillar,
+        disability_type=disability_type,
+        audience=audience,
+        featured_only=featured_only,
+        tags=tag_list,
+        limit=limit
+    )
+    
+    return {
+        "circles": circles,
+        "total": len(circles)
+    }
         "created_by_user_id": "system",
         "created_by_name": "BANIBS Team",
         "member_count": 0,
