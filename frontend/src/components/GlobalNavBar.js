@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, User, Settings, LogOut, ChevronDown, Sun, Moon, Sparkles, Search } from 'lucide-react';
+import { Menu, X, User, Settings, LogOut, ChevronDown, Sun, Moon, Sparkles, Search, Heart } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import MoodMeter from './MoodMeter';
