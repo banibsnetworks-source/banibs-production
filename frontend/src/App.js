@@ -588,6 +588,9 @@ function App() {
               <Route path="/portal/marketplace/*" element={<MarketplacePortal />} />
               <Route path="/portal/tv" element={<TVPortal />} />
               <Route path="/portal/search" element={<SearchPortal />} />
+              {/* Donations v1 - Operations Support */}
+              <Route path="/portal/support" element={<SupportPage />} />
+              <Route path="/support" element={<SupportPage />} />
               
               {/* Phase 7.6.3 - Section-Specific News Pages */}
               <Route path="/news/:section" element={<NewsSectionPage />} />
