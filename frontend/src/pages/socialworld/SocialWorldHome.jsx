@@ -16,9 +16,9 @@ import {
   Check
 } from 'lucide-react';
 import '../../styles/socialworld.css';
+import { setLastWorld, getLastWorld } from '../../hooks/useWorldPersistence';
 
-// LocalStorage key for world persistence
-const LAST_WORLD_KEY = 'banibs:last_world';
+// Default world when no preference exists
 const DEFAULT_WORLD = 'community';
 
 /**
