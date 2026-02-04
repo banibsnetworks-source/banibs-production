@@ -192,6 +192,13 @@ All links visible:
   - Persistence works across: page refresh, direct navigation, world card clicks
   - **Test coverage**: 9/9 tests passed (100%)
   - Files updated: `SocialWorldHome.jsx`, `ShortFormPage.jsx`, `SocialCirclesPage.jsx`, `MessagingHomePage.jsx`, `SocialPortal.js`
+- [x] **Donations v1 - Operations Support (COMPLETE - February 4, 2026)**
+  - External Stripe Payment Link integration (no backend payment processing)
+  - **Guest Page (`/guest`)**: Added "Support BANIBS" section with donate button
+  - **In-App Support Page (`/portal/support`, `/support`)**: Clean donation page with infrastructure & security info
+  - **User Menu**: Added "Support BANIBS" link (gold color, heart icon)
+  - Stripe URL: `https://buy.stripe.com/6oU00jaPqeMffyx0hk3sI00`
+  - Files: `ComingSoonPage.jsx`, `SupportPage.jsx`, `GlobalNavBar.js`, `App.js`
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
