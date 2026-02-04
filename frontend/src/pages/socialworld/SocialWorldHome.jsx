@@ -193,28 +193,34 @@ const SocialWorldHome = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const [currentWorld, setCurrentWorld] = useState(DEFAULT_WORLD);
-
-  // Determine initial world on mount
-  useEffect(() => {
+  
+  // Lazy initialization - determine initial world synchronously
+  const [currentWorld, setCurrentWorld] = useState(() => {
     // Priority 1: URL query param override (?world=shortform)
-    const urlWorld = searchParams.get('world');
+    const urlWorld = new URLSearchParams(window.location.search).get('world');
     if (urlWorld && WORLDS.find(w => w.id === urlWorld)) {
-      setCurrentWorld(urlWorld);
       setLastWorld(urlWorld);
-      return;
+      return urlWorld;
     }
-
+    
     // Priority 2: localStorage last_world
     const lastWorld = getLastWorld();
     if (lastWorld && WORLDS.find(w => w.id === lastWorld)) {
-      setCurrentWorld(lastWorld);
-      return;
+      return lastWorld;
     }
-
+    
     // Priority 3: default
-    setCurrentWorld(DEFAULT_WORLD);
-  }, [searchParams]);
+    return DEFAULT_WORLD;
+  });
+
+  // Handle URL world param changes (for external navigation)
+  useEffect(() => {
+    const urlWorld = searchParams.get('world');
+    if (urlWorld && WORLDS.find(w => w.id === urlWorld) && urlWorld !== currentWorld) {
+      setCurrentWorld(urlWorld);
+      setLastWorld(urlWorld);
+    }
+  }, [searchParams, currentWorld]);
 
   // Handle world switch
   const handleWorldSelect = (world) => {
