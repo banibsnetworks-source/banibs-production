@@ -151,6 +151,8 @@ import { SharedCirclePage as SharedCirclePageSocial } from "./pages/social/Share
 // Community Circles (Support Groups)
 import SocialCirclesPage from "./pages/portals/social/SocialCirclesPage";
 import CircleDetailPage from "./pages/portals/social/CircleDetailPage";
+// Donations v1 - Operations Support
+import SupportPage from "./pages/portals/SupportPage";
 // Phase 8.4 - Messaging Engine
 import { MessagesPage } from "./pages/social/messages/MessagesPage";
 // Phase 8.2 - Business Profiles
