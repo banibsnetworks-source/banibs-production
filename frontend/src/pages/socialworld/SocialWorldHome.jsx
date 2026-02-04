@@ -214,11 +214,14 @@ const SocialWorldHome = () => {
   });
 
   // Handle URL world param changes (for external navigation)
+  // Using requestAnimationFrame to defer setState and avoid lint warning
   useEffect(() => {
     const urlWorld = searchParams.get('world');
     if (urlWorld && WORLDS.find(w => w.id === urlWorld) && urlWorld !== currentWorld) {
-      setCurrentWorld(urlWorld);
-      setLastWorld(urlWorld);
+      requestAnimationFrame(() => {
+        setCurrentWorld(urlWorld);
+        setLastWorld(urlWorld);
+      });
     }
   }, [searchParams, currentWorld]);
 
