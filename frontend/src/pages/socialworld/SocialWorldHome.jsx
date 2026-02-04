@@ -340,5 +340,5 @@ const SocialWorldHome = () => {
 };
 
 // Export the world utilities for use elsewhere
-export { WORLDS, getLastWorld, setLastWorld, LAST_WORLD_KEY, DEFAULT_WORLD };
+export { WORLDS, DEFAULT_WORLD };
 export default SocialWorldHome;
