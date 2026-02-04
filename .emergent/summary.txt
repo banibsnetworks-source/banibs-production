@@ -1,74 +1,86 @@
-<analysis>**original_problem_statement:**
-The user's project, BANIBS, is a complex news and information system. This session involved a series of UI/UX polishes, bug fixes, and new feature implementations based on a prioritized list from the user.
+<analysis>
+CORRECTIONS / CLARIFICATIONS TO ADD
 
-The key tasks addressed in this session were:
-- Verifying the P3 Founder Analytics Dashboard.
-- Implementing the P2 Social Page Visual Layer.
-- A comprehensive Navigation Information Architecture (IA) cleanup (v1 and v2).
-- Fixing a critical content routing bug in the Black News section.
-- Building the Book Vault Studio v1 feature for founder-only book authoring.
-- A branding cleanup for navigation labels.
-- UI polish for the Social Post Card and Social Composer.
-- Fixing a bug where user avatars were not syncing correctly across the application.
-- The final request was to expose pre-created Circles in the BANIBS Social section.
+1) Social World Intent (Important)
+Clarification: The user’s intent is NOT to retire or abandon .
+ is intended to evolve into a Founder-only **Social World Selector and multi-environment control surface**, allowing the founder to view, switch, and manage multiple social environments (Community, Image, Short Video, etc.) under a single login.
+ remains the current production social experience, but Social World is the umbrella that will eventually host multiple distinct social environments.
+
+2) P0 Definition — “Last Used World” Persistence
+Clarification: The “Last Used World” feature is a P0 requirement that must persist across:
+- Social World selector navigation
+- Direct navigation into individual world routes/pages
+without requiring logout, account switching, or separate identities.
+This supports the founder’s requirement for **one login, multiple worlds, multiple view modes**.
+
+3) Emoji Picker Upgrade (Precision)
+Clarification: The emoji picker upgrade not only replaced the limited picker, but explicitly ensures **native Unicode emoji insertion** (not shortcodes or token strings), fixing a professionalism issue where emoji codes were previously rendered instead of emoji glyphs.
+
+END CORRECTIONS
+**original_problem_statement:**
+The user's project, BANIBS, is a complex news and information system. This session started with completing the Circles feature, which involved creating a backend seeding mechanism, building the frontend UI to display circles in a tabbed view based on , and making them navigable to a new detail page.
+
+Subsequently, the session focused heavily on fixing a series of critical P0 regression bugs and executing a comprehensive UI/UX polish pass across several features:
+- **Bug Fixes**: Addressed a non-functional search input, a broken profile route, and a malfunctioning dropdown menu in the legacy Hub.
+- **UX Polish**: Improved the Settings page navigation, restored items to the avatar dropdown, and standardized colors on the Founder System Map for a more professional look.
+- **Profile Page**: A major refactor was done to create an identity-first profile page, separating the view and edit modes and improving the overall aesthetic.
+- **Image Editing**: Professional client-side image cropping was implemented for both avatar and cover photos. This led to fixing a critical Response body is already used bug in all upload paths. A responsive design issue for the cover image on ultrawide monitors was also resolved.
+- **Emoji Picker**: The limited, buggy emoji picker was replaced with a full-featured library (), ensuring correct Unicode emoji insertion.
+- **Inventory & Persistence**: The agent created a detailed inventory of all Social World features and began implementing a Last Used World persistence mechanism using .
 
 **User's preferred language**: English
 
 **what currently exists?**
-The BANIBS application is a full-stack platform using React for the frontend, FastAPI for the backend, and MongoDB as the database.
+The application is a full-stack platform using React (frontend), FastAPI (backend), and MongoDB (database).
 
-Key features implemented or polished in this session:
-- A verified and functional founder-only Analytics Dashboard.
-- A Community Moments imagery strip on the Social page.
-- A reorganized 3-tier navigation system: Left Drawer (system modules), Top Bar (section title), and a contextual Sub-Nav (news categories).
-- The Black News feed is now correctly filtered by explicitly configured Black-focused sources, not keyword matches.
-- A Book Vault Studio for founders to write and manage books chapter-by-chapter.
-- Branded labels in the main navigation drawer (e.g., BANIBS News).
-- Visually polished Social Post Cards and a more intuitive Social Post Composer.
-- User avatars now sync correctly across all UI components after a profile update.
-- A backend endpoint to seed default Circles data has been created.
+Key features and fixes from this session include:
+- A completed and functional Community Circles feature with 22 seeded circles across 4 types, a tabbed browsing UI, and clickable detail pages.
+- Critical P0 regression bugs related to search, profile routing, and hub navigation have been resolved.
+- A comprehensive UI/UX polish has been applied to the Settings page, user avatar menu, and Founder System Map.
+- The user profile page () has been completely redesigned with a modern, identity-first layout.
+- Professional, client-side cropping for avatar and cover images is now functional, and the underlying upload bugs have been fixed.
+- A full-featured, correctly functioning emoji picker is integrated into all composers (posts, comments, messages).
+- An inventory document detailing all Social World features exists at .
+- The initial implementation for a Last Used World persistence feature is present in .
 
 **Last working item**:
--   **Last item agent was working**: Exposing pre-created Circles in the UI. The agent discovered that no circles existed and created a backend seed endpoint to generate default circles. The frontend implementation to display these circles has not yet started.
+-   **Last item agent was working**: Implementing the Last Used World persistence feature for the Social World Selector page (). The agent implemented the core logic to use  to remember the user's last selected world (e.g., community, video, images).
 -   **Status**: IN PROGRESS
 -   **Agent Testing Done**: N
--   **Which testing method agent to use?**: both
-    -   Backend: Use  to call the new  endpoint and then call  to verify the seeded data.
-    -   Frontend: Use the screenshot tool to verify the new Circles link in the social left rail and the new page that lists the seeded circles.
+-   **Which testing method agent to use?**: Frontend testing agent
 -   **User Testing Done**: N
 
 **All Pending/In progress Issue list**:
--   **Issue 1**: Expose pre-created Circles in the UI (P0, IN PROGRESS)
+-   **Issue 1**: Test and finalize the Last Used World persistence feature (P0)
 -   **Issue 2**: Password reset emails are not being sent (P2, BLOCKED)
 -   **Issue 3**: Raw HTML is rendered in news story descriptions (Low priority, NOT STARTED)
--   **Issue 4**: Backend has significant route duplication (Future refactor, NOT STARTED)
--   **Issue 5**: Marketplace page has an incorrect empty state for logged-in users (P2, ON HOLD by user)
+-   **Issue 4**: Marketplace page has an incorrect empty state for logged-in users (P2, ON HOLD by user)
 
 **Issues Detail**:
--   **Issue 1: Expose pre-created Circles in the UI**
-    -   **Attempted fixes**: The agent investigated and found no existing circles. A new backend API endpoint, , was created in  to populate the database with a default set of circles.
+-   **Issue 1: Test and finalize Last Used World persistence feature**
+    -   **Attempted fixes**: The agent rewrote  to include  logic for saving and retrieving the last selected world.
     -   **Next debug checklist**:
-        1.  Run the  endpoint to populate the database.
-        2.  Run  to confirm the seed data is returned correctly.
-        3.  Modify  to add a Circles navigation link.
-        4.  Create a new page component () to fetch and display the list of circles.
-        5.  Add the new route to .
-        6.  Verify the complete flow by logging in, navigating to the Social page, clicking Circles, and confirming the list of seeded circles is displayed.
-    -   **Why fix this issue and what will be achieved with the fix?**: This will make the community circles feature visible and accessible to users, fulfilling the user's request.
+        1.  Use the frontend testing agent or manual testing with browser dev tools to verify the functionality in .
+        2.  Test that the default world is community on the first visit.
+        3.  Test that selecting a new world updates the  key in .
+        4.  Test that refreshing the page preserves the last selected world.
+        5.  Implement the logic in individual world pages (e.g., ) to also set the  key, ensuring persistence even when navigating directly.
+    -   **Why fix this issue and what will be achieved with the fix?**: This will complete the user's request, improving user experience by remembering their last context within the Social World.
     -   **Status**: IN PROGRESS
     -   **Is recurring issue?**: N
-    -   **Should Test frontend/backend/both after fix?**: both
-    -   **Blocked on other issue**: None.
+    -   **Should Test frontend/backend/both after fix?**: frontend
+    -   **Blocked on other issue**: None
+
 -   **Issue 2: Password reset emails are not being sent**
     -   **Status**: BLOCKED (awaiting user-provided SMTP credentials).
     -   **Is recurring issue?**: Y
 
 **In progress Task List**:
--   **Task 1: Expose pre-created Circles in the UI**
-    -   **Where to resume**: The backend seeding endpoint is implemented. The next step is to test it via , and then proceed with the frontend implementation (left rail link and a new page to list circles).
-    -   **What will be achieved with this?**: Users will be able to discover and access the default community circles.
+-   **Task 1: Finalize Last Used World persistence**
+    -   **Where to resume**: The core logic is implemented in . The next steps are to test this implementation thoroughly and then add persistence logic to individual world pages to handle direct navigation.
+    -   **What will be achieved with this?**: The application will remember the user's last selected world (e.g., text feed, video feed), providing a more seamless and personalized experience.
     -   **Status**: IN PROGRESS
-    -   **Should Test frontend/backend/both after fix?**: both
+    -   **Should Test frontend/backend/both after fix?**: frontend
     -   **Blocked on something**: None.
 
 **Upcoming and Future Tasks**
@@ -79,29 +91,31 @@ Key features implemented or polished in this session:
     *   Refactor backend to reduce route duplication.
     *   Create  directory structure.
     *   Implement User Pinning + Pin Boards feature.
-    *   Implement BGLIS v1.0: Phone Authentication.
-    *   Add rich text editing to Book Vault Studio (v2).
-    *   Add interactivity to the Community Moments feature.
+    -   Implement BGLIS v1.0: Phone Authentication.
+    -   Add rich text editing to Book Vault Studio (v2).
+    -   Add interactivity to the Community Moments feature.
+    -   Migrate the  collection data into the  collection.
 
 **Completed work in this session**
--   **P3 - Founder Analytics Dashboard Verification (COMPLETE & LOCKED)**: Fixed an auth token key inconsistency and verified the dashboard.
--   **P2 — Social Page Visual Layer (COMPLETE & LOCKED)**: Added a Community Moments imagery strip.
--   **Navigation IA Cleanup v2 (COMPLETE & LOCKED)**: Reorganized navigation into a 3-tier system (modules, section title, contextual categories).
--   **Black News Content Routing Bug (COMPLETE & LOCKED)**: Fixed feed to be strictly source-based and improved UI badges.
--   **Book Vault Studio v1 (COMPLETE & LOCKED)**: Implemented a founder-only book authoring module with a chapter-based editor and autosave.
--   **Nav Label Branding (COMPLETE & LOCKED)**: Updated left-drawer labels to be fully branded (e.g., BANIBS News).
--   **Social Post Card & Composer Polish (COMPLETE & LOCKED)**: Improved the UI/UX of the social feed's post cards and composer, including better handling of broken images and disabled states.
--   **Social Avatar Sync Bug (COMPLETE & LOCKED)**: Fixed a bug preventing user avatars from updating correctly in the main navigation bar.
+-   **P0 - Community Circles Exposure (COMPLETE & LOCKED)**: Exposed 22 circles with type-based filtering, created detail pages, and enabled navigation.
+-   **P0 - 3 Regression Bugs (FIXED)**: Restored functionality to the search page input, fixed the broken  route, and repaired the Hub page dropdown menu.
+-   **UX Polish Pass (COMPLETE)**: Improved navigation on the Settings page, restored the My Profile link to the avatar menu, and standardized colors on the Founder System Map.
+-   **Profile Page UX Upgrade (COMPLETE)**: Redesigned the social profile page with a professional, identity-first layout.
+-   **Image Editing UX Upgrade (COMPLETE)**: Integrated professional, client-side croppers for avatar and cover photos.
+-   **Upload Clone Error (FIXED)**: Patched all  calls in upload-related components to prevent Response body is already used errors.
+-   **Cover Image Responsive Fix (COMPLETE)**: Adjusted the profile cover image to display correctly on ultrawide monitors.
+-   **Emoji Picker Upgrade (COMPLETE)**: Replaced the buggy custom emoji picker with a full-featured library that inserts correct Unicode glyphs.
+-   **Social World Inventory (COMPLETE)**: Created an authoritative document mapping all existing and planned social features.
 
 **Earlier issues found/mentioned but not fixed**
 -   **Issue 1: Raw HTML in news story description**
-    -   **Debug checklist**: Locate the component rendering the news story description. Use a library like  or React's  (with sanitization) to render the HTML.
-    -   **Why to solve this issue and what will be achieved with this?**: Improves visual presentation of news content.
+    -   **Debug checklist**: Locate the component rendering the news description. Use a library like  or React's  to render the HTML.
+    -   **Why to solve this issue and what will be achieved with this?**: Improves the visual presentation of news articles.
     -   **Should Test frontend/backend/both after fix**: frontend
     -   **Is recurring issue?**: N
 -   **Issue 2: Backend has significant route duplication**
-    -   **Debug checklist**: Review backend routers to identify common patterns. Create shared utilities or consolidate routers.
-    -   **Why to solve this issue and what will be achieved with this?**: Improves code maintainability.
+    -   **Debug checklist**: Review backend routers to identify common patterns. Create shared utilities or consolidate routers to improve code maintainability.
+    -   **Why to solve this issue and what will be achieved with this?**: Reduces code redundancy and improves long-term maintainability.
     -   **Should Test frontend/backend/both after fix**: backend
     -   **Is recurring issue?**: N
 
@@ -114,79 +128,69 @@ Key features implemented or polished in this session:
 
 
 **Key Technical Concepts**
--   **State Sync Across Components**: Fixed an avatar update bug by adding a dedicated function to  to refresh the global user object, ensuring all components re-render with the latest data.
--   **Strict Data Filtering**: The Black News feed was corrected by moving from keyword-based content matching to a strict, source-level configuration flag () in the backend.
--   **On-Demand Database Seeding**: When the Circles feature needed pre-existing data that was missing, a seed endpoint () was added to the backend API to populate the database with default entries.
--   **Robust Authentication Handling**: Debugged and fixed several auth issues, including inconsistent localStorage keys ( vs ), user object structures ( vs ), and incorrect use of async database operations.
+-   **Idempotent Database Seeding**: The backend now safely populates the  collection by checking for existing  before insertion, preventing duplicates.
+-   **Client-Side Image Cropping**:  is used to provide a professional cropping UI for both circular avatars and fixed-aspect-ratio cover images.
+-   **Robust Fetch Response Handling**: All  calls were refactored to read the response body only once () and then parse it, eliminating Response body is already used errors.
+-   **Responsive CSS with **: The profile cover image height now uses  to ensure it looks good on all screen sizes, from mobile to ultrawide.
+-   **State Persistence with **: The Last Used World feature utilizes  to remember the user's selection between sessions.
 
 **key DB schema**
--   **New Collections for Book Vault:**
-    -   : 
-    -   : 
--   **Implicit New Schema for Circles:**
-    -   : 
+-   **circles**: The schema was extended with a  field (populated by an ) to categorize circles for presentation (e.g., community, support, prayer).
 
 **changes in tech stack**
--   None.
+-   : Added for image cropping.
+-   : Added for a full-featured emoji picker.
 
 **All files of reference**
--   : Contains the new, untested seed endpoint for Circles. The next agent will start here.
--   : Will need modification to add the Circles link.
--   : The new, fully functional API for the Book Vault feature.
--   : The main page for the new Book Vault feature.
--   : The rewritten component for polished social feed posts.
--   : The central component for all navigation and branding changes.
--   : The context file modified to fix the avatar sync bug.
+-   : Contains the in-progress Last Used World implementation.
+-   : The new, comprehensive inventory of all Social World features.
+-   : The completely redesigned user profile page.
+-   : The new, upgraded emoji picker component.
+-   : Contains the final, idempotent seeding logic for all 22 circles.
+-   : The fixed cover image uploader.
 
 **Areas that need refactoring**:
--   The backend still has significant route duplication that could be addressed in the future.
+-   The backend has significant route duplication that could be consolidated in the future for better maintainability.
 
 **key api endpoints**
--   : (NEW) Seeds the database with default community circles. **This needs to be run by the next agent.**
--   : (NEW) Full CRUD API for the Book Vault Studio.
--   : (MODIFIED) Now returns a stricter, source-filtered list of articles.
+-   : (MODIFIED) Now returns circles and includes idempotent auto-seeding logic if the collection is empty.
+-   , : The underlying API endpoints for image uploads, which were debugged on the client side.
 
 **Critical Info for New Agent**
--   Your immediate priority is to **complete the Circles feature**. The backend seed endpoint () is created but has not been run or tested. You must first run this endpoint to populate the database. Then, implement the frontend by adding a Circles link to the social left rail and creating a new page to list the circles returned by .
--   The user believes the circles were pre-created. The correct action is to use the new seed endpoint to create them and then display them, which fulfills the user's intent.
--   Many features were **LOCKED** by the user in this session (Navigation IA, Black News routing, Book Vault v1, etc.). Do not modify these unless explicitly requested.
+-   Your immediate priority (P0) is to **test and finalize the Last Used World feature**. The core logic is in . You must test this implementation and extend it to individual world pages to handle direct navigation links.
+-   A large number of UI/UX improvements and bug fixes were completed. Be mindful of these to avoid regressions. The application's visual and functional quality has been significantly improved.
+-   The user distinguishes between  (the live, working social features) and  (a conceptual hub). The current task is for .
+-   The  data migration into the  collection was explicitly deferred by the user and should be treated as a future task.
 
 **documents and test reports created in this job**
--   : Successful test report for the Founder Analytics Dashboard and Social Page Visual Layer.
--   : Has been updated multiple times to reflect completed work and the current backlog.
+-   : Test report for the initial Circles feature.
+-   : Updated to reflect completed tasks.
+-   : A new document detailing all features related to the Social World concept.
 
 **Last 10 User Messages and any pending HUMAN messages**
-1.  **USER:** Requests polish for the Social Composer. (COMPLETED)
-2.  **AGENT:** Implements and verifies the polished composer and its disabled state. (COMPLETED)
-3.  **USER:** Reports a bug where user avatars don't sync correctly in the header. (COMPLETED)
-4.  **AGENT:** Investigates the  state, implements a fix, and verifies it. (COMPLETED)
-5.  **USER:** Clarifies a request about Circles, asking to expose existing pre-created circles. (IN PROGRESS)
-6.  **AGENT:** Investigates and finds no circles, then adds a backend seed endpoint to create them. (IN PROGRESS)
-7.  **USER:** Approves the Social Post Card polish and requests a micro-fix for broken images. (COMPLETED)
-8.  **AGENT:** Implements the broken image fix. (COMPLETED)
-9.  **USER:** Approves the Nav Label Branding changes. (COMPLETED)
-10. **AGENT:** Confirms the lock and asks for the next task. (COMPLETED)
+1.  **USER:** Requested an inventory of all features related to Social World. (COMPLETED)
+2.  **AGENT:** Conducted the inventory and created the  document. (COMPLETED)
+3.  **USER:** Requested implementation of Last Used World persistence for the Social World selector using . (IN PROGRESS)
+4.  **AGENT:** Began implementing the persistence logic in . (IN PROGRESS)
 
 **Project Health Check:**
 -   **Broken**:
     -   Password reset email functionality (BLOCKED on SMTP credentials).
 -   **Mocked**:
-    -   Marketplace page (uses demo products as a visual fallback).
-    -   BGLIS (Phone authentication system).
+    -   Marketplace page.
+    -   Several pages under the  route are placeholders (e.g., Moments, Voice Share, Live Streaming).
 
 **3rd Party Integrations**
-*   OpenAI GPT-4o, Whisper, TTS (via Emergent LLM Key)
-*   MongoDB Atlas
-*   Let's Encrypt
-*   Google Fonts & Lucide Icons
-*   Unsplash
-*    & 
+*   **New**:
+    *    (Image cropping)
+    *    (Emoji picker UI)
+*   **Existing**: OpenAI GPT-4o, Whisper, TTS (via Emergent LLM Key), MongoDB Atlas, Google Fonts, Lucide Icons, Unsplash, .
 
 **Testing status**
--   **Testing agent used after significant changes**: YES, for the Founder Analytics Dashboard and Social Page Visual Layer.
+-   **Testing agent used after significant changes**: YES, for the initial Circles feature.
 -   **Troubleshoot agent used after agent stuck in loop**: NO
 -   **Test files created**: None.
--   **Known regressions**: None.
+-   **Known regressions**: None from this session; several were fixed.
 
 **Credentials to test flow:**
 -   **Email**: 
@@ -194,5 +198,5 @@ Key features implemented or polished in this session:
 -   **Role**: 
 
 **What agent forgot to execute**
--   The agent created the  endpoint but did not run it to populate the database.
--   The agent did not begin the corresponding frontend implementation for the Circles feature (adding the nav link and creating the listing page).</analysis>
+-   The agent implemented the core logic for the Last Used World feature but did not test it or complete the secondary task of updating individual world pages to also set the  key.
+</analysis>

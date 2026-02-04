@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://banibs-news.preview.emergentagent.com/api/auth
+https://socialux-2.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
