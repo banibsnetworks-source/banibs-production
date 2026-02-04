@@ -17,7 +17,8 @@ import {
   ShieldCheck,
   ChevronLeft,
   ChevronRight,
-  MessageCircle
+  MessageCircle,
+  Globe
 } from 'lucide-react';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useSocialLayout } from '../../../contexts/SocialLayoutContext';
