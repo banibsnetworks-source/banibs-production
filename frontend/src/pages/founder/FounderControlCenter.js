@@ -1468,6 +1468,7 @@ const FounderControlCenter = () => {
             {[
               { id: 'dashboard', label: 'Dashboard', icon: Activity },
               { id: 'system-map', label: 'System Map', icon: Map },
+              { id: 'governance', label: 'Governance', icon: Shield },
               { id: 'ops-log', label: 'Ops Log', icon: FileText },
               { id: 'tasks', label: 'Tasks', icon: CheckCircle },
               { id: 'detectors', label: 'Detectors', icon: Radar },
