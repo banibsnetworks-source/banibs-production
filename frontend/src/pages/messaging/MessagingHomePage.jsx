@@ -17,6 +17,9 @@ export function MessagingHomePage() {
   const { conversationId } = useParams();
   const { user } = useAuth();
   
+  // Persist "chat" as last used world
+  useWorldPersistence('chat');
+  
   const { conversations, loading: conversationsLoading, markAsRead, refetch: refetchConversations } = useConversations();
   const [activeConversationId, setActiveConversationId] = useState(conversationId || null);
   

@@ -222,6 +222,9 @@ const SocialCirclesPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
+  // Persist "circles" as last used world
+  useWorldPersistence('circles');
+  
   // Get active type from URL or default to 'all'
   const activeType = searchParams.get('type') || 'all';
 

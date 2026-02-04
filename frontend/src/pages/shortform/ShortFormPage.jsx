@@ -22,6 +22,9 @@ const ShortFormPage = () => {
   const [isMuted, setIsMuted] = useState(false);
   const videoRef = useRef(null);
   
+  // Persist "shortform" as last used world
+  useWorldPersistence('shortform');
+  
   // Check if user is in youth mode (under 18)
   const isYouthMode = user?.age && user.age < 18;
 
