@@ -185,7 +185,23 @@ const LeftRail = () => {
                     <div className="nav-item-icon">
                       <Icon />
                     </div>
-                    <div className="nav-item-label">{item.label}</div>
+                    <div className="nav-item-label">
+                      {item.label}
+                      {item.badge && !isCollapsed && (
+                        <span style={{
+                          marginLeft: '8px',
+                          fontSize: '10px',
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                          color: '#000',
+                          fontWeight: '600',
+                          textTransform: 'uppercase'
+                        }}>
+                          {item.badge}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 );
               })}
