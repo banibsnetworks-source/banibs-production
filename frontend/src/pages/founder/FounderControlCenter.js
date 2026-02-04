@@ -632,6 +632,18 @@ const FounderControlCenter = () => {
   const [vaultDetailLoading, setVaultDetailLoading] = useState(false);
   const [ingestResult, setIngestResult] = useState(null);
   
+  // Meta-Governance state (v1)
+  const [govOverview, setGovOverview] = useState(null);
+  const [govSignals, setGovSignals] = useState([]);
+  const [govCircles, setGovCircles] = useState([]);
+  const [govTemplates, setGovTemplates] = useState([]);
+  const [govLoading, setGovLoading] = useState(false);
+  const [govError, setGovError] = useState(null);
+  const [govSubTab, setGovSubTab] = useState('overview');
+  const [govSortBy, setGovSortBy] = useState('type');
+  const [govFilterType, setGovFilterType] = useState('');
+  const [govFilterStatus, setGovFilterStatus] = useState('');
+  
   // DnD Kit sensors
   const sensors = useSensors(
     useSensor(PointerSensor, {
