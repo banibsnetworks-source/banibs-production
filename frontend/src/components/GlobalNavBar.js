@@ -323,7 +323,7 @@ const GlobalNavBar = ({ sectionTitle }) => {
                           Settings
                         </Link>
                         {/* Founder-only: Support BANIBS */}
-                        {user?.role === 'super_admin' && (
+                        {(user?.role === 'super_admin' || user?.roles?.includes('super_admin')) && (
                           <Link
                             to="/portal/support"
                             onClick={() => setUserMenuOpen(false)}
