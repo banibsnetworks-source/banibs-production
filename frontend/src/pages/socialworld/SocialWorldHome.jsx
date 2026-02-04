@@ -120,23 +120,6 @@ const WORLDS = [
   }
 ];
 
-// Helper to get/set last world
-const getLastWorld = () => {
-  try {
-    return localStorage.getItem(LAST_WORLD_KEY) || DEFAULT_WORLD;
-  } catch {
-    return DEFAULT_WORLD;
-  }
-};
-
-const setLastWorld = (worldId) => {
-  try {
-    localStorage.setItem(LAST_WORLD_KEY, worldId);
-  } catch {
-    // localStorage not available
-  }
-};
-
 // World Selector Dropdown Component
 const WorldSelector = ({ currentWorld, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
