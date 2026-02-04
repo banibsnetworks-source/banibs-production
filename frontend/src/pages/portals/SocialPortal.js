@@ -9,6 +9,7 @@ import { Users, MessageCircle, Heart, User, Camera, ChevronRight } from 'lucide-
 import SocialPostComposer from '../../components/social/SocialPostComposer';
 import SocialFeed from '../../components/social/SocialFeed';
 import SocialLayout from '../../components/social/SocialLayout';
+import { useWorldPersistence } from '../../hooks/useWorldPersistence';
 
 /**
  * CommunityMomentsStrip - P2 Social Page Visual Layer
@@ -146,6 +147,9 @@ const SocialPortal = () => {
   const { user, isAuthenticated } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  
+  // Persist "community" as last used world
+  useWorldPersistence('community');
   
   // Hero rotating images - curated to center Black people in social/community contexts
   const [currentHeroImage, setCurrentHeroImage] = useState(0);
