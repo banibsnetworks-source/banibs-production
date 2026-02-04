@@ -755,7 +755,60 @@ const FounderControlCenter = () => {
       fetchVaultStats();
       fetchVaultItems();
     }
+    if (activeTab === 'governance' && accessToken) {
+      fetchGovernanceData();
+    }
   }, [activeTab, accessToken]);
+  
+  // =====================
+  // META-GOVERNANCE API FUNCTIONS (v1)
+  // =====================
+  
+  const fetchGovernanceData = async () => {
+    if (!accessToken) return;
+    setGovLoading(true);
+    setGovError(null);
+    try {
+      // Fetch all governance data in parallel
+      const [overviewRes, signalsRes, circlesRes, templatesRes] = await Promise.all([
+        fetch(`${API_URL}/api/governance/overview`, { headers: { 'Authorization': `Bearer ${accessToken}` } }),
+        fetch(`${API_URL}/api/governance/signals`, { headers: { 'Authorization': `Bearer ${accessToken}` } }),
+        fetch(`${API_URL}/api/governance/circles?sort_by=${govSortBy}`, { headers: { 'Authorization': `Bearer ${accessToken}` } }),
+        fetch(`${API_URL}/api/governance/templates`, { headers: { 'Authorization': `Bearer ${accessToken}` } })
+      ]);
+      
+      const overviewData = await overviewRes.json();
+      const signalsData = await signalsRes.json();
+      const circlesData = await circlesRes.json();
+      const templatesData = await templatesRes.json();
+      
+      setGovOverview(overviewData);
+      setGovSignals(signalsData.signals || []);
+      setGovCircles(circlesData.circles || []);
+      setGovTemplates(templatesData.templates || []);
+    } catch (err) {
+      setGovError(err.message);
+    } finally {
+      setGovLoading(false);
+    }
+  };
+  
+  const refreshGovernanceCircles = async () => {
+    if (!accessToken) return;
+    try {
+      const params = new URLSearchParams({ sort_by: govSortBy });
+      if (govFilterType) params.append('circle_type', govFilterType);
+      if (govFilterStatus) params.append('status', govFilterStatus);
+      
+      const res = await fetch(`${API_URL}/api/governance/circles?${params}`, {
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+      });
+      const data = await res.json();
+      setGovCircles(data.circles || []);
+    } catch (err) {
+      console.error('Failed to refresh circles:', err);
+    }
+  };
   
   // =====================
   // TRUST ORDER API FUNCTIONS (HDOS v2)
