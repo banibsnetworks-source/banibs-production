@@ -322,6 +322,18 @@ const GlobalNavBar = ({ sectionTitle }) => {
                           <Settings size={16} />
                           Settings
                         </Link>
+                        {/* Founder-only: Support BANIBS */}
+                        {user?.role === 'super_admin' && (
+                          <Link
+                            to="/portal/support"
+                            onClick={() => setUserMenuOpen(false)}
+                            className="flex items-center gap-3 px-4 py-2 text-sm transition-colors"
+                            style={{ color: '#C5A059' }}
+                          >
+                            <Heart size={16} />
+                            Support BANIBS
+                          </Link>
+                        )}
                         <div className="border-t border-border my-1" />
                         <button
                           onClick={handleLogout}
