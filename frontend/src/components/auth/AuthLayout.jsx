@@ -14,6 +14,9 @@ const AuthLayout = ({
   showBackButton = true 
 }) => {
   const navigate = useNavigate();
+  
+  // Navigate to public content instead of "/" which requires auth
+  const handleBackClick = () => navigate('/news');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
@@ -21,11 +24,11 @@ const AuthLayout = ({
       {showBackButton && (
         <div className="lg:hidden fixed top-4 left-4 z-50">
           <button
-            onClick={() => navigate('/')}
+            onClick={handleBackClick}
             className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-800/80 backdrop-blur-sm border border-slate-700/50 text-slate-300 hover:text-amber-400 hover:border-amber-500/50 transition-all"
           >
             <ArrowLeft size={18} />
-            <span className="text-sm font-medium">Home</span>
+            <span className="text-sm font-medium">Browse News</span>
           </button>
         </div>
       )}
@@ -38,11 +41,11 @@ const AuthLayout = ({
             {/* Back Button (Desktop Only) */}
             {showBackButton && (
               <button
-                onClick={() => navigate('/')}
+                onClick={handleBackClick}
                 className="hidden lg:flex items-center gap-2 text-slate-400 hover:text-amber-400 transition-colors mb-8"
               >
                 <ArrowLeft size={20} />
-                <span className="text-sm font-medium">Back to Home</span>
+                <span className="text-sm font-medium">Browse News</span>
               </button>
             )}
             
