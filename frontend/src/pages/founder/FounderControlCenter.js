@@ -5647,6 +5647,430 @@ const FounderControlCenter = () => {
             </Card>
           </div>
           )}
+          
+          {/* Meta-Governance Tab Content */}
+          {activeTab === 'governance' && (
+          <div>
+            {/* Governance Sub-tabs */}
+            <div style={{
+              display: 'flex',
+              gap: '8px',
+              marginBottom: '24px',
+              padding: '8px',
+              backgroundColor: isDark ? '#1C1C1C' : '#F3F4F6',
+              borderRadius: '8px',
+              width: 'fit-content'
+            }}>
+              {[
+                { id: 'overview', label: 'System Overview' },
+                { id: 'signals', label: 'Attention Signals' },
+                { id: 'inventory', label: 'Circle Inventory' },
+                { id: 'templates', label: 'Templates' }
+              ].map(subtab => (
+                <button
+                  key={subtab.id}
+                  onClick={() => setGovSubTab(subtab.id)}
+                  style={{
+                    padding: '8px 16px',
+                    borderRadius: '6px',
+                    border: 'none',
+                    backgroundColor: govSubTab === subtab.id 
+                      ? (isDark ? '#C8A857' : '#C8A857')
+                      : 'transparent',
+                    color: govSubTab === subtab.id 
+                      ? (isDark ? '#000' : '#000')
+                      : (isDark ? '#9CA3AF' : '#6B7280'),
+                    fontSize: '13px',
+                    fontWeight: govSubTab === subtab.id ? '600' : '500',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  {subtab.label}
+                </button>
+              ))}
+            </div>
+            
+            {/* Governance Governing Rule Notice */}
+            <div style={{
+              padding: '16px 20px',
+              marginBottom: '24px',
+              backgroundColor: isDark ? 'rgba(200, 168, 87, 0.1)' : 'rgba(200, 168, 87, 0.15)',
+              border: `1px solid ${isDark ? 'rgba(200, 168, 87, 0.3)' : 'rgba(200, 168, 87, 0.4)'}`,
+              borderRadius: '8px'
+            }}>
+              <p style={{
+                fontSize: '13px',
+                color: isDark ? '#C8A857' : '#92400E',
+                margin: 0,
+                fontWeight: '500'
+              }}>
+                <Shield size={14} style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }} />
+                <strong>Governing Rule:</strong> Meta-Governance may <em>Observe, Flag, Suggest</em>. 
+                It may NOT <em>Decide, Enforce, Punish, or Override Circle sovereignty</em>.
+              </p>
+            </div>
+            
+            {govLoading ? (
+              <div style={{ textAlign: 'center', padding: '48px', color: isDark ? '#9CA3AF' : '#6B7280' }}>
+                Loading governance data...
+              </div>
+            ) : govError ? (
+              <div style={{ textAlign: 'center', padding: '48px', color: '#EF4444' }}>
+                Error: {govError}
+              </div>
+            ) : (
+              <>
+                {/* System Overview */}
+                {govSubTab === 'overview' && govOverview && (
+                  <div>
+                    <Card isDark={isDark} title="System Overview (Counts Only)" icon={Globe}>
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                        gap: '16px',
+                        marginBottom: '24px'
+                      }}>
+                        {/* Total Circles */}
+                        <div style={{
+                          padding: '20px',
+                          backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                          borderRadius: '8px',
+                          textAlign: 'center',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`
+                        }}>
+                          <p style={{ fontSize: '32px', fontWeight: '700', color: '#C8A857', margin: '0 0 8px 0' }}>
+                            {govOverview.total_circles}
+                          </p>
+                          <p style={{ fontSize: '13px', color: isDark ? '#9CA3AF' : '#6B7280', margin: 0 }}>
+                            Total Circles
+                          </p>
+                        </div>
+                        
+                        {/* Orphaned */}
+                        <div style={{
+                          padding: '20px',
+                          backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                          borderRadius: '8px',
+                          textAlign: 'center',
+                          border: `1px solid ${govOverview.orphaned_count > 0 ? 'rgba(239, 68, 68, 0.3)' : (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)')}`
+                        }}>
+                          <p style={{ fontSize: '32px', fontWeight: '700', color: govOverview.orphaned_count > 0 ? '#EF4444' : '#10B981', margin: '0 0 8px 0' }}>
+                            {govOverview.orphaned_count}
+                          </p>
+                          <p style={{ fontSize: '13px', color: isDark ? '#9CA3AF' : '#6B7280', margin: 0 }}>
+                            Orphaned (No Admin)
+                          </p>
+                        </div>
+                        
+                        {/* Dormant */}
+                        <div style={{
+                          padding: '20px',
+                          backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                          borderRadius: '8px',
+                          textAlign: 'center',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`
+                        }}>
+                          <p style={{ fontSize: '32px', fontWeight: '700', color: govOverview.dormant_count > 0 ? '#F59E0B' : '#10B981', margin: '0 0 8px 0' }}>
+                            {govOverview.dormant_count}
+                          </p>
+                          <p style={{ fontSize: '13px', color: isDark ? '#9CA3AF' : '#6B7280', margin: 0 }}>
+                            Dormant (90+ days)
+                          </p>
+                        </div>
+                        
+                        {/* Large without governance */}
+                        <div style={{
+                          padding: '20px',
+                          backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                          borderRadius: '8px',
+                          textAlign: 'center',
+                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`
+                        }}>
+                          <p style={{ fontSize: '32px', fontWeight: '700', color: isDark ? '#F7F7F7' : '#111217', margin: '0 0 8px 0' }}>
+                            {govOverview.large_without_governance}
+                          </p>
+                          <p style={{ fontSize: '13px', color: isDark ? '#9CA3AF' : '#6B7280', margin: 0 }}>
+                            Large (100+) with &lt;2 Admins
+                          </p>
+                        </div>
+                      </div>
+                      
+                      {/* By Type */}
+                      <div style={{ marginBottom: '24px' }}>
+                        <h4 style={{ fontSize: '14px', fontWeight: '600', color: isDark ? '#F7F7F7' : '#111217', marginBottom: '12px' }}>
+                          Circles by Type
+                        </h4>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                          {Object.entries(govOverview.circles_by_type || {}).map(([type, count]) => (
+                            <div key={type} style={{
+                              padding: '8px 16px',
+                              backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                              borderRadius: '6px',
+                              border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`
+                            }}>
+                              <span style={{ fontSize: '14px', fontWeight: '600', color: '#C8A857' }}>{count}</span>
+                              <span style={{ fontSize: '13px', color: isDark ? '#9CA3AF' : '#6B7280', marginLeft: '8px', textTransform: 'capitalize' }}>{type}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      {/* By Visibility */}
+                      <div>
+                        <h4 style={{ fontSize: '14px', fontWeight: '600', color: isDark ? '#F7F7F7' : '#111217', marginBottom: '12px' }}>
+                          Circles by Visibility
+                        </h4>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                          {Object.entries(govOverview.circles_by_visibility || {}).map(([vis, count]) => (
+                            <div key={vis} style={{
+                              padding: '8px 16px',
+                              backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                              borderRadius: '6px',
+                              border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`
+                            }}>
+                              <span style={{ fontSize: '14px', fontWeight: '600', color: '#C8A857' }}>{count}</span>
+                              <span style={{ fontSize: '13px', color: isDark ? '#9CA3AF' : '#6B7280', marginLeft: '8px', textTransform: 'capitalize' }}>{vis}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+                )}
+                
+                {/* Attention Signals */}
+                {govSubTab === 'signals' && (
+                  <div>
+                    <Card isDark={isDark} title="Attention Signals (Informational Only)" icon={AlertCircle}>
+                      <p style={{ fontSize: '13px', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '20px' }}>
+                        These signals are observations only. No automated actions are taken.
+                      </p>
+                      
+                      {govSignals.length === 0 ? (
+                        <div style={{
+                          textAlign: 'center',
+                          padding: '48px',
+                          backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                          borderRadius: '8px',
+                          color: '#10B981'
+                        }}>
+                          <CheckCircle size={32} style={{ marginBottom: '12px' }} />
+                          <p style={{ margin: 0 }}>No attention signals at this time.</p>
+                        </div>
+                      ) : (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                          {govSignals.map((signal, idx) => (
+                            <div key={idx} style={{
+                              padding: '16px',
+                              backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                              borderRadius: '8px',
+                              borderLeft: `4px solid ${signal.severity === 'warning' ? '#F59E0B' : '#3B82F6'}`,
+                              border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`
+                            }}>
+                              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                                <span style={{
+                                  padding: '2px 8px',
+                                  borderRadius: '4px',
+                                  fontSize: '11px',
+                                  fontWeight: '600',
+                                  backgroundColor: signal.severity === 'warning' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(59, 130, 246, 0.15)',
+                                  color: signal.severity === 'warning' ? '#F59E0B' : '#3B82F6',
+                                  textTransform: 'uppercase'
+                                }}>
+                                  {signal.signal_type.replace('_', ' ')}
+                                </span>
+                                <span style={{ fontSize: '11px', color: isDark ? '#6B7280' : '#9CA3AF' }}>
+                                  {signal.severity}
+                                </span>
+                              </div>
+                              <p style={{ fontSize: '14px', color: isDark ? '#F7F7F7' : '#111217', margin: '0 0 8px 0', fontWeight: '500' }}>
+                                {signal.message}
+                              </p>
+                              <p style={{ fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF', margin: 0 }}>
+                                Circle: {signal.circle_name}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </Card>
+                  </div>
+                )}
+                
+                {/* Circle Inventory */}
+                {govSubTab === 'inventory' && (
+                  <div>
+                    <Card isDark={isDark} title="Circle Inventory (Structural View)" icon={Users}>
+                      {/* Filters */}
+                      <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
+                        <select
+                          value={govSortBy}
+                          onChange={(e) => { setGovSortBy(e.target.value); setTimeout(refreshGovernanceCircles, 100); }}
+                          style={{
+                            padding: '8px 12px',
+                            borderRadius: '6px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                            backgroundColor: isDark ? '#1C1C1C' : '#FFFFFF',
+                            color: isDark ? '#F7F7F7' : '#111217',
+                            fontSize: '13px'
+                          }}
+                        >
+                          <option value="type">Sort by Type</option>
+                          <option value="size">Sort by Size</option>
+                          <option value="status">Sort by Status</option>
+                        </select>
+                        
+                        <select
+                          value={govFilterType}
+                          onChange={(e) => { setGovFilterType(e.target.value); setTimeout(refreshGovernanceCircles, 100); }}
+                          style={{
+                            padding: '8px 12px',
+                            borderRadius: '6px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                            backgroundColor: isDark ? '#1C1C1C' : '#FFFFFF',
+                            color: isDark ? '#F7F7F7' : '#111217',
+                            fontSize: '13px'
+                          }}
+                        >
+                          <option value="">All Types</option>
+                          <option value="community">Community</option>
+                          <option value="support">Support</option>
+                          <option value="prayer">Prayer</option>
+                          <option value="faith">Faith</option>
+                        </select>
+                        
+                        <select
+                          value={govFilterStatus}
+                          onChange={(e) => { setGovFilterStatus(e.target.value); setTimeout(refreshGovernanceCircles, 100); }}
+                          style={{
+                            padding: '8px 12px',
+                            borderRadius: '6px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                            backgroundColor: isDark ? '#1C1C1C' : '#FFFFFF',
+                            color: isDark ? '#F7F7F7' : '#111217',
+                            fontSize: '13px'
+                          }}
+                        >
+                          <option value="">All Status</option>
+                          <option value="active">Active</option>
+                          <option value="dormant">Dormant</option>
+                          <option value="orphaned">Orphaned</option>
+                        </select>
+                      </div>
+                      
+                      {/* Table */}
+                      <div style={{ overflowX: 'auto' }}>
+                        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+                          <thead>
+                            <tr style={{ borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}` }}>
+                              <th style={{ textAlign: 'left', padding: '12px 8px', color: isDark ? '#9CA3AF' : '#6B7280', fontWeight: '600' }}>Name</th>
+                              <th style={{ textAlign: 'left', padding: '12px 8px', color: isDark ? '#9CA3AF' : '#6B7280', fontWeight: '600' }}>Type</th>
+                              <th style={{ textAlign: 'left', padding: '12px 8px', color: isDark ? '#9CA3AF' : '#6B7280', fontWeight: '600' }}>Visibility</th>
+                              <th style={{ textAlign: 'center', padding: '12px 8px', color: isDark ? '#9CA3AF' : '#6B7280', fontWeight: '600' }}>Members</th>
+                              <th style={{ textAlign: 'center', padding: '12px 8px', color: isDark ? '#9CA3AF' : '#6B7280', fontWeight: '600' }}>Admins</th>
+                              <th style={{ textAlign: 'center', padding: '12px 8px', color: isDark ? '#9CA3AF' : '#6B7280', fontWeight: '600' }}>Mods</th>
+                              <th style={{ textAlign: 'center', padding: '12px 8px', color: isDark ? '#9CA3AF' : '#6B7280', fontWeight: '600' }}>Rules</th>
+                              <th style={{ textAlign: 'left', padding: '12px 8px', color: isDark ? '#9CA3AF' : '#6B7280', fontWeight: '600' }}>Entry</th>
+                              <th style={{ textAlign: 'left', padding: '12px 8px', color: isDark ? '#9CA3AF' : '#6B7280', fontWeight: '600' }}>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {govCircles.map((circle, idx) => (
+                              <tr key={circle.id} style={{ 
+                                borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'}`,
+                                backgroundColor: idx % 2 === 0 ? 'transparent' : (isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)')
+                              }}>
+                                <td style={{ padding: '12px 8px', color: isDark ? '#F7F7F7' : '#111217', fontWeight: '500' }}>{circle.name}</td>
+                                <td style={{ padding: '12px 8px', color: isDark ? '#9CA3AF' : '#6B7280', textTransform: 'capitalize' }}>{circle.circle_type}</td>
+                                <td style={{ padding: '12px 8px', color: isDark ? '#9CA3AF' : '#6B7280', textTransform: 'capitalize' }}>{circle.visibility}</td>
+                                <td style={{ padding: '12px 8px', textAlign: 'center', color: isDark ? '#F7F7F7' : '#111217' }}>{circle.member_count}</td>
+                                <td style={{ padding: '12px 8px', textAlign: 'center', color: circle.admin_count === 0 ? '#EF4444' : (isDark ? '#F7F7F7' : '#111217') }}>{circle.admin_count}</td>
+                                <td style={{ padding: '12px 8px', textAlign: 'center', color: isDark ? '#9CA3AF' : '#6B7280' }}>{circle.moderator_count}</td>
+                                <td style={{ padding: '12px 8px', textAlign: 'center' }}>
+                                  {circle.has_rules ? (
+                                    <Check size={16} style={{ color: '#10B981' }} />
+                                  ) : (
+                                    <span style={{ color: isDark ? '#6B7280' : '#9CA3AF' }}>—</span>
+                                  )}
+                                </td>
+                                <td style={{ padding: '12px 8px', color: isDark ? '#9CA3AF' : '#6B7280', textTransform: 'capitalize' }}>{circle.entry_control}</td>
+                                <td style={{ padding: '12px 8px' }}>
+                                  <span style={{
+                                    padding: '3px 8px',
+                                    borderRadius: '4px',
+                                    fontSize: '11px',
+                                    fontWeight: '600',
+                                    backgroundColor: circle.status === 'active' ? 'rgba(16, 185, 129, 0.15)' : 
+                                                     circle.status === 'dormant' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(239, 68, 68, 0.15)',
+                                    color: circle.status === 'active' ? '#10B981' : 
+                                           circle.status === 'dormant' ? '#F59E0B' : '#EF4444',
+                                    textTransform: 'capitalize'
+                                  }}>
+                                    {circle.status}
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                      
+                      {govCircles.length === 0 && (
+                        <div style={{ textAlign: 'center', padding: '32px', color: isDark ? '#6B7280' : '#9CA3AF' }}>
+                          No circles match your filters.
+                        </div>
+                      )}
+                    </Card>
+                  </div>
+                )}
+                
+                {/* Templates */}
+                {govSubTab === 'templates' && (
+                  <div>
+                    <Card isDark={isDark} title="Governance Templates (Opt-In Guidance)" icon={FileText}>
+                      <p style={{ fontSize: '13px', color: isDark ? '#9CA3AF' : '#6B7280', marginBottom: '20px' }}>
+                        Templates provide suggestions only. Circles may accept, ignore, or customize. No enforcement.
+                      </p>
+                      
+                      <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                        gap: '16px'
+                      }}>
+                        {govTemplates.map(template => (
+                          <div key={template.template_id} style={{
+                            padding: '20px',
+                            backgroundColor: isDark ? '#1C1C1C' : '#F9FAFB',
+                            borderRadius: '8px',
+                            border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`
+                          }}>
+                            <h4 style={{ fontSize: '15px', fontWeight: '600', color: isDark ? '#F7F7F7' : '#111217', margin: '0 0 8px 0' }}>
+                              {template.name}
+                            </h4>
+                            <p style={{ fontSize: '13px', color: isDark ? '#9CA3AF' : '#6B7280', margin: '0 0 16px 0' }}>
+                              {template.description}
+                            </p>
+                            <div style={{ fontSize: '12px', color: isDark ? '#6B7280' : '#9CA3AF' }}>
+                              <strong>Suggested Configuration:</strong>
+                              <ul style={{ margin: '8px 0 0 0', paddingLeft: '20px' }}>
+                                {Object.entries(template.suggested_config || {}).map(([key, value]) => (
+                                  <li key={key} style={{ marginBottom: '4px' }}>
+                                    {key.replace(/_/g, ' ')}: <span style={{ color: '#C8A857' }}>{String(value)}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+          )}
         </div>
       </div>
     </FullWidthLayout>
