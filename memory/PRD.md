@@ -206,6 +206,22 @@ All links visible:
   - "Welcome back" language now only appears on authenticated pages (Hub, etc.)
   - Login form remains centered and visually primary
   - Files: `SignInPage.jsx`, `AuthLayout.jsx`
+- [x] **Meta-Governance v1 (COMPLETE - February 4, 2026)**
+  - Structural visibility layer for system complexity management
+  - **Governing Rule (LOCKED)**: May Observe, Flag, Suggest. May NOT Decide, Enforce, Punish, Override.
+  - **Backend API** (`/api/governance/*`):
+    - `/overview` - System counts (total circles, by type, by visibility, orphaned, dormant)
+    - `/signals` - Attention flags (orphaned, dormant, large without governance, missing config)
+    - `/circles` - Circle inventory table with sorting/filtering
+    - `/templates` - Opt-in governance templates (institutional, support_care, community_open, founder_experimental)
+  - **Frontend**: New "Governance" tab in Founder Control Center with sub-tabs:
+    - System Overview (counts only)
+    - Attention Signals (informational flags)
+    - Circle Inventory (sortable table: name, type, visibility, members, admins, mods, rules, entry, status)
+    - Templates (opt-in guidance)
+  - **Access**: Founder/super_admin only
+  - **EXPLICITLY FORBIDDEN**: Content inspection, ranking, scoring, auto-enforcement, moderation
+  - Files: `/backend/routes/governance.py`, `FounderControlCenter.js`
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
