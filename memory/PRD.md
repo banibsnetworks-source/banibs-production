@@ -183,6 +183,15 @@ All links visible:
   - UI surfacing only (no creation, join rules, or moderation)
   - Route: `/portal/social/circles`
   - **DO NOT MODIFY** unless explicitly reopened by user
+- [x] **Last Used World Persistence (COMPLETE - February 4, 2026)**
+  - Created `/frontend/src/hooks/useWorldPersistence.js` hook for consistent persistence
+  - localStorage key: `banibs:last_world`, default: `community`
+  - Each world page (Community, ShortForm, Circles, Chat) calls hook on mount
+  - `/socialworld` page shows "Last used" indicator on the correct world card
+  - Dropdown selector reflects current world from localStorage
+  - Persistence works across: page refresh, direct navigation, world card clicks
+  - **Test coverage**: 9/9 tests passed (100%)
+  - Files updated: `SocialWorldHome.jsx`, `ShortFormPage.jsx`, `SocialCirclesPage.jsx`, `MessagingHomePage.jsx`, `SocialPortal.js`
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
