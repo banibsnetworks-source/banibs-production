@@ -185,8 +185,13 @@ def determine_circle_status(circle: dict, admin_count: int) -> str:
     
     last_activity = circle.get("last_activity_at")
     if last_activity:
+        # Handle both string and datetime objects
         if isinstance(last_activity, str):
             last_activity = datetime.fromisoformat(last_activity.replace('Z', '+00:00'))
+        # Ensure timezone-aware
+        if last_activity.tzinfo is None:
+            last_activity = last_activity.replace(tzinfo=timezone.utc)
+        
         threshold = datetime.now(timezone.utc) - timedelta(days=DORMANT_THRESHOLD_DAYS)
         if last_activity < threshold:
             return "dormant"
