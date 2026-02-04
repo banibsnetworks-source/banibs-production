@@ -456,6 +456,10 @@ app.include_router(founder_analytics_router)
 from routes.book_vault import router as book_vault_router
 app.include_router(book_vault_router)
 
+# Meta-Governance v1 - Structural Visibility (Founder-only)
+from routes.governance import router as governance_router
+app.include_router(governance_router)
+
 # HDOS v2 - Circle Trust Order (7 levels)
 app.include_router(hdos_trust_router)
 
