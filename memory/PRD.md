@@ -199,6 +199,13 @@ All links visible:
   - **User Menu**: Added "Support BANIBS" link (gold color, heart icon)
   - Stripe URL: `https://buy.stripe.com/6oU00jaPqeMffyx0hk3sI00`
   - Files: `ComingSoonPage.jsx`, `SupportPage.jsx`, `GlobalNavBar.js`, `App.js`
+- [x] **Login Page UX Polish (COMPLETE - February 4, 2026)**
+  - Changed "Welcome back to BANIBS" → "Sign in to BANIBS" (neutral language for public page)
+  - Changed subtext "Sign in to continue where you left off" → "Access your account"
+  - Changed "Back to Home" → "Browse News" (links to public `/news` not auth-gated `/`)
+  - "Welcome back" language now only appears on authenticated pages (Hub, etc.)
+  - Login form remains centered and visually primary
+  - Files: `SignInPage.jsx`, `AuthLayout.jsx`
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
