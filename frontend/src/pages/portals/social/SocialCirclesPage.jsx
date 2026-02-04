@@ -15,6 +15,7 @@ import {
   Heart, Sparkles, BookHeart, UsersRound
 } from 'lucide-react';
 import SocialLayout from '../../../components/social/SocialLayout';
+import { useWorldPersistence } from '../../../hooks/useWorldPersistence';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 

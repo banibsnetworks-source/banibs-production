@@ -4,6 +4,7 @@ import { Upload, Play, Pause, Volume2, VolumeX, Heart, Share2, MessageCircle, Sp
 import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import UploadVideoModal from '../../components/shortform/UploadVideoModal';
 import { useAuth } from '../../contexts/AuthContext';
+import { useWorldPersistence } from '../../hooks/useWorldPersistence';
 
 /**
  * BANIBS ShortForm - Short-form vertical video platform

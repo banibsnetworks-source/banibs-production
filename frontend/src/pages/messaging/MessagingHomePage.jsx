@@ -10,6 +10,7 @@ import SocialLayout from '../../components/social/SocialLayout';
 import ConfirmModal from '../../components/common/ConfirmModal';
 import { CreateConversationModal } from '../../components/messaging/CreateConversationModal';
 import { useAuth } from '../../contexts/AuthContext';
+import { useWorldPersistence } from '../../hooks/useWorldPersistence';
 
 export function MessagingHomePage() {
   const navigate = useNavigate();
