@@ -347,6 +347,9 @@ async def get_attention_signals(
         if last_activity:
             if isinstance(last_activity, str):
                 last_activity = datetime.fromisoformat(last_activity.replace('Z', '+00:00'))
+            # Ensure timezone-aware
+            if last_activity.tzinfo is None:
+                last_activity = last_activity.replace(tzinfo=timezone.utc)
             threshold = now - timedelta(days=DORMANT_THRESHOLD_DAYS)
             if last_activity < threshold:
                 days_inactive = (now - last_activity).days
