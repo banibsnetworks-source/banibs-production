@@ -549,6 +549,39 @@ const ComingSoonPage = () => {
         </div>
       </Section>
 
+      {/* Support BANIBS Section */}
+      <Section id="support-section" className="px-6 md:px-12 lg:px-24 py-16 border-t border-white/5">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 
+            data-testid="support-title"
+            className="text-2xl md:text-3xl font-semibold tracking-tight mb-4"
+            style={{ fontFamily: 'Playfair Display, serif' }}
+          >
+            Support BANIBS
+          </h2>
+          
+          <p className="text-white/60 text-base mb-8 leading-relaxed">
+            Donations help cover infrastructure and operating costs.
+          </p>
+
+          <a
+            href="https://buy.stripe.com/6oU00jaPqeMffyx0hk3sI00"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="support-donate-btn"
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-full font-medium transition-all duration-300 hover:scale-105"
+            style={{
+              background: 'linear-gradient(135deg, #C5A059 0%, #A8864A 100%)',
+              color: '#020408',
+              boxShadow: '0 4px 20px rgba(197, 160, 89, 0.3)'
+            }}
+          >
+            Support BANIBS
+            <ArrowUpRight className="w-4 h-4" />
+          </a>
+        </div>
+      </Section>
+
       {/* Footer */}
       <footer 
         data-testid="footer"
