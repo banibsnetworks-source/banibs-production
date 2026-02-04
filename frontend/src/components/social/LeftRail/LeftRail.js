@@ -87,8 +87,9 @@ const LeftRail = () => {
       label: 'MAIN',
       items: [
         { icon: Home, label: 'Home', path: '/portal/social' },
-        // Founder-only Social World entry point
-        ...(isFounder ? [{ icon: Globe, label: 'Social World', path: '/socialworld', badge: 'NEW' }] : []),
+        // Social World entry point - visible for all logged-in users (for testing)
+        // Will be restricted to Founder-only after testing is complete
+        { icon: Globe, label: 'Social World', path: '/socialworld', badge: 'NEW' },
         { icon: Search, label: 'Discover People', path: '/portal/social/discover/people' },
         { icon: User, label: 'Groups & Communities', path: '/portal/social/groups' },
         { icon: Shield, label: 'Circles', path: '/portal/social/circles' },
