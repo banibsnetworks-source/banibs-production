@@ -69,8 +69,8 @@ const SignInPage = () => {
               <span className="text-2xl font-bold text-white">B</span>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white">Welcome back to BANIBS</h1>
-              <p className="text-sm text-slate-400">Sign in to continue where you left off</p>
+              <h1 className="text-2xl font-bold text-white">Sign in to BANIBS</h1>
+              <p className="text-sm text-slate-400">Access your account</p>
             </div>
           </div>
         </div>
