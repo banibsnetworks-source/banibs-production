@@ -71,17 +71,18 @@ const SignInPage = () => {
             {/* BANIBS Identity Anchor - Platform Branding */}
             <div className="mb-10">
               <h1 
-                className="text-3xl sm:text-4xl font-bold tracking-tight"
+                className="text-5xl sm:text-6xl font-bold tracking-tight"
                 style={{ 
                   background: 'linear-gradient(135deg, #C5A059 0%, #E8D5A3 50%, #C5A059 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  fontFamily: 'system-ui, -apple-system, sans-serif'
+                  fontFamily: 'system-ui, -apple-system, sans-serif',
+                  textShadow: '0 2px 20px rgba(197, 160, 89, 0.15)'
                 }}
               >
                 BANIBS
               </h1>
-              <p className="text-sm text-gray-400 mt-2 font-medium tracking-wide">
+              <p className="text-sm text-gray-500 mt-3 tracking-wide">
                 Black America News, Information & Business System
               </p>
             </div>
