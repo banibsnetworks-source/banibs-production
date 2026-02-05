@@ -401,11 +401,16 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
           </a>
         )}
 
-        {/* Legacy media_url support - hide container if image fails */}
+        {/* Legacy media_url support - PORTRAIT-SAFE DISPLAY */}
         {!localPost.media_urls?.length && localPost.media_url && (
           <div 
-            className="mt-3 rounded-lg overflow-hidden"
-            style={{ display: 'block' }}
+            className="mt-3 rounded-xl overflow-hidden"
+            style={{ 
+              display: 'block',
+              width: '100%',
+              aspectRatio: '4 / 5',
+              backgroundColor: '#0b0b0b',
+            }}
             ref={(el) => {
               if (el) {
                 const img = el.querySelector('img');
@@ -418,7 +423,12 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
             <img
               src={localPost.media_url}
               alt=""
-              className="w-full h-auto max-h-96 object-cover"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                display: 'block',
+              }}
               loading="lazy"
               onError={(e) => { 
                 e.target.parentElement.style.display = 'none'; 
