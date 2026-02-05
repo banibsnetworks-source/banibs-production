@@ -1,10 +1,11 @@
 """
-Social API Routes - Phase 8.3
+Social API Routes - Phase 8.3 + Multi-Reaction System v2.0
 BANIBS Social Portal feed and engagement endpoints
 """
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from typing import Optional
+from pydantic import BaseModel
 
 from models.social_post import (
     SocialPostCreate,
@@ -17,6 +18,7 @@ from models.social_post import (
 )
 from middleware.auth_guard import require_role
 from db import social_posts as db_social
+from db.connection import get_db
 
 
 router = APIRouter(prefix="/api/social", tags=["social"])
