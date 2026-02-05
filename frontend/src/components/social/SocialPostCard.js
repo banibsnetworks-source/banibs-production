@@ -133,45 +133,6 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
       onUpdate(updatedPost);
     }
   };
-      const result = await new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', `${process.env.REACT_APP_BACKEND_URL}/api/social/posts/${postId}/highfive`, true);
-        xhr.setRequestHeader('Authorization', `Bearer ${token}`);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        
-        xhr.onload = () => {
-          if (xhr.status >= 200 && xhr.status < 300) {
-            try {
-              const data = JSON.parse(xhr.responseText);
-              resolve(data);
-            } catch (e) {
-              reject(new Error('Failed to parse response'));
-            }
-          } else {
-            reject(new Error('Failed to toggle high five'));
-          }
-        };
-        
-        xhr.onerror = () => reject(new Error('Network error'));
-        xhr.send();
-      });
-      
-      const updatedPost = {
-        ...localPost,
-        viewer_has_highfived: result.highfived,
-        highfive_count: result.highfive_count
-      };
-      
-      setLocalPost(updatedPost);
-      
-      if (onUpdate) {
-        onUpdate(updatedPost);
-      }
-    } catch (err) {
-      console.error('Error toggling high five:', err);
-      throw err;
-    }
-  };
 
   const handleDeletePost = async () => {
     setIsDeleting(true);
