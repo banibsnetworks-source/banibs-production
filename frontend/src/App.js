@@ -271,6 +271,7 @@ import RecipeSubmitPage from "./pages/community/RecipeSubmitPage";
 import SchoolHomePage from "./pages/community/SchoolHomePage";
 import SchoolResourceDetailPage from "./pages/community/SchoolResourceDetailPage";
 import SchoolResourceSubmitPage from "./pages/community/SchoolResourceSubmitPage";
+import BecomeTutorPage from "./pages/community/BecomeTutorPage";
 // Phase 11.5 - Ability Network
 import AbilityHomePage from "./pages/ability/AbilityHomePage";
 import AbilityProviderDirectoryPage from "./pages/ability/providers/AbilityProviderDirectoryPage";
