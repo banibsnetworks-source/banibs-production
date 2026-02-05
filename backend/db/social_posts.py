@@ -177,33 +177,57 @@ async def get_post_by_id(post_id: str, viewer_id: Optional[str] = None):
     }
 
 
-async def toggle_like(post_id: str, user_id: str):
-    """Toggle like on a post"""
+async def toggle_like(post_id: str, user_id: str, reaction_type: str = "love"):
+    """Toggle reaction on a post (multi-reaction system v2.0)
+    
+    Reaction types:
+    - love: ❤️ (default)
+    - high_five: ✋
+    - peace: ✌️
+    - like: 👍
+    - cool: 😎
+    """
     db = await get_db()
     
-    # Check if already liked
-    existing_like = await db.social_reactions.find_one({
+    # Validate reaction type
+    valid_types = {"love", "high_five", "peace", "like", "cool"}
+    if reaction_type not in valid_types:
+        reaction_type = "love"
+    
+    # Check if already reacted (any type)
+    existing_reaction = await db.social_reactions.find_one({
         "post_id": post_id,
         "user_id": user_id
     })
     
-    if existing_like:
-        # Unlike
-        await db.social_reactions.delete_one({
-            "post_id": post_id,
-            "user_id": user_id
-        })
-        await db.social_posts.update_one(
-            {"id": post_id},
-            {"$inc": {"like_count": -1}}
-        )
-        liked = False
+    if existing_reaction:
+        if existing_reaction.get("type", "like") == reaction_type:
+            # Same type - remove reaction
+            await db.social_reactions.delete_one({
+                "post_id": post_id,
+                "user_id": user_id
+            })
+            await db.social_posts.update_one(
+                {"id": post_id},
+                {"$inc": {"like_count": -1}}
+            )
+            liked = False
+            final_type = None
+        else:
+            # Different type - update reaction type (no count change)
+            await db.social_reactions.update_one(
+                {"post_id": post_id, "user_id": user_id},
+                {"$set": {"type": reaction_type, "updated_at": datetime.now(timezone.utc)}}
+            )
+            liked = True
+            final_type = reaction_type
     else:
-        # Like
+        # New reaction
         await db.social_reactions.insert_one({
             "id": str(uuid.uuid4()),
             "post_id": post_id,
             "user_id": user_id,
+            "type": reaction_type,
             "created_at": datetime.now(timezone.utc)
         })
         await db.social_posts.update_one(
@@ -211,12 +235,52 @@ async def toggle_like(post_id: str, user_id: str):
             {"$inc": {"like_count": 1}}
         )
         liked = True
+        final_type = reaction_type
     
     # Get updated like count
     post = await db.social_posts.find_one({"id": post_id}, {"_id": 0, "like_count": 1})
     like_count = post["like_count"] if post else 0
     
-    return {"liked": liked, "like_count": like_count}
+    # Get reaction breakdown
+    reactions_by_type = {}
+    async for r in db.social_reactions.aggregate([
+        {"$match": {"post_id": post_id}},
+        {"$group": {"_id": {"$ifNull": ["$type", "like"]}, "count": {"$sum": 1}}}
+    ]):
+        reactions_by_type[r["_id"]] = r["count"]
+    
+    return {
+        "liked": liked, 
+        "like_count": like_count,
+        "viewer_reaction_type": final_type,
+        "reactions_by_type": reactions_by_type
+    }
+
+
+async def get_post_reactors(post_id: str, reaction_type: Optional[str] = None, limit: int = 50):
+    """Get list of users who reacted to a post"""
+    db = await get_db()
+    
+    query = {"post_id": post_id}
+    if reaction_type:
+        query["type"] = reaction_type
+    
+    reactors = []
+    async for reaction in db.social_reactions.find(query).sort("created_at", -1).limit(limit):
+        user = await db.banibs_users.find_one(
+            {"id": reaction["user_id"]},
+            {"_id": 0, "id": 1, "name": 1, "avatar_url": 1}
+        )
+        if user:
+            reactors.append({
+                "user_id": user["id"],
+                "name": user.get("name", "User"),
+                "avatar_url": user.get("avatar_url"),
+                "reaction_type": reaction.get("type", "like"),
+                "created_at": reaction.get("created_at").isoformat() if reaction.get("created_at") else None
+            })
+    
+    return reactors
 
 
 async def create_comment(post_id: str, author_id: str, text: str):
