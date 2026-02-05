@@ -529,10 +529,12 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-4">
             {localPost.like_count > 0 && (
-              <span>{localPost.like_count} {localPost.like_count === 1 ? 'like' : 'likes'}</span>
-            )}
-            {(localPost.highfive_count || 0) > 0 && (
-              <span>{localPost.highfive_count} {localPost.highfive_count === 1 ? 'high five' : 'high fives'}</span>
+              <span className="flex items-center gap-1">
+                {localPost.viewer_reaction_type && (
+                  <span>{getReactionData(localPost.viewer_reaction_type).emoji}</span>
+                )}
+                {localPost.like_count} {localPost.like_count === 1 ? 'reaction' : 'reactions'}
+              </span>
             )}
           </div>
           {localPost.comment_count > 0 && (
@@ -541,38 +543,17 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
         </div>
       </div>
 
-      {/* ===== Action Bar ===== */}
+      {/* ===== Action Bar (Multi-Reaction System v2.0) ===== */}
       <div className="px-2 py-1 border-t border-border/50">
         <div className="flex items-center">
-          {/* Like Button */}
-          <button
-            type="button"
-            onClick={handleLike}
-            disabled={isLiking}
-            className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-medium text-sm transition-all ${
-              localPost.viewer_has_liked
-                ? 'text-red-400 hover:bg-red-400/10'
-                : 'text-muted-foreground hover:bg-muted hover:text-card-foreground'
-            } disabled:opacity-50`}
-            aria-label={localPost.viewer_has_liked ? 'Unlike' : 'Like'}
-          >
-            <Heart
-              size={18}
-              fill={localPost.viewer_has_liked ? 'currentColor' : 'none'}
-              strokeWidth={localPost.viewer_has_liked ? 0 : 2}
-            />
-            <span className="hidden sm:inline">Like</span>
-          </button>
-
-          {/* High Five Button */}
-          <div className="flex-1 flex items-center justify-center py-2.5">
-            <HighFiveButton
+          {/* React Button (BANIBS Multi-Reaction) */}
+          <div className="flex-1 flex items-center justify-center">
+            <ReactionButton
               postId={localPost.id}
-              hasHighFived={localPost.viewer_has_highfived || false}
-              highFiveCount={localPost.highfive_count || 0}
-              userTier={user?.subscription_tier || 'free'}
-              onHighFive={handleHighFive}
-              size={20}
+              viewerReaction={localPost.viewer_reaction_type}
+              reactionCount={localPost.like_count}
+              onReact={handleReact}
+              disabled={isReacting || !user}
               showCount={false}
             />
           </div>
