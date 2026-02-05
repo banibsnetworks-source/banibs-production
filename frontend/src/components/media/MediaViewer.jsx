@@ -193,25 +193,26 @@ export function MediaViewer() {
         className="relative max-w-[90vw] max-h-[90vh] overflow-hidden"
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
-        onDoubleClick={handleDoubleClick}
-        onClick={handleImageClick}
-        onMouseDown={handleMouseDown}
-        style={{ cursor: zoom > 1 ? (isDragging ? 'grabbing' : 'zoom-out') : 'default' }}
+        onDoubleClick={!isVideo ? handleDoubleClick : undefined}
+        onClick={!isVideo ? handleImageClick : undefined}
+        onMouseDown={!isVideo ? handleMouseDown : undefined}
+        style={{ cursor: isVideo ? 'default' : (zoom > 1 ? (isDragging ? 'grabbing' : 'zoom-out') : 'default') }}
       >
         {isVideo ? (
-          // Video Placeholder (Phase 2B)
-          <div className="relative">
-            <div className="w-full h-full bg-black/80 flex items-center justify-center min-h-[400px]">
-              <div className="text-center">
-                <div className="w-20 h-20 rounded-full bg-yellow-500/20 flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-10 h-10 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </div>
-                <p className="text-white font-semibold">Video Playback</p>
-                <p className="text-gray-400 text-sm mt-1">Coming soon</p>
-              </div>
-            </div>
+          // Video Player - Full frame, controls, no cropping
+          <div className="relative flex items-center justify-center">
+            <video
+              src={currentImage}
+              className="max-w-full max-h-[90vh]"
+              style={{
+                objectFit: 'contain',
+                background: '#000',
+              }}
+              controls
+              autoPlay
+              playsInline
+              preload="auto"
+            />
           </div>
         ) : (
           // HD Progressive Image
