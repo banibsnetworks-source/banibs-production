@@ -1,31 +1,31 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, MessageCircle, MoreHorizontal, Trash2, Flag, Share2 } from 'lucide-react';
+import { MessageCircle, MoreHorizontal, Trash2, Flag, Share2 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import SocialCommentSection from './SocialCommentSection';
 import ReportPostModal from './ReportPostModal';
 import { ProfileAvatar } from './ProfileAvatar';
-import HighFiveButton from '../emoji/HighFiveButton';
 import PostTextWithEmojis from './PostTextWithEmojis';
 import DropdownMenu, { DropdownMenuItem } from '../common/DropdownMenu';
 import ConfirmModal from '../common/ConfirmModal';
 import { SocialPostMediaGrid } from './SocialPostMediaGrid';
+import { ReactionButton, getReactionData } from './ReactionButton';
 
 /**
- * SocialPostCard - Polished UI v2
+ * SocialPostCard - Polished UI v2 + Multi-Reaction System v2.0
  * Clean, readable social post with clear visual hierarchy
  * 
  * UI Improvements:
  * - Clear author + timestamp header with better spacing
  * - Improved post body readability (line-height, max-width)
- * - Normalized action bar (Like / High Five / Comment / Share)
+ * - BANIBS Multi-Reaction System (Love, High Five, Peace, Like, Cool)
  * - Clean link/media previews
  * 
  * @param {boolean} compact - When true, hides author header (for profile pages)
  */
 const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
   const { user } = useAuth();
-  const [isLiking, setIsLiking] = useState(false);
+  const [isReacting, setIsReacting] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -56,8 +56,70 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
     }
   };
 
+  // Handle reaction (multi-reaction system v2.0)
+  const handleReact = async (reactionType) => {
+    if (isReacting || !user) return;
+
+    setIsReacting(true);
+    
+    // Optimistic update
+    const wasReacted = localPost.viewer_reaction_type === reactionType;
+    const optimisticPost = {
+      ...localPost,
+      viewer_reaction_type: wasReacted ? null : reactionType,
+      viewer_has_liked: !wasReacted,
+      like_count: wasReacted ? Math.max(0, localPost.like_count - 1) : localPost.like_count + (localPost.viewer_has_liked ? 0 : 1)
+    };
+    setLocalPost(optimisticPost);
+    
+    try {
+      const token = localStorage.getItem('access_token');
+      
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/social/posts/${localPost.id}/react`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ type: reactionType }),
+          credentials: 'include',
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to toggle reaction');
+      }
+
+      const result = await response.json();
+      
+      const updatedPost = {
+        ...localPost,
+        viewer_reaction_type: result.viewer_reaction_type,
+        viewer_has_liked: result.liked,
+        like_count: result.like_count,
+        reactions_by_type: result.reactions_by_type
+      };
+      
+      setLocalPost(updatedPost);
+      
+      if (onUpdate) {
+        onUpdate(updatedPost);
+      }
+    } catch (err) {
+      console.error('Error toggling reaction:', err);
+      // Revert optimistic update on error
+      setLocalPost(localPost);
+    } finally {
+      setIsReacting(false);
+    }
+  };
+
+  // Legacy handleLike for backwards compatibility
   const handleLike = async () => {
-    if (isLiking) return;
+    await handleReact('love');
+  };
 
     setIsLiking(true);
     
