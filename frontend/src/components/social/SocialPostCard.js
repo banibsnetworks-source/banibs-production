@@ -401,41 +401,65 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
           </a>
         )}
 
-        {/* Legacy media_url support - PORTRAIT-SAFE DISPLAY */}
-        {!localPost.media_urls?.length && localPost.media_url && (
-          <div 
-            className="mt-3 rounded-xl overflow-hidden"
-            style={{ 
-              display: 'block',
-              width: '100%',
-              aspectRatio: '4 / 5',
-              backgroundColor: '#0b0b0b',
-            }}
-            ref={(el) => {
-              if (el) {
-                const img = el.querySelector('img');
-                if (img) {
-                  img.onerror = () => { el.style.display = 'none'; };
-                }
-              }
-            }}
-          >
-            <img
-              src={localPost.media_url}
-              alt=""
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'contain',
+        {/* Legacy media_url support - PORTRAIT-SAFE DISPLAY (Image or Video) */}
+        {!localPost.media_urls?.length && localPost.media_url && (() => {
+          const url = localPost.media_url;
+          const isVideo = url.toLowerCase().match(/\.(mp4|webm|ogg|mov|m4v)(\?|$)/);
+          
+          return (
+            <div 
+              className="mt-3 rounded-xl overflow-hidden"
+              style={{ 
                 display: 'block',
+                width: '100%',
+                aspectRatio: '4 / 5',
+                backgroundColor: '#0b0b0b',
               }}
-              loading="lazy"
-              onError={(e) => { 
-                e.target.parentElement.style.display = 'none'; 
+              ref={(el) => {
+                if (el) {
+                  const media = el.querySelector('img, video');
+                  if (media) {
+                    media.onerror = () => { el.style.display = 'none'; };
+                  }
+                }
               }}
-            />
-          </div>
-        )}
+            >
+              {isVideo ? (
+                <video
+                  src={url}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                    display: 'block',
+                    background: '#000',
+                  }}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  onError={(e) => { 
+                    e.target.parentElement.style.display = 'none'; 
+                  }}
+                />
+              ) : (
+                <img
+                  src={url}
+                  alt=""
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
+                    display: 'block',
+                  }}
+                  loading="lazy"
+                  onError={(e) => { 
+                    e.target.parentElement.style.display = 'none'; 
+                  }}
+                />
+              )}
+            </div>
+          );
+        })()}
       </div>
 
       {/* ===== Engagement Stats ===== */}
