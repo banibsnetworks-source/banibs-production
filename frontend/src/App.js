@@ -292,6 +292,7 @@ import FounderAnalyticsDashboard from "./pages/founder/FounderAnalyticsDashboard
 import NavV2Preview from "./pages/founder/NavV2Preview";
 import BookVaultStudio from "./pages/founder/BookVaultStudio";
 import BookEditor from "./pages/founder/BookEditor";
+import TutorIntakeAdmin from "./pages/founder/TutorIntakeAdmin";
 
 // Coming Soon Pages (Variants)
 import ComingSoonPage from "./pages/ComingSoonPage";
