@@ -1,43 +1,207 @@
 import React, { useState } from 'react';
+import { Play } from 'lucide-react';
 import { useMediaViewer } from '../../hooks/useMediaViewer';
 
 /**
- * SocialPostMediaGrid - BANIBS Social Media Upgrade Spec v1.0 + S-MEDIA-P2
- * Handles single and multi-image layouts for social posts
+ * SocialPostMediaGrid - BANIBS Media Display System v2.0
  * 
- * CRITICAL FIX (Feb 2026): Portrait/poster images now display FULLY
- * - Single images use aspect-ratio container with object-fit: contain
- * - No more cropping for promo flyers, announcements, poster content
- * - Matches Facebook behavior: show entire image in-feed
+ * ========================================================
+ * MEDIA DISPLAY POLICY (CANONICAL UI RULES)
+ * ========================================================
  * 
- * Layouts:
- * - 1 image: Full width, aspect-ratio based (portrait-safe)
- * - 2 images: Side-by-side grid
- * - 3 images: 1 big left + 2 stacked right
- * - 4+ images: 2x2 grid with +N overlay
+ * RULE 1: SINGLE MEDIA SHOULD NEVER CROP CONTENT
+ *   - Single image OR video uses "CONTAIN" semantics
+ *   - Aspect-ratio container (4/5 portrait-safe)
+ *   - Centered content with letterbox background
  * 
- * S-MEDIA-P2: Click to open fullscreen HD viewer
- * UI Polish: Broken images are hidden gracefully
+ * RULE 2: GRID THUMBNAILS MAY CROP (BY DESIGN)
+ *   - 2+ media items use grid thumbnails
+ *   - "COVER" semantics for thumbnails
+ *   - Click opens viewer/modal for full view
+ * 
+ * RULE 3: MIXED MEDIA = GRID
+ *   - Image(s) + Video(s) = treat as grid
+ *   - Cover thumbnails, viewer shows full media
+ * 
+ * RULE 4: VIDEO SHOWS FULL FRAME WHEN SINGLE
+ *   - Single video: contain, no crop
+ *   - Controls enabled, no autoplay
+ *   - preload="metadata", playsInline
+ * 
+ * RULE 5: PERFORMANCE
+ *   - Lazy loading for images
+ *   - Videos: preload="metadata" only
+ *   - No autoplay by default
  */
 
-// Image component with error handling
-const MediaImage = ({ src, alt, className, onClick }) => {
+// ========================================================
+// HELPER: Detect media type from URL
+// ========================================================
+const getMediaType = (url) => {
+  if (!url) return 'unknown';
+  const lowerUrl = url.toLowerCase();
+  
+  // Video extensions
+  if (lowerUrl.match(/\.(mp4|webm|ogg|mov|m4v|avi|mkv)(\?|$)/)) {
+    return 'video';
+  }
+  
+  // Image extensions or default
+  if (lowerUrl.match(/\.(jpg|jpeg|png|gif|webp|avif|bmp|svg)(\?|$)/)) {
+    return 'image';
+  }
+  
+  // Check for video in URL path (some CDNs)
+  if (lowerUrl.includes('/video/') || lowerUrl.includes('video.')) {
+    return 'video';
+  }
+  
+  // Default to image
+  return 'image';
+};
+
+// ========================================================
+// STYLES: Centralized for consistency
+// ========================================================
+const STYLES = {
+  // Single media wrapper (CONTAIN - no cropping)
+  singleMediaWrap: {
+    width: '100%',
+    aspectRatio: '4 / 5',  // Portrait-safe default
+    backgroundColor: '#0b0b0b',  // Letterbox background
+    borderRadius: '12px',
+    overflow: 'hidden',
+    display: 'grid',
+    placeItems: 'center',
+  },
+  
+  // Single media item (image or video)
+  singleMediaItem: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'contain',  // CRITICAL: No cropping
+    display: 'block',
+    background: '#000',
+  },
+  
+  // Grid thumbnail item (COVER - cropping OK)
+  gridMediaItem: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    objectPosition: 'center top',
+    display: 'block',
+  },
+};
+
+// ========================================================
+// COMPONENT: Single Media Renderer (Image or Video)
+// ========================================================
+const SingleMediaRenderer = ({ url, mediaType, onClick, onError }) => {
   const [hasError, setHasError] = useState(false);
   
   if (hasError) return null;
   
+  const handleError = () => {
+    setHasError(true);
+    if (onError) onError(url);
+  };
+  
+  // VIDEO: Full frame, controls, no autoplay
+  if (mediaType === 'video') {
+    return (
+      <div
+        className="mt-3 rounded-xl overflow-hidden"
+        style={STYLES.singleMediaWrap}
+      >
+        <video
+          src={url}
+          style={STYLES.singleMediaItem}
+          controls
+          playsInline
+          preload="metadata"
+          onError={handleError}
+        />
+      </div>
+    );
+  }
+  
+  // IMAGE: Full display, no cropping
   return (
-    <img
-      src={src}
-      alt=""
-      className={className}
-      loading="lazy"
+    <div
+      className="mt-3 rounded-xl overflow-hidden cursor-pointer hover:opacity-95 transition-opacity"
+      style={STYLES.singleMediaWrap}
       onClick={onClick}
-      onError={() => setHasError(true)}
-    />
+    >
+      <img
+        src={url}
+        alt=""
+        style={STYLES.singleMediaItem}
+        loading="lazy"
+        onError={handleError}
+      />
+    </div>
   );
 };
 
+// ========================================================
+// COMPONENT: Grid Media Item (Thumbnail)
+// ========================================================
+const GridMediaItem = ({ url, mediaType, onClick, onError, showOverlay, overlayCount }) => {
+  const [hasError, setHasError] = useState(false);
+  
+  if (hasError) return null;
+  
+  const handleError = () => {
+    setHasError(true);
+    if (onError) onError(url);
+  };
+  
+  return (
+    <div 
+      className="relative cursor-pointer hover:opacity-95 transition-opacity"
+      onClick={onClick}
+    >
+      {mediaType === 'video' ? (
+        <>
+          <video
+            src={url}
+            style={STYLES.gridMediaItem}
+            preload="metadata"
+            muted
+            playsInline
+            onError={handleError}
+          />
+          {/* Play icon overlay for video thumbnails */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="w-12 h-12 rounded-full bg-black/60 flex items-center justify-center">
+              <Play size={24} className="text-white ml-1" fill="white" />
+            </div>
+          </div>
+        </>
+      ) : (
+        <img
+          src={url}
+          alt=""
+          style={STYLES.gridMediaItem}
+          loading="lazy"
+          onError={handleError}
+        />
+      )}
+      
+      {/* +N Overlay */}
+      {showOverlay && overlayCount > 0 && (
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center pointer-events-none">
+          <span className="text-white font-bold text-2xl">+{overlayCount}</span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ========================================================
+// MAIN COMPONENT: SocialPostMediaGrid
+// ========================================================
 export function SocialPostMediaGrid({ mediaUrls = [] }) {
   const { openViewer } = useMediaViewer();
   const [failedUrls, setFailedUrls] = useState(new Set());
@@ -45,131 +209,106 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
   // Filter out failed URLs
   const validUrls = mediaUrls.filter(url => !failedUrls.has(url));
   
-  // No media or all failed - don't render anything
+  // No media or all failed
   if (!validUrls || validUrls.length === 0) {
     return null;
   }
-
-  const handleImageError = (url) => {
+  
+  const handleMediaError = (url) => {
     setFailedUrls(prev => new Set([...prev, url]));
   };
-
-  // Case 1: Single Image - PORTRAIT-SAFE DISPLAY
-  // Uses aspect-ratio container with object-fit: contain to show FULL image
+  
+  // Analyze media types
+  const mediaItems = validUrls.map(url => ({
+    url,
+    type: getMediaType(url),
+  }));
+  
+  const hasVideo = mediaItems.some(m => m.type === 'video');
+  const hasImage = mediaItems.some(m => m.type === 'image');
+  const isMixedMedia = hasVideo && hasImage;
+  
+  // ========================================================
+  // CASE 1: SINGLE MEDIA (Image OR Video) - NO CROPPING
+  // ========================================================
   if (validUrls.length === 1) {
     return (
-      <div 
-        className="mt-3 rounded-xl overflow-hidden cursor-pointer hover:opacity-95 transition-opacity"
-        style={{
-          width: '100%',
-          aspectRatio: '4 / 5',  /* Portrait-safe for flyers/posters */
-          backgroundColor: '#0b0b0b',  /* Letterbox background */
-        }}
+      <SingleMediaRenderer
+        url={validUrls[0]}
+        mediaType={mediaItems[0].type}
         onClick={() => openViewer(validUrls, 0)}
-      >
-        <img
-          src={validUrls[0]}
-          alt=""
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',  /* CRITICAL: No cropping */
-            display: 'block',
-          }}
-          loading="lazy"
-          onError={() => handleImageError(validUrls[0])}
-        />
-      </div>
+        onError={handleMediaError}
+      />
     );
   }
-
-  // Case 2: Two Images - Side by Side (keep cover for multi-image)
+  
+  // ========================================================
+  // CASE 2+: GRID LAYOUT (2+ items, mixed media, multi-video)
+  // All use COVER thumbnails; click opens full viewer
+  // ========================================================
+  
+  // 2 items: Side by side
   if (validUrls.length === 2) {
     return (
-      <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl overflow-hidden bg-muted">
-        {validUrls.map((url, index) => (
-          <div key={index} className="relative h-64 md:h-72 cursor-pointer hover:opacity-95 transition-opacity">
-            <img
-              src={url}
-              alt=""
-              className="w-full h-full object-cover object-center"
-              loading="lazy"
+      <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl overflow-hidden bg-[#0b0b0b]">
+        {mediaItems.map((item, index) => (
+          <div key={index} className="relative h-64 md:h-72">
+            <GridMediaItem
+              url={item.url}
+              mediaType={item.type}
               onClick={() => openViewer(validUrls, index)}
-              onError={() => handleImageError(url)}
+              onError={handleMediaError}
             />
           </div>
         ))}
       </div>
     );
   }
-
-  // Case 3: Three Images - 1 Big Left + 2 Stacked Right
+  
+  // 3 items: 1 big left + 2 stacked right
   if (validUrls.length === 3) {
     return (
-      <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl overflow-hidden bg-muted">
-        {/* Left: Large Image */}
-        <div className="relative h-80 cursor-pointer hover:opacity-95 transition-opacity">
-          <img
-            src={validUrls[0]}
-            alt=""
-            className="w-full h-full object-cover object-top"
-            loading="lazy"
+      <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl overflow-hidden bg-[#0b0b0b]">
+        {/* Left: Large */}
+        <div className="relative h-80">
+          <GridMediaItem
+            url={mediaItems[0].url}
+            mediaType={mediaItems[0].type}
             onClick={() => openViewer(validUrls, 0)}
-            onError={() => handleImageError(validUrls[0])}
+            onError={handleMediaError}
           />
         </div>
-
-        {/* Right: Two Stacked Images */}
+        
+        {/* Right: Two stacked */}
         <div className="flex flex-col gap-1">
-          <div className="relative h-[calc(50%-2px)] cursor-pointer hover:opacity-95 transition-opacity">
-            <img
-              src={validUrls[1]}
-              alt=""
-              className="w-full h-full object-cover object-top"
-              loading="lazy"
-              onClick={() => openViewer(validUrls, 1)}
-              onError={() => handleImageError(validUrls[1])}
-            />
-          </div>
-          <div className="relative h-[calc(50%-2px)] cursor-pointer hover:opacity-95 transition-opacity">
-            <img
-              src={validUrls[2]}
-              alt=""
-              className="w-full h-full object-cover object-top"
-              loading="lazy"
-              onClick={() => openViewer(validUrls, 2)}
-              onError={() => handleImageError(validUrls[2])}
-            />
-          </div>
+          {[1, 2].map(i => (
+            <div key={i} className="relative h-[calc(50%-2px)]">
+              <GridMediaItem
+                url={mediaItems[i].url}
+                mediaType={mediaItems[i].type}
+                onClick={() => openViewer(validUrls, i)}
+                onError={handleMediaError}
+              />
+            </div>
+          ))}
         </div>
       </div>
     );
   }
-
-  // Case 4: Four or More Images - 2x2 Grid with +N Overlay
+  
+  // 4+ items: 2x2 grid with +N overlay
   return (
-    <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl overflow-hidden bg-muted">
-      {validUrls.slice(0, 4).map((url, index) => (
-        <div key={index} className="relative h-40 md:h-48 cursor-pointer hover:opacity-95 transition-opacity">
-          <img
-            src={url}
-            alt=""
-            className="w-full h-full object-cover object-top"
-            loading="lazy"
+    <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl overflow-hidden bg-[#0b0b0b]">
+      {mediaItems.slice(0, 4).map((item, index) => (
+        <div key={index} className="relative h-40 md:h-48">
+          <GridMediaItem
+            url={item.url}
+            mediaType={item.type}
             onClick={() => openViewer(validUrls, index)}
-            onError={() => handleImageError(url)}
+            onError={handleMediaError}
+            showOverlay={index === 3 && validUrls.length > 4}
+            overlayCount={validUrls.length - 4}
           />
-
-          {/* +N Overlay on 4th image if more than 4 images */}
-          {index === 3 && validUrls.length > 4 && (
-            <div 
-              className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center pointer-events-none"
-            >
-              <span className="text-white font-bold text-2xl">
-                +{validUrls.length - 4}
-              </span>
-            </div>
-          )}
         </div>
       ))}
     </div>
