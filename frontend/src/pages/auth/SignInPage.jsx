@@ -234,6 +234,8 @@ const SignInPage = () => {
                 Your news.
                 <br />
                 <span style={{ color: '#C5A059' }}>Your marketplace.</span>
+                <br />
+                <span className="text-gray-400">Connected.</span>
               </h2>
               
               <p className="text-gray-300 text-lg leading-relaxed mb-8 max-w-md">
