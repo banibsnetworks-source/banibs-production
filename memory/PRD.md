@@ -231,6 +231,22 @@ All links visible:
     - Multi-image grids (2-4+) keep `object-cover` (designed for thumbnails, click opens full)
   - **Result**: BANIBS now displays full promo images like Facebook - no cropping
   - Files: `SocialPostMediaGrid.jsx`, `SocialPostCard.js`
+- [x] **Media Display System v2.0 (COMPLETE - February 5, 2026)**
+  - Extended clarity-first ruleset to VIDEO and MIXED MEDIA
+  - **Canonical UI Rules:**
+    - RULE 1: Single media (image OR video) = CONTAIN, no cropping
+    - RULE 2: Grid thumbnails (2+) = COVER, cropping OK
+    - RULE 3: Mixed media (image+video) = treated as grid
+    - RULE 4: Single video = full frame, contain, controls, no autoplay
+    - RULE 5: Performance = lazy load, preload="metadata" for video
+  - **Video Support:**
+    - Feed: Full frame display with controls, playsInline, no autoplay
+    - Grid: Play icon overlay on video thumbnails
+    - Modal: Full video playback with autoPlay when opened
+  - **Files updated:**
+    - `SocialPostMediaGrid.jsx` - Complete rewrite with media type detection
+    - `SocialPostCard.js` - Legacy media_url handles video
+    - `MediaViewer.jsx` - Video playback in modal (was placeholder)
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
