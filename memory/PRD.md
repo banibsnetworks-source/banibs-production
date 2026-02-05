@@ -310,9 +310,11 @@ All links visible:
     - `/frontend/src/pages/community/SchoolHomePage.jsx`
 - [x] **Login Page Identity Anchor (COMPLETE - February 5, 2026)**
   - Added expanded platform name beneath BANIBS title on login page
-  - **Display:** "BANIBS" (gold gradient) + "Black America News, Information & Business System" (gray-400)
+  - **Display:** "BANIBS" (gold gradient, 5xl/6xl - dominant) + "Black America News, Information & Business System" (gray-500, secondary)
+  - **Functional descriptor updated:** "Your network. Your news. Your marketplace. Connected."
   - Visible immediately on page load (above sign-in form)
-  - Preserves existing premium layout and visuals
+  - BANIBS is strongest visual element with highest contrast
+  - Preserves existing premium layout and hero imagery
   - **File:** `/frontend/src/pages/auth/SignInPage.jsx`
 
 ### P1 - High Priority (Post-Launch)
