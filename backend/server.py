@@ -464,6 +464,10 @@ app.include_router(governance_router)
 from routes.alternative_school import router as alt_school_router
 app.include_router(alt_school_router)
 
+# Alternative School Hub - Tutor Intake (Phase-0.5)
+from routes.alt_school_intake import router as alt_school_intake_router
+app.include_router(alt_school_intake_router)
+
 # HDOS v2 - Circle Trust Order (7 levels)
 app.include_router(hdos_trust_router)
 
