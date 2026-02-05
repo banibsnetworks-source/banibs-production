@@ -68,7 +68,7 @@ const SignInPage = () => {
         <div className="w-full lg:w-[480px] xl:w-[520px] flex flex-col justify-center p-6 sm:p-8 lg:p-12 order-1">
           <div className="max-w-md mx-auto w-full">
             
-            {/* BANIBS Wordmark (replaces cheap B square) */}
+            {/* BANIBS Identity Anchor - Platform Branding */}
             <div className="mb-10">
               <h1 
                 className="text-3xl sm:text-4xl font-bold tracking-tight"
@@ -81,7 +81,9 @@ const SignInPage = () => {
               >
                 BANIBS
               </h1>
-              <p className="text-sm text-gray-500 mt-1">One platform. Many possibilities.</p>
+              <p className="text-sm text-gray-400 mt-2 font-medium tracking-wide">
+                Black America News, Information &amp; Business System
+              </p>
             </div>
 
             {/* Sign-in Card */}
