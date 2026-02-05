@@ -1,74 +1,55 @@
-<analysis>
-CORRECTIONS / CLARIFICATIONS TO ADD
+<analysis>**original_problem_statement:**
+The user's project, BANIBS, is a complex news and information system. The session involved a series of P0 and P1 feature implementations and critical UX fixes.
 
-1) Social World Intent (Important)
-Clarification: The user’s intent is NOT to retire or abandon .
- is intended to evolve into a Founder-only **Social World Selector and multi-environment control surface**, allowing the founder to view, switch, and manage multiple social environments (Community, Image, Short Video, etc.) under a single login.
- remains the current production social experience, but Social World is the umbrella that will eventually host multiple distinct social environments.
+Key tasks completed:
+- **Last Used World Persistence (P0):** Implemented and tested a feature using  to remember the user's last selected world in the Social World selector.
+- **Navigation for Social World:** Added a founder-only link to the main navigation to provide an entry point for testing the  route.
+- **Donations v1:** Implemented a simple, non-intrusive donation feature by adding links to an external Stripe Payment URL on the public guest page and within a new in-app support page.
+- **Login/Home Page UX Polish & Redesign (P0):** Executed a two-stage redesign of the login page. First, by correcting confusing Welcome back messaging and layout. Second, by a complete visual overhaul to create a modern, premium, two-column layout with a hero image, moving the sign-in form to the top as the primary action.
+- **Meta-Governance v1 (Founder-Only):** Built a backend and frontend for a read-only dashboard allowing the founder to view structural data and health signals (e.g., orphaned or dormant circles) about the system's Circles without inspecting user content.
+- **Feed Image & Video Display Fix (Critical UX):** Fixed a critical issue where portrait-oriented images and videos were being cropped in the feed. The fix involved a system-wide rule change to use  for single media items, ensuring their full content is always visible.
+- **Reactions System Upgrade (P0):** Fixed a broken like button and upgraded the feature to a full multi-reaction system with BANIBS-themed reactions (Love, High Five, Peace). This included backend API changes and a new frontend component with a hover/long-press tray for selecting reactions.
 
-2) P0 Definition — “Last Used World” Persistence
-Clarification: The “Last Used World” feature is a P0 requirement that must persist across:
-- Social World selector navigation
-- Direct navigation into individual world routes/pages
-without requiring logout, account switching, or separate identities.
-This supports the founder’s requirement for **one login, multiple worlds, multiple view modes**.
-
-3) Emoji Picker Upgrade (Precision)
-Clarification: The emoji picker upgrade not only replaced the limited picker, but explicitly ensures **native Unicode emoji insertion** (not shortcodes or token strings), fixing a professionalism issue where emoji codes were previously rendered instead of emoji glyphs.
-
-END CORRECTIONS
-**original_problem_statement:**
-The user's project, BANIBS, is a complex news and information system. This session started with completing the Circles feature, which involved creating a backend seeding mechanism, building the frontend UI to display circles in a tabbed view based on , and making them navigable to a new detail page.
-
-Subsequently, the session focused heavily on fixing a series of critical P0 regression bugs and executing a comprehensive UI/UX polish pass across several features:
-- **Bug Fixes**: Addressed a non-functional search input, a broken profile route, and a malfunctioning dropdown menu in the legacy Hub.
-- **UX Polish**: Improved the Settings page navigation, restored items to the avatar dropdown, and standardized colors on the Founder System Map for a more professional look.
-- **Profile Page**: A major refactor was done to create an identity-first profile page, separating the view and edit modes and improving the overall aesthetic.
-- **Image Editing**: Professional client-side image cropping was implemented for both avatar and cover photos. This led to fixing a critical Response body is already used bug in all upload paths. A responsive design issue for the cover image on ultrawide monitors was also resolved.
-- **Emoji Picker**: The limited, buggy emoji picker was replaced with a full-featured library (), ensuring correct Unicode emoji insertion.
-- **Inventory & Persistence**: The agent created a detailed inventory of all Social World features and began implementing a Last Used World persistence mechanism using .
+The last task initiated was scaffolding the Alternative School Hub feature.
 
 **User's preferred language**: English
 
 **what currently exists?**
-The application is a full-stack platform using React (frontend), FastAPI (backend), and MongoDB (database).
-
-Key features and fixes from this session include:
-- A completed and functional Community Circles feature with 22 seeded circles across 4 types, a tabbed browsing UI, and clickable detail pages.
-- Critical P0 regression bugs related to search, profile routing, and hub navigation have been resolved.
-- A comprehensive UI/UX polish has been applied to the Settings page, user avatar menu, and Founder System Map.
-- The user profile page () has been completely redesigned with a modern, identity-first layout.
-- Professional, client-side cropping for avatar and cover images is now functional, and the underlying upload bugs have been fixed.
-- A full-featured, correctly functioning emoji picker is integrated into all composers (posts, comments, messages).
-- An inventory document detailing all Social World features exists at .
-- The initial implementation for a Last Used World persistence feature is present in .
+The application is a full-stack platform using React, FastAPI, and MongoDB.
+- **Last Used World Persistence:** A custom hook () is integrated into world pages to save the user's last context in .
+- **Donations v1:** A Support BANIBS section exists on the guest page (), a new in-app page () is available, and a link is in the user menu (), all directing to an external Stripe URL.
+- **Redesigned Login Page:** The login page () features a modern, professional, two-column layout with the sign-in form as the primary element and a hero image.
+- **Meta-Governance Dashboard:** A founder-only Governance tab in the Founder Control Center () displays system-level data about Circles, fetched from new backend endpoints in .
+- **Media Display System:** All single images and videos in the social feed (, ) are now displayed without cropping using . Multi-media posts correctly use  for grid thumbnails.
+- **Multi-Reaction System:** The social feed post card () includes a new  component that allows users to apply one of several custom reactions via a hover-activated tray. The backend (, ) has been updated to store and retrieve typed reactions.
+- **Alternative School Hub Scaffold:** Backend models (), database logic (), and admin-only API routes () have been created. The frontend page () has been rewritten to fetch and display this data.
 
 **Last working item**:
--   **Last item agent was working**: Implementing the Last Used World persistence feature for the Social World Selector page (). The agent implemented the core logic to use  to remember the user's last selected world (e.g., community, video, images).
+-   **Last item agent was working**: Implementing the Phase-0 backend and frontend scaffold for the Alternative School Hub. The agent created the necessary backend data models (TutorListing, ProgramCategory, LearningResource), database helpers, and admin-only CRUD APIs. It then overwrote the existing frontend page to fetch and display this data in a read-only format.
 -   **Status**: IN PROGRESS
 -   **Agent Testing Done**: N
--   **Which testing method agent to use?**: Frontend testing agent
+-   **Which testing method agent to use?**: both
 -   **User Testing Done**: N
 
 **All Pending/In progress Issue list**:
--   **Issue 1**: Test and finalize the Last Used World persistence feature (P0)
+-   **Issue 1**: Test and finalize the Alternative School Hub Phase-0 scaffold (P0)
 -   **Issue 2**: Password reset emails are not being sent (P2, BLOCKED)
 -   **Issue 3**: Raw HTML is rendered in news story descriptions (Low priority, NOT STARTED)
 -   **Issue 4**: Marketplace page has an incorrect empty state for logged-in users (P2, ON HOLD by user)
 
 **Issues Detail**:
--   **Issue 1: Test and finalize Last Used World persistence feature**
-    -   **Attempted fixes**: The agent rewrote  to include  logic for saving and retrieving the last selected world.
+-   **Issue 1: Test and finalize Alternative School Hub Phase-0 scaffold**
+    -   **Attempted fixes**: The agent wrote all the necessary backend code (models, DB, routes) and rewrote the frontend page () to display the data. No testing was performed.
     -   **Next debug checklist**:
-        1.  Use the frontend testing agent or manual testing with browser dev tools to verify the functionality in .
-        2.  Test that the default world is community on the first visit.
-        3.  Test that selecting a new world updates the  key in .
-        4.  Test that refreshing the page preserves the last selected world.
-        5.  Implement the logic in individual world pages (e.g., ) to also set the  key, ensuring persistence even when navigating directly.
-    -   **Why fix this issue and what will be achieved with the fix?**: This will complete the user's request, improving user experience by remembering their last context within the Social World.
+        1.  Restart backend and ensure no startup errors.
+        2.  Use  to test the new admin endpoints for creating a tutor, program, and resource. A temporary script may be needed to seed data for testing.
+        3.  Use  to test the public GET endpoints (, etc.).
+        4.  Take a screenshot of the  page after logging in to verify the frontend fetches and renders the seeded data correctly.
+        5.  Use the frontend and backend testing agents for comprehensive verification.
+    -   **Why fix this issue and what will be achieved with the fix?**: This will complete the foundational work for the Alternative School Hub, allowing it to display real, admin-managed content and feel alive as requested by the user.
     -   **Status**: IN PROGRESS
     -   **Is recurring issue?**: N
-    -   **Should Test frontend/backend/both after fix?**: frontend
+    -   **Should Test frontend/backend/both after fix?**: both
     -   **Blocked on other issue**: None
 
 -   **Issue 2: Password reset emails are not being sent**
@@ -76,36 +57,35 @@ Key features and fixes from this session include:
     -   **Is recurring issue?**: Y
 
 **In progress Task List**:
--   **Task 1: Finalize Last Used World persistence**
-    -   **Where to resume**: The core logic is implemented in . The next steps are to test this implementation thoroughly and then add persistence logic to individual world pages to handle direct navigation.
-    -   **What will be achieved with this?**: The application will remember the user's last selected world (e.g., text feed, video feed), providing a more seamless and personalized experience.
+-   **Task 1: Finalize Alternative School Hub Phase-0 scaffold**
+    -   **Where to resume**: The code is implemented. The immediate next step is to perform end-to-end testing, starting with seeding data via the new admin APIs and verifying the frontend display.
+    -   **What will be achieved with this?**: The Alternative School Hub will be populated with dynamic data from the backend, completing the Phase-0 implementation.
     -   **Status**: IN PROGRESS
-    -   **Should Test frontend/backend/both after fix?**: frontend
+    -   **Should Test frontend/backend/both after fix?**: both
     -   **Blocked on something**: None.
 
 **Upcoming and Future Tasks**
 *   **Upcoming Tasks:**
-    *   **P1 — Marketplace Page original bug fix (P2, ON HOLD)**: Fix the bug where the marketplace shows an empty state for logged-in users who should see real data.
+    *   **P1 — Marketplace Page original bug fix (P2, ON HOLD)**: Fix the bug where the marketplace shows an empty state for logged-in users.
 *   **Future Tasks:**
+    *   Complete the ShortForm Video upload flow (the submit action is not wired).
     *   Render raw HTML in news descriptions correctly.
     *   Refactor backend to reduce route duplication.
     *   Create  directory structure.
     *   Implement User Pinning + Pin Boards feature.
-    -   Implement BGLIS v1.0: Phone Authentication.
-    -   Add rich text editing to Book Vault Studio (v2).
-    -   Add interactivity to the Community Moments feature.
-    -   Migrate the  collection data into the  collection.
+    *   Implement BGLIS v1.0: Phone Authentication.
+    *   Add rich text editing to Book Vault Studio (v2).
+    *   Add interactivity to the Community Moments feature.
+    *   Migrate the  collection data into the  collection.
 
 **Completed work in this session**
--   **P0 - Community Circles Exposure (COMPLETE & LOCKED)**: Exposed 22 circles with type-based filtering, created detail pages, and enabled navigation.
--   **P0 - 3 Regression Bugs (FIXED)**: Restored functionality to the search page input, fixed the broken  route, and repaired the Hub page dropdown menu.
--   **UX Polish Pass (COMPLETE)**: Improved navigation on the Settings page, restored the My Profile link to the avatar menu, and standardized colors on the Founder System Map.
--   **Profile Page UX Upgrade (COMPLETE)**: Redesigned the social profile page with a professional, identity-first layout.
--   **Image Editing UX Upgrade (COMPLETE)**: Integrated professional, client-side croppers for avatar and cover photos.
--   **Upload Clone Error (FIXED)**: Patched all  calls in upload-related components to prevent Response body is already used errors.
--   **Cover Image Responsive Fix (COMPLETE)**: Adjusted the profile cover image to display correctly on ultrawide monitors.
--   **Emoji Picker Upgrade (COMPLETE)**: Replaced the buggy custom emoji picker with a full-featured library that inserts correct Unicode glyphs.
--   **Social World Inventory (COMPLETE)**: Created an authoritative document mapping all existing and planned social features.
+-   **P0 - Last Used World Persistence** (COMPLETE & TESTED)
+-   **P0 - Navigation Entry for ** (COMPLETE)
+-   **P1 - Donations v1 Integration** (COMPLETE)
+-   **P0 - Login Page UX Polish & Redesign v2.0** (COMPLETE)
+-   **P1 - Meta-Governance v1 (Founder-Only)** (COMPLETE)
+-   **P0 - Feed Image & Video Display Fix (Critical UX)** (COMPLETE)
+-   **P0 - Reactions System Fix & Upgrade v2.0** (COMPLETE)
 
 **Earlier issues found/mentioned but not fixed**
 -   **Issue 1: Raw HTML in news story description**
@@ -128,69 +108,71 @@ Key features and fixes from this session include:
 
 
 **Key Technical Concepts**
--   **Idempotent Database Seeding**: The backend now safely populates the  collection by checking for existing  before insertion, preventing duplicates.
--   **Client-Side Image Cropping**:  is used to provide a professional cropping UI for both circular avatars and fixed-aspect-ratio cover images.
--   **Robust Fetch Response Handling**: All  calls were refactored to read the response body only once () and then parse it, eliminating Response body is already used errors.
--   **Responsive CSS with **: The profile cover image height now uses  to ensure it looks good on all screen sizes, from mobile to ultrawide.
--   **State Persistence with **: The Last Used World feature utilizes  to remember the user's selection between sessions.
+-   **State Persistence with **: A custom hook () standardizes how the user's context is saved.
+-   **Read-Only Data Scaffolding**: Building backend models and admin-only APIs to populate frontend views with real data before full features are built (e.g., Meta-Governance, Alternative School Hub).
+-   **Optimistic UI Updates**: The new reactions system provides immediate visual feedback by updating the local state before the backend call completes.
+-   **Modern CSS (, )**: Used to create a clarity-first media display policy, preventing unwelcome cropping of images and videos in the feed.
+-   **Complex UI State Management**: The reactions component uses , , and hover/long-press logic to manage the display of the reaction tray.
 
 **key DB schema**
--   **circles**: The schema was extended with a  field (populated by an ) to categorize circles for presentation (e.g., community, support, prayer).
+-   **new collection: **: 
+-   **new collection: **: 
+-   **new collection: **: 
+-   ****: Schema now contains a  array of objects: . The old  array is deprecated.
 
 **changes in tech stack**
--   : Added for image cropping.
--   : Added for a full-featured emoji picker.
+-   None.
 
 **All files of reference**
--   : Contains the in-progress Last Used World implementation.
--   : The new, comprehensive inventory of all Social World features.
--   : The completely redesigned user profile page.
--   : The new, upgraded emoji picker component.
--   : Contains the final, idempotent seeding logic for all 22 circles.
--   : The fixed cover image uploader.
+-   : New backend for the last feature worked on.
+-   : Frontend for the last feature worked on.
+-   : The completely redesigned login page.
+-   : The new, reusable component for the multi-reaction system.
+-   : The rewritten component that enforces media display rules for images and videos.
+-   : New backend API for the Meta-Governance dashboard.
+-   : Contains the updated database logic for handling typed reactions.
 
 **Areas that need refactoring**:
--   The backend has significant route duplication that could be consolidated in the future for better maintainability.
+-   The backend still has significant route duplication that could be consolidated for better maintainability.
 
 **key api endpoints**
--   : (MODIFIED) Now returns circles and includes idempotent auto-seeding logic if the collection is empty.
--   , : The underlying API endpoints for image uploads, which were debugged on the client side.
+-   **Governance**: 
+-   **Reactions**: , , 
+-   **Alternative School (Public)**: 
+-   **Alternative School (Admin)**: 
 
 **Critical Info for New Agent**
--   Your immediate priority (P0) is to **test and finalize the Last Used World feature**. The core logic is in . You must test this implementation and extend it to individual world pages to handle direct navigation links.
--   A large number of UI/UX improvements and bug fixes were completed. Be mindful of these to avoid regressions. The application's visual and functional quality has been significantly improved.
--   The user distinguishes between  (the live, working social features) and  (a conceptual hub). The current task is for .
--   The  data migration into the  collection was explicitly deferred by the user and should be treated as a future task.
+-   Your immediate priority (P0) is to **test and finalize the Alternative School Hub feature**. The backend and frontend code has been written but has not been tested at all. You will need to seed data using the new admin APIs and then verify the frontend renders it correctly.
+-   The user has approved several major P0 features that are now considered locked (Login Redesign, Media Display Rules, Reactions). Do not alter their functionality unless explicitly directed.
+-   Known partial/blocked tasks should not be started: ShortForm Video upload is incomplete, Marketplace bug is on hold, and Password reset is blocked on credentials.
 
 **documents and test reports created in this job**
--   : Test report for the initial Circles feature.
--   : Updated to reflect completed tasks.
--   : A new document detailing all features related to the Social World concept.
+-   
+-    (Updated multiple times)
 
 **Last 10 User Messages and any pending HUMAN messages**
-1.  **USER:** Requested an inventory of all features related to Social World. (COMPLETED)
-2.  **AGENT:** Conducted the inventory and created the  document. (COMPLETED)
-3.  **USER:** Requested implementation of Last Used World persistence for the Social World selector using . (IN PROGRESS)
-4.  **AGENT:** Began implementing the persistence logic in . (IN PROGRESS)
+1.  **USER:** Requested a fix for cropped feed images (P0 UX). (COMPLETED)
+2.  **USER:** Requested an upgrade to media display rules to also apply the no-crop rule to single videos. (COMPLETED)
+3.  **USER:** Reported the Like button was broken and requested an upgrade to a BANIBS-themed multi-reaction system. (COMPLETED)
+4.  **USER:** Requested a complete redesign of the login page for a more professional and premium feel, prioritizing the sign-in form. (COMPLETED)
+5.  **USER:** Requested a Phase-0 backend and frontend scaffold for the Alternative School Hub to make the section feel alive with real data. (IN PROGRESS)
 
 **Project Health Check:**
 -   **Broken**:
     -   Password reset email functionality (BLOCKED on SMTP credentials).
 -   **Mocked**:
     -   Marketplace page.
-    -   Several pages under the  route are placeholders (e.g., Moments, Voice Share, Live Streaming).
+    -   ShortForm Video upload flow (UI exists, but submit action is not implemented).
 
 **3rd Party Integrations**
-*   **New**:
-    *    (Image cropping)
-    *    (Emoji picker UI)
-*   **Existing**: OpenAI GPT-4o, Whisper, TTS (via Emergent LLM Key), MongoDB Atlas, Google Fonts, Lucide Icons, Unsplash, .
+*   **New**: None
+*   **Existing**: OpenAI GPT-4o, Whisper, TTS (via Emergent LLM Key), MongoDB Atlas, Google Fonts, Lucide Icons, Unsplash, , , .
 
 **Testing status**
--   **Testing agent used after significant changes**: YES, for the initial Circles feature.
+-   **Testing agent used after significant changes**: YES, for the Last Used World feature.
 -   **Troubleshoot agent used after agent stuck in loop**: NO
 -   **Test files created**: None.
--   **Known regressions**: None from this session; several were fixed.
+-   **Known regressions**: None from this session.
 
 **Credentials to test flow:**
 -   **Email**: 
@@ -198,5 +180,4 @@ Key features and fixes from this session include:
 -   **Role**: 
 
 **What agent forgot to execute**
--   The agent implemented the core logic for the Last Used World feature but did not test it or complete the secondary task of updating individual world pages to also set the  key.
-</analysis>
+-   The agent did not perform any testing (unit, integration, or e2e) on the last feature implemented, the Alternative School Hub. The code was written, but its functionality remains unverified.</analysis>
