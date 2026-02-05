@@ -121,10 +121,9 @@ export function MediaViewer() {
 
   if (!isOpen) return null;
 
-  const isVideo = currentImage && (
-    currentImage.endsWith('.mp4') ||
-    currentImage.endsWith('.mov') ||
-    currentImage.endsWith('.webm')
+  // Detect video from URL (comprehensive check)
+  const isVideo = currentImage && currentImage.toLowerCase().match(
+    /\.(mp4|webm|ogg|mov|m4v|avi|mkv)(\?|$)/
   );
 
   return (
