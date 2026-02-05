@@ -781,6 +781,9 @@ function App() {
               <Route path="/founder/book-vault" element={<BookVaultStudio />} />
               <Route path="/founder/book-vault/:bookId" element={<BookEditor />} />
               
+              {/* Tutor Intake Admin (Phase-0.5) */}
+              <Route path="/founder/tutor-intake" element={<TutorIntakeAdmin />} />
+              
               {/* Navigation V2 Preview (do not deploy until approved) */}
               <Route path="/founder/nav-v2-preview" element={<NavV2Preview />} />
               
