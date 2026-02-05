@@ -754,6 +754,7 @@ function App() {
               <Route path="/portal/community/school" element={<SchoolHomePage />} />
               <Route path="/portal/community/school/resources/:slug" element={<SchoolResourceDetailPage />} />
               <Route path="/portal/community/school/submit" element={<SchoolResourceSubmitPage />} />
+              <Route path="/portal/community/school/become-a-tutor" element={<BecomeTutorPage />} />
               
               {/* Phase 11.5 - Ability Network */}
               <Route path="/portal/ability" element={<AbilityHomePage />} />
