@@ -460,6 +460,10 @@ app.include_router(book_vault_router)
 from routes.governance import router as governance_router
 app.include_router(governance_router)
 
+# Alternative School Hub - Phase-0 Scaffold
+from routes.alternative_school import router as alt_school_router
+app.include_router(alt_school_router)
+
 # HDOS v2 - Circle Trust Order (7 levels)
 app.include_router(hdos_trust_router)
 
