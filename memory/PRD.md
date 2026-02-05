@@ -222,6 +222,15 @@ All links visible:
   - **Access**: Founder/super_admin only
   - **EXPLICITLY FORBIDDEN**: Content inspection, ranking, scoring, auto-enforcement, moderation
   - Files: `/backend/routes/governance.py`, `FounderControlCenter.js`
+- [x] **Feed Image Display Fix (COMPLETE - February 5, 2026)**
+  - **Problem**: Portrait/poster images (promo flyers, announcements) were being cropped in feed
+  - **Root Cause**: Fixed height containers with `object-fit: cover` cropped portrait content
+  - **Fix Applied**:
+    - Single images: `aspect-ratio: 4/5` + `object-fit: contain` (no cropping)
+    - Dark letterbox background (`#0b0b0b`) for clean presentation
+    - Multi-image grids (2-4+) keep `object-cover` (designed for thumbnails, click opens full)
+  - **Result**: BANIBS now displays full promo images like Facebook - no cropping
+  - Files: `SocialPostMediaGrid.jsx`, `SocialPostCard.js`
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
