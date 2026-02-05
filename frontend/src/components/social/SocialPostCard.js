@@ -121,46 +121,6 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
     await handleReact('love');
   };
 
-    setIsLiking(true);
-    
-    try {
-      const token = localStorage.getItem('access_token');
-      
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/social/posts/${localPost.id}/like`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          },
-          credentials: 'include',
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error('Failed to toggle like');
-      }
-
-      const result = await response.json();
-      
-      const updatedPost = {
-        ...localPost,
-        viewer_has_liked: result.liked,
-        like_count: result.like_count
-      };
-      
-      setLocalPost(updatedPost);
-      
-      if (onUpdate) {
-        onUpdate(updatedPost);
-      }
-    } catch (err) {
-      console.error('Error toggling like:', err);
-    } finally {
-      setIsLiking(false);
-    }
-  };
-
   const handleCommentAdded = (comment) => {
     const updatedPost = {
       ...localPost,
@@ -173,11 +133,6 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
       onUpdate(updatedPost);
     }
   };
-
-  const handleHighFive = async (postId, isHighFiving) => {
-    try {
-      const token = localStorage.getItem('access_token');
-      
       const result = await new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open('POST', `${process.env.REACT_APP_BACKEND_URL}/api/social/posts/${postId}/highfive`, true);
