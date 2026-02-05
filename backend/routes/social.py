@@ -105,8 +105,13 @@ async def get_post(
 
 
 # ==========================================
-# LIKES
+# REACTIONS (MULTI-REACTION SYSTEM v2.0)
 # ==========================================
+
+class ReactionRequest(BaseModel):
+    """Request body for reaction"""
+    type: str = "love"  # love, high_five, peace, like, cool
+
 
 @router.post("/posts/{post_id}/like", response_model=SocialLikeResponse)
 async def toggle_like_post(
@@ -124,18 +129,25 @@ async def toggle_like_post(
             detail="Post not found"
         )
     
-    result = await db_social.toggle_like(post_id, current_user["id"])
+    result = await db_social.toggle_like(post_id, current_user["id"], "love")
     return result
 
 
-@router.post("/posts/{post_id}/highfive")
-async def toggle_highfive_post(
+@router.post("/posts/{post_id}/react")
+async def toggle_reaction_post(
     post_id: str,
+    reaction: ReactionRequest,
     current_user=Depends(require_role("user", "member"))
 ):
     """
-    Toggle High Five on a post (BANIBS branded like system)
-    Alias for /like endpoint with High Five response format
+    Toggle reaction on a post with specified type (BANIBS Multi-Reaction System v2.0)
+    
+    Reaction types:
+    - love: ❤️ (default)
+    - high_five: ✋
+    - peace: ✌️
+    - like: 👍
+    - cool: 😎
     """
     # Check if post exists
     post = await db_social.get_post_by_id(post_id)
@@ -145,12 +157,84 @@ async def toggle_highfive_post(
             detail="Post not found"
         )
     
-    result = await db_social.toggle_like(post_id, current_user["id"])
+    result = await db_social.toggle_like(post_id, current_user["id"], reaction.type)
+    return result
+
+
+@router.delete("/posts/{post_id}/react")
+async def remove_reaction_post(
+    post_id: str,
+    current_user=Depends(require_role("user", "member"))
+):
+    """
+    Remove user's reaction from a post
+    """
+    post = await db_social.get_post_by_id(post_id)
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Post not found"
+        )
+    
+    # Get user's current reaction to determine type
+    db = await get_db()
+    existing = await db.social_reactions.find_one({
+        "post_id": post_id,
+        "user_id": current_user["id"]
+    })
+    
+    if existing:
+        result = await db_social.toggle_like(post_id, current_user["id"], existing.get("type", "love"))
+        return result
+    
+    return {"liked": False, "like_count": post.get("like_count", 0)}
+
+
+@router.get("/posts/{post_id}/reactors")
+async def get_post_reactors(
+    post_id: str,
+    reaction_type: Optional[str] = None,
+    limit: int = 50,
+    current_user=Depends(require_role("user", "member"))
+):
+    """
+    Get list of users who reacted to a post
+    """
+    post = await db_social.get_post_by_id(post_id)
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Post not found"
+        )
+    
+    reactors = await db_social.get_post_reactors(post_id, reaction_type, limit)
+    return {"reactors": reactors, "count": len(reactors)}
+
+
+@router.post("/posts/{post_id}/highfive")
+async def toggle_highfive_post(
+    post_id: str,
+    current_user=Depends(require_role("user", "member"))
+):
+    """
+    Toggle High Five on a post (BANIBS branded like system)
+    Alias for /react endpoint with high_five type
+    """
+    # Check if post exists
+    post = await db_social.get_post_by_id(post_id)
+    if not post:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Post not found"
+        )
+    
+    result = await db_social.toggle_like(post_id, current_user["id"], "high_five")
     
     # Map response to High Five format for frontend compatibility
     return {
         "highfived": result["liked"],
-        "highfive_count": result["like_count"]
+        "highfive_count": result["like_count"],
+        "viewer_reaction_type": result.get("viewer_reaction_type")
     }
 
 
