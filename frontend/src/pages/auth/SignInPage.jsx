@@ -313,7 +313,7 @@ const SignInPage = () => {
         style={{ borderTop: '1px solid rgba(255, 255, 255, 0.05)' }}
       >
         <blockquote className="text-sm text-gray-500 italic max-w-2xl mx-auto">
-          "A digital space where we control the narrative, build wealth together, and stay connected to what matters."
+          &ldquo;A digital space where we control the narrative, build wealth together, and stay connected to what matters.&rdquo;
         </blockquote>
       </div>
     </div>
