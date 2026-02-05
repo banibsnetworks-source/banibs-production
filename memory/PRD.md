@@ -287,6 +287,33 @@ All links visible:
     - Desktop: 2-column (sign-in left 480px, hero right flex)
     - Mobile: Stacked (sign-in first, hero below, features at bottom)
   - **File:** `/frontend/src/pages/auth/SignInPage.jsx` (complete rewrite)
+- [x] **Alternative School Hub Phase-0 Scaffold (COMPLETE - February 5, 2026)**
+  - **Purpose**: Read-only display of tutors, programs, and learning resources for alternative education
+  - **Backend:**
+    - Models: `TutorListing`, `ProgramCategory`, `LearningResource` with status (founding/developing/future)
+    - Collections: `alt_school_tutors`, `alt_school_programs`, `alt_school_resources`
+    - Public APIs: `GET /api/alt-school/{hub, tutors, programs, resources}`
+    - Admin APIs: `POST/PUT/DELETE /api/alt-school/admin/{tutors, programs, resources}`
+    - Seed endpoint: `POST /api/alt-school/admin/seed` (idempotent)
+  - **Frontend:**
+    - Page: `/portal/community/school` via `SchoolHomePage.jsx`
+    - Stats row showing counts
+    - Tutor cards with avatar, subject, location, grade range
+    - Program cards with descriptions
+    - Resource cards with category badges and external links
+    - Status badges: Active (founding), Coming Soon (developing)
+  - **Test coverage**: 100% (24 backend + UI tests passed)
+  - **Files:**
+    - `/backend/routes/alternative_school.py`
+    - `/backend/db/alternative_school.py`
+    - `/backend/models/alternative_school.py`
+    - `/frontend/src/pages/community/SchoolHomePage.jsx`
+- [x] **Login Page Identity Anchor (COMPLETE - February 5, 2026)**
+  - Added expanded platform name beneath BANIBS title on login page
+  - **Display:** "BANIBS" (gold gradient) + "Black America News, Information & Business System" (gray-400)
+  - Visible immediately on page load (above sign-in form)
+  - Preserves existing premium layout and visuals
+  - **File:** `/frontend/src/pages/auth/SignInPage.jsx`
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
