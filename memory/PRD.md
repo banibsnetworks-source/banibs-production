@@ -247,6 +247,32 @@ All links visible:
     - `SocialPostMediaGrid.jsx` - Complete rewrite with media type detection
     - `SocialPostCard.js` - Legacy media_url handles video
     - `MediaViewer.jsx` - Video playback in modal (was placeholder)
+- [x] **BANIBS Multi-Reaction System v2.0 (COMPLETE - February 5, 2026)**
+  - **Problem Fixed**: Like button was showing mismatch (Heart icon + "Like" label), click wasn't working
+  - **Root Cause**: Old handler existed but UI needed upgrade
+  - **BANIBS-Styled Reactions** (distinct from Facebook):
+    - ❤️ Love (respect/appreciation) - default
+    - ✋ High Five (support/encouragement)
+    - ✌️ Peace (non-escalation/solidarity)
+    - 👍 Like (general approval)
+    - 😎 Cool (admiration)
+  - **Behavior:**
+    - Single tap = toggle default reaction (Love)
+    - Hover (desktop) / Long-press (mobile) = open reaction tray
+    - Click count = open "Who Reacted" modal with filter tabs
+  - **Backend API:**
+    - `POST /api/social/posts/:id/react` - Toggle reaction with type
+    - `DELETE /api/social/posts/:id/react` - Remove reaction
+    - `GET /api/social/posts/:id/reactors` - List who reacted with filter
+  - **Frontend Components:**
+    - `ReactionButton.jsx` - Main button with picker tray
+    - `ReactionsModal` - Shows who reacted with filter tabs
+    - Updated `SocialPostCard.js` - Uses new ReactionButton
+  - **Files:**
+    - `/backend/db/social_posts.py` - `toggle_like()` now supports reaction types
+    - `/backend/routes/social.py` - New `/react`, `/reactors` endpoints
+    - `/frontend/src/components/social/ReactionButton.jsx` (NEW)
+    - `/frontend/src/components/social/SocialPostCard.js` (UPDATED)
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
