@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { formatDate } from '../utils/dateUtils';
+import SafeHtmlRenderer from './SafeHtmlRenderer';
 
 const NewsFeed = () => {
   const [newsItems, setNewsItems] = useState([]);
