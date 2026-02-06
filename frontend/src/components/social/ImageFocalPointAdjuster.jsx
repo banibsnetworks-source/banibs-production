@@ -188,9 +188,9 @@ const ImageFocalPointAdjuster = ({
               Fill Card
             </button>
             <button
-              onClick={() => setFitMode('contain')}
+              onClick={() => setFitMode('full')}
               className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-medium text-sm transition-all ${
-                fitMode === 'contain' 
+                fitMode === 'full' 
                   ? 'bg-amber-500 text-gray-900' 
                   : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
               }`}
