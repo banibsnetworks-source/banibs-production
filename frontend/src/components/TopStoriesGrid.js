@@ -127,9 +127,11 @@ const TopStoriesGrid = ({ stories, showBlackFocusType = false }) => {
               </h3>
 
               {/* Summary */}
-              <p className="text-muted-foreground text-sm line-clamp-2 mb-3">
-                {story.summary}
-              </p>
+              <SafeHtmlRenderer
+                html={story.summary || story.description}
+                className="text-muted-foreground text-sm line-clamp-2 mb-3"
+                as="div"
+              />
 
               {/* Read More Link */}
               <div className="flex items-center space-x-1 text-yellow-500 text-sm font-semibold group-hover:text-yellow-400 transition-colors">
