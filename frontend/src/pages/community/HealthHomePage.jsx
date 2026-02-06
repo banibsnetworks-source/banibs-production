@@ -46,10 +46,10 @@ export default function HealthHomePage() {
 
   return (
     <CommunityLayout>
-      {/* Calm Header Image - Family/Planning Theme */}
+      {/* Calm Header Image - Black Family Reading Together */}
       <div className="mb-8 rounded-2xl overflow-hidden relative h-44 bg-gradient-to-r from-teal-500/10 to-blue-500/10">
         <img 
-          src="https://images.unsplash.com/photo-1758523673378-425e731aace6?w=1200&q=80"
+          src="https://images.unsplash.com/photo-1665598214162-274973faa6f7?w=1200&q=80"
           alt="Family reading together"
           className="w-full h-full object-cover opacity-40"
           loading="lazy"
