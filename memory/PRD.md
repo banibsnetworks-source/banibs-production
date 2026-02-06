@@ -82,6 +82,19 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 - Visual style now aligns with Login, Marketplace, and Community hubs
 - **Files Modified**: `/app/frontend/src/pages/socialworld/SocialWorldHome.jsx`
 
+### ✅ P1 - Social World Coming Soon Visual Rebalance (COMPLETED)
+- Removed heavy greyscale/disabled styling from Coming Soon tiles
+- Applied "Low-Contrast but Alive" treatment:
+  - White/near-white text (90% opacity) instead of gray
+  - Colored gradient dots per tile matching world theme
+  - "Opening Soon" labels in warm amber color
+  - Subtle colored gradient backgrounds (15% opacity, 20% on hover)
+  - Visible borders (10% white opacity)
+- Section header changed from gray to amber accent
+- Tooltip added: "This world is opening in a future phase"
+- Tiles remain non-clickable (cursor: default, role: presentation)
+- **Files Modified**: `/app/frontend/src/pages/socialworld/SocialWorldHome.jsx`
+
 ---
 
 ## P0 ROLLBACK - FULL INTERNAL MODE (January 29, 2026)
