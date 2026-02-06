@@ -1,27 +1,28 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
-import ShortFormPageOriginal from '../shortform/ShortFormPage';
+import PulsePageOriginal from '../shortform/ShortFormPage';
 
 /**
- * BANIBS ShortForm - Integrated into Social World
- * Wraps the existing ShortForm page with Social World navigation
+ * BANIBS Pulse - Integrated into Social World
+ * CANONICAL NAME: Pulse (locked)
+ * Short-form vertical video platform
  */
-const ShortFormPage = () => {
+const PulsePage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="socialworld-shortform-wrapper" data-theme="dark">
-      <div className="socialworld-shortform-header">
+    <div className="socialworld-pulse-wrapper" data-theme="dark">
+      <div className="socialworld-pulse-header">
         <button className="back-button" onClick={() => navigate('/socialworld')}>
           <ArrowLeft size={20} />
           <span>Back to Social World</span>
         </button>
       </div>
-      {/* Integrate existing ShortForm component */}
-      <ShortFormPageOriginal />
+      {/* Integrate existing Pulse component */}
+      <PulsePageOriginal />
     </div>
   );
 };
 
-export default ShortFormPage;
+export default PulsePage;
