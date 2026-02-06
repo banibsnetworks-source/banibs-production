@@ -24,7 +24,7 @@ class VideoSafetyRating(str, Enum):
 
 class ShortFormVideo(BaseModel):
     id: str
-    user_id: str
+    user_id: Optional[str] = None  # Can be None for anonymous uploads
     username: str
     user_avatar: Optional[str] = None
     
