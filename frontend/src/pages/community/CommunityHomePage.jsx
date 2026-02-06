@@ -54,16 +54,16 @@ export default function CommunityHomePage() {
 
   return (
     <CommunityLayout>
-      {/* Hero Banner with Black Community Image */}
+      {/* Hero Banner - African American Family */}
       <div className="mb-8 rounded-2xl overflow-hidden relative">
         <div className="h-52 relative">
           <img 
-            src="https://images.unsplash.com/photo-1731475761027-0b6b33b74547?w=1400&q=80"
-            alt="Black community gathering"
-            className="w-full h-full object-cover opacity-30"
+            src="https://images.pexels.com/photos/12788362/pexels-photo-12788362.jpeg?w=1400&q=80"
+            alt="African American family together"
+            className="w-full h-full object-cover opacity-40"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-950/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-950/30" />
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center max-w-3xl px-6">
