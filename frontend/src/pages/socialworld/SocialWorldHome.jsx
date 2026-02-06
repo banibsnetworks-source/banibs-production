@@ -4,7 +4,7 @@ import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import { 
   Video, 
   Image, 
-  BookOpen, 
+  FileText, 
   Users, 
   Radio, 
   MessageSquare, 
@@ -13,65 +13,73 @@ import {
   ShoppingBag,
   Globe,
   ChevronDown,
-  Check
+  Check,
+  Compass
 } from 'lucide-react';
 import '../../styles/socialworld.css';
 import { setLastWorld, getLastWorld } from '../../hooks/useWorldPersistence';
 
 // Default world when no preference exists
-const DEFAULT_WORLD = 'community';
+const DEFAULT_WORLD = 'commons';
 
 /**
- * BANIBS Social World - Unified hub for all social media systems
+ * BANIBS Social World - Unified gateway to connection, creativity, and community
  * With "Last Used World" persistence
+ * 
+ * CANONICAL NAMING (LOCKED):
+ * - Commons: PRIMARY social/news exchange
+ * - Pulse: Short-form vertical video
+ * - Frames: Image-forward posts
+ * - Notes: Short written thoughts
+ * - Circles: Community/group spaces
  */
 
-// World definitions with routes
+// World definitions with routes - CANONICAL NAMING
 const WORLDS = [
   {
-    id: 'community',
-    title: 'Community',
-    description: 'Main social feed',
-    icon: Users,
+    id: 'commons',
+    title: 'Commons',
+    description: 'Shared space for stories & exchange',
+    icon: Compass,
     path: '/portal/social',
     gradient: 'from-amber-500 to-yellow-600',
     status: 'active',
     image: 'https://images.unsplash.com/photo-1655028065229-d39b85cba6e2?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1Mjh8MHwxfHNlYXJjaHwxfHxCbGFjayUyMGZyaWVuZHMlMjBjb25uZWN0aW5nJTIwc29jaWFsJTIwbWVkaWElMjBjb21tdW5pdHklMjBnYXRoZXJpbmd8ZW58MHx8fHwxNzcwMzUxNjc4fDA&ixlib=rb-4.1.0&q=85'
   },
   {
-    id: 'shortform',
-    title: 'ShortForm',
-    description: 'Vertical video feed',
+    id: 'pulse',
+    title: 'Pulse',
+    description: 'Short-form vertical video',
     icon: Video,
-    path: '/socialworld/shortform',
+    path: '/socialworld/pulse',
     gradient: 'from-pink-500 to-red-500',
     status: 'active',
     image: 'https://images.pexels.com/photos/7514816/pexels-photo-7514816.jpeg'
   },
   {
-    id: 'moments',
-    title: 'Moments',
-    description: 'Photo feed & stories',
+    id: 'frames',
+    title: 'Frames',
+    description: 'Visual storytelling',
     icon: Image,
-    path: '/socialworld/moments',
+    path: '/socialworld/frames',
     gradient: 'from-purple-500 to-pink-500',
     status: 'coming-soon',
     image: 'https://images.unsplash.com/photo-1596768453698-863c3810414e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHw0fHxCbGFjayUyMHBlb3BsZSUyMHRhbGtpbmclMjBjb252ZXJzYXRpb24lMjBmcmllbmRzJTIwaGFwcHl8ZW58MHx8fHwxNzcwMzUxNzE1fDA&ixlib=rb-4.1.0&q=85'
   },
   {
-    id: 'stories',
-    title: 'Stories',
-    description: 'Daily highlights',
-    icon: BookOpen,
-    path: '/socialworld/stories',
-    gradient: 'from-blue-500 to-purple-500',
+    id: 'notes',
+    title: 'Notes',
+    description: 'Reflections & thoughts',
+    icon: FileText,
+    path: '/socialworld/notes',
+    gradient: 'from-blue-500 to-indigo-500',
     status: 'coming-soon',
     image: 'https://images.unsplash.com/photo-1758525225988-d34bcbcc00a0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxCbGFjayUyMHBlb3BsZSUyMHRhbGtpbmclMjBjb252ZXJzYXRpb24lMjBmcmllbmRzJTIwaGFwcHl8ZW58MHx8fHwxNzcwMzUxNzE1fDA&ixlib=rb-4.1.0&q=85'
   },
   {
     id: 'circles',
     title: 'Circles',
-    description: 'Groups & communities',
+    description: 'Community spaces',
     icon: Users,
     path: '/portal/social/circles',
     gradient: 'from-green-500 to-emerald-500',
