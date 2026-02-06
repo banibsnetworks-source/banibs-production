@@ -644,6 +644,13 @@ const FounderControlCenter = () => {
   const [govFilterType, setGovFilterType] = useState('');
   const [govFilterStatus, setGovFilterStatus] = useState('');
   
+  // Site Mode state (Go Live SAFE v1)
+  const [siteMode, setSiteMode] = useState('preview');
+  const [siteModeLoading, setSiteModeLoading] = useState(false);
+  const [siteModeUpdatedAt, setSiteModeUpdatedAt] = useState(null);
+  const [siteModeUpdatedBy, setSiteModeUpdatedBy] = useState(null);
+  const [showSiteModeConfirm, setShowSiteModeConfirm] = useState(false);
+  
   // DnD Kit sensors
   const sensors = useSensors(
     useSensor(PointerSensor, {
