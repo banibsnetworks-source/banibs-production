@@ -142,20 +142,48 @@ async def update_my_profile(
 
 
 @router.get("/u/{handle}", response_model=SocialProfileResponse)
-async def get_profile_by_handle(handle: str):
+async def get_profile_by_handle(
+    handle: str,
+    authorization: Optional[str] = Header(None)
+):
     """
-    Get a user's public profile by their handle
+    Get a user's profile by their handle.
+    - Public profiles: visible to everyone
+    - Private profiles: visible only to the owner
     """
     db = get_db_client()
+    
+    # Try to get current user from token (optional auth)
+    current_user_id = None
+    if authorization and authorization.startswith('Bearer '):
+        try:
+            from .auth import get_current_user_optional
+            token = authorization.split(' ')[1]
+            import jwt
+            from .auth import SECRET_KEY, ALGORITHM
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            current_user_id = payload.get("sub") or payload.get("user_id")
+        except:
+            pass
+    
+    # First, find the user by handle (regardless of is_public)
     user_doc = await db.banibs_users.find_one(
-        {
-            "profile.handle": handle,
-            "profile.is_public": True
-        },
+        {"profile.handle": handle},
         {"_id": 0}
     )
     
     if not user_doc:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Profile not found"
+        )
+    
+    # Check if profile is public OR if viewer is the owner
+    profile = user_doc.get("profile", {})
+    is_public = profile.get("is_public", True)  # Default to public
+    is_own_profile = current_user_id and user_doc.get("id") == current_user_id
+    
+    if not is_public and not is_own_profile:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Profile not found or not public"
