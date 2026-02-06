@@ -249,6 +249,7 @@ const GroupsPage = () => {
         />
       )}
     </div>
+    </SocialLayout>
   );
 };
 
