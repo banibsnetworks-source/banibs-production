@@ -194,6 +194,9 @@ const SocialWorldHome = () => {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   
+  // Hero image - Black-centered community gathering
+  const HERO_IMAGE = "https://images.unsplash.com/photo-1768244016470-271b210a8407?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1Mjh8MHwxfHNlYXJjaHwyfHxCbGFjayUyMGZyaWVuZHMlMjBjb25uZWN0aW5nJTIwc29jaWFsJTIwbWVkaWElMjBjb21tdW5pdHklMjBnYXRoZXJpbmd8ZW58MHx8fHwxNzcwMzUxNjc4fDA&ixlib=rb-4.1.0&q=85";
+  
   // Lazy initialization - determine initial world synchronously
   const [currentWorld, setCurrentWorld] = useState(() => {
     // Priority 1: URL query param override (?world=shortform)
