@@ -137,7 +137,7 @@ export default function MarketplaceRegionPage() {
           {loading ? (
             <div className="text-xs text-slate-500">Loading products...</div>
           ) : (
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
               {(products.length > 0 ? products : demoProducts).map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
