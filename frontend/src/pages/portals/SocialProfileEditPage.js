@@ -132,43 +132,52 @@ const SocialProfileEditPage = () => {
     setSaving(true);
     
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/me`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-          },
-          credentials: 'include',
-          body: JSON.stringify(formData)
+      // Use XMLHttpRequest to bypass rrweb "Response body already used" error
+      const updatedProfile = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('PATCH', `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/me`, true);
+        xhr.withCredentials = true;
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        
+        const token = localStorage.getItem('access_token');
+        if (token) {
+          xhr.setRequestHeader('Authorization', `Bearer ${token}`);
         }
-      );
-      
-      if (!response.ok) {
-        // Read body once for error
-        const errorText = await response.text();
-        let errorMessage = 'Failed to update profile';
-        try {
-          const errorData = JSON.parse(errorText);
-          errorMessage = errorData.detail || errorMessage;
-        } catch (e) {
-          errorMessage = errorText || errorMessage;
-        }
-        throw new Error(errorMessage);
-      }
-      
-      // Read body once for success
-      const responseText = await response.text();
-      let updatedProfile = null;
-      try {
-        updatedProfile = responseText ? JSON.parse(responseText) : null;
-      } catch (e) {
-        // Ignore parse errors
-      }
+        
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              resolve(JSON.parse(xhr.responseText));
+            } catch (e) {
+              resolve(null);
+            }
+          } else {
+            let errorMsg = 'Failed to update profile';
+            try {
+              const errData = JSON.parse(xhr.responseText);
+              errorMsg = errData.detail || errorMsg;
+            } catch (e) {}
+            reject(new Error(errorMsg));
+          }
+        };
+        
+        xhr.onerror = () => reject(new Error('Network error'));
+        xhr.send(JSON.stringify(formData));
+      });
       
       if (updatedProfile) {
         setProfile(updatedProfile);
+        // Update form data with returned values
+        setFormData(prev => ({
+          ...prev,
+          display_name: updatedProfile.display_name || prev.display_name,
+          handle: updatedProfile.handle || prev.handle,
+          headline: updatedProfile.headline || prev.headline,
+          bio: updatedProfile.bio || prev.bio,
+          location: updatedProfile.location || prev.location,
+          interests: updatedProfile.interests || prev.interests,
+          is_public: updatedProfile.is_public !== undefined ? updatedProfile.is_public : prev.is_public
+        }));
       }
       setSuccess(true);
       setIsEditing(false);
