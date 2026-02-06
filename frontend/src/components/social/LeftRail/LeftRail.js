@@ -105,12 +105,12 @@ const LeftRail = () => {
         // Use user ID as fallback when handle is not set
         { icon: FileText, label: 'My Posts', path: userHandle && userHandle !== 'user' 
             ? `/portal/social/u/${userHandle}?tab=posts` 
-            : (user?.id ? `/portal/social/profile/id/${user.id}?tab=posts` : '/portal/social/profile') },
+            : (user?.id ? `/portal/social/id/${user.id}?tab=posts` : '/portal/social/profile') },
         { icon: User, label: 'My Groups', path: '/portal/social/groups/mine' },
         { icon: MessageCircle, label: 'My Messages', path: '/portal/social/messages' },
         { icon: User, label: 'My Peoples', path: userHandle && userHandle !== 'user'
             ? `/portal/social/u/${userHandle}?tab=peoples`
-            : (user?.id ? `/portal/social/profile/id/${user.id}?tab=peoples` : '/portal/social/profile') },
+            : (user?.id ? `/portal/social/id/${user.id}?tab=peoples` : '/portal/social/profile') },
         { icon: Bookmark, label: 'Saved / Bookmarks', path: '/portal/social/saved' },
         { icon: Mic, label: 'My Lives', path: '/portal/social/lives' },
         { icon: Star, label: 'Subscriptions', path: '/portal/social/subscriptions' }
