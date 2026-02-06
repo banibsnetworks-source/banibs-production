@@ -54,12 +54,12 @@ export default function CommunityHomePage() {
 
   return (
     <CommunityLayout>
-      {/* Hero Banner with Image */}
+      {/* Hero Banner with Black Community Image */}
       <div className="mb-8 rounded-2xl overflow-hidden relative">
         <div className="h-52 relative">
           <img 
-            src="https://images.unsplash.com/photo-1764173039543-f9f197744e1b?w=1400&q=80"
-            alt="Community connected"
+            src="https://images.unsplash.com/photo-1731475761027-0b6b33b74547?w=1400&q=80"
+            alt="Black community gathering"
             className="w-full h-full object-cover opacity-30"
             loading="lazy"
           />
