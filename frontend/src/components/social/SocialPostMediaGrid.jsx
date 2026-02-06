@@ -42,9 +42,10 @@ import { useMediaViewer } from '../../hooks/useMediaViewer';
  */
 
 // ========================================================
-// HELPER: Detect media type from URL
+// HELPER: Detect media type from URL or object
 // ========================================================
-const getMediaType = (url) => {
+const getMediaType = (urlOrObj) => {
+  const url = typeof urlOrObj === 'string' ? urlOrObj : urlOrObj?.url;
   if (!url) return 'unknown';
   const lowerUrl = url.toLowerCase();
   
@@ -65,6 +66,26 @@ const getMediaType = (url) => {
   
   // Default to image
   return 'image';
+};
+
+// ========================================================
+// HELPER: Extract focal point data from media item
+// ========================================================
+const getFocalPoint = (mediaItem) => {
+  if (typeof mediaItem === 'string') {
+    return { focalY: 0.5, fitMode: 'cover' };
+  }
+  return {
+    focalY: mediaItem.focalY ?? 0.5,
+    fitMode: mediaItem.fitMode ?? 'cover'
+  };
+};
+
+// ========================================================
+// HELPER: Get URL from media item (string or object)
+// ========================================================
+const getMediaUrl = (mediaItem) => {
+  return typeof mediaItem === 'string' ? mediaItem : mediaItem?.url;
 };
 
 // ========================================================
