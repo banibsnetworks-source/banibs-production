@@ -178,6 +178,11 @@ const SocialProfileEditPage = () => {
           interests: updatedProfile.interests || prev.interests,
           is_public: updatedProfile.is_public !== undefined ? updatedProfile.is_public : prev.is_public
         }));
+        
+        // Refresh user in auth context to update navbar display name
+        if (refreshUser) {
+          await refreshUser();
+        }
       }
       setSuccess(true);
       setIsEditing(false);
