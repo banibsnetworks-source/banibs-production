@@ -3,7 +3,7 @@ BANIBS Social Profile Routes - Phase 9.0
 API endpoints for user profile management
 """
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Header
 from datetime import datetime, timezone
 from typing import Optional
 
