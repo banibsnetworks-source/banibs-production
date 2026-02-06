@@ -117,29 +117,34 @@ const ImageFocalPointAdjuster = ({
         {/* Preview Area */}
         <div className="p-5">
           <p className="text-sm text-gray-400 mb-3">
-            Drag or use the slider to position your image for the feed view.
+            {fitMode === 'full' 
+              ? 'Full image will be displayed in the feed without cropping.'
+              : 'Drag or use the slider to position your image for the feed view.'}
           </p>
           
           {/* Image Preview Card */}
           <div 
             ref={previewRef}
-            className="relative mx-auto rounded-xl overflow-hidden border-2 border-gray-700 cursor-move"
+            className={`relative mx-auto rounded-xl overflow-hidden border-2 border-gray-700 ${fitMode === 'cover' ? 'cursor-move' : 'cursor-default'}`}
             style={{ 
               width: PREVIEW_WIDTH, 
-              height: PREVIEW_HEIGHT,
+              height: fitMode === 'full' ? 'auto' : PREVIEW_HEIGHT,
+              maxHeight: fitMode === 'full' ? '400px' : PREVIEW_HEIGHT,
               backgroundColor: '#0b0b0b'
             }}
             onMouseDown={handlePreviewMouseDown}
-            onTouchStart={() => setIsDragging(true)}
+            onTouchStart={() => fitMode === 'cover' && setIsDragging(true)}
             onTouchMove={handleTouchMove}
             onTouchEnd={() => setIsDragging(false)}
           >
             <img
               src={imageUrl}
               alt="Preview"
-              className="w-full h-full select-none"
+              className="select-none"
               style={{
-                objectFit: fitMode,
+                width: '100%',
+                height: fitMode === 'full' ? 'auto' : '100%',
+                objectFit: fitMode === 'full' ? 'contain' : fitMode,
                 objectPosition: fitMode === 'cover' ? `50% ${focalY * 100}%` : 'center',
               }}
               draggable="false"
@@ -164,11 +169,18 @@ const ImageFocalPointAdjuster = ({
                 <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-amber-400 border-2 border-white shadow-md" />
               </div>
             )}
+            
+            {/* Full mode indicator */}
+            {fitMode === 'full' && (
+              <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-emerald-500/90 text-white text-xs px-3 py-1 rounded-full">
+                Full Poster Mode
+              </div>
+            )}
           </div>
           
           {/* Preview Label */}
           <p className="text-center text-xs text-gray-500 mt-2">
-            Feed card preview
+            {fitMode === 'full' ? 'Full poster preview' : 'Feed card preview'}
           </p>
         </div>
         
