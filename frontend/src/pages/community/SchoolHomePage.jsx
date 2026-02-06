@@ -160,19 +160,34 @@ export default function SchoolHomePage() {
 
   return (
     <CommunityLayout>
-      {/* Hero Section */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="p-2.5 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30">
-            <GraduationCap className="text-blue-400" size={28} />
-          </div>
+      {/* Hero Banner - Black Students Learning */}
+      <div className="mb-8 rounded-2xl overflow-hidden relative h-48 bg-gradient-to-r from-blue-500/10 to-indigo-500/10">
+        <img 
+          src="https://images.unsplash.com/photo-1610500796385-3ffc1ae2f046?w=1200&q=80"
+          alt="Black children reading and learning"
+          className="w-full h-full object-cover opacity-40"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-slate-950/40" />
+        <div className="absolute inset-0 flex items-center px-6">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-slate-100">
-              Alternative Schooling Hub
-            </h1>
-            <p className="text-sm text-slate-400">Phase-0 · Founding Resources</p>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2.5 rounded-xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30">
+                <GraduationCap className="text-blue-400" size={28} />
+              </div>
+              <div>
+                <h1 className="text-2xl md:text-3xl font-bold text-slate-100">
+                  Alternative Schooling Hub
+                </h1>
+                <p className="text-sm text-slate-400">Phase-0 · Founding Resources</p>
+              </div>
+            </div>
+            <p className="text-base text-slate-300 max-w-2xl">
+              Take control of your children's education. Find tutors, curriculums, co-ops, and support for homeschooling families.
+            </p>
           </div>
         </div>
+      </div>
         <p className="text-base text-slate-300 max-w-3xl mb-4">
           Take control of your children&apos;s education with tutors, alternative programs, and learning resources designed for our community.
         </p>
