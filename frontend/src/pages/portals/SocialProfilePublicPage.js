@@ -48,9 +48,15 @@ const SocialProfilePublicPage = () => {
       
       try {
         // Determine which endpoint to use based on available parameter
-        const endpoint = handle 
-          ? `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/u/${handle}`
-          : `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/id/${userId}`;
+        let endpoint;
+        
+        if (handle) {
+          endpoint = `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/u/${handle}`;
+        } else if (userId) {
+          endpoint = `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/id/${userId}`;
+        } else {
+          throw new Error('No handle or user ID provided');
+        }
         
         // Use XMLHttpRequest to bypass rrweb "Response body already used" error
         const data = await new Promise((resolve, reject) => {
@@ -93,6 +99,9 @@ const SocialProfilePublicPage = () => {
     
     if (handle || userId) {
       loadProfile();
+    } else {
+      setLoading(false);
+      setError('No profile identifier provided');
     }
   }, [handle, userId]);
 
