@@ -245,7 +245,7 @@ const SocialProfilePublicPage = () => {
                 to="/portal/social" 
                 className="btn-v2 btn-v2-primary btn-v2-md"
               >
-                Back to Social Feed
+                Back to Commons
               </Link>
             </div>
           </div>
