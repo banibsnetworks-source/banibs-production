@@ -13,11 +13,13 @@ import { useMediaViewer } from '../../hooks/useMediaViewer';
  *   - Single image OR video uses "CONTAIN" semantics
  *   - Aspect-ratio container (4/5 portrait-safe)
  *   - Centered content with letterbox background
+ *   - UNLESS user has set fitMode='cover' with custom focalY
  * 
  * RULE 2: GRID THUMBNAILS MAY CROP (BY DESIGN)
  *   - 2+ media items use grid thumbnails
  *   - "COVER" semantics for thumbnails
  *   - Click opens viewer/modal for full view
+ *   - Apply focalY for custom crop position
  * 
  * RULE 3: MIXED MEDIA = GRID
  *   - Image(s) + Video(s) = treat as grid
@@ -32,6 +34,11 @@ import { useMediaViewer } from '../../hooks/useMediaViewer';
  *   - Lazy loading for images
  *   - Videos: preload="metadata" only
  *   - No autoplay by default
+ * 
+ * NEW: FOCAL POINT SUPPORT (v2.1)
+ *   - focalY: 0.0 (top) to 1.0 (bottom), default 0.5 (center)
+ *   - fitMode: 'cover' (crop to fill) or 'contain' (show full)
+ *   - Applied via CSS object-position
  */
 
 // ========================================================
