@@ -251,3 +251,54 @@ code {
   }
 }
 
+
+/* Safe HTML Content Rendering Styles */
+.safe-html-content {
+  /* Inherit text styling from parent */
+}
+
+.safe-html-content p {
+  margin-bottom: 0.5em;
+}
+
+.safe-html-content p:last-child {
+  margin-bottom: 0;
+}
+
+.safe-html-content a {
+  color: #eab308; /* amber-500 */
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.safe-html-content a:hover {
+  color: #fbbf24; /* amber-400 */
+}
+
+.safe-html-content ul,
+.safe-html-content ol {
+  padding-left: 1.25em;
+  margin: 0.5em 0;
+}
+
+.safe-html-content li {
+  margin-bottom: 0.25em;
+}
+
+.safe-html-content strong,
+.safe-html-content b {
+  font-weight: 600;
+}
+
+.safe-html-content em,
+.safe-html-content i {
+  font-style: italic;
+}
+
+.safe-html-content blockquote {
+  border-left: 3px solid #eab308;
+  padding-left: 1em;
+  margin: 0.5em 0;
+  font-style: italic;
+  opacity: 0.9;
+}
