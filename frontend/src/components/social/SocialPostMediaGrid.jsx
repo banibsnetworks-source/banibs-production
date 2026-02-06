@@ -3,17 +3,16 @@ import { Play } from 'lucide-react';
 import { useMediaViewer } from '../../hooks/useMediaViewer';
 
 /**
- * SocialPostMediaGrid - BANIBS Media Display System v2.0
+ * SocialPostMediaGrid - BANIBS Media Display System v2.1
  * 
  * ========================================================
  * MEDIA DISPLAY POLICY (CANONICAL UI RULES)
  * ========================================================
  * 
- * RULE 1: SINGLE MEDIA SHOULD NEVER CROP CONTENT
- *   - Single image OR video uses "CONTAIN" semantics
- *   - Aspect-ratio container (4/5 portrait-safe)
- *   - Centered content with letterbox background
- *   - UNLESS user has set fitMode='cover' with custom focalY
+ * RULE 1: SINGLE MEDIA - THREE FIT MODES
+ *   - fitMode: "cover" - Crops to fill, uses focalY for position
+ *   - fitMode: "contain" - Shows full image in aspect ratio container (legacy)
+ *   - fitMode: "full" - FULL POSTER MODE: No aspect ratio, auto height, no cropping
  * 
  * RULE 2: GRID THUMBNAILS MAY CROP (BY DESIGN)
  *   - 2+ media items use grid thumbnails
@@ -35,10 +34,10 @@ import { useMediaViewer } from '../../hooks/useMediaViewer';
  *   - Videos: preload="metadata" only
  *   - No autoplay by default
  * 
- * NEW: FOCAL POINT SUPPORT (v2.1)
+ * FOCAL POINT DATA MODEL:
  *   - focalY: 0.0 (top) to 1.0 (bottom), default 0.5 (center)
- *   - fitMode: 'cover' (crop to fill) or 'contain' (show full)
- *   - Applied via CSS object-position
+ *   - fitMode: 'cover' | 'contain' | 'full'
+ *   - Applied via CSS object-position (cover) or auto height (full)
  */
 
 // ========================================================
