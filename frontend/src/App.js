@@ -75,6 +75,9 @@ import BanibsHomePage from "./pages/BanibsHomePage";
 import FoundationPage from "./pages/FoundationPage";
 import CirclesPage from "./pages/CirclesPage";
 
+// Foundation Documents
+import SevenSpiritsPage from "./pages/foundation/SevenSpiritsPage";
+
 // Internal Preview (Read-Only)
 import InternalPreviewPage from "./pages/InternalPreviewPage";
 
