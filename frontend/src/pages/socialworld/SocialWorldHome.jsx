@@ -113,8 +113,8 @@ const WORLDS = [
     icon: MessageSquare,
     path: '/messages',
     gradient: 'from-indigo-500 to-purple-500',
-    status: 'active',
-    image: 'https://images.unsplash.com/photo-1758525226180-3fc0045e6e5b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwzfHxCbGFjayUyMHBlb3BsZSUyMHRhbGtpbmclMjBjb252ZXJzYXRpb24lMjBmcmllbmRzJTIwaGFwcHl8ZW58MHx8fHwxNzcwMzUxNzE1fDA&ixlib=rb-4.1.0&q=85'
+    status: 'coming-soon',
+    image: null
   },
   {
     id: 'talent',
