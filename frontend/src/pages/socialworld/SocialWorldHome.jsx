@@ -393,38 +393,48 @@ const SocialWorldHome = () => {
         {/* Coming Soon Section */}
         <div className="module-grid-container" style={{ marginTop: '2rem' }}>
           <div className="px-4 mb-6">
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-[0.2em]">Coming Soon</h3>
-            <div className="h-px w-12 bg-gradient-to-r from-gray-600/60 to-transparent mt-2" />
+            <h3 className="text-sm font-semibold text-amber-500/70 uppercase tracking-[0.2em]">Coming Soon</h3>
+            <div className="h-px w-12 bg-gradient-to-r from-amber-500/40 to-transparent mt-2" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4">
             {comingSoonWorlds.map((module) => {
               return (
                 <div
                   key={module.id}
-                  className="relative overflow-hidden rounded-xl cursor-not-allowed opacity-60"
-                  role="button"
-                  tabIndex={0}
+                  className="group relative overflow-hidden rounded-xl cursor-default"
+                  role="presentation"
+                  title="This world is opening in a future phase"
                   style={{ minHeight: '140px' }}
                 >
-                  {/* Background - subtle gradient */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${module.gradient} opacity-10`} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-900/90 to-gray-900/70" />
+                  {/* Background - gradient with color */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${module.gradient} opacity-15 group-hover:opacity-20 transition-opacity duration-300`} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/80 to-gray-900/60" />
                   
-                  {/* Border */}
-                  <div className="absolute inset-0 rounded-xl border border-white/5" />
+                  {/* Border - subtle but visible */}
+                  <div className={`absolute inset-0 rounded-xl border border-white/10 group-hover:border-white/15 transition-colors duration-300`} />
                   
                   {/* Content */}
                   <div className="relative z-10 h-full flex flex-col justify-end p-5">
-                    <h3 className="text-lg font-medium text-gray-400 tracking-tight mb-1">
+                    {/* World Name */}
+                    <h3 className="text-lg font-semibold text-white/90 tracking-tight mb-1">
                       {module.title}
                     </h3>
-                    <p className="text-sm text-gray-500">
+                    
+                    {/* Description */}
+                    <p className="text-sm text-gray-400">
                       {module.description}
                     </p>
-                    <span className="inline-flex items-center gap-1.5 mt-3 text-xs text-gray-500 font-medium uppercase tracking-wider">
-                      <span className="w-1 h-1 rounded-full bg-gray-600" />
-                      Coming Soon
-                    </span>
+                    
+                    {/* Coming Soon Badge - warm amber accent */}
+                    <div className="flex items-center gap-2 mt-3">
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gradient-to-r ${module.gradient} bg-opacity-20 text-white/80`}
+                        style={{ background: `linear-gradient(to right, var(--tw-gradient-stops))`, opacity: 0.15 }}>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 text-xs text-amber-400/80 font-medium tracking-wide">
+                        <span className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${module.gradient}`} />
+                        Opening Soon
+                      </span>
+                    </div>
                   </div>
                 </div>
               );
