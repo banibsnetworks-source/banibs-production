@@ -115,7 +115,7 @@ const SocialSettingsDisplay = () => {
               padding: 0
             }}
           >
-            ← Back to Feed
+            ← Back to Commons
           </button>
           <h1 style={{ 
             fontSize: '32px', 
