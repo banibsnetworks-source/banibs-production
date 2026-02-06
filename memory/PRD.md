@@ -14,7 +14,52 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 
 ---
 
-## Recent Updates (February 6, 2026 - Session 2)
+## Recent Updates (February 6, 2026 - Session 3)
+
+### ✅ Go Live Button - SAFE v1 (COMPLETED)
+Implemented a super_admin-only system toggle for site mode management.
+
+**Backend:**
+- `POST /api/system/site-mode` - Toggle site mode (super_admin only)
+- `GET /api/system/site-mode` - Get current mode (public)
+- `GET /api/system/site-mode/history` - Get audit log (super_admin only)
+- Persists to `banibs_settings` collection with audit logging
+
+**Frontend:**
+- Go Live / Go Preview button in Founder Control Center header
+- Live status indicator (green pulsing dot) / Preview indicator (amber)
+- Confirmation modal before toggle
+- Last changed timestamp with user attribution
+- **Files Modified**: `/app/frontend/src/pages/founder/FounderControlCenter.js`
+- **Files Created**: `/app/backend/routes/system.py`
+
+**Hard constraints enforced:**
+- Only super_admin can toggle
+- No auto-enabling of Stripe/Donations
+- No exposure of founder/admin routes
+- Reversible actions only
+
+### ✅ P0 - My Posts Rendering Bug (VERIFIED WORKING)
+- Verified posts render correctly - 10 post cards displayed
+- Post count matches rendered count
+- API returns correct data structure
+- No "No posts yet" empty state when posts exist
+
+### ✅ Bio Prep - Schema Only (COMPLETED)
+Added nullable bio expansion fields to user schema (no UI):
+- `headline` - Short tagline/title
+- `about` - Long-form bio text
+- `location` - Optional location string
+- `focus_tags` - Array of focus/interest tags
+
+**Files Modified**: `/app/backend/models/unified_user.py`
+- Added to `User` model
+- Added to `UserPublic` model
+- Added to `UserUpdate` model
+
+---
+
+## Earlier Updates (February 6, 2026 - Session 2)
 
 ### ✅ P0 - BANIBS Social World Naming + UX Integration (COMPLETED)
 Implemented canonical naming for all Social World sections:
