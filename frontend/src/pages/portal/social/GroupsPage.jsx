@@ -125,11 +125,12 @@ const GroupsPage = () => {
             <select
               value={privacyFilter}
               onChange={(e) => setPrivacyFilter(e.target.value)}
-              className="input-v2"
+              className="input-v2 bg-gray-800 text-white border-gray-700"
+              style={{ colorScheme: 'dark' }}
             >
-              <option value="">All Privacy Levels</option>
-              <option value="PUBLIC">Public</option>
-              <option value="PRIVATE">Private</option>
+              <option value="" className="bg-gray-800 text-white">All Privacy Levels</option>
+              <option value="PUBLIC" className="bg-gray-800 text-white">Public</option>
+              <option value="PRIVATE" className="bg-gray-800 text-white">Private</option>
             </select>
           </div>
         </div>
