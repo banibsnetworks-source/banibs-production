@@ -96,9 +96,11 @@ const NewsSectionBlock = ({ title, stories, icon }) => {
                 {featuredItem.title}
               </h3>
 
-              <p className="text-muted-foreground text-sm line-clamp-2 mb-3">
-                {featuredItem.summary}
-              </p>
+              <SafeHtmlRenderer
+                html={featuredItem.summary || featuredItem.description}
+                className="text-muted-foreground text-sm line-clamp-2 mb-3"
+                as="div"
+              />
 
               <div className="flex items-center space-x-1 text-yellow-500 text-sm font-semibold">
                 <span>Read more</span>
