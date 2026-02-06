@@ -126,26 +126,27 @@ const ResourceCard = ({ resource }) => (
       <div className="flex items-start justify-between mb-2">
         <div className="flex items-center gap-2">
           <Book size={16} className="text-emerald-400" />
-        <h3 className="text-sm font-semibold text-slate-100">{resource.title}</h3>
+          <h3 className="text-sm font-semibold text-slate-100">{resource.title}</h3>
+        </div>
+        <StatusBadge status={resource.status} />
       </div>
-      <StatusBadge status={resource.status} />
-    </div>
-    <p className="text-xs text-slate-400 mb-3 line-clamp-2">{resource.description}</p>
-    <div className="flex items-center justify-between">
-      <span className="text-xs text-slate-500 px-2 py-1 rounded bg-slate-800/50">
-        {resource.category}
-      </span>
-      {resource.link_url && (
-        <a 
-          href={resource.link_url} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1"
-        >
-          <ExternalLink size={12} />
-          View
-        </a>
-      )}
+      <p className="text-xs text-slate-400 mb-3 line-clamp-2">{resource.description}</p>
+      <div className="flex items-center justify-between">
+        <span className="text-xs text-slate-500 px-2 py-1 rounded bg-slate-800/50">
+          {resource.category}
+        </span>
+        {resource.link_url && (
+          <a 
+            href={resource.link_url} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-xs text-blue-400 hover:text-blue-300 flex items-center gap-1"
+          >
+            <ExternalLink size={12} />
+            View
+          </a>
+        )}
+      </div>
     </div>
   </div>
 );
