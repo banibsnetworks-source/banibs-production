@@ -321,22 +321,39 @@ const SocialWorldHome = () => {
               return (
                 <div
                   key={module.id}
-                  className={`module-card active ${isCurrentWorld ? 'ring-2 ring-amber-500/50' : ''}`}
+                  className={`module-card active relative overflow-hidden ${isCurrentWorld ? 'ring-2 ring-amber-500/50' : ''}`}
                   onClick={() => handleModuleClick(module)}
                   role="button"
                   tabIndex={0}
+                  data-testid={`world-card-${module.id}`}
                 >
-                  <div className={`module-icon-wrapper bg-gradient-to-br ${module.gradient}`}>
-                    <IconComponent className="module-icon" size={32} />
-                  </div>
-                  <div className="module-info">
-                    <h3 className="module-title">{module.title}</h3>
-                    <p className="module-description">{module.description}</p>
-                    {isCurrentWorld && (
-                      <span className="inline-flex items-center gap-1 text-xs text-amber-400 mt-1">
-                        <Check size={12} /> Last used
-                      </span>
-                    )}
+                  {/* Background Image (if available) */}
+                  {module.image && (
+                    <div 
+                      className="absolute inset-0 bg-cover bg-center opacity-30"
+                      style={{ 
+                        backgroundImage: `url(${module.image})`,
+                        filter: 'blur(1px)'
+                      }}
+                    />
+                  )}
+                  {/* Gradient overlay for better text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/60 to-gray-900/40" />
+                  
+                  {/* Content */}
+                  <div className="relative z-10 flex items-start gap-4 p-4">
+                    <div className={`module-icon-wrapper bg-gradient-to-br ${module.gradient} flex-shrink-0`}>
+                      <IconComponent className="module-icon" size={28} />
+                    </div>
+                    <div className="module-info flex-1 min-w-0">
+                      <h3 className="module-title text-white font-semibold">{module.title}</h3>
+                      <p className="module-description text-gray-300 text-sm">{module.description}</p>
+                      {isCurrentWorld && (
+                        <span className="inline-flex items-center gap-1 text-xs text-amber-400 mt-1">
+                          <Check size={12} /> Last used
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
