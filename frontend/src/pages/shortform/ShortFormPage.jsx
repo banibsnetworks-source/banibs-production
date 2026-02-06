@@ -328,4 +328,6 @@ const PulsePage = () => {
   );
 };
 
-export default ShortFormPage;
+// Export as both PulsePage (canonical) and ShortFormPage (backward compatibility)
+export { PulsePage };
+export default PulsePage;
