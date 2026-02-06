@@ -263,7 +263,7 @@ const SocialProfilePublicPage = () => {
             to="/portal/social" 
             className="btn-v2 btn-v2-ghost btn-v2-sm icon-text-aligned"
           >
-            ← Back to Feed
+            ← Back to Commons
           </Link>
 
           {/* Profile Header with Cover Image */}
