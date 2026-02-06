@@ -90,13 +90,20 @@
   position: absolute;
   bottom: 8px;
   right: 8px;
-  background: rgba(251, 191, 36, 0.9);
   color: #111;
   font-size: 10px;
   font-weight: 600;
   padding: 4px 8px;
   border-radius: 4px;
   z-index: 10;
+}
+
+.media-adjusted-badge.bg-amber-500 {
+  background: rgba(251, 191, 36, 0.9);
+}
+
+.media-adjusted-badge.bg-emerald-500 {
+  background: rgba(16, 185, 129, 0.9);
 }
 
 .media-preview-img,
