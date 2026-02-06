@@ -81,12 +81,13 @@ const LeftRail = () => {
   const isFounder = user?.role === 'super_admin';
 
   // Navigation configuration - Phase 10.1 Final Structure
+  // CANONICAL NAMING: Commons, Pulse, Frames, Notes, Circles
   const navSections = [
     {
       id: 'main',
       label: 'MAIN',
       items: [
-        { icon: Home, label: 'Home', path: '/portal/social' },
+        { icon: Home, label: 'Commons', path: '/portal/social' },
         // Social World entry point - visible for all logged-in users (for testing)
         // Will be restricted to Founder-only after testing is complete
         { icon: Globe, label: 'Social World', path: '/socialworld', badge: 'NEW' },
