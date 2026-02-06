@@ -46,15 +46,15 @@ export default function HealthHomePage() {
 
   return (
     <CommunityLayout>
-      {/* Calm Header Image - Black Family Reading Together */}
+      {/* Calm Header Image - Black Mother & Child Reading */}
       <div className="mb-8 rounded-2xl overflow-hidden relative h-44 bg-gradient-to-r from-teal-500/10 to-blue-500/10">
         <img 
-          src="https://images.unsplash.com/photo-1665598214162-274973faa6f7?w=1200&q=80"
-          alt="Family reading together"
-          className="w-full h-full object-cover opacity-40"
+          src="https://images.unsplash.com/photo-1693778201108-b0af10cbc93a?w=1200&q=80"
+          alt="Mother and child reading together"
+          className="w-full h-full object-cover opacity-50"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-slate-950/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/70 to-slate-950/40" />
         <div className="absolute inset-0 flex items-center px-6">
           <div>
             <div className="flex items-center gap-3 mb-2">
