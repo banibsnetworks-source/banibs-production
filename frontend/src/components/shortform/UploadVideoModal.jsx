@@ -93,8 +93,24 @@ const UploadVideoModal = ({ onClose, onUploadSuccess }) => {
             onUploadSuccess();
           }, 1500);
         } else {
-          const response = JSON.parse(xhr.responseText);
-          setError(response.detail || 'Upload failed');
+          // Safe JSON parsing - handle non-JSON error responses
+          let errorMessage = 'Upload failed. Please try again.';
+          try {
+            const contentType = xhr.getResponseHeader('content-type');
+            if (contentType && contentType.includes('application/json')) {
+              const response = JSON.parse(xhr.responseText);
+              errorMessage = response.detail || response.error || response.message || errorMessage;
+            } else {
+              // Non-JSON response (e.g., "Internal Server Error")
+              console.error('Non-JSON error response:', xhr.responseText);
+              errorMessage = xhr.status === 500 
+                ? 'Server error. Please try again later.' 
+                : `Upload failed (${xhr.status})`;
+            }
+          } catch (parseError) {
+            console.error('Failed to parse error response:', parseError);
+          }
+          setError(errorMessage);
           setUploading(false);
         }
       });
