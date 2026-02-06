@@ -128,12 +128,12 @@ const PulsePage = () => {
             onClick={() => navigate('/socialworld')}
             className="shortform-back-btn"
             title="Back to Social World"
-            data-testid="shortform-back-btn"
+            data-testid="pulse-back-btn"
           >
             <ArrowLeft size={20} />
           </button>
           
-          <h1 className="shortform-logo">ShortForm</h1>
+          <h1 className="shortform-logo">Pulse</h1>
           
           {isYouthMode && (
             <div className="youth-mode-badge">
