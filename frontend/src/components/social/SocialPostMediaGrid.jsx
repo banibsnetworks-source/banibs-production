@@ -248,11 +248,19 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
   const { openViewer } = useMediaViewer();
   const [failedUrls, setFailedUrls] = useState(new Set());
   
+  // Normalize mediaUrls to array of objects
+  const normalizedMedia = mediaUrls.map(item => {
+    if (typeof item === 'string') {
+      return { url: item, focalY: 0.5, fitMode: 'cover' };
+    }
+    return item;
+  });
+  
   // Filter out failed URLs
-  const validUrls = mediaUrls.filter(url => !failedUrls.has(url));
+  const validMedia = normalizedMedia.filter(item => !failedUrls.has(getMediaUrl(item)));
   
   // No media or all failed
-  if (!validUrls || validUrls.length === 0) {
+  if (!validMedia || validMedia.length === 0) {
     return null;
   }
   
@@ -261,10 +269,14 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
   };
   
   // Analyze media types
-  const mediaItems = validUrls.map(url => ({
-    url,
-    type: getMediaType(url),
+  const mediaItems = validMedia.map(item => ({
+    url: getMediaUrl(item),
+    type: getMediaType(item),
+    ...getFocalPoint(item)
   }));
+  
+  // Get all URLs for viewer
+  const allUrls = mediaItems.map(m => m.url);
   
   const hasVideo = mediaItems.some(m => m.type === 'video');
   const hasImage = mediaItems.some(m => m.type === 'image');
@@ -273,12 +285,15 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
   // ========================================================
   // CASE 1: SINGLE MEDIA (Image OR Video) - NO CROPPING
   // ========================================================
-  if (validUrls.length === 1) {
+  if (validMedia.length === 1) {
+    const item = mediaItems[0];
     return (
       <SingleMediaRenderer
-        url={validUrls[0]}
-        mediaType={mediaItems[0].type}
-        onClick={() => openViewer(validUrls, 0)}
+        url={item.url}
+        mediaType={item.type}
+        focalY={item.focalY}
+        fitMode={item.fitMode}
+        onClick={() => openViewer(allUrls, 0)}
         onError={handleMediaError}
       />
     );
@@ -290,7 +305,7 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
   // ========================================================
   
   // 2 items: Side by side
-  if (validUrls.length === 2) {
+  if (validMedia.length === 2) {
     return (
       <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl overflow-hidden bg-[#0b0b0b]">
         {mediaItems.map((item, index) => (
@@ -298,7 +313,8 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
             <GridMediaItem
               url={item.url}
               mediaType={item.type}
-              onClick={() => openViewer(validUrls, index)}
+              focalY={item.focalY}
+              onClick={() => openViewer(allUrls, index)}
               onError={handleMediaError}
             />
           </div>
@@ -308,7 +324,7 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
   }
   
   // 3 items: 1 big left + 2 stacked right
-  if (validUrls.length === 3) {
+  if (validMedia.length === 3) {
     return (
       <div className="mt-3 grid grid-cols-2 gap-1 rounded-xl overflow-hidden bg-[#0b0b0b]">
         {/* Left: Large */}
@@ -316,7 +332,8 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
           <GridMediaItem
             url={mediaItems[0].url}
             mediaType={mediaItems[0].type}
-            onClick={() => openViewer(validUrls, 0)}
+            focalY={mediaItems[0].focalY}
+            onClick={() => openViewer(allUrls, 0)}
             onError={handleMediaError}
           />
         </div>
@@ -328,7 +345,8 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
               <GridMediaItem
                 url={mediaItems[i].url}
                 mediaType={mediaItems[i].type}
-                onClick={() => openViewer(validUrls, i)}
+                focalY={mediaItems[i].focalY}
+                onClick={() => openViewer(allUrls, i)}
                 onError={handleMediaError}
               />
             </div>
@@ -346,10 +364,11 @@ export function SocialPostMediaGrid({ mediaUrls = [] }) {
           <GridMediaItem
             url={item.url}
             mediaType={item.type}
-            onClick={() => openViewer(validUrls, index)}
+            focalY={item.focalY}
+            onClick={() => openViewer(allUrls, index)}
             onError={handleMediaError}
-            showOverlay={index === 3 && validUrls.length > 4}
-            overlayCount={validUrls.length - 4}
+            showOverlay={index === 3 && validMedia.length > 4}
+            overlayCount={validMedia.length - 4}
           />
         </div>
       ))}
