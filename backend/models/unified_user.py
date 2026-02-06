@@ -145,6 +145,24 @@ class UnifiedUser(BaseModel):
         description="User's chosen accent color for profile theming"
     )
     
+    # Phase 17.1 - Bio Expansion (schema prep, no UI yet)
+    headline: Optional[str] = Field(
+        default=None,
+        description="Short tagline/title displayed under name"
+    )
+    about: Optional[str] = Field(
+        default=None,
+        description="Long-form bio text"
+    )
+    location: Optional[str] = Field(
+        default=None,
+        description="Optional location string"
+    )
+    focus_tags: Optional[List[str]] = Field(
+        default=None,
+        description="Array of focus/interest tags"
+    )
+    
     class Config:
         json_schema_extra = {
             "example": {
