@@ -116,6 +116,31 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 - Dropdown options readable on both desktop and mobile
 - **Files Modified**: `/app/frontend/src/pages/portal/social/GroupsPage.jsx`
 
+### ✅ P1 - Image Focal Point / Crop Adjust (Facebook-like) (COMPLETED)
+- Created `ImageFocalPointAdjuster.jsx` modal component with:
+  - Visual preview of the feed crop
+  - Vertical position slider (Top ↔ Bottom)
+  - "Fill Card" (cover) vs "Show Full" (contain) toggle
+  - Drag-to-reposition on preview
+  - Mobile touch support
+- Updated `MediaUploader.js`:
+  - "Adjust" button appears on each uploaded image
+  - Stores `focalY` (0-1) and `fitMode` per media item
+  - "Adjusted" badge shows when focalY !== 0.5
+- Updated `MediaComposerModal.js` to include focal point data in post submission
+- Updated `SocialPostMediaGrid.jsx`:
+  - Renders images using `object-position: 50% ${focalY * 100}%`
+  - Supports both string URLs and object URLs with focal data
+  - Backward compatible (old posts render with default center crop)
+- Added CSS styles for Adjust button and Adjusted badge
+- **Data Model**: `{ url, type, focalY: 0.5, fitMode: 'cover' }`
+- **Files Created**: `/app/frontend/src/components/social/ImageFocalPointAdjuster.jsx`
+- **Files Modified**: 
+  - `/app/frontend/src/components/social/MediaUploader.js`
+  - `/app/frontend/src/components/social/MediaUploader.css`
+  - `/app/frontend/src/components/social/MediaComposerModal.js`
+  - `/app/frontend/src/components/social/SocialPostMediaGrid.jsx`
+
 ---
 
 ## P0 ROLLBACK - FULL INTERNAL MODE (January 29, 2026)
