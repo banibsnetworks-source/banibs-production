@@ -17,7 +17,7 @@ import { MapPin, Link as LinkIcon, Edit3, Check, X, ChevronDown, ChevronUp } fro
  * - Professional, modern appearance
  */
 const SocialProfileEditPage = () => {
-  const { user, updateUserAvatar } = useAuth();
+  const { user, updateUserAvatar, refreshUser } = useAuth();
   const navigate = useNavigate();
   
   const [profile, setProfile] = useState(null);
