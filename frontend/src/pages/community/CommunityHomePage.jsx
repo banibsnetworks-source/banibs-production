@@ -54,23 +54,34 @@ export default function CommunityHomePage() {
 
   return (
     <CommunityLayout>
-      {/* Hero Section */}
-      <div className="mb-8">
-        <div className="text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/30 mb-4">
-            <Sparkles className="text-indigo-400" size={16} />
-            <span className="text-sm font-semibold text-indigo-300">
-              Live Better. Together. On Purpose.
-            </span>
+      {/* Hero Banner with Image */}
+      <div className="mb-8 rounded-2xl overflow-hidden relative">
+        <div className="h-52 relative">
+          <img 
+            src="https://images.unsplash.com/photo-1764173039543-f9f197744e1b?w=1400&q=80"
+            alt="Community connected"
+            className="w-full h-full object-cover opacity-30"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-950/40" />
+        </div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-center max-w-3xl px-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/20 border border-indigo-500/30 mb-4">
+              <Sparkles className="text-indigo-400" size={16} />
+              <span className="text-sm font-semibold text-indigo-300">
+                Live Better. Together. On Purpose.
+              </span>
+            </div>
+            
+            <h1 className="text-4xl md:text-5xl font-bold text-slate-100 mb-4">
+              Community Life Hub
+            </h1>
+            
+            <p className="text-base text-slate-300 leading-relaxed">
+              Your comprehensive resource for health, fitness, cultural food traditions, and alternative education—all designed for Black families, by Black families.
+            </p>
           </div>
-          
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-100 mb-4">
-            Community Life Hub
-          </h1>
-          
-          <p className="text-base text-slate-300 leading-relaxed">
-            Your comprehensive resource for health, fitness, cultural food traditions, and alternative education—all designed for Black families, by Black families.
-          </p>
         </div>
       </div>
 
