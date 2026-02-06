@@ -666,6 +666,62 @@ const FounderControlCenter = () => {
   // API base URL
   const API_URL = process.env.REACT_APP_BACKEND_URL || '';
   
+  // =====================
+  // SITE MODE API FUNCTIONS (Go Live SAFE v1)
+  // =====================
+  
+  const fetchSiteMode = async () => {
+    try {
+      const response = await fetch(`${API_URL}/api/system/site-mode`);
+      if (response.ok) {
+        const data = await response.json();
+        setSiteMode(data.mode || 'preview');
+        setSiteModeUpdatedAt(data.updated_at);
+        setSiteModeUpdatedBy(data.updated_by);
+      }
+    } catch (err) {
+      console.error('Failed to fetch site mode:', err);
+    }
+  };
+  
+  const toggleSiteMode = async () => {
+    if (!accessToken) return;
+    setSiteModeLoading(true);
+    
+    const newMode = siteMode === 'live' ? 'preview' : 'live';
+    
+    try {
+      const response = await fetch(`${API_URL}/api/system/site-mode`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({ mode: newMode })
+      });
+      
+      if (!response.ok) throw new Error('Failed to toggle site mode');
+      
+      const data = await response.json();
+      setSiteMode(data.mode);
+      setSiteModeUpdatedAt(data.updated_at);
+      setSiteModeUpdatedBy(data.updated_by);
+      setShowSiteModeConfirm(false);
+      
+      // Show success toast (simple alert for now)
+      alert(`Site mode changed to ${data.mode.toUpperCase()}`);
+    } catch (err) {
+      alert('Failed to toggle site mode: ' + err.message);
+    } finally {
+      setSiteModeLoading(false);
+    }
+  };
+  
+  // Fetch site mode on mount
+  useEffect(() => {
+    fetchSiteMode();
+  }, []);
+  
   // Fetch Ops Log entries
   const fetchOpsLog = async () => {
     if (!accessToken) return;
