@@ -241,6 +241,12 @@ class UserUpdate(BaseModel):
     profile_picture_url: Optional[str] = None  # Phase 8.1
     banner_image_url: Optional[str] = None  # Phase 8.1
     accent_color: Optional[str] = None  # Phase 8.1
+    
+    # Phase 17.1 - Bio Expansion (schema prep, no UI yet)
+    headline: Optional[str] = None  # Short tagline/title
+    about: Optional[str] = None  # Long-form bio text
+    location: Optional[str] = None  # Optional location string
+    focus_tags: Optional[List[str]] = None  # Array of focus/interest tags
 
 
 class PasswordResetRequest(BaseModel):
