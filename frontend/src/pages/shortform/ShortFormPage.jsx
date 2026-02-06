@@ -5,6 +5,7 @@ import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import UploadVideoModal from '../../components/shortform/UploadVideoModal';
 import { useAuth } from '../../contexts/AuthContext';
 import { useWorldPersistence } from '../../hooks/useWorldPersistence';
+import '../../styles/shortform.css';
 
 /**
  * BANIBS ShortForm - Short-form vertical video platform
