@@ -129,6 +129,7 @@ class LearningResourceUpdate(BaseModel):
 class LearningResource(LearningResourceBase):
     """Full learning resource with metadata"""
     id: str
+    image_url: Optional[str] = None  # Phase-0.75: Card thumbnail
     created_at: datetime
     updated_at: Optional[datetime] = None
 
