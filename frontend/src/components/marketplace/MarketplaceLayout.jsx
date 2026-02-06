@@ -98,6 +98,50 @@ export default function MarketplaceLayout({ children }) {
           </div>
         </div>
 
+        {/* Persistent Diaspora Region Bar */}
+        {isMarketplacePage && (
+          <div 
+            className="sticky top-14 z-40"
+            style={{
+              borderBottom: `1px solid ${isDark ? 'rgb(30, 41, 59)' : 'rgb(226, 232, 240)'}`,
+              background: isDark ? 'rgba(15, 23, 42, 0.95)' : 'rgba(248, 250, 252, 0.95)',
+              backdropFilter: 'blur(8px)'
+            }}
+          >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex items-center gap-2 py-2 overflow-x-auto scrollbar-hide">
+                <span 
+                  className="text-xs font-medium whitespace-nowrap mr-2"
+                  style={{ color: isDark ? 'rgb(148, 163, 184)' : 'rgb(100, 116, 139)' }}
+                >
+                  Diaspora Regions:
+                </span>
+                {DIASPORA_REGIONS.map((region) => {
+                  const isActive = regionId === region.id;
+                  return (
+                    <Link
+                      key={region.id}
+                      to={`/portal/marketplace/region/${region.id}`}
+                      data-testid={`region-link-${region.id.toLowerCase().replace(/\s+/g, '-')}`}
+                      className={`
+                        px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200
+                        ${isActive
+                          ? 'bg-amber-500 text-black shadow-md shadow-amber-500/30'
+                          : isDark
+                            ? 'bg-slate-800/80 text-slate-300 hover:bg-slate-700 hover:text-amber-200 border border-slate-700'
+                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-amber-700 border border-slate-200'
+                        }
+                      `}
+                    >
+                      {region.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Full-width Main Content */}
         <main className="w-full">
           {children}
