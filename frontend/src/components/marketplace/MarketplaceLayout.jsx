@@ -24,6 +24,11 @@ const DIASPORA_REGIONS = [
 export default function MarketplaceLayout({ children }) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const { regionId } = useParams();
+  const location = useLocation();
+  
+  // Check if we're on a marketplace page (to show region bar)
+  const isMarketplacePage = location.pathname.startsWith('/portal/marketplace');
 
   return (
     <>
