@@ -288,7 +288,7 @@ const PulsePage = () => {
             <div className="feed-empty">
               <Upload size={48} />
               <h3>No videos yet</h3>
-              <p>Be the first to upload a ShortForm video!</p>
+              <p>Be the first to upload a Pulse video!</p>
               <button
                 onClick={() => setShowUploadModal(true)}
                 className="upload-cta"
