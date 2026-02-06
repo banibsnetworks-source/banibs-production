@@ -43,12 +43,12 @@ const handleXhrResponse = (response) => {
  * Create a new group
  */
 export const createGroup = async (groupData) => {
-  const response = await fetch(`${API_URL}/api/groups/`, {
+  const response = await xhrRequest(`${API_URL}/api/groups/`, {
     method: 'POST',
     headers: getHeaders(),
     body: JSON.stringify(groupData)
   });
-  return handleResponse(response);
+  return handleXhrResponse(response);
 };
 
 /**
@@ -63,56 +63,56 @@ export const listGroups = async (filters = {}) => {
   if (filters.tags) params.append('tags', filters.tags);
   if (filters.limit) params.append('limit', filters.limit);
   
-  const response = await fetch(`${API_URL}/api/groups/?${params}`, {
+  const response = await xhrRequest(`${API_URL}/api/groups/?${params}`, {
     method: 'GET',
     headers: getHeaders()
   });
-  return handleResponse(response);
+  return handleXhrResponse(response);
 };
 
 /**
  * Get user's joined groups
  */
 export const getMyGroups = async (limit = 50) => {
-  const response = await fetch(`${API_URL}/api/groups/my-groups?limit=${limit}`, {
+  const response = await xhrRequest(`${API_URL}/api/groups/my-groups?limit=${limit}`, {
     method: 'GET',
     headers: getHeaders()
   });
-  return handleResponse(response);
+  return handleXhrResponse(response);
 };
 
 /**
  * Get a specific group by ID
  */
 export const getGroup = async (groupId) => {
-  const response = await fetch(`${API_URL}/api/groups/${groupId}`, {
+  const response = await xhrRequest(`${API_URL}/api/groups/${groupId}`, {
     method: 'GET',
     headers: getHeaders()
   });
-  return handleResponse(response);
+  return handleXhrResponse(response);
 };
 
 /**
  * Update group details
  */
 export const updateGroup = async (groupId, updates) => {
-  const response = await fetch(`${API_URL}/api/groups/${groupId}`, {
+  const response = await xhrRequest(`${API_URL}/api/groups/${groupId}`, {
     method: 'PATCH',
     headers: getHeaders(),
     body: JSON.stringify(updates)
   });
-  return handleResponse(response);
+  return handleXhrResponse(response);
 };
 
 /**
  * Delete a group
  */
 export const deleteGroup = async (groupId) => {
-  const response = await fetch(`${API_URL}/api/groups/${groupId}`, {
+  const response = await xhrRequest(`${API_URL}/api/groups/${groupId}`, {
     method: 'DELETE',
     headers: getHeaders()
   });
-  return handleResponse(response);
+  return handleXhrResponse(response);
 };
 
 // ==================== MEMBERSHIP OPERATIONS ====================
@@ -121,22 +121,22 @@ export const deleteGroup = async (groupId) => {
  * Join a group
  */
 export const joinGroup = async (groupId) => {
-  const response = await fetch(`${API_URL}/api/groups/${groupId}/join`, {
+  const response = await xhrRequest(`${API_URL}/api/groups/${groupId}/join`, {
     method: 'POST',
     headers: getHeaders()
   });
-  return handleResponse(response);
+  return handleXhrResponse(response);
 };
 
 /**
  * Leave a group
  */
 export const leaveGroup = async (groupId) => {
-  const response = await fetch(`${API_URL}/api/groups/${groupId}/leave`, {
+  const response = await xhrRequest(`${API_URL}/api/groups/${groupId}/leave`, {
     method: 'POST',
     headers: getHeaders()
   });
-  return handleResponse(response);
+  return handleXhrResponse(response);
 };
 
 /**
@@ -149,18 +149,18 @@ export const getGroupMembers = async (groupId, filters = {}) => {
   if (filters.status) params.append('status', filters.status);
   if (filters.limit) params.append('limit', filters.limit);
   
-  const response = await fetch(`${API_URL}/api/groups/${groupId}/members?${params}`, {
+  const response = await xhrRequest(`${API_URL}/api/groups/${groupId}/members?${params}`, {
     method: 'GET',
     headers: getHeaders()
   });
-  return handleResponse(response);
+  return handleXhrResponse(response);
 };
 
 /**
  * Update member role
  */
 export const updateMemberRole = async (groupId, userId, newRole) => {
-  const response = await fetch(`${API_URL}/api/groups/${groupId}/members/role`, {
+  const response = await xhrRequest(`${API_URL}/api/groups/${groupId}/members/role`, {
     method: 'POST',
     headers: getHeaders(),
     body: JSON.stringify({
@@ -168,19 +168,19 @@ export const updateMemberRole = async (groupId, userId, newRole) => {
       role: newRole
     })
   });
-  return handleResponse(response);
+  return handleXhrResponse(response);
 };
 
 /**
  * Remove member from group
  */
 export const removeMember = async (groupId, userId) => {
-  const response = await fetch(`${API_URL}/api/groups/${groupId}/members/remove`, {
+  const response = await xhrRequest(`${API_URL}/api/groups/${groupId}/members/remove`, {
     method: 'POST',
     headers: getHeaders(),
     body: JSON.stringify({
       user_id: userId
     })
   });
-  return handleResponse(response);
+  return handleXhrResponse(response);
 };
