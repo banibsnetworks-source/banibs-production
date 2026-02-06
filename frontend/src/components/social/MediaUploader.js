@@ -140,9 +140,9 @@ const MediaUploader = ({ media, setMedia }) => {
               )}
               
               {/* Adjusted indicator */}
-              {item.type === 'image' && item.focalY !== 0.5 && (
-                <div className="media-adjusted-badge">
-                  Adjusted
+              {item.type === 'image' && (item.focalY !== 0.5 || item.fitMode === 'full') && (
+                <div className={`media-adjusted-badge ${item.fitMode === 'full' ? 'bg-emerald-500' : 'bg-amber-500'}`}>
+                  {item.fitMode === 'full' ? 'Full Poster' : 'Adjusted'}
                 </div>
               )}
             </div>
