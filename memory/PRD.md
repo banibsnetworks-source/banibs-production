@@ -14,7 +14,46 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 
 ---
 
-## Recent Updates (February 6, 2026)
+## Recent Updates (February 6, 2026 - Session 2)
+
+### ✅ P0 - BANIBS Social World Naming + UX Integration (COMPLETED)
+Implemented canonical naming for all Social World sections:
+- **Commons** (PRIMARY): Main social/news exchange (replaced "Feed")
+- **Pulse** (LOCKED): Short-form vertical video (replaced "ShortForm")  
+- **Frames** (placeholder): Image-forward posts (replaced "Moments")
+- **Notes** (placeholder): Short written thoughts (replaced "Stories")
+- **Circles** (active): Community/group spaces
+
+**Changes Made:**
+1. **SocialWorldHome.jsx**: Already had canonical WORLDS array
+2. **LeftRail.js**: Shows "Commons" in main navigation
+3. **App.js**: Updated routes to use new FramesPage and NotesPage components
+4. **SocialProfilePublicPage.js**: "Back to Commons" (was "Back to Feed")
+5. **SocialSettingsDisplay.js**: "Back to Commons" (was "Back to Feed")
+6. **ComingSoon.jsx**: "Explore Commons" (was "Explore Social Feed")
+7. **ShortFormPage.jsx**: Empty state says "Pulse video" (was "ShortForm video")
+8. **FounderControlCenter.js**: Description updated with canonical names
+
+**Files Created:**
+- `/app/frontend/src/pages/socialworld/FramesPage.jsx` - New placeholder for Frames
+- `/app/frontend/src/pages/socialworld/NotesPage.jsx` - New placeholder for Notes
+
+**Routes (with legacy aliases):**
+- `/socialworld` → Social World hub
+- `/socialworld/pulse` | `/socialworld/shortform` → Pulse page
+- `/socialworld/frames` | `/socialworld/moments` → Frames placeholder
+- `/socialworld/notes` | `/socialworld/stories` → Notes placeholder
+- `/portal/social` → Commons (main social feed)
+
+### ✅ P0 - "My Posts" Rendering Bug (VERIFIED WORKING)
+- Verified that "My Posts" feature renders posts correctly
+- Post count (10) matches rendered posts (10)
+- API endpoint `/api/social/users/{user_id}/posts` returns correct data
+- Frontend properly displays posts in profile Posts tab
+
+---
+
+## Earlier Updates (February 6, 2026 - Session 1)
 
 ### ✅ P1 - Marketplace: Persistent Diaspora Region Sub-Nav (COMPLETED)
 - Added persistent "Diaspora Region Bar" to `MarketplaceLayout.jsx`
