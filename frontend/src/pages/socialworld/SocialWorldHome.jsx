@@ -35,7 +35,8 @@ const WORLDS = [
     icon: Users,
     path: '/portal/social',
     gradient: 'from-amber-500 to-yellow-600',
-    status: 'active'
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1655028065229-d39b85cba6e2?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1Mjh8MHwxfHNlYXJjaHwxfHxCbGFjayUyMGZyaWVuZHMlMjBjb25uZWN0aW5nJTIwc29jaWFsJTIwbWVkaWElMjBjb21tdW5pdHklMjBnYXRoZXJpbmd8ZW58MHx8fHwxNzcwMzUxNjc4fDA&ixlib=rb-4.1.0&q=85'
   },
   {
     id: 'shortform',
@@ -44,7 +45,8 @@ const WORLDS = [
     icon: Video,
     path: '/socialworld/shortform',
     gradient: 'from-pink-500 to-red-500',
-    status: 'active'
+    status: 'active',
+    image: 'https://images.pexels.com/photos/7514816/pexels-photo-7514816.jpeg'
   },
   {
     id: 'moments',
@@ -53,7 +55,8 @@ const WORLDS = [
     icon: Image,
     path: '/socialworld/moments',
     gradient: 'from-purple-500 to-pink-500',
-    status: 'coming-soon'
+    status: 'coming-soon',
+    image: 'https://images.unsplash.com/photo-1596768453698-863c3810414e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHw0fHxCbGFjayUyMHBlb3BsZSUyMHRhbGtpbmclMjBjb252ZXJzYXRpb24lMjBmcmllbmRzJTIwaGFwcHl8ZW58MHx8fHwxNzcwMzUxNzE1fDA&ixlib=rb-4.1.0&q=85'
   },
   {
     id: 'stories',
@@ -62,7 +65,8 @@ const WORLDS = [
     icon: BookOpen,
     path: '/socialworld/stories',
     gradient: 'from-blue-500 to-purple-500',
-    status: 'coming-soon'
+    status: 'coming-soon',
+    image: 'https://images.unsplash.com/photo-1758525225988-d34bcbcc00a0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxCbGFjayUyMHBlb3BsZSUyMHRhbGtpbmclMjBjb252ZXJzYXRpb24lMjBmcmllbmRzJTIwaGFwcHl8ZW58MHx8fHwxNzcwMzUxNzE1fDA&ixlib=rb-4.1.0&q=85'
   },
   {
     id: 'circles',
@@ -71,7 +75,8 @@ const WORLDS = [
     icon: Users,
     path: '/portal/social/circles',
     gradient: 'from-green-500 to-emerald-500',
-    status: 'active'
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1758525225856-d837707cb13f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwyfHxCbGFjayUyMHBlb3BsZSUyMHRhbGtpbmclMjBjb252ZXJzYXRpb24lMjBmcmllbmRzJTIwaGFwcHl8ZW58MHx8fHwxNzcwMzUxNzE1fDA&ixlib=rb-4.1.0&q=85'
   },
   {
     id: 'live',
@@ -80,7 +85,8 @@ const WORLDS = [
     icon: Radio,
     path: '/socialworld/live',
     gradient: 'from-red-500 to-orange-500',
-    status: 'coming-soon'
+    status: 'coming-soon',
+    image: null
   },
   {
     id: 'voice',
@@ -89,7 +95,8 @@ const WORLDS = [
     icon: Mic,
     path: '/socialworld/voice',
     gradient: 'from-yellow-500 to-orange-500',
-    status: 'coming-soon'
+    status: 'coming-soon',
+    image: null
   },
   {
     id: 'chat',
@@ -98,7 +105,8 @@ const WORLDS = [
     icon: MessageSquare,
     path: '/messages',
     gradient: 'from-indigo-500 to-purple-500',
-    status: 'active'
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1758525226180-3fc0045e6e5b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwzfHxCbGFjayUyMHBlb3BsZSUyMHRhbGtpbmclMjBjb252ZXJzYXRpb24lMjBmcmllbmRzJTIwaGFwcHl8ZW58MHx8fHwxNzcwMzUxNzE1fDA&ixlib=rb-4.1.0&q=85'
   },
   {
     id: 'talent',
@@ -107,7 +115,8 @@ const WORLDS = [
     icon: Sparkles,
     path: '/socialworld/talent',
     gradient: 'from-amber-500 to-yellow-500',
-    status: 'coming-soon'
+    status: 'coming-soon',
+    image: null
   },
   {
     id: 'marketplace',
@@ -116,7 +125,8 @@ const WORLDS = [
     icon: ShoppingBag,
     path: '/socialworld/marketplace',
     gradient: 'from-emerald-500 to-green-500',
-    status: 'coming-soon'
+    status: 'coming-soon',
+    image: null
   }
 ];
 
