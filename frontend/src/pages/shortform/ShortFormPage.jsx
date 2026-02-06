@@ -122,6 +122,16 @@ const ShortFormPage = () => {
       <div className="shortform-container" data-theme="dark">
         {/* Header */}
         <div className="shortform-header">
+          {/* Back/Home Navigation */}
+          <button
+            onClick={() => navigate('/socialworld')}
+            className="shortform-back-btn"
+            title="Back to Social World"
+            data-testid="shortform-back-btn"
+          >
+            <ArrowLeft size={20} />
+          </button>
+          
           <h1 className="shortform-logo">ShortForm</h1>
           
           {isYouthMode && (
