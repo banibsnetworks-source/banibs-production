@@ -243,10 +243,12 @@ const ImageFocalPointAdjuster = ({
             </div>
           )}
           
-          {fitMode === 'contain' && (
-            <p className="text-sm text-gray-500 text-center py-2">
-              Full image will be shown without cropping
-            </p>
+          {fitMode === 'full' && (
+            <div className="p-3 bg-emerald-900/30 border border-emerald-700/50 rounded-xl">
+              <p className="text-sm text-emerald-300 text-center">
+                ✓ Full Poster Mode: Entire image visible in feed without cropping
+              </p>
+            </div>
           )}
         </div>
         
