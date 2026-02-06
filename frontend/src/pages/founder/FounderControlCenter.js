@@ -1553,37 +1553,211 @@ const FounderControlCenter = () => {
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           {/* Header */}
           <div style={{ marginBottom: '32px' }}>
-            <h1 style={{
-              fontSize: '32px',
-              fontWeight: '600',
-              color: isDark ? '#F7F7F7' : '#111217',
-              marginBottom: '8px',
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px' }}>
+              <div>
+                <h1 style={{
+                  fontSize: '32px',
+                  fontWeight: '600',
+                  color: isDark ? '#F7F7F7' : '#111217',
+                  marginBottom: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}>
+                  <Activity size={32} style={{ color: '#C8A857' }} />
+                  Founder Control Center
+                </h1>
+                <p style={{
+                  fontSize: '16px',
+                  color: isDark ? '#B3B3C2' : '#4A4B57',
+                  marginBottom: '8px'
+                }}>
+                  All systems at a glance.
+                </p>
+                <p style={{
+                  fontSize: '14px',
+                  color: isDark ? '#6B7280' : '#9CA3AF'
+                }}>
+                  {currentDate.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </p>
+              </div>
+              
+              {/* Go Live Button & Status - SAFE v1 */}
+              <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'flex-end',
+                gap: '8px'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  padding: '12px 16px',
+                  backgroundColor: isDark ? '#1C1C1C' : '#FFFFFF',
+                  borderRadius: '12px',
+                  border: `1px solid ${siteMode === 'live' ? '#10B981' : '#F59E0B'}30`
+                }}>
+                  {/* Status Indicator */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{
+                      width: '10px',
+                      height: '10px',
+                      borderRadius: '50%',
+                      backgroundColor: siteMode === 'live' ? '#10B981' : '#F59E0B',
+                      boxShadow: siteMode === 'live' ? '0 0 8px #10B981' : '0 0 8px #F59E0B',
+                      animation: 'pulse 2s infinite'
+                    }} />
+                    <span style={{
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      color: siteMode === 'live' ? '#10B981' : '#F59E0B'
+                    }}>
+                      {siteMode === 'live' ? 'LIVE' : 'PREVIEW'}
+                    </span>
+                  </div>
+                  
+                  {/* Go Live / Go Preview Button */}
+                  <button
+                    onClick={() => setShowSiteModeConfirm(true)}
+                    disabled={siteModeLoading}
+                    data-testid="go-live-btn"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      padding: '8px 16px',
+                      borderRadius: '8px',
+                      border: 'none',
+                      backgroundColor: siteMode === 'live' ? '#F59E0B' : '#10B981',
+                      color: '#FFFFFF',
+                      fontSize: '13px',
+                      fontWeight: '600',
+                      cursor: siteModeLoading ? 'wait' : 'pointer',
+                      opacity: siteModeLoading ? 0.7 : 1,
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    {siteModeLoading ? (
+                      <span>...</span>
+                    ) : siteMode === 'live' ? (
+                      <>
+                        <Pause size={14} />
+                        Go Preview
+                      </>
+                    ) : (
+                      <>
+                        <Play size={14} />
+                        Go Live
+                      </>
+                    )}
+                  </button>
+                </div>
+                
+                {/* Last Updated Info */}
+                {siteModeUpdatedAt && (
+                  <p style={{
+                    fontSize: '11px',
+                    color: isDark ? '#6B7280' : '#9CA3AF',
+                    margin: 0
+                  }}>
+                    Last changed: {new Date(siteModeUpdatedAt).toLocaleString()}
+                    {siteModeUpdatedBy && ` by ${siteModeUpdatedBy}`}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+          
+          {/* Site Mode Confirmation Modal */}
+          {showSiteModeConfirm && (
+            <div style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0,0,0,0.6)',
               display: 'flex',
               alignItems: 'center',
-              gap: '12px'
+              justifyContent: 'center',
+              zIndex: 1000
             }}>
-              <Activity size={32} style={{ color: '#C8A857' }} />
-              Founder Control Center
-            </h1>
-            <p style={{
-              fontSize: '16px',
-              color: isDark ? '#B3B3C2' : '#4A4B57',
-              marginBottom: '8px'
-            }}>
-              All systems at a glance.
-            </p>
-            <p style={{
-              fontSize: '14px',
-              color: isDark ? '#6B7280' : '#9CA3AF'
-            }}>
-              {currentDate.toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-              })}
-            </p>
-          </div>
+              <div style={{
+                backgroundColor: isDark ? '#1C1C1C' : '#FFFFFF',
+                borderRadius: '16px',
+                padding: '24px',
+                maxWidth: '400px',
+                width: '90%',
+                boxShadow: '0 20px 40px rgba(0,0,0,0.3)'
+              }}>
+                <h3 style={{
+                  fontSize: '18px',
+                  fontWeight: '600',
+                  color: isDark ? '#F7F7F7' : '#111217',
+                  marginBottom: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
+                  <AlertCircle size={20} style={{ color: '#F59E0B' }} />
+                  Confirm Site Mode Change
+                </h3>
+                <p style={{
+                  fontSize: '14px',
+                  color: isDark ? '#B3B3C2' : '#4A4B57',
+                  marginBottom: '20px',
+                  lineHeight: '1.6'
+                }}>
+                  Switch site mode to <strong>{siteMode === 'live' ? 'PREVIEW' : 'LIVE'}</strong>?
+                  <br /><br />
+                  <span style={{ fontSize: '13px', color: isDark ? '#6B7280' : '#9CA3AF' }}>
+                    This does not publish private areas or auto-enable payments. It's a reversible flag only.
+                  </span>
+                </p>
+                <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                  <button
+                    onClick={() => setShowSiteModeConfirm(false)}
+                    style={{
+                      padding: '10px 20px',
+                      borderRadius: '8px',
+                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+                      backgroundColor: 'transparent',
+                      color: isDark ? '#B3B3C2' : '#4A4B57',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={toggleSiteMode}
+                    disabled={siteModeLoading}
+                    data-testid="confirm-site-mode-btn"
+                    style={{
+                      padding: '10px 20px',
+                      borderRadius: '8px',
+                      border: 'none',
+                      backgroundColor: siteMode === 'live' ? '#F59E0B' : '#10B981',
+                      color: '#FFFFFF',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      cursor: siteModeLoading ? 'wait' : 'pointer',
+                      opacity: siteModeLoading ? 0.7 : 1
+                    }}
+                  >
+                    {siteModeLoading ? 'Switching...' : `Switch to ${siteMode === 'live' ? 'Preview' : 'Live'}`}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
           
           {/* Tabs Navigation */}
           <div style={{
