@@ -377,26 +377,39 @@ const SocialWorldHome = () => {
 
         {/* Coming Soon Section */}
         <div className="module-grid-container" style={{ marginTop: '2rem' }}>
-          <div className="px-4 mb-4">
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Coming Soon</h3>
+          <div className="px-4 mb-6">
+            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-[0.2em]">Coming Soon</h3>
+            <div className="h-px w-12 bg-gradient-to-r from-gray-600/60 to-transparent mt-2" />
           </div>
-          <div className="module-grid">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-4">
             {comingSoonWorlds.map((module) => {
-              const IconComponent = module.icon;
               return (
                 <div
                   key={module.id}
-                  className="module-card coming-soon"
+                  className="relative overflow-hidden rounded-xl cursor-not-allowed opacity-60"
                   role="button"
                   tabIndex={0}
+                  style={{ minHeight: '140px' }}
                 >
-                  <div className={`module-icon-wrapper bg-gradient-to-br ${module.gradient} opacity-50`}>
-                    <IconComponent className="module-icon" size={32} />
-                  </div>
-                  <div className="module-info">
-                    <h3 className="module-title">{module.title}</h3>
-                    <p className="module-description">{module.description}</p>
-                    <span className="module-status-badge">Coming Soon</span>
+                  {/* Background - subtle gradient */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${module.gradient} opacity-10`} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-900/90 to-gray-900/70" />
+                  
+                  {/* Border */}
+                  <div className="absolute inset-0 rounded-xl border border-white/5" />
+                  
+                  {/* Content */}
+                  <div className="relative z-10 h-full flex flex-col justify-end p-5">
+                    <h3 className="text-lg font-medium text-gray-400 tracking-tight mb-1">
+                      {module.title}
+                    </h3>
+                    <p className="text-sm text-gray-500">
+                      {module.description}
+                    </p>
+                    <span className="inline-flex items-center gap-1.5 mt-3 text-xs text-gray-500 font-medium uppercase tracking-wider">
+                      <span className="w-1 h-1 rounded-full bg-gray-600" />
+                      Coming Soon
+                    </span>
                   </div>
                 </div>
               );
