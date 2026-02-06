@@ -8,10 +8,11 @@ import { useWorldPersistence } from '../../hooks/useWorldPersistence';
 import '../../styles/shortform.css';
 
 /**
- * BANIBS ShortForm - Short-form vertical video platform
- * TikTok-style swipe feed with youth safety and region filtering
+ * BANIBS Pulse - Short-form vertical video platform
+ * CANONICAL NAME: Pulse (locked)
+ * Motion-forward, short-form storytelling
  */
-const ShortFormPage = () => {
+const PulsePage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('discovery');
@@ -23,8 +24,8 @@ const ShortFormPage = () => {
   const [isMuted, setIsMuted] = useState(false);
   const videoRef = useRef(null);
   
-  // Persist "shortform" as last used world
-  useWorldPersistence('shortform');
+  // Persist "pulse" as last used world
+  useWorldPersistence('pulse');
   
   // Check if user is in youth mode (under 18)
   const isYouthMode = user?.age && user.age < 18;
