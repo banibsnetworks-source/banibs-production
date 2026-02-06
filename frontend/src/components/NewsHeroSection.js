@@ -103,9 +103,11 @@ const NewsHeroSection = ({ story }) => {
           </h1>
 
           {/* Summary */}
-          <p className="text-card-foreground text-lg mb-6 line-clamp-4 leading-relaxed">
-            {story.summary}
-          </p>
+          <SafeHtmlRenderer
+            html={story.summary || story.description}
+            className="text-card-foreground text-lg mb-6 line-clamp-4 leading-relaxed"
+            as="div"
+          />
 
           {/* CTA Button */}
           <button
