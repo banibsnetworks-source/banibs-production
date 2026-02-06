@@ -46,19 +46,30 @@ export default function HealthHomePage() {
 
   return (
     <CommunityLayout>
-      {/* Hero */}
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="p-2 rounded-lg bg-teal-500/10 border border-teal-500/30">
-            <Heart className="text-teal-400" size={24} />
+      {/* Calm Header Image */}
+      <div className="mb-8 rounded-2xl overflow-hidden relative h-40 bg-gradient-to-r from-teal-500/10 to-blue-500/10">
+        <img 
+          src="https://images.unsplash.com/photo-1572584643027-aefa4f8e8fea?w=1200&q=80"
+          alt="Calm abstract wellness"
+          className="w-full h-full object-cover opacity-30"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/60 to-transparent" />
+        <div className="absolute inset-0 flex items-center px-6">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 rounded-lg bg-teal-500/20 border border-teal-500/30">
+                <Heart className="text-teal-400" size={24} />
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-slate-100">
+                Health & Insurance Navigator
+              </h1>
+            </div>
+            <p className="text-sm text-slate-300 max-w-xl">
+              Find affordable care, understand your insurance, and manage your health with culturally competent resources.
+            </p>
           </div>
-          <h1 className="text-3xl font-bold text-slate-100">
-            Health & Insurance Navigator
-          </h1>
         </div>
-        <p className="text-base text-slate-300 max-w-3xl">
-          Find affordable care, understand your insurance, and manage your health with culturally competent resources.
-        </p>
       </div>
 
       {/* Quick Actions */}
