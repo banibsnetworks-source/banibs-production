@@ -82,7 +82,7 @@ const SignInPage = () => {
               >
                 BANIBS
               </h1>
-              <p className="text-sm text-gray-500 mt-3 tracking-wide">
+              <p className="text-sm text-gray-300 mt-3 tracking-wide font-medium">
                 Black America News, Information & Business System
               </p>
             </div>
