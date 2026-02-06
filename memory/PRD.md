@@ -14,6 +14,18 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 
 ---
 
+## Recent Updates (February 6, 2026)
+
+### ✅ P1 - Marketplace: Persistent Diaspora Region Sub-Nav (COMPLETED)
+- Added persistent "Diaspora Region Bar" to `MarketplaceLayout.jsx`
+- Bar displays all 6 regions: Africa, Caribbean, North America, South America, Europe, Asia
+- Active region highlighted with amber-500 background
+- Sticky positioning ensures visibility while scrolling
+- Mobile responsive with horizontal scroll
+- **Files Modified**: `/app/frontend/src/components/marketplace/MarketplaceLayout.jsx`
+
+---
+
 ## P0 ROLLBACK - FULL INTERNAL MODE (January 29, 2026)
 
 The system has been rolled back from News-First gating to Full Internal Mode:
