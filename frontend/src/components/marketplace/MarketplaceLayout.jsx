@@ -1,6 +1,6 @@
 // frontend/src/components/marketplace/MarketplaceLayout.jsx
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useParams, useLocation } from "react-router-dom";
 import GlobalNavBar from "../GlobalNavBar";
 import { useTheme } from "../../contexts/ThemeContext";
 
@@ -10,6 +10,15 @@ const navItems = [
   { to: "/portal/marketplace/checkout", label: "Cart & Checkout" },
   { to: "/portal/marketplace/orders", label: "My Orders" },
   { to: "/portal/marketplace/seller/dashboard", label: "Seller Dashboard" },
+];
+
+const DIASPORA_REGIONS = [
+  { id: "Africa", label: "Africa" },
+  { id: "Caribbean", label: "Caribbean" },
+  { id: "North America", label: "North America" },
+  { id: "South America", label: "South America" },
+  { id: "Europe", label: "Europe" },
+  { id: "Asia", label: "Asia" },
 ];
 
 export default function MarketplaceLayout({ children }) {
