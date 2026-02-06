@@ -311,49 +311,63 @@ const SocialWorldHome = () => {
 
         {/* Active Worlds Section */}
         <div className="module-grid-container">
-          <div className="px-4 mb-4">
-            <h3 className="text-sm font-semibold text-amber-400 uppercase tracking-wider">Active Worlds</h3>
+          <div className="px-4 mb-6">
+            <h3 className="text-sm font-semibold text-amber-400/80 uppercase tracking-[0.2em]">Active Worlds</h3>
+            <div className="h-px w-16 bg-gradient-to-r from-amber-500/60 to-transparent mt-2" />
           </div>
-          <div className="module-grid">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 px-4">
             {activeWorlds.map((module) => {
-              const IconComponent = module.icon;
               const isCurrentWorld = module.id === currentWorld;
               return (
                 <div
                   key={module.id}
-                  className={`module-card active relative overflow-hidden ${isCurrentWorld ? 'ring-2 ring-amber-500/50' : ''}`}
+                  className={`group relative overflow-hidden rounded-xl cursor-pointer transition-all duration-300 hover:scale-[1.02] ${isCurrentWorld ? 'ring-2 ring-amber-500/60 ring-offset-2 ring-offset-gray-950' : ''}`}
                   onClick={() => handleModuleClick(module)}
                   role="button"
                   tabIndex={0}
                   data-testid={`world-card-${module.id}`}
+                  style={{ minHeight: '180px' }}
                 >
-                  {/* Background Image (if available) */}
-                  {module.image && (
+                  {/* Background Image */}
+                  {module.image ? (
                     <div 
-                      className="absolute inset-0 bg-cover bg-center opacity-30"
+                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                       style={{ 
                         backgroundImage: `url(${module.image})`,
-                        filter: 'blur(1px)'
                       }}
                     />
+                  ) : (
+                    <div className={`absolute inset-0 bg-gradient-to-br ${module.gradient} opacity-40`} />
                   )}
-                  {/* Gradient overlay for better text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/60 to-gray-900/40" />
+                  
+                  {/* Dark overlay for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/70 to-black/40 group-hover:from-black/90 group-hover:via-black/60 transition-all duration-300" />
+                  
+                  {/* Subtle accent border on hover */}
+                  <div className="absolute inset-0 rounded-xl border border-white/5 group-hover:border-amber-500/30 transition-colors duration-300" />
                   
                   {/* Content */}
-                  <div className="relative z-10 flex items-start gap-4 p-4">
-                    <div className={`module-icon-wrapper bg-gradient-to-br ${module.gradient} flex-shrink-0`}>
-                      <IconComponent className="module-icon" size={28} />
-                    </div>
-                    <div className="module-info flex-1 min-w-0">
-                      <h3 className="module-title text-white font-semibold">{module.title}</h3>
-                      <p className="module-description text-gray-300 text-sm">{module.description}</p>
-                      {isCurrentWorld && (
-                        <span className="inline-flex items-center gap-1 text-xs text-amber-400 mt-1">
-                          <Check size={12} /> Last used
-                        </span>
-                      )}
-                    </div>
+                  <div className="relative z-10 h-full flex flex-col justify-end p-5">
+                    {/* World Name - Primary */}
+                    <h3 className="text-xl font-semibold text-white tracking-tight mb-1 group-hover:text-amber-100 transition-colors">
+                      {module.title}
+                    </h3>
+                    
+                    {/* Description */}
+                    <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
+                      {module.description}
+                    </p>
+                    
+                    {/* Last used indicator */}
+                    {isCurrentWorld && (
+                      <div className="flex items-center gap-1.5 mt-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                        <span className="text-xs text-amber-400/90 font-medium tracking-wide">Last used</span>
+                      </div>
+                    )}
+                    
+                    {/* Subtle accent line */}
+                    <div className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r ${module.gradient} opacity-0 group-hover:opacity-60 transition-opacity duration-300`} />
                   </div>
                 </div>
               );
