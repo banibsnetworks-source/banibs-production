@@ -417,10 +417,14 @@ function App() {
               <Route path="/onboarding/welcome" element={<WelcomePage />} />
               
               {/* Phase 17.0 - BANIBS Social World (Unified Social Hub) */}
+              {/* CANONICAL NAMING: Commons, Pulse, Frames, Notes, Circles */}
               <Route path="/socialworld" element={<SocialWorldHome />} />
-              <Route path="/socialworld/shortform" element={<SocialWorldShortForm />} />
-              <Route path="/socialworld/moments" element={<SocialWorldMoments />} />
-              <Route path="/socialworld/stories" element={<SocialWorldStories />} />
+              <Route path="/socialworld/pulse" element={<SocialWorldPulse />} />
+              <Route path="/socialworld/shortform" element={<SocialWorldPulse />} /> {/* Legacy alias */}
+              <Route path="/socialworld/frames" element={<SocialWorldMoments />} />
+              <Route path="/socialworld/moments" element={<SocialWorldMoments />} /> {/* Legacy alias */}
+              <Route path="/socialworld/notes" element={<SocialWorldStories />} />
+              <Route path="/socialworld/stories" element={<SocialWorldStories />} /> {/* Legacy alias */}
               <Route path="/socialworld/connections" element={<SocialWorldConnections />} />
               <Route path="/socialworld/live" element={<SocialWorldLive />} />
               <Route path="/socialworld/circles" element={<SocialWorldCircles />} />
