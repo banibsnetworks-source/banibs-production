@@ -188,17 +188,13 @@ export default function SchoolHomePage() {
           </div>
         </div>
       </div>
-        <p className="text-base text-slate-300 max-w-3xl mb-4">
-          Take control of your children&apos;s education with tutors, alternative programs, and learning resources designed for our community.
-        </p>
         
-        {/* Orientation Notice */}
-        <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-3">
-          <AlertCircle size={18} className="text-amber-400 flex-shrink-0 mt-0.5" />
-          <div className="text-sm text-amber-200">
-            <strong>This hub is opening in phases.</strong> Some listings are active, some are still developing. 
-            More tutors, programs, and resources will be added as we grow.
-          </div>
+      {/* Orientation Notice */}
+      <div className="mb-8 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-start gap-3">
+        <AlertCircle size={18} className="text-amber-400 flex-shrink-0 mt-0.5" />
+        <div className="text-sm text-amber-200">
+          <strong>This hub is opening in phases.</strong> Some listings are active, some are still developing. 
+          More tutors, programs, and resources will be added as we grow.
         </div>
       </div>
 
