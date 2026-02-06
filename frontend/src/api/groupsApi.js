@@ -1,7 +1,10 @@
 /**
  * Groups API - Phase 8.5
  * Frontend service for Groups & Membership operations
+ * Uses XMLHttpRequest to bypass rrweb "Response body already used" error
  */
+
+import { xhrRequest } from '../utils/xhrRequest';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -24,29 +27,14 @@ const getHeaders = () => {
 };
 
 /**
- * Handle API response
- * Clone response before reading to prevent "Response body already used" errors
+ * Handle XHR API response
  */
-const handleResponse = async (response) => {
-  // Clone the response first to allow re-reading if needed
-  const clonedResponse = response.clone();
-  
+const handleXhrResponse = (response) => {
   if (!response.ok) {
-    try {
-      const error = await clonedResponse.json();
-      throw new Error(error.detail || `HTTP ${response.status}`);
-    } catch (parseError) {
-      // If JSON parsing fails, throw generic error
-      throw new Error(`Request failed with status ${response.status}`);
-    }
+    const errorMessage = response.data?.detail || response.data?.message || `Request failed with status ${response.status}`;
+    throw new Error(errorMessage);
   }
-  
-  try {
-    return await response.json();
-  } catch (parseError) {
-    // Return empty object if no JSON body (e.g., 204 No Content)
-    return {};
-  }
+  return response.data;
 };
 
 // ==================== GROUP OPERATIONS ====================
