@@ -92,24 +92,43 @@ const getMediaUrl = (mediaItem) => {
 // STYLES: Centralized for consistency
 // ========================================================
 const STYLES = {
-  // Single media wrapper (CONTAIN - no cropping)
-  singleMediaWrap: {
+  // Single media wrapper - COVER mode (aspect ratio container)
+  singleMediaWrapCover: {
     width: '100%',
-    aspectRatio: '4 / 5',  // Portrait-safe default
-    backgroundColor: '#0b0b0b',  // Letterbox background
+    aspectRatio: '4 / 5',
+    backgroundColor: '#0b0b0b',
     borderRadius: '12px',
     overflow: 'hidden',
     display: 'grid',
     placeItems: 'center',
   },
   
-  // Single media item (image or video)
-  singleMediaItem: {
+  // Single media wrapper - FULL mode (NO aspect ratio, auto height)
+  singleMediaWrapFull: {
+    width: '100%',
+    backgroundColor: '#0b0b0b',
+    borderRadius: '12px',
+    overflow: 'visible',  // CRITICAL: No clipping
+    maxHeight: '90vh',    // Safety cap for very tall images
+  },
+  
+  // Single media item (image or video) - cover mode
+  singleMediaItemCover: {
     width: '100%',
     height: '100%',
-    objectFit: 'contain',  // CRITICAL: No cropping
+    objectFit: 'cover',
     display: 'block',
     background: '#000',
+  },
+  
+  // Single media item - FULL mode (natural size, no cropping)
+  singleMediaItemFull: {
+    width: '100%',
+    height: 'auto',
+    maxHeight: '90vh',
+    objectFit: 'contain',
+    display: 'block',
+    background: '#0b0b0b',
   },
   
   // Grid thumbnail item (COVER - cropping OK)
@@ -125,7 +144,7 @@ const STYLES = {
 // ========================================================
 // COMPONENT: Single Media Renderer (Image or Video)
 // ========================================================
-const SingleMediaRenderer = ({ url, mediaType, focalY = 0.5, fitMode = 'contain', onClick, onError }) => {
+const SingleMediaRenderer = ({ url, mediaType, focalY = 0.5, fitMode = 'cover', onClick, onError }) => {
   const [hasError, setHasError] = useState(false);
   
   if (hasError) return null;
@@ -140,11 +159,11 @@ const SingleMediaRenderer = ({ url, mediaType, focalY = 0.5, fitMode = 'contain'
     return (
       <div
         className="mt-3 rounded-xl overflow-hidden"
-        style={STYLES.singleMediaWrap}
+        style={STYLES.singleMediaWrapCover}
       >
         <video
           src={url}
-          style={STYLES.singleMediaItem}
+          style={{ ...STYLES.singleMediaItemCover, objectFit: 'contain' }}
           controls
           playsInline
           preload="metadata"
@@ -154,25 +173,62 @@ const SingleMediaRenderer = ({ url, mediaType, focalY = 0.5, fitMode = 'contain'
     );
   }
   
-  // IMAGE: Apply focal point settings
-  const imageStyle = fitMode === 'contain' 
-    ? STYLES.singleMediaItem
-    : {
-        ...STYLES.singleMediaItem,
-        objectFit: 'cover',
-        objectPosition: `50% ${focalY * 100}%`
-      };
+  // ========================================================
+  // IMAGE: Handle all three fit modes
+  // ========================================================
   
+  // FULL MODE: Show entire image without any cropping
+  if (fitMode === 'full') {
+    return (
+      <div
+        className="mt-3 rounded-xl cursor-pointer hover:opacity-95 transition-opacity"
+        style={STYLES.singleMediaWrapFull}
+        onClick={onClick}
+      >
+        <img
+          src={url}
+          alt=""
+          style={STYLES.singleMediaItemFull}
+          loading="lazy"
+          onError={handleError}
+        />
+      </div>
+    );
+  }
+  
+  // COVER MODE: Crop with focal point
+  if (fitMode === 'cover') {
+    return (
+      <div
+        className="mt-3 rounded-xl overflow-hidden cursor-pointer hover:opacity-95 transition-opacity"
+        style={STYLES.singleMediaWrapCover}
+        onClick={onClick}
+      >
+        <img
+          src={url}
+          alt=""
+          style={{
+            ...STYLES.singleMediaItemCover,
+            objectPosition: `50% ${focalY * 100}%`
+          }}
+          loading="lazy"
+          onError={handleError}
+        />
+      </div>
+    );
+  }
+  
+  // CONTAIN MODE (legacy): Show full image within aspect ratio container
   return (
     <div
       className="mt-3 rounded-xl overflow-hidden cursor-pointer hover:opacity-95 transition-opacity"
-      style={STYLES.singleMediaWrap}
+      style={STYLES.singleMediaWrapCover}
       onClick={onClick}
     >
       <img
         src={url}
         alt=""
-        style={imageStyle}
+        style={{ ...STYLES.singleMediaItemCover, objectFit: 'contain' }}
         loading="lazy"
         onError={handleError}
       />
