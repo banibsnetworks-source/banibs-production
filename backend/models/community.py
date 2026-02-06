@@ -233,6 +233,7 @@ class FitnessProgram(BaseModel):
     cost_range: CostRange = CostRange.FREE
     enrollment_open: bool = True  # Phase 11.6.2
     max_participants: Optional[int] = None  # Phase 11.6.2
+    image_url: Optional[str] = None  # Phase-0 visual liveness
     video_url: Optional[str] = None
     thumbnail_url: Optional[str] = None
     tags: List[str] = []
