@@ -63,7 +63,7 @@ const INTERNAL_MODULES = [
   { id: 'events', name: 'Events', route: '/events', icon: Calendar, color: '#EF4444', description: 'Community events system' },
   { id: 'tv', name: 'BANIBS TV', route: '/portal/tv', icon: Video, color: '#DC2626', description: 'Video content and streaming' },
   { id: 'ccram', name: 'CCRAM', route: '/ccram', icon: Mic, color: '#7C3AED', description: 'CCR Anchor Module - Interview AI assistant' },
-  { id: 'socialworld', name: 'SocialWorld', route: '/socialworld', icon: Globe, color: '#0EA5E9', description: 'Social experience cluster (ShortForm, Moments, Stories, Live, etc.)' },
+  { id: 'socialworld', name: 'SocialWorld', route: '/socialworld', icon: Globe, color: '#0EA5E9', description: 'Social experience cluster (Pulse, Frames, Notes, Circles, etc.)' },
   { id: 'ability', name: 'Ability Network', route: '/ability', icon: Zap, color: '#A855F7', description: 'Skills and ability marketplace' },
   { id: 'connect', name: 'BANIBS Connect', route: '/connect', icon: Users, color: '#14B8A6', description: 'Connection and networking hub' },
   { id: 'circles', name: 'Infinite Circles', route: '/social/circles', icon: Users, color: '#F97316', description: 'Trust circles and relationship engine' },
