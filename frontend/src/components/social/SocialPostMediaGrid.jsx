@@ -183,7 +183,7 @@ const SingleMediaRenderer = ({ url, mediaType, focalY = 0.5, fitMode = 'contain'
 // ========================================================
 // COMPONENT: Grid Media Item (Thumbnail)
 // ========================================================
-const GridMediaItem = ({ url, mediaType, onClick, onError, showOverlay, overlayCount }) => {
+const GridMediaItem = ({ url, mediaType, focalY = 0.5, onClick, onError, showOverlay, overlayCount }) => {
   const [hasError, setHasError] = useState(false);
   
   if (hasError) return null;
@@ -191,6 +191,12 @@ const GridMediaItem = ({ url, mediaType, onClick, onError, showOverlay, overlayC
   const handleError = () => {
     setHasError(true);
     if (onError) onError(url);
+  };
+  
+  // Apply focal point to grid item style
+  const gridItemStyle = {
+    ...STYLES.gridMediaItem,
+    objectPosition: `50% ${focalY * 100}%`
   };
   
   return (
@@ -219,7 +225,7 @@ const GridMediaItem = ({ url, mediaType, onClick, onError, showOverlay, overlayC
         <img
           src={url}
           alt=""
-          style={STYLES.gridMediaItem}
+          style={gridItemStyle}
           loading="lazy"
           onError={handleError}
         />
