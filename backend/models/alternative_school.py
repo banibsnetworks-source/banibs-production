@@ -89,6 +89,7 @@ class ProgramCategoryUpdate(BaseModel):
 class ProgramCategory(ProgramCategoryBase):
     """Full program category with metadata"""
     id: str
+    image_url: Optional[str] = None  # Phase-0.75: Card thumbnail
     created_at: datetime
     updated_at: Optional[datetime] = None
 
