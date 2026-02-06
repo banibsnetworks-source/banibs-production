@@ -95,6 +95,27 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 - Tiles remain non-clickable (cursor: default, role: presentation)
 - **Files Modified**: `/app/frontend/src/pages/socialworld/SocialWorldHome.jsx`
 
+### ✅ P0 - ShortForm Navigation Fix (COMPLETED)
+- Added circular back arrow button in ShortForm header
+- Button navigates to Social World home (`/socialworld`)
+- Styled with hover effect (amber accent on hover)
+- Works on both mobile and desktop
+- **Files Modified**: 
+  - `/app/frontend/src/pages/shortform/ShortFormPage.jsx`
+  - `/app/frontend/src/styles/shortform.css`
+
+### ✅ P0 - Groups Tab Response Clone Error Fix (COMPLETED)
+- Root cause: rrweb session recording intercepting fetch responses
+- Solution: Migrated groupsApi.js from fetch() to XMLHttpRequest using existing xhrRequest utility
+- This is the same proven pattern used by other APIs (messagingApi, phase83Api)
+- **Files Modified**: `/app/frontend/src/api/groupsApi.js`
+
+### ✅ P0 - Groups Dropdown Visibility Fix (COMPLETED)
+- Fixed dropdown to use dark background (bg-gray-800) with white text
+- Added proper focus states with yellow ring
+- Dropdown options readable on both desktop and mobile
+- **Files Modified**: `/app/frontend/src/pages/portal/social/GroupsPage.jsx`
+
 ---
 
 ## P0 ROLLBACK - FULL INTERNAL MODE (January 29, 2026)
