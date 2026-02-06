@@ -86,32 +86,45 @@ export default function FitnessHomePage() {
             <Link
               key={program.id}
               to={`/portal/community/fitness/programs/${program.slug || program.id}`}
-              className="rounded-xl bg-slate-900/50 border border-slate-800 p-5 hover:border-green-500/50 transition block"
+              className="rounded-xl bg-slate-900/50 border border-slate-800 overflow-hidden hover:border-green-500/50 transition block"
             >
-              <div className="text-sm font-semibold text-slate-100 mb-2">
-                {program.title}
-              </div>
-              <p className="text-xs text-slate-400 mb-3 line-clamp-2">
-                {program.description}
-              </p>
-              <div className="flex flex-wrap gap-2 text-xs mb-3">
-                <span className="px-2 py-1 rounded-md bg-green-500/10 border border-green-500/30 text-green-300">
-                  {program.level}
-                </span>
-                <span className="px-2 py-1 rounded-md bg-slate-800 border border-slate-700 text-slate-300">
-                  {program.intensity} intensity
-                </span>
-                {program.duration_weeks && (
-                  <span className="px-2 py-1 rounded-md bg-slate-800 border border-slate-700 text-slate-300">
-                    {program.duration_weeks} weeks
-                  </span>
-                )}
-              </div>
-              {program.chronic_friendly.length > 0 && (
-                <div className="text-[0.65rem] text-slate-500">
-                  ✓ {program.chronic_friendly.join(', ')}-friendly
+              {/* Program Image or Placeholder */}
+              {program.image_url && (
+                <div className="aspect-video bg-gradient-to-br from-green-500/20 to-green-600/10 relative overflow-hidden">
+                  <img 
+                    src={program.image_url}
+                    alt={program.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
                 </div>
               )}
+              <div className="p-5">
+                <div className="text-sm font-semibold text-slate-100 mb-2">
+                  {program.title}
+                </div>
+                <p className="text-xs text-slate-400 mb-3 line-clamp-2">
+                  {program.description}
+                </p>
+                <div className="flex flex-wrap gap-2 text-xs mb-3">
+                  <span className="px-2 py-1 rounded-md bg-green-500/10 border border-green-500/30 text-green-300">
+                    {program.level}
+                  </span>
+                  <span className="px-2 py-1 rounded-md bg-slate-800 border border-slate-700 text-slate-300">
+                    {program.intensity} intensity
+                  </span>
+                  {program.duration_weeks && (
+                    <span className="px-2 py-1 rounded-md bg-slate-800 border border-slate-700 text-slate-300">
+                      {program.duration_weeks} weeks
+                    </span>
+                  )}
+                </div>
+                {program.chronic_friendly && program.chronic_friendly.length > 0 && (
+                  <div className="text-[0.65rem] text-slate-500">
+                    ✓ {program.chronic_friendly.join(', ')}-friendly
+                  </div>
+                )}
+              </div>
             </Link>
           ))}
         </div>
