@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://news-hub-69.preview.emergentagent.com"
+BACKEND_URL="https://black-central.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output

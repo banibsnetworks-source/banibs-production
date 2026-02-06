@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://news-hub-69.preview.emergentagent.com/api/auth
+https://black-central.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

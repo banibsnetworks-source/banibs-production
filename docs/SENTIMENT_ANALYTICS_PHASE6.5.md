@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://news-hub-69.preview.emergentagent.com/api/admin/analytics/sentiment
+https://black-central.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints
