@@ -120,7 +120,7 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 - Created `ImageFocalPointAdjuster.jsx` modal component with:
   - Visual preview of the feed crop
   - Vertical position slider (Top ↔ Bottom)
-  - "Fill Card" (cover) vs "Show Full" (contain) toggle
+  - "Fill Card" (cover) vs "Show Full" (full) toggle
   - Drag-to-reposition on preview
   - Mobile touch support
 - Updated `MediaUploader.js`:
@@ -140,6 +140,31 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
   - `/app/frontend/src/components/social/MediaUploader.css`
   - `/app/frontend/src/components/social/MediaComposerModal.js`
   - `/app/frontend/src/components/social/SocialPostMediaGrid.jsx`
+
+### ✅ P0 - "Show Full" Must Actually Show Full (Full Poster Mode) (COMPLETED)
+- Added new fitMode: `"full"` for true full-image display
+- **Full Poster Mode** (`fitMode: "full"`):
+  - Removes aspect-ratio wrapper constraint
+  - Uses `height: auto` to show natural image height
+  - Max-height capped at 90vh for safety
+  - No cropping, no clipping - entire image visible in feed
+- Updated `ImageFocalPointAdjuster.jsx`:
+  - "Show Full" button now sets `fitMode: 'full'` (not 'contain')
+  - Preview shows full image with "Full Poster Mode" badge
+  - Green confirmation message when Full mode selected
+- Updated `SocialPostMediaGrid.jsx` v2.1:
+  - Three fit modes: `cover` | `contain` | `full`
+  - Full mode uses new `singleMediaWrapFull` style with no aspect ratio
+  - Backward compatible (old posts unchanged)
+- Removed `overflow-hidden` from `SocialPostCard.js` article wrapper to prevent clipping
+- Updated `MediaUploader.css`:
+  - "Full Poster" badge (green) vs "Adjusted" badge (amber)
+- **Files Modified**:
+  - `/app/frontend/src/components/social/ImageFocalPointAdjuster.jsx`
+  - `/app/frontend/src/components/social/SocialPostMediaGrid.jsx`
+  - `/app/frontend/src/components/social/SocialPostCard.js`
+  - `/app/frontend/src/components/social/MediaUploader.js`
+  - `/app/frontend/src/components/social/MediaUploader.css`
 
 ---
 
