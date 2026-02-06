@@ -25,13 +25,28 @@ const getHeaders = () => {
 
 /**
  * Handle API response
+ * Clone response before reading to prevent "Response body already used" errors
  */
 const handleResponse = async (response) => {
+  // Clone the response first to allow re-reading if needed
+  const clonedResponse = response.clone();
+  
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ detail: 'Request failed' }));
-    throw new Error(error.detail || `HTTP ${response.status}`);
+    try {
+      const error = await clonedResponse.json();
+      throw new Error(error.detail || `HTTP ${response.status}`);
+    } catch (parseError) {
+      // If JSON parsing fails, throw generic error
+      throw new Error(`Request failed with status ${response.status}`);
+    }
   }
-  return response.json();
+  
+  try {
+    return await response.json();
+  } catch (parseError) {
+    // Return empty object if no JSON body (e.g., 204 No Content)
+    return {};
+  }
 };
 
 // ==================== GROUP OPERATIONS ====================
