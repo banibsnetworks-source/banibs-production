@@ -57,8 +57,8 @@ import GroupDetailPage from "./pages/portal/social/GroupDetailPage";
 // CANONICAL NAMING: Commons, Pulse, Frames, Notes, Circles
 import SocialWorldHome from "./pages/socialworld/SocialWorldHome";
 import SocialWorldPulse from "./pages/socialworld/ShortFormPage"; // Pulse (canonical)
-import SocialWorldMoments from "./pages/socialworld/MomentsPage"; // Frames (to be renamed)
-import SocialWorldStories from "./pages/socialworld/StoriesPage"; // Notes (to be renamed)
+import SocialWorldFrames from "./pages/socialworld/FramesPage"; // Frames (canonical)
+import SocialWorldNotes from "./pages/socialworld/NotesPage"; // Notes (canonical)
 import SocialWorldConnections from "./pages/socialworld/ConnectionsPage";
 import SocialWorldLive from "./pages/socialworld/LiveCirclePage";
 import SocialWorldCircles from "./pages/socialworld/CirclesPage";
