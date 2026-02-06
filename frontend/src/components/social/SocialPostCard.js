@@ -195,7 +195,7 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
 
   return (
     <article 
-      className="bg-card rounded-xl border border-border overflow-hidden transition-shadow hover:shadow-sm"
+      className="bg-card rounded-xl border border-border transition-shadow hover:shadow-sm"
       data-testid={`post-card-${localPost.id}`}
     >
       {/* ===== Post Header ===== */}
