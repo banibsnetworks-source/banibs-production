@@ -34,60 +34,98 @@ const StatusBadge = ({ status }) => {
   );
 };
 
-// Tutor card component
+// Tutor card component with image support
 const TutorCard = ({ tutor }) => (
-  <div className="p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-blue-500/30 transition-all">
-    <div className="flex items-start justify-between mb-3">
-      <div className="flex items-center gap-3">
-        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
-          <span className="text-xl font-bold text-white">
-            {tutor.name?.split(' ').map(n => n[0]).join('').slice(0, 2)}
-          </span>
+  <div className="rounded-xl bg-slate-900/50 border border-slate-800 hover:border-blue-500/30 transition-all overflow-hidden">
+    {/* Tutor Image */}
+    {tutor.image_url ? (
+      <div className="aspect-video bg-gradient-to-br from-blue-500/20 to-blue-600/10 relative overflow-hidden">
+        <img 
+          src={tutor.image_url}
+          alt={tutor.name}
+          className="w-full h-full object-cover"
+          loading="lazy"
+        />
+      </div>
+    ) : null}
+    <div className="p-5">
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center flex-shrink-0">
+            <span className="text-sm font-bold text-white">
+              {tutor.name?.split(' ').map(n => n[0]).join('').slice(0, 2)}
+            </span>
+          </div>
+          <div>
+            <h3 className="text-base font-semibold text-slate-100">{tutor.name}</h3>
+            <p className="text-sm text-blue-400">{tutor.focus_subject}</p>
+          </div>
         </div>
-        <div>
-          <h3 className="text-base font-semibold text-slate-100">{tutor.name}</h3>
-          <p className="text-sm text-blue-400">{tutor.focus_subject}</p>
+        <StatusBadge status={tutor.status} />
+      </div>
+      
+      <p className="text-sm text-slate-300 mb-4 line-clamp-2">{tutor.description}</p>
+      
+      <div className="space-y-2 text-xs text-slate-400">
+        <div className="flex items-center gap-2">
+          <GraduationCap size={14} className="text-slate-500" />
+          <span>{tutor.age_or_grade_range}</span>
         </div>
-      </div>
-      <StatusBadge status={tutor.status} />
-    </div>
-    
-    <p className="text-sm text-slate-300 mb-4 line-clamp-3">{tutor.description}</p>
-    
-    <div className="space-y-2 text-xs text-slate-400">
-      <div className="flex items-center gap-2">
-        <GraduationCap size={14} className="text-slate-500" />
-        <span>{tutor.age_or_grade_range}</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <MapPin size={14} className="text-slate-500" />
-        <span>{tutor.location}</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <Mail size={14} className="text-slate-500" />
-        <span>{tutor.contact_info}</span>
+        <div className="flex items-center gap-2">
+          <MapPin size={14} className="text-slate-500" />
+          <span>{tutor.location}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Mail size={14} className="text-slate-500" />
+          <span>{tutor.contact_info}</span>
+        </div>
       </div>
     </div>
   </div>
 );
 
-// Program card component
+// Program card component with image support
 const ProgramCard = ({ program }) => (
-  <div className="p-5 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-amber-500/30 transition-all">
-    <div className="flex items-start justify-between mb-3">
-      <h3 className="text-base font-semibold text-slate-100">{program.title}</h3>
-      <StatusBadge status={program.status} />
+  <div className="rounded-xl bg-slate-900/50 border border-slate-800 hover:border-amber-500/30 transition-all overflow-hidden">
+    {/* Program Image */}
+    {program.image_url ? (
+      <div className="aspect-video bg-gradient-to-br from-amber-500/20 to-amber-600/10 relative overflow-hidden">
+        <img 
+          src={program.image_url}
+          alt={program.title}
+          className="w-full h-full object-cover"
+          loading="lazy"
+        />
+      </div>
+    ) : null}
+    <div className="p-5">
+      <div className="flex items-start justify-between mb-3">
+        <h3 className="text-base font-semibold text-slate-100">{program.title}</h3>
+        <StatusBadge status={program.status} />
+      </div>
+      <p className="text-sm text-slate-300 line-clamp-3">{program.description}</p>
     </div>
-    <p className="text-sm text-slate-300 line-clamp-4">{program.description}</p>
   </div>
 );
 
-// Resource card component
+// Resource card component with image support
 const ResourceCard = ({ resource }) => (
-  <div className="p-4 rounded-xl bg-slate-900/50 border border-slate-800 hover:border-emerald-500/30 transition-all">
-    <div className="flex items-start justify-between mb-2">
-      <div className="flex items-center gap-2">
-        <Book size={16} className="text-emerald-400" />
+  <div className="rounded-xl bg-slate-900/50 border border-slate-800 hover:border-emerald-500/30 transition-all overflow-hidden">
+    {/* Resource Image */}
+    {resource.image_url ? (
+      <div className="aspect-video bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 relative overflow-hidden">
+        <img 
+          src={resource.image_url}
+          alt={resource.title}
+          className="w-full h-full object-cover"
+          loading="lazy"
+        />
+      </div>
+    ) : null}
+    <div className="p-4">
+      <div className="flex items-start justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <Book size={16} className="text-emerald-400" />
         <h3 className="text-sm font-semibold text-slate-100">{resource.title}</h3>
       </div>
       <StatusBadge status={resource.status} />
