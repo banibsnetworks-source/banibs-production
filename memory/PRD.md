@@ -339,6 +339,15 @@ All links visible:
     - `/backend/models/alt_school_intake.py`
     - `/frontend/src/pages/community/BecomeTutorPage.jsx`
     - `/frontend/src/pages/founder/TutorIntakeAdmin.jsx`
+- [x] **News Mode Control UX Honesty Fix (COMPLETE - February 6, 2026)**
+  - **Problem**: MoodMeter in top nav looked like a clickable "News Mode" selector but was read-only
+  - **Fix Applied**:
+    - Changed `cursor-pointer` to `cursor-default` (no longer looks clickable)
+    - Added clarifying tooltip text: "This reflects the current mood of news content. Feed modes roll out in phases."
+    - Added `data-testid="mood-meter"` for testing
+  - **Result**: Users understand it's a sentiment indicator, not a mode selector
+  - **Future Work (Phase-1)**: Full News Mode implementation (Balanced/Chronological/Curated) - scoped separately
+  - **File:** `/frontend/src/components/MoodMeter.js`
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
