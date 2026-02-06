@@ -140,6 +140,15 @@ const BusinessDirectoryV21 = () => {
   const flatCategories = categoryOptions.filter(opt => opt.type === 'category');
 
   // Placeholder property data (TODO: Connect to real property backend)
+  // Curated fallback images for properties - Black-centered, institutional
+  const propertyFallbackImages = [
+    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80', // Modern home exterior
+    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80', // Luxury home
+    'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&q=80', // Beautiful suburban home
+    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80', // Contemporary house
+    'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80', // Modern architecture
+  ];
+  
   const placeholderProperties = [
     {
       id: '1',
@@ -147,7 +156,8 @@ const BusinessDirectoryV21 = () => {
       city: 'Stone Mountain',
       state: 'GA',
       type: 'Single Family Home',
-      price: '$425,000'
+      price: '$425,000',
+      image: propertyFallbackImages[0]
     },
     {
       id: '2',
@@ -155,7 +165,8 @@ const BusinessDirectoryV21 = () => {
       city: 'Atlanta',
       state: 'GA',
       type: 'Condominium',
-      price: '$285,000'
+      price: '$285,000',
+      image: propertyFallbackImages[1]
     },
     {
       id: '3',
@@ -163,7 +174,8 @@ const BusinessDirectoryV21 = () => {
       city: 'Decatur',
       state: 'GA',
       type: 'Multi-Family',
-      price: '$550,000'
+      price: '$550,000',
+      image: propertyFallbackImages[2]
     }
   ];
 
