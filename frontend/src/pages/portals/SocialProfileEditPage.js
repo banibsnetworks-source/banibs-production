@@ -44,28 +44,32 @@ const SocialProfileEditPage = () => {
     const loadProfile = async () => {
       setLoading(true);
       try {
-        const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/me`,
-          {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-            },
-            credentials: 'include'
+        // Use XMLHttpRequest to bypass rrweb "Response body already used" error
+        const data = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('GET', `${process.env.REACT_APP_BACKEND_URL}/api/social/profile/me`, true);
+          xhr.withCredentials = true;
+          
+          const token = localStorage.getItem('access_token');
+          if (token) {
+            xhr.setRequestHeader('Authorization', `Bearer ${token}`);
           }
-        );
-        
-        // Read body exactly once
-        const responseText = await response.text();
-        let data = null;
-        try {
-          data = responseText ? JSON.parse(responseText) : null;
-        } catch (e) {
-          // Not JSON
-        }
-        
-        if (!response.ok) {
-          throw new Error(data?.detail || 'Failed to load profile');
-        }
+          
+          xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              try {
+                resolve(JSON.parse(xhr.responseText));
+              } catch (e) {
+                reject(new Error('Failed to parse profile data'));
+              }
+            } else {
+              reject(new Error('Failed to load profile'));
+            }
+          };
+          
+          xhr.onerror = () => reject(new Error('Network error'));
+          xhr.send();
+        });
         
         setProfile(data);
         setFormData({
