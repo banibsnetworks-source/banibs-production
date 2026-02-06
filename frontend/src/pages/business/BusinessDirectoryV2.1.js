@@ -214,7 +214,7 @@ const BusinessDirectoryV21 = () => {
                 bottom: 0,
                 backgroundImage: `url(${img})`,
                 backgroundSize: 'cover',
-                backgroundPosition: 'center 35%',
+                backgroundPosition: 'center 28%',
                 opacity: currentHeroImage === idx ? 1 : 0,
                 transition: 'opacity 1.5s ease-in-out',
                 zIndex: 0
