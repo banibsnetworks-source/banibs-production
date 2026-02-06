@@ -421,10 +421,10 @@ function App() {
               <Route path="/socialworld" element={<SocialWorldHome />} />
               <Route path="/socialworld/pulse" element={<SocialWorldPulse />} />
               <Route path="/socialworld/shortform" element={<SocialWorldPulse />} /> {/* Legacy alias */}
-              <Route path="/socialworld/frames" element={<SocialWorldMoments />} />
-              <Route path="/socialworld/moments" element={<SocialWorldMoments />} /> {/* Legacy alias */}
-              <Route path="/socialworld/notes" element={<SocialWorldStories />} />
-              <Route path="/socialworld/stories" element={<SocialWorldStories />} /> {/* Legacy alias */}
+              <Route path="/socialworld/frames" element={<SocialWorldFrames />} />
+              <Route path="/socialworld/moments" element={<SocialWorldFrames />} /> {/* Legacy alias */}
+              <Route path="/socialworld/notes" element={<SocialWorldNotes />} />
+              <Route path="/socialworld/stories" element={<SocialWorldNotes />} /> {/* Legacy alias */}
               <Route path="/socialworld/connections" element={<SocialWorldConnections />} />
               <Route path="/socialworld/live" element={<SocialWorldLive />} />
               <Route path="/socialworld/circles" element={<SocialWorldCircles />} />
