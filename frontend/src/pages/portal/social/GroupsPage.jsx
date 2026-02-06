@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, Plus, Search, Lock, Globe, Eye, Filter } from 'lucide-react';
 import * as groupsApi from '../../../api/groupsApi';
+import SocialLayout from '../../../components/social/SocialLayout';
 
 /**
  * GroupsPage - Browse and discover groups
  * Phase 8.5 - Groups & Membership Frontend
+ * Wrapped in SocialLayout for consistent navigation
  */
 const GroupsPage = () => {
   const navigate = useNavigate();
