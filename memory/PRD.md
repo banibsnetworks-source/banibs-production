@@ -348,6 +348,35 @@ All links visible:
   - **Result**: Users understand it's a sentiment indicator, not a mode selector
   - **Future Work (Phase-1)**: Full News Mode implementation (Balanced/Chronological/Curated) - scoped separately
   - **File:** `/frontend/src/components/MoodMeter.js`
+- [x] **Phase-0 Content Seeding (COMPLETE - February 6, 2026)**
+  - Populated three community hubs with credible, heritage-focused starter content
+  - **Food & Culture Hub (5 recipes)**:
+    - Sunday Baked Chicken (Family-Style) - Deep South heritage
+    - Collard Greens with Smoked Turkey - nutritious with history
+    - Jollof Rice (West African Roots) - diaspora connection
+    - Sweet Potato Pie (Holiday Tradition) - cultural preservation
+    - Cornbread Variations Across Regions - regional diversity
+    - Each includes cultural note, ingredients, healthier version option
+  - **Fitness & Movement Hub (5 programs)**:
+    - 15-Minute Morning Stretch (No Equipment) - beginner, accessible
+    - Walking as Daily Movement - cardiovascular, all abilities
+    - Chair Mobility for Seniors - seated exercise
+    - Youth Sports & Community Play - family engagement
+    - Breathing & Reset Routines - stress management
+    - Each includes safety note, who it's for, chronic-friendly tags
+  - **Health & Insurance Hub (5 resources)**:
+    - Understanding Health Insurance Terms (Plain Language)
+    - Primary Care vs Emergency Care
+    - Preventive Screenings by Age Group
+    - Mental Health Resources Overview
+    - Advocating for Yourself in Healthcare Settings
+    - All include disclaimers, external resource links
+  - **Admin seed endpoints**:
+    - `POST /api/community/admin/seed/food`
+    - `POST /api/community/admin/seed/fitness`
+    - `POST /api/community/admin/seed/health`
+    - `POST /api/community/admin/seed/all` (all three at once)
+  - **Files Modified:** `/backend/routes/community.py`
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
