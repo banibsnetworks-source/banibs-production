@@ -273,16 +273,39 @@ const SocialWorldHome = () => {
           </div>
         </div>
 
-        {/* Hero Section */}
-        <div className="socialworld-hero">
-          <div className="hero-content">
+        {/* Hero Section with Image */}
+        <div className="socialworld-hero relative overflow-hidden rounded-2xl mx-4 my-4" style={{ minHeight: '280px' }}>
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ 
+              backgroundImage: `url(${HERO_IMAGE})`,
+              filter: 'brightness(0.5)'
+            }}
+          />
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+          
+          {/* Hero Content */}
+          <div className="hero-content relative z-10 flex flex-col items-center justify-center text-center py-12 px-4">
             <h1 className="hero-title">
-              <span className="title-text">BANIBS Social World</span>
-              <span className="title-badge">✨</span>
+              <span className="title-text text-3xl md:text-4xl font-bold text-white drop-shadow-lg">BANIBS Social World</span>
+              <span className="title-badge ml-2">✨</span>
             </h1>
-            <p className="hero-subtitle">
+            <p className="hero-subtitle text-lg md:text-xl text-white/90 mt-3 max-w-xl drop-shadow">
               Your unified gateway to connection, creativity, and community
             </p>
+            <div className="flex flex-wrap gap-2 mt-4 justify-center">
+              <span className="px-3 py-1 bg-amber-500/20 border border-amber-500/40 rounded-full text-amber-200 text-xs font-medium">
+                Video • Photo • Voice
+              </span>
+              <span className="px-3 py-1 bg-emerald-500/20 border border-emerald-500/40 rounded-full text-emerald-200 text-xs font-medium">
+                Circles • Communities
+              </span>
+              <span className="px-3 py-1 bg-purple-500/20 border border-purple-500/40 rounded-full text-purple-200 text-xs font-medium">
+                Creator Tools
+              </span>
+            </div>
           </div>
         </div>
 
