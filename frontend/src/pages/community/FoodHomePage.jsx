@@ -91,8 +91,20 @@ export default function FoodHomePage() {
               to={`/portal/community/food/recipes/${recipe.slug}`}
               className="rounded-xl bg-slate-900/50 border border-slate-800 overflow-hidden hover:border-amber-500/50 transition block"
             >
-              <div className="aspect-video bg-gradient-to-br from-amber-500/20 to-amber-600/10 flex items-center justify-center">
-                <ChefHat className="text-amber-400/50" size={48} />
+              {/* Recipe Image or Placeholder */}
+              <div className="aspect-video bg-gradient-to-br from-amber-500/20 to-amber-600/10 relative overflow-hidden">
+                {recipe.image_url ? (
+                  <img 
+                    src={recipe.image_url}
+                    alt={recipe.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <ChefHat className="text-amber-400/50" size={48} />
+                  </div>
+                )}
               </div>
               <div className="p-4">
                 <div className="text-sm font-semibold text-slate-100 mb-2">
