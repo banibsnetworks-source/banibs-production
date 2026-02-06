@@ -125,7 +125,7 @@ const STYLES = {
 // ========================================================
 // COMPONENT: Single Media Renderer (Image or Video)
 // ========================================================
-const SingleMediaRenderer = ({ url, mediaType, onClick, onError }) => {
+const SingleMediaRenderer = ({ url, mediaType, focalY = 0.5, fitMode = 'contain', onClick, onError }) => {
   const [hasError, setHasError] = useState(false);
   
   if (hasError) return null;
@@ -154,7 +154,15 @@ const SingleMediaRenderer = ({ url, mediaType, onClick, onError }) => {
     );
   }
   
-  // IMAGE: Full display, no cropping
+  // IMAGE: Apply focal point settings
+  const imageStyle = fitMode === 'contain' 
+    ? STYLES.singleMediaItem
+    : {
+        ...STYLES.singleMediaItem,
+        objectFit: 'cover',
+        objectPosition: `50% ${focalY * 100}%`
+      };
+  
   return (
     <div
       className="mt-3 rounded-xl overflow-hidden cursor-pointer hover:opacity-95 transition-opacity"
@@ -164,7 +172,7 @@ const SingleMediaRenderer = ({ url, mediaType, onClick, onError }) => {
       <img
         src={url}
         alt=""
-        style={STYLES.singleMediaItem}
+        style={imageStyle}
         loading="lazy"
         onError={handleError}
       />
