@@ -190,7 +190,7 @@ CLOUDFRONT_URL="https://cdn.example.com"
 
 **Frontend (`.env`):**
 ```env
-REACT_APP_BACKEND_URL=https://black-central.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://cultural-pulse-2.preview.emergentagent.com
 ```
 
 ---

@@ -157,7 +157,7 @@ MONGO_URL=mongodb://localhost:27017
 DB_NAME=test_database
 
 # Frontend
-REACT_APP_BACKEND_URL=https://black-central.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://cultural-pulse-2.preview.emergentagent.com
 ```
 
 ---

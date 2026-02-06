@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://black-central.preview.emergentagent.com/api/auth
+https://cultural-pulse-2.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

@@ -46,8 +46,8 @@
 | `/api/opportunities/{id}/feature` | PATCH | ✅ 200 | ✅ Yes |
 
 **Total Endpoints:** 8/8 Active ✅  
-**Swagger UI:** https://black-central.preview.emergentagent.com/docs ✅  
-**ReDoc:** https://black-central.preview.emergentagent.com/redoc ✅
+**Swagger UI:** https://cultural-pulse-2.preview.emergentagent.com/docs ✅  
+**ReDoc:** https://cultural-pulse-2.preview.emergentagent.com/redoc ✅
 
 ---
 
@@ -84,7 +84,7 @@ def check_admin(x_api_key: str = Header(None)):
 
 **Frontend Environment:**
 ```env
-REACT_APP_BACKEND_URL=https://black-central.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://cultural-pulse-2.preview.emergentagent.com
 ```
 
 **Status:** ✅ Frontend is pointed at the live backend
