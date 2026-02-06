@@ -114,19 +114,32 @@ export default function HealthHomePage() {
             <Link
               key={resource.id}
               to={`/portal/community/health/resources/${resource.slug}`}
-              className="rounded-xl bg-slate-900/50 border border-slate-800 p-5 hover:border-teal-500/50 transition"
+              className="rounded-xl bg-slate-900/50 border border-slate-800 overflow-hidden hover:border-teal-500/50 transition block"
             >
-              <div className="text-sm font-semibold text-slate-100 mb-2">
-                {resource.title}
-              </div>
-              <p className="text-xs text-slate-400 mb-3 line-clamp-2">
-                {resource.summary || "Click to read more"}
-              </p>
-              <div className="flex items-center justify-between">
-                <span className="px-2 py-1 rounded-md bg-teal-500/10 border border-teal-500/30 text-xs text-teal-300">
-                  {resource.category.replace('_', ' ')}
-                </span>
-                <span className="text-xs text-slate-500">{resource.level}</span>
+              {/* Resource Image */}
+              {resource.image_url && (
+                <div className="aspect-video bg-gradient-to-br from-teal-500/20 to-teal-600/10 relative overflow-hidden">
+                  <img 
+                    src={resource.image_url}
+                    alt={resource.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div className="p-5">
+                <div className="text-sm font-semibold text-slate-100 mb-2">
+                  {resource.title}
+                </div>
+                <p className="text-xs text-slate-400 mb-3 line-clamp-2">
+                  {resource.summary || "Click to read more"}
+                </p>
+                <div className="flex items-center justify-between">
+                  <span className="px-2 py-1 rounded-md bg-teal-500/10 border border-teal-500/30 text-xs text-teal-300">
+                    {resource.category.replace('_', ' ')}
+                  </span>
+                  <span className="text-xs text-slate-500">{resource.level}</span>
+                </div>
               </div>
             </Link>
           ))}
