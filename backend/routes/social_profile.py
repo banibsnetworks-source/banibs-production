@@ -157,12 +157,11 @@ async def get_profile_by_handle(
     current_user_id = None
     if authorization and authorization.startswith('Bearer '):
         try:
-            from .auth import get_current_user_optional
+            from services.jwt_service import verify_token
             token = authorization.split(' ')[1]
-            import jwt
-            from .auth import SECRET_KEY, ALGORITHM
-            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-            current_user_id = payload.get("sub") or payload.get("user_id")
+            payload = verify_token(token)
+            if payload:
+                current_user_id = payload.get("sub") or payload.get("user_id")
         except:
             pass
     
