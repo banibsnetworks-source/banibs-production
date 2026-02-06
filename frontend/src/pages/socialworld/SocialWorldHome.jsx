@@ -274,35 +274,50 @@ const SocialWorldHome = () => {
         </div>
 
         {/* Hero Section with Image */}
-        <div className="socialworld-hero relative overflow-hidden rounded-2xl mx-4 my-4" style={{ minHeight: '280px' }}>
+        <div className="relative overflow-hidden rounded-2xl mx-4 my-4" style={{ minHeight: '300px' }}>
           {/* Background Image */}
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
               backgroundImage: `url(${HERO_IMAGE})`,
-              filter: 'brightness(0.5)'
+              filter: 'brightness(0.45)'
             }}
           />
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+          {/* Gradient Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40" />
+          
+          {/* Subtle border */}
+          <div className="absolute inset-0 rounded-2xl border border-white/5" />
           
           {/* Hero Content */}
-          <div className="hero-content relative z-10 flex flex-col items-center justify-center text-center py-12 px-4">
-            <h1 className="hero-title">
-              <span className="title-text text-3xl md:text-4xl font-bold text-white drop-shadow-lg">BANIBS Social World</span>
-              <span className="title-badge ml-2">✨</span>
+          <div className="relative z-10 flex flex-col items-center justify-center text-center py-16 px-6">
+            {/* Section Label */}
+            <div className="flex items-center gap-2 mb-4">
+              <div className="h-px w-8 bg-gradient-to-r from-transparent to-amber-500/60" />
+              <span className="text-xs font-medium text-amber-400/80 uppercase tracking-[0.3em]">BANIBS Platform</span>
+              <div className="h-px w-8 bg-gradient-to-l from-transparent to-amber-500/60" />
+            </div>
+            
+            {/* Main Title */}
+            <h1 className="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">
+              Social World
             </h1>
-            <p className="hero-subtitle text-lg md:text-xl text-white/90 mt-3 max-w-xl drop-shadow">
+            
+            {/* Subtitle */}
+            <p className="text-lg md:text-xl text-white/80 max-w-xl leading-relaxed">
               Your unified gateway to connection, creativity, and community
             </p>
-            <div className="flex flex-wrap gap-2 mt-4 justify-center">
-              <span className="px-3 py-1 bg-amber-500/20 border border-amber-500/40 rounded-full text-amber-200 text-xs font-medium">
-                Video • Photo • Voice
+            
+            {/* Feature Tags */}
+            <div className="flex flex-wrap gap-3 mt-6 justify-center">
+              <span className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-white/70 text-sm font-medium backdrop-blur-sm">
+                Video & Photo
               </span>
-              <span className="px-3 py-1 bg-emerald-500/20 border border-emerald-500/40 rounded-full text-emerald-200 text-xs font-medium">
-                Circles • Communities
+              <span className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-white/70 text-sm font-medium backdrop-blur-sm">
+                Circles & Communities
               </span>
-              <span className="px-3 py-1 bg-purple-500/20 border border-purple-500/40 rounded-full text-purple-200 text-xs font-medium">
+              <span className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-white/70 text-sm font-medium backdrop-blur-sm">
                 Creator Tools
               </span>
             </div>
