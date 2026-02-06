@@ -474,6 +474,10 @@ app.include_router(hdos_trust_router)
 # Founder Office Vault Phase 2 - UI Integration
 app.include_router(office_vault_router)
 
+# Phase 17.1 - System Settings (Go Live SAFE v1)
+from routes.system import router as system_router
+app.include_router(system_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
