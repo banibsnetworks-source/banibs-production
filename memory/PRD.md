@@ -316,6 +316,29 @@ All links visible:
   - BANIBS is strongest visual element with highest contrast
   - Preserves existing premium layout and hero imagery
   - **File:** `/frontend/src/pages/auth/SignInPage.jsx`
+- [x] **Tutor Intake Form - Phase-0.5 (COMPLETE - February 5, 2026)**
+  - Capture-only form for educators to apply to be listed in Alternative School Hub
+  - **Frontend Form** (`/portal/community/school/become-a-tutor`):
+    - Required fields: Name, Email, Location, Subject/Focus, Age/Grade Range, Bio (50-600 chars), Consent checkbox
+    - Optional fields: Phone, Website, Availability
+    - Success message: "Applications reviewed in phases. You'll be contacted if there's a fit."
+  - **CTA Button** added to SchoolHomePage: "Apply to Be Listed"
+  - **Backend API**:
+    - Public: `POST /api/alt-school/intake/tutors` - Submit application
+    - Admin: `GET/PUT /api/alt-school/admin/intake/tutors` - List/update submissions
+    - Admin: `GET /api/alt-school/admin/intake/stats` - Submission counts by status
+  - **Admin Review Page** (`/founder/tutor-intake`):
+    - Stats row with status filter buttons
+    - Submissions table with detail modal
+    - Status update (new → reviewed → approved/rejected) + admin notes
+  - **Collection:** `tutor_intake_submissions`
+  - **Test coverage**: 100% (14 backend + full UI verification)
+  - **Files:**
+    - `/backend/routes/alt_school_intake.py`
+    - `/backend/db/alt_school_intake.py`
+    - `/backend/models/alt_school_intake.py`
+    - `/frontend/src/pages/community/BecomeTutorPage.jsx`
+    - `/frontend/src/pages/founder/TutorIntakeAdmin.jsx`
 
 ### P1 - High Priority (Post-Launch)
 - [x] HDOS (Circle Trust Order System v2) - 7-level trust system ✅ COMPLETE
