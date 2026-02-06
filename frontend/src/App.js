@@ -454,6 +454,9 @@ function App() {
               <Route path="/foundation" element={<FoundationPage />} />
               <Route path="/circles" element={<CirclesPage />} />
               
+              {/* Foundation Documents - Archival/Explanatory */}
+              <Route path="/foundation/seven-spirits-of-god" element={<SevenSpiritsPage />} />
+              
               {/* Internal Preview - Read-Only (No Auth) */}
               <Route path="/internal-preview" element={<InternalPreviewPage />} />
               
