@@ -166,6 +166,30 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
   - `/app/frontend/src/components/social/MediaUploader.js`
   - `/app/frontend/src/components/social/MediaUploader.css`
 
+### ✅ P0 - Profile Edit, My Posts & Navigation Fixes (COMPLETED)
+**Issue 1: Edit Profile - Display Name Not Saving**
+- Updated `SocialProfileEditPage.js` to use XMLHttpRequest instead of fetch
+- This bypasses the rrweb "Response body already used" error
+- Added `refreshUser()` call after successful save to update navbar display name
+- **Files Modified**: `/app/frontend/src/pages/portals/SocialProfileEditPage.js`
+
+**Issue 2: "My Posts" → Profile Not Found**
+- Root cause: User profile didn't have a `handle` field set in database
+- Fixed backend `/api/social/profile/u/{handle}` endpoint to:
+  - Allow owner to view their own profile regardless of `is_public` setting
+  - Use optional auth to detect if viewer is the profile owner
+- Updated `LeftRail.js` to use user ID as fallback when handle is not set
+- Added proper error handling in `SocialProfilePublicPage.js` for missing params
+- Seeded test user profile with required `handle` field
+- **Files Modified**:
+  - `/app/backend/routes/social_profile.py`
+  - `/app/frontend/src/components/social/LeftRail/LeftRail.js`
+  - `/app/frontend/src/pages/portals/SocialProfilePublicPage.js`
+
+**Issue 3: "Back to Social Feed" Navigation**
+- Verified working - "← Back to Feed" link at `/portal/social/u/{handle}` routes to `/portal/social`
+- No redirect loops observed
+
 ---
 
 ## P0 ROLLBACK - FULL INTERNAL MODE (January 29, 2026)
