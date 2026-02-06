@@ -138,9 +138,11 @@ const NewsFeed = () => {
 
             {/* Summary */}
             {item.summary && (
-              <p className="text-sm text-gray-700 mt-2 leading-relaxed">
-                {item.summary}
-              </p>
+              <SafeHtmlRenderer
+                html={item.summary}
+                className="text-sm text-gray-700 mt-2 leading-relaxed"
+                as="div"
+              />
             )}
 
             {/* Read more link */}
