@@ -88,7 +88,7 @@ const WORLDS = [
   },
   {
     id: 'live',
-    title: 'LiveCircle',
+    title: 'Live Circle',
     description: 'Live streaming hub',
     icon: Radio,
     path: '/socialworld/live',
@@ -98,7 +98,7 @@ const WORLDS = [
   },
   {
     id: 'voice',
-    title: 'VoiceShare',
+    title: 'Voice Share',
     description: 'Audio clips & podcasts',
     icon: Mic,
     path: '/socialworld/voice',
@@ -108,7 +108,7 @@ const WORLDS = [
   },
   {
     id: 'chat',
-    title: 'ChatSphere',
+    title: 'Chat Sphere',
     description: 'Direct messaging',
     icon: MessageSquare,
     path: '/messages',
@@ -118,7 +118,7 @@ const WORLDS = [
   },
   {
     id: 'talent',
-    title: 'TalentWorld',
+    title: 'Talent World',
     description: 'Creator hub & tools',
     icon: Sparkles,
     path: '/socialworld/talent',
