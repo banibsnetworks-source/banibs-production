@@ -85,7 +85,7 @@ const ComingSoon = ({
             href="/portal/social"
             className="px-6 py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-gray-900 rounded-lg font-medium transition-all shadow-lg hover:shadow-xl"
           >
-            Explore Social Feed
+            Explore Commons
           </a>
         </div>
 
