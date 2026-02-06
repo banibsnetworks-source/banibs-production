@@ -15,6 +15,9 @@ class MediaItem(BaseModel):
     width: Optional[int] = None
     height: Optional[int] = None
     thumbnail_url: Optional[str] = None
+    # Phase 17.0 - Image focal point / crop adjustment
+    focalY: Optional[float] = Field(default=0.5, description="Vertical focal point (0.0=top, 1.0=bottom)")
+    fitMode: Optional[Literal["cover", "contain", "full"]] = Field(default="cover", description="Image fit mode")
 
 
 class LinkMetadata(BaseModel):
