@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Upload, Play, Pause, Volume2, VolumeX, Heart, Share2, MessageCircle, Sparkles } from 'lucide-react';
+import { Upload, Play, Pause, Volume2, VolumeX, Heart, Share2, MessageCircle, Sparkles, Home, ArrowLeft } from 'lucide-react';
 import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import UploadVideoModal from '../../components/shortform/UploadVideoModal';
 import { useAuth } from '../../contexts/AuthContext';
