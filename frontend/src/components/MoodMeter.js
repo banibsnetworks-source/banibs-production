@@ -5,6 +5,9 @@ import { Activity } from 'lucide-react';
  * MoodMeter - Phase 7.6.5
  * Circular gauge widget showing global news sentiment
  * Displays in top navigation bar
+ * 
+ * NOTE: This is a READ-ONLY indicator showing current news sentiment.
+ * It is NOT a mode selector - it reflects the actual sentiment of news content.
  */
 const MoodMeter = () => {
   const [sentiment, setSentiment] = useState(null);
@@ -74,13 +77,15 @@ const MoodMeter = () => {
 
   return (
     <div className="relative group">
-      {/* Mood Meter Button */}
+      {/* Mood Meter Indicator (Read-Only) */}
       <div
         className={`
           flex items-center space-x-2 px-3 py-1.5 rounded-full
           ${config.bgColor} ring-1 ${config.ringColor}
-          cursor-pointer hover:opacity-90 transition-all
+          cursor-default select-none transition-opacity
         `}
+        title="News Mood Indicator"
+        data-testid="mood-meter"
       >
         <Activity size={14} className={config.color} />
         <span className={`text-xs font-semibold ${config.color}`}>
@@ -89,7 +94,7 @@ const MoodMeter = () => {
       </div>
 
       {/* Tooltip on Hover */}
-      <div className="absolute right-0 top-full mt-2 w-48 bg-card border border-border rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+      <div className="absolute right-0 top-full mt-2 w-52 bg-card border border-border rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
         <div className="p-3">
           <div className="flex items-center space-x-2 mb-2">
             <Activity size={14} className={config.color} />
@@ -111,6 +116,12 @@ const MoodMeter = () => {
               <span className="text-muted-foreground">🔴 Negative:</span>
               <span className="text-red-400 font-semibold">{sentiment.negative}</span>
             </div>
+          </div>
+          {/* Clarification that this is read-only */}
+          <div className="mt-3 pt-2 border-t border-border">
+            <p className="text-[9px] text-muted-foreground italic">
+              This reflects the current mood of news content. Feed modes roll out in phases.
+            </p>
           </div>
         </div>
       </div>
