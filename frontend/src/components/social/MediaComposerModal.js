@@ -85,9 +85,17 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => 
 
     setIsPosting(true);
     try {
+      // Include focalY and fitMode with each media item
+      const mediaWithFocalPoints = media.map(item => ({
+        url: item.url,
+        type: item.type,
+        focalY: item.focalY ?? 0.5,
+        fitMode: item.fitMode ?? 'cover'
+      }));
+      
       await onSubmit({
         text: text.trim() || "",
-        media,
+        media: mediaWithFocalPoints,
         link_url: linkMeta?.url || linkUrl || null,
         link_meta: linkMeta
       });
