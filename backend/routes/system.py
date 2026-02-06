@@ -17,7 +17,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Literal, Optional
 from datetime import datetime, timezone
-from db.database import get_db
+from db import get_db
 from middleware.auth_guard import require_role
 
 router = APIRouter(prefix="/api/system", tags=["system"])
