@@ -113,7 +113,7 @@ const BusinessPortal = () => {
                   height: '100%',
                   backgroundImage: `url(${image.src})`,
                   backgroundSize: 'cover',
-                  backgroundPosition: 'center 35%',
+                  backgroundPosition: 'center 28%',
                   filter: 'brightness(0.6)'
                 }}
               />
