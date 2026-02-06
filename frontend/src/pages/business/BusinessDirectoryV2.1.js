@@ -879,8 +879,12 @@ const BusinessCardV2 = ({ business, isDark, navigate }) => {
   );
 };
 
-// Property Card Component (NEW)
+// Property Card Component (NEW) - with real images
 const PropertyCard = ({ property, isDark, navigate }) => {
+  // Fallback image if none provided
+  const fallbackImage = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80';
+  const imageUrl = property.image || fallbackImage;
+  
   return (
     <div
       style={{
@@ -902,15 +906,23 @@ const PropertyCard = ({ property, isDark, navigate }) => {
         e.currentTarget.style.boxShadow = 'none';
       }}
     >
-      {/* Placeholder Image */}
+      {/* Property Image */}
       <div style={{
         height: '200px',
-        background: 'linear-gradient(135deg, #C8A857 0%, #8A6F43 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
+        backgroundImage: `url(${imageUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        position: 'relative'
       }}>
-        <Home size={64} color="#000000" opacity={0.3} />
+        {/* Subtle gradient overlay for better text contrast if needed */}
+        <div style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '60px',
+          background: 'linear-gradient(transparent, rgba(0,0,0,0.3))'
+        }} />
       </div>
       
       <div style={{ padding: '24px' }}>
