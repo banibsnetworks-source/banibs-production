@@ -54,10 +54,11 @@ import WelcomePage from "./pages/onboarding/WelcomePage";
 import GroupsPage from "./pages/portal/social/GroupsPage";
 import GroupDetailPage from "./pages/portal/social/GroupDetailPage";
 // Phase 17.0 - BANIBS Social World (Unified Social Hub)
+// CANONICAL NAMING: Commons, Pulse, Frames, Notes, Circles
 import SocialWorldHome from "./pages/socialworld/SocialWorldHome";
-import SocialWorldShortForm from "./pages/socialworld/ShortFormPage";
-import SocialWorldMoments from "./pages/socialworld/MomentsPage";
-import SocialWorldStories from "./pages/socialworld/StoriesPage";
+import SocialWorldPulse from "./pages/socialworld/ShortFormPage"; // Pulse (canonical)
+import SocialWorldMoments from "./pages/socialworld/MomentsPage"; // Frames (to be renamed)
+import SocialWorldStories from "./pages/socialworld/StoriesPage"; // Notes (to be renamed)
 import SocialWorldConnections from "./pages/socialworld/ConnectionsPage";
 import SocialWorldLive from "./pages/socialworld/LiveCirclePage";
 import SocialWorldCircles from "./pages/socialworld/CirclesPage";
