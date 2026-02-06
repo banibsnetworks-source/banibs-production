@@ -463,6 +463,63 @@ const ComingSoonPage = () => {
         </div>
       </Section>
 
+      {/* Foundation Documents Section */}
+      <Section id="foundation-section" className="px-6 md:px-12 lg:px-24 py-24 md:py-32 border-t border-white/5">
+        <div className="max-w-6xl mx-auto">
+          {/* Section Label */}
+          <span 
+            className="text-xs tracking-[0.25em] uppercase mb-6 block"
+            style={{ 
+              fontFamily: 'JetBrains Mono, monospace',
+              color: '#C5A059'
+            }}
+          >
+            Foundation / Orientation
+          </span>
+
+          <div className="mb-12">
+            <h2 
+              data-testid="foundation-title"
+              className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-6"
+              style={{ fontFamily: 'Playfair Display, serif' }}
+            >
+              Foundational Documents
+            </h2>
+            <p className="text-white/60 text-lg max-w-2xl leading-relaxed">
+              Archival readings that inform the principles underlying BANIBS. 
+              Offered for examination, not enforcement.
+            </p>
+          </div>
+
+          {/* Foundation Document Links */}
+          <div className="border-t border-white/10">
+            <a
+              href="/foundation/seven-spirits-of-god"
+              data-testid="foundation-seven-spirits"
+              className="block py-8 border-b border-white/10 group cursor-pointer hover:bg-white/[0.02] transition-all duration-300"
+            >
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div className="flex-1">
+                  <h3 
+                    className="text-xl md:text-2xl font-medium text-white/90 group-hover:text-[#C5A059] transition-colors"
+                    style={{ fontFamily: 'Playfair Display, serif' }}
+                  >
+                    The Seven Spirits of God
+                  </h3>
+                  <p className="text-white/50 mt-2">
+                    An Operational Reading from Revelation — How authority, agency, and power operate in Scripture.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 text-white/40 group-hover:text-[#C5A059] transition-colors">
+                  <span className="text-sm">Read</span>
+                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </Section>
+
       {/* Waitlist Section */}
       <Section id="waitlist-section" className="px-6 md:px-12 lg:px-24 py-24 md:py-32 border-t border-white/5">
         <div className="max-w-2xl mx-auto text-center">
