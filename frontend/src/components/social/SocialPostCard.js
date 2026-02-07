@@ -472,16 +472,13 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
             <span className="hidden sm:inline">Comment</span>
           </button>
 
-          {/* Share Button */}
-          <button
-            type="button"
-            onClick={handleShare}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-medium text-sm text-muted-foreground hover:bg-muted hover:text-card-foreground transition-all"
-            aria-label="Share"
-          >
-            <Share2 size={18} />
-            <span className="hidden sm:inline">Share</span>
-          </button>
+          {/* Share Button (Platform-Neutral NEO v1) */}
+          <ShareButton
+            contentType="post"
+            contentId={localPost.id}
+            contentTitle={localPost.text?.substring(0, 50) || `Post by ${localPost.author.display_name}`}
+            className="flex-1"
+          />
         </div>
       </div>
 
