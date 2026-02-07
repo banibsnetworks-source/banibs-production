@@ -10,7 +10,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { 
-  Shield, Users, Lock, Globe, ArrowLeft, Loader2,
+  CircleDot, Users, Lock, Globe, ArrowLeft, Loader2,
   Heart, Sparkles, BookHeart, UsersRound, UserPlus
 } from 'lucide-react';
 import SocialLayout from '../../../components/social/SocialLayout';
