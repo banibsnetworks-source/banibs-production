@@ -94,7 +94,7 @@ const LeftRail = () => {
         { icon: Globe, label: 'Social World', path: '/socialworld', badge: 'NEW' },
         { icon: Search, label: 'Discover People', path: '/portal/social/discover/people' },
         { icon: User, label: 'Groups & Communities', path: '/portal/social/groups' },
-        { icon: CircleDot, label: 'Circles', path: '/portal/social/circles' },
+        { icon: CirclesIcon, label: 'Circles', path: '/portal/social/circles' },
         { icon: Briefcase, label: 'Marketplace', path: '/portal/marketplace' },
         { icon: Video, label: 'Live Now', path: '/portal/social/live' }
       ]
