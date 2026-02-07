@@ -14,6 +14,9 @@ import { useWorldPersistence } from '../../hooks/useWorldPersistence';
 /**
  * CommunityMomentsStrip - P2 Social Page Visual Layer
  * Lightweight imagery strip for visual engagement
+ * 
+ * NOTE: "Add yours" / "Share yours" features are NOT YET LIVE
+ * Buttons are disabled with "Opening Soon" indicators
  */
 const CommunityMomentsStrip = () => {
   const { theme } = useTheme();
@@ -54,13 +57,17 @@ const CommunityMomentsStrip = () => {
             Community Moments
           </span>
         </div>
-        <button 
-          className="flex items-center gap-1 text-xs transition-colors hover:text-amber-500"
-          style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}
+        {/* Share yours - DISABLED (feature not ready) */}
+        <span 
+          className="flex items-center gap-1 text-xs"
+          style={{ 
+            color: isDark ? 'rgb(75, 85, 99)' : 'rgb(209, 213, 219)',
+            cursor: 'default'
+          }}
+          data-testid="share-yours-disabled"
         >
-          <span>Share yours</span>
-          <ChevronRight size={14} />
-        </button>
+          <span>Opening Soon</span>
+        </span>
       </div>
       
       <div 
@@ -91,21 +98,25 @@ const CommunityMomentsStrip = () => {
           </div>
         ))}
         
-        {/* Add your moment CTA */}
+        {/* Add your moment - DISABLED (feature not ready) */}
         <div
-          className="flex-shrink-0 rounded-lg flex flex-col items-center justify-center cursor-pointer transition-all hover:border-amber-500"
+          className="flex-shrink-0 rounded-lg flex flex-col items-center justify-center"
           style={{
             width: '100px',
             height: '100px',
-            backgroundColor: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.03)',
-            border: `2px dashed ${isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.1)'}`,
+            backgroundColor: isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.02)',
+            border: `2px dashed ${isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)'}`,
+            cursor: 'default',
           }}
+          data-testid="add-yours-disabled"
         >
-          <Camera size={24} className="text-amber-500/60 mb-1" />
+          <Camera size={20} className="mb-1" style={{
+            color: isDark ? 'rgb(75, 85, 99)' : 'rgb(209, 213, 219)'
+          }} />
           <span className="text-xs text-center" style={{
-            color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)'
+            color: isDark ? 'rgb(75, 85, 99)' : 'rgb(209, 213, 219)'
           }}>
-            Add yours
+            Opening Soon
           </span>
         </div>
       </div>
