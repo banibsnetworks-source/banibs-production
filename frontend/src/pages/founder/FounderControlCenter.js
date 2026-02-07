@@ -33,6 +33,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { CirclesIcon } from '../../components/icons/CirclesIcon';
 
 /**
  * Founder Control Center v1.0
@@ -66,7 +67,7 @@ const INTERNAL_MODULES = [
   { id: 'socialworld', name: 'SocialWorld', route: '/socialworld', icon: Globe, color: '#0EA5E9', description: 'Social experience cluster (Pulse, Frames, Notes, Circles, etc.)' },
   { id: 'ability', name: 'Ability Network', route: '/ability', icon: Zap, color: '#A855F7', description: 'Skills and ability marketplace' },
   { id: 'connect', name: 'BANIBS Connect', route: '/connect', icon: Users, color: '#14B8A6', description: 'Connection and networking hub' },
-  { id: 'circles', name: 'Infinite Circles', route: '/social/circles', icon: CircleDot, color: '#F97316', description: 'Trust circles and relationship engine' },
+  { id: 'circles', name: 'Infinite Circles', route: '/social/circles', icon: CirclesIcon, color: '#F97316', description: 'Trust circles and relationship engine' },
 ];
 
 // Planned/Conceptual Modules - NOT built yet (static list)
