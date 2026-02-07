@@ -169,25 +169,6 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
     }
   };
 
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: `Post by ${localPost.author.display_name}`,
-          text: localPost.text?.substring(0, 100) || 'Check out this post on BANIBS',
-          url: window.location.href,
-        });
-      } catch (err) {
-        if (err.name !== 'AbortError') {
-          console.error('Share failed:', err);
-        }
-      }
-    } else {
-      // Fallback: copy link
-      navigator.clipboard.writeText(window.location.href);
-    }
-  };
-
   const isAuthor = user?.id === localPost.author.id;
 
   const profilePath = localPost.author.handle 
