@@ -18,18 +18,14 @@ export const CirclesIcon = ({
   color = 'currentColor',
   ...props 
 }) => {
-  // TEMPORARY TEST: Red color and thick stroke to verify deployment
-  const testColor = '#FF0000';  // BRIGHT RED for visibility test
-  const testStrokeWidth = 3;    // Thicker stroke
-  
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 24 24"
       fill="none"
-      stroke={testColor}
-      strokeWidth={testStrokeWidth}
+      stroke={color}
+      strokeWidth={strokeWidth}
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
