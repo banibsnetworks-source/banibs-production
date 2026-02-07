@@ -114,7 +114,7 @@ const WORLDS = [
     path: '/socialworld/chat',
     gradient: 'from-indigo-500 to-purple-500',
     status: 'active',
-    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxwZW9wbGUlMjBtZXNzYWdpbmclMjBjb252ZXJzYXRpb258ZW58MHx8fHwxNzA5MTIzNDU2fDA&ixlib=rb-4.1.0&q=85'
+    image: 'https://images.unsplash.com/photo-1739302750675-042ed497a429?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxCbGFjayUyMGZyaWVuZHMlMjB0YWxraW5nJTIwbGF1Z2hpbmclMjBjb25uZWN0aW9ufGVufDB8fHx8MTc3MDQ0MDk0NHww&ixlib=rb-4.1.0&q=85'
   },
   {
     id: 'talent',
