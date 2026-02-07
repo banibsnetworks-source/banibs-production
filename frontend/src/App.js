@@ -433,6 +433,7 @@ function App() {
               <Route path="/socialworld/circles" element={<SocialWorldCircles />} />
               <Route path="/socialworld/voice" element={<SocialWorldVoice />} />
               <Route path="/socialworld/chat" element={<SocialWorldChat />} />
+              <Route path="/socialworld/chat/:conversationId" element={<SocialWorldChat />} />
               <Route path="/socialworld/talent" element={<SocialWorldTalent />} />
               <Route path="/socialworld/marketplace" element={<SocialWorldMarketplace />} />
               
