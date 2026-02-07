@@ -10,7 +10,7 @@ import {
   Bookmark,
   Search,
   Briefcase,
-  Shield,
+  CircleDot,
   EyeOff,
   Settings,
   Lock,
