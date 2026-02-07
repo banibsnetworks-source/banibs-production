@@ -10,7 +10,6 @@ import {
   Bookmark,
   Search,
   Briefcase,
-  CircleDot,
   Shield,
   EyeOff,
   Settings,
@@ -21,6 +20,7 @@ import {
   MessageCircle,
   Globe
 } from 'lucide-react';
+import { CirclesIcon } from '../../icons/CirclesIcon';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useSocialLayout } from '../../../contexts/SocialLayoutContext';
 import { ProfileAvatar } from '../ProfileAvatar';
