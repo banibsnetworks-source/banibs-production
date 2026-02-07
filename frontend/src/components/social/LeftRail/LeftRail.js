@@ -11,6 +11,7 @@ import {
   Search,
   Briefcase,
   CircleDot,
+  Shield,
   EyeOff,
   Settings,
   Lock,
