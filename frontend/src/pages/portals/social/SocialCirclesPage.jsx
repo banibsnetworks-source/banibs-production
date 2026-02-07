@@ -11,7 +11,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { 
-  Shield, Users, Lock, Globe, ChevronRight, Loader2,
+  CircleDot, Users, Lock, Globe, ChevronRight, Loader2,
   Heart, Sparkles, BookHeart, UsersRound
 } from 'lucide-react';
 import SocialLayout from '../../../components/social/SocialLayout';
