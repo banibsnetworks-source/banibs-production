@@ -10,7 +10,7 @@ import {
   Server, Globe, Activity, Map, Search,
   ExternalLink, Lock, Users, Zap, Settings,
   Wrench, Lightbulb, Code, Video, Mic,
-  UserCircle, BookOpen, Calendar, CircleDot,
+  UserCircle, BookOpen, Calendar,
   Shield, Radar, Play, Pause, Trash2, Edit3, Plus,
   GripVertical, ArrowRight, Crown, Star,
   ThumbsUp, Check, User, Ban, BookMarked
