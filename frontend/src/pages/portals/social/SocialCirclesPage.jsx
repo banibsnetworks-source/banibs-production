@@ -11,9 +11,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { 
-  CircleDot, Users, Lock, Globe, ChevronRight, Loader2,
+  Users, Lock, Globe, ChevronRight, Loader2,
   Heart, Sparkles, BookHeart, UsersRound
 } from 'lucide-react';
+import { CirclesIcon } from '../../../components/icons/CirclesIcon';
 import SocialLayout from '../../../components/social/SocialLayout';
 import { useWorldPersistence } from '../../../hooks/useWorldPersistence';
 
