@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Users, TrendingUp, Network, Shield } from 'lucide-react';
+import { Users, TrendingUp, Network, CircleDot } from 'lucide-react';
 
 export const CircleStatsBar = ({ stats, trustScore }) => {
   const { t } = useTranslation();
@@ -17,7 +17,7 @@ export const CircleStatsBar = ({ stats, trustScore }) => {
   
   const statItems = [
     {
-      icon: Shield,
+      icon: CircleDot,
       label: t('circles.trustScore') || 'Trust Score',
       value: trustScore?.overallScore || 0,
       color: 'banibs-gold',
