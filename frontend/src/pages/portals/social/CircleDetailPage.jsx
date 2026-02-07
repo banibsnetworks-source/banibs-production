@@ -108,7 +108,7 @@ const CircleDetailPage = () => {
             
             <div className="text-center py-16">
               <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mx-auto mb-6">
-                <Shield className="w-10 h-10 text-red-400" />
+                <CircleDot className="w-10 h-10 text-red-400" />
               </div>
               <h2 className="text-2xl font-bold text-white mb-2">Circle Not Found</h2>
               <p className="text-gray-400 mb-6">This circle doesn't exist or has been removed.</p>
@@ -181,7 +181,7 @@ const CircleDetailPage = () => {
                   </span>
                   {circle.is_verified && (
                     <span className="flex items-center gap-1.5 text-blue-400">
-                      <Shield className="w-4 h-4" />
+                      <CircleDot className="w-4 h-4" />
                       Verified
                     </span>
                   )}
@@ -196,7 +196,7 @@ const CircleDetailPage = () => {
                     className="flex items-center gap-2 px-6 py-3 bg-green-600/20 text-green-400 rounded-lg font-medium"
                     data-testid="joined-button"
                   >
-                    <Shield className="w-5 h-5" />
+                    <CircleDot className="w-5 h-5" />
                     Joined
                   </button>
                 ) : joinStatus === 'requested' ? (
@@ -266,7 +266,7 @@ const CircleDetailPage = () => {
           {circle.safety_notes && (
             <div className="mb-8 p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
               <div className="flex items-start gap-3">
-                <Shield className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                <CircleDot className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-sm font-medium text-amber-400 mb-1">Safety Note</h4>
                   <p className="text-gray-300 text-sm">{circle.safety_notes}</p>
