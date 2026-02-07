@@ -108,13 +108,13 @@ const WORLDS = [
   },
   {
     id: 'chat',
-    title: 'Chat Sphere',
-    description: 'Direct messaging',
+    title: 'ChatSphere',
+    description: 'Private conversations',
     icon: MessageSquare,
-    path: '/messages',
+    path: '/socialworld/chat',
     gradient: 'from-indigo-500 to-purple-500',
-    status: 'coming-soon',
-    image: null
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxwZW9wbGUlMjBtZXNzYWdpbmclMjBjb252ZXJzYXRpb258ZW58MHx8fHwxNzA5MTIzNDU2fDA&ixlib=rb-4.1.0&q=85'
   },
   {
     id: 'talent',
