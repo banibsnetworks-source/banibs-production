@@ -186,7 +186,7 @@ for source in RSS_SOURCES:
 
 ### 3.3 Frontend Rendering
 
-**Test**: Visited `https://cultural-pulse-2.preview.emergentagent.com/`
+**Test**: Visited `https://community-pulse-85.preview.emergentagent.com/`
 
 **Results**:
 - ✅ Homepage loads successfully

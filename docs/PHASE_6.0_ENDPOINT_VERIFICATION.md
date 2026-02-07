@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://cultural-pulse-2.preview.emergentagent.com/api/auth
+https://community-pulse-85.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

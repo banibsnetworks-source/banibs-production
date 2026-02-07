@@ -828,7 +828,7 @@ All links visible:
 
 ## Static Guest Page Build
 Location: `/app/deploy/guest_site/`
-Download: `https://cultural-pulse-2.preview.emergentagent.com/guest_site.zip`
+Download: `https://community-pulse-85.preview.emergentagent.com/guest_site.zip`
 
 ---
 
