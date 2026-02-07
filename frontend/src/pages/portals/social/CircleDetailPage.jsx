@@ -10,9 +10,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { 
-  CircleDot, Users, Lock, Globe, ArrowLeft, Loader2,
+  Users, Lock, Globe, ArrowLeft, Loader2,
   Heart, Sparkles, BookHeart, UsersRound, UserPlus
 } from 'lucide-react';
+import { CirclesIcon } from '../../../components/icons/CirclesIcon';
 import SocialLayout from '../../../components/social/SocialLayout';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
