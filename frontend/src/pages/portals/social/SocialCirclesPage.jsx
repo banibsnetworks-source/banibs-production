@@ -115,7 +115,7 @@ const CircleCard = ({ circle, onClick }) => {
             </span>
             {circle.is_verified && (
               <span className="flex items-center gap-1 text-blue-400">
-                <Shield className="w-3.5 h-3.5" />
+                <CircleDot className="w-3.5 h-3.5" />
                 Verified
               </span>
             )}
@@ -202,7 +202,7 @@ const LoadingState = () => (
 const ErrorState = ({ message, onRetry }) => (
   <div className="flex flex-col items-center justify-center py-16 px-4 text-center" data-testid="circles-error">
     <div className="w-20 h-20 rounded-full bg-red-500/10 flex items-center justify-center mb-6">
-      <Shield className="w-10 h-10 text-red-400" />
+      <CircleDot className="w-10 h-10 text-red-400" />
     </div>
     <h3 className="text-xl font-semibold text-white mb-2">Unable to Load Circles</h3>
     <p className="text-gray-400 mb-6 max-w-md">{message}</p>
@@ -289,7 +289,7 @@ const SocialCirclesPage = () => {
         <div className="border-b border-white/10 bg-gradient-to-b from-black to-gray-900/50">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
             <div className="flex items-center gap-3 mb-3">
-              <Shield className="w-8 h-8 text-banibs-gold" />
+              <CircleDot className="w-8 h-8 text-banibs-gold" />
               <h1 className="text-3xl sm:text-4xl font-bold text-white">
                 Circles
               </h1>
