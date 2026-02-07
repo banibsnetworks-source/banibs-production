@@ -5,7 +5,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import GlobalNavBar from '../../components/GlobalNavBar';
 import NewsNavigationBar from '../../components/NewsNavigationBar';
 import SEO from '../../components/SEO';
-import { Users, MessageCircle, Heart, User, Camera, ChevronRight } from 'lucide-react';
+import { Users, MessageCircle, Heart, User, Camera } from 'lucide-react';
 import SocialPostComposer from '../../components/social/SocialPostComposer';
 import SocialFeed from '../../components/social/SocialFeed';
 import SocialLayout from '../../components/social/SocialLayout';
