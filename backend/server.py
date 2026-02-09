@@ -478,6 +478,10 @@ app.include_router(office_vault_router)
 from routes.system import router as system_router
 app.include_router(system_router)
 
+# Local Exchange (Social World Marketplace MVP)
+from routes.local_exchange import router as local_exchange_router
+app.include_router(local_exchange_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
