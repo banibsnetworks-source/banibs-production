@@ -14,6 +14,80 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 
 ---
 
+## Recent Updates (February 9, 2026 - Session 5)
+
+### ✅ Skills World - Foundation Phase (COMPLETED)
+New top-level learning World with calm, non-coercive design.
+
+**Canonical Constraints Applied:**
+- Guest-first entry (no account required)
+- No ads, no monetization, no urgency, no rankings, no streaks
+- Progress earned through understanding, not time or payment
+- Pausing/stopping is never punished
+- Visual style: calm, neutral, not childish
+
+**Features Implemented:**
+- **Skills World Landing** (`/skillsworld`) - Hero with trust signals, skill cards, parent reassurance
+- **Math & Logic Hub** (`/skillsworld/math`) - Activity cards with age guides
+- **Number Paths Game** (`/skillsworld/math/number-paths`) - Interactive math activity
+
+**Number Paths Mechanics:**
+- Start number → stepping stones (+/-) → target number
+- Visual running total updates each step
+- 5 levels with guided choice progression
+- No timers, penalties, or failure states
+- "Try again" / "Try next" gentle navigation
+- Optional localStorage for passive progress continuity
+
+**Files Created:**
+- `/app/frontend/src/pages/skillsworld/SkillsWorldHome.jsx`
+- `/app/frontend/src/pages/skillsworld/math/MathLogicHome.jsx`
+- `/app/frontend/src/pages/skillsworld/math/NumberPathsGame.jsx`
+
+**Routes:**
+- `/skillsworld` - Landing page
+- `/skillsworld/math` - Math & Logic hub
+- `/skillsworld/math/number-paths` - Number Paths game
+
+**Navigation:**
+- Added to main left rail as top-level entry (alongside Social World)
+
+### ✅ "Ad-free" Trust Signal Update (COMPLETED)
+Added "Ad-free" as first-class trust indicator across BANIBS.
+
+**Updated Locations:**
+- **Login Page**: Trust badges now show "Encrypted • Ad-free • Privacy-aware"
+- **Skills World**: "No ads. No in-app purchases. No pressure." prominently displayed
+- **SignInBrandPanel**: "Ad-free experience" in trust elements
+
+**Files Modified:**
+- `/app/frontend/src/pages/auth/SignInPage.jsx`
+- `/app/frontend/src/pages/skillsworld/SkillsWorldHome.jsx`
+- `/app/frontend/src/components/auth/SignInBrandPanel.jsx`
+
+### ✅ P0 UX Fix - Community Moments Dead Buttons (COMPLETED)
+Fixed non-functional "Add yours" and "Share yours" buttons.
+
+**Solution Applied:**
+- Changed to "Opening Soon" text (no click affordance)
+- `cursor: default` - no pointer
+- Muted colors, removed hover effects
+- Added `data-testid` for future testing
+
+**File Modified:**
+- `/app/frontend/src/pages/portals/SocialPortal.js`
+
+### ✅ Login Page Hero Image Replacement (COMPLETED)
+Replaced stock image with BANIBS-aligned community visual.
+
+**Changes:**
+- New image: African-American users at laptop login screen
+- Saved to `/app/frontend/public/images/login-hero.png`
+- Applied `object-cover object-center` for proper fit
+- Desktop + mobile verified
+
+---
+
 ## Recent Updates (February 7, 2026 - Session 4)
 
 ### ✅ P0 - ChatSphere v1 Activation (COMPLETED)
