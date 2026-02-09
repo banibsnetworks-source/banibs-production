@@ -306,6 +306,11 @@ import ComingSoonPageGold from "./pages/ComingSoonPageGold";
 // CCRAM - CCR Anchor Module
 import CCRAMPage from "./pages/ccram/CCRAMPage";
 
+// Skills World - Phase 18.0
+import SkillsWorldHome from "./pages/skillsworld/SkillsWorldHome";
+import MathLogicHome from "./pages/skillsworld/math/MathLogicHome";
+import NumberPathsGame from "./pages/skillsworld/math/NumberPathsGame";
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
