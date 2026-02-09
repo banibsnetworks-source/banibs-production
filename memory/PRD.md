@@ -14,6 +14,75 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 
 ---
 
+## Recent Updates (February 9, 2026 - Session 5, Part 2)
+
+### ✅ Local Exchange MVP (COMPLETED)
+Facebook Marketplace style local pickup listings for Social World.
+
+**Features Implemented:**
+- **Browse Listings** (`/socialworld/local`) - Grid/list view, search, filters
+- **Create Listing** (`/socialworld/local/new`) - Full form with photos, categories, conditions
+- **Listing Detail** (`/socialworld/local/:id`) - Photo gallery, seller info, message button
+- **Guest-Friendly** - Anyone can browse, sign-in required to create/message
+
+**Categories (12):**
+Furniture, Electronics, Clothing, Vehicles, Home & Garden, Sports, Toys, Books, Baby, Free Items, Local Services, Other
+
+**Conditions (5):**
+New, Like New, Good, Fair, For Parts
+
+**Safety Features:**
+- Report listing
+- Hide listing from feed
+- Block seller (via ChatSphere)
+- Approximate location only (city shown, ZIP private)
+
+**Constraints Met:**
+- No payments
+- No shipping workflow
+- No ads/boosts
+- No urgency timers
+- No rankings/"hot" feed
+
+**Files Created:**
+- `/app/backend/routes/local_exchange.py` - Full CRUD API
+- `/app/frontend/src/pages/socialworld/local-exchange/LocalExchangeHome.jsx`
+- `/app/frontend/src/pages/socialworld/local-exchange/CreateListingPage.jsx`
+- `/app/frontend/src/pages/socialworld/local-exchange/ListingDetailPage.jsx`
+
+**API Endpoints:**
+- `GET /api/local-exchange/categories` - Categories & conditions
+- `GET /api/local-exchange/listings` - Browse with filters (guest OK)
+- `POST /api/local-exchange/listings` - Create (auth required)
+- `GET /api/local-exchange/listings/:id` - Single listing
+- `PATCH /api/local-exchange/listings/:id` - Update (owner only)
+- `DELETE /api/local-exchange/listings/:id` - Delete (owner only)
+- `POST /api/local-exchange/listings/:id/report` - Report
+- `POST /api/local-exchange/listings/:id/hide` - Hide from feed
+
+### ✅ Number Paths UX Refinement v1.1 (COMPLETED)
+Polish pass based on founder playtesting feedback.
+
+**Improvements:**
+- Progress bar showing journey from start to target
+- Hover preview ("→ X") shows what total will become
+- Enhanced hover state with lift and glow
+- Floating +/- indicator on stone selection
+- Target hint (pulsing dot on winning stones)
+- Overshoot state with orange styling and clear guidance
+- Smoother level transitions (150ms fade)
+- Updated language: "Start fresh", "Try another", "Explore levels"
+
+### ✅ Share Feature Expansion (COMPLETED)
+Expanded platform-neutral "Share → Copy link" to Foundation pages.
+
+**Now Available On:**
+- Commons posts
+- Foundation main page (`/foundation`)
+- Seven Spirits page (`/foundation/seven-spirits-of-god`)
+
+---
+
 ## Recent Updates (February 9, 2026 - Session 5)
 
 ### ✅ Skills World - Foundation Phase (COMPLETED)
