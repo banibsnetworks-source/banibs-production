@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import ShareButton from '../../components/social/ShareButton';
 
 /**
  * SevenSpiritsPage - Foundation Document
@@ -14,7 +15,7 @@ const SevenSpiritsPage = () => {
     <div className="min-h-screen bg-[#0A0A0A]">
       {/* Header */}
       <header className="border-b border-[#1a1a1a] bg-[#0C0C0C]/95 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-6 py-4">
+        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link 
             to="/guest"
             className="inline-flex items-center gap-2 text-[#B3B3C2] hover:text-[#C8A857] transition-colors text-sm"
@@ -22,6 +23,14 @@ const SevenSpiritsPage = () => {
             <ArrowLeft size={16} />
             <span>Back to BANIBS</span>
           </Link>
+          {/* Share Button - Platform Neutral */}
+          <ShareButton
+            contentType="foundation"
+            contentId="seven-spirits-of-god"
+            contentTitle="The Seven Spirits of God — An Operational Reading from Revelation"
+            compact={true}
+            showLabel={false}
+          />
         </div>
       </header>
 
