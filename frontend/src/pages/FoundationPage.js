@@ -22,6 +22,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { ArrowLeft, Home, ExternalLink } from 'lucide-react';
 import SEO from '../components/SEO';
 import { BANIBS_BOOKS, FOUNDATION_BOOKS } from '../config/booksConfig';
+import ShareButton from '../components/social/ShareButton';
 
 const FoundationPage = () => {
   const { theme } = useTheme();
