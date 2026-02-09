@@ -311,6 +311,11 @@ import SkillsWorldHome from "./pages/skillsworld/SkillsWorldHome";
 import MathLogicHome from "./pages/skillsworld/math/MathLogicHome";
 import NumberPathsGame from "./pages/skillsworld/math/NumberPathsGame";
 
+// Local Exchange - Social World Marketplace MVP
+import LocalExchangeHome from "./pages/socialworld/local-exchange/LocalExchangeHome";
+import CreateListingPage from "./pages/socialworld/local-exchange/CreateListingPage";
+import ListingDetailPage from "./pages/socialworld/local-exchange/ListingDetailPage";
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
