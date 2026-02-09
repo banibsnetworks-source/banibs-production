@@ -452,6 +452,11 @@ function App() {
               <Route path="/skillsworld/math" element={<MathLogicHome />} />
               <Route path="/skillsworld/math/number-paths" element={<NumberPathsGame />} />
               
+              {/* Local Exchange - Social World Marketplace MVP */}
+              <Route path="/socialworld/local" element={<LocalExchangeHome />} />
+              <Route path="/socialworld/local/new" element={<CreateListingPage />} />
+              <Route path="/socialworld/local/:listingId" element={<ListingDetailPage />} />
+              
               {/* Guest Page / Coming Soon Preview */}
               <Route path="/guest" element={<ComingSoonPage />} />
               
