@@ -40,6 +40,10 @@ const ShareButton = ({
       case 'frame':
         return `${baseUrl}/socialworld/frames/${contentId}`;
       case 'foundation':
+        // Handle both main foundation page and sub-pages
+        if (contentId === 'foundation' || contentId === 'main') {
+          return `${baseUrl}/foundation`;
+        }
         return `${baseUrl}/foundation/${contentId}`;
       default:
         return `${baseUrl}/portal/social/post/${contentId}`;
