@@ -117,6 +117,16 @@ const WORLDS = [
     image: 'https://images.unsplash.com/photo-1739302750675-042ed497a429?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxCbGFjayUyMGZyaWVuZHMlMjB0YWxraW5nJTIwbGF1Z2hpbmclMjBjb25uZWN0aW9ufGVufDB8fHx8MTc3MDQ0MDk0NHww&ixlib=rb-4.1.0&q=85'
   },
   {
+    id: 'local',
+    title: 'Local Exchange',
+    description: 'Buy, sell & trade locally',
+    icon: ShoppingBag,
+    path: '/socialworld/local',
+    gradient: 'from-orange-500 to-amber-500',
+    status: 'active',
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxsb2NhbCUyMG1hcmtldHBsYWNlfGVufDB8fHx8MTcwOTEyMzQ1Nnww&ixlib=rb-4.1.0&q=85'
+  },
+  {
     id: 'talent',
     title: 'Talent World',
     description: 'Creator hub & tools',
