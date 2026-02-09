@@ -82,16 +82,26 @@ const FoundationPage = () => {
             <ArrowLeft size={16} />
             Back to Home
           </Link>
-          <Link
-            to="/foundation"
-            className={`inline-flex items-center gap-2 text-sm font-medium ${
-              isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
-            } transition-colors`}
-            data-testid="news-link"
-          >
-            <Home size={16} />
-            News
-          </Link>
+          <div className="flex items-center gap-4">
+            {/* Share Button - Platform Neutral */}
+            <ShareButton
+              contentType="foundation"
+              contentId="foundation"
+              contentTitle="BANIBS & HDOS Foundation"
+              compact={true}
+              showLabel={false}
+            />
+            <Link
+              to="/foundation"
+              className={`inline-flex items-center gap-2 text-sm font-medium ${
+                isDark ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+              } transition-colors`}
+              data-testid="news-link"
+            >
+              <Home size={16} />
+              News
+            </Link>
+          </div>
         </div>
       </header>
 
