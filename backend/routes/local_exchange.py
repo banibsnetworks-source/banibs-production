@@ -298,7 +298,7 @@ async def get_my_listings(
 
 
 @router.get("/listings/{listing_id}")
-async def get_listing(listing_id: str, current_user: Optional[dict] = Depends(get_current_user)):
+async def get_listing(listing_id: str, current_user: Optional[dict] = Depends(get_current_user_optional)):
     """Get a single listing by ID"""
     
     try:
