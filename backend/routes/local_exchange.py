@@ -205,7 +205,7 @@ async def get_listings(
     sort: str = Query("newest", enum=["newest", "oldest", "price_low", "price_high"]),
     skip: int = Query(0, ge=0),
     limit: int = Query(20, ge=1, le=50),
-    current_user: Optional[dict] = Depends(get_current_user)
+    current_user: Optional[dict] = Depends(get_current_user_optional)
 ):
     """Browse local listings with filters"""
     
