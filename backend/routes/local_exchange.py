@@ -55,6 +55,7 @@ CONDITIONS = [
 
 # Auth dependency
 from routes.auth import get_current_user
+from middleware.auth_guard import get_current_user_optional
 
 # Pydantic Models
 class ListingCreate(BaseModel):
