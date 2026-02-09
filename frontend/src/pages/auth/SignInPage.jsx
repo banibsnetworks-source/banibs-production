@@ -243,7 +243,7 @@ const SignInPage = () => {
 
               {/* Trust Badges */}
               <div className="flex flex-wrap gap-3">
-                {['Encrypted', 'Community-first', 'Privacy-aware'].map((badge) => (
+                {['Encrypted', 'Ad-free', 'Privacy-aware'].map((badge) => (
                   <span
                     key={badge}
                     className="px-4 py-2 rounded-full text-sm font-medium text-gray-300"
