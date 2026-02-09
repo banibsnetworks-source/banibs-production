@@ -210,18 +210,17 @@ const SignInPage = () => {
 
         {/* RIGHT: Hero Panel (SECONDARY - below on mobile) */}
         <div className="flex-1 relative overflow-hidden order-2 min-h-[300px] lg:min-h-0">
-          {/* Hero Background Image */}
+          {/* Hero Background Image - BANIBS-aligned login visual */}
           <div className="absolute inset-0">
             <img
-              src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=1200&q=80"
-              alt="BANIBS Community"
-              className="w-full h-full object-cover"
-              style={{ filter: 'saturate(0.9)' }}
+              src="/images/login-hero.png"
+              alt="BANIBS Community - People logging in"
+              className="w-full h-full object-cover object-center"
             />
-            {/* Gradient Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#030303] via-[#030303]/80 to-transparent" />
+            {/* Gradient Overlays for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#030303] via-[#030303]/70 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#030303] via-transparent to-transparent" />
-            {/* Amber tint overlay */}
+            {/* Subtle warm tint overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent mix-blend-overlay" />
           </div>
 
