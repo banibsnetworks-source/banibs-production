@@ -18,7 +18,8 @@ import {
   ChevronLeft,
   ChevronRight,
   MessageCircle,
-  Globe
+  Globe,
+  BookOpen
 } from 'lucide-react';
 import { CirclesIcon } from '../../icons/CirclesIcon';
 import { useAuth } from '../../../contexts/AuthContext';
