@@ -442,6 +442,11 @@ function App() {
               <Route path="/socialworld/talent" element={<SocialWorldTalent />} />
               <Route path="/socialworld/marketplace" element={<SocialWorldMarketplace />} />
               
+              {/* Skills World - Phase 18.0 (Guest-First, No Auth Required) */}
+              <Route path="/skillsworld" element={<SkillsWorldHome />} />
+              <Route path="/skillsworld/math" element={<MathLogicHome />} />
+              <Route path="/skillsworld/math/number-paths" element={<NumberPathsGame />} />
+              
               {/* Guest Page / Coming Soon Preview */}
               <Route path="/guest" element={<ComingSoonPage />} />
               
