@@ -344,23 +344,23 @@ const SkillsWorldHome = () => {
           
           <div className="space-y-3">
             <p 
-              className="text-sm leading-relaxed"
-              style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}
+              className="text-sm leading-relaxed font-medium"
+              style={{ color: isDark ? 'rgb(134, 239, 172)' : 'rgb(22, 163, 74)' }}
             >
-              Skills World is designed with care. There are no advertisements, no premium 
-              upgrades, no pressure to compete, and no comparison with other learners.
+              No ads. No in-app purchases. No premium upgrades. No pressure.
             </p>
             <p 
               className="text-sm leading-relaxed"
               style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}
             >
-              Learners can pause or stop at any time without penalty. Progress comes from 
-              understanding, not from time spent or money paid.
+              Skills World has no rankings, no leaderboards, and no comparison with other learners.
+              Learners can pause or stop at any time without penalty.
             </p>
             <p 
               className="text-sm leading-relaxed"
               style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}
             >
+              Progress comes from understanding, not from time spent or money paid.
               Account creation is always optional. Guests can explore freely.
             </p>
           </div>
