@@ -159,12 +159,29 @@ const SkillsWorldHome = () => {
         </h2>
 
         <p 
-          className="text-lg max-w-2xl mx-auto mb-8 leading-relaxed"
+          className="text-lg max-w-2xl mx-auto mb-6 leading-relaxed"
           style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}
         >
           Skills World is a calm space for learning. No pressure, no competition, 
           no timers. Just you, building understanding one step at a time.
         </p>
+
+        {/* Trust signals - visible without scrolling */}
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          {['No ads', 'No in-app purchases', 'No pressure'].map((signal) => (
+            <span
+              key={signal}
+              className="px-4 py-2 rounded-full text-sm"
+              style={{ 
+                backgroundColor: isDark ? 'rgba(34, 197, 94, 0.1)' : 'rgba(34, 197, 94, 0.08)',
+                color: isDark ? 'rgb(134, 239, 172)' : 'rgb(22, 163, 74)',
+                border: `1px solid ${isDark ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.2)'}`
+              }}
+            >
+              {signal}
+            </span>
+          ))}
+        </div>
       </section>
 
       {/* What Skills World Is NOT */}
