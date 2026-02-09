@@ -13,7 +13,7 @@ const SignInBrandPanel = () => {
       description: 'Secure by design'
     },
     {
-      title: 'No selling your story',
+      title: 'Ad-free experience',
       image: 'https://images.unsplash.com/photo-1687422808565-929533931584',
       description: 'Your data, your control'
     },
