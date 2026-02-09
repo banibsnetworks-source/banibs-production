@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 from bson import ObjectId
 import os
 
-router = APIRouter(prefix="/local-exchange", tags=["Local Exchange"])
+router = APIRouter(prefix="/api/local-exchange", tags=["Local Exchange"])
 
 # MongoDB connection
 from motor.motor_asyncio import AsyncIOMotorClient
