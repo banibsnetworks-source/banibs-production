@@ -1,0 +1,587 @@
+{
+  "registry_version": "1.0.0",
+  "last_updated": "2026-02-10T05:30:00Z",
+  "description": "BANIBS Canonical Module Registry - Single source of truth for all Worlds, modules, and features",
+  "modules": [
+    {
+      "id": "frames",
+      "display_name": "Frames",
+      "world": "Social World",
+      "category": "visual_storytelling",
+      "status": "active",
+      "frontend_routes": [
+        "/socialworld/frames",
+        "/socialworld/frames/new"
+      ],
+      "api_routes": [
+        "GET /api/frames",
+        "GET /api/frames/:id",
+        "GET /api/frames/mine",
+        "POST /api/frames",
+        "PATCH /api/frames/:id",
+        "DELETE /api/frames/:id",
+        "POST /api/frames/:id/hide",
+        "POST /api/frames/:id/unhide",
+        "POST /api/frames/:id/report"
+      ],
+      "db_collections": ["frames"],
+      "last_updated": "2026-02-10",
+      "notes": "Visual storytelling v0.1 - calm tech design (no likes/comments/metrics)"
+    },
+    {
+      "id": "local_exchange",
+      "display_name": "Local Exchange",
+      "world": "Social World",
+      "category": "marketplace",
+      "status": "active",
+      "frontend_routes": [
+        "/socialworld/local",
+        "/socialworld/local/new",
+        "/socialworld/local/:listingId"
+      ],
+      "api_routes": [
+        "GET /api/local-exchange/categories",
+        "GET /api/local-exchange/listings",
+        "GET /api/local-exchange/listings/mine",
+        "GET /api/local-exchange/listings/:id",
+        "POST /api/local-exchange/listings",
+        "PATCH /api/local-exchange/listings/:id",
+        "DELETE /api/local-exchange/listings/:id",
+        "POST /api/local-exchange/listings/:id/report",
+        "POST /api/local-exchange/listings/:id/hide",
+        "POST /api/local-exchange/listings/:id/unhide"
+      ],
+      "db_collections": ["local_listings"],
+      "last_updated": "2026-02-09",
+      "notes": "Facebook Marketplace style local pickup listings - no payments, no shipping"
+    },
+    {
+      "id": "chatsphere",
+      "display_name": "ChatSphere",
+      "world": "Social World",
+      "category": "messaging",
+      "status": "active",
+      "frontend_routes": [
+        "/socialworld/chat",
+        "/socialworld/chat/:conversationId"
+      ],
+      "api_routes": [
+        "GET /api/messages/conversations",
+        "GET /api/messages/conversations/:id",
+        "POST /api/messages/conversations",
+        "POST /api/messages/conversations/:id/messages",
+        "GET /api/messages/conversations/:id/messages"
+      ],
+      "db_collections": ["conversations", "messages"],
+      "last_updated": "2026-02-07",
+      "notes": "Private conversations and messaging system"
+    },
+    {
+      "id": "commons",
+      "display_name": "Commons",
+      "world": "Social World",
+      "category": "social_feed",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/social",
+        "/portal/social/home"
+      ],
+      "api_routes": [
+        "GET /api/social/posts",
+        "GET /api/social/posts/:id",
+        "POST /api/social/posts",
+        "PATCH /api/social/posts/:id",
+        "DELETE /api/social/posts/:id",
+        "POST /api/social/posts/:id/reactions"
+      ],
+      "db_collections": ["social_posts", "social_reactions"],
+      "last_updated": "2026-02-01",
+      "notes": "Primary social/news exchange feed"
+    },
+    {
+      "id": "pulse",
+      "display_name": "Pulse",
+      "world": "Social World",
+      "category": "short_video",
+      "status": "active",
+      "frontend_routes": [
+        "/socialworld/pulse",
+        "/socialworld/shortform"
+      ],
+      "api_routes": [
+        "GET /api/shortform/videos",
+        "GET /api/shortform/videos/:id",
+        "POST /api/shortform/videos"
+      ],
+      "db_collections": ["shortform_videos"],
+      "last_updated": "2026-01-15",
+      "notes": "Short-form vertical video (TikTok style)"
+    },
+    {
+      "id": "notes",
+      "display_name": "Notes",
+      "world": "Social World",
+      "category": "written_content",
+      "status": "opening_soon",
+      "frontend_routes": [
+        "/socialworld/notes"
+      ],
+      "api_routes": [],
+      "db_collections": [],
+      "last_updated": "2026-02-10",
+      "notes": "Short written thoughts and reflections - placeholder only"
+    },
+    {
+      "id": "circles",
+      "display_name": "Circles",
+      "world": "Social World",
+      "category": "community",
+      "status": "active",
+      "frontend_routes": [
+        "/socialworld/circles",
+        "/portal/social/circles",
+        "/portal/social/circles/:slug"
+      ],
+      "api_routes": [
+        "GET /api/circles",
+        "GET /api/circles/:id",
+        "POST /api/circles",
+        "GET /api/circles/:id/members"
+      ],
+      "db_collections": ["circles", "circle_members"],
+      "last_updated": "2026-01-20",
+      "notes": "Community spaces and support groups"
+    },
+    {
+      "id": "live_circle",
+      "display_name": "Live Circle",
+      "world": "Social World",
+      "category": "streaming",
+      "status": "opening_soon",
+      "frontend_routes": [
+        "/socialworld/live"
+      ],
+      "api_routes": [],
+      "db_collections": [],
+      "last_updated": "2026-02-10",
+      "notes": "Live streaming hub - placeholder only"
+    },
+    {
+      "id": "voice_share",
+      "display_name": "Voice Share",
+      "world": "Social World",
+      "category": "audio",
+      "status": "opening_soon",
+      "frontend_routes": [
+        "/socialworld/voice"
+      ],
+      "api_routes": [],
+      "db_collections": [],
+      "last_updated": "2026-02-10",
+      "notes": "Audio clips and podcasts - placeholder only"
+    },
+    {
+      "id": "talent_world",
+      "display_name": "Talent World",
+      "world": "Social World",
+      "category": "creator",
+      "status": "opening_soon",
+      "frontend_routes": [
+        "/socialworld/talent"
+      ],
+      "api_routes": [],
+      "db_collections": [],
+      "last_updated": "2026-02-10",
+      "notes": "Creator hub and tools - placeholder only"
+    },
+    {
+      "id": "social_shop",
+      "display_name": "Social Shop",
+      "world": "Social World",
+      "category": "creator_marketplace",
+      "status": "opening_soon",
+      "frontend_routes": [
+        "/socialworld/marketplace"
+      ],
+      "api_routes": [],
+      "db_collections": [],
+      "last_updated": "2026-02-10",
+      "notes": "Creator marketplace - placeholder only"
+    },
+    {
+      "id": "skills_world",
+      "display_name": "Skills World",
+      "world": "Skills World",
+      "category": "education",
+      "status": "active",
+      "frontend_routes": [
+        "/skillsworld",
+        "/skillsworld/math",
+        "/skillsworld/math/number-paths"
+      ],
+      "api_routes": [],
+      "db_collections": [],
+      "last_updated": "2026-02-09",
+      "notes": "Learning activities - guest-first, calm tech, no ads/monetization/urgency"
+    },
+    {
+      "id": "number_paths",
+      "display_name": "Number Paths",
+      "world": "Skills World",
+      "category": "math_game",
+      "status": "active",
+      "frontend_routes": [
+        "/skillsworld/math/number-paths"
+      ],
+      "api_routes": [],
+      "db_collections": [],
+      "last_updated": "2026-02-09",
+      "notes": "Interactive math activity - 5 levels, no timers, gentle feedback"
+    },
+    {
+      "id": "prayer_rooms",
+      "display_name": "Prayer Rooms",
+      "world": "Community Portal",
+      "category": "spiritual",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/prayer",
+        "/portal/prayer/room/:roomSlug"
+      ],
+      "api_routes": [
+        "GET /api/prayer/rooms",
+        "GET /api/prayer/rooms/:slug",
+        "POST /api/prayer/rooms/:slug/join"
+      ],
+      "db_collections": ["prayer_rooms"],
+      "last_updated": "2026-01-25",
+      "notes": "Multi-faith prayer circles and meditation"
+    },
+    {
+      "id": "beauty_wellness",
+      "display_name": "Beauty & Wellness",
+      "world": "Community Portal",
+      "category": "lifestyle",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/beauty",
+        "/portal/beauty/providers",
+        "/portal/beauty/education",
+        "/portal/beauty/board",
+        "/portal/beauty/cost"
+      ],
+      "api_routes": [
+        "GET /api/beauty/providers",
+        "GET /api/beauty/providers/:id"
+      ],
+      "db_collections": ["beauty_providers"],
+      "last_updated": "2026-01-28",
+      "notes": "Black-owned beauty products and services"
+    },
+    {
+      "id": "fashion_sneakers",
+      "display_name": "Sneakers & Fashion",
+      "world": "Community Portal",
+      "category": "lifestyle",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/fashion",
+        "/portal/fashion/brands",
+        "/portal/fashion/education",
+        "/portal/fashion/board",
+        "/portal/fashion/spend"
+      ],
+      "api_routes": [
+        "GET /api/fashion/brands",
+        "GET /api/fashion/brands/:id"
+      ],
+      "db_collections": ["fashion_brands"],
+      "last_updated": "2026-01-28",
+      "notes": "Black-owned sneaker and fashion marketplace"
+    },
+    {
+      "id": "diaspora_connect",
+      "display_name": "Diaspora Connect",
+      "world": "Community Portal",
+      "category": "cultural",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/diaspora",
+        "/portal/diaspora/regions",
+        "/portal/diaspora/stories",
+        "/portal/diaspora/businesses",
+        "/portal/diaspora/learn",
+        "/portal/diaspora/snapshot"
+      ],
+      "api_routes": [
+        "GET /api/diaspora/regions",
+        "GET /api/diaspora/stories",
+        "GET /api/diaspora/businesses"
+      ],
+      "db_collections": ["diaspora_stories", "diaspora_businesses"],
+      "last_updated": "2026-02-01",
+      "notes": "Connecting the global Black diaspora"
+    },
+    {
+      "id": "academy",
+      "display_name": "BANIBS Academy",
+      "world": "Education Portal",
+      "category": "learning",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/academy",
+        "/portal/academy/courses",
+        "/portal/academy/mentorship",
+        "/portal/academy/lifeskills",
+        "/portal/academy/history",
+        "/portal/academy/opportunities"
+      ],
+      "api_routes": [
+        "GET /api/academy/courses",
+        "GET /api/academy/mentors"
+      ],
+      "db_collections": ["academy_courses", "academy_mentors"],
+      "last_updated": "2026-02-02",
+      "notes": "Education platform - courses, mentorship, life skills, history"
+    },
+    {
+      "id": "wallet",
+      "display_name": "BANIBS Wallet",
+      "world": "Finance Portal",
+      "category": "financial",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/wallet"
+      ],
+      "api_routes": [
+        "GET /api/wallet/accounts",
+        "GET /api/wallet/transactions"
+      ],
+      "db_collections": ["wallet_accounts", "wallet_transactions"],
+      "last_updated": "2026-02-03",
+      "notes": "Own the flow of Black money - accounts, goals, envelopes"
+    },
+    {
+      "id": "developer",
+      "display_name": "BANIBS OS / Developer",
+      "world": "Developer Portal",
+      "category": "platform",
+      "status": "active",
+      "frontend_routes": [
+        "/developer",
+        "/developer/api-keys",
+        "/developer/apps",
+        "/developer/webhooks",
+        "/developer/docs"
+      ],
+      "api_routes": [
+        "GET /api/developer/apps",
+        "POST /api/developer/apps",
+        "GET /api/developer/api-keys"
+      ],
+      "db_collections": ["developer_apps", "developer_api_keys"],
+      "last_updated": "2026-02-04",
+      "notes": "Developer platform for BANIBS ecosystem"
+    },
+    {
+      "id": "global_marketplace",
+      "display_name": "Global Marketplace",
+      "world": "Commerce Portal",
+      "category": "ecommerce",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/marketplace",
+        "/portal/marketplace/region/:regionId",
+        "/portal/marketplace/store/:storeId",
+        "/portal/marketplace/product/:productId",
+        "/portal/marketplace/checkout",
+        "/portal/marketplace/orders",
+        "/portal/marketplace/seller/dashboard"
+      ],
+      "api_routes": [
+        "GET /api/marketplace/products",
+        "GET /api/marketplace/stores",
+        "GET /api/marketplace/regions",
+        "POST /api/marketplace/orders"
+      ],
+      "db_collections": ["marketplace_products", "marketplace_stores", "marketplace_orders"],
+      "last_updated": "2026-02-05",
+      "notes": "Buy Black across continents - Products, Art & Digital Goods"
+    },
+    {
+      "id": "community_life",
+      "display_name": "Community Life Hub",
+      "world": "Community Portal",
+      "category": "quality_of_life",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/community",
+        "/portal/community/health",
+        "/portal/community/fitness",
+        "/portal/community/food",
+        "/portal/community/school"
+      ],
+      "api_routes": [
+        "GET /api/community/health/resources",
+        "GET /api/community/fitness/programs",
+        "GET /api/community/food/recipes",
+        "GET /api/community/school/resources"
+      ],
+      "db_collections": ["community_health", "community_fitness", "community_recipes", "community_school"],
+      "last_updated": "2026-02-06",
+      "notes": "Quality of Life OS - Health, Fitness, Food, Education"
+    },
+    {
+      "id": "ability_network",
+      "display_name": "Ability Network",
+      "world": "Community Portal",
+      "category": "accessibility",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/ability",
+        "/portal/ability/providers",
+        "/portal/ability/providers/:providerId",
+        "/portal/ability/support-groups",
+        "/portal/ability/support-groups/:circleId"
+      ],
+      "api_routes": [
+        "GET /api/ability/providers",
+        "GET /api/ability/support-groups"
+      ],
+      "db_collections": ["ability_providers", "ability_circles"],
+      "last_updated": "2026-02-06",
+      "notes": "Disability resources and support groups"
+    },
+    {
+      "id": "helping_hands",
+      "display_name": "Helping Hands",
+      "world": "Social World",
+      "category": "crowdfunding",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/helping-hands",
+        "/portal/helping-hands/create",
+        "/portal/helping-hands/campaign/:campaignId"
+      ],
+      "api_routes": [
+        "GET /api/helpinghands/campaigns",
+        "GET /api/helpinghands/campaigns/:id",
+        "POST /api/helpinghands/campaigns"
+      ],
+      "db_collections": ["helpinghands_campaigns"],
+      "last_updated": "2026-01-30",
+      "notes": "Donation-based crowdfunding for community needs"
+    },
+    {
+      "id": "business_directory",
+      "display_name": "Business Directory",
+      "world": "Business Portal",
+      "category": "directory",
+      "status": "active",
+      "frontend_routes": [
+        "/business-directory",
+        "/portal/business",
+        "/portal/business/:businessId"
+      ],
+      "api_routes": [
+        "GET /api/businesses",
+        "GET /api/businesses/:id",
+        "POST /api/businesses"
+      ],
+      "db_collections": ["businesses", "business_reviews"],
+      "last_updated": "2026-01-15",
+      "notes": "Black-owned business directory with search and reviews"
+    },
+    {
+      "id": "news",
+      "display_name": "BANIBS News",
+      "world": "News Portal",
+      "category": "media",
+      "status": "active",
+      "frontend_routes": [
+        "/news",
+        "/news/:section",
+        "/news/black",
+        "/portal/news"
+      ],
+      "api_routes": [
+        "GET /api/news",
+        "GET /api/news/black",
+        "GET /api/news/sections/:section"
+      ],
+      "db_collections": ["news_articles", "news_sources"],
+      "last_updated": "2026-01-10",
+      "notes": "News aggregation and commentary - curated for the Black community"
+    },
+    {
+      "id": "ccram",
+      "display_name": "CCRAM",
+      "world": "Founder Tools",
+      "category": "ai_assistant",
+      "status": "active",
+      "frontend_routes": [
+        "/ccram"
+      ],
+      "api_routes": [
+        "POST /api/ccram/chat",
+        "GET /api/ccram/sessions"
+      ],
+      "db_collections": ["ccram_sessions"],
+      "last_updated": "2026-01-20",
+      "notes": "CCR Anchor Module - Interview AI assistant"
+    },
+    {
+      "id": "book_vault",
+      "display_name": "Book Vault Studio",
+      "world": "Founder Tools",
+      "category": "authoring",
+      "status": "active",
+      "frontend_routes": [
+        "/founder/book-vault",
+        "/founder/book-vault/:bookId"
+      ],
+      "api_routes": [
+        "GET /api/books",
+        "GET /api/books/:id",
+        "POST /api/books",
+        "PATCH /api/books/:id"
+      ],
+      "db_collections": ["books", "book_chapters"],
+      "last_updated": "2026-02-01",
+      "notes": "Write and manage books chapter-by-chapter"
+    },
+    {
+      "id": "founder_command",
+      "display_name": "Founder Command Center",
+      "world": "Founder Tools",
+      "category": "admin",
+      "status": "active",
+      "frontend_routes": [
+        "/founder/command",
+        "/founder/analytics"
+      ],
+      "api_routes": [
+        "GET /api/founder/ops",
+        "GET /api/founder/analytics"
+      ],
+      "db_collections": ["founder_tasks", "founder_ops_logs"],
+      "last_updated": "2026-02-10",
+      "notes": "Internal dashboard for founder - builds, specs, tasks, health"
+    },
+    {
+      "id": "bglis",
+      "display_name": "BGLIS Phone Auth",
+      "world": "Platform Infrastructure",
+      "category": "authentication",
+      "status": "opening_soon",
+      "frontend_routes": [],
+      "api_routes": [
+        "POST /api/bglis/send-otp",
+        "POST /api/bglis/verify-otp"
+      ],
+      "db_collections": ["bglis_phones", "bglis_otps"],
+      "last_updated": "2026-02-08",
+      "notes": "Phone-first global identity system - backend complete, UI pending"
+    }
+  ]
+}
