@@ -63,7 +63,7 @@ const WORLDS = [
     icon: Image,
     path: '/socialworld/frames',
     gradient: 'from-purple-500 to-pink-500',
-    status: 'coming-soon',
+    status: 'active',
     image: 'https://images.unsplash.com/photo-1596768453698-863c3810414e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHw0fHxCbGFjayUyMHBlb3BsZSUyMHRhbGtpbmclMjBjb252ZXJzYXRpb24lMjBmcmllbmRzJTIwaGFwcHl8ZW58MHx8fHwxNzcwMzUxNzE1fDA&ixlib=rb-4.1.0&q=85'
   },
   {
