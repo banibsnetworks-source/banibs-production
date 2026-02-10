@@ -482,6 +482,10 @@ app.include_router(system_router)
 from routes.local_exchange import router as local_exchange_router
 app.include_router(local_exchange_router)
 
+# Frames (Social World Visual Storytelling)
+from routes.frames import router as frames_router
+app.include_router(frames_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
