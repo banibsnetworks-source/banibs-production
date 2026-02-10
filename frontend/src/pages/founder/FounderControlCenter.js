@@ -1770,6 +1770,7 @@ const FounderControlCenter = () => {
           }}>
             {[
               { id: 'dashboard', label: 'Dashboard', icon: Activity },
+              { id: 'modules', label: 'Modules', icon: Database, href: '/founder/modules' },
               { id: 'system-map', label: 'System Map', icon: Map },
               { id: 'governance', label: 'Governance', icon: Shield },
               { id: 'ops-log', label: 'Ops Log', icon: FileText },
@@ -1781,6 +1782,36 @@ const FounderControlCenter = () => {
             ].map(tab => {
               const TabIcon = tab.icon;
               const isActive = activeTab === tab.id;
+              
+              // If tab has href, render a Link instead of button
+              if (tab.href) {
+                return (
+                  <Link
+                    key={tab.id}
+                    to={tab.href}
+                    data-testid={`tab-${tab.id}`}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '10px 20px',
+                      borderRadius: '8px 8px 0 0',
+                      backgroundColor: 'transparent',
+                      color: isDark ? '#9CA3AF' : '#6B7280',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      textDecoration: 'none',
+                      borderBottom: '2px solid transparent',
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    <TabIcon size={18} />
+                    {tab.label}
+                    <ExternalLink size={12} style={{ opacity: 0.5 }} />
+                  </Link>
+                );
+              }
+              
               return (
                 <button
                   key={tab.id}
