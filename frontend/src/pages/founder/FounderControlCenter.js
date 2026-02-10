@@ -13,7 +13,7 @@ import {
   UserCircle, BookOpen, Calendar,
   Shield, Radar, Play, Pause, Trash2, Edit3, Plus,
   GripVertical, ArrowRight, Crown, Star,
-  ThumbsUp, Check, User, Ban, BookMarked
+  ThumbsUp, Check, User, Ban, BookMarked, Database
 } from 'lucide-react';
 import { getEnabledModules, getUpcomingModules } from '../../config/moduleRegistry';
 import {
