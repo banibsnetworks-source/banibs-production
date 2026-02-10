@@ -438,6 +438,7 @@ function App() {
               <Route path="/socialworld/pulse" element={<SocialWorldPulse />} />
               <Route path="/socialworld/shortform" element={<SocialWorldPulse />} /> {/* Legacy alias */}
               <Route path="/socialworld/frames" element={<SocialWorldFrames />} />
+              <Route path="/socialworld/frames/new" element={<CreateFramePage />} />
               <Route path="/socialworld/moments" element={<SocialWorldFrames />} /> {/* Legacy alias */}
               <Route path="/socialworld/notes" element={<SocialWorldNotes />} />
               <Route path="/socialworld/stories" element={<SocialWorldNotes />} /> {/* Legacy alias */}
