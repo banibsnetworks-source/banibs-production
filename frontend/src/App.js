@@ -316,6 +316,9 @@ import LocalExchangeHome from "./pages/socialworld/local-exchange/LocalExchangeH
 import CreateListingPage from "./pages/socialworld/local-exchange/CreateListingPage";
 import ListingDetailPage from "./pages/socialworld/local-exchange/ListingDetailPage";
 
+// Frames - Social World Visual Storytelling v0.1
+import CreateFramePage from "./pages/socialworld/CreateFramePage";
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
