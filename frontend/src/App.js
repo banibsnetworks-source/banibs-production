@@ -293,6 +293,7 @@ import OrchestrationDashboardPage from "./pages/admin/orchestration/Orchestratio
 // Founder Control Center
 import FounderControlCenter from "./pages/founder/FounderControlCenter";
 import FounderAnalyticsDashboard from "./pages/founder/FounderAnalyticsDashboard";
+import FounderModulesPage from "./pages/founder/FounderModulesPage";
 import NavV2Preview from "./pages/founder/NavV2Preview";
 import BookVaultStudio from "./pages/founder/BookVaultStudio";
 import BookEditor from "./pages/founder/BookEditor";
