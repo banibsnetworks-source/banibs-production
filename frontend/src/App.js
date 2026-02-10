@@ -811,6 +811,9 @@ function App() {
               {/* Founder Control Center v1.0 */}
               <Route path="/founder/command" element={<FounderControlCenter />} />
               
+              {/* Founder Modules Registry - P0 Infrastructure */}
+              <Route path="/founder/modules" element={<FounderModulesPage />} />
+              
               {/* Founder Analytics Dashboard v1.0 */}
               <Route path="/founder/analytics" element={<FounderAnalyticsDashboard />} />
               
