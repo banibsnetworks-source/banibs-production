@@ -10,7 +10,7 @@ import sys
 from datetime import datetime
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://community-pulse-85.preview.emergentagent.com"
+BACKEND_URL = "https://visualstory-49.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 class MessagingAPITester:

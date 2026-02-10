@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://community-pulse-85.preview.emergentagent.com/api/auth
+https://visualstory-49.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
