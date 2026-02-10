@@ -14,6 +14,44 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 
 ---
 
+## Recent Updates (February 10, 2026 - Session 6)
+
+### ✅ Frames v0.1 - Visual Storytelling (COMPLETED)
+New Social World feature for calm, non-extractive visual storytelling.
+
+**Design Philosophy (Calm Tech):**
+- No likes, no comments, no reactions
+- No engagement metrics or view counts
+- No algorithmic ranking
+- Copy link only for sharing
+- Simple chronological feed
+
+**Features Implemented:**
+- **Browse Frames** (`/socialworld/frames`) - Grid layout, guest-friendly
+- **Create Frame** (`/socialworld/frames/new`) - Image upload + optional caption
+- **Frame Detail Modal** - Full view with creator info and copy link
+- **Visibility Options** - Public (default), Circle-only, Private (draft)
+
+**Backend API:**
+- `GET /api/frames` - Browse public frames (guest OK)
+- `GET /api/frames?skip=0&limit=24` - Pagination
+- `GET /api/frames/:id` - Single frame detail
+- `POST /api/frames` - Create frame (auth required)
+- `GET /api/frames/mine` - User's frames including private
+- `POST /api/frames/:id/hide` - Hide from feed
+- `POST /api/frames/:id/report` - Report frame
+
+**Files Created/Modified:**
+- `/app/backend/routes/frames.py` - Full API implementation
+- `/app/frontend/src/pages/socialworld/FramesPage.jsx` - Browse page
+- `/app/frontend/src/pages/socialworld/CreateFramePage.jsx` - Create form
+- `/app/frontend/src/pages/socialworld/SocialWorldHome.jsx` - Status: active
+- `/app/frontend/src/App.js` - Routes added
+
+**Testing:** 100% pass rate (21/21 backend tests, all UI features verified)
+
+---
+
 ## Recent Updates (February 9, 2026 - Session 5, Part 2)
 
 ### ✅ Local Exchange MVP (COMPLETED)
