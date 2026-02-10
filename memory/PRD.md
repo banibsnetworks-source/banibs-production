@@ -16,6 +16,52 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 
 ## Recent Updates (February 10, 2026 - Session 6)
 
+### ✅ Module Registry System - P0 Infrastructure (COMPLETED)
+Canonical registry system for the Founder Command Center to track all Worlds, modules, and features.
+
+**Rule Going Forward:** A module is NOT considered created or active unless it is added to the registry.
+
+**Components:**
+1. **Registry File** (`/app/backend/config/modules_registry.json`) - Single source of truth
+2. **API Endpoint** (`GET /api/founder/modules`) - Returns registry with filtering
+3. **Founder Modules Page** (`/founder/modules`) - Table view with search/filter
+
+**Module Entry Structure:**
+- `id` - Unique identifier (e.g., frames, local_exchange)
+- `display_name` - Human-readable name
+- `world` - Which world/portal it belongs to
+- `category` - Feature category
+- `status` - opening_soon | active | disabled
+- `frontend_routes` - List of frontend paths
+- `api_routes` - List of API endpoints
+- `db_collections` - MongoDB collections used
+- `last_updated` - Date of last update
+- `notes` - Short description
+
+**API Features:**
+- `GET /api/founder/modules` - All modules with summary
+- `GET /api/founder/modules?status=active` - Filter by status
+- `GET /api/founder/modules?world=Social%20World` - Filter by world
+- `GET /api/founder/modules/:id` - Single module detail
+- `GET /api/founder/modules/stats/summary` - Lightweight stats only
+
+**Registry Stats:**
+- Total modules: 30
+- Active: 24
+- Opening Soon: 6
+- Worlds: 11 (Social World, Skills World, Community Portal, etc.)
+
+**Files Created:**
+- `/app/backend/config/modules_registry.json` - Canonical registry
+- `/app/backend/routes/modules_registry.py` - API endpoints
+- `/app/frontend/src/pages/founder/FounderModulesPage.jsx` - UI page
+- Updated `FounderControlCenter.js` - Added Modules tab
+- Updated `App.js` - Added route
+
+**Testing:** 100% pass rate (14/14 backend tests, all UI features verified)
+
+---
+
 ### ✅ Frames v0.1 - Visual Storytelling (COMPLETED)
 New Social World feature for calm, non-extractive visual storytelling.
 
