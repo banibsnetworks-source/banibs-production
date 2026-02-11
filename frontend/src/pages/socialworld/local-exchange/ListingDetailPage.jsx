@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useTheme } from '../../../contexts/ThemeContext';
 import { 
@@ -13,6 +13,7 @@ import FullWidthLayout from '../../../components/layouts/FullWidthLayout';
  * Listing Detail Page - Local Exchange
  * 
  * View single listing, contact seller, report/hide
+ * Integrated with ChatSphere for messaging
  */
 
 const CATEGORY_LABELS = {
@@ -40,10 +41,12 @@ const CONDITION_LABELS = {
 
 const ListingDetailPage = () => {
   const { listingId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { user } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
+  const chatAutoTriggered = useRef(false);
 
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -57,6 +60,7 @@ const ListingDetailPage = () => {
   const [actionMessage, setActionMessage] = useState(null);
 
   const API_URL = process.env.REACT_APP_BACKEND_URL;
+
 
   // Fetch listing
   const fetchListing = useCallback(async () => {
