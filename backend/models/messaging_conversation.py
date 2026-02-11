@@ -15,6 +15,7 @@ class Conversation(Document):
     participant_ids: List[str] = Field(default_factory=list)
     title: Optional[str] = None
     business_id: Optional[str] = None
+    metadata: Optional[Dict[str, Any]] = None  # For listing context and other integrations
 
     last_message_preview: Optional[str] = None
     last_message_at: Optional[datetime] = None
