@@ -482,3 +482,161 @@ async def unhide_listing(listing_id: str, current_user: dict = Depends(get_curre
     )
     
     return {"message": "Listing unhidden"}
+
+
+
+# ============================================================================
+# ChatSphere Integration - Message Seller
+# ============================================================================
+
+class InitiateConversationResponse(BaseModel):
+    conversation_id: str
+    is_new: bool
+    listing_context: dict
+
+
+async def check_user_blocked(user_id: str, target_user_id: str) -> bool:
+    """Check if either user has blocked the other"""
+    # Check both directions
+    block = await blocked_users_collection.find_one({
+        "$or": [
+            {"blocker_id": user_id, "blocked_id": target_user_id},
+            {"blocker_id": target_user_id, "blocked_id": user_id}
+        ]
+    })
+    return block is not None
+
+
+@router.post("/listings/{listing_id}/initiate-chat")
+async def initiate_listing_conversation(
+    listing_id: str,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    Initiate or retrieve a ChatSphere conversation for a listing.
+    
+    - If conversation exists between buyer and seller for this listing: return it
+    - If no conversation exists: create new one with listing context
+    - Respects block/hide states
+    
+    Returns:
+        - conversation_id: ID of existing or newly created conversation
+        - is_new: Whether this is a new conversation
+        - listing_context: Context block to display in chat
+    """
+    from models.messaging_conversation import Conversation
+    from services.messaging_service import create_conversation, transform_conversation_for_api
+    
+    # Validate listing ID
+    try:
+        oid = ObjectId(listing_id)
+    except:
+        raise HTTPException(status_code=400, detail="Invalid listing ID")
+    
+    # Fetch the listing
+    listing = await listings_collection.find_one({"_id": oid})
+    
+    if not listing:
+        raise HTTPException(status_code=404, detail="Listing not found")
+    
+    # Check if listing is active
+    if listing.get("status") != "active":
+        raise HTTPException(status_code=400, detail="This listing is no longer available")
+    
+    buyer_id = current_user["id"]
+    seller_id = listing["seller_id"]
+    
+    # Cannot message yourself
+    if buyer_id == seller_id:
+        raise HTTPException(status_code=400, detail="You cannot message yourself")
+    
+    # Check block states (safety requirement)
+    is_blocked = await check_user_blocked(buyer_id, seller_id)
+    if is_blocked:
+        raise HTTPException(
+            status_code=403, 
+            detail="Unable to start conversation. One of you has blocked the other."
+        )
+    
+    # Build listing context
+    listing_context = {
+        "type": "listing_context",
+        "listing_id": listing_id,
+        "title": listing["title"],
+        "price": listing["price"],
+        "is_free": listing.get("is_free", listing["price"] == 0),
+        "thumbnail": listing.get("photos", [None])[0],
+        "link": f"/socialworld/local/{listing_id}",
+        "category": listing.get("category"),
+        "condition": listing.get("condition"),
+        "seller_name": listing.get("seller_name", "Seller"),
+        "location_city": listing.get("location_city", ""),
+    }
+    
+    # Check for existing conversation for this listing between buyer and seller
+    existing_conv = await Conversation.find_one({
+        "participant_ids": {"$all": [buyer_id, seller_id]},
+        "metadata.listing_id": listing_id
+    })
+    
+    if existing_conv:
+        # Return existing conversation
+        return {
+            "conversation_id": str(existing_conv.id),
+            "is_new": False,
+            "listing_context": listing_context
+        }
+    
+    # Create new conversation with listing context in metadata
+    now = datetime.now(timezone.utc)
+    new_conv = Conversation(
+        type="dm",
+        participant_ids=[buyer_id, seller_id],
+        title=None,  # Will be auto-generated from other participant's name
+        metadata={
+            "listing_id": listing_id,
+            "listing_title": listing["title"],
+            "listing_thumbnail": listing.get("photos", [None])[0],
+            "listing_link": f"/socialworld/local/{listing_id}",
+            "listing_price": listing["price"],
+            "listing_is_free": listing.get("is_free", listing["price"] == 0),
+            "initiated_by": buyer_id,
+            "initiated_at": now.isoformat()
+        },
+        last_message_preview=f"📦 Inquiry about: {listing['title'][:50]}",
+        last_message_at=now,
+        created_at=now,
+        updated_at=now,
+    )
+    await new_conv.insert()
+    
+    # Create the initial system message with listing context
+    from models.messaging_message import Message
+    
+    system_message = Message(
+        conversation_id=str(new_conv.id),
+        sender_id="system",
+        type="listing_context",
+        text=f"Conversation started about: {listing['title']}",
+        metadata={
+            "listing_id": listing_id,
+            "listing_title": listing["title"],
+            "listing_price": listing["price"],
+            "listing_is_free": listing.get("is_free", listing["price"] == 0),
+            "listing_thumbnail": listing.get("photos", [None])[0],
+            "listing_link": f"/socialworld/local/{listing_id}",
+            "listing_category": listing.get("category"),
+            "listing_condition": listing.get("condition"),
+            "listing_seller_name": listing.get("seller_name", "Seller"),
+            "listing_location": listing.get("location_city", "")
+        },
+        created_at=now,
+        read_by=[buyer_id, seller_id],  # Both see this
+    )
+    await system_message.insert()
+    
+    return {
+        "conversation_id": str(new_conv.id),
+        "is_new": True,
+        "listing_context": listing_context
+    }
