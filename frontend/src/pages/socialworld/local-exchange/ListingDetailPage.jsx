@@ -591,7 +591,7 @@ const ListingDetailPage = () => {
             {!isOwner && listing.status !== 'sold' && (
               <button
                 onClick={handleMessageSeller}
-                disabled={!user}
+                disabled={actionLoading}
                 className="w-full py-4 rounded-xl text-lg font-semibold flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
                 style={{
                   backgroundColor: 'rgb(245, 158, 11)',
@@ -600,7 +600,7 @@ const ListingDetailPage = () => {
                 data-testid="message-seller-btn"
               >
                 <MessageCircle size={22} />
-                {user ? 'Message Seller' : 'Sign in to Message'}
+                {actionLoading ? 'Starting conversation...' : (user ? 'Message Seller' : 'Sign in to Message')}
               </button>
             )}
 
