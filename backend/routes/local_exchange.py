@@ -6,7 +6,7 @@ Local pickup listings (Facebook Marketplace style)
 - No payments
 - No shipping
 - Approximate location only
-- Message seller via ChatSphere
+- Message seller via ChatSphere (integrated)
 """
 
 from fastapi import APIRouter, HTTPException, status, Depends, Query
@@ -28,6 +28,7 @@ client = AsyncIOMotorClient(MONGO_URL)
 db = client[DB_NAME]
 listings_collection = db["local_listings"]
 users_collection = db["users"]
+blocked_users_collection = db["blocked_users"]
 
 # Categories for local exchange
 LISTING_CATEGORIES = [
