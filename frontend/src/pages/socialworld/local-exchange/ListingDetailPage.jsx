@@ -144,6 +144,26 @@ const ListingDetailPage = () => {
     }
   };
 
+  // Auto-trigger chat if user came from login with action=chat parameter
+  useEffect(() => {
+    if (
+      user && 
+      listing && 
+      !loading && 
+      searchParams.get('action') === 'chat' &&
+      !chatAutoTriggered.current &&
+      listing.seller_id !== user.id &&
+      listing.status === 'active'
+    ) {
+      chatAutoTriggered.current = true;
+      // Clear the action param to prevent re-triggering
+      searchParams.delete('action');
+      setSearchParams(searchParams, { replace: true });
+      // Trigger the chat
+      handleMessageSeller();
+    }
+  }, [user, listing, loading, searchParams]);
+
   const handleReport = async () => {
     if (!reportReason.trim() || !reportCategory) {
       return;
