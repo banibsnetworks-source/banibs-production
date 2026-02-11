@@ -1,7 +1,76 @@
 import React, { useState } from 'react';
-import { MoreVertical, Trash2 } from 'lucide-react';
+import { MoreVertical, Trash2, Package, MapPin, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import PostTextWithEmojis from '../social/PostTextWithEmojis';
 import DropdownMenu, { DropdownMenuItem } from '../common/DropdownMenu';
+
+/**
+ * Listing Context Card Component
+ * Non-editable system block showing listing context at the start of a conversation
+ */
+function ListingContextCard({ metadata }) {
+  const formatPrice = (price, isFree) => {
+    if (isFree || price === 0) return 'Free';
+    return `$${price?.toLocaleString() || '0'}`;
+  };
+
+  return (
+    <div className="w-full max-w-md mx-auto my-4">
+      <div className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-xl overflow-hidden shadow-lg">
+        {/* Header */}
+        <div className="px-4 py-2 bg-amber-500/10 border-b border-gray-700 flex items-center gap-2">
+          <Package size={14} className="text-amber-500" />
+          <span className="text-xs font-medium text-amber-400">Local Exchange Inquiry</span>
+        </div>
+        
+        {/* Content */}
+        <div className="p-3 flex gap-3">
+          {/* Thumbnail */}
+          {metadata?.listing_thumbnail ? (
+            <img 
+              src={metadata.listing_thumbnail} 
+              alt={metadata.listing_title}
+              className="w-20 h-20 rounded-lg object-cover flex-shrink-0"
+            />
+          ) : (
+            <div className="w-20 h-20 rounded-lg bg-gray-700 flex items-center justify-center flex-shrink-0">
+              <Package size={24} className="text-gray-500" />
+            </div>
+          )}
+          
+          {/* Details */}
+          <div className="flex-1 min-w-0">
+            <p className="font-semibold text-white text-sm truncate mb-1">
+              {metadata?.listing_title || 'Listing'}
+            </p>
+            <p 
+              className="text-lg font-bold mb-1"
+              style={{ color: metadata?.listing_is_free ? '#22c55e' : '#f59e0b' }}
+            >
+              {formatPrice(metadata?.listing_price, metadata?.listing_is_free)}
+            </p>
+            {metadata?.listing_location && (
+              <p className="text-xs text-gray-400 flex items-center gap-1">
+                <MapPin size={10} />
+                {metadata.listing_location}
+              </p>
+            )}
+          </div>
+        </div>
+        
+        {/* Link to listing */}
+        {metadata?.listing_link && (
+          <Link 
+            to={metadata.listing_link}
+            className="block px-4 py-2 text-xs text-center text-amber-400 hover:bg-amber-500/10 transition-colors border-t border-gray-700 flex items-center justify-center gap-1"
+          >
+            View Listing <ExternalLink size={12} />
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export function MessageBubble({ 
   message, 
@@ -35,6 +104,13 @@ export function MessageBubble({
       return 'Invalid time';
     }
   };
+
+  // Special handling for listing_context type (system block)
+  if (message.type === 'listing_context') {
+    return (
+      <ListingContextCard metadata={message.metadata} />
+    );
+  }
 
   return (
     <div className={`flex ${isOutgoing ? 'justify-end' : 'justify-start'} mb-4 group`}>
