@@ -104,10 +104,40 @@ const ListingDetailPage = () => {
     );
   };
 
-  const handleMessageSeller = () => {
-    // Navigate to ChatSphere to start conversation with seller
-    // This would create a new conversation or open existing one
-    navigate(`/socialworld/chat?new=true&userId=${listing.seller_id}&context=listing:${listing.id}`);
+  const handleMessageSeller = async () => {
+    // Guest handling - redirect to login with return URL
+    if (!user) {
+      const returnUrl = encodeURIComponent(`/socialworld/local/${listingId}?action=chat`);
+      navigate(`/auth/signin?redirect=${returnUrl}`);
+      return;
+    }
+
+    setActionLoading(true);
+    try {
+      const token = localStorage.getItem('access_token');
+      const res = await fetch(`${API_URL}/api/local-exchange/listings/${listingId}/initiate-chat`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.detail || 'Failed to start conversation');
+      }
+
+      const data = await res.json();
+      
+      // Navigate to ChatSphere with the conversation
+      navigate(`/socialworld/chat/${data.conversation_id}`);
+    } catch (err) {
+      console.error('Error initiating chat:', err);
+      setActionMessage({ type: 'error', text: err.message || 'Failed to start conversation. Please try again.' });
+    } finally {
+      setActionLoading(false);
+    }
   };
 
   const handleReport = async () => {
