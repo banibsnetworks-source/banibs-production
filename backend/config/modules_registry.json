@@ -1,6 +1,6 @@
 {
-  "registry_version": "1.0.0",
-  "last_updated": "2026-02-10T05:30:00Z",
+  "registry_version": "1.0.1",
+  "last_updated": "2026-02-10T06:00:00Z",
   "description": "BANIBS Canonical Module Registry - Single source of truth for all Worlds, modules, and features",
   "modules": [
     {
@@ -49,11 +49,12 @@
         "DELETE /api/local-exchange/listings/:id",
         "POST /api/local-exchange/listings/:id/report",
         "POST /api/local-exchange/listings/:id/hide",
-        "POST /api/local-exchange/listings/:id/unhide"
+        "POST /api/local-exchange/listings/:id/unhide",
+        "POST /api/local-exchange/listings/:id/initiate-chat"
       ],
-      "db_collections": ["local_listings"],
-      "last_updated": "2026-02-09",
-      "notes": "Facebook Marketplace style local pickup listings - no payments, no shipping"
+      "db_collections": ["local_listings", "blocked_users"],
+      "last_updated": "2026-02-10",
+      "notes": "Facebook Marketplace style local pickup listings. Integrated: Local Exchange → ChatSphere contextual messaging"
     },
     {
       "id": "chatsphere",
@@ -66,15 +67,20 @@
         "/socialworld/chat/:conversationId"
       ],
       "api_routes": [
-        "GET /api/messages/conversations",
-        "GET /api/messages/conversations/:id",
-        "POST /api/messages/conversations",
-        "POST /api/messages/conversations/:id/messages",
-        "GET /api/messages/conversations/:id/messages"
+        "GET /api/messaging/conversations",
+        "GET /api/messaging/conversations/:id",
+        "POST /api/messaging/conversations",
+        "POST /api/messaging/conversations/:id/messages",
+        "GET /api/messaging/conversations/:id/messages",
+        "GET /api/messaging/users/search",
+        "POST /api/messaging/conversations/:id/read",
+        "GET /api/messaging/messages/search",
+        "POST /api/messaging/messages/:id/delete-for-me",
+        "POST /api/messaging/messages/:id/delete-for-everyone"
       ],
       "db_collections": ["conversations", "messages"],
-      "last_updated": "2026-02-07",
-      "notes": "Private conversations and messaging system"
+      "last_updated": "2026-02-10",
+      "notes": "Private conversations and messaging system. Integrated: Receives Local Exchange listing context"
     },
     {
       "id": "commons",
