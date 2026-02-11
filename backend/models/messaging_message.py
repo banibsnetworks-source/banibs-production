@@ -7,7 +7,7 @@ from pydantic import Field
 from bson import ObjectId
 
 
-MessageType = Literal["text", "media", "system"]
+MessageType = Literal["text", "media", "system", "listing_context"]
 
 
 class Message(Document):
