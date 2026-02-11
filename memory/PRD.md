@@ -16,6 +16,50 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 
 ## Recent Updates (February 10, 2026 - Session 6)
 
+### ✅ Local Exchange → ChatSphere Integration (COMPLETED)
+Proper integration between Local Exchange and ChatSphere for contextual seller messaging.
+
+**Features Implemented:**
+- **Initiate Chat Endpoint** (`POST /api/local-exchange/listings/:id/initiate-chat`)
+  - Creates new conversation or returns existing one for same listing
+  - Includes listing context (title, thumbnail, price, link) in conversation metadata
+  - Creates system message with listing_context type
+  - Respects block/hide states
+  - Prevents messaging yourself or inactive listings
+
+- **ListingContextCard Component**
+  - Non-editable system block at top of chat thread
+  - Shows listing thumbnail, title, price, location
+  - "View Listing" link back to listing detail
+
+- **Guest Redirect Flow**
+  - Guest clicks "Message Seller" → redirects to login
+  - After login, redirects back to listing with `?action=chat`
+  - Auto-triggers chat initiation on return
+
+**Calm-Tech Constraints Enforced:**
+- No urgency timers
+- No "Seller online" pressure indicators
+- No automated follow-up nudges
+- No read-receipt pressure mechanics
+- No escalation prompts
+
+**Safety:**
+- Block state checking (both directions)
+- Audit consistency with ChatSphere schema
+
+**Files Modified:**
+- `/app/backend/routes/local_exchange.py` - Added initiate-chat endpoint
+- `/app/backend/models/messaging_message.py` - Added 'listing_context' type
+- `/app/backend/models/messaging_conversation.py` - Added metadata field
+- `/app/frontend/src/pages/socialworld/local-exchange/ListingDetailPage.jsx` - API integration
+- `/app/frontend/src/components/messaging/MessageBubble.jsx` - ListingContextCard component
+- `/app/backend/config/modules_registry.json` - Updated integration notes
+
+**Testing:** 100% pass rate (12/12 backend tests, all UI features verified)
+
+---
+
 ### ✅ Module Registry System - P0 Infrastructure (COMPLETED)
 Canonical registry system for the Founder Command Center to track all Worlds, modules, and features.
 
