@@ -588,6 +588,208 @@
       "db_collections": ["bglis_phones", "bglis_otps"],
       "last_updated": "2026-02-08",
       "notes": "Phone-first global identity system - backend complete, UI pending"
+    },
+    {
+      "id": "groups",
+      "display_name": "Groups",
+      "world": "Social World",
+      "category": "community",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/social/groups",
+        "/portal/social/groups/mine",
+        "/portal/social/groups/:groupId"
+      ],
+      "api_routes": [
+        "GET /api/groups",
+        "GET /api/groups/:id",
+        "POST /api/groups",
+        "PATCH /api/groups/:id",
+        "DELETE /api/groups/:id",
+        "POST /api/groups/:id/join",
+        "POST /api/groups/:id/leave"
+      ],
+      "db_collections": ["groups", "group_members"],
+      "last_updated": "2026-02-10",
+      "notes": "Group membership and community organization"
+    },
+    {
+      "id": "social_profile",
+      "display_name": "Social Profile",
+      "world": "Social World",
+      "category": "profile",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/social/profile",
+        "/portal/social/profile/theme",
+        "/portal/social/u/:handle",
+        "/portal/social/id/:userId"
+      ],
+      "api_routes": [
+        "GET /api/social/profile",
+        "GET /api/social/profile/:id",
+        "PATCH /api/social/profile",
+        "GET /api/social/profile/media"
+      ],
+      "db_collections": ["social_profiles"],
+      "last_updated": "2026-02-10",
+      "notes": "User profile management and public profile pages"
+    },
+    {
+      "id": "social_settings",
+      "display_name": "Social Settings",
+      "world": "Social World",
+      "category": "settings",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/social/settings/display",
+        "/portal/social/settings/privacy",
+        "/portal/social/settings/blocked",
+        "/portal/social/settings/security",
+        "/portal/social/settings/language",
+        "/portal/social/settings/anonymous",
+        "/portal/social/settings/video"
+      ],
+      "api_routes": [
+        "GET /api/social/settings",
+        "PATCH /api/social/settings"
+      ],
+      "db_collections": ["social_settings"],
+      "last_updated": "2026-02-10",
+      "notes": "User preferences and privacy settings"
+    },
+    {
+      "id": "jobs",
+      "display_name": "Jobs & Opportunities",
+      "world": "Business Portal",
+      "category": "employment",
+      "status": "active",
+      "frontend_routes": [
+        "/portal/social/jobs",
+        "/portal/social/jobs/:jobId",
+        "/portal/business/jobs",
+        "/portal/business/jobs/new",
+        "/portal/business/jobs/:jobId/edit",
+        "/jobs/:id"
+      ],
+      "api_routes": [
+        "GET /api/jobs",
+        "GET /api/jobs/:id",
+        "POST /api/jobs",
+        "PATCH /api/jobs/:id",
+        "DELETE /api/jobs/:id"
+      ],
+      "db_collections": ["jobs", "job_applications"],
+      "last_updated": "2026-02-10",
+      "notes": "Job listings, applications, and employer dashboard"
+    },
+    {
+      "id": "orchestration",
+      "display_name": "Orchestration Admin",
+      "world": "Founder Tools",
+      "category": "admin",
+      "status": "active",
+      "frontend_routes": [
+        "/admin/orchestration"
+      ],
+      "api_routes": [
+        "GET /api/orchestration/dashboard",
+        "GET /api/orchestration/queues",
+        "POST /api/orchestration/tasks"
+      ],
+      "db_collections": ["orchestration_tasks", "orchestration_queues"],
+      "last_updated": "2026-02-10",
+      "notes": "Internal/admin surface - system orchestration and task management"
+    },
+    {
+      "id": "contributor_portal",
+      "display_name": "Contributor Portal",
+      "world": "Platform Infrastructure",
+      "category": "content",
+      "status": "active",
+      "frontend_routes": [
+        "/contributor/register",
+        "/contributor/login",
+        "/contributor/:id",
+        "/contributor/profile/edit"
+      ],
+      "api_routes": [
+        "POST /api/contributor/register",
+        "POST /api/contributor/login",
+        "GET /api/contributor/profile",
+        "PATCH /api/contributor/profile"
+      ],
+      "db_collections": ["contributors"],
+      "last_updated": "2026-02-10",
+      "notes": "Content contributor registration and profile management"
+    },
+    {
+      "id": "candidate_portal",
+      "display_name": "Candidate Portal",
+      "world": "Business Portal",
+      "category": "employment",
+      "status": "active",
+      "frontend_routes": [
+        "/candidate/profile",
+        "/candidate/applications"
+      ],
+      "api_routes": [
+        "GET /api/candidates/profile",
+        "PATCH /api/candidates/profile",
+        "GET /api/applications",
+        "POST /api/applications"
+      ],
+      "db_collections": ["candidate_profiles", "job_applications"],
+      "last_updated": "2026-02-10",
+      "notes": "Job seeker profile and application tracking"
+    },
+    {
+      "id": "bcee",
+      "display_name": "BCEE Currency Engine",
+      "world": "Platform Infrastructure",
+      "category": "financial",
+      "status": "opening_soon",
+      "frontend_routes": [],
+      "api_routes": [
+        "GET /api/bcee/rates",
+        "GET /api/bcee/currencies",
+        "POST /api/bcee/convert"
+      ],
+      "db_collections": ["bcee_rates", "bcee_transactions"],
+      "last_updated": "2026-02-10",
+      "notes": "Internal/admin surface - BANIBS Currency & Exchange Engine for cross-border transactions"
+    },
+    {
+      "id": "governance",
+      "display_name": "Governance System",
+      "world": "Founder Tools",
+      "category": "admin",
+      "status": "active",
+      "frontend_routes": [],
+      "api_routes": [
+        "GET /api/governance/policies",
+        "GET /api/governance/decisions",
+        "POST /api/governance/proposals"
+      ],
+      "db_collections": ["governance_policies", "governance_decisions"],
+      "last_updated": "2026-02-10",
+      "notes": "Internal/admin surface - platform governance and policy management"
+    },
+    {
+      "id": "alternative_school",
+      "display_name": "Alternative School",
+      "world": "Education Portal",
+      "category": "education",
+      "status": "opening_soon",
+      "frontend_routes": [],
+      "api_routes": [
+        "GET /api/alt-school/programs",
+        "GET /api/alt-school/intake",
+        "POST /api/alt-school/intake"
+      ],
+      "db_collections": ["alt_school_programs", "alt_school_intake"],
+      "last_updated": "2026-02-10",
+      "notes": "Alternative education programs and tutor intake system"
     }
   ]
 }
