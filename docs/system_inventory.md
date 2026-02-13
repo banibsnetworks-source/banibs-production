@@ -1,7 +1,7 @@
 # BANIBS System Inventory Report
 **Generated**: February 10, 2026  
-**Registry Version**: 1.0.1  
-**Last Updated**: 2026-02-10T06:00:00Z
+**Registry Version**: 1.1.0  
+**Last Updated**: 2026-02-10T07:00:00Z
 
 ---
 
@@ -10,9 +10,9 @@
 ### Registry Statistics
 | Metric | Count |
 |--------|-------|
-| **Total Modules** | 30 |
-| **Active** | 24 |
-| **Opening Soon** | 6 |
+| **Total Modules** | 40 |
+| **Active** | 32 |
+| **Opening Soon** | 8 |
 | **Disabled** | 0 |
 
 ### Modules by World
