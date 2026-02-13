@@ -19,17 +19,17 @@
 
 | World | Active | Opening Soon |
 |-------|--------|--------------|
-| Social World | 7 | 5 |
+| Social World | 10 | 5 |
 | Community Portal | 5 | 0 |
 | Skills World | 2 | 0 |
-| Founder Tools | 3 | 0 |
-| Education Portal | 1 | 0 |
+| Founder Tools | 5 | 0 |
+| Education Portal | 1 | 1 |
 | Finance Portal | 1 | 0 |
 | Developer Portal | 1 | 0 |
 | Commerce Portal | 1 | 0 |
-| Business Portal | 1 | 0 |
+| Business Portal | 3 | 0 |
 | News Portal | 1 | 0 |
-| Platform Infrastructure | 0 | 1 |
+| Platform Infrastructure | 2 | 2 |
 
 ### Complete Module List
 
