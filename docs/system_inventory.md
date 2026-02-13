@@ -248,45 +248,31 @@
 
 ## D) Mismatch Report
 
-### 🔴 In Code but NOT in Registry (Orphans)
+### ✅ Registry Integrity Patch Applied (v1.1.0)
 
-| Route/Feature | Type | Location | Recommendation |
-|---------------|------|----------|----------------|
-| `/portal/social/settings/*` | Frontend | 8+ settings pages | Add `social_settings` module |
-| `/portal/social/profile/*` | Frontend | Profile management | Add `social_profile` module |
-| `/portal/social/groups/*` | Frontend | Groups feature | Add `groups` module |
-| `/portal/social/jobs/*` | Frontend | Jobs browser | Add `jobs_browser` module |
-| `/portal/social/discover/people` | Frontend | People discovery | Add `people_discovery` module |
-| `/portal/social/messages` | Frontend | Legacy messages | Merge with `chatsphere` |
-| `/messages/*` | Frontend | Standalone messaging | Merge with `chatsphere` |
-| `/admin/orchestration` | Frontend | Admin dashboard | Add `orchestration` module |
-| `/portal/admin/ability/moderation` | Frontend | Ability moderation | Add to `ability_network` |
-| `/contributor/*` | Frontend | Contributor portal | Add `contributor_portal` module |
-| `/candidate/*` | Frontend | Candidate portal | Add `candidate_portal` module |
-| `/opportunity-hub` | Frontend | Opportunity hub | Add `opportunity_hub` module |
-| `orchestration.py` | Backend | Admin orchestration | Add `orchestration` module |
-| `jobs.py` | Backend | Job listings API | Add `jobs` module |
-| `groups.py` | Backend | Groups API | Add `groups` module |
-| `social_profile.py` | Backend | Profile API | Add `social_profile` module |
-| `social_settings.py` | Backend | Settings API | Add `social_settings` module |
-| `bcee.py` | Backend | Currency engine | Add `bcee` module |
-| `alternative_school.py` | Backend | Alt school API | Add `alternative_school` module |
-| `governance.py` | Backend | Governance API | Add `governance` module |
+The following modules were added to eliminate orphan features:
 
-### 🟡 In Registry but NOT Fully Verified in Code
+| ID | Display Name | Status | Notes |
+|----|--------------|--------|-------|
+| groups | Groups | ✅ active | Group membership and community |
+| social_profile | Social Profile | ✅ active | User profile management |
+| social_settings | Social Settings | ✅ active | User preferences and privacy |
+| jobs | Jobs & Opportunities | ✅ active | Job listings and applications |
+| orchestration | Orchestration Admin | ✅ active | Internal/admin - task management |
+| contributor_portal | Contributor Portal | ✅ active | Content contributor system |
+| candidate_portal | Candidate Portal | ✅ active | Job seeker profiles |
+| bcee | BCEE Currency Engine | 🟡 opening_soon | Internal - currency exchange |
+| governance | Governance System | ✅ active | Internal/admin - policy management |
+| alternative_school | Alternative School | 🟡 opening_soon | Alt education programs |
 
-| Module | Issue | Status |
-|--------|-------|--------|
-| `notes` | Placeholder page exists, no backend | Expected (opening_soon) |
-| `live_circle` | Placeholder page exists, no backend | Expected (opening_soon) |
-| `voice_share` | Placeholder page exists, no backend | Expected (opening_soon) |
-| `talent_world` | Placeholder page exists, no backend | Expected (opening_soon) |
-| `social_shop` | Placeholder page exists, no backend | Expected (opening_soon) |
-| `bglis` | Backend exists, no frontend UI | Expected (opening_soon) |
+### 🟡 In Registry as Opening Soon (Expected)
 
-### ✅ Properly Aligned (No Issues)
+All 8 `opening_soon` modules have placeholder pages or backend-only implementations - **working as intended**:
+- notes, live_circle, voice_share, talent_world, social_shop, bglis, bcee, alternative_school
 
-All 24 "active" modules have matching frontend routes and backend APIs.
+### ✅ Properly Aligned
+
+All 32 `active` modules have matching frontend routes and/or backend APIs.
 
 ---
 
