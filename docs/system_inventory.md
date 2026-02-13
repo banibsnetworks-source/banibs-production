@@ -278,77 +278,18 @@ All 32 `active` modules have matching frontend routes and/or backend APIs.
 
 ## E) Next Actions
 
-### Priority 1: Registry Updates Needed (Add Missing Modules)
+### ✅ Completed: Registry Integrity Patch (v1.1.0)
+All orphan features have been added to the registry.
 
-```json
-// Add to modules_registry.json:
+### Remaining Recommendations
 
-{
-  "id": "groups",
-  "display_name": "Groups",
-  "world": "Social World",
-  "category": "community",
-  "status": "active",
-  "frontend_routes": ["/portal/social/groups", "/portal/social/groups/:groupId"],
-  "api_routes": ["GET /api/groups", "POST /api/groups"],
-  "notes": "Group membership and management"
-},
+#### Code Cleanup (Low Priority)
+1. **Consolidate messaging routes** - `/portal/social/messages` and `/messages` should redirect to ChatSphere (`/socialworld/chat`)
+2. **Review legacy aliases** - `/socialworld/shortform`, `/socialworld/moments`, `/socialworld/stories`
 
-{
-  "id": "social_profile",
-  "display_name": "Social Profile",
-  "world": "Social World", 
-  "category": "profile",
-  "status": "active",
-  "frontend_routes": ["/portal/social/profile", "/portal/social/u/:handle"],
-  "api_routes": ["GET /api/social/profile", "PATCH /api/social/profile"],
-  "notes": "User profile management"
-},
-
-{
-  "id": "jobs",
-  "display_name": "Jobs & Opportunities",
-  "world": "Business Portal",
-  "category": "employment",
-  "status": "active", 
-  "frontend_routes": ["/portal/social/jobs", "/jobs/:id"],
-  "api_routes": ["GET /api/jobs", "POST /api/jobs"],
-  "notes": "Job listings and applications"
-},
-
-{
-  "id": "orchestration",
-  "display_name": "Orchestration Admin",
-  "world": "Founder Tools",
-  "category": "admin",
-  "status": "active",
-  "frontend_routes": ["/admin/orchestration"],
-  "api_routes": ["GET /api/orchestration/*"],
-  "notes": "Admin orchestration dashboard"
-}
-```
-
-### Priority 2: Code Cleanup Recommendations
-
-1. **Consolidate Messaging Routes**
-   - `/portal/social/messages` and `/messages` both exist
-   - Recommend: Keep ChatSphere (`/socialworld/chat`) as canonical
-   - Legacy routes should redirect
-
-2. **Remove Duplicate Route Files**
-   - `messaging.py` vs `messaging_v2.py` - consolidate
-   - `messages.py` - evaluate if still needed
-
-3. **Legacy Aliases to Review**
-   - `/socialworld/shortform` → `/socialworld/pulse`
-   - `/socialworld/moments` → `/socialworld/frames`
-   - `/socialworld/stories` → `/socialworld/notes`
-
-### Priority 3: Documentation Updates
-
+#### Documentation Updates (Low Priority)
 1. Update PRD.md with module inventory counts
 2. Add module registry to onboarding docs
-3. Create module dependency graph
 
 ---
 
@@ -356,15 +297,14 @@ All 32 `active` modules have matching frontend routes and/or backend APIs.
 
 | Category | Count |
 |----------|-------|
-| Registered Modules | 30 |
-| Frontend Routes | ~150+ |
-| Backend Route Files | 60+ |
-| **Orphan Routes (Code Only)** | **~20** |
-| Aligned Modules | 24 active + 6 opening_soon |
+| **Registered Modules** | 40 |
+| **Frontend Routes** | ~150+ |
+| **Backend Route Files** | 60+ |
+| **Orphan Routes** | 0 (patched) |
+| **Aligned Modules** | 40 (32 active + 8 opening_soon) |
 
-**Overall Health**: 🟡 **GOOD** (minor registry drift detected)
-
-The registry covers the core feature set well. The main gap is utility/admin features that were built before the registry system existed.
+### Overall Health: ✅ **EXCELLENT**
+Registry integrity patch applied - all features now registered.
 
 ---
 
