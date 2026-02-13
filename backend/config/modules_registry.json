@@ -1,6 +1,6 @@
 {
-  "registry_version": "1.1.0",
-  "last_updated": "2026-02-10T07:00:00Z",
+  "registry_version": "1.1.1",
+  "last_updated": "2026-02-10T07:30:00Z",
   "description": "BANIBS Canonical Module Registry - Single source of truth for all Worlds, modules, and features",
   "modules": [
     {
@@ -24,7 +24,9 @@
         "POST /api/frames/:id/unhide",
         "POST /api/frames/:id/report"
       ],
-      "db_collections": ["frames"],
+      "db_collections": [
+        "frames"
+      ],
       "last_updated": "2026-02-10",
       "notes": "Visual storytelling v0.1 - calm tech design (no likes/comments/metrics)"
     },
@@ -52,9 +54,12 @@
         "POST /api/local-exchange/listings/:id/unhide",
         "POST /api/local-exchange/listings/:id/initiate-chat"
       ],
-      "db_collections": ["local_listings", "blocked_users"],
+      "db_collections": [
+        "local_listings",
+        "blocked_users"
+      ],
       "last_updated": "2026-02-10",
-      "notes": "Facebook Marketplace style local pickup listings. Integrated: Local Exchange → ChatSphere contextual messaging"
+      "notes": "Facebook Marketplace style local pickup listings. Integrated: Local Exchange \u2192 ChatSphere contextual messaging"
     },
     {
       "id": "chatsphere",
@@ -78,7 +83,10 @@
         "POST /api/messaging/messages/:id/delete-for-me",
         "POST /api/messaging/messages/:id/delete-for-everyone"
       ],
-      "db_collections": ["conversations", "messages"],
+      "db_collections": [
+        "conversations",
+        "messages"
+      ],
       "last_updated": "2026-02-10",
       "notes": "Private conversations and messaging system. Integrated: Receives Local Exchange listing context"
     },
@@ -100,7 +108,10 @@
         "DELETE /api/social/posts/:id",
         "POST /api/social/posts/:id/reactions"
       ],
-      "db_collections": ["social_posts", "social_reactions"],
+      "db_collections": [
+        "social_posts",
+        "social_reactions"
+      ],
       "last_updated": "2026-02-01",
       "notes": "Primary social/news exchange feed"
     },
@@ -119,7 +130,9 @@
         "GET /api/shortform/videos/:id",
         "POST /api/shortform/videos"
       ],
-      "db_collections": ["shortform_videos"],
+      "db_collections": [
+        "shortform_videos"
+      ],
       "last_updated": "2026-01-15",
       "notes": "Short-form vertical video (TikTok style)"
     },
@@ -154,7 +167,10 @@
         "POST /api/circles",
         "GET /api/circles/:id/members"
       ],
-      "db_collections": ["circles", "circle_members"],
+      "db_collections": [
+        "circles",
+        "circle_members"
+      ],
       "last_updated": "2026-01-20",
       "notes": "Community spaces and support groups"
     },
@@ -259,7 +275,9 @@
         "GET /api/prayer/rooms/:slug",
         "POST /api/prayer/rooms/:slug/join"
       ],
-      "db_collections": ["prayer_rooms"],
+      "db_collections": [
+        "prayer_rooms"
+      ],
       "last_updated": "2026-01-25",
       "notes": "Multi-faith prayer circles and meditation"
     },
@@ -280,7 +298,9 @@
         "GET /api/beauty/providers",
         "GET /api/beauty/providers/:id"
       ],
-      "db_collections": ["beauty_providers"],
+      "db_collections": [
+        "beauty_providers"
+      ],
       "last_updated": "2026-01-28",
       "notes": "Black-owned beauty products and services"
     },
@@ -301,7 +321,9 @@
         "GET /api/fashion/brands",
         "GET /api/fashion/brands/:id"
       ],
-      "db_collections": ["fashion_brands"],
+      "db_collections": [
+        "fashion_brands"
+      ],
       "last_updated": "2026-01-28",
       "notes": "Black-owned sneaker and fashion marketplace"
     },
@@ -324,7 +346,10 @@
         "GET /api/diaspora/stories",
         "GET /api/diaspora/businesses"
       ],
-      "db_collections": ["diaspora_stories", "diaspora_businesses"],
+      "db_collections": [
+        "diaspora_stories",
+        "diaspora_businesses"
+      ],
       "last_updated": "2026-02-01",
       "notes": "Connecting the global Black diaspora"
     },
@@ -346,7 +371,10 @@
         "GET /api/academy/courses",
         "GET /api/academy/mentors"
       ],
-      "db_collections": ["academy_courses", "academy_mentors"],
+      "db_collections": [
+        "academy_courses",
+        "academy_mentors"
+      ],
       "last_updated": "2026-02-02",
       "notes": "Education platform - courses, mentorship, life skills, history"
     },
@@ -363,7 +391,10 @@
         "GET /api/wallet/accounts",
         "GET /api/wallet/transactions"
       ],
-      "db_collections": ["wallet_accounts", "wallet_transactions"],
+      "db_collections": [
+        "wallet_accounts",
+        "wallet_transactions"
+      ],
       "last_updated": "2026-02-03",
       "notes": "Own the flow of Black money - accounts, goals, envelopes"
     },
@@ -385,7 +416,10 @@
         "POST /api/developer/apps",
         "GET /api/developer/api-keys"
       ],
-      "db_collections": ["developer_apps", "developer_api_keys"],
+      "db_collections": [
+        "developer_apps",
+        "developer_api_keys"
+      ],
       "last_updated": "2026-02-04",
       "notes": "Developer platform for BANIBS ecosystem"
     },
@@ -410,7 +444,11 @@
         "GET /api/marketplace/regions",
         "POST /api/marketplace/orders"
       ],
-      "db_collections": ["marketplace_products", "marketplace_stores", "marketplace_orders"],
+      "db_collections": [
+        "marketplace_products",
+        "marketplace_stores",
+        "marketplace_orders"
+      ],
       "last_updated": "2026-02-05",
       "notes": "Buy Black across continents - Products, Art & Digital Goods"
     },
@@ -433,7 +471,12 @@
         "GET /api/community/food/recipes",
         "GET /api/community/school/resources"
       ],
-      "db_collections": ["community_health", "community_fitness", "community_recipes", "community_school"],
+      "db_collections": [
+        "community_health",
+        "community_fitness",
+        "community_recipes",
+        "community_school"
+      ],
       "last_updated": "2026-02-06",
       "notes": "Quality of Life OS - Health, Fitness, Food, Education"
     },
@@ -454,7 +497,10 @@
         "GET /api/ability/providers",
         "GET /api/ability/support-groups"
       ],
-      "db_collections": ["ability_providers", "ability_circles"],
+      "db_collections": [
+        "ability_providers",
+        "ability_circles"
+      ],
       "last_updated": "2026-02-06",
       "notes": "Disability resources and support groups"
     },
@@ -474,7 +520,9 @@
         "GET /api/helpinghands/campaigns/:id",
         "POST /api/helpinghands/campaigns"
       ],
-      "db_collections": ["helpinghands_campaigns"],
+      "db_collections": [
+        "helpinghands_campaigns"
+      ],
       "last_updated": "2026-01-30",
       "notes": "Donation-based crowdfunding for community needs"
     },
@@ -494,7 +542,10 @@
         "GET /api/businesses/:id",
         "POST /api/businesses"
       ],
-      "db_collections": ["businesses", "business_reviews"],
+      "db_collections": [
+        "businesses",
+        "business_reviews"
+      ],
       "last_updated": "2026-01-15",
       "notes": "Black-owned business directory with search and reviews"
     },
@@ -515,7 +566,10 @@
         "GET /api/news/black",
         "GET /api/news/sections/:section"
       ],
-      "db_collections": ["news_articles", "news_sources"],
+      "db_collections": [
+        "news_articles",
+        "news_sources"
+      ],
       "last_updated": "2026-01-10",
       "notes": "News aggregation and commentary - curated for the Black community"
     },
@@ -532,7 +586,9 @@
         "POST /api/ccram/chat",
         "GET /api/ccram/sessions"
       ],
-      "db_collections": ["ccram_sessions"],
+      "db_collections": [
+        "ccram_sessions"
+      ],
       "last_updated": "2026-01-20",
       "notes": "CCR Anchor Module - Interview AI assistant"
     },
@@ -552,7 +608,10 @@
         "POST /api/books",
         "PATCH /api/books/:id"
       ],
-      "db_collections": ["books", "book_chapters"],
+      "db_collections": [
+        "books",
+        "book_chapters"
+      ],
       "last_updated": "2026-02-01",
       "notes": "Write and manage books chapter-by-chapter"
     },
@@ -570,7 +629,10 @@
         "GET /api/founder/ops",
         "GET /api/founder/analytics"
       ],
-      "db_collections": ["founder_tasks", "founder_ops_logs"],
+      "db_collections": [
+        "founder_tasks",
+        "founder_ops_logs"
+      ],
       "last_updated": "2026-02-10",
       "notes": "Internal dashboard for founder - builds, specs, tasks, health"
     },
@@ -585,7 +647,10 @@
         "POST /api/bglis/send-otp",
         "POST /api/bglis/verify-otp"
       ],
-      "db_collections": ["bglis_phones", "bglis_otps"],
+      "db_collections": [
+        "bglis_phones",
+        "bglis_otps"
+      ],
       "last_updated": "2026-02-08",
       "notes": "Phone-first global identity system - backend complete, UI pending"
     },
@@ -594,7 +659,7 @@
       "display_name": "Groups",
       "world": "Social World",
       "category": "community",
-      "status": "active",
+      "status": "opening_soon",
       "frontend_routes": [
         "/portal/social/groups",
         "/portal/social/groups/mine",
@@ -609,7 +674,10 @@
         "POST /api/groups/:id/join",
         "POST /api/groups/:id/leave"
       ],
-      "db_collections": ["groups", "group_members"],
+      "db_collections": [
+        "groups",
+        "group_members"
+      ],
       "last_updated": "2026-02-10",
       "notes": "Group membership and community organization"
     },
@@ -618,7 +686,7 @@
       "display_name": "Social Profile",
       "world": "Social World",
       "category": "profile",
-      "status": "active",
+      "status": "opening_soon",
       "frontend_routes": [
         "/portal/social/profile",
         "/portal/social/profile/theme",
@@ -631,7 +699,9 @@
         "PATCH /api/social/profile",
         "GET /api/social/profile/media"
       ],
-      "db_collections": ["social_profiles"],
+      "db_collections": [
+        "social_profiles"
+      ],
       "last_updated": "2026-02-10",
       "notes": "User profile management and public profile pages"
     },
@@ -640,7 +710,7 @@
       "display_name": "Social Settings",
       "world": "Social World",
       "category": "settings",
-      "status": "active",
+      "status": "opening_soon",
       "frontend_routes": [
         "/portal/social/settings/display",
         "/portal/social/settings/privacy",
@@ -654,7 +724,9 @@
         "GET /api/social/settings",
         "PATCH /api/social/settings"
       ],
-      "db_collections": ["social_settings"],
+      "db_collections": [
+        "social_settings"
+      ],
       "last_updated": "2026-02-10",
       "notes": "User preferences and privacy settings"
     },
@@ -663,7 +735,7 @@
       "display_name": "Jobs & Opportunities",
       "world": "Business Portal",
       "category": "employment",
-      "status": "active",
+      "status": "opening_soon",
       "frontend_routes": [
         "/portal/social/jobs",
         "/portal/social/jobs/:jobId",
@@ -679,7 +751,10 @@
         "PATCH /api/jobs/:id",
         "DELETE /api/jobs/:id"
       ],
-      "db_collections": ["jobs", "job_applications"],
+      "db_collections": [
+        "jobs",
+        "job_applications"
+      ],
       "last_updated": "2026-02-10",
       "notes": "Job listings, applications, and employer dashboard"
     },
@@ -688,7 +763,7 @@
       "display_name": "Orchestration Admin",
       "world": "Founder Tools",
       "category": "admin",
-      "status": "active",
+      "status": "opening_soon",
       "frontend_routes": [
         "/admin/orchestration"
       ],
@@ -697,7 +772,10 @@
         "GET /api/orchestration/queues",
         "POST /api/orchestration/tasks"
       ],
-      "db_collections": ["orchestration_tasks", "orchestration_queues"],
+      "db_collections": [
+        "orchestration_tasks",
+        "orchestration_queues"
+      ],
       "last_updated": "2026-02-10",
       "notes": "Internal/admin surface - system orchestration and task management"
     },
@@ -706,7 +784,7 @@
       "display_name": "Contributor Portal",
       "world": "Platform Infrastructure",
       "category": "content",
-      "status": "active",
+      "status": "opening_soon",
       "frontend_routes": [
         "/contributor/register",
         "/contributor/login",
@@ -719,7 +797,9 @@
         "GET /api/contributor/profile",
         "PATCH /api/contributor/profile"
       ],
-      "db_collections": ["contributors"],
+      "db_collections": [
+        "contributors"
+      ],
       "last_updated": "2026-02-10",
       "notes": "Content contributor registration and profile management"
     },
@@ -728,7 +808,7 @@
       "display_name": "Candidate Portal",
       "world": "Business Portal",
       "category": "employment",
-      "status": "active",
+      "status": "opening_soon",
       "frontend_routes": [
         "/candidate/profile",
         "/candidate/applications"
@@ -739,7 +819,10 @@
         "GET /api/applications",
         "POST /api/applications"
       ],
-      "db_collections": ["candidate_profiles", "job_applications"],
+      "db_collections": [
+        "candidate_profiles",
+        "job_applications"
+      ],
       "last_updated": "2026-02-10",
       "notes": "Job seeker profile and application tracking"
     },
@@ -755,7 +838,10 @@
         "GET /api/bcee/currencies",
         "POST /api/bcee/convert"
       ],
-      "db_collections": ["bcee_rates", "bcee_transactions"],
+      "db_collections": [
+        "bcee_rates",
+        "bcee_transactions"
+      ],
       "last_updated": "2026-02-10",
       "notes": "Internal/admin surface - BANIBS Currency & Exchange Engine for cross-border transactions"
     },
@@ -764,14 +850,17 @@
       "display_name": "Governance System",
       "world": "Founder Tools",
       "category": "admin",
-      "status": "active",
+      "status": "opening_soon",
       "frontend_routes": [],
       "api_routes": [
         "GET /api/governance/policies",
         "GET /api/governance/decisions",
         "POST /api/governance/proposals"
       ],
-      "db_collections": ["governance_policies", "governance_decisions"],
+      "db_collections": [
+        "governance_policies",
+        "governance_decisions"
+      ],
       "last_updated": "2026-02-10",
       "notes": "Internal/admin surface - platform governance and policy management"
     },
@@ -787,7 +876,10 @@
         "GET /api/alt-school/intake",
         "POST /api/alt-school/intake"
       ],
-      "db_collections": ["alt_school_programs", "alt_school_intake"],
+      "db_collections": [
+        "alt_school_programs",
+        "alt_school_intake"
+      ],
       "last_updated": "2026-02-10",
       "notes": "Alternative education programs and tutor intake system"
     }
