@@ -1,5 +1,5 @@
 ---
-HDOS Version: 1.1.0
+HDOS Version: 1.2.0
 Status: GREEN
 Last Updated: 2026-02-13
 Release Gate: GREEN-only
