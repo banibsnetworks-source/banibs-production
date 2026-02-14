@@ -1,0 +1,195 @@
+{
+  "suite_id": "platform_suite_v1",
+  "version": "1.0.0",
+  "created": "2026-02-10",
+  "description": "HDOS Platform Suite - UX, privacy, and system-level defense tests",
+  "pass_threshold": "ALL_GREEN",
+  "tests": [
+    {
+      "id": "ST-005",
+      "name": "Attention Hijacking Attack",
+      "amendment": null,
+      "axioms": ["Axiom 2: Time Sovereignty", "Axiom 5: Calm Technology"],
+      "category": "manipulation",
+      "severity": "high",
+      "description": "Test resistance to infinite scroll, autoplay, and attention-capturing dark patterns",
+      "attack_vectors": [
+        "Infinite scroll without natural stopping points",
+        "Autoplay video/audio without consent",
+        "Intermittent variable rewards (slot machine patterns)",
+        "Pull-to-refresh dopamine loops",
+        "Red notification badges that never clear"
+      ],
+      "pass_criteria": [
+        "Content has natural pagination or endpoints",
+        "Autoplay disabled by default",
+        "Notification badges clear when viewed",
+        "No variable reward gambling mechanics",
+        "Session time reminders available"
+      ],
+      "fail_indicators": [
+        "Endless scroll with no stopping cues",
+        "Videos autoplay with sound",
+        "Badges persist after viewing",
+        "Feed algorithm optimizes for time-on-site",
+        "No way to see session duration"
+      ]
+    },
+    {
+      "id": "ST-006",
+      "name": "Dark Pattern Gauntlet",
+      "amendment": null,
+      "axioms": ["Axiom 1: Human Agency First", "Axiom 3: Transparency Mandate"],
+      "category": "ux_integrity",
+      "severity": "critical",
+      "description": "Test for presence of deceptive UI patterns that trick users",
+      "attack_vectors": [
+        "Confirm-shaming (guilt for declining)",
+        "Trick questions (double negatives)",
+        "Hidden costs revealed late",
+        "Forced continuity (hard to cancel)",
+        "Misdirection (visual hierarchy manipulation)"
+      ],
+      "pass_criteria": [
+        "All options presented neutrally",
+        "Questions use clear, direct language",
+        "All costs visible upfront",
+        "Cancel is as easy as signup",
+        "Primary actions clearly indicated"
+      ],
+      "fail_indicators": [
+        "'No thanks, I don't want to save money'",
+        "Confusing opt-in/opt-out toggles",
+        "Fees appear only at checkout",
+        "Cancel buried in settings maze",
+        "Destructive actions styled as primary"
+      ]
+    },
+    {
+      "id": "ST-007",
+      "name": "Data Exploitation Probe",
+      "amendment": null,
+      "axioms": ["Axiom 3: Transparency Mandate", "Axiom 6: Exit Rights"],
+      "category": "privacy",
+      "severity": "critical",
+      "description": "Test for unauthorized data collection, sharing, or retention",
+      "attack_vectors": [
+        "Collecting data beyond stated purpose",
+        "Sharing data with undisclosed third parties",
+        "Retaining data after deletion request",
+        "Tracking across sessions without consent",
+        "Inferring sensitive attributes from behavior"
+      ],
+      "pass_criteria": [
+        "Data collection matches privacy policy",
+        "All third-party sharing disclosed",
+        "Deletion requests honored within 30 days",
+        "Tracking requires explicit opt-in",
+        "No sensitive inference without consent"
+      ],
+      "fail_indicators": [
+        "Hidden analytics or trackers",
+        "Data sold to undisclosed parties",
+        "Deleted data still accessible",
+        "Cross-session tracking by default",
+        "Profiling without user knowledge"
+      ]
+    },
+    {
+      "id": "ST-008",
+      "name": "Vulnerable User Exploitation",
+      "amendment": null,
+      "axioms": ["Axiom 7: Community Protection", "Axiom 4: Power Balance"],
+      "category": "safety",
+      "severity": "critical",
+      "description": "Test protection of minors, elderly, and vulnerable populations",
+      "attack_vectors": [
+        "Age-inappropriate content exposure",
+        "Predatory targeting of elderly users",
+        "Exploitation of cognitive vulnerabilities",
+        "Financial manipulation of at-risk users",
+        "Addiction-prone feature targeting"
+      ],
+      "pass_criteria": [
+        "Age verification for sensitive content",
+        "Enhanced protections for flagged accounts",
+        "No predatory financial features",
+        "Addiction warning systems active",
+        "Guardian/family controls available"
+      ],
+      "fail_indicators": [
+        "Minors exposed to adult content",
+        "Elderly users targeted for purchases",
+        "No spending limits or warnings",
+        "Addiction patterns undetected",
+        "No parental oversight tools"
+      ]
+    },
+    {
+      "id": "ST-009",
+      "name": "Algorithmic Manipulation Test",
+      "amendment": null,
+      "axioms": ["Axiom 1: Human Agency First", "Axiom 3: Transparency Mandate"],
+      "category": "ai_safety",
+      "severity": "high",
+      "description": "Test that algorithms serve users, not engagement metrics",
+      "attack_vectors": [
+        "Outrage amplification for engagement",
+        "Filter bubbles and echo chambers",
+        "Recommendation rabbit holes",
+        "Emotional state exploitation",
+        "Controversy prioritization"
+      ],
+      "pass_criteria": [
+        "Diverse viewpoints in recommendations",
+        "User control over algorithm behavior",
+        "No optimization for negative emotions",
+        "Transparent recommendation reasons",
+        "Easy algorithm reset/retrain option"
+      ],
+      "fail_indicators": [
+        "Outrage content consistently promoted",
+        "No viewpoint diversity in feed",
+        "Users can't adjust recommendations",
+        "Algorithm behavior unexplainable",
+        "Negative content drives engagement"
+      ]
+    },
+    {
+      "id": "ST-010",
+      "name": "Exit Friction Assault",
+      "amendment": null,
+      "axioms": ["Axiom 6: Exit Rights", "Axiom 4: Power Balance"],
+      "category": "governance",
+      "severity": "high",
+      "description": "Test that users can leave the platform without obstruction",
+      "attack_vectors": [
+        "Account deletion hidden or complex",
+        "Data export intentionally slow/broken",
+        "Social graph held hostage",
+        "Reactivation dark patterns",
+        "Incomplete deletion (data retained)"
+      ],
+      "pass_criteria": [
+        "Account deletion in 3 clicks or less",
+        "Full data export within 48 hours",
+        "Contact export in standard format",
+        "No guilt/shame on exit screens",
+        "Deletion is complete and verifiable"
+      ],
+      "fail_indicators": [
+        "Deletion requires support ticket",
+        "Export takes weeks or fails",
+        "Cannot export contact list",
+        "'Are you sure?' repeated multiple times",
+        "Account 'deactivated' but data kept"
+      ]
+    }
+  ],
+  "execution_notes": {
+    "environment": "Production-equivalent or staging",
+    "frequency": "Before every major release",
+    "documentation": "All runs recorded in /docs/hdos/runs/",
+    "escalation": "Any FAIL blocks release until resolved"
+  }
+}
