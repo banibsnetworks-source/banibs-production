@@ -1,8 +1,9 @@
 {
   "suite_id": "stress_suite_v1",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "created": "2026-02-10",
-  "description": "HDOS Stress Test Suite - Core attack vectors for human defense validation",
+  "updated": "2026-02-10",
+  "description": "HDOS Stress Test Suite - Full spectrum attack vectors for human defense validation",
   "pass_threshold": "ALL_GREEN",
   "tests": [
     {
