@@ -1,7 +1,11 @@
+---
+HDOS Version: 1.0.0
+Status: GREEN
+Last Updated: 2026-02-10
+Release Gate: GREEN-only
+---
+
 # HDOS - Human Defense Operating System
-**Version**: 1.0.0  
-**Last Updated**: 2026-02-10  
-**Status**: ACTIVE
 
 ---
 
