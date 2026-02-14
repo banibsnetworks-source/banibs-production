@@ -97,7 +97,7 @@
     {
       "id": "ST-004",
       "name": "Power Asymmetry Blind Spot",
-      "amendment": "A-0004",
+      "amendment": ["A-0004", "A-0008"],
       "axioms": ["Axiom 4: Power Balance", "Axiom 6: Exit Rights"],
       "category": "governance",
       "severity": "critical",
