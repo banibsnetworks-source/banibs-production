@@ -6,6 +6,22 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.1.0] - 2026-02-13
+
+### Added
+- A-0005 — Responsibility Acknowledgment Requirement
+
+### Hardened
+- Full-spectrum logic suite expanded to 10 tests
+- Strategic Manipulator exploit closed
+- Responsibility Evasion State introduced
+
+### Verification
+- Logic Suite: 10/10 PASS
+- Release Gate: GREEN-compliant
+
+---
+
 ## [1.0.0] - 2026-02-10
 
 ### Added
