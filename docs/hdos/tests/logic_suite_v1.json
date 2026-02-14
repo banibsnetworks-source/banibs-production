@@ -67,7 +67,7 @@
     {
       "id": "ST-003",
       "name": "Infinite Analysis Loop",
-      "amendment": "A-0003",
+      "amendment": ["A-0003", "A-0007"],
       "axioms": ["Axiom 1: Human Agency First", "Axiom 3: Transparency Mandate"],
       "category": "ai_safety",
       "severity": "high",
