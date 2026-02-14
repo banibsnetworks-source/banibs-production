@@ -6,6 +6,26 @@ Format: [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [1.2.0] - 2026-02-13
+
+### Added
+- A-0006 — Harm Confirmation Standard
+- A-0007 — Responsibility Granularity Framework
+- A-0008 — Abuse Inversion Safeguard
+
+### Hardened
+- Closed harm dispute fracture
+- Closed responsibility fragmentation gap
+- Closed accountability inversion vulnerability
+- Full destruction-round re-verification PASS
+
+### Verification
+- Logic Suite: 10/10 PASS
+- Destruction Round: PASS
+- Release Gate: GREEN-compliant
+
+---
+
 ## [1.1.0] - 2026-02-13
 
 ### Added
