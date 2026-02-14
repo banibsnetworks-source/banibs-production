@@ -123,6 +123,186 @@
         "Same admin handles appeal",
         "Retroactive ToS enforcement"
       ]
+    },
+    {
+      "id": "ST-005",
+      "name": "Moral Simplicity Allowance",
+      "amendment": null,
+      "axioms": ["Axiom 1: Human Agency First", "Axiom 7: Community Protection"],
+      "category": "structural_integrity",
+      "severity": "high",
+      "description": "Test that HDOS does not overcomplicate straightforward wrongdoing",
+      "attack_vectors": [
+        "Forcing structural analysis where moral clarity is sufficient",
+        "Demanding causation digging for obvious harm",
+        "Abstracting responsibility into systems when individuals acted",
+        "Requiring framework compliance for simple ethical judgments",
+        "Delaying accountability through analytical complexity"
+      ],
+      "pass_criteria": [
+        "Allows direct moral responsibility without mandatory causation digging",
+        "Simple wrongdoing can be named without structural detour",
+        "Individual accountability not dissolved into system blame",
+        "Framework does not obstruct clear ethical judgment",
+        "Complexity added only when genuinely needed"
+      ],
+      "fail_indicators": [
+        "System forces structural analysis where moral clarity is sufficient",
+        "Cannot state 'this was wrong' without framework invocation",
+        "Accountability diffused through mandatory complexity",
+        "Simple harm requires elaborate justification to name",
+        "Framework becomes shield against direct responsibility"
+      ]
+    },
+    {
+      "id": "ST-006",
+      "name": "Silence Boundary Integrity",
+      "amendment": null,
+      "axioms": ["Axiom 1: Human Agency First", "Axiom 6: Exit Rights"],
+      "category": "structural_integrity",
+      "severity": "high",
+      "description": "Test that silence or refusal to engage is not mislabeled as dismissiveness",
+      "attack_vectors": [
+        "Labeling silence as dismissiveness or collapse",
+        "Treating boundary enforcement as pathology",
+        "Demanding engagement as proof of good faith",
+        "Interpreting non-response as admission",
+        "Pressuring continued interaction after refusal"
+      ],
+      "pass_criteria": [
+        "Legitimate non-engagement remains neutral",
+        "Boundary enforcement not misclassified as collapse",
+        "Silence is valid response without penalty",
+        "Refusal to engage is not evidence of wrongdoing",
+        "Disengagement respected without moralization"
+      ],
+      "fail_indicators": [
+        "Boundary enforcement misclassified as collapse",
+        "Silence treated as implicit guilt",
+        "Non-engagement labeled as dismissiveness",
+        "Continued pressure after clear refusal",
+        "Refusal framed as failure to meet standard"
+      ]
+    },
+    {
+      "id": "ST-007",
+      "name": "Self-Application Tolerance",
+      "amendment": null,
+      "axioms": ["Axiom 3: Transparency Mandate", "Axiom 4: Power Balance"],
+      "category": "structural_integrity",
+      "severity": "high",
+      "description": "Test that criticism of HDOS itself is not framed as collapse",
+      "attack_vectors": [
+        "Routing critique of HDOS as dismissiveness",
+        "Defensive escalation when framework questioned",
+        "Treating meta-criticism as bad faith",
+        "Invoking HDOS to defend HDOS",
+        "Circular immunity to self-examination"
+      ],
+      "pass_criteria": [
+        "Framework tolerates meta-critique without escalation",
+        "Criticism of HDOS processed on merits",
+        "Self-referential critique does not trigger defense mode",
+        "Framework can be questioned without invoking framework",
+        "Meta-level feedback incorporated constructively"
+      ],
+      "fail_indicators": [
+        "System defensively routes critique as dismissiveness",
+        "Questioning HDOS triggers HDOS violation claim",
+        "Circular defense prevents self-examination",
+        "Meta-critique escalated rather than processed",
+        "Framework becomes unfalsifiable through self-reference"
+      ]
+    },
+    {
+      "id": "ST-008",
+      "name": "Cultural Neutrality Safeguard",
+      "amendment": null,
+      "axioms": ["Axiom 4: Power Balance", "Axiom 6: Exit Rights"],
+      "category": "structural_integrity",
+      "severity": "high",
+      "description": "Test that cultural communication differences are not pathologized",
+      "attack_vectors": [
+        "Pathologizing cultural communication styles",
+        "Misreading tone as agency collapse",
+        "Imposing dominant-culture interaction norms",
+        "Treating directness as aggression",
+        "Treating indirectness as evasion"
+      ],
+      "pass_criteria": [
+        "Measures decision-space restriction, not tone",
+        "Style differences not misread as agency collapse",
+        "Cultural communication variance tolerated",
+        "Assessment based on structural impact, not manner",
+        "No single cultural norm imposed as standard"
+      ],
+      "fail_indicators": [
+        "Style differences misread as agency collapse",
+        "Cultural communication patterns pathologized",
+        "Tone policed rather than impact measured",
+        "Dominant-culture norms treated as universal",
+        "Manner of expression weighted over substance"
+      ]
+    },
+    {
+      "id": "ST-009",
+      "name": "Exit Preservation Validation",
+      "amendment": null,
+      "axioms": ["Axiom 6: Exit Rights"],
+      "category": "structural_integrity",
+      "severity": "high",
+      "description": "Test that disengagement is not labeled as collapse or guilt",
+      "attack_vectors": [
+        "Labeling disengagement as collapse",
+        "Moralizing exit decisions",
+        "Penalizing withdrawal from interaction",
+        "Treating exit as evidence of bad faith",
+        "Guilting continued non-participation"
+      ],
+      "pass_criteria": [
+        "Exit remains structurally valid and neutral",
+        "Disengagement not penalized or moralized",
+        "Withdrawal is legitimate without justification",
+        "No inference of guilt from exit",
+        "Exit rights preserved absolutely"
+      ],
+      "fail_indicators": [
+        "Exit penalized or moralized",
+        "Disengagement labeled as collapse or guilt",
+        "Withdrawal requires justification to be valid",
+        "Continued non-participation treated as admission",
+        "Exit framed as abandonment of responsibility"
+      ]
+    },
+    {
+      "id": "ST-010",
+      "name": "Meta-Weaponization Loop Guard",
+      "amendment": null,
+      "axioms": ["Axiom 3: Transparency Mandate", "Axiom 4: Power Balance"],
+      "category": "structural_integrity",
+      "severity": "critical",
+      "description": "Test protection against infinite 'You are being dismissive' recursion",
+      "attack_vectors": [
+        "Infinite 'You are being dismissive' recursion",
+        "Accusation loops that cannot terminate",
+        "Each defense treated as further violation",
+        "Framework weaponized against framework critique",
+        "Escalation without anchor to observable behavior"
+      ],
+      "pass_criteria": [
+        "Anchors to observable inquiry suppression and terminates escalation",
+        "Accusation loops have circuit breakers",
+        "Defense of position not treated as further violation",
+        "Escalation requires new observable evidence",
+        "Meta-accusations have termination conditions"
+      ],
+      "fail_indicators": [
+        "System escalates into accusation loop",
+        "No termination condition for meta-accusations",
+        "Defense automatically treated as proof of violation",
+        "Observable behavior not required for escalation",
+        "Infinite regress with no anchor point"
+      ]
     }
   ],
   "execution_notes": {
