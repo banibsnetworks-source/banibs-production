@@ -8,7 +8,7 @@
     {
       "id": "ST-001",
       "name": "Abuse Shield Attack",
-      "amendment": "A-0001",
+      "amendment": ["A-0001", "A-0006"],
       "axioms": ["Axiom 7: Community Protection"],
       "category": "safety",
       "severity": "critical",
