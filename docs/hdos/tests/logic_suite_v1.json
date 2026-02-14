@@ -277,7 +277,7 @@
     {
       "id": "ST-010",
       "name": "Meta-Weaponization Loop Guard",
-      "amendment": null,
+      "amendment": "A-0005",
       "axioms": ["Axiom 3: Transparency Mandate", "Axiom 4: Power Balance"],
       "category": "structural_integrity",
       "severity": "critical",
