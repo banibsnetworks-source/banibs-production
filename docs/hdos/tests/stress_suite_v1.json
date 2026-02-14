@@ -1,0 +1,134 @@
+{
+  "suite_id": "stress_suite_v1",
+  "version": "1.0.0",
+  "created": "2026-02-10",
+  "description": "HDOS Stress Test Suite - Core attack vectors for human defense validation",
+  "pass_threshold": "ALL_GREEN",
+  "tests": [
+    {
+      "id": "ST-001",
+      "name": "Abuse Shield Attack",
+      "amendment": "A-0001",
+      "axioms": ["Axiom 7: Community Protection"],
+      "category": "safety",
+      "severity": "critical",
+      "description": "Test resistance to coordinated abuse, harassment, and brigading attacks",
+      "attack_vectors": [
+        "Mass reporting to silence legitimate users",
+        "Coordinated harassment campaigns",
+        "Sock puppet amplification",
+        "Targeted doxxing attempts",
+        "Community infiltration by bad actors"
+      ],
+      "pass_criteria": [
+        "Abuse detection triggers within threshold",
+        "Victim protection activates before significant harm",
+        "False positive rate below 1%",
+        "Appeals process accessible and timely",
+        "Attacker patterns logged for review"
+      ],
+      "fail_indicators": [
+        "Legitimate users silenced by mass reports",
+        "Harassment persists without intervention",
+        "Victims must self-advocate repeatedly",
+        "Abusers face no meaningful consequences"
+      ]
+    },
+    {
+      "id": "ST-002",
+      "name": "Emergency Urgency Attack",
+      "amendment": "A-0002",
+      "axioms": ["Axiom 2: Time Sovereignty", "Axiom 5: Calm Technology"],
+      "category": "manipulation",
+      "severity": "high",
+      "description": "Test resistance to artificial urgency and FOMO manipulation tactics",
+      "attack_vectors": [
+        "Fake countdown timers",
+        "Limited availability lies",
+        "Loss aversion triggers",
+        "Social proof manipulation",
+        "Notification bombardment"
+      ],
+      "pass_criteria": [
+        "No artificial urgency in UI copy",
+        "No fake scarcity indicators",
+        "Notifications respect user preferences",
+        "Clear opt-out for all alerts",
+        "No guilt-based retention tactics"
+      ],
+      "fail_indicators": [
+        "Countdown timers that reset",
+        "'Only X left' when false",
+        "Push notifications ignore settings",
+        "Shame language on unsubscribe",
+        "Hidden 'cancel' buttons"
+      ]
+    },
+    {
+      "id": "ST-003",
+      "name": "Infinite Analysis Loop",
+      "amendment": "A-0003",
+      "axioms": ["Axiom 1: Human Agency First", "Axiom 3: Transparency Mandate"],
+      "category": "ai_safety",
+      "severity": "high",
+      "description": "Test that AI systems have circuit breakers and don't trap users in loops",
+      "attack_vectors": [
+        "Recursive clarification requests",
+        "Endless 'more information needed'",
+        "Analysis paralysis induction",
+        "Decision deferral loops",
+        "Confidence threshold gaming"
+      ],
+      "pass_criteria": [
+        "AI interactions have clear endpoints",
+        "Maximum iteration limits enforced",
+        "User can exit any AI flow immediately",
+        "Partial results provided when stuck",
+        "Clear escalation to human support"
+      ],
+      "fail_indicators": [
+        "No way to exit AI conversation",
+        "Repeated identical questions",
+        "User forced to provide more data",
+        "No timeout on AI processes",
+        "AI blocks human override"
+      ]
+    },
+    {
+      "id": "ST-004",
+      "name": "Power Asymmetry Blind Spot",
+      "amendment": "A-0004",
+      "axioms": ["Axiom 4: Power Balance", "Axiom 6: Exit Rights"],
+      "category": "governance",
+      "severity": "critical",
+      "description": "Test that platform power is not used to exploit users",
+      "attack_vectors": [
+        "Admin abuse of privileges",
+        "Data hostage situations",
+        "Arbitrary account actions",
+        "Appeal process obstruction",
+        "Terms of service weaponization"
+      ],
+      "pass_criteria": [
+        "All admin actions logged and auditable",
+        "Users can export all their data",
+        "Account actions require documented reason",
+        "Appeals reviewed by different admin",
+        "ToS changes notified 30+ days ahead"
+      ],
+      "fail_indicators": [
+        "Shadow bans without disclosure",
+        "Data export blocked or incomplete",
+        "No reason given for account action",
+        "Same admin handles appeal",
+        "Retroactive ToS enforcement"
+      ]
+    }
+  ],
+  "execution_notes": {
+    "environment": "Production-equivalent or staging",
+    "frequency": "Before every major release",
+    "documentation": "All runs recorded in /docs/hdos/runs/",
+    "escalation": "Any FAIL blocks release until resolved"
+  }
+}
