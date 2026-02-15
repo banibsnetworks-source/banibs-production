@@ -14,9 +14,80 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 
 ---
 
-## Recent Updates (February 15, 2026 - Session 8)
+## Recent Updates (February 15, 2026 - Session 9)
 
-### ✅ BGLIS v1.0 - Phone Authentication (COMPLETED - P1)
+### ✅ Skills World - Reading & Words v1.0 (COMPLETED - P1)
+Second major educational module in Skills World, following Math & Logic.
+
+**Design Philosophy (Calm Tech - LOCKED):**
+- Guest-first (no account required)
+- No ads, no monetization
+- No timers, no scores, no points, no streaks
+- No rankings, leaderboards, or comparisons
+- No pressure language ("complete now", "hurry", etc.)
+- One activity visible at a time (no cognitive overload)
+- Clear exits at all times
+- Soft colors, minimal motion
+- "Age is a guide, not a gate"
+
+**Activities Implemented:**
+
+1. **Word Explorer** (`/skillsworld/reading/word-explorer`)
+   - Target: Ages 4-8+
+   - Build vocabulary by matching words to meanings
+   - 5 levels, 40 words total: Everyday Objects, Colors & Shapes, Actions & Movement, Nature Words, Feelings & Ideas
+   - Optional hint system
+   - localStorage: `banibs_wordexplorer_progress`
+
+2. **Story Paths** (`/skillsworld/reading/story-paths`)
+   - Target: Ages 5-9+
+   - Reading comprehension with short passages
+   - 5 levels, 25 stories total: Simple Stories, A Little Longer, More Details, Think About It, Longer Reads
+   - Multiple choice questions with A/B/C/D format
+   - localStorage: `banibs_storypaths_progress`
+
+3. **Letter Sounds** (`/skillsworld/reading/letter-sounds`)
+   - Target: Ages 4-6+
+   - Phonics fundamentals - connect letters to sounds
+   - 3 levels, 24 letters: First Sounds (B-K), More Consonants (L-V), Vowel Sounds
+   - Text-based sound hints (no audio in v1.0)
+   - localStorage: `banibs_lettersounds_progress`
+
+**Routes:**
+- `/skillsworld/reading` - Reading & Words hub page
+- `/skillsworld/reading/word-explorer` - Word Explorer activity
+- `/skillsworld/reading/story-paths` - Story Paths activity
+- `/skillsworld/reading/letter-sounds` - Letter Sounds activity
+
+**Files Created:**
+- `/app/frontend/src/pages/skillsworld/reading/ReadingWordsHome.jsx` - Hub page
+- `/app/frontend/src/pages/skillsworld/reading/WordExplorerGame.jsx` - Word Explorer
+- `/app/frontend/src/pages/skillsworld/reading/StoryPathsGame.jsx` - Story Paths
+- `/app/frontend/src/pages/skillsworld/reading/LetterSoundsGame.jsx` - Letter Sounds
+- `/app/frontend/src/data/skills_world/word_explorer_levels.json` - Content
+- `/app/frontend/src/data/skills_world/story_paths_levels.json` - Content
+- `/app/frontend/src/data/skills_world/letter_sounds_levels.json` - Content
+- `/app/docs/skills_world_subworlds_v1.md` - Documentation
+
+**Files Modified:**
+- `/app/frontend/src/App.js` - Added Reading & Words routes
+- `/app/frontend/src/pages/skillsworld/SkillsWorldHome.jsx` - Reading & Words now ACTIVE
+- `/app/backend/config/modules_registry.json` - Added reading_words module
+- `/app/CHANGELOG_BANIBS.md` - Added feature entry
+
+**V1.0 Limitations (Intentional):**
+- No audio (text-based sound hints only)
+- No images (text options only)
+- Frontend-only (localStorage progress)
+- English content only
+
+**Testing:** 100% frontend pass rate (all features verified)
+
+---
+
+## Previous Updates (February 15, 2026 - Session 8)
+
+### ✅ BGLIS v1.0 - Phone Authentication (COMPLETED - P1) - LOCKED
 Voluntary, opt-in phone number verification system for strengthening user identity.
 
 **Key Principles:**
