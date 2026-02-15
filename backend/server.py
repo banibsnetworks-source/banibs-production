@@ -490,6 +490,10 @@ app.include_router(frames_router)
 from routes.modules_registry import router as modules_registry_router
 app.include_router(modules_registry_router)
 
+# HDOS Engine v1 (Human Defense Operating System)
+from routes.hdos_engine import router as hdos_engine_router
+app.include_router(hdos_engine_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
