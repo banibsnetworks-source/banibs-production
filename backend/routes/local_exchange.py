@@ -129,6 +129,7 @@ def serialize_listing(listing: dict, include_zip: bool = False) -> dict:
         "seller_id": listing["seller_id"],
         "seller_name": listing.get("seller_name", "BANIBS User"),
         "seller_avatar": listing.get("seller_avatar"),
+        "seller_phone_verified": listing.get("seller_phone_verified", False),
         "status": listing.get("status", "active"),
         "created_at": listing["created_at"].isoformat() if isinstance(listing["created_at"], datetime) else listing["created_at"],
         "updated_at": listing.get("updated_at", listing["created_at"]),
