@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://hdos-analyze.preview.emergentagent.com/api/auth
+https://sms-otp-security.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

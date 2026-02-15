@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://hdos-analyze.preview.emergentagent.com"
+BACKEND_URL="https://sms-otp-security.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output

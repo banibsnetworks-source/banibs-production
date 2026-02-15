@@ -1266,7 +1266,7 @@ All links visible:
 
 ## Static Guest Page Build
 Location: `/app/deploy/guest_site/`
-Download: `https://hdos-analyze.preview.emergentagent.com/guest_site.zip`
+Download: `https://sms-otp-security.preview.emergentagent.com/guest_site.zip`
 
 ---
 
