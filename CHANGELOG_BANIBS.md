@@ -4,6 +4,51 @@ All notable changes to the BANIBS platform.
 
 ---
 
+## [2026-02-15] Skills World - Reading & Words v1.0 ✅ COMPLETE
+
+### Added
+- **Reading & Words Sub-World** - Second major educational module in Skills World
+- **Word Explorer** - Vocabulary building through word matching (5 levels, 40 words)
+- **Story Paths** - Reading comprehension with short passages (5 levels, 25 stories)
+- **Letter Sounds** - Phonics fundamentals with letter-sound associations (3 levels, 24 letters)
+
+### Design (Calm-Tech)
+- No timers, no scores, no pressure language
+- No rankings, leaderboards, or comparisons
+- One activity visible at a time
+- Clear exits at all times
+- Soft colors, minimal motion
+- Age guidance visible but not enforced
+
+### Routes
+- `/skillsworld/reading` - Hub page
+- `/skillsworld/reading/word-explorer` - Word Explorer activity
+- `/skillsworld/reading/story-paths` - Story Paths activity
+- `/skillsworld/reading/letter-sounds` - Letter Sounds activity
+
+### Files Created
+- `/app/frontend/src/pages/skillsworld/reading/ReadingWordsHome.jsx`
+- `/app/frontend/src/pages/skillsworld/reading/WordExplorerGame.jsx`
+- `/app/frontend/src/pages/skillsworld/reading/StoryPathsGame.jsx`
+- `/app/frontend/src/pages/skillsworld/reading/LetterSoundsGame.jsx`
+- `/app/content/skills_world/word_explorer_levels.json`
+- `/app/content/skills_world/story_paths_levels.json`
+- `/app/content/skills_world/letter_sounds_levels.json`
+- `/app/docs/skills_world_subworlds_v1.md`
+
+### Files Modified
+- `/app/frontend/src/App.js` - Added Reading & Words routes
+- `/app/frontend/src/pages/skillsworld/SkillsWorldHome.jsx` - Updated status to active
+- `/app/backend/config/modules_registry.json` - Added reading_words module
+
+### V1.0 Limitations (Intentional)
+- No audio (text-based sound hints only)
+- No images (text options only)
+- Frontend-only (localStorage progress)
+- English content only
+
+---
+
 ## [2026-02-15] BGLIS v1.0 - Phone Authentication ✅ LOCKED
 
 > **STATUS: LOCKED** - No modifications without explicit directive.
@@ -47,6 +92,7 @@ All notable changes to the BANIBS platform.
 - `DEV_BYPASS_OTP=true` - Code 111111 works in dev
 
 ---
+
 
 ## [2026-02-15] User Pinning + Pin Boards ✅ COMPLETE
 
