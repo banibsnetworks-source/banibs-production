@@ -103,7 +103,7 @@ Phonics fundamentals. Users see a letter with its sound description and must ide
 
 ### Content Files (JSON-driven)
 ```
-/content/skills_world/
+/frontend/src/data/skills_world/
 ├── word_explorer_levels.json
 ├── story_paths_levels.json
 └── letter_sounds_levels.json
@@ -253,9 +253,9 @@ Phonics fundamentals. Users see a letter with its sound description and must ide
 - `/app/frontend/src/pages/skillsworld/reading/LetterSoundsGame.jsx`
 
 ### Content
-- `/app/content/skills_world/word_explorer_levels.json`
-- `/app/content/skills_world/story_paths_levels.json`
-- `/app/content/skills_world/letter_sounds_levels.json`
+- `/app/frontend/src/data/skills_world/word_explorer_levels.json`
+- `/app/frontend/src/data/skills_world/story_paths_levels.json`
+- `/app/frontend/src/data/skills_world/letter_sounds_levels.json`
 
 ### Modified
 - `/app/frontend/src/App.js` - Added routes

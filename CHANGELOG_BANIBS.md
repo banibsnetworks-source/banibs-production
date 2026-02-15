@@ -31,9 +31,9 @@ All notable changes to the BANIBS platform.
 - `/app/frontend/src/pages/skillsworld/reading/WordExplorerGame.jsx`
 - `/app/frontend/src/pages/skillsworld/reading/StoryPathsGame.jsx`
 - `/app/frontend/src/pages/skillsworld/reading/LetterSoundsGame.jsx`
-- `/app/content/skills_world/word_explorer_levels.json`
-- `/app/content/skills_world/story_paths_levels.json`
-- `/app/content/skills_world/letter_sounds_levels.json`
+- `/app/frontend/src/data/skills_world/word_explorer_levels.json`
+- `/app/frontend/src/data/skills_world/story_paths_levels.json`
+- `/app/frontend/src/data/skills_world/letter_sounds_levels.json`
 - `/app/docs/skills_world_subworlds_v1.md`
 
 ### Files Modified
