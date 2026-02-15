@@ -14,7 +14,58 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 
 ---
 
-## Recent Updates (February 15, 2026 - Session 7)
+## Recent Updates (February 15, 2026 - Session 8)
+
+### ✅ BGLIS v1.0 - Phone Authentication (COMPLETED - P1)
+Voluntary, opt-in phone number verification system for strengthening user identity.
+
+**Key Principles:**
+- **Voluntary Opt-In** - Phone verification is never required for using BANIBS
+- **No Scoring/Ranking** - Verified status does not affect algorithmic placement
+- **Minimal Badge** - Only displayed on Marketplace listings and Messaging
+- **Fully Reversible** - Users can remove verification at any time
+- **Rate Limited** - OTP attempts capped to prevent abuse
+
+**Backend API:**
+- `POST /api/auth/send-otp` - Send verification code (mock SMS in dev)
+- `POST /api/auth/verify-otp` - Verify the 6-digit code
+- `POST /api/bglis/link-phone` - Link verified phone to account
+- `PATCH /api/bglis/remove-phone` - Remove phone verification
+- `GET /api/bglis/status` - Get user's verification status
+- `GET /api/bglis/check/:user_id` - Check if user is verified (public)
+
+**Frontend:**
+- `/portal/social/settings/security` - Phone verification UI
+- `PhoneVerifiedBadge` component - Reusable badge (Marketplace + Messaging)
+
+**Security:**
+- OTP Expiry: 10 minutes
+- Max Attempts: 5 per OTP
+- Dev Bypass: Code `111111` works when `DEV_BYPASS_OTP=true`
+
+**Files Created:**
+- `/app/backend/routes/bglis.py` - Phone verification endpoints
+- `/app/frontend/src/pages/social/settings/SecuritySettings.jsx` - Full verification UI
+- `/app/frontend/src/components/badges/PhoneVerifiedBadge.jsx` - Reusable badge
+- `/app/docs/bglis_v1.md` - Documentation
+
+**Files Modified:**
+- `/app/backend/routes/local_exchange.py` - Dynamic seller verification lookup
+- `/app/backend/db/messaging_v2.py` - Added otherUserPhoneVerified to previews
+- `/app/backend/schemas/message.py` - Added otherUserPhoneVerified field
+- `/app/frontend/src/pages/socialworld/local-exchange/ListingDetailPage.jsx` - Badge display
+- `/app/frontend/src/components/messaging/ConversationsList.jsx` - Badge display
+- `/app/backend/config/modules_registry.json` - Updated BGLIS status to active
+
+**Environment Variables:**
+- `SMS_PROVIDER=dev` - Uses mock SMS provider
+- `DEV_BYPASS_OTP=true` - Allows code 111111 for testing
+
+**Testing:** 100% backend pass (14/14 tests), 90% frontend (badge integration verified)
+
+---
+
+## Previous Session Updates (February 15, 2026 - Session 7)
 
 ### ✅ User Pinning + Pin Boards (COMPLETED - P1)
 Platform-wide, user-owned, private-by-default pinning system.
