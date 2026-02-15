@@ -1,0 +1,218 @@
+{
+  "activity_id": "story-paths",
+  "activity_name": "Story Paths",
+  "description": "Read short passages and show understanding",
+  "age_guide": "Ages 5-9+",
+  "levels": [
+    {
+      "id": 1,
+      "name": "Simple Stories",
+      "description": "Short and clear",
+      "passages": [
+        {
+          "id": "1-1",
+          "text": "The cat sat on the mat. The cat was orange.",
+          "question": "What color was the cat?",
+          "options": ["Orange", "Black", "White", "Gray"],
+          "correct": 0
+        },
+        {
+          "id": "1-2",
+          "text": "The sun is bright. It makes the day warm.",
+          "question": "What does the sun make?",
+          "options": ["The night dark", "The day warm", "The rain fall", "The wind blow"],
+          "correct": 1
+        },
+        {
+          "id": "1-3",
+          "text": "Sam has a red ball. He likes to play with it.",
+          "question": "What does Sam have?",
+          "options": ["A blue car", "A red ball", "A green toy", "A yellow hat"],
+          "correct": 1
+        },
+        {
+          "id": "1-4",
+          "text": "The bird flew to the tree. It made a nest there.",
+          "question": "Where did the bird go?",
+          "options": ["To the house", "To the water", "To the tree", "To the ground"],
+          "correct": 2
+        },
+        {
+          "id": "1-5",
+          "text": "Mom made food. We ate together at the table.",
+          "question": "Where did they eat?",
+          "options": ["On the floor", "At the table", "In the car", "At the park"],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "A Little Longer",
+      "description": "Two to three sentences",
+      "passages": [
+        {
+          "id": "2-1",
+          "text": "Mia walked to school. She saw her friend on the way. They walked together.",
+          "question": "What did Mia and her friend do?",
+          "options": ["Ran home", "Walked together", "Played a game", "Ate lunch"],
+          "correct": 1
+        },
+        {
+          "id": "2-2",
+          "text": "The dog was hungry. He ate all his food. Then he took a nap.",
+          "question": "What did the dog do after eating?",
+          "options": ["Played outside", "Took a nap", "Drank water", "Barked loudly"],
+          "correct": 1
+        },
+        {
+          "id": "2-3",
+          "text": "It started to rain. Dad got the umbrella. We stayed dry.",
+          "question": "Why did they stay dry?",
+          "options": ["The rain stopped", "Dad got the umbrella", "They went inside", "They wore coats"],
+          "correct": 1
+        },
+        {
+          "id": "2-4",
+          "text": "The garden has flowers. Red ones and yellow ones. The bees visit them.",
+          "question": "Who visits the flowers?",
+          "options": ["The birds", "The bees", "The cats", "The children"],
+          "correct": 1
+        },
+        {
+          "id": "2-5",
+          "text": "Tom found a book at the library. It had pictures of space. He read it twice.",
+          "question": "What was the book about?",
+          "options": ["Animals", "Space", "Food", "Cars"],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "More Details",
+      "description": "Stories with more information",
+      "passages": [
+        {
+          "id": "3-1",
+          "text": "Maya loves to draw. Every day after school, she draws in her notebook. Her favorite thing to draw is birds because they have pretty feathers.",
+          "question": "Why does Maya like to draw birds?",
+          "options": ["They are easy to draw", "They have pretty feathers", "Her teacher told her to", "Her friend likes birds"],
+          "correct": 1
+        },
+        {
+          "id": "3-2",
+          "text": "The farmers market opens on Saturday. People buy fruits and vegetables. The strawberries are the most popular.",
+          "question": "What is most popular at the market?",
+          "options": ["Apples", "Carrots", "Strawberries", "Corn"],
+          "correct": 2
+        },
+        {
+          "id": "3-3",
+          "text": "Grandma made soup for dinner. She put carrots and potatoes in it. Everyone said it was delicious.",
+          "question": "What did Grandma put in the soup?",
+          "options": ["Rice and beans", "Carrots and potatoes", "Meat and onions", "Corn and peas"],
+          "correct": 1
+        },
+        {
+          "id": "3-4",
+          "text": "The library is quiet. People read and study there. You need a card to borrow books.",
+          "question": "What do you need to borrow books?",
+          "options": ["Money", "A card", "A bag", "A friend"],
+          "correct": 1
+        },
+        {
+          "id": "3-5",
+          "text": "Winter is cold. Snow covers the ground. Many animals sleep until spring comes.",
+          "question": "When do the animals wake up?",
+          "options": ["In summer", "In winter", "When spring comes", "At night"],
+          "correct": 2
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Think About It",
+      "description": "Stories that make you wonder",
+      "passages": [
+        {
+          "id": "4-1",
+          "text": "Lena wanted to help at home. She washed the dishes without being asked. Her mom smiled and gave her a big hug.",
+          "question": "How did Mom feel about Lena's help?",
+          "options": ["Angry", "Happy", "Confused", "Tired"],
+          "correct": 1
+        },
+        {
+          "id": "4-2",
+          "text": "Marcus was nervous about the first day of school. But he made a new friend at lunch. Now he looks forward to going.",
+          "question": "What changed how Marcus felt about school?",
+          "options": ["He got good grades", "He made a new friend", "His teacher was nice", "The food was good"],
+          "correct": 1
+        },
+        {
+          "id": "4-3",
+          "text": "The old tree in the park fell during the storm. People felt sad because they used to play under it. They decided to plant a new one.",
+          "question": "What did people decide to do?",
+          "options": ["Move away", "Plant a new tree", "Cut down more trees", "Build a bench"],
+          "correct": 1
+        },
+        {
+          "id": "4-4",
+          "text": "Keisha practiced piano every day for a month. At first it was hard, but she got better. Now she can play her favorite song.",
+          "question": "What helped Keisha get better?",
+          "options": ["A new piano", "Practice every day", "A new teacher", "Listening to music"],
+          "correct": 1
+        },
+        {
+          "id": "4-5",
+          "text": "The community garden brings neighbors together. They share seeds and tools. Some families who never talked before are now friends.",
+          "question": "What does the garden help people do?",
+          "options": ["Make money", "Become friends", "Learn to cook", "Exercise more"],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Longer Reads",
+      "description": "Full short stories",
+      "passages": [
+        {
+          "id": "5-1",
+          "text": "Once there was a girl named Ada who loved stars. Every night she would look up at the sky from her window. Her grandmother told her that each star was a story waiting to be discovered. Ada decided she would learn about as many stars as she could.",
+          "question": "What did Ada's grandmother say about stars?",
+          "options": ["Stars are far away", "Each star is a story", "Stars are made of fire", "You can't count stars"],
+          "correct": 1
+        },
+        {
+          "id": "5-2",
+          "text": "The little stream flowed through the village. Children played near it in summer. Farmers used its water for their crops. In winter, it was quiet and still, waiting for spring to bring life back to its banks.",
+          "question": "What happened to the stream in winter?",
+          "options": ["It dried up", "It flooded", "It was quiet and still", "Children swam in it"],
+          "correct": 2
+        },
+        {
+          "id": "5-3",
+          "text": "Mr. Johnson's bakery opened early each morning. The smell of fresh bread filled the street. People came from all over town. But the best part wasn't the bread. It was the way Mr. Johnson greeted everyone by name and remembered their favorites.",
+          "question": "What was the best part of Mr. Johnson's bakery?",
+          "options": ["The fresh bread", "The low prices", "The early hours", "The personal touch"],
+          "correct": 3
+        },
+        {
+          "id": "5-4",
+          "text": "Jamal found an old book in his grandfather's attic. The pages were yellow and the cover was worn. Inside were handwritten recipes from generations ago. Jamal showed it to his mother. Together, they decided to try cooking one recipe each week.",
+          "question": "What did Jamal and his mother decide to do?",
+          "options": ["Sell the book", "Frame the book", "Cook one recipe each week", "Write new recipes"],
+          "correct": 2
+        },
+        {
+          "id": "5-5",
+          "text": "The neighborhood was planning a celebration. Each family would bring food from their heritage. There would be music and dancing. Mrs. Chen was making dumplings. The Okoye family was bringing jollof rice. Everyone was excited to share and learn from each other.",
+          "question": "What was special about the celebration?",
+          "options": ["It was expensive", "Only one family came", "Everyone shared their heritage", "It happened every day"],
+          "correct": 2
+        }
+      ]
+    }
+  ]
+}

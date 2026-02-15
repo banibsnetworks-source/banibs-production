@@ -1,0 +1,53 @@
+{
+  "activity_id": "letter-sounds",
+  "activity_name": "Letter Sounds",
+  "description": "Connect letters to the sounds they make",
+  "age_guide": "Ages 4-6+",
+  "levels": [
+    {
+      "id": 1,
+      "name": "First Sounds",
+      "description": "Simple consonants",
+      "items": [
+        { "letter": "B", "sound_hint": "Makes the 'buh' sound", "example_word": "ball", "options": ["ball", "cat", "dog", "fish"] },
+        { "letter": "C", "sound_hint": "Makes the 'kuh' sound", "example_word": "cat", "options": ["ball", "cat", "dog", "fish"] },
+        { "letter": "D", "sound_hint": "Makes the 'duh' sound", "example_word": "dog", "options": ["ball", "cat", "dog", "fish"] },
+        { "letter": "F", "sound_hint": "Makes the 'fff' sound", "example_word": "fish", "options": ["ball", "cat", "dog", "fish"] },
+        { "letter": "G", "sound_hint": "Makes the 'guh' sound", "example_word": "goat", "options": ["goat", "hat", "jar", "kite"] },
+        { "letter": "H", "sound_hint": "Makes the 'huh' sound", "example_word": "hat", "options": ["goat", "hat", "jar", "kite"] },
+        { "letter": "J", "sound_hint": "Makes the 'juh' sound", "example_word": "jar", "options": ["goat", "hat", "jar", "kite"] },
+        { "letter": "K", "sound_hint": "Makes the 'kuh' sound", "example_word": "kite", "options": ["goat", "hat", "jar", "kite"] }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "More Consonants",
+      "description": "Continue learning letter sounds",
+      "items": [
+        { "letter": "L", "sound_hint": "Makes the 'lll' sound", "example_word": "lamp", "options": ["lamp", "moon", "nest", "pen"] },
+        { "letter": "M", "sound_hint": "Makes the 'mmm' sound", "example_word": "moon", "options": ["lamp", "moon", "nest", "pen"] },
+        { "letter": "N", "sound_hint": "Makes the 'nnn' sound", "example_word": "nest", "options": ["lamp", "moon", "nest", "pen"] },
+        { "letter": "P", "sound_hint": "Makes the 'puh' sound", "example_word": "pen", "options": ["lamp", "moon", "nest", "pen"] },
+        { "letter": "R", "sound_hint": "Makes the 'rrr' sound", "example_word": "rain", "options": ["rain", "sun", "top", "van"] },
+        { "letter": "S", "sound_hint": "Makes the 'sss' sound", "example_word": "sun", "options": ["rain", "sun", "top", "van"] },
+        { "letter": "T", "sound_hint": "Makes the 'tuh' sound", "example_word": "top", "options": ["rain", "sun", "top", "van"] },
+        { "letter": "V", "sound_hint": "Makes the 'vvv' sound", "example_word": "van", "options": ["rain", "sun", "top", "van"] }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Vowel Sounds",
+      "description": "The special letters",
+      "items": [
+        { "letter": "A", "sound_hint": "Makes the 'aah' or 'ay' sound", "example_word": "apple", "options": ["apple", "egg", "igloo", "orange"] },
+        { "letter": "E", "sound_hint": "Makes the 'eh' or 'ee' sound", "example_word": "egg", "options": ["apple", "egg", "igloo", "orange"] },
+        { "letter": "I", "sound_hint": "Makes the 'ih' or 'eye' sound", "example_word": "igloo", "options": ["apple", "egg", "igloo", "orange"] },
+        { "letter": "O", "sound_hint": "Makes the 'oh' or 'ah' sound", "example_word": "orange", "options": ["apple", "egg", "igloo", "orange"] },
+        { "letter": "U", "sound_hint": "Makes the 'uh' or 'oo' sound", "example_word": "umbrella", "options": ["umbrella", "yarn", "ant", "bird"] },
+        { "letter": "A", "sound_hint": "Short A as in 'cat'", "example_word": "ant", "options": ["umbrella", "yarn", "ant", "bird"] },
+        { "letter": "E", "sound_hint": "Short E as in 'bed'", "example_word": "bed", "options": ["bed", "cup", "dog", "fan"] },
+        { "letter": "I", "sound_hint": "Short I as in 'pig'", "example_word": "pig", "options": ["bed", "cup", "pig", "sun"] }
+      ]
+    }
+  ]
+}

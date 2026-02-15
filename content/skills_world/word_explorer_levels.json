@@ -1,0 +1,83 @@
+{
+  "activity_id": "word-explorer",
+  "activity_name": "Word Explorer",
+  "description": "Build vocabulary through visual association",
+  "age_guide": "Ages 4-8+",
+  "levels": [
+    {
+      "id": 1,
+      "name": "Everyday Objects",
+      "description": "Things you see around you",
+      "words": [
+        { "word": "apple", "hint": "A red or green fruit", "options": ["apple", "banana", "orange", "grape"] },
+        { "word": "book", "hint": "You read this", "options": ["book", "chair", "table", "door"] },
+        { "word": "sun", "hint": "Bright in the sky", "options": ["moon", "sun", "star", "cloud"] },
+        { "word": "tree", "hint": "Grows from the ground", "options": ["tree", "flower", "grass", "rock"] },
+        { "word": "house", "hint": "Where you live", "options": ["car", "house", "boat", "plane"] },
+        { "word": "ball", "hint": "Round and bouncy", "options": ["ball", "box", "cup", "hat"] },
+        { "word": "cat", "hint": "Says meow", "options": ["dog", "cat", "bird", "fish"] },
+        { "word": "shoe", "hint": "Goes on your foot", "options": ["shoe", "sock", "shirt", "pants"] }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Colors & Shapes",
+      "description": "Describe what you see",
+      "words": [
+        { "word": "blue", "hint": "Color of the sky", "options": ["blue", "red", "green", "yellow"] },
+        { "word": "circle", "hint": "Round like a ball", "options": ["square", "circle", "triangle", "star"] },
+        { "word": "big", "hint": "Not small", "options": ["big", "small", "tiny", "short"] },
+        { "word": "soft", "hint": "Like a pillow", "options": ["hard", "soft", "rough", "sharp"] },
+        { "word": "bright", "hint": "Full of light", "options": ["dark", "bright", "dim", "gray"] },
+        { "word": "square", "hint": "Four equal sides", "options": ["circle", "square", "oval", "heart"] },
+        { "word": "long", "hint": "Not short", "options": ["long", "short", "wide", "thin"] },
+        { "word": "round", "hint": "Like a wheel", "options": ["flat", "round", "pointed", "straight"] }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Actions & Movement",
+      "description": "Words that show doing",
+      "words": [
+        { "word": "run", "hint": "Move fast with legs", "options": ["run", "sit", "sleep", "stand"] },
+        { "word": "jump", "hint": "Feet leave the ground", "options": ["walk", "jump", "crawl", "slide"] },
+        { "word": "read", "hint": "Look at words", "options": ["read", "write", "draw", "paint"] },
+        { "word": "eat", "hint": "Food goes in mouth", "options": ["eat", "drink", "cook", "wash"] },
+        { "word": "sing", "hint": "Make music with voice", "options": ["talk", "sing", "whisper", "shout"] },
+        { "word": "smile", "hint": "Happy face", "options": ["smile", "frown", "laugh", "cry"] },
+        { "word": "climb", "hint": "Go up high", "options": ["climb", "fall", "drop", "throw"] },
+        { "word": "listen", "hint": "Use your ears", "options": ["look", "listen", "taste", "touch"] }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Nature Words",
+      "description": "The world outside",
+      "words": [
+        { "word": "rain", "hint": "Water from clouds", "options": ["rain", "snow", "wind", "fog"] },
+        { "word": "bird", "hint": "Has feathers and flies", "options": ["bird", "fish", "frog", "bee"] },
+        { "word": "flower", "hint": "Pretty and grows", "options": ["leaf", "flower", "root", "seed"] },
+        { "word": "ocean", "hint": "Big body of water", "options": ["lake", "ocean", "river", "pond"] },
+        { "word": "mountain", "hint": "Very tall land", "options": ["hill", "mountain", "valley", "plain"] },
+        { "word": "forest", "hint": "Many trees together", "options": ["field", "forest", "desert", "garden"] },
+        { "word": "butterfly", "hint": "Colorful wings", "options": ["butterfly", "ant", "spider", "worm"] },
+        { "word": "rainbow", "hint": "Colors in the sky after rain", "options": ["sunset", "rainbow", "lightning", "storm"] }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Feelings & Ideas",
+      "description": "Words for what you feel",
+      "words": [
+        { "word": "happy", "hint": "Feeling good", "options": ["happy", "sad", "angry", "scared"] },
+        { "word": "brave", "hint": "Not afraid", "options": ["brave", "shy", "quiet", "loud"] },
+        { "word": "kind", "hint": "Nice to others", "options": ["mean", "kind", "rude", "cold"] },
+        { "word": "curious", "hint": "Wants to know more", "options": ["curious", "bored", "tired", "busy"] },
+        { "word": "calm", "hint": "Peaceful and still", "options": ["nervous", "calm", "excited", "worried"] },
+        { "word": "proud", "hint": "Feeling good about yourself", "options": ["proud", "ashamed", "sorry", "guilty"] },
+        { "word": "thankful", "hint": "Glad for what you have", "options": ["thankful", "greedy", "jealous", "selfish"] },
+        { "word": "creative", "hint": "Full of new ideas", "options": ["boring", "creative", "plain", "simple"] }
+      ]
+    }
+  ]
+}
