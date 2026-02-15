@@ -100,12 +100,15 @@ const SecuritySettings = () => {
         body: JSON.stringify({ phone_number: phone })
       });
       
+      const updateData = await updateRes.json();
+      
       if (updateRes.ok) {
         await refreshUser?.();
         setStep('verified');
       } else {
-        // Fallback - OTP verified but link failed
-        setStep('verified');
+        // Link failed - show specific error
+        const linkError = updateData.detail || 'Failed to link phone';
+        throw new Error(linkError);
       }
     } catch (err) {
       setError(err.message);
