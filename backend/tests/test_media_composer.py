@@ -15,7 +15,7 @@ from PIL import Image
 from io import BytesIO
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://sms-otp-security.preview.emergentagent.com"
+BACKEND_URL = "https://calm-tech-learning.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 class MediaComposerTester:

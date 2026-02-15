@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://sms-otp-security.preview.emergentagent.com/api/auth
+https://calm-tech-learning.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
