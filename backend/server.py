@@ -494,6 +494,10 @@ app.include_router(modules_registry_router)
 from routes.hdos_engine import router as hdos_engine_router
 app.include_router(hdos_engine_router)
 
+# Pins (User Pinning + Pin Boards - Platform-Wide)
+from routes.pins import router as pins_router
+app.include_router(pins_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
