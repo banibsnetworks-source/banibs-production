@@ -68,12 +68,13 @@ class OtpService:
         
         # Generate new OTP
         code = self._generate_code()
+        code_hash = self._hash_code(code, phone_number)
         now = datetime.now(timezone.utc)
         expires_at = self._get_expiry_time()
         
         otp_doc = {
             "phone_number": phone_number,
-            "code": code,
+            "code_hash": code_hash,  # Store hash, not plaintext
             "purpose": purpose,
             "created_at": now.isoformat(),
             "expires_at": expires_at.isoformat(),
