@@ -498,6 +498,10 @@ app.include_router(hdos_engine_router)
 from routes.pins import router as pins_router
 app.include_router(pins_router)
 
+# BGLIS v1.0 - Phone Verification (Voluntary)
+from routes.bglis import router as bglis_router
+app.include_router(bglis_router)
+
 # Mount static files for local uploads
 uploads_dir = Path("/app/backend/uploads")
 uploads_dir.mkdir(exist_ok=True)
