@@ -16,6 +16,49 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 
 ## Recent Updates (February 15, 2026 - Session 7)
 
+### ✅ User Pinning + Pin Boards (COMPLETED - P1)
+Platform-wide, user-owned, private-by-default pinning system.
+
+**Features:**
+- Users can "Pin" any supported content (Frames, Listings, News, HDOS analyses, etc.)
+- Users organize pins into "Boards" (private by default)
+- Pins are user-owned, portable, and non-extractive
+- No rankings, no gamification, no urgency loops
+- Default "Saved" board auto-created for each user
+
+**Backend API:**
+- `GET /api/pins/boards` - List boards (auto-creates default)
+- `POST /api/pins/boards` - Create new board
+- `PATCH /api/pins/boards/:id` - Update board name/description
+- `DELETE /api/pins/boards/:id` - Delete board (with move_pins_to_default option)
+- `POST /api/pins` - Pin content (idempotent per board)
+- `GET /api/pins` - List pins with filters (board_id, content_type, search)
+- `DELETE /api/pins/:id` - Delete pin
+- `POST /api/pins/move` - Move pin to different board
+- `GET /api/pins/check/:type/:id` - Check pin status for content
+
+**Frontend:**
+- `/pins` - Pins home page with boards list (left) and pins grid (right)
+- `PinButton` component - Reusable, placed on Frame detail, Listing detail
+- Board selector modal - Quick-pin to existing boards or create new
+
+**Files Created:**
+- `/app/backend/routes/pins.py` - Full pins API
+- `/app/frontend/src/pages/pins/PinsHomePage.jsx` - Pins home page
+- `/app/frontend/src/components/pins/PinButton.jsx` - Reusable pin button
+
+**Files Modified:**
+- `/app/frontend/src/pages/socialworld/FramesPage.jsx` - Added PinButton to Frame detail modal
+- `/app/frontend/src/pages/socialworld/local-exchange/ListingDetailPage.jsx` - Added PinButton
+
+**Database Collections:**
+- `pin_boards` - User boards with name, description, visibility, pin_count
+- `pins` - User pins with board_id, content_type, content_id, content_snapshot
+
+**Testing:** 100% pass rate (20/20 backend tests, all UI features verified)
+
+---
+
 ### ✅ HDOS Engine v1 - Exit-Safe Routing Classifier (COMPLETED)
 Deterministic structural visibility tool for the Human Defense Operating System.
 
