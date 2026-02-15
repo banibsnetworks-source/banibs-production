@@ -135,7 +135,7 @@ async def link_phone(
 
 @router.patch("/remove-phone")
 async def remove_phone(
-    authorization: str = None,
+    authorization: Optional[str] = Header(None),
     db: AsyncIOMotorDatabase = Depends(get_db)
 ):
     """
