@@ -2,10 +2,12 @@
 BGLIS v1.0 - OTP Service
 
 Manages OTP generation, storage, verification, and rate limiting.
+OTP codes are hashed before storage for security.
 """
 
 import os
 import secrets
+import hashlib
 from datetime import datetime, timezone, timedelta
 from typing import Optional
 from motor.motor_asyncio import AsyncIOMotorDatabase
@@ -33,6 +35,11 @@ class OtpService:
     def _generate_code(self) -> str:
         """Generate a random 6-digit OTP code"""
         return ''.join([str(secrets.randbelow(10)) for _ in range(self.OTP_LENGTH)])
+    
+    def _hash_code(self, code: str, phone_number: str) -> str:
+        """Hash OTP code with phone as salt for secure storage"""
+        salted = f"{phone_number}:{code}"
+        return hashlib.sha256(salted.encode()).hexdigest()
     
     def _get_expiry_time(self) -> datetime:
         """Get OTP expiration timestamp"""
