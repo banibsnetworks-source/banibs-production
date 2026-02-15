@@ -176,7 +176,7 @@ async def remove_phone(
 
 @router.get("/status", response_model=PhoneStatusResponse)
 async def get_phone_status(
-    authorization: str = None,
+    authorization: Optional[str] = Header(None),
     db: AsyncIOMotorDatabase = Depends(get_db)
 ):
     """
