@@ -154,7 +154,7 @@ class OtpService:
                 error="TOO_MANY_ATTEMPTS"
             )
         
-        # Dev bypass check
+        # Dev bypass check (before hash comparison)
         if self.dev_bypass_enabled and code == "111111":
             # Mark as used and return success
             await self.otp_collection.update_one(
@@ -163,8 +163,15 @@ class OtpService:
             )
             return OtpVerificationResult(success=True)
         
-        # Verify code
-        if code != otp_doc["code"]:
+        # Verify code via hash comparison
+        code_hash = self._hash_code(code, phone_number)
+        stored_hash = otp_doc.get("code_hash") or otp_doc.get("code")  # Backward compat
+        
+        # If stored as plaintext (legacy), compare directly; else compare hashes
+        is_legacy = "code" in otp_doc and "code_hash" not in otp_doc
+        code_matches = (code == stored_hash) if is_legacy else (code_hash == stored_hash)
+        
+        if not code_matches:
             # Increment attempts
             new_attempts = otp_doc["attempts"] + 1
             await self.otp_collection.update_one(
