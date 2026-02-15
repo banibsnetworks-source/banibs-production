@@ -567,31 +567,45 @@ const FrameDetailModal = ({
             </div>
           )}
 
-          {/* Actions - Copy link only (no likes/comments) */}
+          {/* Actions - Copy link + Pin */}
           <div 
             className="p-4 border-t"
             style={{ borderColor: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)' }}
           >
-            <button
-              onClick={handleCopyLink}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium transition-colors"
-              style={{
-                backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
-                color: copied ? 'rgb(34, 197, 94)' : (isDark ? '#fff' : '#111')
-              }}
-            >
-              {copied ? (
-                <>
-                  <Check size={18} />
-                  Link copied
-                </>
-              ) : (
-                <>
-                  <Link2 size={18} />
-                  Copy link
-                </>
-              )}
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={handleCopyLink}
+                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium transition-colors"
+                style={{
+                  backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                  color: copied ? 'rgb(34, 197, 94)' : (isDark ? '#fff' : '#111')
+                }}
+              >
+                {copied ? (
+                  <>
+                    <Check size={18} />
+                    Copied
+                  </>
+                ) : (
+                  <>
+                    <Link2 size={18} />
+                    Copy link
+                  </>
+                )}
+              </button>
+              <PinButton
+                contentType="frame"
+                contentId={frame.id}
+                snapshot={{
+                  title: frame.caption || 'Frame',
+                  subtitle: frame.creator_name,
+                  image_url: frame.image_url,
+                  route: `/socialworld/frames/${frame.id}`
+                }}
+                size="lg"
+                className="px-4"
+              />
+            </div>
           </div>
         </div>
       </div>
