@@ -70,11 +70,14 @@ const SecuritySettings = () => {
     setError('');
     
     try {
-      const res = await fetch(`${API}/api/auth/verify-otp`, {
+      const token = localStorage.getItem('access_token');
+      
+      // Step 1: Verify OTP
+      const verifyRes = await fetch(`${API}/api/auth/verify-otp`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ 
           phone_number: phone,
@@ -83,33 +86,40 @@ const SecuritySettings = () => {
         })
       });
       
-      const data = await res.json();
+      const verifyData = await verifyRes.json();
       
-      if (!res.ok) {
-        const errorMsg = data.detail?.error || data.detail || 'Invalid code';
+      if (!verifyRes.ok) {
+        const errorMsg = verifyData.detail?.error || verifyData.detail || 'Invalid code';
         throw new Error(errorMsg);
       }
       
-      // Update user's phone verification status
-      const updateRes = await fetch(`${API}/api/bglis/link-phone`, {
+      // Step 2: Link phone to account
+      const linkRes = await fetch(`${API}/api/bglis/link-phone`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ phone_number: phone })
       });
       
-      const updateData = await updateRes.json();
+      const linkData = await linkRes.json();
       
-      if (updateRes.ok) {
-        await refreshUser?.();
-        setStep('verified');
-      } else {
-        // Link failed - show specific error
-        const linkError = updateData.detail || 'Failed to link phone';
+      if (!linkRes.ok) {
+        const linkError = linkData.detail || 'Failed to link phone';
         throw new Error(linkError);
       }
+      
+      // Success - update local user state if refreshUser is available
+      if (refreshUser) {
+        try {
+          await refreshUser();
+        } catch (refreshErr) {
+          console.warn('Failed to refresh user state, but phone was linked:', refreshErr);
+        }
+      }
+      
+      setStep('verified');
     } catch (err) {
       setError(err.message);
     } finally {
