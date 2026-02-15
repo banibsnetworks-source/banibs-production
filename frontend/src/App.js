@@ -320,6 +320,11 @@ import ListingDetailPage from "./pages/socialworld/local-exchange/ListingDetailP
 // Frames - Social World Visual Storytelling v0.1
 import CreateFramePage from "./pages/socialworld/CreateFramePage";
 
+// HDOS Engine v1 - Exit-Safe Routing Classifier
+import HDOSEnginePage from "./pages/hdos/HDOSEnginePage";
+import HDOSGlossaryPage from "./pages/hdos/HDOSGlossaryPage";
+import HDOSAmendmentsPage from "./pages/hdos/HDOSAmendmentsPage";
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
