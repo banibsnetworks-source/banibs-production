@@ -8,6 +8,7 @@ import {
   AlertCircle, Check, X, MoreHorizontal, Clock
 } from 'lucide-react';
 import FullWidthLayout from '../../../components/layouts/FullWidthLayout';
+import PinButton from '../../../components/pins/PinButton';
 
 /**
  * Listing Detail Page - Local Exchange
