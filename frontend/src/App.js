@@ -843,6 +843,9 @@ function App() {
               <Route path="/hdos/glossary" element={<HDOSGlossaryPage />} />
               <Route path="/hdos/amendments" element={<HDOSAmendmentsPage />} />
               
+              {/* Pins - User Pinning + Pin Boards */}
+              <Route path="/pins" element={<PinsHomePage />} />
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages (removed duplicates) */}
             </Routes>
                   </AccountModeProvider>
