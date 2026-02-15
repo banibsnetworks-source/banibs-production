@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://visualstory-49.preview.emergentagent.com/api/auth
+https://hdos-analyze.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented

@@ -27,7 +27,7 @@ export default defineConfig({
   // Shared settings for all the projects below
   use: {
     // Base URL for tests - using the preview environment
-    baseURL: 'https://visualstory-49.preview.emergentagent.com',
+    baseURL: 'https://hdos-analyze.preview.emergentagent.com',
     
     // Browser context options
     trace: 'retain-on-failure',

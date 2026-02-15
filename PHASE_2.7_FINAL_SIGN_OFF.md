@@ -46,8 +46,8 @@
 | `/api/opportunities/{id}/feature` | PATCH | ✅ 200 | ✅ Yes |
 
 **Total Endpoints:** 8/8 Active ✅  
-**Swagger UI:** https://visualstory-49.preview.emergentagent.com/docs ✅  
-**ReDoc:** https://visualstory-49.preview.emergentagent.com/redoc ✅
+**Swagger UI:** https://hdos-analyze.preview.emergentagent.com/docs ✅  
+**ReDoc:** https://hdos-analyze.preview.emergentagent.com/redoc ✅
 
 ---
 
@@ -84,7 +84,7 @@ def check_admin(x_api_key: str = Header(None)):
 
 **Frontend Environment:**
 ```env
-REACT_APP_BACKEND_URL=https://visualstory-49.preview.emergentagent.com
+REACT_APP_BACKEND_URL=https://hdos-analyze.preview.emergentagent.com
 ```
 
 **Status:** ✅ Frontend is pointed at the live backend
