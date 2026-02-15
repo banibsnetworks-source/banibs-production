@@ -9,7 +9,7 @@ Endpoints for opt-in phone verification to strengthen user identity.
 This is VOLUNTARY - not required for using BANIBS.
 """
 
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Header
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from datetime import datetime, timezone
 from pydantic import BaseModel, Field
