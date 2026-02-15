@@ -239,11 +239,15 @@
       "frontend_routes": [
         "/skillsworld",
         "/skillsworld/math",
-        "/skillsworld/math/number-paths"
+        "/skillsworld/math/number-paths",
+        "/skillsworld/reading",
+        "/skillsworld/reading/word-explorer",
+        "/skillsworld/reading/story-paths",
+        "/skillsworld/reading/letter-sounds"
       ],
       "api_routes": [],
       "db_collections": [],
-      "last_updated": "2026-02-09",
+      "last_updated": "2026-02-15",
       "notes": "Learning activities - guest-first, calm tech, no ads/monetization/urgency"
     },
     {
@@ -259,6 +263,23 @@
       "db_collections": [],
       "last_updated": "2026-02-09",
       "notes": "Interactive math activity - 5 levels, no timers, gentle feedback"
+    },
+    {
+      "id": "reading_words",
+      "display_name": "Reading & Words",
+      "world": "Skills World",
+      "category": "reading_language",
+      "status": "active",
+      "frontend_routes": [
+        "/skillsworld/reading",
+        "/skillsworld/reading/word-explorer",
+        "/skillsworld/reading/story-paths",
+        "/skillsworld/reading/letter-sounds"
+      ],
+      "api_routes": [],
+      "db_collections": [],
+      "last_updated": "2026-02-15",
+      "notes": "Language and reading activities - 3 activities (Word Explorer, Story Paths, Letter Sounds), JSON-driven content, no audio in v1.0"
     },
     {
       "id": "prayer_rooms",
