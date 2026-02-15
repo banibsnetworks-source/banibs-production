@@ -5,7 +5,7 @@ import { useTheme } from '../../../contexts/ThemeContext';
 import { ArrowLeft, RotateCcw, ChevronRight, Check, Lightbulb } from 'lucide-react';
 
 // Import content from JSON
-import wordExplorerData from '../../../../content/skills_world/word_explorer_levels.json';
+import wordExplorerData from '../../../data/skills_world/word_explorer_levels.json';
 
 /**
  * Word Explorer - Reading & Words Activity

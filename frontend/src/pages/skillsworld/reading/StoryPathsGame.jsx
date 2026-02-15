@@ -5,7 +5,7 @@ import { useTheme } from '../../../contexts/ThemeContext';
 import { ArrowLeft, RotateCcw, ChevronRight, Check, BookOpen } from 'lucide-react';
 
 // Import content from JSON
-import storyPathsData from '../../../../content/skills_world/story_paths_levels.json';
+import storyPathsData from '../../../data/skills_world/story_paths_levels.json';
 
 /**
  * Story Paths - Reading & Words Activity

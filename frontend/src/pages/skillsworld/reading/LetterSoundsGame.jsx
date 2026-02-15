@@ -5,7 +5,7 @@ import { useTheme } from '../../../contexts/ThemeContext';
 import { ArrowLeft, RotateCcw, ChevronRight, Check, Volume2 } from 'lucide-react';
 
 // Import content from JSON
-import letterSoundsData from '../../../../content/skills_world/letter_sounds_levels.json';
+import letterSoundsData from '../../../data/skills_world/letter_sounds_levels.json';
 
 /**
  * Letter Sounds - Reading & Words Activity
