@@ -295,20 +295,35 @@ async def get_conversation_previews(
         # Get other user info (optional, for display)
         other_user = await users_collection.find_one(
             {"id": other_user_id},
-            {"_id": 0, "id": 1, "name": 1, "displayName": 1, "avatar_url": 1, "profile_picture_url": 1}
+            {"_id": 0, "id": 1, "name": 1, "displayName": 1, "avatar_url": 1, "profile_picture_url": 1, "is_phone_verified": 1}
         )
         
         other_user_name = None
         other_user_avatar = None
+        other_user_phone_verified = False
         if other_user:
             other_user_name = other_user.get("displayName") or other_user.get("name")
             other_user_avatar = other_user.get("profile_picture_url") or other_user.get("avatar_url")
+            other_user_phone_verified = other_user.get("is_phone_verified", False)
+        
+        # Also check banibs_users collection if not found in users
+        if not other_user:
+            banibs_users = db["banibs_users"]
+            other_user = await banibs_users.find_one(
+                {"id": other_user_id},
+                {"_id": 0, "id": 1, "name": 1, "avatar_url": 1, "is_phone_verified": 1}
+            )
+            if other_user:
+                other_user_name = other_user.get("name")
+                other_user_avatar = other_user.get("avatar_url")
+                other_user_phone_verified = other_user.get("is_phone_verified", False)
         
         previews.append(ConversationPreview(
             conversationKey=conversation_key,
             otherUserId=other_user_id,
             otherUserName=other_user_name,
             otherUserAvatar=other_user_avatar,
+            otherUserPhoneVerified=other_user_phone_verified,
             lastMessageText=last_msg["messageText"],
             lastSenderId=last_msg["senderId"],
             lastTimestamp=last_msg["timestamp"],
