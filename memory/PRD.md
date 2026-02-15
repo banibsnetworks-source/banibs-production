@@ -14,7 +14,80 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 
 ---
 
-## Recent Updates (February 10, 2026 - Session 6)
+## Recent Updates (February 15, 2026 - Session 7)
+
+### ✅ HDOS Engine v1 - Exit-Safe Routing Classifier (COMPLETED)
+Deterministic structural visibility tool for the Human Defense Operating System.
+
+**Constitutional Lock:**
+- HDOS Engine is a STRUCTURAL VISIBILITY TOOL only
+- NEVER prescribes actions, predicts behavior, enforces compliance, or inspects inner states
+- MAY classify STRUCTURE/CONFIGURATION (environment + sequence)
+- MAY map pressure vectors and exit status
+- MAY output confidence based ONLY on field completeness
+
+**Routing States (EXIT-SAFE Model):**
+- `EXIT-PRESERVED` - Exits open (exit_integrity > 55)
+- `EXIT-THREATENED` - Exits narrowing (exit_integrity 26-55)
+- `EXIT-SEALED` - Exits blocked (exit_integrity ≤ 25 OR exit_paths='no')
+- `UNDETERMINED` - Insufficient data (confidence LOW)
+
+**Input Schema (8 Required Fields):**
+- `context_type`: personal | work | institution | public
+- `public_exposure`: boolean
+- `power_asymmetry`: none | low | med | high
+- `urgency_level`: none | low | med | high
+- `moral_loading`: none | low | med | high
+- `refusal_cost`: none | low | med | high
+- `exit_paths_available`: yes | partial | no | unknown
+- `force_level`: none | verbal | social | physical | weapon
+- `escalation_sequence`: optional array
+- `notes`: optional free text
+
+**Output Contract (JSON):**
+- `routing.state` - Classification result
+- `confidence` - HIGH | MEDIUM | LOW (based on completion ratio)
+- `pressure_breakdown` - Array of pressure vectors with triggers/amplifiers
+- `collapse_path` - Descriptive sequence (no predictions)
+- `warnings` - Structural warning flags
+- `guardrails_footer` - Fixed non-prescriptive text
+- `dog_config_present` - Geometry-only flag (when SEALED/THREATENED AND pressure >= 60)
+- `pressure_index`, `exit_integrity_index`, `escalation_index` - Transparency scores
+
+**Scoring Logic (Deterministic):**
+- PRESSURE_INDEX = urgency + moral + public + power + refusal_cost (clamped 0-100)
+- ESCALATION_INDEX = force_level + modifiers
+- EXIT_INTEGRITY_INDEX = baseline - 0.35*PRESSURE - 0.25*ESCALATION
+
+**Backend API:**
+- `POST /api/hdos/analyze` - Analyze scenario (auth optional, saves for logged-in users)
+- `GET /api/hdos/glossary` - 13 canonical terms
+- `GET /api/hdos/amendments` - 8 ratified amendments
+- `GET /api/hdos/version` - Version info (v1.2.0, EXIT-SAFE model)
+- `GET /api/hdos/analyses` - User's saved analyses (auth required)
+- `DELETE /api/hdos/analyses/:id` - Delete analysis (auth required)
+
+**Frontend Pages:**
+- `/hdos/engine` - Main analysis form with result display
+- `/hdos/glossary` - Searchable glossary of HDOS terms
+- `/hdos/amendments` - List of all 8 ratified amendments
+
+**Files Created/Modified:**
+- `/app/backend/routes/hdos_engine.py` - Complete deterministic rules engine
+- `/app/frontend/src/pages/hdos/HDOSEnginePage.jsx` - Analysis form UI
+- `/app/frontend/src/pages/hdos/HDOSGlossaryPage.jsx` - Glossary page
+- `/app/frontend/src/pages/hdos/HDOSAmendmentsPage.jsx` - Amendments page
+- `/app/frontend/src/App.js` - Routes added
+- `/app/backend/server.py` - Router registered
+
+**Database Collection:**
+- `hdos_analyses` - Private storage for user analyses
+
+**Testing:** 100% pass rate (28/28 backend tests, all UI features verified)
+
+---
+
+## Previous Updates (February 10, 2026 - Session 6)
 
 ### ✅ Local Exchange → ChatSphere Integration (COMPLETED)
 Proper integration between Local Exchange and ChatSphere for contextual seller messaging.
