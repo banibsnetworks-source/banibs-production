@@ -835,6 +835,11 @@ function App() {
               {/* CCRAM - CCR Anchor Module (Standalone) */}
               <Route path="/ccram" element={<CCRAMPage />} />
               
+              {/* HDOS Engine v1 - Exit-Safe Routing Classifier */}
+              <Route path="/hdos/engine" element={<HDOSEnginePage />} />
+              <Route path="/hdos/glossary" element={<HDOSGlossaryPage />} />
+              <Route path="/hdos/amendments" element={<HDOSAmendmentsPage />} />
+              
               {/* Phase 11+ Portal Routes - Placeholder Pages (removed duplicates) */}
             </Routes>
                   </AccountModeProvider>
