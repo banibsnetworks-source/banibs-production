@@ -1,11 +1,14 @@
 """
-HDOS Engine v1 - Deterministic Routing Classifier
+HDOS Engine v1 - Deterministic Exit-Safe Routing Classifier
 BANIBS Human Defense Operating System
 
-Classifies scenarios into DOG/GOD/MIXED/UNDETERMINED based on
-structured input fields using pure scoring + thresholds.
+CONSTITUTIONAL LOCK:
+- HDOS Engine is a STRUCTURAL VISIBILITY TOOL
+- It NEVER prescribes actions, predicts behavior, enforces compliance, or inspects inner states
+- It MAY classify STRUCTURE/CONFIGURATION, map pressure vectors, and output confidence
 
-No LLM needed. No prescriptions. Classification only.
+OUTPUT CONTRACT: routing.state + confidence + pressure_breakdown + collapse_path + warnings
+CLASSIFICATION: EXIT-PRESERVED | EXIT-THREATENED | EXIT-SEALED | UNDETERMINED
 """
 
 from fastapi import APIRouter, HTTPException, Depends
@@ -34,330 +37,422 @@ from middleware.auth_guard import get_current_user, get_current_user_optional
 HDOS_VERSION = "1.2.0"
 
 # =============================================================================
-# MODELS
+# MODELS - Per Constitutional Specification
 # =============================================================================
 
-class IdentityStake(BaseModel):
-    level: Literal["none", "low", "med", "high"]
-    description: Optional[str] = None
-
-class PowerAsymmetry(BaseModel):
-    present: bool
-    type: Optional[str] = None  # e.g., "employer/employee", "parent/child", "state/citizen"
-
-class EscalationStep(BaseModel):
-    step_number: int
-    description: str
-    force_level: Optional[str] = None
-
 class HDOSAnalysisInput(BaseModel):
-    scenario_summary: Optional[str] = Field(None, max_length=2000)
-    context_type: Literal["relationship", "work", "public", "other"]
+    """
+    INPUT SCHEMA (STRUCTURED FORM)
+    Required fields minimum for anything other than UNDETERMINED
+    """
+    # Required fields
+    context_type: Literal["personal", "work", "institution", "public"]
     public_exposure: bool
-    identity_stake: IdentityStake
-    power_asymmetry: PowerAsymmetry
+    power_asymmetry: Literal["none", "low", "med", "high"]
     urgency_level: Literal["none", "low", "med", "high"]
+    moral_loading: Literal["none", "low", "med", "high"]
+    refusal_cost: Literal["none", "low", "med", "high"]
+    exit_paths_available: Literal["yes", "partial", "no", "unknown"]
     force_level: Literal["none", "verbal", "social", "physical", "weapon"]
-    escalation_sequence: List[EscalationStep] = []
-    prior_pattern: Literal["first", "repeat", "unknown"]
+    
+    # Optional fields
+    escalation_sequence: Optional[List[str]] = []
+    notes: Optional[str] = Field(None, max_length=500)
+
 
 class PressureVector(BaseModel):
     vector: str
     trigger: str
     amplifiers: List[str]
-    signals: List[str]
-    magnitude: Literal["low", "medium", "high", "critical"]
+    observable_signals: List[str]
+    magnitude: Literal["Low", "Medium", "High"]
+
+
+class RoutingState(BaseModel):
+    state: Literal["EXIT-PRESERVED", "EXIT-THREATENED", "EXIT-SEALED", "UNDETERMINED"]
+
 
 class HDOSAnalysisOutput(BaseModel):
-    routing_classification: Literal["DOG", "GOD", "MIXED", "UNDETERMINED"]
-    confidence: Literal["High", "Medium", "Low"]
+    routing: RoutingState
+    confidence: Literal["HIGH", "MEDIUM", "LOW"]
     pressure_breakdown: List[PressureVector]
     collapse_path: str
+    warnings: List[str]
     guardrails_footer: str
     hdos_version: str
-    missing_fields: List[str] = []
-    analysis_notes: List[str] = []
+    # Optional geometry-only DOG reference (not identity)
+    dog_config_present: Optional[bool] = None
+    # Indices for transparency
+    pressure_index: int
+    exit_integrity_index: int
+    escalation_index: int
 
-class SavedAnalysis(BaseModel):
-    id: str
-    input_data: dict
-    output_data: dict
-    created_at: str
-    hdos_version: str
 
 # =============================================================================
-# DETERMINISTIC RULES ENGINE
+# DETERMINISTIC RULES ENGINE (NO LLM)
 # =============================================================================
 
-def calculate_field_completeness(input_data: HDOSAnalysisInput) -> tuple[float, List[str]]:
-    """Calculate how complete the input is and list missing fields."""
-    missing = []
-    total_fields = 9
+# Scoring maps per specification
+URGENCY_SCORES = {"none": 0, "low": 10, "med": 25, "high": 40}
+MORAL_LOADING_SCORES = {"none": 0, "low": 10, "med": 25, "high": 40}
+POWER_ASYMMETRY_SCORES = {"none": 0, "low": 10, "med": 25, "high": 40}
+REFUSAL_COST_SCORES = {"none": 0, "low": 15, "med": 35, "high": 60}
+FORCE_LEVEL_SCORES = {"none": 0, "verbal": 10, "social": 20, "physical": 45, "weapon": 80}
+EXIT_BASELINE = {"yes": 100, "partial": 60, "no": 20, "unknown": 50}
+
+
+def clamp(value: int, min_val: int = 0, max_val: int = 100) -> int:
+    """Clamp value to range [min_val, max_val]"""
+    return max(min_val, min(max_val, value))
+
+
+def calculate_completion_ratio(input_data: HDOSAnalysisInput) -> float:
+    """
+    CONFIDENCE RULE (NO GUESSING)
+    completion_ratio = filled_required / total_required
+    """
+    total_required = 8  # All required fields
     filled = 0
     
-    # Check each field
-    if input_data.scenario_summary and len(input_data.scenario_summary.strip()) > 10:
-        filled += 1
-    else:
-        missing.append("scenario_summary (detailed description)")
-    
+    # All required fields are present by Pydantic validation
+    # But we check for "meaningful" values vs defaults
     if input_data.context_type:
         filled += 1
-    
     if input_data.public_exposure is not None:
         filled += 1
-    
-    if input_data.identity_stake.level != "none" or input_data.identity_stake.description:
-        filled += 1
-    else:
-        missing.append("identity_stake (what's at risk for identity)")
-    
-    if input_data.power_asymmetry.present and input_data.power_asymmetry.type:
-        filled += 1
-    elif not input_data.power_asymmetry.present:
-        filled += 1
-    else:
-        missing.append("power_asymmetry.type (specify the power relationship)")
-    
+    if input_data.power_asymmetry != "none" or input_data.power_asymmetry == "none":
+        filled += 1  # Any explicit choice counts
     if input_data.urgency_level:
         filled += 1
-    
+    if input_data.moral_loading:
+        filled += 1
+    if input_data.refusal_cost:
+        filled += 1
+    if input_data.exit_paths_available:
+        filled += 1
     if input_data.force_level:
         filled += 1
     
-    if len(input_data.escalation_sequence) > 0:
-        filled += 1
-    else:
-        missing.append("escalation_sequence (steps that led to current state)")
-    
-    if input_data.prior_pattern != "unknown":
-        filled += 1
-    else:
-        missing.append("prior_pattern (is this first occurrence or repeat)")
-    
-    completeness = filled / total_fields
-    return completeness, missing
+    return filled / total_required
 
 
-def calculate_pressure_score(input_data: HDOSAnalysisInput) -> dict:
-    """Calculate pressure scores across dimensions."""
-    scores = {
-        "coercion": 0,
-        "social": 0,
-        "identity": 0,
-        "temporal": 0,
-        "escalation": 0
-    }
-    
-    # Coercion score (based on force level)
-    force_scores = {"none": 0, "verbal": 2, "social": 4, "physical": 7, "weapon": 10}
-    scores["coercion"] = force_scores.get(input_data.force_level, 0)
-    
-    # Social pressure score
-    if input_data.public_exposure:
-        scores["social"] += 4
-    if input_data.context_type == "work":
-        scores["social"] += 2
-    if input_data.context_type == "public":
-        scores["social"] += 3
-    
-    # Identity stake score
-    identity_scores = {"none": 0, "low": 2, "med": 5, "high": 8}
-    scores["identity"] = identity_scores.get(input_data.identity_stake.level, 0)
-    
-    # Temporal pressure score
-    urgency_scores = {"none": 0, "low": 2, "med": 5, "high": 8}
-    scores["temporal"] = urgency_scores.get(input_data.urgency_level, 0)
-    
-    # Escalation score
-    if len(input_data.escalation_sequence) >= 3:
-        scores["escalation"] = 6
-    elif len(input_data.escalation_sequence) >= 1:
-        scores["escalation"] = 3
-    
-    if input_data.prior_pattern == "repeat":
-        scores["escalation"] += 4
-    
-    return scores
-
-
-def determine_routing(scores: dict, input_data: HDOSAnalysisInput) -> str:
+def determine_confidence(completion_ratio: float) -> str:
     """
-    Determine DOG/GOD/MIXED routing based on pressure scores.
-    
-    DOG (Dismiss, Obstruct, Gaslight): High coercion + identity pressure
-    GOD (Guilt, Overwhelm, Demand): High social + temporal pressure
-    MIXED: Both patterns present
-    UNDETERMINED: Insufficient signal
+    >= 0.85 -> HIGH
+    0.60-0.84 -> MEDIUM
+    < 0.60 -> LOW + routing.state="UNDETERMINED"
     """
-    total_score = sum(scores.values())
-    
-    # DOG indicators: coercion + identity + escalation
-    dog_score = scores["coercion"] + scores["identity"] + scores["escalation"]
-    
-    # GOD indicators: social + temporal + identity
-    god_score = scores["social"] + scores["temporal"] + scores["identity"]
-    
-    # Power asymmetry amplifies both
-    if input_data.power_asymmetry.present:
-        dog_score += 3
-        god_score += 2
-    
-    # Thresholds
-    DOG_THRESHOLD = 12
-    GOD_THRESHOLD = 10
-    
-    is_dog = dog_score >= DOG_THRESHOLD
-    is_god = god_score >= GOD_THRESHOLD
-    
-    if is_dog and is_god:
-        return "MIXED"
-    elif is_dog:
-        return "DOG"
-    elif is_god:
-        return "GOD"
+    if completion_ratio >= 0.85:
+        return "HIGH"
+    elif completion_ratio >= 0.60:
+        return "MEDIUM"
     else:
+        return "LOW"
+
+
+def calculate_indices(input_data: HDOSAnalysisInput) -> tuple:
+    """
+    Compute three structural indices (0-100):
+    A) PRESSURE_INDEX
+    B) EXIT_INTEGRITY_INDEX
+    C) ESCALATION_INDEX
+    """
+    # PRESSURE_INDEX = clamp(urgency + moral + public + power + refusal_cost, 0..100)
+    urgency_pts = URGENCY_SCORES.get(input_data.urgency_level, 0)
+    moral_pts = MORAL_LOADING_SCORES.get(input_data.moral_loading, 0)
+    public_pts = 20 if input_data.public_exposure else 0
+    power_pts = POWER_ASYMMETRY_SCORES.get(input_data.power_asymmetry, 0)
+    refusal_pts = REFUSAL_COST_SCORES.get(input_data.refusal_cost, 0)
+    
+    pressure_index = clamp(urgency_pts + moral_pts + public_pts + power_pts + refusal_pts)
+    
+    # ESCALATION_INDEX = clamp(force_level_points + (public_exposure?10:0) + (refusal_cost>=med?10:0), 0..100)
+    force_pts = FORCE_LEVEL_SCORES.get(input_data.force_level, 0)
+    escalation_public = 10 if input_data.public_exposure else 0
+    escalation_refusal = 10 if input_data.refusal_cost in ["med", "high"] else 0
+    
+    escalation_index = clamp(force_pts + escalation_public + escalation_refusal)
+    
+    # EXIT_INTEGRITY_INDEX = baseline_exit
+    # Then subtract structural compression:
+    # EXIT_INTEGRITY_INDEX -= round(0.35*PRESSURE_INDEX)
+    # EXIT_INTEGRITY_INDEX -= round(0.25*ESCALATION_INDEX)
+    exit_baseline = EXIT_BASELINE.get(input_data.exit_paths_available, 50)
+    exit_integrity_index = exit_baseline
+    exit_integrity_index -= round(0.35 * pressure_index)
+    exit_integrity_index -= round(0.25 * escalation_index)
+    exit_integrity_index = clamp(exit_integrity_index)
+    
+    return pressure_index, exit_integrity_index, escalation_index
+
+
+def determine_routing_state(
+    confidence: str,
+    exit_paths: str,
+    exit_integrity_index: int
+) -> str:
+    """
+    CLASSIFICATION (ROUTING.STATE)
+    - if confidence LOW -> UNDETERMINED
+    - else if exit_paths_available == "no" OR EXIT_INTEGRITY_INDEX <= 25 -> EXIT-SEALED
+    - else if EXIT_INTEGRITY_INDEX <= 55 -> EXIT-THREATENED
+    - else -> EXIT-PRESERVED
+    """
+    if confidence == "LOW":
         return "UNDETERMINED"
+    
+    if exit_paths == "no" or exit_integrity_index <= 25:
+        return "EXIT-SEALED"
+    elif exit_integrity_index <= 55:
+        return "EXIT-THREATENED"
+    else:
+        return "EXIT-PRESERVED"
 
 
-def build_pressure_vectors(scores: dict, input_data: HDOSAnalysisInput) -> List[PressureVector]:
-    """Build detailed pressure breakdown."""
+def determine_dog_config_present(routing_state: str, pressure_index: int) -> bool:
+    """
+    DOG_CONFIG_PRESENT (GEOMETRY ONLY)
+    DOG_CONFIG_PRESENT = true if routing.state in {EXIT-SEALED, EXIT-THREATENED} AND PRESSURE_INDEX >= 60
+    """
+    return routing_state in ["EXIT-SEALED", "EXIT-THREATENED"] and pressure_index >= 60
+
+
+def magnitude_from_level(level: str) -> str:
+    """Map none/low/med/high to Low/Medium/High"""
+    if level in ["none", "low"]:
+        return "Low"
+    elif level == "med":
+        return "Medium"
+    else:
+        return "High"
+
+
+def build_pressure_breakdown(input_data: HDOSAnalysisInput) -> List[PressureVector]:
+    """
+    PRESSURE BREAKDOWN (DETERMINISTIC MAPPING)
+    Always populate from fields only (no psych inference)
+    """
     vectors = []
     
-    # Coercion vector
-    if scores["coercion"] > 0:
-        magnitude = "low" if scores["coercion"] <= 2 else "medium" if scores["coercion"] <= 5 else "high" if scores["coercion"] <= 8 else "critical"
-        amplifiers = []
-        if input_data.power_asymmetry.present:
-            amplifiers.append(f"Power asymmetry: {input_data.power_asymmetry.type or 'unspecified'}")
-        if input_data.prior_pattern == "repeat":
-            amplifiers.append("Repeat pattern")
-        
-        vectors.append(PressureVector(
-            vector="Coercion",
-            trigger=f"Force level: {input_data.force_level}",
-            amplifiers=amplifiers,
-            signals=["Direct pressure applied", "Compliance demanded"],
-            magnitude=magnitude
-        ))
-    
-    # Social pressure vector
-    if scores["social"] > 0:
-        magnitude = "low" if scores["social"] <= 3 else "medium" if scores["social"] <= 5 else "high"
+    # URGENCY vector
+    if input_data.urgency_level != "none":
         amplifiers = []
         if input_data.public_exposure:
-            amplifiers.append("Public visibility")
-        if input_data.context_type in ["work", "public"]:
-            amplifiers.append(f"Context: {input_data.context_type}")
+            amplifiers.append("public exposure")
+        if input_data.refusal_cost in ["med", "high"]:
+            amplifiers.append("high refusal cost")
         
         vectors.append(PressureVector(
-            vector="Social",
-            trigger="Reputation/standing at stake",
+            vector="URGENCY",
+            trigger=f"urgency_level: {input_data.urgency_level}",
             amplifiers=amplifiers,
-            signals=["Social cost imposed", "Community visibility"],
-            magnitude=magnitude
+            observable_signals=["time pressure applied", "deadline imposed"],
+            magnitude=magnitude_from_level(input_data.urgency_level)
         ))
     
-    # Identity pressure vector
-    if scores["identity"] > 0:
-        magnitude = "low" if scores["identity"] <= 2 else "medium" if scores["identity"] <= 5 else "high"
+    # MORAL FORCE vector
+    if input_data.moral_loading != "none":
+        amplifiers = []
+        if input_data.public_exposure:
+            amplifiers.append("public exposure")
+        if input_data.power_asymmetry in ["med", "high"]:
+            amplifiers.append("power asymmetry")
+        
         vectors.append(PressureVector(
-            vector="Identity",
-            trigger=f"Identity stake: {input_data.identity_stake.level}",
-            amplifiers=[input_data.identity_stake.description] if input_data.identity_stake.description else [],
-            signals=["Self-concept threatened", "Values/beliefs challenged"],
-            magnitude=magnitude
+            vector="MORAL FORCE",
+            trigger=f"moral_loading: {input_data.moral_loading}",
+            amplifiers=amplifiers,
+            observable_signals=["obligation invoked", "duty/guilt referenced"],
+            magnitude=magnitude_from_level(input_data.moral_loading)
         ))
     
-    # Temporal pressure vector
-    if scores["temporal"] > 0:
-        magnitude = "low" if scores["temporal"] <= 2 else "medium" if scores["temporal"] <= 5 else "high"
+    # POWER ASYMMETRY vector
+    if input_data.power_asymmetry != "none":
+        amplifiers = []
+        if input_data.force_level in ["social", "physical", "weapon"]:
+            amplifiers.append("force escalation")
+        if input_data.refusal_cost in ["med", "high"]:
+            amplifiers.append("high refusal cost")
+        
         vectors.append(PressureVector(
-            vector="Temporal",
-            trigger=f"Urgency level: {input_data.urgency_level}",
-            amplifiers=["Deadline pressure"] if input_data.urgency_level in ["med", "high"] else [],
-            signals=["Time constraint imposed", "Rushed decision demanded"],
-            magnitude=magnitude
+            vector="POWER ASYMMETRY",
+            trigger=f"power_asymmetry: {input_data.power_asymmetry}",
+            amplifiers=amplifiers,
+            observable_signals=["hierarchical leverage present", "authority invoked"],
+            magnitude=magnitude_from_level(input_data.power_asymmetry)
         ))
     
-    # Escalation vector
-    if scores["escalation"] > 0:
-        magnitude = "low" if scores["escalation"] <= 3 else "medium" if scores["escalation"] <= 6 else "high"
-        step_count = len(input_data.escalation_sequence)
+    # PUBLIC EXPOSURE vector
+    if input_data.public_exposure:
+        amplifiers = []
+        if input_data.moral_loading in ["med", "high"]:
+            amplifiers.append("high moral loading")
+        
         vectors.append(PressureVector(
-            vector="Escalation",
-            trigger=f"{step_count} escalation step(s) observed",
-            amplifiers=["Repeat pattern"] if input_data.prior_pattern == "repeat" else [],
-            signals=["Progressive intensification", "Boundary testing"],
-            magnitude=magnitude
+            vector="PUBLIC EXPOSURE",
+            trigger="public_exposure: true",
+            amplifiers=amplifiers,
+            observable_signals=["visibility multiplier active", "reputation at stake"],
+            magnitude="Medium"  # Public exposure is inherently medium
+        ))
+    
+    # REFUSAL PENALTY vector
+    if input_data.refusal_cost != "none":
+        amplifiers = []
+        if input_data.power_asymmetry in ["med", "high"]:
+            amplifiers.append("power asymmetry")
+        if input_data.force_level in ["physical", "weapon"]:
+            amplifiers.append("force escalation")
+        
+        vectors.append(PressureVector(
+            vector="REFUSAL PENALTY",
+            trigger=f"refusal_cost: {input_data.refusal_cost}",
+            amplifiers=amplifiers,
+            observable_signals=["cost for saying no", "penalty for pausing/leaving"],
+            magnitude=magnitude_from_level(input_data.refusal_cost)
+        ))
+    
+    # ESCALATION vector
+    if input_data.force_level != "none" or (input_data.escalation_sequence and len(input_data.escalation_sequence) > 0):
+        amplifiers = []
+        if input_data.public_exposure:
+            amplifiers.append("public exposure")
+        if input_data.escalation_sequence and len(input_data.escalation_sequence) > 0:
+            amplifiers.append(f"{len(input_data.escalation_sequence)} escalation step(s)")
+        
+        force_magnitude = "Low"
+        if input_data.force_level in ["verbal", "social"]:
+            force_magnitude = "Medium" if input_data.force_level == "social" else "Low"
+        elif input_data.force_level in ["physical", "weapon"]:
+            force_magnitude = "High"
+        
+        vectors.append(PressureVector(
+            vector="ESCALATION",
+            trigger=f"force_level: {input_data.force_level}",
+            amplifiers=amplifiers,
+            observable_signals=["force applied or threatened", "progressive intensification"],
+            magnitude=force_magnitude
         ))
     
     return vectors
 
 
-def build_collapse_path(routing: str, scores: dict) -> str:
-    """Build the collapse path description."""
-    total = sum(scores.values())
+def build_collapse_path(
+    input_data: HDOSAnalysisInput,
+    pressure_index: int,
+    routing_state: str,
+    escalation_index: int
+) -> str:
+    """
+    Collapse Path String (TEMPLATE)
+    Example format:
+    "Pressure(URGENCY+MORAL+POWER) -> RefusalCost(HIGH) -> Exits(NARROWING) -> Output(ESCALATION=SOCIAL/PHYSICAL)"
+    NO moral verdicts. NO "should". NO advice.
+    """
+    # Build pressure components
+    pressure_components = []
+    if input_data.urgency_level != "none":
+        pressure_components.append("URGENCY")
+    if input_data.moral_loading != "none":
+        pressure_components.append("MORAL")
+    if input_data.power_asymmetry != "none":
+        pressure_components.append("POWER")
+    if input_data.public_exposure:
+        pressure_components.append("PUBLIC")
     
-    if routing == "DOG":
-        return f"Pressure ({total}) → Identity/Safety Cost → DOG Routing → Submission/Resistance"
-    elif routing == "GOD":
-        return f"Pressure ({total}) → Social/Temporal Cost → GOD Routing → Compliance/Burnout"
-    elif routing == "MIXED":
-        return f"Pressure ({total}) → Multi-Vector Cost → MIXED Routing → Complex Response Required"
-    else:
-        return f"Pressure ({total}) → Cost Unclear → Routing Undetermined → More Information Needed"
+    pressure_str = "+".join(pressure_components) if pressure_components else "MINIMAL"
+    
+    # Refusal cost string
+    refusal_str = input_data.refusal_cost.upper() if input_data.refusal_cost != "none" else "NONE"
+    
+    # Exit status
+    exit_map = {
+        "EXIT-PRESERVED": "OPEN",
+        "EXIT-THREATENED": "NARROWING",
+        "EXIT-SEALED": "CLOSED",
+        "UNDETERMINED": "UNCLEAR"
+    }
+    exit_str = exit_map.get(routing_state, "UNCLEAR")
+    
+    # Force output
+    force_str = input_data.force_level.upper() if input_data.force_level != "none" else "NONE"
+    
+    return f"Pressure({pressure_str}) -> RefusalCost({refusal_str}) -> Exits({exit_str}) -> Output(FORCE={force_str})"
+
+
+def build_warnings(input_data: HDOSAnalysisInput, pressure_index: int, escalation_index: int) -> List[str]:
+    """Build warning flags based on structural conditions"""
+    warnings = []
+    
+    if input_data.public_exposure:
+        warnings.append("PUBLIC EXPOSURE MULTIPLIER")
+    
+    if input_data.power_asymmetry in ["med", "high"]:
+        warnings.append("POWER ASYMMETRY PRESENT")
+    
+    if input_data.force_level in ["physical", "weapon"]:
+        warnings.append("PHYSICAL FORCE INDICATED")
+    
+    if input_data.refusal_cost == "high":
+        warnings.append("HIGH REFUSAL COST")
+    
+    if input_data.exit_paths_available == "no":
+        warnings.append("EXIT PATHS BLOCKED")
+    
+    if pressure_index >= 80:
+        warnings.append("ELEVATED PRESSURE INDEX")
+    
+    if escalation_index >= 50:
+        warnings.append("ESCALATION RISK")
+    
+    return warnings
 
 
 def analyze_scenario(input_data: HDOSAnalysisInput) -> HDOSAnalysisOutput:
-    """Main analysis function - deterministic rules engine."""
+    """
+    Main analysis function - DETERMINISTIC RULES ENGINE (NO LLM)
+    """
+    # Calculate completion ratio and confidence
+    completion_ratio = calculate_completion_ratio(input_data)
+    confidence = determine_confidence(completion_ratio)
     
-    # Calculate completeness
-    completeness, missing_fields = calculate_field_completeness(input_data)
+    # Calculate structural indices
+    pressure_index, exit_integrity_index, escalation_index = calculate_indices(input_data)
     
-    # Determine confidence based on completeness
-    if completeness >= 0.8:
-        confidence = "High"
-    elif completeness >= 0.5:
-        confidence = "Medium"
-    else:
-        confidence = "Low"
+    # Determine routing state
+    routing_state = determine_routing_state(
+        confidence,
+        input_data.exit_paths_available,
+        exit_integrity_index
+    )
     
-    # Calculate pressure scores
-    scores = calculate_pressure_score(input_data)
-    
-    # Determine routing
-    routing = determine_routing(scores, input_data)
-    
-    # If very low completeness, force UNDETERMINED
-    if completeness < 0.4:
-        routing = "UNDETERMINED"
-        confidence = "Low"
+    # Determine DOG configuration (geometry only)
+    dog_config = determine_dog_config_present(routing_state, pressure_index)
     
     # Build pressure breakdown
-    pressure_vectors = build_pressure_vectors(scores, input_data)
+    pressure_breakdown = build_pressure_breakdown(input_data)
     
     # Build collapse path
-    collapse_path = build_collapse_path(routing, scores)
+    collapse_path = build_collapse_path(input_data, pressure_index, routing_state, escalation_index)
     
-    # Analysis notes
-    notes = []
-    if input_data.power_asymmetry.present:
-        notes.append(f"Power asymmetry detected: {input_data.power_asymmetry.type or 'type unspecified'}")
-    if input_data.prior_pattern == "repeat":
-        notes.append("This is a repeat pattern - escalation risk elevated")
-    if input_data.force_level in ["physical", "weapon"]:
-        notes.append("Physical force indicated - safety priority")
+    # Build warnings
+    warnings = build_warnings(input_data, pressure_index, escalation_index)
+    
+    # Fixed guardrails footer (no advice, no moral verdict)
+    guardrails_footer = "HDOS classifies structural patterns; it does not prescribe action, predict behavior, or assess intent."
     
     return HDOSAnalysisOutput(
-        routing_classification=routing,
+        routing=RoutingState(state=routing_state),
         confidence=confidence,
-        pressure_breakdown=pressure_vectors,
+        pressure_breakdown=pressure_breakdown,
         collapse_path=collapse_path,
-        guardrails_footer="HDOS classifies routing patterns; it does not justify harm or prescribe action.",
+        warnings=warnings,
+        guardrails_footer=guardrails_footer,
         hdos_version=HDOS_VERSION,
-        missing_fields=missing_fields,
-        analysis_notes=notes
+        dog_config_present=dog_config if dog_config else None,
+        pressure_index=pressure_index,
+        exit_integrity_index=exit_integrity_index,
+        escalation_index=escalation_index
     )
 
 
@@ -365,14 +460,15 @@ def analyze_scenario(input_data: HDOSAnalysisInput) -> HDOSAnalysisOutput:
 # API ENDPOINTS
 # =============================================================================
 
-@router.post("/analyze")
+@router.post("/analyze", response_model=HDOSAnalysisOutput)
 async def analyze(
     input_data: HDOSAnalysisInput,
     current_user: dict = Depends(get_current_user_optional)
 ):
     """
-    Analyze a scenario using HDOS deterministic routing classifier.
+    POST /api/hdos/analyze
     
+    Analyze a scenario using HDOS deterministic routing classifier.
     Returns structured classification without prescriptions.
     Optionally saves analysis for authenticated users.
     """
@@ -477,44 +573,62 @@ async def delete_analysis(
 
 @router.get("/glossary")
 async def get_glossary():
-    """Get canonical HDOS terms and definitions."""
+    """
+    GET /api/hdos/glossary
+    Canonical HDOS terms and definitions (updated for v1.2.0 exit-based model)
+    """
     return {
         "hdos_version": HDOS_VERSION,
         "terms": [
             {
-                "term": "DOG",
-                "definition": "Dismiss, Obstruct, Gaslight - Routing pattern characterized by coercion, identity pressure, and escalation tactics.",
-                "indicators": ["Direct force/coercion", "Identity threats", "Progressive escalation", "Power asymmetry exploitation"]
+                "term": "EXIT-PRESERVED",
+                "definition": "Routing state where exit paths remain open and accessible. Decision space is not under structural compression.",
+                "indicators": ["Clear exit options available", "Low pressure index", "No significant refusal penalties"]
             },
             {
-                "term": "GOD",
-                "definition": "Guilt, Overwhelm, Demand - Routing pattern characterized by social pressure, temporal urgency, and compliance demands.",
-                "indicators": ["Social/reputation pressure", "Artificial urgency", "Guilt manipulation", "Overwhelm tactics"]
+                "term": "EXIT-THREATENED",
+                "definition": "Routing state where exit paths are narrowing but not fully blocked. Structural pressure is compressing decision space.",
+                "indicators": ["Partial exit availability", "Moderate pressure index", "Some refusal penalties active"]
             },
             {
-                "term": "MIXED",
-                "definition": "Scenario exhibiting both DOG and GOD routing patterns simultaneously.",
-                "indicators": ["Multiple pressure vectors active", "Combined coercion and guilt", "Complex multi-front pressure"]
+                "term": "EXIT-SEALED",
+                "definition": "Routing state where exit paths are blocked or heavily penalized. Decision space is structurally collapsed.",
+                "indicators": ["No viable exit paths", "High pressure index", "Severe refusal penalties"]
+            },
+            {
+                "term": "DOG_CONFIG_PRESENT",
+                "definition": "Geometry-only flag indicating structural configuration matches DOG pattern. NOT a label for persons.",
+                "indicators": ["EXIT-THREATENED or EXIT-SEALED state", "Pressure index >= 60", "Structural pattern match only"]
+            },
+            {
+                "term": "Pressure Index",
+                "definition": "Composite score (0-100) measuring total structural pressure from urgency, moral loading, public exposure, power asymmetry, and refusal cost.",
+                "formula": "urgency + moral + public + power + refusal_cost (clamped 0-100)"
+            },
+            {
+                "term": "Exit Integrity Index",
+                "definition": "Score (0-100) measuring the structural availability of exit paths after accounting for pressure and escalation compression.",
+                "formula": "baseline_exit - (0.35 * PRESSURE_INDEX) - (0.25 * ESCALATION_INDEX)"
+            },
+            {
+                "term": "Escalation Index",
+                "definition": "Score (0-100) measuring force level and escalation factors that compress exit availability.",
+                "formula": "force_level_points + public_modifier + refusal_cost_modifier"
             },
             {
                 "term": "Pressure Vector",
-                "definition": "A distinct dimension of pressure being applied in a scenario.",
-                "types": ["Coercion", "Social", "Identity", "Temporal", "Escalation"]
+                "definition": "A distinct dimension of structural pressure identified in the analysis. Mapped from input fields only, not psychological inference.",
+                "types": ["URGENCY", "MORAL FORCE", "POWER ASYMMETRY", "PUBLIC EXPOSURE", "REFUSAL PENALTY", "ESCALATION"]
             },
             {
                 "term": "Collapse Path",
-                "definition": "The sequence from pressure application through cost imposition to routing outcome.",
-                "format": "Pressure → Cost → Routing → Outcome"
+                "definition": "Descriptive sequence showing pressure flow through the system: Pressure -> Cost -> Routing -> Output. Purely descriptive, no predictions.",
+                "format": "Pressure(COMPONENTS) -> RefusalCost(LEVEL) -> Exits(STATUS) -> Output(FORCE=LEVEL)"
             },
             {
-                "term": "Power Asymmetry",
-                "definition": "Imbalance of power between parties that amplifies pressure effectiveness.",
-                "examples": ["Employer/Employee", "Parent/Child", "State/Citizen", "Institution/Individual"]
-            },
-            {
-                "term": "Routing Classification",
-                "definition": "The determined pattern category based on pressure analysis. Does not prescribe action.",
-                "values": ["DOG", "GOD", "MIXED", "UNDETERMINED"]
+                "term": "Confidence",
+                "definition": "Assessment reliability based ONLY on field completion ratio. No guessing or inference.",
+                "values": ["HIGH (>= 85% complete)", "MEDIUM (60-84% complete)", "LOW (< 60% complete)"]
             },
             {
                 "term": "Harm Confirmation",
@@ -537,7 +651,10 @@ async def get_glossary():
 
 @router.get("/amendments")
 async def get_amendments():
-    """Get list of ratified HDOS amendments."""
+    """
+    GET /api/hdos/amendments
+    List of ratified HDOS amendments
+    """
     return {
         "hdos_version": HDOS_VERSION,
         "amendments": [
@@ -611,5 +728,7 @@ async def get_version():
         "last_updated": "2026-02-13",
         "amendment_count": 8,
         "logic_suite_tests": 10,
-        "platform_suite_tests": 6
+        "platform_suite_tests": 6,
+        "model": "EXIT-SAFE",
+        "classification_states": ["EXIT-PRESERVED", "EXIT-THREATENED", "EXIT-SEALED", "UNDETERMINED"]
     }
