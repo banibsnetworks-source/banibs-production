@@ -641,18 +641,24 @@
       "display_name": "BGLIS Phone Auth",
       "world": "Platform Infrastructure",
       "category": "authentication",
-      "status": "opening_soon",
-      "frontend_routes": [],
+      "status": "active",
+      "frontend_routes": [
+        "/portal/social/settings/security"
+      ],
       "api_routes": [
-        "POST /api/bglis/send-otp",
-        "POST /api/bglis/verify-otp"
+        "POST /api/auth/send-otp",
+        "POST /api/auth/verify-otp",
+        "POST /api/bglis/link-phone",
+        "PATCH /api/bglis/remove-phone",
+        "GET /api/bglis/status",
+        "GET /api/bglis/check/:user_id"
       ],
       "db_collections": [
-        "bglis_phones",
-        "bglis_otps"
+        "otp_tokens",
+        "banibs_users"
       ],
-      "last_updated": "2026-02-08",
-      "notes": "Phone-first global identity system - backend complete, UI pending"
+      "last_updated": "2026-02-15",
+      "notes": "Voluntary phone verification for user trust badges. Mock SMS mode enabled for dev."
     },
     {
       "id": "groups",
