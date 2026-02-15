@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import FullWidthLayout from '../../../components/layouts/FullWidthLayout';
 import PinButton from '../../../components/pins/PinButton';
+import PhoneVerifiedBadge from '../../../components/badges/PhoneVerifiedBadge';
 
 /**
  * Listing Detail Page - Local Exchange
@@ -577,10 +578,15 @@ const ListingDetailPage = () => {
                     {listing.seller_name?.charAt(0)?.toUpperCase() || 'U'}
                   </div>
                 )}
-                <div>
-                  <p className="font-medium" style={{ color: isDark ? '#fff' : '#111' }}>
-                    {listing.seller_name}
-                  </p>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium" style={{ color: isDark ? '#fff' : '#111' }}>
+                      {listing.seller_name}
+                    </p>
+                    {listing.seller_phone_verified && (
+                      <PhoneVerifiedBadge size="sm" />
+                    )}
+                  </div>
                   <p className="text-xs" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
                     Seller
                   </p>
