@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MessageCircle, Loader2 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
+import PhoneVerifiedBadge from '../badges/PhoneVerifiedBadge';
 
 const tierColors = {
   Peoples: 'border-l-emerald-500',
@@ -77,11 +78,16 @@ export const ConversationsList = ({ conversations, loading, onConversationClick 
             {/* Content */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-2 mb-1">
-                <h3 className={`font-semibold truncate ${
-                  isUnread ? 'text-white' : 'text-gray-300'
-                }`}>
-                  {conv.otherUserName || 'Unknown User'}
-                </h3>
+                <div className="flex items-center gap-2 min-w-0">
+                  <h3 className={`font-semibold truncate ${
+                    isUnread ? 'text-white' : 'text-gray-300'
+                  }`}>
+                    {conv.otherUserName || 'Unknown User'}
+                  </h3>
+                  {conv.otherUserPhoneVerified && (
+                    <PhoneVerifiedBadge size="sm" showLabel={false} />
+                  )}
+                </div>
                 <span className="text-xs text-gray-500 flex-shrink-0">
                   {formatDistanceToNow(new Date(conv.lastTimestamp), { addSuffix: true })}
                 </span>
