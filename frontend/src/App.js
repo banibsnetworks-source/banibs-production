@@ -325,6 +325,9 @@ import HDOSEnginePage from "./pages/hdos/HDOSEnginePage";
 import HDOSGlossaryPage from "./pages/hdos/HDOSGlossaryPage";
 import HDOSAmendmentsPage from "./pages/hdos/HDOSAmendmentsPage";
 
+// Pins - User Pinning + Pin Boards (Platform-Wide)
+import PinsHomePage from "./pages/pins/PinsHomePage";
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
