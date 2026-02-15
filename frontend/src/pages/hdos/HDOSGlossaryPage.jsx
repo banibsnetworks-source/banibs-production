@@ -6,7 +6,7 @@ import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 
 /**
  * HDOS Glossary - Canonical Terms
- * Read-only reference of HDOS terminology
+ * Read-only reference of HDOS terminology (Exit-Safe Model v1.2.0)
  */
 
 const HDOSGlossaryPage = () => {
@@ -55,11 +55,12 @@ const HDOSGlossaryPage = () => {
             <div className="flex items-center gap-4">
               <Link
                 to="/hdos/engine"
-                className="p-2 rounded-lg transition-colors"
+                className="p-2 rounded-lg transition-colors hover:bg-white/10"
                 style={{ 
                   backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
                   color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)'
                 }}
+                data-testid="hdos-glossary-back"
               >
                 <ArrowLeft size={20} />
               </Link>
@@ -70,7 +71,7 @@ const HDOSGlossaryPage = () => {
                     HDOS Glossary
                   </h1>
                   <p className="text-sm" style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>
-                    Canonical terms • v{glossary.hdos_version}
+                    Canonical terms • v{glossary.hdos_version} • Exit-Safe Model
                   </p>
                 </div>
               </div>
@@ -95,6 +96,7 @@ const HDOSGlossaryPage = () => {
               placeholder="Search terms..."
               className="flex-1 bg-transparent outline-none"
               style={{ color: isDark ? '#fff' : '#111' }}
+              data-testid="hdos-glossary-search"
             />
           </div>
 
@@ -104,7 +106,7 @@ const HDOSGlossaryPage = () => {
               <p style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>Loading glossary...</p>
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-4" data-testid="hdos-glossary-list">
               {filteredTerms.map((item, idx) => (
                 <div 
                   key={idx}
@@ -121,7 +123,7 @@ const HDOSGlossaryPage = () => {
                     {item.definition}
                   </p>
                   
-                  {item.indicators && (
+                  {item.indicators && item.indicators.length > 0 && (
                     <div className="mt-3">
                       <p className="text-xs uppercase tracking-wider mb-2" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
                         Indicators
@@ -143,7 +145,7 @@ const HDOSGlossaryPage = () => {
                     </div>
                   )}
 
-                  {item.types && (
+                  {item.types && item.types.length > 0 && (
                     <div className="mt-3">
                       <p className="text-xs uppercase tracking-wider mb-2" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
                         Types
@@ -165,18 +167,21 @@ const HDOSGlossaryPage = () => {
                     </div>
                   )}
 
-                  {item.examples && (
+                  {item.formula && (
                     <div className="mt-3">
-                      <p className="text-xs uppercase tracking-wider mb-2" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
-                        Examples
+                      <p className="text-xs uppercase tracking-wider mb-1" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
+                        Formula
                       </p>
-                      <p className="text-xs" style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>
-                        {item.examples.join(' • ')}
+                      <p className="text-xs font-mono px-2 py-1 rounded" style={{ 
+                        backgroundColor: isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.05)',
+                        color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' 
+                      }}>
+                        {item.formula}
                       </p>
                     </div>
                   )}
 
-                  {item.values && (
+                  {item.values && item.values.length > 0 && (
                     <div className="mt-3">
                       <p className="text-xs uppercase tracking-wider mb-2" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
                         Values
@@ -209,7 +214,7 @@ const HDOSGlossaryPage = () => {
                     </div>
                   )}
 
-                  {item.states && (
+                  {item.states && item.states.length > 0 && (
                     <div className="mt-3">
                       <p className="text-xs uppercase tracking-wider mb-2" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
                         States
@@ -228,6 +233,31 @@ const HDOSGlossaryPage = () => {
                           </span>
                         ))}
                       </div>
+                    </div>
+                  )}
+
+                  {item.trigger && (
+                    <div className="mt-3">
+                      <p className="text-xs uppercase tracking-wider mb-1" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
+                        Trigger
+                      </p>
+                      <p className="text-xs" style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>
+                        {item.trigger}
+                      </p>
+                    </div>
+                  )}
+
+                  {item.flag && (
+                    <div className="mt-3">
+                      <p className="text-xs uppercase tracking-wider mb-1" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
+                        Flag
+                      </p>
+                      <span 
+                        className="text-xs px-2 py-1 rounded-full"
+                        style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', color: '#EF4444' }}
+                      >
+                        {item.flag}
+                      </span>
                     </div>
                   )}
                 </div>
