@@ -38,11 +38,11 @@ const SkillsWorldHome = () => {
       title: 'Reading & Words',
       description: 'Explore letters, sounds, and stories at your own pace.',
       icon: BookOpen,
-      path: null,
-      status: 'coming-soon',
-      color: 'from-emerald-500/10 to-teal-500/10',
-      borderColor: 'border-gray-700/30',
-      iconColor: 'text-gray-500'
+      path: '/skillsworld/reading',
+      status: 'active',
+      color: 'from-emerald-500/20 to-teal-500/20',
+      borderColor: 'border-emerald-500/30',
+      iconColor: 'text-emerald-400'
     },
     {
       id: 'thinking',

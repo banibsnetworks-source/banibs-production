@@ -311,6 +311,11 @@ import CCRAMPage from "./pages/ccram/CCRAMPage";
 import SkillsWorldHome from "./pages/skillsworld/SkillsWorldHome";
 import MathLogicHome from "./pages/skillsworld/math/MathLogicHome";
 import NumberPathsGame from "./pages/skillsworld/math/NumberPathsGame";
+// Reading & Words Sub-World
+import ReadingWordsHome from "./pages/skillsworld/reading/ReadingWordsHome";
+import WordExplorerGame from "./pages/skillsworld/reading/WordExplorerGame";
+import StoryPathsGame from "./pages/skillsworld/reading/StoryPathsGame";
+import LetterSoundsGame from "./pages/skillsworld/reading/LetterSoundsGame";
 
 // Local Exchange - Social World Marketplace MVP
 import LocalExchangeHome from "./pages/socialworld/local-exchange/LocalExchangeHome";
@@ -464,6 +469,11 @@ function App() {
               <Route path="/skillsworld" element={<SkillsWorldHome />} />
               <Route path="/skillsworld/math" element={<MathLogicHome />} />
               <Route path="/skillsworld/math/number-paths" element={<NumberPathsGame />} />
+              {/* Reading & Words Sub-World */}
+              <Route path="/skillsworld/reading" element={<ReadingWordsHome />} />
+              <Route path="/skillsworld/reading/word-explorer" element={<WordExplorerGame />} />
+              <Route path="/skillsworld/reading/story-paths" element={<StoryPathsGame />} />
+              <Route path="/skillsworld/reading/letter-sounds" element={<LetterSoundsGame />} />
               
               {/* Local Exchange - Social World Marketplace MVP */}
               <Route path="/socialworld/local" element={<LocalExchangeHome />} />
