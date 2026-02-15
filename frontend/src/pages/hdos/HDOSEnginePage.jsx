@@ -1,36 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { 
-  Shield, AlertTriangle, ChevronRight, Info, 
-  Loader2, CheckCircle, XCircle, HelpCircle,
-  BookOpen, FileText, History, Trash2
+  Shield, ChevronRight, Info, 
+  Loader2, BookOpen, FileText, History, Trash2,
+  AlertTriangle, CheckCircle, XCircle, MinusCircle
 } from 'lucide-react';
 import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 
 /**
- * HDOS Engine v1 - Routing Classifier
+ * HDOS Engine v1 - Exit-Safe Routing Classifier
  * 
- * Deterministic analysis of scenarios into DOG/GOD/MIXED/UNDETERMINED
- * No prescriptions. Classification only.
+ * CONSTITUTIONAL LOCK:
+ * - STRUCTURAL VISIBILITY TOOL ONLY
+ * - NEVER prescribes actions, predicts behavior, or inspects inner states
+ * - MAY classify STRUCTURE/CONFIGURATION (environment + sequence)
+ * 
+ * OUTPUT: routing.state + confidence + pressure_breakdown + collapse_path + warnings
  */
 
 const CONTEXT_TYPES = [
-  { value: 'relationship', label: 'Relationship' },
-  { value: 'work', label: 'Work/Professional' },
-  { value: 'public', label: 'Public/Community' },
-  { value: 'other', label: 'Other' },
+  { value: 'personal', label: 'Personal' },
+  { value: 'work', label: 'Work' },
+  { value: 'institution', label: 'Institution' },
+  { value: 'public', label: 'Public' },
 ];
 
-const STAKE_LEVELS = [
-  { value: 'none', label: 'None' },
-  { value: 'low', label: 'Low' },
-  { value: 'med', label: 'Medium' },
-  { value: 'high', label: 'High' },
-];
-
-const URGENCY_LEVELS = [
+const LEVELS = [
   { value: 'none', label: 'None' },
   { value: 'low', label: 'Low' },
   { value: 'med', label: 'Medium' },
@@ -45,14 +42,14 @@ const FORCE_LEVELS = [
   { value: 'weapon', label: 'Weapon' },
 ];
 
-const PRIOR_PATTERNS = [
-  { value: 'first', label: 'First occurrence' },
-  { value: 'repeat', label: 'Repeat pattern' },
+const EXIT_OPTIONS = [
+  { value: 'yes', label: 'Yes' },
+  { value: 'partial', label: 'Partial' },
+  { value: 'no', label: 'No' },
   { value: 'unknown', label: 'Unknown' },
 ];
 
 const HDOSEnginePage = () => {
-  const navigate = useNavigate();
   const { user } = useAuth();
   const { theme } = useTheme();
   const isDark = theme === 'dark';
@@ -62,19 +59,19 @@ const HDOSEnginePage = () => {
   const [error, setError] = useState(null);
   const [hdosVersion, setHdosVersion] = useState('');
   const [savedAnalyses, setSavedAnalyses] = useState([]);
-  const [showHistory, setShowHistory] = useState(false);
 
-  // Form state
+  // Form state - per specification
   const [formData, setFormData] = useState({
-    scenario_summary: '',
-    context_type: 'other',
+    context_type: 'personal',
     public_exposure: false,
-    identity_stake: { level: 'none', description: '' },
-    power_asymmetry: { present: false, type: '' },
+    power_asymmetry: 'none',
     urgency_level: 'none',
+    moral_loading: 'none',
+    refusal_cost: 'none',
+    exit_paths_available: 'unknown',
     force_level: 'none',
     escalation_sequence: [],
-    prior_pattern: 'unknown',
+    notes: '',
   });
 
   const [newEscalationStep, setNewEscalationStep] = useState('');
@@ -122,10 +119,16 @@ const HDOSEnginePage = () => {
       const headers = { 'Content-Type': 'application/json' };
       if (token) headers['Authorization'] = `Bearer ${token}`;
 
+      // Build request payload
+      const payload = {
+        ...formData,
+        notes: formData.notes || null
+      };
+
       const res = await fetch(`${API_URL}/api/hdos/analyze`, {
         method: 'POST',
         headers,
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
       });
 
       if (!res.ok) {
@@ -151,13 +154,7 @@ const HDOSEnginePage = () => {
     if (newEscalationStep.trim()) {
       setFormData(prev => ({
         ...prev,
-        escalation_sequence: [
-          ...prev.escalation_sequence,
-          {
-            step_number: prev.escalation_sequence.length + 1,
-            description: newEscalationStep.trim()
-          }
-        ]
+        escalation_sequence: [...prev.escalation_sequence, newEscalationStep.trim()]
       }));
       setNewEscalationStep('');
     }
@@ -166,9 +163,7 @@ const HDOSEnginePage = () => {
   const removeEscalationStep = (index) => {
     setFormData(prev => ({
       ...prev,
-      escalation_sequence: prev.escalation_sequence
-        .filter((_, i) => i !== index)
-        .map((step, i) => ({ ...step, step_number: i + 1 }))
+      escalation_sequence: prev.escalation_sequence.filter((_, i) => i !== index)
     }));
   };
 
@@ -185,23 +180,61 @@ const HDOSEnginePage = () => {
     }
   };
 
-  const getRoutingColor = (routing) => {
-    switch (routing) {
-      case 'DOG': return '#EF4444';
-      case 'GOD': return '#F59E0B';
-      case 'MIXED': return '#8B5CF6';
+  const getRoutingColor = (state) => {
+    switch (state) {
+      case 'EXIT-SEALED': return '#EF4444';
+      case 'EXIT-THREATENED': return '#F59E0B';
+      case 'EXIT-PRESERVED': return '#10B981';
       default: return '#6B7280';
+    }
+  };
+
+  const getRoutingIcon = (state) => {
+    switch (state) {
+      case 'EXIT-SEALED': return <XCircle size={24} />;
+      case 'EXIT-THREATENED': return <AlertTriangle size={24} />;
+      case 'EXIT-PRESERVED': return <CheckCircle size={24} />;
+      default: return <MinusCircle size={24} />;
     }
   };
 
   const getMagnitudeColor = (magnitude) => {
     switch (magnitude) {
-      case 'critical': return '#EF4444';
-      case 'high': return '#F59E0B';
-      case 'medium': return '#3B82F6';
+      case 'High': return '#EF4444';
+      case 'Medium': return '#F59E0B';
       default: return '#10B981';
     }
   };
+
+  const SelectField = ({ label, value, onChange, options, tooltip }) => (
+    <div>
+      <label className="block text-sm font-medium mb-2 flex items-center gap-2" style={{ color: isDark ? '#fff' : '#111' }}>
+        {label}
+        {tooltip && (
+          <span className="group relative">
+            <Info size={14} className="text-gray-500 cursor-help" />
+            <span className="absolute bottom-full left-0 mb-1 hidden group-hover:block w-48 p-2 text-xs rounded-lg bg-gray-800 text-gray-200 z-10">
+              {tooltip}
+            </span>
+          </span>
+        )}
+      </label>
+      <select
+        value={value}
+        onChange={onChange}
+        className="w-full px-4 py-3 rounded-xl outline-none"
+        style={{
+          backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : '#fff',
+          color: isDark ? '#fff' : '#111',
+          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+        }}
+      >
+        {options.map(opt => (
+          <option key={opt.value} value={opt.value}>{opt.label}</option>
+        ))}
+      </select>
+    </div>
+  );
 
   return (
     <FullWidthLayout>
@@ -229,14 +262,14 @@ const HDOSEnginePage = () => {
                     HDOS Engine
                   </h1>
                   <p className="text-sm" style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>
-                    Human Defense Operating System v{hdosVersion}
+                    Human Defense Operating System v{hdosVersion} • Exit-Safe Model
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
                 <Link
                   to="/hdos/glossary"
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-colors hover:bg-white/10"
                   style={{ 
                     backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
                     color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)'
@@ -247,7 +280,7 @@ const HDOSEnginePage = () => {
                 </Link>
                 <Link
                   to="/hdos/amendments"
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-colors hover:bg-white/10"
                   style={{ 
                     backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
                     color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)'
@@ -265,59 +298,47 @@ const HDOSEnginePage = () => {
           <div className="grid lg:grid-cols-3 gap-6">
             {/* Form Column */}
             <div className="lg:col-span-2">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Scenario Summary */}
-                <div>
-                  <label className="block text-sm font-medium mb-2" style={{ color: isDark ? '#fff' : '#111' }}>
-                    Scenario Summary <span className="text-gray-500">(optional)</span>
-                  </label>
-                  <textarea
-                    value={formData.scenario_summary}
-                    onChange={(e) => setFormData(prev => ({ ...prev, scenario_summary: e.target.value }))}
-                    placeholder="Describe the situation..."
-                    rows={3}
-                    maxLength={2000}
-                    className="w-full px-4 py-3 rounded-xl outline-none resize-none"
-                    style={{
-                      backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : '#fff',
-                      color: isDark ? '#fff' : '#111',
-                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-                    }}
-                  />
-                </div>
+              {/* Constitutional Notice */}
+              <div 
+                className="p-4 rounded-xl mb-6"
+                style={{ 
+                  backgroundColor: isDark ? 'rgba(245, 158, 11, 0.1)' : 'rgba(245, 158, 11, 0.1)',
+                  border: '1px solid rgba(245, 158, 11, 0.2)'
+                }}
+              >
+                <p className="text-sm" style={{ color: '#F59E0B' }}>
+                  <strong>Structural Visibility Only</strong> — This tool classifies configuration, not persons. 
+                  It does not prescribe actions, predict behavior, or inspect inner states.
+                </p>
+              </div>
 
-                {/* Context Type & Public Exposure */}
+              <form onSubmit={handleSubmit} className="space-y-6" data-testid="hdos-engine-form">
+                {/* Row 1: Context & Public Exposure */}
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: isDark ? '#fff' : '#111' }}>
-                      Context Type
-                    </label>
-                    <select
-                      value={formData.context_type}
-                      onChange={(e) => setFormData(prev => ({ ...prev, context_type: e.target.value }))}
-                      className="w-full px-4 py-3 rounded-xl outline-none"
-                      style={{
-                        backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : '#fff',
-                        color: isDark ? '#fff' : '#111',
-                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-                      }}
-                    >
-                      {CONTEXT_TYPES.map(opt => (
-                        <option key={opt.value} value={opt.value}>{opt.label}</option>
-                      ))}
-                    </select>
-                  </div>
+                  <SelectField
+                    label="Context Type"
+                    value={formData.context_type}
+                    onChange={(e) => setFormData(prev => ({ ...prev, context_type: e.target.value }))}
+                    options={CONTEXT_TYPES}
+                    tooltip="Environment where interaction occurs"
+                  />
                   <div>
                     <label className="block text-sm font-medium mb-2" style={{ color: isDark ? '#fff' : '#111' }}>
                       Public Exposure
                     </label>
-                    <div className="flex items-center gap-4 h-[50px]">
+                    <div 
+                      className="flex items-center gap-4 h-[50px] px-4 rounded-xl"
+                      style={{
+                        backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : '#fff',
+                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+                      }}
+                    >
                       <label className="flex items-center gap-2 cursor-pointer">
                         <input
                           type="radio"
                           checked={!formData.public_exposure}
                           onChange={() => setFormData(prev => ({ ...prev, public_exposure: false }))}
-                          className="w-4 h-4"
+                          className="w-4 h-4 accent-amber-500"
                         />
                         <span className="text-sm" style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>No</span>
                       </label>
@@ -326,7 +347,7 @@ const HDOSEnginePage = () => {
                           type="radio"
                           checked={formData.public_exposure}
                           onChange={() => setFormData(prev => ({ ...prev, public_exposure: true }))}
-                          className="w-4 h-4"
+                          className="w-4 h-4 accent-amber-500"
                         />
                         <span className="text-sm" style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>Yes</span>
                       </label>
@@ -334,166 +355,64 @@ const HDOSEnginePage = () => {
                   </div>
                 </div>
 
-                {/* Identity Stake */}
-                <div>
-                  <label className="block text-sm font-medium mb-2" style={{ color: isDark ? '#fff' : '#111' }}>
-                    Identity Stake
-                  </label>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <select
-                      value={formData.identity_stake.level}
-                      onChange={(e) => setFormData(prev => ({ 
-                        ...prev, 
-                        identity_stake: { ...prev.identity_stake, level: e.target.value }
-                      }))}
-                      className="w-full px-4 py-3 rounded-xl outline-none"
-                      style={{
-                        backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : '#fff',
-                        color: isDark ? '#fff' : '#111',
-                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-                      }}
-                    >
-                      {STAKE_LEVELS.map(opt => (
-                        <option key={opt.value} value={opt.value}>{opt.label}</option>
-                      ))}
-                    </select>
-                    <input
-                      type="text"
-                      value={formData.identity_stake.description}
-                      onChange={(e) => setFormData(prev => ({ 
-                        ...prev, 
-                        identity_stake: { ...prev.identity_stake, description: e.target.value }
-                      }))}
-                      placeholder="What's at stake? (optional)"
-                      className="w-full px-4 py-3 rounded-xl outline-none"
-                      style={{
-                        backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : '#fff',
-                        color: isDark ? '#fff' : '#111',
-                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* Power Asymmetry */}
-                <div>
-                  <label className="block text-sm font-medium mb-2" style={{ color: isDark ? '#fff' : '#111' }}>
-                    Power Asymmetry
-                  </label>
-                  <div className="grid sm:grid-cols-2 gap-4">
-                    <div className="flex items-center gap-4 h-[50px]">
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="radio"
-                          checked={!formData.power_asymmetry.present}
-                          onChange={() => setFormData(prev => ({ 
-                            ...prev, 
-                            power_asymmetry: { present: false, type: '' }
-                          }))}
-                          className="w-4 h-4"
-                        />
-                        <span className="text-sm" style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>No</span>
-                      </label>
-                      <label className="flex items-center gap-2 cursor-pointer">
-                        <input
-                          type="radio"
-                          checked={formData.power_asymmetry.present}
-                          onChange={() => setFormData(prev => ({ 
-                            ...prev, 
-                            power_asymmetry: { ...prev.power_asymmetry, present: true }
-                          }))}
-                          className="w-4 h-4"
-                        />
-                        <span className="text-sm" style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>Yes</span>
-                      </label>
-                    </div>
-                    {formData.power_asymmetry.present && (
-                      <input
-                        type="text"
-                        value={formData.power_asymmetry.type}
-                        onChange={(e) => setFormData(prev => ({ 
-                          ...prev, 
-                          power_asymmetry: { ...prev.power_asymmetry, type: e.target.value }
-                        }))}
-                        placeholder="e.g., employer/employee"
-                        className="w-full px-4 py-3 rounded-xl outline-none"
-                        style={{
-                          backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : '#fff',
-                          color: isDark ? '#fff' : '#111',
-                          border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-                        }}
-                      />
-                    )}
-                  </div>
-                </div>
-
-                {/* Urgency & Force Level */}
+                {/* Row 2: Power Asymmetry & Urgency */}
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: isDark ? '#fff' : '#111' }}>
-                      Urgency Level
-                    </label>
-                    <select
-                      value={formData.urgency_level}
-                      onChange={(e) => setFormData(prev => ({ ...prev, urgency_level: e.target.value }))}
-                      className="w-full px-4 py-3 rounded-xl outline-none"
-                      style={{
-                        backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : '#fff',
-                        color: isDark ? '#fff' : '#111',
-                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-                      }}
-                    >
-                      {URGENCY_LEVELS.map(opt => (
-                        <option key={opt.value} value={opt.value}>{opt.label}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: isDark ? '#fff' : '#111' }}>
-                      Force Level
-                    </label>
-                    <select
-                      value={formData.force_level}
-                      onChange={(e) => setFormData(prev => ({ ...prev, force_level: e.target.value }))}
-                      className="w-full px-4 py-3 rounded-xl outline-none"
-                      style={{
-                        backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : '#fff',
-                        color: isDark ? '#fff' : '#111',
-                        border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-                      }}
-                    >
-                      {FORCE_LEVELS.map(opt => (
-                        <option key={opt.value} value={opt.value}>{opt.label}</option>
-                      ))}
-                    </select>
-                  </div>
+                  <SelectField
+                    label="Power Asymmetry"
+                    value={formData.power_asymmetry}
+                    onChange={(e) => setFormData(prev => ({ ...prev, power_asymmetry: e.target.value }))}
+                    options={LEVELS}
+                    tooltip="Imbalance of power between parties"
+                  />
+                  <SelectField
+                    label="Urgency Level"
+                    value={formData.urgency_level}
+                    onChange={(e) => setFormData(prev => ({ ...prev, urgency_level: e.target.value }))}
+                    options={LEVELS}
+                    tooltip="Time pressure being applied"
+                  />
                 </div>
 
-                {/* Prior Pattern */}
-                <div>
-                  <label className="block text-sm font-medium mb-2" style={{ color: isDark ? '#fff' : '#111' }}>
-                    Prior Pattern
-                  </label>
-                  <select
-                    value={formData.prior_pattern}
-                    onChange={(e) => setFormData(prev => ({ ...prev, prior_pattern: e.target.value }))}
-                    className="w-full px-4 py-3 rounded-xl outline-none"
-                    style={{
-                      backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : '#fff',
-                      color: isDark ? '#fff' : '#111',
-                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
-                    }}
-                  >
-                    {PRIOR_PATTERNS.map(opt => (
-                      <option key={opt.value} value={opt.value}>{opt.label}</option>
-                    ))}
-                  </select>
+                {/* Row 3: Moral Loading & Refusal Cost */}
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <SelectField
+                    label="Moral Loading"
+                    value={formData.moral_loading}
+                    onChange={(e) => setFormData(prev => ({ ...prev, moral_loading: e.target.value }))}
+                    options={LEVELS}
+                    tooltip="Duty/obligation pressure being invoked"
+                  />
+                  <SelectField
+                    label="Refusal Cost"
+                    value={formData.refusal_cost}
+                    onChange={(e) => setFormData(prev => ({ ...prev, refusal_cost: e.target.value }))}
+                    options={LEVELS}
+                    tooltip="Cost for saying no / pausing / leaving"
+                  />
                 </div>
 
-                {/* Escalation Sequence */}
+                {/* Row 4: Exit Paths & Force Level */}
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <SelectField
+                    label="Exit Paths Available"
+                    value={formData.exit_paths_available}
+                    onChange={(e) => setFormData(prev => ({ ...prev, exit_paths_available: e.target.value }))}
+                    options={EXIT_OPTIONS}
+                    tooltip="Can you leave, pause, or disengage?"
+                  />
+                  <SelectField
+                    label="Force Level"
+                    value={formData.force_level}
+                    onChange={(e) => setFormData(prev => ({ ...prev, force_level: e.target.value }))}
+                    options={FORCE_LEVELS}
+                    tooltip="Type of force being applied or threatened"
+                  />
+                </div>
+
+                {/* Escalation Sequence (Optional) */}
                 <div>
                   <label className="block text-sm font-medium mb-2" style={{ color: isDark ? '#fff' : '#111' }}>
-                    Escalation Sequence
+                    Escalation Sequence <span className="text-gray-500">(optional)</span>
                   </label>
                   <div className="flex gap-2 mb-2">
                     <input
@@ -512,7 +431,7 @@ const HDOSEnginePage = () => {
                     <button
                       type="button"
                       onClick={addEscalationStep}
-                      className="px-4 py-2 rounded-lg bg-amber-500 text-black font-medium"
+                      className="px-4 py-2 rounded-lg bg-amber-500 text-black font-medium hover:bg-amber-400 transition-colors"
                     >
                       Add
                     </button>
@@ -525,9 +444,9 @@ const HDOSEnginePage = () => {
                           className="flex items-center gap-2 px-3 py-2 rounded-lg"
                           style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)' }}
                         >
-                          <span className="text-xs font-mono text-amber-500">{step.step_number}.</span>
+                          <span className="text-xs font-mono text-amber-500">{idx + 1}.</span>
                           <span className="flex-1 text-sm" style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>
-                            {step.description}
+                            {step}
                           </span>
                           <button
                             type="button"
@@ -542,10 +461,31 @@ const HDOSEnginePage = () => {
                   )}
                 </div>
 
+                {/* Notes (Optional) */}
+                <div>
+                  <label className="block text-sm font-medium mb-2" style={{ color: isDark ? '#fff' : '#111' }}>
+                    Notes <span className="text-gray-500">(optional, do not infer inner states)</span>
+                  </label>
+                  <textarea
+                    value={formData.notes}
+                    onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
+                    placeholder="Brief context (observable facts only)..."
+                    rows={2}
+                    maxLength={500}
+                    className="w-full px-4 py-3 rounded-xl outline-none resize-none"
+                    style={{
+                      backgroundColor: isDark ? 'rgba(255,255,255,0.05)' : '#fff',
+                      color: isDark ? '#fff' : '#111',
+                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`
+                    }}
+                  />
+                </div>
+
                 {/* Submit */}
                 <button
                   type="submit"
                   disabled={loading}
+                  data-testid="hdos-analyze-button"
                   className="w-full py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2"
                   style={{
                     backgroundColor: loading ? (isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)') : '#F59E0B',
@@ -560,7 +500,7 @@ const HDOSEnginePage = () => {
                   ) : (
                     <>
                       <Shield size={20} />
-                      Analyze Scenario
+                      Analyze Configuration
                     </>
                   )}
                 </button>
@@ -568,33 +508,38 @@ const HDOSEnginePage = () => {
 
               {/* Error */}
               {error && (
-                <div className="mt-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20">
+                <div className="mt-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20" data-testid="hdos-error">
                   <p className="text-red-500 text-sm">{error}</p>
                 </div>
               )}
 
               {/* Result */}
               {result && (
-                <div className="mt-6 space-y-4">
-                  {/* Routing Classification */}
+                <div className="mt-6 space-y-4" data-testid="hdos-result">
+                  {/* Routing State */}
                   <div 
                     className="p-6 rounded-xl"
                     style={{ 
                       backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : '#fff',
-                      border: `2px solid ${getRoutingColor(result.routing_classification)}`
+                      border: `2px solid ${getRoutingColor(result.routing?.state)}`
                     }}
                   >
                     <div className="flex items-center justify-between mb-4">
-                      <div>
-                        <p className="text-xs uppercase tracking-wider mb-1" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
-                          Routing Classification
-                        </p>
-                        <p 
-                          className="text-3xl font-bold"
-                          style={{ color: getRoutingColor(result.routing_classification) }}
-                        >
-                          {result.routing_classification}
-                        </p>
+                      <div className="flex items-center gap-3">
+                        <span style={{ color: getRoutingColor(result.routing?.state) }}>
+                          {getRoutingIcon(result.routing?.state)}
+                        </span>
+                        <div>
+                          <p className="text-xs uppercase tracking-wider mb-1" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
+                            Routing State
+                          </p>
+                          <p 
+                            className="text-2xl font-bold"
+                            style={{ color: getRoutingColor(result.routing?.state) }}
+                          >
+                            {result.routing?.state}
+                          </p>
+                        </div>
                       </div>
                       <div className="text-right">
                         <p className="text-xs uppercase tracking-wider mb-1" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
@@ -606,15 +551,74 @@ const HDOSEnginePage = () => {
                       </div>
                     </div>
                     
+                    {/* Indices */}
+                    <div className="grid grid-cols-3 gap-2 mb-4">
+                      <div className="p-2 rounded-lg text-center" style={{ backgroundColor: isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.05)' }}>
+                        <p className="text-xs" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>Pressure</p>
+                        <p className="text-lg font-mono font-bold" style={{ color: result.pressure_index >= 60 ? '#EF4444' : isDark ? '#fff' : '#111' }}>
+                          {result.pressure_index}
+                        </p>
+                      </div>
+                      <div className="p-2 rounded-lg text-center" style={{ backgroundColor: isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.05)' }}>
+                        <p className="text-xs" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>Exit Integrity</p>
+                        <p className="text-lg font-mono font-bold" style={{ color: result.exit_integrity_index <= 25 ? '#EF4444' : result.exit_integrity_index <= 55 ? '#F59E0B' : '#10B981' }}>
+                          {result.exit_integrity_index}
+                        </p>
+                      </div>
+                      <div className="p-2 rounded-lg text-center" style={{ backgroundColor: isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.05)' }}>
+                        <p className="text-xs" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>Escalation</p>
+                        <p className="text-lg font-mono font-bold" style={{ color: result.escalation_index >= 50 ? '#F59E0B' : isDark ? '#fff' : '#111' }}>
+                          {result.escalation_index}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Collapse Path */}
                     <div className="p-3 rounded-lg" style={{ backgroundColor: isDark ? 'rgba(0,0,0,0.3)' : 'rgba(0,0,0,0.05)' }}>
                       <p className="text-xs font-mono" style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>
                         {result.collapse_path}
                       </p>
                     </div>
+
+                    {/* DOG Config Flag (Geometry Only) */}
+                    {result.dog_config_present && (
+                      <div className="mt-3 p-2 rounded-lg" style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)' }}>
+                        <p className="text-xs text-center" style={{ color: '#EF4444' }}>
+                          DOG_CONFIG_PRESENT: true (geometry only, not identity)
+                        </p>
+                      </div>
+                    )}
                   </div>
 
+                  {/* Warnings */}
+                  {result.warnings && result.warnings.length > 0 && (
+                    <div 
+                      className="p-4 rounded-xl"
+                      style={{ 
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        border: '1px solid rgba(245, 158, 11, 0.2)'
+                      }}
+                    >
+                      <p className="text-sm font-medium mb-2 flex items-center gap-2" style={{ color: '#F59E0B' }}>
+                        <AlertTriangle size={16} />
+                        Warnings
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {result.warnings.map((warning, idx) => (
+                          <span 
+                            key={idx}
+                            className="text-xs px-2 py-1 rounded-full font-medium"
+                            style={{ backgroundColor: 'rgba(245, 158, 11, 0.2)', color: '#F59E0B' }}
+                          >
+                            {warning}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   {/* Pressure Breakdown */}
-                  {result.pressure_breakdown.length > 0 && (
+                  {result.pressure_breakdown && result.pressure_breakdown.length > 0 && (
                     <div 
                       className="p-6 rounded-xl"
                       style={{ 
@@ -649,49 +653,19 @@ const HDOSEnginePage = () => {
                             <p className="text-sm mb-2" style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>
                               Trigger: {pv.trigger}
                             </p>
-                            {pv.amplifiers.length > 0 && (
-                              <p className="text-xs" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
+                            {pv.amplifiers && pv.amplifiers.length > 0 && (
+                              <p className="text-xs mb-1" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
                                 Amplifiers: {pv.amplifiers.join(', ')}
+                              </p>
+                            )}
+                            {pv.observable_signals && pv.observable_signals.length > 0 && (
+                              <p className="text-xs" style={{ color: isDark ? 'rgb(75, 85, 99)' : 'rgb(156, 163, 175)' }}>
+                                Signals: {pv.observable_signals.join(', ')}
                               </p>
                             )}
                           </div>
                         ))}
                       </div>
-                    </div>
-                  )}
-
-                  {/* Missing Fields */}
-                  {result.missing_fields.length > 0 && (
-                    <div 
-                      className="p-4 rounded-xl"
-                      style={{ backgroundColor: 'rgba(245, 158, 11, 0.1)' }}
-                    >
-                      <p className="text-sm font-medium text-amber-500 mb-2 flex items-center gap-2">
-                        <Info size={16} />
-                        Additional information would improve accuracy:
-                      </p>
-                      <ul className="text-sm space-y-1" style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>
-                        {result.missing_fields.map((field, idx) => (
-                          <li key={idx}>• {field}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Analysis Notes */}
-                  {result.analysis_notes.length > 0 && (
-                    <div 
-                      className="p-4 rounded-xl"
-                      style={{ backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.03)' }}
-                    >
-                      <p className="text-sm font-medium mb-2" style={{ color: isDark ? '#fff' : '#111' }}>
-                        Analysis Notes
-                      </p>
-                      <ul className="text-sm space-y-1" style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>
-                        {result.analysis_notes.map((note, idx) => (
-                          <li key={idx}>• {note}</li>
-                        ))}
-                      </ul>
                     </div>
                   )}
 
@@ -710,7 +684,7 @@ const HDOSEnginePage = () => {
 
             {/* Sidebar */}
             <div className="space-y-4">
-              {/* Quick Info */}
+              {/* Quick Reference */}
               <div 
                 className="p-4 rounded-xl"
                 style={{ 
@@ -719,27 +693,54 @@ const HDOSEnginePage = () => {
                 }}
               >
                 <p className="text-sm font-medium mb-3" style={{ color: isDark ? '#fff' : '#111' }}>
-                  Routing Types
+                  Routing States
                 </p>
                 <div className="space-y-2 text-xs">
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: '#EF4444' }} />
+                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: '#10B981' }} />
                     <span style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>
-                      <strong>DOG</strong> - Dismiss, Obstruct, Gaslight
+                      <strong>EXIT-PRESERVED</strong> — Exits open
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-3 h-3 rounded-full" style={{ backgroundColor: '#F59E0B' }} />
                     <span style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>
-                      <strong>GOD</strong> - Guilt, Overwhelm, Demand
+                      <strong>EXIT-THREATENED</strong> — Exits narrowing
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: '#8B5CF6' }} />
+                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: '#EF4444' }} />
                     <span style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>
-                      <strong>MIXED</strong> - Both patterns present
+                      <strong>EXIT-SEALED</strong> — Exits blocked
                     </span>
                   </div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: '#6B7280' }} />
+                    <span style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>
+                      <strong>UNDETERMINED</strong> — Insufficient data
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Index Thresholds */}
+              <div 
+                className="p-4 rounded-xl"
+                style={{ 
+                  backgroundColor: isDark ? 'rgba(255,255,255,0.03)' : '#fff',
+                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'}`
+                }}
+              >
+                <p className="text-sm font-medium mb-3" style={{ color: isDark ? '#fff' : '#111' }}>
+                  Classification Thresholds
+                </p>
+                <div className="space-y-1 text-xs" style={{ color: isDark ? 'rgb(156, 163, 175)' : 'rgb(107, 114, 128)' }}>
+                  <p>Exit Integrity ≤ 25 → SEALED</p>
+                  <p>Exit Integrity ≤ 55 → THREATENED</p>
+                  <p>Exit Integrity > 55 → PRESERVED</p>
+                  <p className="mt-2 pt-2 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }}>
+                    DOG_CONFIG if SEALED/THREATENED + Pressure ≥ 60
+                  </p>
                 </div>
               </div>
 
@@ -766,12 +767,12 @@ const HDOSEnginePage = () => {
                         <div>
                           <span 
                             className="text-xs font-bold"
-                            style={{ color: getRoutingColor(analysis.output_data.routing_classification) }}
+                            style={{ color: getRoutingColor(analysis.output_data?.routing?.state) }}
                           >
-                            {analysis.output_data.routing_classification}
+                            {analysis.output_data?.routing?.state || 'N/A'}
                           </span>
                           <p className="text-xs" style={{ color: isDark ? 'rgb(107, 114, 128)' : 'rgb(156, 163, 175)' }}>
-                            {new Date(analysis.created_at).toLocaleDateString()}
+                            {analysis.created_at ? new Date(analysis.created_at).toLocaleDateString() : 'N/A'}
                           </p>
                         </div>
                         <button
