@@ -588,21 +588,35 @@ const ListingDetailPage = () => {
               </div>
             </div>
 
-            {/* Contact Button */}
+            {/* Contact Button + Save */}
             {!isOwner && listing.status !== 'sold' && (
-              <button
-                onClick={handleMessageSeller}
-                disabled={actionLoading}
-                className="w-full py-4 rounded-xl text-lg font-semibold flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
-                style={{
-                  backgroundColor: 'rgb(245, 158, 11)',
-                  color: '#000'
-                }}
-                data-testid="message-seller-btn"
-              >
-                <MessageCircle size={22} />
-                {actionLoading ? 'Starting conversation...' : (user ? 'Message Seller' : 'Sign in to Message')}
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={handleMessageSeller}
+                  disabled={actionLoading}
+                  className="flex-1 py-4 rounded-xl text-lg font-semibold flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+                  style={{
+                    backgroundColor: 'rgb(245, 158, 11)',
+                    color: '#000'
+                  }}
+                  data-testid="message-seller-btn"
+                >
+                  <MessageCircle size={22} />
+                  {actionLoading ? 'Starting conversation...' : (user ? 'Message Seller' : 'Sign in to Message')}
+                </button>
+                <PinButton
+                  contentType="listing"
+                  contentId={listing.id}
+                  snapshot={{
+                    title: listing.title,
+                    subtitle: formatPrice(listing.price, listing.is_free),
+                    image_url: listing.photos?.[0],
+                    route: `/socialworld/local/${listing.id}`
+                  }}
+                  size="lg"
+                  className="px-4"
+                />
+              </div>
             )}
 
             {listing.status === 'sold' && (
