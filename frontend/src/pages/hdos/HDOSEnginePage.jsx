@@ -5,9 +5,10 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { 
   Shield, ChevronRight, Info, 
   Loader2, BookOpen, FileText, History, Trash2,
-  AlertTriangle, CheckCircle, XCircle, MinusCircle
+  AlertTriangle, CheckCircle, XCircle, MinusCircle, Bookmark
 } from 'lucide-react';
 import FullWidthLayout from '../../components/layouts/FullWidthLayout';
+import PinButton from '../../components/pins/PinButton';
 
 /**
  * HDOS Engine v1 - Exit-Safe Routing Classifier
