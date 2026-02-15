@@ -75,6 +75,21 @@ class JWTService:
         return token
     
     @staticmethod
+    def decode_token(token: str) -> Dict[str, Any]:
+        """
+        Decode JWT token without type verification (used by BGLIS routes)
+        
+        Raises exception if token is invalid/expired
+        """
+        try:
+            payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+            return payload
+        except jwt.ExpiredSignatureError:
+            raise ValueError("Token expired")
+        except jwt.InvalidTokenError:
+            raise ValueError("Invalid token")
+    
+    @staticmethod
     def verify_token(token: str, token_type: str = "access") -> Optional[Dict[str, Any]]:
         """
         Verify and decode JWT token
