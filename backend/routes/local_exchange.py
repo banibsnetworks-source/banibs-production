@@ -181,6 +181,7 @@ async def create_listing(listing: ListingCreate, current_user: dict = Depends(ge
         "seller_id": current_user["id"],
         "seller_name": current_user.get("name", "BANIBS User"),
         "seller_avatar": current_user.get("profile", {}).get("avatar_url") or current_user.get("avatar_url"),
+        "seller_phone_verified": current_user.get("is_phone_verified", False),
         "status": "active",
         "created_at": now,
         "updated_at": now,
