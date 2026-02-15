@@ -55,6 +55,7 @@ class ConversationPreview(BaseModel):
     otherUserId: str
     otherUserName: Optional[str] = None
     otherUserAvatar: Optional[str] = None
+    otherUserPhoneVerified: bool = False
     lastMessageText: str
     lastSenderId: str
     lastTimestamp: datetime
