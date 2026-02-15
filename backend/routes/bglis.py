@@ -68,7 +68,7 @@ async def get_current_user(
 @router.post("/link-phone")
 async def link_phone(
     request: LinkPhoneRequest,
-    authorization: str = None,
+    authorization: Optional[str] = Header(None),
     db: AsyncIOMotorDatabase = Depends(get_db)
 ):
     """
@@ -80,11 +80,8 @@ async def link_phone(
     
     This is VOLUNTARY - enhances trust but is not required.
     """
-    from fastapi import Header
-    
     # Get auth header from request
     if not authorization:
-        from fastapi import Request
         raise HTTPException(status_code=401, detail="Authorization header required")
     
     user = await get_current_user(authorization, db)
