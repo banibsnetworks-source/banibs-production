@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import FullWidthLayout from '../../components/layouts/FullWidthLayout';
 import ShareButton from '../../components/social/ShareButton';
+import PinButton from '../../components/pins/PinButton';
 
 /**
  * Frames - Visual Storytelling
