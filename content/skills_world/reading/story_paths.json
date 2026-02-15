@@ -1,0 +1,141 @@
+{
+  "id": "story-paths",
+  "title": "Story Paths",
+  "description": "Read short passages and understand their meaning",
+  "ageRange": "6-12",
+  "levels": [
+    {
+      "level": 1,
+      "name": "Simple Stories",
+      "description": "Short passages with clear ideas",
+      "passages": [
+        {
+          "id": "sp1-1",
+          "text": "Maya found a small bird in her garden. Its wing was hurt. She carefully picked it up and brought it inside. Her grandmother helped her make a soft bed for the bird.",
+          "question": "What did Maya find?",
+          "options": ["A hurt bird", "A lost cat", "A pretty flower", "A shiny stone"],
+          "answer": "A hurt bird"
+        },
+        {
+          "id": "sp1-2",
+          "text": "The rain fell softly on the roof. Inside, the family gathered around the table. Grandpa told stories about when he was young. Everyone listened quietly.",
+          "question": "What was Grandpa doing?",
+          "options": ["Telling stories", "Reading a book", "Cooking dinner", "Playing music"],
+          "answer": "Telling stories"
+        },
+        {
+          "id": "sp1-3",
+          "text": "Kofi loved to draw. Every day after school, he would sit by the window and draw what he saw. Today he drew the big tree outside. The leaves were changing colors.",
+          "question": "When did Kofi draw?",
+          "options": ["After school", "Before breakfast", "At night", "During class"],
+          "answer": "After school"
+        },
+        {
+          "id": "sp1-4",
+          "text": "The market was busy and colorful. People sold fruits, vegetables, and cloth. Amara helped her mother carry the basket. They bought mangoes and tomatoes.",
+          "question": "Where were Amara and her mother?",
+          "options": ["At the market", "At school", "At home", "At the park"],
+          "answer": "At the market"
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "name": "Understanding Why",
+      "description": "Think about reasons and feelings",
+      "passages": [
+        {
+          "id": "sp2-1",
+          "text": "Jamal's baby sister was crying. He remembered that she liked the sound of his voice. So he sat next to her and sang a gentle song. Soon, she stopped crying and smiled.",
+          "question": "Why did Jamal sing to his sister?",
+          "options": ["Because she liked his voice", "Because he was bored", "Because their mom asked him to", "Because the radio was broken"],
+          "answer": "Because she liked his voice"
+        },
+        {
+          "id": "sp2-2",
+          "text": "The garden had been dry for weeks. Nadia's grandmother looked worried. Then one morning, dark clouds appeared. By afternoon, rain was falling. Grandmother smiled and said, 'The plants will be happy now.'",
+          "question": "Why was grandmother worried at first?",
+          "options": ["The garden was too dry", "It was raining too much", "The plants were growing too fast", "There were too many clouds"],
+          "answer": "The garden was too dry"
+        },
+        {
+          "id": "sp2-3",
+          "text": "Esi practiced her speech many times. She stood in front of the mirror and spoke clearly. She wanted to do well at the school assembly. When the day came, she felt ready.",
+          "question": "Why did Esi practice so much?",
+          "options": ["She wanted to do well", "She had nothing else to do", "Her teacher made her", "She liked mirrors"],
+          "answer": "She wanted to do well"
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "name": "Making Connections",
+      "description": "Think about what happens next or what it means",
+      "passages": [
+        {
+          "id": "sp3-1",
+          "text": "Every Saturday, the elders gathered under the old baobab tree. They shared stories of the past and gave advice to the young people. Marcus always sat close and listened carefully. He knew these stories were precious gifts.",
+          "question": "What can we understand about Marcus?",
+          "options": ["He values the elders' wisdom", "He doesn't like Saturdays", "He prefers to be alone", "He already knows all the stories"],
+          "answer": "He values the elders' wisdom"
+        },
+        {
+          "id": "sp3-2",
+          "text": "Fatima noticed that her neighbor, Mr. Johnson, hadn't picked up his newspaper in three days. She told her mother. Together, they went to check on him. Mr. Johnson had been sick and was grateful for their help.",
+          "question": "What does this story teach us?",
+          "options": ["Paying attention to neighbors matters", "Newspapers are important", "Being sick is common", "Mothers know everything"],
+          "answer": "Paying attention to neighbors matters"
+        },
+        {
+          "id": "sp3-3",
+          "text": "The river had been part of the community for generations. People fished there, children played by its banks, and families gathered for celebrations. When some people wanted to build a factory nearby, the community came together to protect their river.",
+          "question": "Why did the community want to protect the river?",
+          "options": ["It was important to their way of life", "Rivers are always in danger", "Factories are always bad", "The children asked them to"],
+          "answer": "It was important to their way of life"
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "name": "Deeper Meaning",
+      "description": "Think about bigger ideas in stories",
+      "passages": [
+        {
+          "id": "sp4-1",
+          "text": "The young drummer watched his grandfather's hands move across the djembe. Each rhythm told a story. His grandfather said, 'When I am gone, these rhythms will still be here—in your hands.' The boy understood that some things are passed down like treasures.",
+          "question": "What was the grandfather teaching his grandson?",
+          "options": ["That traditions carry forward through generations", "That drumming is difficult", "That grandfathers are old", "That music is loud"],
+          "answer": "That traditions carry forward through generations"
+        },
+        {
+          "id": "sp4-2",
+          "text": "Two neighbors argued over where the property line was. For weeks, they didn't speak. Then one day, a storm knocked down trees on both their yards. Working together to clear the debris, they began talking again. By evening, the property line seemed less important.",
+          "question": "What did the neighbors learn?",
+          "options": ["Working together matters more than small disagreements", "Storms are dangerous", "Property lines are confusing", "Trees fall down sometimes"],
+          "answer": "Working together matters more than small disagreements"
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "name": "Reflection & Insight",
+      "description": "Stories that make you think",
+      "passages": [
+        {
+          "id": "sp5-1",
+          "text": "An old woman walked slowly through the village each morning. Some young people laughed at how slowly she moved. But the village elder told them, 'She has walked more miles than you can imagine. Every step she takes now carries the weight of a lifetime of journeys.'",
+          "question": "What is the elder teaching the young people?",
+          "options": ["To respect the experiences of elders", "That walking is good exercise", "That old people are slow", "That villages are nice places"],
+          "answer": "To respect the experiences of elders"
+        },
+        {
+          "id": "sp5-2",
+          "text": "The library had been closed for months. When it finally reopened, people of all ages came. A young girl asked the librarian why so many people were there. The librarian smiled and said, 'Books hold the thoughts of people we'll never meet and places we'll never go. People missed having access to all those worlds.'",
+          "question": "According to the librarian, why are books valuable?",
+          "options": ["They connect us to ideas beyond our own experience", "They are made of paper", "Libraries are nice buildings", "Reading is required for school"],
+          "answer": "They connect us to ideas beyond our own experience"
+        }
+      ]
+    }
+  ]
+}

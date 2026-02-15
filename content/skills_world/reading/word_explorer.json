@@ -1,0 +1,193 @@
+{
+  "id": "word-explorer",
+  "title": "Word Explorer",
+  "description": "Build vocabulary through visual connections",
+  "ageRange": "5-10",
+  "levels": [
+    {
+      "level": 1,
+      "name": "Everyday Objects",
+      "description": "Common things around us",
+      "items": [
+        {
+          "word": "apple",
+          "hint": "A round fruit",
+          "category": "food",
+          "options": ["apple", "orange", "banana", "grape"]
+        },
+        {
+          "word": "book",
+          "hint": "You read this",
+          "category": "objects",
+          "options": ["book", "pen", "table", "chair"]
+        },
+        {
+          "word": "sun",
+          "hint": "Bright in the sky",
+          "category": "nature",
+          "options": ["sun", "moon", "star", "cloud"]
+        },
+        {
+          "word": "house",
+          "hint": "Where people live",
+          "category": "places",
+          "options": ["house", "car", "tree", "road"]
+        },
+        {
+          "word": "dog",
+          "hint": "A loyal pet",
+          "category": "animals",
+          "options": ["dog", "cat", "bird", "fish"]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "name": "Actions & Movement",
+      "description": "Words for what we do",
+      "items": [
+        {
+          "word": "run",
+          "hint": "Move fast with your legs",
+          "category": "actions",
+          "options": ["run", "walk", "sit", "jump"]
+        },
+        {
+          "word": "read",
+          "hint": "Look at words and understand them",
+          "category": "actions",
+          "options": ["read", "write", "draw", "sing"]
+        },
+        {
+          "word": "sleep",
+          "hint": "Rest with eyes closed",
+          "category": "actions",
+          "options": ["sleep", "wake", "eat", "play"]
+        },
+        {
+          "word": "help",
+          "hint": "Give assistance to someone",
+          "category": "actions",
+          "options": ["help", "hide", "hurt", "hope"]
+        },
+        {
+          "word": "grow",
+          "hint": "Get bigger over time",
+          "category": "actions",
+          "options": ["grow", "shrink", "stay", "move"]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "name": "Feelings & Emotions",
+      "description": "Words for how we feel",
+      "items": [
+        {
+          "word": "happy",
+          "hint": "Feeling good and joyful",
+          "category": "emotions",
+          "options": ["happy", "sad", "angry", "tired"]
+        },
+        {
+          "word": "brave",
+          "hint": "Not afraid to face challenges",
+          "category": "emotions",
+          "options": ["brave", "scared", "shy", "calm"]
+        },
+        {
+          "word": "curious",
+          "hint": "Wanting to learn and discover",
+          "category": "emotions",
+          "options": ["curious", "bored", "confused", "certain"]
+        },
+        {
+          "word": "proud",
+          "hint": "Feeling good about what you did",
+          "category": "emotions",
+          "options": ["proud", "ashamed", "worried", "excited"]
+        },
+        {
+          "word": "peaceful",
+          "hint": "Calm and quiet inside",
+          "category": "emotions",
+          "options": ["peaceful", "angry", "nervous", "restless"]
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "name": "Nature & World",
+      "description": "Words from the world around us",
+      "items": [
+        {
+          "word": "ocean",
+          "hint": "A very large body of salt water",
+          "category": "nature",
+          "options": ["ocean", "river", "lake", "pond"]
+        },
+        {
+          "word": "mountain",
+          "hint": "Very high land with peaks",
+          "category": "nature",
+          "options": ["mountain", "hill", "valley", "plain"]
+        },
+        {
+          "word": "forest",
+          "hint": "Land covered with many trees",
+          "category": "nature",
+          "options": ["forest", "desert", "meadow", "jungle"]
+        },
+        {
+          "word": "weather",
+          "hint": "Rain, sun, wind, or snow",
+          "category": "nature",
+          "options": ["weather", "climate", "season", "temperature"]
+        },
+        {
+          "word": "horizon",
+          "hint": "Where sky meets land",
+          "category": "nature",
+          "options": ["horizon", "sunset", "skyline", "distance"]
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "name": "Community & Culture",
+      "description": "Words about people together",
+      "items": [
+        {
+          "word": "community",
+          "hint": "People living and working together",
+          "category": "society",
+          "options": ["community", "crowd", "group", "team"]
+        },
+        {
+          "word": "heritage",
+          "hint": "Traditions passed down through generations",
+          "category": "culture",
+          "options": ["heritage", "history", "memory", "story"]
+        },
+        {
+          "word": "respect",
+          "hint": "Treating others with honor",
+          "category": "values",
+          "options": ["respect", "fear", "ignore", "notice"]
+        },
+        {
+          "word": "wisdom",
+          "hint": "Deep understanding from experience",
+          "category": "values",
+          "options": ["wisdom", "knowledge", "facts", "memory"]
+        },
+        {
+          "word": "unity",
+          "hint": "Being together as one",
+          "category": "values",
+          "options": ["unity", "division", "difference", "distance"]
+        }
+      ]
+    }
+  ]
+}

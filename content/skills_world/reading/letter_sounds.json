@@ -1,0 +1,142 @@
+{
+  "id": "letter-sounds",
+  "title": "Letter Sounds",
+  "description": "Learn the sounds that letters make",
+  "ageRange": "4-7",
+  "levels": [
+    {
+      "level": 1,
+      "name": "Beginning Sounds",
+      "description": "Match words to their first letter",
+      "items": [
+        {
+          "letter": "B",
+          "targetWord": "ball",
+          "hint": "Something round you can throw",
+          "options": ["ball", "tall", "call", "fall"]
+        },
+        {
+          "letter": "C",
+          "targetWord": "cat",
+          "hint": "A furry pet that says meow",
+          "options": ["cat", "bat", "hat", "rat"]
+        },
+        {
+          "letter": "D",
+          "targetWord": "dog",
+          "hint": "A pet that barks",
+          "options": ["dog", "log", "fog", "hog"]
+        },
+        {
+          "letter": "F",
+          "targetWord": "fish",
+          "hint": "It swims in water",
+          "options": ["fish", "dish", "wish", "swish"]
+        },
+        {
+          "letter": "H",
+          "targetWord": "hat",
+          "hint": "You wear it on your head",
+          "options": ["hat", "cat", "bat", "mat"]
+        },
+        {
+          "letter": "M",
+          "targetWord": "moon",
+          "hint": "It shines at night",
+          "options": ["moon", "soon", "noon", "spoon"]
+        },
+        {
+          "letter": "S",
+          "targetWord": "sun",
+          "hint": "It shines during the day",
+          "options": ["sun", "fun", "run", "bun"]
+        },
+        {
+          "letter": "T",
+          "targetWord": "tree",
+          "hint": "It has leaves and branches",
+          "options": ["tree", "free", "three", "bee"]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "name": "Vowel Sounds",
+      "description": "Learn the sounds of A, E, I, O, U",
+      "items": [
+        {
+          "letter": "A",
+          "sound": "short a",
+          "targetWord": "ant",
+          "hint": "A tiny insect",
+          "options": ["ant", "end", "ink", "odd"]
+        },
+        {
+          "letter": "E",
+          "sound": "short e",
+          "targetWord": "egg",
+          "hint": "Chickens lay these",
+          "options": ["egg", "add", "ill", "odd"]
+        },
+        {
+          "letter": "I",
+          "sound": "short i",
+          "targetWord": "igloo",
+          "hint": "A house made of ice",
+          "options": ["igloo", "apple", "echo", "otter"]
+        },
+        {
+          "letter": "O",
+          "sound": "short o",
+          "targetWord": "octopus",
+          "hint": "Sea creature with eight arms",
+          "options": ["octopus", "apple", "igloo", "umbrella"]
+        },
+        {
+          "letter": "U",
+          "sound": "short u",
+          "targetWord": "umbrella",
+          "hint": "Keeps you dry in rain",
+          "options": ["umbrella", "apple", "elephant", "orange"]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "name": "Sound Blends",
+      "description": "Two letters that make one sound",
+      "items": [
+        {
+          "blend": "SH",
+          "targetWord": "ship",
+          "hint": "A boat that sails on water",
+          "options": ["ship", "skip", "slip", "sip"]
+        },
+        {
+          "blend": "CH",
+          "targetWord": "chair",
+          "hint": "You sit on this",
+          "options": ["chair", "air", "hair", "fair"]
+        },
+        {
+          "blend": "TH",
+          "targetWord": "three",
+          "hint": "The number after two",
+          "options": ["three", "tree", "free", "see"]
+        },
+        {
+          "blend": "WH",
+          "targetWord": "whale",
+          "hint": "A very big sea animal",
+          "options": ["whale", "wall", "well", "will"]
+        },
+        {
+          "blend": "PH",
+          "targetWord": "phone",
+          "hint": "You use this to call people",
+          "options": ["phone", "bone", "cone", "tone"]
+        }
+      ]
+    }
+  ]
+}
