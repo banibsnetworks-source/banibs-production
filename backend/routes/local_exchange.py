@@ -329,6 +329,11 @@ async def get_listing(listing_id: str, current_user: Optional[dict] = Depends(ge
     # Include zip only for the seller
     include_zip = current_user and current_user["id"] == listing["seller_id"]
     
+    # Fetch seller's current phone verification status
+    seller = await db.banibs_users.find_one({"id": listing["seller_id"]}, {"is_phone_verified": 1})
+    if seller:
+        listing["seller_phone_verified"] = seller.get("is_phone_verified", False)
+    
     return serialize_listing(listing, include_zip=include_zip)
 
 
