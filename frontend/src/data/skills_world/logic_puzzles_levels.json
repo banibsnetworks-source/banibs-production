@@ -1,0 +1,218 @@
+{
+  "activity_id": "logic-puzzles",
+  "activity_name": "Logic Puzzles",
+  "description": "Think carefully and solve puzzles step by step",
+  "age_guide": "Ages 6-10+",
+  "levels": [
+    {
+      "id": 1,
+      "name": "Simple Clues",
+      "description": "Use the clues to find the answer",
+      "puzzles": [
+        {
+          "id": "1-1",
+          "setup": "There are three animals: a cat, a dog, and a bird. The cat is bigger than the bird. The dog is bigger than the cat.",
+          "question": "Which animal is the smallest?",
+          "options": ["The cat", "The dog", "The bird"],
+          "correct": 2
+        },
+        {
+          "id": "1-2",
+          "setup": "Sam has more apples than Kim. Kim has more apples than Lee.",
+          "question": "Who has the fewest apples?",
+          "options": ["Sam", "Kim", "Lee"],
+          "correct": 2
+        },
+        {
+          "id": "1-3",
+          "setup": "The red box is heavier than the blue box. The green box is lighter than the blue box.",
+          "question": "Which box is the heaviest?",
+          "options": ["Red box", "Blue box", "Green box"],
+          "correct": 0
+        },
+        {
+          "id": "1-4",
+          "setup": "Maya finished her homework before Zoe. Zoe finished before Alex.",
+          "question": "Who finished last?",
+          "options": ["Maya", "Zoe", "Alex"],
+          "correct": 2
+        },
+        {
+          "id": "1-5",
+          "setup": "A pencil costs less than an eraser. A notebook costs more than an eraser.",
+          "question": "What costs the most?",
+          "options": ["Pencil", "Eraser", "Notebook"],
+          "correct": 2
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Yes or No",
+      "description": "Figure out what must be true",
+      "puzzles": [
+        {
+          "id": "2-1",
+          "setup": "All cats have tails. Whiskers is a cat.",
+          "question": "Does Whiskers have a tail?",
+          "options": ["Yes", "No", "We can't tell"],
+          "correct": 0
+        },
+        {
+          "id": "2-2",
+          "setup": "All birds have feathers. A penguin is a bird.",
+          "question": "Does a penguin have feathers?",
+          "options": ["Yes", "No", "We can't tell"],
+          "correct": 0
+        },
+        {
+          "id": "2-3",
+          "setup": "Some flowers are red. This plant is a flower.",
+          "question": "Is this flower definitely red?",
+          "options": ["Yes, definitely", "No, definitely not", "We can't tell for sure"],
+          "correct": 2
+        },
+        {
+          "id": "2-4",
+          "setup": "All squares have four sides. This shape has four sides.",
+          "question": "Is this shape definitely a square?",
+          "options": ["Yes, definitely", "No, definitely not", "We can't tell for sure"],
+          "correct": 2
+        },
+        {
+          "id": "2-5",
+          "setup": "No fish can fly. Goldie is a fish.",
+          "question": "Can Goldie fly?",
+          "options": ["Yes", "No", "We can't tell"],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Order Puzzles",
+      "description": "Put things in the right order",
+      "puzzles": [
+        {
+          "id": "3-1",
+          "setup": "Tom is taller than Sue. Sue is taller than Pat. Pat is taller than Jo.",
+          "question": "Put them in order from tallest to shortest.",
+          "options": ["Tom, Sue, Pat, Jo", "Jo, Pat, Sue, Tom", "Sue, Tom, Jo, Pat"],
+          "correct": 0
+        },
+        {
+          "id": "3-2",
+          "setup": "The elephant is heavier than the lion. The lion is heavier than the dog. The dog is heavier than the cat.",
+          "question": "Which is second heaviest?",
+          "options": ["Elephant", "Lion", "Dog"],
+          "correct": 1
+        },
+        {
+          "id": "3-3",
+          "setup": "Monday comes before Tuesday. Sunday comes before Monday.",
+          "question": "Which day comes first?",
+          "options": ["Monday", "Tuesday", "Sunday"],
+          "correct": 2
+        },
+        {
+          "id": "3-4",
+          "setup": "The library is between the school and the park. The store is past the park.",
+          "question": "What order do you pass them going from school to store?",
+          "options": ["School, Library, Park, Store", "School, Park, Library, Store", "Library, School, Park, Store"],
+          "correct": 0
+        },
+        {
+          "id": "3-5",
+          "setup": "Chapter 3 comes after Chapter 2. Chapter 1 comes before Chapter 2.",
+          "question": "Which chapter is in the middle?",
+          "options": ["Chapter 1", "Chapter 2", "Chapter 3"],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "If-Then Puzzles",
+      "description": "Think about what happens next",
+      "puzzles": [
+        {
+          "id": "4-1",
+          "setup": "If it rains, the ground gets wet. It is raining.",
+          "question": "What do we know?",
+          "options": ["The ground will be dry", "The ground will be wet", "Nothing will change"],
+          "correct": 1
+        },
+        {
+          "id": "4-2",
+          "setup": "If you study, you learn. If you learn, you grow smarter. Sam studied.",
+          "question": "Did Sam grow smarter?",
+          "options": ["Yes", "No", "We can't tell"],
+          "correct": 0
+        },
+        {
+          "id": "4-3",
+          "setup": "If the light is green, cars can go. If the light is red, cars must stop. The light turned red.",
+          "question": "What should the cars do?",
+          "options": ["Go fast", "Stop", "Turn around"],
+          "correct": 1
+        },
+        {
+          "id": "4-4",
+          "setup": "If you water a plant, it grows. This plant grew.",
+          "question": "Was the plant definitely watered?",
+          "options": ["Yes, definitely", "No, definitely not", "We can't tell for sure"],
+          "correct": 2
+        },
+        {
+          "id": "4-5",
+          "setup": "If today is Friday, tomorrow is Saturday. Tomorrow is Saturday.",
+          "question": "Is today definitely Friday?",
+          "options": ["Yes, definitely", "No, definitely not", "We can't tell for sure"],
+          "correct": 2
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Tricky Thinking",
+      "description": "Puzzles that need careful thought",
+      "puzzles": [
+        {
+          "id": "5-1",
+          "setup": "There are 5 apples in a basket. You take away 3 apples.",
+          "question": "How many apples do YOU have?",
+          "options": ["2 apples", "3 apples", "5 apples"],
+          "correct": 1
+        },
+        {
+          "id": "5-2",
+          "setup": "A farmer has 17 sheep. All but 9 run away.",
+          "question": "How many sheep are left?",
+          "options": ["8 sheep", "9 sheep", "17 sheep"],
+          "correct": 1
+        },
+        {
+          "id": "5-3",
+          "setup": "You are in a race and you pass the person in second place.",
+          "question": "What place are you in now?",
+          "options": ["First place", "Second place", "Third place"],
+          "correct": 1
+        },
+        {
+          "id": "5-4",
+          "setup": "A boy is looking at a photo. Someone asks who is in the photo. He says: 'I don't have brothers or sisters, but this man's father is my father's son.'",
+          "question": "Who is in the photo?",
+          "options": ["His father", "His son", "Himself"],
+          "correct": 1
+        },
+        {
+          "id": "5-5",
+          "setup": "Which is heavier: a pound of feathers or a pound of rocks?",
+          "question": "Choose the answer:",
+          "options": ["Feathers", "Rocks", "They weigh the same"],
+          "correct": 2
+        }
+      ]
+    }
+  ]
+}

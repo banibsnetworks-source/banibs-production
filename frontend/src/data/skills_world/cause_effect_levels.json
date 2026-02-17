@@ -1,0 +1,283 @@
+{
+  "activity_id": "cause-effect",
+  "activity_name": "Cause & Effect",
+  "description": "Understand why things happen and what happens next",
+  "age_guide": "Ages 5-9+",
+  "levels": [
+    {
+      "id": 1,
+      "name": "Simple Causes",
+      "description": "Match what happens to why it happened",
+      "items": [
+        {
+          "id": "1-1",
+          "type": "cause_to_effect",
+          "cause": "It started to rain.",
+          "question": "What might happen next?",
+          "options": ["People open umbrellas", "The sun comes out", "Flowers wilt", "Snow falls"],
+          "correct": 0
+        },
+        {
+          "id": "1-2",
+          "type": "cause_to_effect",
+          "cause": "The alarm clock rang.",
+          "question": "What might happen next?",
+          "options": ["A person wakes up", "It gets darker outside", "Dinner is served", "The TV turns on"],
+          "correct": 0
+        },
+        {
+          "id": "1-3",
+          "type": "cause_to_effect",
+          "cause": "The ice cream was left in the sun.",
+          "question": "What might happen?",
+          "options": ["It melts", "It freezes", "It grows bigger", "It turns blue"],
+          "correct": 0
+        },
+        {
+          "id": "1-4",
+          "type": "effect_to_cause",
+          "effect": "The flowers are blooming.",
+          "question": "What might have caused this?",
+          "options": ["Spring arrived", "Winter came", "The power went out", "The door opened"],
+          "correct": 0
+        },
+        {
+          "id": "1-5",
+          "type": "effect_to_cause",
+          "effect": "The dog is wagging its tail.",
+          "question": "What might have caused this?",
+          "options": ["It is happy", "It is sleeping", "It is hungry", "It is cold"],
+          "correct": 0
+        },
+        {
+          "id": "1-6",
+          "type": "cause_to_effect",
+          "cause": "Someone turned off the lights.",
+          "question": "What happened?",
+          "options": ["The room got dark", "The room got brighter", "The music played", "Food appeared"],
+          "correct": 0
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Nature Connections",
+      "description": "How nature causes things to happen",
+      "items": [
+        {
+          "id": "2-1",
+          "type": "cause_to_effect",
+          "cause": "The wind blew very hard.",
+          "question": "What might happen?",
+          "options": ["Leaves fall from trees", "Ice forms on windows", "The river dries up", "Stars appear"],
+          "correct": 0
+        },
+        {
+          "id": "2-2",
+          "type": "effect_to_cause",
+          "effect": "There is a rainbow in the sky.",
+          "question": "What probably happened before?",
+          "options": ["It rained while the sun shone", "It snowed all night", "The moon rose", "A fire started"],
+          "correct": 0
+        },
+        {
+          "id": "2-3",
+          "type": "cause_to_effect",
+          "cause": "Winter arrived and the temperature dropped.",
+          "question": "What might happen to the lake?",
+          "options": ["It might freeze", "It might boil", "It might disappear", "It might turn pink"],
+          "correct": 0
+        },
+        {
+          "id": "2-4",
+          "type": "effect_to_cause",
+          "effect": "The bird flew south.",
+          "question": "What might have caused this?",
+          "options": ["Cold weather is coming", "Summer just started", "It found extra food", "The rain stopped"],
+          "correct": 0
+        },
+        {
+          "id": "2-5",
+          "type": "cause_to_effect",
+          "cause": "A caterpillar made a cocoon.",
+          "question": "What will happen eventually?",
+          "options": ["It becomes a butterfly", "It becomes a fish", "It becomes a rock", "It becomes a tree"],
+          "correct": 0
+        },
+        {
+          "id": "2-6",
+          "type": "effect_to_cause",
+          "effect": "The plants in the garden grew tall.",
+          "question": "What helped them grow?",
+          "options": ["Water and sunlight", "Darkness and cold", "Loud noises", "Strong wind"],
+          "correct": 0
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Everyday Life",
+      "description": "Causes and effects in daily activities",
+      "items": [
+        {
+          "id": "3-1",
+          "type": "cause_to_effect",
+          "cause": "The child practiced piano every day.",
+          "question": "What might happen over time?",
+          "options": ["They get better at piano", "They forget how to play", "The piano breaks", "The music disappears"],
+          "correct": 0
+        },
+        {
+          "id": "3-2",
+          "type": "effect_to_cause",
+          "effect": "The student got a good grade on the test.",
+          "question": "What might have caused this?",
+          "options": ["They studied hard", "They skipped class", "They lost their book", "They forgot the test"],
+          "correct": 0
+        },
+        {
+          "id": "3-3",
+          "type": "cause_to_effect",
+          "cause": "Someone left the water running in the sink.",
+          "question": "What might happen?",
+          "options": ["Water overflows", "The sink disappears", "Ice forms", "The house moves"],
+          "correct": 0
+        },
+        {
+          "id": "3-4",
+          "type": "effect_to_cause",
+          "effect": "The family arrived late to the movie.",
+          "question": "What might have caused this?",
+          "options": ["There was traffic on the road", "The movie started too early", "The theater was closed", "They walked too fast"],
+          "correct": 0
+        },
+        {
+          "id": "3-5",
+          "type": "cause_to_effect",
+          "cause": "The boy forgot to set his alarm.",
+          "question": "What might happen?",
+          "options": ["He wakes up late", "He wakes up early", "He has bad dreams", "His room gets messy"],
+          "correct": 0
+        },
+        {
+          "id": "3-6",
+          "type": "effect_to_cause",
+          "effect": "The cookies taste delicious.",
+          "question": "What might have caused this?",
+          "options": ["They were baked with care", "They were left in the rain", "They were too old", "They were frozen too long"],
+          "correct": 0
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Stories & Actions",
+      "description": "Why characters do things in stories",
+      "items": [
+        {
+          "id": "4-1",
+          "type": "cause_to_effect",
+          "cause": "The rabbit saw a fox coming.",
+          "question": "What might the rabbit do?",
+          "options": ["Run and hide", "Take a nap", "Look for food", "Start singing"],
+          "correct": 0
+        },
+        {
+          "id": "4-2",
+          "type": "effect_to_cause",
+          "effect": "The princess smiled and thanked the knight.",
+          "question": "What might the knight have done?",
+          "options": ["Helped the princess", "Ran away", "Fell asleep", "Ate her lunch"],
+          "correct": 0
+        },
+        {
+          "id": "4-3",
+          "type": "cause_to_effect",
+          "cause": "The little pig built a house of bricks.",
+          "question": "What might happen when the wolf comes?",
+          "options": ["The house stays standing", "The house falls down", "The house floats away", "The house shrinks"],
+          "correct": 0
+        },
+        {
+          "id": "4-4",
+          "type": "effect_to_cause",
+          "effect": "Goldilocks ran away from the bears' house.",
+          "question": "What caused her to run?",
+          "options": ["The bears came home", "She was bored", "The food was bad", "The house was ugly"],
+          "correct": 0
+        },
+        {
+          "id": "4-5",
+          "type": "cause_to_effect",
+          "cause": "The boy cried 'Wolf!' when there was no wolf.",
+          "question": "What happened when a real wolf came?",
+          "options": ["Nobody believed him", "Everyone came quickly", "The wolf became friendly", "He turned invisible"],
+          "correct": 0
+        },
+        {
+          "id": "4-6",
+          "type": "effect_to_cause",
+          "effect": "The tortoise won the race.",
+          "question": "What might have caused this?",
+          "options": ["He kept going slowly but steadily", "He ran very fast", "He took a shortcut", "The race was cancelled"],
+          "correct": 0
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Thinking Deeper",
+      "description": "More complex cause and effect chains",
+      "items": [
+        {
+          "id": "5-1",
+          "type": "chain",
+          "setup": "The farmer didn't water the crops. The crops didn't grow.",
+          "question": "What might happen to the farmer?",
+          "options": ["He might not have food to sell", "He might get more rain", "He might find treasure", "The crops might grow anyway"],
+          "correct": 0
+        },
+        {
+          "id": "5-2",
+          "type": "chain",
+          "setup": "A tree fell in the road. Cars couldn't pass.",
+          "question": "What might people need to do?",
+          "options": ["Find a different route", "Drive faster", "Plant more trees", "Wait for summer"],
+          "correct": 0
+        },
+        {
+          "id": "5-3",
+          "type": "multiple_effects",
+          "cause": "The power went out in the whole neighborhood.",
+          "question": "Which of these would NOT happen?",
+          "options": ["The refrigerator keeps food cold", "The lights go off", "The TV stops working", "Clocks stop showing time"],
+          "correct": 0
+        },
+        {
+          "id": "5-4",
+          "type": "chain",
+          "setup": "Maria shared her toys with her friends. Her friends were happy.",
+          "question": "What might happen next?",
+          "options": ["Her friends might share with her too", "Her friends might go away", "Her toys might disappear", "It might start snowing"],
+          "correct": 0
+        },
+        {
+          "id": "5-5",
+          "type": "multiple_causes",
+          "effect": "The garden has many beautiful butterflies.",
+          "question": "What might have caused this?",
+          "options": ["There are many flowers in the garden", "The garden has no plants", "It snows every day", "The soil is all concrete"],
+          "correct": 0
+        },
+        {
+          "id": "5-6",
+          "type": "chain",
+          "setup": "The library got many new books. More children started visiting.",
+          "question": "What might happen to the children?",
+          "options": ["They might read and learn more", "They might stop reading", "They might lose interest in books", "They might stay home more"],
+          "correct": 0
+        }
+      ]
+    }
+  ]
+}

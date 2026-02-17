@@ -1,0 +1,73 @@
+{
+  "activity_id": "pattern-finder",
+  "activity_name": "Pattern Finder",
+  "description": "Discover patterns and predict what comes next",
+  "age_guide": "Ages 5-9+",
+  "levels": [
+    {
+      "id": 1,
+      "name": "Simple Patterns",
+      "description": "Find the pattern and choose what comes next",
+      "items": [
+        { "sequence": ["circle", "square", "circle", "square", "circle"], "answer": "square", "options": ["circle", "square", "triangle", "star"] },
+        { "sequence": ["red", "blue", "red", "blue", "red"], "answer": "blue", "options": ["red", "blue", "green", "yellow"] },
+        { "sequence": ["1", "2", "1", "2", "1"], "answer": "2", "options": ["1", "2", "3", "4"] },
+        { "sequence": ["A", "B", "A", "B", "A"], "answer": "B", "options": ["A", "B", "C", "D"] },
+        { "sequence": ["up", "down", "up", "down", "up"], "answer": "down", "options": ["up", "down", "left", "right"] },
+        { "sequence": ["big", "small", "big", "small", "big"], "answer": "small", "options": ["big", "small", "tiny", "huge"] }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Growing Patterns",
+      "description": "Numbers that grow in a pattern",
+      "items": [
+        { "sequence": ["1", "2", "3", "4", "5"], "answer": "6", "options": ["5", "6", "7", "8"] },
+        { "sequence": ["2", "4", "6", "8", "10"], "answer": "12", "options": ["10", "11", "12", "14"] },
+        { "sequence": ["5", "10", "15", "20", "25"], "answer": "30", "options": ["26", "28", "30", "35"] },
+        { "sequence": ["1", "3", "5", "7", "9"], "answer": "11", "options": ["10", "11", "12", "13"] },
+        { "sequence": ["10", "20", "30", "40", "50"], "answer": "60", "options": ["55", "60", "65", "70"] },
+        { "sequence": ["3", "6", "9", "12", "15"], "answer": "18", "options": ["16", "17", "18", "21"] }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Shape Sequences",
+      "description": "Watch the shapes change",
+      "items": [
+        { "sequence": ["circle", "circle", "square", "circle", "circle"], "answer": "square", "options": ["circle", "square", "triangle", "star"] },
+        { "sequence": ["triangle", "triangle", "triangle", "circle", "triangle", "triangle", "triangle"], "answer": "circle", "options": ["triangle", "circle", "square", "star"] },
+        { "sequence": ["star", "moon", "star", "moon", "star", "moon"], "answer": "star", "options": ["star", "moon", "sun", "cloud"] },
+        { "sequence": ["heart", "heart", "star", "heart", "heart", "star", "heart", "heart"], "answer": "star", "options": ["heart", "star", "circle", "square"] },
+        { "sequence": ["square", "triangle", "circle", "square", "triangle"], "answer": "circle", "options": ["square", "triangle", "circle", "star"] },
+        { "sequence": ["diamond", "diamond", "heart", "heart", "diamond", "diamond"], "answer": "heart", "options": ["diamond", "heart", "star", "moon"] }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Color Patterns",
+      "description": "Follow the colors",
+      "items": [
+        { "sequence": ["red", "yellow", "blue", "red", "yellow"], "answer": "blue", "options": ["red", "yellow", "blue", "green"] },
+        { "sequence": ["green", "green", "purple", "green", "green"], "answer": "purple", "options": ["green", "purple", "orange", "pink"] },
+        { "sequence": ["orange", "pink", "orange", "pink", "orange"], "answer": "pink", "options": ["orange", "pink", "red", "yellow"] },
+        { "sequence": ["black", "white", "black", "white", "black", "white"], "answer": "black", "options": ["black", "white", "gray", "brown"] },
+        { "sequence": ["blue", "blue", "red", "blue", "blue", "red", "blue", "blue"], "answer": "red", "options": ["blue", "red", "green", "yellow"] },
+        { "sequence": ["yellow", "orange", "red", "yellow", "orange"], "answer": "red", "options": ["yellow", "orange", "red", "pink"] }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Mixed Patterns",
+      "description": "Patterns that combine different ideas",
+      "items": [
+        { "sequence": ["A1", "B2", "C3", "D4", "E5"], "answer": "F6", "options": ["E6", "F5", "F6", "G7"] },
+        { "sequence": ["cat", "dog", "cat", "dog", "cat", "dog"], "answer": "cat", "options": ["cat", "dog", "bird", "fish"] },
+        { "sequence": ["sun", "cloud", "rain", "sun", "cloud"], "answer": "rain", "options": ["sun", "cloud", "rain", "snow"] },
+        { "sequence": ["happy", "sad", "happy", "sad", "happy"], "answer": "sad", "options": ["happy", "sad", "angry", "calm"] },
+        { "sequence": ["walk", "run", "jump", "walk", "run"], "answer": "jump", "options": ["walk", "run", "jump", "skip"] },
+        { "sequence": ["morning", "afternoon", "evening", "morning", "afternoon"], "answer": "evening", "options": ["morning", "afternoon", "evening", "night"] }
+      ]
+    }
+  ]
+}
