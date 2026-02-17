@@ -316,6 +316,11 @@ import ReadingWordsHome from "./pages/skillsworld/reading/ReadingWordsHome";
 import WordExplorerGame from "./pages/skillsworld/reading/WordExplorerGame";
 import StoryPathsGame from "./pages/skillsworld/reading/StoryPathsGame";
 import LetterSoundsGame from "./pages/skillsworld/reading/LetterSoundsGame";
+// Critical Thinking Sub-World
+import CriticalThinkingHome from "./pages/skillsworld/thinking/CriticalThinkingHome";
+import PatternFinderGame from "./pages/skillsworld/thinking/PatternFinderGame";
+import LogicPuzzlesGame from "./pages/skillsworld/thinking/LogicPuzzlesGame";
+import CauseEffectGame from "./pages/skillsworld/thinking/CauseEffectGame";
 
 // Local Exchange - Social World Marketplace MVP
 import LocalExchangeHome from "./pages/socialworld/local-exchange/LocalExchangeHome";
@@ -474,6 +479,11 @@ function App() {
               <Route path="/skillsworld/reading/word-explorer" element={<WordExplorerGame />} />
               <Route path="/skillsworld/reading/story-paths" element={<StoryPathsGame />} />
               <Route path="/skillsworld/reading/letter-sounds" element={<LetterSoundsGame />} />
+              {/* Critical Thinking Sub-World */}
+              <Route path="/skillsworld/thinking" element={<CriticalThinkingHome />} />
+              <Route path="/skillsworld/thinking/pattern-finder" element={<PatternFinderGame />} />
+              <Route path="/skillsworld/thinking/logic-puzzles" element={<LogicPuzzlesGame />} />
+              <Route path="/skillsworld/thinking/cause-effect" element={<CauseEffectGame />} />
               
               {/* Local Exchange - Social World Marketplace MVP */}
               <Route path="/socialworld/local" element={<LocalExchangeHome />} />
