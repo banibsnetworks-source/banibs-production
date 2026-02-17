@@ -243,7 +243,11 @@
         "/skillsworld/reading",
         "/skillsworld/reading/word-explorer",
         "/skillsworld/reading/story-paths",
-        "/skillsworld/reading/letter-sounds"
+        "/skillsworld/reading/letter-sounds",
+        "/skillsworld/thinking",
+        "/skillsworld/thinking/pattern-finder",
+        "/skillsworld/thinking/logic-puzzles",
+        "/skillsworld/thinking/cause-effect"
       ],
       "api_routes": [],
       "db_collections": [],
