@@ -428,7 +428,10 @@ const GlobalNavBar = ({ sectionTitle }) => {
         <div className="overflow-y-auto h-[calc(100vh-4rem)] py-4 px-3">
           <ul className="space-y-1">
             {navLinks.map((link) => {
+              const IconComponent = link.Icon;
+              const active = isActive(link.path);
               const textColor = theme === 'dark' ? '#FFFFFF' : '#111111';
+              const mutedColor = theme === 'dark' ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.5)';
               const hoverBg = theme === 'dark' ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.05)';
               const activeBg = 'var(--banibs-primary, #D4A017)';
               const activeText = theme === 'dark' ? '#111111' : '#FFFFFF';
@@ -439,23 +442,30 @@ const GlobalNavBar = ({ sectionTitle }) => {
                     to={link.path}
                     onClick={closeDrawer}
                     className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all"
-                    style={isActive(link.path) 
+                    style={active 
                       ? { backgroundColor: activeBg, color: activeText }
                       : { color: textColor, backgroundColor: 'transparent' }
                     }
                     onMouseEnter={(e) => {
-                      if (!isActive(link.path)) {
+                      if (!active) {
                         e.currentTarget.style.backgroundColor = hoverBg;
                       }
                     }}
                     onMouseLeave={(e) => {
-                      if (!isActive(link.path)) {
+                      if (!active) {
                         e.currentTarget.style.backgroundColor = 'transparent';
                       }
                     }}
                     data-testid={`nav-link-${link.path.replace(/\//g, '-') || 'home'}`}
                   >
-                    <span className="text-lg">{link.icon}</span>
+                    <IconComponent 
+                      size={20} 
+                      strokeWidth={1.75}
+                      style={{ 
+                        color: active ? activeText : mutedColor,
+                        flexShrink: 0
+                      }} 
+                    />
                     <span>{link.label}</span>
                   </Link>
                 </li>
