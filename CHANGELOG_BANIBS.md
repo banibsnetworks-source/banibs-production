@@ -4,6 +4,51 @@ All notable changes to the BANIBS platform.
 
 ---
 
+## [2026-02-15] Skills World - Critical Thinking v1.0 ✅ COMPLETE
+
+### Added
+- **Critical Thinking Sub-World** - Third major educational module in Skills World
+- **Pattern Finder** - Discover patterns and predict what comes next (5 levels, 30 patterns)
+- **Logic Puzzles** - Think carefully and solve puzzles step by step (5 levels, 25 puzzles)
+- **Cause & Effect** - Understand why things happen and what happens next (5 levels, 30 items)
+
+### Design (Calm-Tech)
+- No timers, no scores, no pressure language
+- No rankings, leaderboards, or comparisons
+- One activity visible at a time
+- Clear exits at all times
+- Soft colors, minimal motion
+- Age guidance visible but not enforced
+
+### Routes
+- `/skillsworld/thinking` - Hub page
+- `/skillsworld/thinking/pattern-finder` - Pattern Finder activity
+- `/skillsworld/thinking/logic-puzzles` - Logic Puzzles activity
+- `/skillsworld/thinking/cause-effect` - Cause & Effect activity
+
+### Files Created
+- `/app/frontend/src/pages/skillsworld/thinking/CriticalThinkingHome.jsx`
+- `/app/frontend/src/pages/skillsworld/thinking/PatternFinderGame.jsx`
+- `/app/frontend/src/pages/skillsworld/thinking/LogicPuzzlesGame.jsx`
+- `/app/frontend/src/pages/skillsworld/thinking/CauseEffectGame.jsx`
+- `/app/frontend/src/data/skills_world/pattern_finder_levels.json`
+- `/app/frontend/src/data/skills_world/logic_puzzles_levels.json`
+- `/app/frontend/src/data/skills_world/cause_effect_levels.json`
+- `/app/docs/skills_world_critical_thinking_v1.md`
+
+### Files Modified
+- `/app/frontend/src/App.js` - Added Critical Thinking routes
+- `/app/frontend/src/pages/skillsworld/SkillsWorldHome.jsx` - Updated status to active
+- `/app/backend/config/modules_registry.json` - Added critical_thinking module
+
+### V1.0 Limitations (Intentional)
+- No images (text-based patterns only)
+- No hints (users think through problems)
+- Frontend-only (localStorage progress)
+- English content only
+
+---
+
 ## [2026-02-15] Skills World - Reading & Words v1.0 ✅ COMPLETE
 
 ### Added
