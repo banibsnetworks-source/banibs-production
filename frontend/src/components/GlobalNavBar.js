@@ -98,15 +98,16 @@ const GlobalNavBar = ({ sectionTitle }) => {
 
   // Navigation IA: Left drawer = Primary BANIBS modules (branded)
   // News categories moved to top bar (NewsNavigationBar)
+  // Icons: Lucide React - consistent 1.5px stroke weight
   const navLinks = [
-    { label: 'BANIBS News', path: '/', icon: '📰' },
-    { label: 'BANIBS Business Directory', path: '/business-directory', icon: '🏢' },
-    { label: 'BANIBS Social', path: '/portal/social', icon: '🌐' },
-    { label: 'BANIBS Resources', path: '/resources', icon: '📚' },
-    { label: 'BANIBS Marketplace', path: '/portal/marketplace', icon: '🛍️' },
-    { label: 'BANIBS TV', path: '/portal/tv', icon: '📺' },
-    { label: 'BANIBS Wallet', path: '/portal/wallet', icon: '💰' },
-    { label: 'Community', path: '/portal/community', icon: '🏠' },
+    { label: 'BANIBS News', path: '/', Icon: Newspaper },
+    { label: 'BANIBS Business Directory', path: '/business-directory', Icon: Building2 },
+    { label: 'BANIBS Social', path: '/portal/social', Icon: Globe },
+    { label: 'BANIBS Resources', path: '/resources', Icon: BookOpen },
+    { label: 'BANIBS Marketplace', path: '/portal/marketplace', Icon: ShoppingBag },
+    { label: 'BANIBS TV', path: '/portal/tv', Icon: Tv },
+    { label: 'BANIBS Wallet', path: '/portal/wallet', Icon: Wallet },
+    { label: 'Community', path: '/portal/community', Icon: Users },
   ];
 
   // Control plane links - visible based on role
@@ -114,14 +115,14 @@ const GlobalNavBar = ({ sectionTitle }) => {
     { 
       label: 'Founder Command Center', 
       path: '/founder/command', 
-      icon: '🎯',
+      Icon: Target,
       visible: isSuperAdmin,
       requiresAuth: true
     },
     { 
       label: 'Admin Dash', 
       path: '/admin/opportunities', 
-      icon: '⚙️',
+      Icon: Cog,
       visible: isAdmin,
       requiresAuth: true
     },
