@@ -49,11 +49,11 @@ const SkillsWorldHome = () => {
       title: 'Critical Thinking',
       description: 'Puzzles and patterns that encourage curiosity.',
       icon: Lightbulb,
-      path: null,
-      status: 'coming-soon',
-      color: 'from-amber-500/10 to-orange-500/10',
-      borderColor: 'border-gray-700/30',
-      iconColor: 'text-gray-500'
+      path: '/skillsworld/thinking',
+      status: 'active',
+      color: 'from-amber-500/20 to-orange-500/20',
+      borderColor: 'border-amber-500/30',
+      iconColor: 'text-amber-400'
     }
   ];
 
