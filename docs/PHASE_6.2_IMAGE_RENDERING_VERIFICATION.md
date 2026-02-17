@@ -186,7 +186,7 @@ for source in RSS_SOURCES:
 
 ### 3.3 Frontend Rendering
 
-**Test**: Visited `https://calm-tech-learning.preview.emergentagent.com/`
+**Test**: Visited `https://calm-tech-learn.preview.emergentagent.com/`
 
 **Results**:
 - ✅ Homepage loads successfully
