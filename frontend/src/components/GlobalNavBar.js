@@ -490,24 +490,32 @@ const GlobalNavBar = ({ sectionTitle }) => {
                 Control Plane
               </p>
               <ul className="space-y-1">
-                {controlPlaneLinks.filter(link => link.visible).map((link) => (
-                  <li key={link.path}>
-                    <button
-                      onClick={() => handleControlPlaneClick(link)}
-                      className={`
-                        w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all
-                        ${isActive(link.path)
-                          ? 'bg-amber-600 text-white'
-                          : 'text-amber-600 hover:bg-amber-500/10 border border-amber-500/30'
-                        }
-                      `}
-                      data-testid={`nav-control-${link.path.replace(/\//g, '-')}`}
-                    >
-                      <span className="text-lg">{link.icon}</span>
-                      <span>{link.label}</span>
-                    </button>
-                  </li>
-                ))}
+                {controlPlaneLinks.filter(link => link.visible).map((link) => {
+                  const IconComponent = link.Icon;
+                  const active = isActive(link.path);
+                  return (
+                    <li key={link.path}>
+                      <button
+                        onClick={() => handleControlPlaneClick(link)}
+                        className={`
+                          w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all
+                          ${active
+                            ? 'bg-amber-600 text-white'
+                            : 'text-amber-600 hover:bg-amber-500/10 border border-amber-500/30'
+                          }
+                        `}
+                        data-testid={`nav-control-${link.path.replace(/\//g, '-')}`}
+                      >
+                        <IconComponent 
+                          size={20} 
+                          strokeWidth={1.75}
+                          style={{ flexShrink: 0 }} 
+                        />
+                        <span>{link.label}</span>
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           )}
