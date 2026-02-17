@@ -282,6 +282,23 @@
       "notes": "Language and reading activities - 3 activities (Word Explorer, Story Paths, Letter Sounds), JSON-driven content, no audio in v1.0"
     },
     {
+      "id": "critical_thinking",
+      "display_name": "Critical Thinking",
+      "world": "Skills World",
+      "category": "thinking_puzzles",
+      "status": "active",
+      "frontend_routes": [
+        "/skillsworld/thinking",
+        "/skillsworld/thinking/pattern-finder",
+        "/skillsworld/thinking/logic-puzzles",
+        "/skillsworld/thinking/cause-effect"
+      ],
+      "api_routes": [],
+      "db_collections": [],
+      "last_updated": "2026-02-15",
+      "notes": "Critical thinking activities - 3 activities (Pattern Finder, Logic Puzzles, Cause & Effect), JSON-driven content, calm-tech design"
+    },
+    {
       "id": "prayer_rooms",
       "display_name": "Prayer Rooms",
       "world": "Community Portal",
