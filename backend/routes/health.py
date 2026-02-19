@@ -2,27 +2,16 @@
 Phase 7.5.2 - Health Check Endpoint
 Provides system health status for uptime monitoring
 """
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from datetime import datetime, timezone
-import os
-from motor.motor_asyncio import AsyncIOMotorClient
-import certifi
+from motor.motor_asyncio import AsyncIOMotorDatabase
+from db.connection import get_db
 
 router = APIRouter(prefix="/api", tags=["health"])
 
-# Database connection with TLS support
-client = AsyncIOMotorClient(
-    os.environ['MONGO_URL'],
-    tlsCAFile=certifi.where(),
-    serverSelectionTimeoutMS=5000,
-    connectTimeoutMS=5000,
-    socketTimeoutMS=5000
-)
-db = client[os.environ['DB_NAME']]
-
 
 @router.get("/health")
-async def health_check():
+async def health_check(db: AsyncIOMotorDatabase = Depends(get_db)):
     """
     System health check endpoint
     
