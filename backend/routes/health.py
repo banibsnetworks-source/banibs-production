@@ -1,6 +1,11 @@
 """
 Phase 7.5.2 - Health Check Endpoint
 Provides system health status for uptime monitoring
+
+NOTE: Never instantiate AsyncIOMotorClient at module level.
+Motor's async driver requires a running event loop. Module-level
+instantiation triggers "RuntimeError: no running event loop" during
+import. Always use Depends(get_db) from db/connection.py.
 """
 from fastapi import APIRouter, HTTPException, Depends
 from datetime import datetime, timezone
