@@ -357,6 +357,29 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
                 />
               </div>
             </div>
+            
+            {/* Image upload button */}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImageUpload}
+              accept="image/*"
+              className="hidden"
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploadingMedia || commentMedia.length > 0}
+              className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-colors disabled:opacity-50"
+              title="Add image"
+            >
+              {isUploadingMedia ? (
+                <Loader className="animate-spin" size={16} />
+              ) : (
+                <ImageIcon size={16} />
+              )}
+            </button>
+            
             <div className="relative">
               <button
                 type="button"
@@ -393,7 +416,7 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
             </div>
             <button
               type="submit"
-              disabled={!commentText.trim() || isSubmitting}
+              disabled={(!commentText.trim() && commentMedia.length === 0) || isSubmitting}
               className="p-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
@@ -403,6 +426,25 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
               )}
             </button>
           </div>
+          
+          {/* Comment media preview */}
+          {commentMedia.length > 0 && (
+            <div className="mt-2 relative inline-block">
+              <img 
+                src={commentMedia[0].url} 
+                alt="Upload preview" 
+                className="max-h-24 rounded-lg border border-border"
+              />
+              <button
+                type="button"
+                onClick={handleRemoveMedia}
+                className="absolute -top-2 -right-2 p-1 bg-destructive text-destructive-foreground rounded-full hover:bg-destructive/90"
+              >
+                <X size={12} />
+              </button>
+            </div>
+          )}
+          
           {error && (
             <p className="text-red-400 text-xs mt-1">{error}</p>
           )}
