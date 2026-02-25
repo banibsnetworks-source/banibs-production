@@ -525,6 +525,25 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
             contentTitle={localPost.text?.substring(0, 50) || `Post by ${localPost.author.display_name}`}
             className="flex-1"
           />
+
+          {/* Pin/Save Button */}
+          {user && (
+            <button
+              type="button"
+              onClick={handlePinPost}
+              disabled={isPinning || isPinned}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-medium text-sm transition-all ${
+                isPinned
+                  ? 'text-amber-500'
+                  : 'text-muted-foreground hover:bg-muted hover:text-card-foreground'
+              }`}
+              aria-label={isPinned ? 'Saved' : 'Save post'}
+              data-testid="pin-post-btn"
+            >
+              <Bookmark size={18} fill={isPinned ? 'currentColor' : 'none'} />
+              <span className="hidden sm:inline">{isPinned ? 'Saved' : 'Save'}</span>
+            </button>
+          )}
         </div>
       </div>
 
