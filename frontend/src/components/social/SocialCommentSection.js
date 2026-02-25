@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Loader, Smile, MoreVertical, Trash2, Image as ImageIcon, X } from 'lucide-react';
+import { Send, Loader, Smile, MoreVertical, Trash2, Image as ImageIcon, X, Reply, ChevronDown, ChevronUp } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import EmojiPicker from '../emoji/EmojiPicker.jsx';
 import { applySkinTone } from '../../utils/emojiToneUtils';
