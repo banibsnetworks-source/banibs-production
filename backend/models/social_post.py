@@ -92,6 +92,7 @@ class SocialCommentCreate(BaseModel):
     """Create comment request"""
     text: str = Field(..., min_length=1, max_length=2000, description="Comment text (includes emoji placeholders)")
     media: Optional[list[MediaItem]] = Field(default=[], description="Media attachments (images only for v1)")
+    parent_id: Optional[str] = Field(None, description="Parent comment ID for replies (1-level nesting)")
 
 
 class SocialComment(BaseModel):
@@ -101,6 +102,8 @@ class SocialComment(BaseModel):
     author: SocialPostAuthor
     text: str
     media: list[MediaItem] = []
+    parent_id: Optional[str] = None
+    replies: Optional[list["SocialComment"]] = []
     created_at: datetime
     is_deleted: bool = False
     
