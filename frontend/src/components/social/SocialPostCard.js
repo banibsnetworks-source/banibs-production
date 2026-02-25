@@ -526,6 +526,20 @@ const SocialPostCard = ({ post, onUpdate, onDelete, onQuote, compact = false }) 
             <span className="hidden sm:inline">Comment</span>
           </button>
 
+          {/* Quote Button */}
+          {user && onQuote && (
+            <button
+              type="button"
+              onClick={() => onQuote(localPost)}
+              className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg font-medium text-sm transition-all text-muted-foreground hover:bg-muted hover:text-card-foreground"
+              aria-label="Quote post"
+              data-testid="quote-post-btn"
+            >
+              <Quote size={18} />
+              <span className="hidden sm:inline">Quote</span>
+            </button>
+          )}
+
           {/* Share Button (Platform-Neutral NEO v1) */}
           <ShareButton
             contentType="post"
