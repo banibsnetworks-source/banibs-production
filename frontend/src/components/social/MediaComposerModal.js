@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { X, Image as ImageIcon, Video, Link2, Loader2, Smile, Send } from 'lucide-react';
 import MediaUploader from './MediaUploader';
 import LinkPreviewCard from './LinkPreviewCard';
+import QuotedPostCard from './QuotedPostCard';
 import EmojiPicker from '../emoji/EmojiPicker.jsx';
 import { applySkinTone } from '../../utils/emojiToneUtils';
 import { useAuth } from '../../contexts/AuthContext';
@@ -17,8 +18,9 @@ import { ProfileAvatar } from './ProfileAvatar';
  * - Premium Post button styling
  * - Clean visual hierarchy
  * - No layout shift
+ * - Quote post support
  */
-const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '' }) => {
+const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '', quotedPost = null, onClearQuote }) => {
   const { user } = useAuth();
   const [text, setText] = useState('');
   const [media, setMedia] = useState([]);
