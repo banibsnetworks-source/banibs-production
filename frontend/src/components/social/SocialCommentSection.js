@@ -340,14 +340,86 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
                     </div>
                   )}
                 </div>
+                
+                {/* Reply button */}
+                {user && (
+                  <button
+                    type="button"
+                    onClick={() => handleReplyClick(comment)}
+                    className="flex items-center gap-1 mt-1 ml-2 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                    data-testid={`reply-btn-${comment.id}`}
+                  >
+                    <Reply size={12} />
+                    <span>Reply</span>
+                  </button>
+                )}
+                
+                {/* Nested Replies (1-level) */}
+                {comment.replies && comment.replies.length > 0 && (
+                  <div className="mt-2 ml-4 pl-3 border-l-2 border-border space-y-3">
+                    {comment.replies.map((reply) => (
+                      <div key={reply.id} className="flex items-start space-x-2 group">
+                        {/* Reply Author Avatar */}
+                        <div className="w-6 h-6 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-gray-900 text-xs font-bold flex-shrink-0">
+                          {reply.author.display_name?.charAt(0)?.toUpperCase() || 'U'}
+                        </div>
+                        
+                        {/* Reply Content */}
+                        <div className="flex-1">
+                          <div className="bg-muted/50 rounded-lg px-3 py-2 relative">
+                            <div className="flex items-center space-x-2 mb-1">
+                              <span className="text-xs font-semibold text-foreground">
+                                {reply.author.display_name}
+                              </span>
+                              <span className="text-xs text-muted-foreground">
+                                {formatTimestamp(reply.created_at)}
+                              </span>
+                            </div>
+                            <PostTextWithEmojis 
+                              text={reply.text}
+                              className="text-sm text-card-foreground"
+                            />
+                            {/* Reply media */}
+                            {reply.media && reply.media.length > 0 && (
+                              <div className="mt-2">
+                                <img 
+                                  src={reply.media[0].url}
+                                  alt=""
+                                  className="max-h-32 rounded-lg border border-border"
+                                  loading="lazy"
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           ))
         )}
       </div>
 
+      {/* Reply indicator */}
+      {replyingTo && (
+        <div className="flex items-center justify-between px-3 py-2 bg-muted/50 rounded-t-lg border border-b-0 border-border">
+          <span className="text-xs text-muted-foreground">
+            Replying to <span className="font-medium text-foreground">{replyingTo.authorName}</span>
+          </span>
+          <button
+            type="button"
+            onClick={handleCancelReply}
+            className="p-1 text-muted-foreground hover:text-foreground rounded transition-colors"
+          >
+            <X size={14} />
+          </button>
+        </div>
+      )}
+
       {/* Add Comment Form */}
-      <form onSubmit={handleSubmitComment} className="flex items-start space-x-2">
+      <form onSubmit={handleSubmitComment} className={`flex items-start space-x-2 ${replyingTo ? 'rounded-t-none' : ''}`}>
         {/* User Avatar */}
         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-yellow-500 to-yellow-600 flex items-center justify-center text-gray-900 text-xs font-bold flex-shrink-0">
           {user?.name?.charAt(0)?.toUpperCase() || 'U'}
