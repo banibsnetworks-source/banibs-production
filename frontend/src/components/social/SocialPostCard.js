@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MessageCircle, MoreHorizontal, Trash2, Flag, Bookmark } from 'lucide-react';
+import { MessageCircle, MoreHorizontal, Trash2, Flag, Bookmark, Quote } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../../contexts/ToastContext';
 import SocialCommentSection from './SocialCommentSection';
@@ -12,6 +12,7 @@ import ConfirmModal from '../common/ConfirmModal';
 import { SocialPostMediaGrid } from './SocialPostMediaGrid';
 import { ReactionButton, getReactionData } from './ReactionButton';
 import ShareButton from './ShareButton';
+import QuotedPostCard from './QuotedPostCard';
 
 /**
  * SocialPostCard - Polished UI v2 + Multi-Reaction System v2.0
