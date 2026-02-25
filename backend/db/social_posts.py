@@ -308,8 +308,8 @@ async def get_post_reactors(post_id: str, reaction_type: Optional[str] = None, l
     return reactors
 
 
-async def create_comment(post_id: str, author_id: str, text: str, media: Optional[list] = None):
-    """Create a comment on a post with optional media"""
+async def create_comment(post_id: str, author_id: str, text: str, media: Optional[list] = None, parent_id: Optional[str] = None):
+    """Create a comment on a post with optional media and threading"""
     db = await get_db()
     
     comment = {
@@ -318,6 +318,7 @@ async def create_comment(post_id: str, author_id: str, text: str, media: Optiona
         "author_id": author_id,
         "text": text,
         "media": media or [],
+        "parent_id": parent_id,
         "is_deleted": False,
         "created_at": datetime.now(timezone.utc),
         "updated_at": datetime.now(timezone.utc)
