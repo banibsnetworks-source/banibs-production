@@ -275,7 +275,8 @@ async def create_comment(
         post_id=post_id,
         author_id=current_user["id"],
         text=comment_data.text,
-        media=media_list
+        media=media_list,
+        parent_id=comment_data.parent_id
     )
     
     # Enrich with author info
