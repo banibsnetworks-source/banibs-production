@@ -254,10 +254,11 @@ async def toggle_highfive_post(
 async def create_comment(
     post_id: str,
     comment_data: SocialCommentCreate,
-    current_user=Depends(require_role("user", "member"))
+    current_user=Depends(require_circle_tier())  # Uses SOCIAL_MIN_TIER env var or defaults to OPEN
 ):
     """
     Create a comment on a post with optional media
+    Requires authentication and minimum circle tier
     """
     # Check if post exists
     post = await db_social.get_post_by_id(post_id)
