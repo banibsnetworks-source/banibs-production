@@ -173,6 +173,48 @@ const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
     }
   };
 
+  // Handle pin/save post
+  const handlePinPost = async () => {
+    if (isPinning || !user) return;
+    
+    setIsPinning(true);
+    try {
+      const token = localStorage.getItem('access_token');
+      
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/pins`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          content_type: 'social_post',
+          content_id: localPost.id,
+          content_snapshot: {
+            title: localPost.author.display_name,
+            subtitle: localPost.text?.substring(0, 100) || '',
+            image_url: localPost.media?.[0]?.url || localPost.author.avatar_url,
+            route: `/portal/social/post/${localPost.id}`
+          }
+        })
+      });
+
+      if (response.ok) {
+        setIsPinned(true);
+        toast?.success('Post saved to your pins!');
+      } else {
+        const err = await response.json();
+        toast?.error(err.detail || 'Failed to save post');
+      }
+    } catch (err) {
+      console.error('Error pinning post:', err);
+      toast?.error('Failed to save post');
+    } finally {
+      setIsPinning(false);
+    }
+  };
+
   const isAuthor = user?.id === localPost.author.id;
 
   const profilePath = localPost.author.handle 
