@@ -57,7 +57,7 @@ async def create_post(
     current_user=Depends(require_role("user", "member"))
 ):
     """
-    Create a new social post (Phase 8.1: with media and link support)
+    Create a new social post (Phase 8.1: with media, link, and quote support)
     Requires authentication
     """
     # Convert Pydantic models to dicts for DB
@@ -69,7 +69,8 @@ async def create_post(
         text=post_data.text,
         media=media_list,
         link_url=post_data.link_url,
-        link_meta=link_meta_dict
+        link_meta=link_meta_dict,
+        quoted_post_id=post_data.quoted_post_id
     )
     
     # Return enriched post
