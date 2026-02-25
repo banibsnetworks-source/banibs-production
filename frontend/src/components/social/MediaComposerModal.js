@@ -181,6 +181,24 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '', quote
           {/* Media Uploader */}
           <MediaUploader media={media} setMedia={setMedia} />
 
+          {/* Quoted Post Preview */}
+          {quotedPost && (
+            <div className="mt-4">
+              <QuotedPostCard 
+                quotedPost={{
+                  id: quotedPost.id,
+                  author_name: quotedPost.author?.display_name || 'Unknown',
+                  author_avatar: quotedPost.author?.avatar_url,
+                  text: quotedPost.text,
+                  media_url: quotedPost.media?.[0]?.url || quotedPost.media_urls?.[0],
+                  created_at: quotedPost.created_at
+                }}
+                isPreview={true}
+                onRemove={onClearQuote}
+              />
+            </div>
+          )}
+
           {/* Link Preview - Rich */}
           {linkMeta && (
             <div className="mt-4">
