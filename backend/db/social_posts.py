@@ -365,6 +365,7 @@ async def get_comments(post_id: str, page: int = 1, page_size: int = 20):
         
         enriched_comments.append({
             **comment,
+            "media": comment.get("media", []),
             "author": {
                 "id": author["id"],
                 "display_name": author.get("name", "Unknown User"),
