@@ -16,9 +16,10 @@ async def create_post(
     text: str,
     media: Optional[list] = None,
     link_url: Optional[str] = None,
-    link_meta: Optional[dict] = None
+    link_meta: Optional[dict] = None,
+    quoted_post_id: Optional[str] = None
 ):
-    """Create a new social post with media and link support (Phase 8.1)"""
+    """Create a new social post with media, link, and quote support"""
     db = await get_db()
     
     post = {
@@ -28,6 +29,7 @@ async def create_post(
         "media": media or [],
         "link_url": link_url,
         "link_meta": link_meta,
+        "quoted_post_id": quoted_post_id,
         "visibility": "members",
         "like_count": 0,
         "comment_count": 0,
