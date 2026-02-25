@@ -26,7 +26,7 @@ import QuotedPostCard from './QuotedPostCard';
  * 
  * @param {boolean} compact - When true, hides author header (for profile pages)
  */
-const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
+const SocialPostCard = ({ post, onUpdate, onDelete, onQuote, compact = false }) => {
   const { user } = useAuth();
   const toast = useToast();
   const [isReacting, setIsReacting] = useState(false);
