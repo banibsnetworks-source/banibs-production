@@ -37,6 +37,9 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
   const [commentMedia, setCommentMedia] = useState([]);
   const [isUploadingMedia, setIsUploadingMedia] = useState(false);
   
+  // Reply state
+  const [replyingTo, setReplyingTo] = useState(null); // { id, authorName }
+  
   // Delete state
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState(null);
