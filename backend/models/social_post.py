@@ -46,6 +46,16 @@ class SocialPostAuthor(BaseModel):
     handle: Optional[str] = None
 
 
+class QuotedPostSnapshot(BaseModel):
+    """Minimal snapshot of a quoted post for display"""
+    id: str
+    author_name: str
+    author_avatar: Optional[str] = None
+    text: str
+    media_url: Optional[str] = None
+    created_at: str
+
+
 class SocialPost(BaseModel):
     """Social post response"""
     id: str
@@ -55,6 +65,8 @@ class SocialPost(BaseModel):
     media_urls: list[str] = []  # S-MEDIA v1.0 compatibility - extracted media URLs
     link_url: Optional[str] = None
     link_meta: Optional[LinkMetadata] = None
+    quoted_post_id: Optional[str] = None
+    quoted_post: Optional[QuotedPostSnapshot] = None
     created_at: datetime
     updated_at: datetime
     like_count: int = 0
