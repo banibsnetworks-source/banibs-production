@@ -104,9 +104,32 @@ async def get_feed(page: int = 1, page_size: int = 20, viewer_id: Optional[str] 
                         url = f"{backend_url}{url}"
                     media_urls.append(url)
         
+        # Fetch quoted post if present
+        quoted_post = None
+        if post.get("quoted_post_id"):
+            qp = await db.social_posts.find_one(
+                {"id": post["quoted_post_id"], "is_deleted": False},
+                {"_id": 0}
+            )
+            if qp:
+                qp_author = await db.banibs_users.find_one(
+                    {"id": qp["author_id"]},
+                    {"_id": 0, "name": 1, "avatar_url": 1, "profile": 1}
+                )
+                qp_profile = qp_author.get("profile", {}) if qp_author else {}
+                quoted_post = {
+                    "id": qp["id"],
+                    "author_name": qp_author.get("name", "Unknown") if qp_author else "Unknown",
+                    "author_avatar": qp_profile.get("avatar_url") or (qp_author.get("avatar_url") if qp_author else None),
+                    "text": qp.get("text", "")[:200],
+                    "media_url": qp.get("media", [{}])[0].get("url") if qp.get("media") else None,
+                    "created_at": qp.get("created_at").isoformat() if qp.get("created_at") else None
+                }
+        
         enriched_posts.append({
             **post,
             "media_urls": media_urls,  # S-MEDIA v1.0 compatibility
+            "quoted_post": quoted_post,
             "author": {
                 "id": author["id"],
                 "display_name": author.get("name", "Unknown User"),
