@@ -110,7 +110,8 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
               type: m.type,
               width: m.width,
               height: m.height
-            }))
+            })),
+            parent_id: replyingTo?.id || null
           })
         }
       );
@@ -121,10 +122,20 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
 
       const newComment = await response.json();
       
-      // Add to local state
-      setComments([...comments, newComment]);
+      // Add to local state - if reply, add to parent's replies array
+      if (replyingTo) {
+        setComments(comments.map(c => 
+          c.id === replyingTo.id 
+            ? { ...c, replies: [...(c.replies || []), newComment] }
+            : c
+        ));
+      } else {
+        setComments([...comments, { ...newComment, replies: [] }]);
+      }
+      
       setCommentText('');
       setCommentMedia([]);
+      setReplyingTo(null);
       
       if (onCommentAdded) {
         onCommentAdded(newComment);
@@ -135,6 +146,17 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+  
+  // Handle reply click
+  const handleReplyClick = (comment) => {
+    setReplyingTo({ id: comment.id, authorName: comment.author.display_name });
+    inputRef.current?.focus();
+  };
+  
+  // Cancel reply
+  const handleCancelReply = () => {
+    setReplyingTo(null);
   };
 
   // Handle image upload for comment
