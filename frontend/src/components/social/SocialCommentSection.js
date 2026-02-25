@@ -82,7 +82,7 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
   const handleSubmitComment = async (e) => {
     e.preventDefault();
     
-    if (!commentText.trim() || isSubmitting) return;
+    if ((!commentText.trim() && commentMedia.length === 0) || isSubmitting) return;
     
     setIsSubmitting(true);
     setError(null);
@@ -101,7 +101,13 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
           },
           credentials: 'include',
           body: JSON.stringify({
-            text: commentText.trim()
+            text: commentText.trim() || ' ',
+            media: commentMedia.map(m => ({
+              url: m.url,
+              type: m.type,
+              width: m.width,
+              height: m.height
+            }))
           })
         }
       );
@@ -115,6 +121,7 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
       // Add to local state
       setComments([...comments, newComment]);
       setCommentText('');
+      setCommentMedia([]);
       
       if (onCommentAdded) {
         onCommentAdded(newComment);
@@ -125,6 +132,57 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  // Handle image upload for comment
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    // Only allow images for comments
+    if (!file.type.startsWith('image/')) {
+      setError('Only images are allowed in comments');
+      return;
+    }
+    
+    setIsUploadingMedia(true);
+    setError(null);
+    
+    try {
+      const token = localStorage.getItem('access_token');
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/media/upload`,
+        {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
+          body: formData
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error('Failed to upload image');
+      }
+      
+      const uploadedMedia = await response.json();
+      setCommentMedia([uploadedMedia]); // Only 1 image per comment for v1
+    } catch (err) {
+      console.error('Error uploading image:', err);
+      setError('Failed to upload image');
+    } finally {
+      setIsUploadingMedia(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  const handleRemoveMedia = () => {
+    setCommentMedia([]);
   };
 
   const handleDeleteComment = async () => {
