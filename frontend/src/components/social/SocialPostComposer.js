@@ -215,9 +215,12 @@ const SocialPostComposer = ({ onPostCreated, quotedPost, onClearQuote }) => {
         onClose={() => {
           setIsModalOpen(false);
           setInitialEmoji('');
+          if (onClearQuote) onClearQuote();
         }}
         onSubmit={handleSubmit}
         initialText={initialEmoji}
+        quotedPost={quotedPost}
+        onClearQuote={onClearQuote}
       />
     </>
   );
