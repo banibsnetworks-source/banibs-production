@@ -91,6 +91,7 @@ class SocialFeedResponse(BaseModel):
 class SocialCommentCreate(BaseModel):
     """Create comment request"""
     text: str = Field(..., min_length=1, max_length=2000, description="Comment text (includes emoji placeholders)")
+    media: Optional[list[MediaItem]] = Field(default=[], description="Media attachments (images only for v1)")
 
 
 class SocialComment(BaseModel):
@@ -99,6 +100,7 @@ class SocialComment(BaseModel):
     post_id: str
     author: SocialPostAuthor
     text: str
+    media: list[MediaItem] = []
     created_at: datetime
     is_deleted: bool = False
     
