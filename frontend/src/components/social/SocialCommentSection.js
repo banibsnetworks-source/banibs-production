@@ -303,6 +303,17 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
                     text={comment.text}
                     className="text-sm text-card-foreground"
                   />
+                  {/* Comment media */}
+                  {comment.media && comment.media.length > 0 && (
+                    <div className="mt-2">
+                      <img 
+                        src={comment.media[0].url}
+                        alt=""
+                        className="max-h-48 rounded-lg border border-border"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
