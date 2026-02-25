@@ -252,7 +252,7 @@ async def create_comment(
     current_user=Depends(require_role("user", "member"))
 ):
     """
-    Create a comment on a post
+    Create a comment on a post with optional media
     """
     # Check if post exists
     post = await db_social.get_post_by_id(post_id)
@@ -262,10 +262,14 @@ async def create_comment(
             detail="Post not found"
         )
     
+    # Convert media models to dicts
+    media_list = [m.dict() for m in comment_data.media] if comment_data.media else []
+    
     comment = await db_social.create_comment(
         post_id=post_id,
         author_id=current_user["id"],
-        text=comment_data.text
+        text=comment_data.text,
+        media=media_list
     )
     
     # Enrich with author info
