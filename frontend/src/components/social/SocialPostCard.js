@@ -27,12 +27,15 @@ import ShareButton from './ShareButton';
  */
 const SocialPostCard = ({ post, onUpdate, onDelete, compact = false }) => {
   const { user } = useAuth();
+  const toast = useToast();
   const [isReacting, setIsReacting] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [localPost, setLocalPost] = useState(post);
+  const [isPinning, setIsPinning] = useState(false);
+  const [isPinned, setIsPinned] = useState(false);
 
   const formatTimestamp = (dateString) => {
     try {
