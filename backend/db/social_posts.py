@@ -336,43 +336,78 @@ async def create_comment(post_id: str, author_id: str, text: str, media: Optiona
 
 
 async def get_comments(post_id: str, page: int = 1, page_size: int = 20):
-    """Get comments for a post"""
+    """Get comments for a post with 1-level threaded replies"""
     db = await get_db()
     
     skip = (page - 1) * page_size
     
-    # Get total count (excluding deleted)
+    # Get total count of root comments only (excluding deleted and replies)
     total_items = await db.social_comments.count_documents({
         "post_id": post_id,
-        "is_deleted": False
+        "is_deleted": False,
+        "parent_id": None
     })
     
-    # Get comments
-    comments = await db.social_comments.find(
-        {"post_id": post_id, "is_deleted": False},
+    # Get root comments (no parent_id)
+    root_comments = await db.social_comments.find(
+        {"post_id": post_id, "is_deleted": False, "parent_id": None},
         {"_id": 0}
     ).sort("created_at", 1).skip(skip).limit(page_size).to_list(length=None)
     
+    # Get all replies for these root comments
+    root_ids = [c["id"] for c in root_comments]
+    replies = []
+    if root_ids:
+        replies = await db.social_comments.find(
+            {"post_id": post_id, "is_deleted": False, "parent_id": {"$in": root_ids}},
+            {"_id": 0}
+        ).sort("created_at", 1).to_list(length=None)
+    
+    # Build reply map
+    reply_map = {}
+    for reply in replies:
+        parent = reply.get("parent_id")
+        if parent not in reply_map:
+            reply_map[parent] = []
+        reply_map[parent].append(reply)
+    
     # Enrich with author info
-    enriched_comments = []
-    for comment in comments:
+    async def enrich_comment(comment):
         author = await db.banibs_users.find_one(
             {"id": comment["author_id"]},
             {"_id": 0, "id": 1, "name": 1, "avatar_url": 1}
         )
         
         if not author:
-            continue
+            return None
         
-        enriched_comments.append({
+        return {
             **comment,
             "media": comment.get("media", []),
+            "parent_id": comment.get("parent_id"),
             "author": {
                 "id": author["id"],
                 "display_name": author.get("name", "Unknown User"),
                 "avatar_url": author.get("avatar_url")
             }
-        })
+        }
+    
+    enriched_comments = []
+    for comment in root_comments:
+        enriched = await enrich_comment(comment)
+        if not enriched:
+            continue
+        
+        # Add enriched replies
+        comment_replies = reply_map.get(comment["id"], [])
+        enriched_replies = []
+        for reply in comment_replies:
+            enriched_reply = await enrich_comment(reply)
+            if enriched_reply:
+                enriched_replies.append(enriched_reply)
+        
+        enriched["replies"] = enriched_replies
+        enriched_comments.append(enriched)
     
     return {
         "page": page,
