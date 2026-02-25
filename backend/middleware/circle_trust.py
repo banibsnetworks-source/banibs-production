@@ -6,7 +6,7 @@ import os
 from functools import wraps
 from fastapi import HTTPException, Depends, status
 from db.connection import get_db
-from middleware.auth import get_current_user
+from middleware.auth_guard import get_current_user
 
 # Circle tier hierarchy (lower index = higher trust)
 CIRCLE_TIERS = {
