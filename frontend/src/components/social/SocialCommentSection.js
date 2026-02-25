@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Loader, Smile, MoreVertical, Trash2 } from 'lucide-react';
+import { Send, Loader, Smile, MoreVertical, Trash2, Image as ImageIcon, X } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import EmojiPicker from '../emoji/EmojiPicker.jsx';
 import { applySkinTone } from '../../utils/emojiToneUtils';
@@ -8,8 +8,8 @@ import DropdownMenu, { DropdownMenuItem } from '../common/DropdownMenu';
 import ConfirmModal from '../common/ConfirmModal';
 
 /**
- * SocialCommentSection - Phase 8.3 + Emoji Support
- * Displays comments for a post and allows adding new comments with emoji support
+ * SocialCommentSection - Phase 8.3 + Emoji Support + Image Support
+ * Displays comments for a post and allows adding new comments with emoji and image support
  */
 
 // Add styles for placeholder
@@ -31,6 +31,11 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [error, setError] = useState(null);
   const inputRef = useRef(null);
+  const fileInputRef = useRef(null);
+  
+  // Media state for comment
+  const [commentMedia, setCommentMedia] = useState([]);
+  const [isUploadingMedia, setIsUploadingMedia] = useState(false);
   
   // Delete state
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
