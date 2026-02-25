@@ -59,11 +59,11 @@ async def get_social_feed(
 @router.post("/posts", response_model=SocialPost, status_code=status.HTTP_201_CREATED)
 async def create_post(
     post_data: SocialPostCreate,
-    current_user=Depends(require_role("user", "member"))
+    current_user=Depends(require_circle_tier())  # Uses SOCIAL_MIN_TIER env var or defaults to OPEN
 ):
     """
     Create a new social post (Phase 8.1: with media, link, and quote support)
-    Requires authentication
+    Requires authentication and minimum circle tier
     """
     # Convert Pydantic models to dicts for DB
     media_list = [m.dict() for m in post_data.media] if post_data.media else []
