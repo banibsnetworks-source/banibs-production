@@ -99,7 +99,8 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '', quote
         text: text.trim() || "",
         media: mediaWithFocalPoints,
         link_url: linkMeta?.url || linkUrl || null,
-        link_meta: linkMeta
+        link_meta: linkMeta,
+        quoted_post_id: quotedPost?.id || null
       });
 
       // Reset form
@@ -107,6 +108,7 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '', quote
       setMedia([]);
       setLinkUrl('');
       setLinkMeta(null);
+      if (onClearQuote) onClearQuote();
       onClose();
     } catch (error) {
       console.error('Failed to create post:', error);
@@ -116,7 +118,7 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '', quote
   };
 
   // Determine if post button should be enabled
-  const canPost = text.trim() || media.length > 0 || linkMeta || linkUrl;
+  const canPost = text.trim() || media.length > 0 || linkMeta || linkUrl || quotedPost;
   
   // Get disabled reason for button hint
   const getDisabledReason = () => {
