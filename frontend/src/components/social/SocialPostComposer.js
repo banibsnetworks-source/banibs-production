@@ -17,8 +17,9 @@ import { ProfileAvatar } from './ProfileAvatar';
  * - Primary Post button styling
  * - Clear disabled state messaging
  * - No layout shift/jumps
+ * - Quote post support
  */
-const SocialPostComposer = ({ onPostCreated }) => {
+const SocialPostComposer = ({ onPostCreated, quotedPost, onClearQuote }) => {
   const { user } = useAuth();
   const toast = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,6 +27,13 @@ const SocialPostComposer = ({ onPostCreated }) => {
   const [initialEmoji, setInitialEmoji] = useState('');
   const [error, setError] = useState(null);
   const emojiButtonRef = useRef(null);
+
+  // Auto-open modal when quoting a post
+  React.useEffect(() => {
+    if (quotedPost) {
+      setIsModalOpen(true);
+    }
+  }, [quotedPost]);
 
   const handleSubmit = async (postData) => {
     setError(null);
