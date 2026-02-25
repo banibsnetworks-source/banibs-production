@@ -57,7 +57,7 @@ class BoardUpdate(BaseModel):
 
 class PinCreate(BaseModel):
     board_id: Optional[str] = None  # If missing, use default "Saved" board
-    content_type: Literal["frame", "news", "listing", "hdos_analysis", "note", "article", "video", "product"]
+    content_type: Literal["frame", "news", "listing", "hdos_analysis", "note", "article", "video", "product", "social_post"]
     content_id: str
     content_snapshot: ContentSnapshot
     tags: Optional[List[str]] = []
