@@ -1,5 +1,5 @@
 """
-Social API Routes - Phase 8.3 + Multi-Reaction System v2.0
+Social API Routes - Phase 8.3 + Multi-Reaction System v2.0 + Circle Trust Gating
 BANIBS Social Portal feed and engagement endpoints
 """
 
@@ -17,9 +17,14 @@ from models.social_post import (
     SocialLikeResponse
 )
 from middleware.auth_guard import require_role
+from middleware.circle_trust import require_circle_tier
 from db import social_posts as db_social
 from db.connection import get_db
 
+# Circle tier for gated actions (configurable - default OPEN allows all authenticated users)
+# To restrict: set SOCIAL_MIN_TIER=PEOPLES in .env
+import os
+SOCIAL_GATING_TIER = os.environ.get("SOCIAL_MIN_TIER", "OPEN")
 
 router = APIRouter(prefix="/api/social", tags=["social"])
 
