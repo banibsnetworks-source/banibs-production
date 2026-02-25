@@ -35,6 +35,7 @@ class SocialPostCreate(BaseModel):
     media: Optional[list[MediaItem]] = Field(default=[], description="Media attachments (max 4 images or 1 video)")
     link_url: Optional[str] = Field(None, description="Optional link URL")
     link_meta: Optional[LinkMetadata] = Field(None, description="Link preview metadata")
+    quoted_post_id: Optional[str] = Field(None, description="ID of post being quoted")
 
 
 class SocialPostAuthor(BaseModel):
