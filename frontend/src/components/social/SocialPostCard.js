@@ -467,6 +467,13 @@ const SocialPostCard = ({ post, onUpdate, onDelete, onQuote, compact = false }) 
             </div>
           );
         })()}
+
+        {/* Quoted Post Card */}
+        {localPost.quoted_post && (
+          <div className="mt-3">
+            <QuotedPostCard quotedPost={localPost.quoted_post} />
+          </div>
+        )}
       </div>
 
       {/* ===== Engagement Stats ===== */}
