@@ -280,9 +280,32 @@ const SocialPostCard = ({ post, onUpdate, onDelete, onQuote, compact = false }) 
                   </span>
                 )}
               </div>
-              <time className="text-xs text-muted-foreground mt-0.5 block">
-                {formatTimestamp(localPost.created_at)}
-              </time>
+              <div className="flex items-center gap-2 flex-wrap mt-0.5">
+                <time className="text-xs text-muted-foreground">
+                  {formatTimestamp(localPost.created_at)}
+                </time>
+                {/* Circle Badge */}
+                {localPost.target_type === 'CIRCLE' && localPost.target_circle_name && (
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs bg-amber-500/10 text-amber-500 rounded">
+                    <Users size={10} />
+                    {localPost.target_circle_name}
+                  </span>
+                )}
+                {/* Tier Badge (if not OTHERS) */}
+                {localPost.target_type === 'CIRCLE' && localPost.min_tier_to_view && localPost.min_tier_to_view !== 'OTHERS' && (
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs bg-purple-500/10 text-purple-400 rounded">
+                    <Lock size={10} />
+                    {getTierLabel(localPost.min_tier_to_view)}
+                  </span>
+                )}
+                {/* Ephemeral Badge */}
+                {localPost.expires_at && (
+                  <span className="inline-flex items-center gap-1 px-1.5 py-0.5 text-xs bg-red-500/10 text-red-400 rounded">
+                    <Clock size={10} />
+                    {formatExpiry(localPost.expires_at)}
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* Options Menu */}
