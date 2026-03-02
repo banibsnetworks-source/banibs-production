@@ -150,6 +150,13 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '', quote
 
   const displayName = user?.name || user?.display_name || 'User';
 
+  // Handle circle target change
+  const handleTargetChange = ({ target_type, target_circle_id, min_tier_to_view }) => {
+    setTargetType(target_type);
+    setTargetCircleId(target_circle_id);
+    setMinTierToView(min_tier_to_view);
+  };
+
   if (!isOpen) return null;
 
   return (
