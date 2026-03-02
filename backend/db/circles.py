@@ -138,6 +138,33 @@ class CirclesDB:
         )
         return member
     
+    async def get_user_circles(self, user_id: str, status: str = "active") -> List[Dict]:
+        """Get all circles a user is a member of"""
+        # Get user's memberships
+        memberships = await self.circle_members.find(
+            {"user_id": user_id, "status": status},
+            {"_id": 0, "circle_id": 1, "role": 1, "joined_at": 1}
+        ).to_list(100)
+        
+        if not memberships:
+            return []
+        
+        # Get circle details for each membership
+        circle_ids = [m["circle_id"] for m in memberships]
+        circles = await self.circles.find(
+            {"id": {"$in": circle_ids}, "is_active": True},
+            {"_id": 0}
+        ).to_list(100)
+        
+        # Merge membership info into circles
+        membership_map = {m["circle_id"]: m for m in memberships}
+        for circle in circles:
+            mem = membership_map.get(circle["id"], {})
+            circle["user_role"] = mem.get("role", "member")
+            circle["joined_at"] = mem.get("joined_at")
+        
+        return circles
+    
     # ==================== POSTS ====================
     
     async def get_circle_posts(
