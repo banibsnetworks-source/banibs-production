@@ -4,6 +4,7 @@ import MediaUploader from './MediaUploader';
 import LinkPreviewCard from './LinkPreviewCard';
 import QuotedPostCard from './QuotedPostCard';
 import EmojiPicker from '../emoji/EmojiPicker.jsx';
+import CircleTargetSelector from './CircleTargetSelector';
 import { applySkinTone } from '../../utils/emojiToneUtils';
 import { useAuth } from '../../contexts/AuthContext';
 import { ProfileAvatar } from './ProfileAvatar';
@@ -19,6 +20,7 @@ import { ProfileAvatar } from './ProfileAvatar';
  * - Clean visual hierarchy
  * - No layout shift
  * - Quote post support
+ * - Circle-based visibility targeting (V1)
  */
 const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '', quotedPost = null, onClearQuote }) => {
   const { user } = useAuth();
@@ -30,6 +32,12 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '', quote
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [isPosting, setIsPosting] = useState(false);
   const [isFetchingLink, setIsFetchingLink] = useState(false);
+  
+  // Circle visibility state
+  const [targetType, setTargetType] = useState('GLOBAL');
+  const [targetCircleId, setTargetCircleId] = useState(null);
+  const [minTierToView, setMinTierToView] = useState('OTHERS');
+  
   const linkInputRef = useRef(null);
   const textareaRef = useRef(null);
 
