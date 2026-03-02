@@ -62,6 +62,31 @@ const SocialPostCard = ({ post, onUpdate, onDelete, onQuote, compact = false }) 
     }
   };
 
+  // Format tier for display
+  const getTierLabel = (tier) => {
+    const labels = {
+      'OTHERS': 'All',
+      'ALRIGHT': 'Alright+',
+      'COOL': 'Cool+',
+      'PEOPLES': 'Peoples'
+    };
+    return labels[tier] || tier;
+  };
+
+  // Format expiry time
+  const formatExpiry = (date) => {
+    if (!date) return null;
+    const expires = new Date(date);
+    const now = new Date();
+    const diff = expires - now;
+    if (diff <= 0) return 'Expired';
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const days = Math.floor(hours / 24);
+    if (days > 0) return `${days}d`;
+    if (hours > 0) return `${hours}h`;
+    return 'Soon';
+  };
+
   // Handle reaction (multi-reaction system v2.0)
   const handleReact = async (reactionType) => {
     if (isReacting || !user) return;
