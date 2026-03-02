@@ -46,8 +46,75 @@ async def get_social_feed(
     """
     Get social feed for authenticated members
     Returns paginated list of posts with author info and like status
+    Includes GLOBAL posts + CIRCLE posts viewer is member of (Circle Visibility V1)
     """
     feed_data = await db_social.get_feed(
+        page=page,
+        page_size=page_size,
+        viewer_id=current_user["id"]
+    )
+    
+    return feed_data
+
+
+# ==========================================
+# CIRCLE-SCOPED FEED (Circle Visibility V1)
+# ==========================================
+
+@router.get("/circles/{circle_id}/feed", response_model=SocialFeedResponse)
+async def get_circle_feed(
+    circle_id: str,
+    page: int = Query(1, ge=1, description="Page number"),
+    page_size: int = Query(20, ge=1, le=50, description="Items per page"),
+    current_user=Depends(require_role("user", "member"))
+):
+    """
+    Get feed for a specific circle.
+    Only returns posts targeted at this circle.
+    Requires circle membership.
+    """
+    db = await get_db()
+    
+    # Verify circle exists and is active
+    circle = await db.circles.find_one(
+        {"id": circle_id},
+        {"_id": 0, "is_active": 1, "expires_at": 1, "name": 1}
+    )
+    
+    if not circle:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Circle not found"
+        )
+    
+    if not circle.get("is_active", True):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Circle is not active"
+        )
+    
+    # Check if circle expired
+    if circle.get("expires_at") and circle["expires_at"] < datetime.now(timezone.utc):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Circle has expired"
+        )
+    
+    # Verify user is member
+    membership = await db.circle_members.find_one(
+        {"user_id": current_user["id"], "circle_id": circle_id, "status": "active"},
+        {"_id": 0, "role": 1}
+    )
+    
+    if not membership:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You must be a member of this circle to view its feed"
+        )
+    
+    # Get circle posts
+    feed_data = await db_social.get_circle_feed(
+        circle_id=circle_id,
         page=page,
         page_size=page_size,
         viewer_id=current_user["id"]
