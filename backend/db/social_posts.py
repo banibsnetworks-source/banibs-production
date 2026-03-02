@@ -64,26 +64,84 @@ async def create_post(
 
 
 async def get_feed(page: int = 1, page_size: int = 20, viewer_id: Optional[str] = None):
-    """Get paginated social feed (Phase 8.3.1: excludes hidden/deleted posts)"""
+    """
+    Get paginated social feed with Circle Visibility V1 filtering.
+    
+    Returns:
+    - All GLOBAL posts the viewer can see (subject to tier)
+    - CIRCLE posts where viewer is a member (subject to tier)
+    - Excludes expired posts
+    """
     db = await get_db()
     
     skip = (page - 1) * page_size
+    now = datetime.now(timezone.utc)
     
-    # Phase 8.3.1: Filter out moderated content
-    feed_filter = {
+    # Import circle visibility module
+    from db import circle_visibility as cv
+    
+    # Base filter
+    base_filter = {
         "is_deleted": False,
         "is_hidden": False
     }
     
-    # Get total count
-    total_items = await db.social_posts.count_documents(feed_filter)
-    total_pages = (total_items + page_size - 1) // page_size
-    
-    # Get posts (reverse chronological)
-    posts = await db.social_posts.find(
-        feed_filter,
-        {"_id": 0}
-    ).sort("created_at", -1).skip(skip).limit(page_size).to_list(length=None)
+    if cv.is_enabled() and viewer_id:
+        # Circle Visibility V1 enabled - build complex filter
+        viewer_circles = await cv.get_user_circle_ids(viewer_id)
+        
+        # Query posts that are either:
+        # 1. GLOBAL (no target_circle_id or target_type=GLOBAL)
+        # 2. CIRCLE posts where user is a member
+        feed_filter = {
+            **base_filter,
+            "$or": [
+                # GLOBAL posts (legacy + new)
+                {"target_type": {"$in": [None, "GLOBAL"]}},
+                {"target_type": {"$exists": False}},
+                # CIRCLE posts where viewer is member
+                {"target_type": "CIRCLE", "target_circle_id": {"$in": list(viewer_circles)}} if viewer_circles else {"_id": None}
+            ],
+            # Exclude expired posts
+            "$and": [
+                {"$or": [
+                    {"expires_at": None},
+                    {"expires_at": {"$exists": False}},
+                    {"expires_at": {"$gt": now}}
+                ]}
+            ]
+        }
+        
+        # Get candidate posts (over-fetch for tier filtering)
+        fetch_limit = page_size * 3  # Fetch extra to account for tier filtering
+        
+        posts_cursor = db.social_posts.find(
+            feed_filter,
+            {"_id": 0}
+        ).sort("created_at", -1).skip(skip).limit(fetch_limit)
+        
+        candidate_posts = await posts_cursor.to_list(length=None)
+        
+        # Apply tier filtering
+        visible_posts = await cv.filter_posts_for_viewer(candidate_posts, viewer_id)
+        
+        # Paginate the filtered results
+        posts = visible_posts[:page_size]
+        
+        # Approximate total (we can't know exact count after filtering without scanning all)
+        total_items = await db.social_posts.count_documents(feed_filter)
+        total_pages = (total_items + page_size - 1) // page_size
+    else:
+        # Circle Visibility disabled OR no viewer - use simple feed
+        feed_filter = base_filter
+        
+        total_items = await db.social_posts.count_documents(feed_filter)
+        total_pages = (total_items + page_size - 1) // page_size
+        
+        posts = await db.social_posts.find(
+            feed_filter,
+            {"_id": 0}
+        ).sort("created_at", -1).skip(skip).limit(page_size).to_list(length=None)
     
     # Enrich posts with author info and viewer like status
     enriched_posts = []
@@ -142,10 +200,20 @@ async def get_feed(page: int = 1, page_size: int = 20, viewer_id: Optional[str] 
                     "created_at": qp.get("created_at").isoformat() if qp.get("created_at") else None
                 }
         
+        # Get circle name for CIRCLE posts
+        target_circle_name = None
+        if post.get("target_type") == "CIRCLE" and post.get("target_circle_id"):
+            circle = await db.circles.find_one(
+                {"id": post["target_circle_id"]},
+                {"_id": 0, "name": 1}
+            )
+            target_circle_name = circle.get("name") if circle else None
+        
         enriched_posts.append({
             **post,
             "media_urls": media_urls,  # S-MEDIA v1.0 compatibility
             "quoted_post": quoted_post,
+            "target_circle_name": target_circle_name,
             "author": {
                 "id": author["id"],
                 "display_name": author.get("name", "Unknown User"),
