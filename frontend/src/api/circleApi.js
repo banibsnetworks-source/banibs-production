@@ -266,3 +266,43 @@ export const getCircleStats = async (userId) => {
     clusteringCoeff: scoreData.breakdown?.clusteringCoeff || 0
   };
 };
+
+/**
+ * Get circles the current user is a member of
+ * Used for circle-targeted posting
+ */
+export const getMyCircles = async () => {
+  const response = await fetch(
+    `${API_URL}/api/circles/my-circles`,
+    {
+      headers: getAuthHeader()
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch user circles: ${response.status}`);
+  }
+  
+  return response.json();
+};
+
+/**
+ * Get circle feed (posts targeted to a specific circle)
+ * @param {string} circleId - Circle ID
+ * @param {number} page - Page number
+ * @param {number} pageSize - Items per page
+ */
+export const getCircleFeed = async (circleId, page = 1, pageSize = 20) => {
+  const response = await fetch(
+    `${API_URL}/api/social/circles/${circleId}/feed?page=${page}&page_size=${pageSize}`,
+    {
+      headers: getAuthHeader()
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch circle feed: ${response.status}`);
+  }
+  
+  return response.json();
+};
