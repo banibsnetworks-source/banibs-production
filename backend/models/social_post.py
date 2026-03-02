@@ -61,6 +61,10 @@ class SocialPostCreate(BaseModel):
     link_url: Optional[str] = Field(None, description="Optional link URL")
     link_meta: Optional[LinkMetadata] = Field(None, description="Link preview metadata")
     quoted_post_id: Optional[str] = Field(None, description="ID of post being quoted")
+    # Circle Visibility V1 - Targeting fields
+    target_type: PostTargetType = Field(default=PostTargetType.GLOBAL, description="Post targeting type")
+    target_circle_id: Optional[str] = Field(None, description="Target circle ID (required if target_type=CIRCLE)")
+    min_tier_to_view: ViewTier = Field(default=ViewTier.OTHERS, description="Minimum relationship tier to view this post")
 
 
 class SocialPostAuthor(BaseModel):
