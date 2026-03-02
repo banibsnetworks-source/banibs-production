@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MessageCircle, MoreHorizontal, Trash2, Flag, Bookmark, Quote } from 'lucide-react';
+import { MessageCircle, MoreHorizontal, Trash2, Flag, Bookmark, Quote, Users, Lock, Clock } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../../contexts/ToastContext';
 import SocialCommentSection from './SocialCommentSection';
