@@ -4,6 +4,43 @@ All notable changes to the BANIBS platform.
 
 ---
 
+## [2026-03-02] Circle-Based Visibility V1 - Frontend UI MVP COMPLETE
+
+### Added
+- **CircleTargetSelector** - Dropdown to select post target (Global or specific circle)
+- **Tier Selector** - When circle selected, allows choosing min_tier_to_view (OTHERS/ALRIGHT/COOL/PEOPLES)
+- **CircleFeedPage** - New page to view posts from a specific circle (`/circle/:circleId/feed`)
+- **Circle Badges on Posts** - Posts show circle name and tier badges when circle-targeted
+- **My Circles API** - `GET /api/circles/my-circles` returns user's joined circles
+
+### Backend Tests Fixed
+- Fixed pytest module discovery issues
+- Fixed async mock chain for Motor cursor tests
+- All 17 circle visibility tests now passing
+
+### Files Created
+- `/app/frontend/src/components/social/CircleTargetSelector.jsx`
+- `/app/frontend/src/pages/circles/CircleFeedPage.jsx`
+- `/app/docs/circle_visibility_v1.md`
+
+### Files Modified
+- `/app/frontend/src/components/social/MediaComposerModal.js` - Added CircleTargetSelector
+- `/app/frontend/src/components/social/SocialPostCard.js` - Added circle/tier badges
+- `/app/frontend/src/api/circleApi.js` - Added getMyCircles, getCircleFeed
+- `/app/frontend/src/App.js` - Added CircleFeedPage route
+- `/app/backend/db/circles.py` - Added get_user_circles method
+- `/app/backend/routes/circles.py` - Added /my-circles endpoint
+- `/app/backend/config/modules_registry.json` - Added circle_visibility_v1 module
+
+### Feature Flag
+`CIRCLE_VISIBILITY_V1=true` in `/app/backend/.env`
+
+### Tier Hierarchy
+OTHERS (0) < ALRIGHT (1) < COOL (2) < PEOPLES (3)
+
+---
+
+
 ## [2026-02-15] Skills World - Critical Thinking v1.0 ✅ COMPLETE
 
 ### Added
