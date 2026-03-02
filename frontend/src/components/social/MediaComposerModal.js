@@ -103,19 +103,32 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '', quote
         fitMode: item.fitMode ?? 'cover'
       }));
       
-      await onSubmit({
+      // Build post data with circle visibility fields
+      const postData = {
         text: text.trim() || "",
         media: mediaWithFocalPoints,
         link_url: linkMeta?.url || linkUrl || null,
         link_meta: linkMeta,
-        quoted_post_id: quotedPost?.id || null
-      });
+        quoted_post_id: quotedPost?.id || null,
+        target_type: targetType,
+        min_tier_to_view: minTierToView
+      };
+      
+      // Only include target_circle_id if posting to a circle
+      if (targetType === 'CIRCLE' && targetCircleId) {
+        postData.target_circle_id = targetCircleId;
+      }
+      
+      await onSubmit(postData);
 
       // Reset form
       setText('');
       setMedia([]);
       setLinkUrl('');
       setLinkMeta(null);
+      setTargetType('GLOBAL');
+      setTargetCircleId(null);
+      setMinTierToView('OTHERS');
       if (onClearQuote) onClearQuote();
       onClose();
     } catch (error) {
