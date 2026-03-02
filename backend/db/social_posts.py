@@ -1,5 +1,5 @@
 """
-Social Posts Database Operations - Phase 8.3
+Social Posts Database Operations - Phase 8.3 + Circle Visibility V1
 """
 
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -11,15 +11,25 @@ from typing import Optional
 from db.connection import get_db
 
 
+# Feature flag check
+def is_circle_visibility_enabled():
+    return os.environ.get("CIRCLE_VISIBILITY_V1", "false").lower() == "true"
+
+
 async def create_post(
     author_id: str,
     text: str,
     media: Optional[list] = None,
     link_url: Optional[str] = None,
     link_meta: Optional[dict] = None,
-    quoted_post_id: Optional[str] = None
+    quoted_post_id: Optional[str] = None,
+    # Circle Visibility V1 fields
+    target_type: str = "GLOBAL",
+    target_circle_id: Optional[str] = None,
+    min_tier_to_view: str = "OTHERS",
+    expires_at: Optional[datetime] = None
 ):
-    """Create a new social post with media, link, and quote support"""
+    """Create a new social post with media, link, quote, and circle visibility support"""
     db = await get_db()
     
     post = {
@@ -31,6 +41,12 @@ async def create_post(
         "link_meta": link_meta,
         "quoted_post_id": quoted_post_id,
         "visibility": "members",
+        # Circle Visibility V1
+        "target_type": target_type,
+        "target_circle_id": target_circle_id,
+        "min_tier_to_view": min_tier_to_view,
+        "expires_at": expires_at,
+        # Counts
         "like_count": 0,
         "comment_count": 0,
         "created_at": datetime.now(timezone.utc),
