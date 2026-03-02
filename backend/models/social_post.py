@@ -1,11 +1,36 @@
 """
-Social Post Models - Phase 8.3
+Social Post Models - Phase 8.3 + Circle Visibility V1
 BANIBS Social Portal feed and engagement models
 """
 
 from pydantic import BaseModel, Field
 from typing import Optional, Literal
 from datetime import datetime
+from enum import Enum
+
+
+# Circle Visibility V1 - Enums
+class PostTargetType(str, Enum):
+    """Post targeting type"""
+    GLOBAL = "GLOBAL"
+    CIRCLE = "CIRCLE"
+
+
+class ViewTier(str, Enum):
+    """Minimum tier required to view/interact"""
+    OTHERS = "OTHERS"
+    ALRIGHT = "ALRIGHT"
+    COOL = "COOL"
+    PEOPLES = "PEOPLES"
+
+
+# Tier hierarchy for comparison (lower = more restrictive)
+VIEW_TIER_LEVELS = {
+    ViewTier.OTHERS: 0,
+    ViewTier.ALRIGHT: 1,
+    ViewTier.COOL: 2,
+    ViewTier.PEOPLES: 3
+}
 
 
 class MediaItem(BaseModel):
