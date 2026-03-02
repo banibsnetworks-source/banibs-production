@@ -65,7 +65,7 @@ class MemberRole(str, Enum):
 # ==================== MODELS ====================
 
 class Circle(BaseModel):
-    """Support group/circle - Phase 11.5.3"""
+    """Support group/circle - Phase 11.5.3 + Ephemeral V1"""
     id: str
     name: str
     slug: str
@@ -86,6 +86,10 @@ class Circle(BaseModel):
     last_activity_at: Optional[datetime] = None
     is_active: bool = True
     is_verified: bool = False
+    # Ephemeral circle fields (Circle Visibility V1)
+    is_ephemeral: bool = False
+    lifespan_seconds: Optional[int] = None
+    expires_at: Optional[datetime] = None
     created_at: datetime
     updated_at: datetime
 
