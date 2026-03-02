@@ -1495,6 +1495,59 @@ The following routes are always accessible regardless of Coming Soon mode:
 
 ---
 
+## Session Updates (March 2, 2026 - Session 12)
+
+### ✅ Circle-Based Visibility Routing V1 (COMPLETED - P0)
+MVP implementation for controlling post visibility based on circle membership and asymmetric trust tiers.
+
+**Feature Flag**: `CIRCLE_VISIBILITY_V1=true` in `/app/backend/.env`
+
+**New Data Model Fields**:
+- `social_posts`: Added `target_type` (GLOBAL/CIRCLE), `target_circle_id`, `min_tier_to_view`, `expires_at`
+- `circles`: Added `is_ephemeral`, `lifespan_seconds`, `expires_at` for ephemeral circles
+
+**API Endpoints**:
+- `POST /api/social/posts` - Enhanced to accept circle targeting fields
+- `GET /api/social/feed` - Primary feed with visibility filtering
+- `GET /api/social/circles/{circle_id}/feed` - Circle-scoped feed (requires membership)
+
+**Visibility Rules**:
+1. **GLOBAL posts**: Visible to everyone
+2. **CIRCLE posts**: Only visible to circle members with sufficient trust tier
+3. **Trust tier hierarchy**: OTHERS < ALRIGHT < COOL < PEOPLES
+4. **Self-access**: Authors can always see their own posts (PEOPLES tier)
+5. **Membership gating**: Users must be circle members to post to a circle
+
+**Backend Tests**: `/app/backend/tests/test_circle_visibility.py` (17 tests passing)
+
+**Files Modified**:
+- `/app/backend/config.py` - Feature flag handling
+- `/app/backend/middleware/circle_visibility.py` - Core visibility logic
+- `/app/backend/db/circle_visibility.py` - Tier lookup and filtering functions
+- `/app/backend/db/social_posts.py` - Feed generation with visibility filtering
+- `/app/backend/routes/social.py` - API endpoints for circle-targeted posts
+- `/app/backend/models/social_post.py` - Added circle targeting fields
+- `/app/backend/models/circles.py` - Added ephemeral fields
+
+---
+
+## Session Updates (March 1, 2026 - Session 11)
+
+### ✅ SOCIAL COMPLETENESS 5 Sprint (COMPLETED)
+Five social platform enhancements implemented:
+1. **Pin Social Posts** - Save posts to Pin Boards
+2. **Quote Post** - Quote-posting functionality
+3. **Image in Comments** - Image upload support in comments
+4. **Circle Trust Gating** - Write-gating based on configurable trust tier
+5. **Threaded Comments** - 1-level deep comment threading
+
+### ⚠️ Tech Debt Logged (TD-001)
+- **Issue**: 27 files with module-level `AsyncIOMotorClient` instantiations
+- **Location**: `/app/docs/TECH_DEBT.md`
+- **Status**: Deferred for future refactor
+
+---
+
 ## Session Completed (January 30, 2026)
 
 ### Completed This Session:
