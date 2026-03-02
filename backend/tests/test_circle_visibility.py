@@ -127,13 +127,20 @@ class TestBatchTierLookup:
     @pytest.mark.asyncio
     async def test_self_always_peoples(self):
         """Test that self-lookup always returns PEOPLES"""
-        # Mock the get_db function
-        with patch('db.circle_visibility.get_db') as mock_db:
-            mock_collection = AsyncMock()
-            mock_collection.find.return_value.to_list = AsyncMock(return_value=[])
-            mock_db.return_value = AsyncMock()
-            mock_db.return_value.relationships = mock_collection
-            
+        # Create proper async mock for MongoDB cursor chain
+        mock_cursor = AsyncMock()
+        mock_cursor.to_list = AsyncMock(return_value=[])
+        
+        mock_collection = AsyncMock()
+        mock_collection.find.return_value = mock_cursor
+        
+        mock_db_instance = AsyncMock()
+        mock_db_instance.relationships = mock_collection
+        
+        async def mock_get_db():
+            return mock_db_instance
+        
+        with patch('db.circle_visibility.get_db', mock_get_db):
             tier_map = await cv.batch_get_viewer_tiers(
                 ["user-a", "user-b", "viewer-1"],
                 "viewer-1"
