@@ -96,6 +96,12 @@ class SocialPost(BaseModel):
     link_meta: Optional[LinkMetadata] = None
     quoted_post_id: Optional[str] = None
     quoted_post: Optional[QuotedPostSnapshot] = None
+    # Circle Visibility V1 - Targeting fields
+    target_type: PostTargetType = PostTargetType.GLOBAL
+    target_circle_id: Optional[str] = None
+    target_circle_name: Optional[str] = None  # For UI display
+    min_tier_to_view: ViewTier = ViewTier.OTHERS
+    expires_at: Optional[datetime] = None  # For ephemeral posts/circles
     created_at: datetime
     updated_at: datetime
     like_count: int = 0
