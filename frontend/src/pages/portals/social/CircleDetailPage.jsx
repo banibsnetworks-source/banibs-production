@@ -30,10 +30,12 @@ const CIRCLE_TYPE_CONFIG = {
 const CircleDetailPage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [circle, setCircle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [joinStatus, setJoinStatus] = useState(null); // null | 'joining' | 'joined' | 'requested'
+  const [isMember, setIsMember] = useState(false);
 
   useEffect(() => {
     const fetchCircle = async () => {
@@ -52,6 +54,11 @@ const CircleDetailPage = () => {
           setError('Circle not found');
         } else {
           setCircle(found);
+          
+          // Check membership if user is logged in
+          if (user) {
+            checkMembership(found.id);
+          }
         }
       } catch (err) {
         console.error('Error fetching circle:', err);
@@ -62,7 +69,32 @@ const CircleDetailPage = () => {
     };
 
     if (slug) fetchCircle();
-  }, [slug]);
+  }, [slug, user]);
+
+  // Check if user is a member of this circle
+  const checkMembership = async (circleId) => {
+    try {
+      const token = localStorage.getItem('access_token');
+      if (!token) return;
+      
+      const response = await fetch(`${API_URL}/api/circles/my-circles`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        const memberOf = data.circles?.some(c => c.id === circleId);
+        setIsMember(memberOf);
+        if (memberOf) {
+          setJoinStatus('joined');
+        }
+      }
+    } catch (err) {
+      console.error('Error checking membership:', err);
+    }
+  };
 
   const handleJoin = () => {
     // Placeholder join action
