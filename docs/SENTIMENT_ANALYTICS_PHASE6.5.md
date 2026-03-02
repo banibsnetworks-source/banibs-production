@@ -648,7 +648,7 @@ All endpoints require admin JWT token in `Authorization: Bearer <token>` header.
 
 ### Base URL
 ```
-https://calm-tech-learn.preview.emergentagent.com/api/admin/analytics/sentiment
+https://infinite-circles-mvp.preview.emergentagent.com/api/admin/analytics/sentiment
 ```
 
 ### Endpoints

@@ -6,7 +6,7 @@
 set -e
 
 # Configuration
-BACKEND_URL="https://calm-tech-learn.preview.emergentagent.com"
+BACKEND_URL="https://infinite-circles-mvp.preview.emergentagent.com"
 API_BASE="${BACKEND_URL}/api"
 
 # Colors for output

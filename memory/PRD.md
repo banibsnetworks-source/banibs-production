@@ -1454,7 +1454,7 @@ All links visible:
 
 ## Static Guest Page Build
 Location: `/app/deploy/guest_site/`
-Download: `https://calm-tech-learn.preview.emergentagent.com/guest_site.zip`
+Download: `https://infinite-circles-mvp.preview.emergentagent.com/guest_site.zip`
 
 ---
 

@@ -9,7 +9,7 @@
 
 ### Base URL
 ```
-https://calm-tech-learn.preview.emergentagent.com/api/auth
+https://infinite-circles-mvp.preview.emergentagent.com/api/auth
 ```
 
 ### Endpoints Implemented
