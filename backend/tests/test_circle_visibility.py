@@ -127,14 +127,16 @@ class TestBatchTierLookup:
     @pytest.mark.asyncio
     async def test_self_always_peoples(self):
         """Test that self-lookup always returns PEOPLES"""
-        # Create proper async mock for MongoDB cursor chain
-        mock_cursor = AsyncMock()
+        from unittest.mock import MagicMock
+        
+        # Motor's find() returns a cursor synchronously, then to_list() is async
+        mock_cursor = MagicMock()
         mock_cursor.to_list = AsyncMock(return_value=[])
         
-        mock_collection = AsyncMock()
+        mock_collection = MagicMock()
         mock_collection.find.return_value = mock_cursor
         
-        mock_db_instance = AsyncMock()
+        mock_db_instance = MagicMock()
         mock_db_instance.relationships = mock_collection
         
         async def mock_get_db():
