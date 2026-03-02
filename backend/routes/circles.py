@@ -470,6 +470,22 @@ async def get_suggested_circles(
     }
 
 
+@router.get("/my-circles", response_model=CirclesResponse)
+async def get_my_circles(
+    current_user: dict = Depends(get_current_user_dependency)
+):
+    """Get circles the current user is a member of"""
+    db = get_db_client()
+    circles_db = CirclesDB(db)
+    
+    circles = await circles_db.get_user_circles(current_user["id"])
+    
+    return {
+        "circles": circles,
+        "total": len(circles)
+    }
+
+
 @router.get("/{circle_id}", response_model=Circle)
 async def get_circle(circle_id: str):
     """Get a specific circle by ID"""
