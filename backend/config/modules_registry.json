@@ -930,6 +930,33 @@
       ],
       "last_updated": "2026-02-10",
       "notes": "Alternative education programs and tutor intake system"
+    },
+    {
+      "id": "circle_visibility_v1",
+      "display_name": "Circle-Based Visibility",
+      "world": "Social World",
+      "category": "privacy_access_control",
+      "status": "active",
+      "feature_flag": "CIRCLE_VISIBILITY_V1",
+      "frontend_routes": [
+        "/circle/:circleId/feed"
+      ],
+      "frontend_components": [
+        "CircleTargetSelector.jsx",
+        "CircleFeedPage.jsx"
+      ],
+      "api_routes": [
+        "GET /api/circles/my-circles",
+        "GET /api/social/circles/:circleId/feed",
+        "POST /api/social/posts (extended with target_type, target_circle_id, min_tier_to_view)"
+      ],
+      "db_collections": [
+        "social_posts (extended)",
+        "circles (extended)",
+        "circle_members"
+      ],
+      "last_updated": "2026-03-02",
+      "notes": "Circle-based post visibility routing. Posts can target specific circles with tier-based access control. Tier hierarchy: OTHERS < ALRIGHT < COOL < PEOPLES"
     }
   ]
 }
