@@ -345,17 +345,39 @@ const CircleDetailPage = () => {
             </div>
           )}
 
-          {/* Feed placeholder */}
+          {/* Feed section */}
           <div className="border-t border-white/10 pt-8">
-            <div className="text-center py-16">
-              <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-4">
-                <UsersRound className="w-8 h-8 text-gray-600" />
+            {isMember ? (
+              /* Active member - show link to circle feed */
+              <div className="text-center py-12">
+                <div className="w-16 h-16 rounded-full bg-amber-500/10 flex items-center justify-center mx-auto mb-4">
+                  <MessageSquare className="w-8 h-8 text-amber-500" />
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">Circle Posts</h3>
+                <p className="text-gray-400 max-w-md mx-auto mb-6">
+                  View posts shared with members of this circle.
+                </p>
+                <Link
+                  to={`/circle/${circle.id}/feed`}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-banibs-gold hover:bg-banibs-gold/90 text-black rounded-lg font-medium transition-colors"
+                  data-testid="view-circle-posts-btn"
+                >
+                  <MessageSquare className="w-5 h-5" />
+                  View Circle Posts
+                </Link>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">Circle Feed Coming Soon</h3>
-              <p className="text-gray-400 max-w-md mx-auto">
-                Posts and discussions from circle members will appear here. Join the circle to be notified when the feed launches.
-              </p>
-            </div>
+            ) : (
+              /* Non-member - show placeholder */
+              <div className="text-center py-16">
+                <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-4">
+                  <UsersRound className="w-8 h-8 text-gray-600" />
+                </div>
+                <h3 className="text-xl font-semibold text-white mb-2">Circle Feed</h3>
+                <p className="text-gray-400 max-w-md mx-auto">
+                  Join this circle to view posts and discussions from members.
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
