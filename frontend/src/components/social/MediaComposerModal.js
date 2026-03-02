@@ -180,17 +180,25 @@ const MediaComposerModal = ({ isOpen, onClose, onSubmit, initialText = '', quote
           </button>
         </div>
 
-        {/* Author Info */}
-        <div className="px-5 py-3 flex items-center gap-3 border-b border-border/50">
-          <ProfileAvatar 
-            name={displayName}
-            avatarUrl={user?.profile?.avatar_url || user?.avatar_url}
-            size="sm"
-          />
-          <div>
-            <p className="text-sm font-medium text-card-foreground">{displayName}</p>
-            <p className="text-xs text-muted-foreground">Posting to Community</p>
+        {/* Author Info + Circle Target */}
+        <div className="px-5 py-3 border-b border-border/50">
+          <div className="flex items-center gap-3 mb-2">
+            <ProfileAvatar 
+              name={displayName}
+              avatarUrl={user?.profile?.avatar_url || user?.avatar_url}
+              size="sm"
+            />
+            <div className="flex-1">
+              <p className="text-sm font-medium text-card-foreground">{displayName}</p>
+            </div>
           </div>
+          {/* Circle Target Selector */}
+          <CircleTargetSelector
+            targetType={targetType}
+            targetCircleId={targetCircleId}
+            minTierToView={minTierToView}
+            onTargetChange={handleTargetChange}
+          />
         </div>
 
         {/* Body - Scrollable */}
