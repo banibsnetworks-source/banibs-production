@@ -1,10 +1,11 @@
 """
-Social API Routes - Phase 8.3 + Multi-Reaction System v2.0 + Circle Trust Gating
+Social API Routes - Phase 8.3 + Multi-Reaction System v2.0 + Circle Visibility V1
 BANIBS Social Portal feed and engagement endpoints
 """
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from typing import Optional
+from datetime import datetime, timezone
 from pydantic import BaseModel
 
 from models.social_post import (
@@ -14,11 +15,14 @@ from models.social_post import (
     SocialCommentCreate,
     SocialComment,
     SocialCommentsResponse,
-    SocialLikeResponse
+    SocialLikeResponse,
+    PostTargetType,
+    ViewTier
 )
 from middleware.auth_guard import require_role
 from middleware.circle_trust import require_circle_tier
 from db import social_posts as db_social
+from db import circle_visibility as cv
 from db.connection import get_db
 
 # Circle tier for gated actions (configurable - default OPEN allows all authenticated users)
