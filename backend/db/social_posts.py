@@ -232,6 +232,108 @@ async def get_feed(page: int = 1, page_size: int = 20, viewer_id: Optional[str] 
     }
 
 
+async def get_circle_feed(circle_id: str, page: int = 1, page_size: int = 20, viewer_id: Optional[str] = None):
+    """
+    Get feed for a specific circle (Circle Visibility V1).
+    Only returns posts targeted at this circle.
+    Applies tier filtering based on author->viewer relationships.
+    """
+    db = await get_db()
+    
+    skip = (page - 1) * page_size
+    now = datetime.now(timezone.utc)
+    
+    from db import circle_visibility as cv
+    
+    # Build filter for this circle's posts
+    feed_filter = {
+        "is_deleted": False,
+        "is_hidden": False,
+        "target_type": "CIRCLE",
+        "target_circle_id": circle_id,
+        "$or": [
+            {"expires_at": None},
+            {"expires_at": {"$exists": False}},
+            {"expires_at": {"$gt": now}}
+        ]
+    }
+    
+    # Get total count
+    total_items = await db.social_posts.count_documents(feed_filter)
+    total_pages = (total_items + page_size - 1) // page_size
+    
+    # Get candidate posts
+    fetch_limit = page_size * 2  # Over-fetch for tier filtering
+    
+    candidate_posts = await db.social_posts.find(
+        feed_filter,
+        {"_id": 0}
+    ).sort("created_at", -1).skip(skip).limit(fetch_limit).to_list(length=None)
+    
+    # Apply tier filtering if enabled
+    if cv.is_enabled() and viewer_id:
+        visible_posts = await cv.filter_posts_for_viewer(candidate_posts, viewer_id)
+        posts = visible_posts[:page_size]
+    else:
+        posts = candidate_posts[:page_size]
+    
+    # Get circle name
+    circle = await db.circles.find_one({"id": circle_id}, {"_id": 0, "name": 1})
+    circle_name = circle.get("name") if circle else None
+    
+    # Enrich posts
+    enriched_posts = []
+    for post in posts:
+        author = await db.banibs_users.find_one(
+            {"id": post["author_id"]},
+            {"_id": 0, "id": 1, "name": 1, "avatar_url": 1, "profile": 1}
+        )
+        
+        if not author:
+            continue
+        
+        viewer_has_liked = False
+        if viewer_id:
+            like = await db.social_reactions.find_one({
+                "post_id": post["id"],
+                "user_id": viewer_id
+            })
+            viewer_has_liked = like is not None
+        
+        profile = author.get("profile", {}) or {}
+        
+        media_urls = []
+        if post.get("media"):
+            for item in post["media"]:
+                if isinstance(item, dict) and item.get("url"):
+                    url = item["url"]
+                    if not url.startswith('http'):
+                        backend_url = os.environ.get('REACT_APP_BACKEND_URL', '')
+                        url = f"{backend_url}{url}"
+                    media_urls.append(url)
+        
+        enriched_posts.append({
+            **post,
+            "media_urls": media_urls,
+            "target_circle_name": circle_name,
+            "author": {
+                "id": author["id"],
+                "display_name": author.get("name", "Unknown User"),
+                "avatar_url": profile.get("avatar_url") or author.get("avatar_url"),
+                "handle": profile.get("handle")
+            },
+            "viewer_has_liked": viewer_has_liked
+        })
+    
+    return {
+        "page": page,
+        "page_size": page_size,
+        "total_items": total_items,
+        "total_pages": total_pages,
+        "items": enriched_posts
+    }
+
+
 async def get_post_by_id(post_id: str, viewer_id: Optional[str] = None):
     """Get a single post by ID"""
     db = await get_db()
