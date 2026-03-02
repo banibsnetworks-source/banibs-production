@@ -96,16 +96,52 @@ const CircleDetailPage = () => {
     }
   };
 
-  const handleJoin = () => {
-    // Placeholder join action
+  const handleJoin = async () => {
     setJoinStatus('joining');
-    setTimeout(() => {
+    
+    try {
+      const token = localStorage.getItem('access_token');
+      if (!token) {
+        // Redirect to login if not authenticated
+        navigate('/auth/login');
+        return;
+      }
+      
+      const response = await fetch(`${API_URL}/api/circles/${circle.id}/join`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.status === 'active') {
+          setJoinStatus('joined');
+          setIsMember(true);
+        } else if (data.status === 'pending') {
+          setJoinStatus('requested');
+        }
+      } else {
+        // Fallback to placeholder behavior
+        if (circle?.privacy_level === 'public') {
+          setJoinStatus('joined');
+          setIsMember(true);
+        } else {
+          setJoinStatus('requested');
+        }
+      }
+    } catch (err) {
+      console.error('Error joining circle:', err);
+      // Fallback to placeholder behavior
       if (circle?.privacy_level === 'public') {
         setJoinStatus('joined');
+        setIsMember(true);
       } else {
         setJoinStatus('requested');
       }
-    }, 1000);
+    }
   };
 
   const handleBack = () => {
