@@ -4,17 +4,18 @@
  * Displays a single circle's details
  * - Name, description, tags, privacy, member count
  * - Join/Request button (placeholder)
- * - "Circle feed coming soon" empty state
+ * - "View Circle Posts" link for active members
  */
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { 
   Users, Lock, Globe, ArrowLeft, Loader2,
-  Heart, Sparkles, BookHeart, UsersRound, UserPlus
+  Heart, Sparkles, BookHeart, UsersRound, UserPlus, MessageSquare
 } from 'lucide-react';
 import { CirclesIcon } from '../../../components/icons/CirclesIcon';
 import SocialLayout from '../../../components/social/SocialLayout';
+import { useAuth } from '../../../contexts/AuthContext';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
