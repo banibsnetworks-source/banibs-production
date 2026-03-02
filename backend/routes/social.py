@@ -66,12 +66,68 @@ async def create_post(
     current_user=Depends(require_circle_tier())  # Uses SOCIAL_MIN_TIER env var or defaults to OPEN
 ):
     """
-    Create a new social post (Phase 8.1: with media, link, and quote support)
+    Create a new social post with optional circle targeting (Circle Visibility V1)
     Requires authentication and minimum circle tier
     """
+    db = await get_db()
+    
     # Convert Pydantic models to dicts for DB
     media_list = [m.dict() for m in post_data.media] if post_data.media else []
     link_meta_dict = post_data.link_meta.dict() if post_data.link_meta else None
+    
+    # Circle Visibility V1 validation
+    target_type = post_data.target_type.value if post_data.target_type else "GLOBAL"
+    target_circle_id = post_data.target_circle_id
+    min_tier_to_view = post_data.min_tier_to_view.value if post_data.min_tier_to_view else "OTHERS"
+    expires_at = None
+    
+    if cv.is_enabled() and target_type == "CIRCLE":
+        if not target_circle_id:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="target_circle_id is required when target_type is CIRCLE"
+            )
+        
+        # Verify circle exists and is active
+        circle = await db.circles.find_one(
+            {"id": target_circle_id},
+            {"_id": 0, "is_active": 1, "expires_at": 1, "name": 1, "is_ephemeral": 1, "lifespan_seconds": 1}
+        )
+        
+        if not circle:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Circle not found"
+            )
+        
+        if not circle.get("is_active", True):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot post to inactive circle"
+            )
+        
+        # Check if circle expired
+        if circle.get("expires_at") and circle["expires_at"] < datetime.now(timezone.utc):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot post to expired circle"
+            )
+        
+        # Verify user is member of circle
+        membership = await db.circle_members.find_one(
+            {"user_id": current_user["id"], "circle_id": target_circle_id, "status": "active"},
+            {"_id": 0, "role": 1}
+        )
+        
+        if not membership:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="You must be a member of this circle to post"
+            )
+        
+        # Set expiration if circle is ephemeral
+        if circle.get("is_ephemeral") and circle.get("expires_at"):
+            expires_at = circle["expires_at"]
     
     post = await db_social.create_post(
         author_id=current_user["id"],
@@ -79,7 +135,11 @@ async def create_post(
         media=media_list,
         link_url=post_data.link_url,
         link_meta=link_meta_dict,
-        quoted_post_id=post_data.quoted_post_id
+        quoted_post_id=post_data.quoted_post_id,
+        target_type=target_type,
+        target_circle_id=target_circle_id if target_type == "CIRCLE" else None,
+        min_tier_to_view=min_tier_to_view,
+        expires_at=expires_at
     )
     
     # Return enriched post
