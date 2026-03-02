@@ -566,6 +566,9 @@ function App() {
               <Route path="/portal/social/circles" element={<SocialCirclesPage />} />
               <Route path="/portal/social/circles/:slug" element={<CircleDetailPage />} />
               
+              {/* Circle Feed (Circle-Based Visibility V1) */}
+              <Route path="/circle/:circleId/feed" element={<CircleFeedPage />} />
+              
               {/* Phase 9.2 - Infinite Circle Engine UI (Peoples of Peoples) */}
               <Route path="/social/circles" element={<InfiniteCirclePageSocial />} />
               <Route path="/social/circles/:userId" element={<InfiniteCirclePageSocial />} />
