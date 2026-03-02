@@ -14,7 +14,65 @@ BANIBS is a multi-feature platform for the Black diaspora, featuring news, socia
 
 ---
 
-## Recent Updates (February 17, 2026 - Session 10)
+## Recent Updates (March 2, 2026 - Session 12)
+
+### ✅ Circle-Based Visibility V1 - Frontend UI (COMPLETED - P0)
+Frontend implementation for circle-based post visibility routing.
+
+**Feature Flag**: `CIRCLE_VISIBILITY_V1=true`
+
+**Components Implemented:**
+1. **CircleTargetSelector** - Dropdown in post composer
+   - Global option (default, visible to all)
+   - User's circles listed under "YOUR CIRCLES"
+   - Tier selector appears when circle selected
+
+2. **Tier Selector** - Access control for circle posts
+   - All Members (OTHERS)
+   - Alright+ (ALRIGHT)
+   - Cool+ (COOL)
+   - Peoples Only (PEOPLES)
+
+3. **CircleFeedPage** - `/circle/:circleId/feed`
+   - Displays posts targeted to a specific circle
+   - Membership-gated access
+
+4. **Post Badges** - Visual indicators on SocialPostCard
+   - Circle name badge (amber)
+   - Tier badge (purple, if > OTHERS)
+   - Expiry badge (red, if ephemeral)
+
+**API Endpoints:**
+- `GET /api/circles/my-circles` - User's joined circles
+- `GET /api/social/circles/{circleId}/feed` - Circle-scoped feed
+- `POST /api/social/posts` - Extended with target_type, target_circle_id, min_tier_to_view
+
+**Testing:**
+- 17 backend tests passing (`/app/backend/tests/test_circle_visibility.py`)
+- UI smoke tested via screenshots
+
+**Documentation:**
+- `/app/docs/circle_visibility_v1.md`
+- Module registry updated
+
+---
+
+## Previous Session (March 1, 2026 - Session 11)
+
+### ✅ SOCIAL COMPLETENESS 5 Sprint (COMPLETED)
+- Pin Social Posts to Pin Boards
+- Quote Post functionality
+- Image upload in comments
+- Circle Trust Gating (write-gating)
+- 1-level threaded comments
+
+### Tech Debt Logged (TD-001)
+- 27 files with async client instantiation issues
+- Logged in `/app/docs/TECH_DEBT.md`
+
+---
+
+## Previous Updates (February 17, 2026 - Session 10)
 
 ### ✅ Skills World - Critical Thinking v1.0 (COMPLETED - P0)
 Third major educational module in Skills World, following Math & Logic and Reading & Words.
