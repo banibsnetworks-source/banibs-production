@@ -21,6 +21,9 @@ from fastapi import APIRouter, HTTPException, Response, Depends, Header
 from fastapi.responses import JSONResponse
 from typing import Optional
 from datetime import datetime, timezone
+import logging
+
+logger = logging.getLogger(__name__)
 
 from models.unified_user import (
     UserCreate, UserLogin, UserUpdate, 
