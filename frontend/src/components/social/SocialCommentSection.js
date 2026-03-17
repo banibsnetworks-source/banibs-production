@@ -6,6 +6,8 @@ import { applySkinTone } from '../../utils/emojiToneUtils';
 import PostTextWithEmojis from './PostTextWithEmojis';
 import DropdownMenu, { DropdownMenuItem } from '../common/DropdownMenu';
 import ConfirmModal from '../common/ConfirmModal';
+import VideoEmbed from './VideoEmbed';
+import { extractVideoUrls } from '../../utils/videoUrlParser';
 
 /**
  * SocialCommentSection - Phase 8.3 + Emoji Support + Image Support
@@ -339,6 +341,25 @@ const SocialCommentSection = ({ postId, onCommentAdded }) => {
                       />
                     </div>
                   )}
+                  {/* Video embeds in comments */}
+                  {comment.text && (() => {
+                    const videos = extractVideoUrls(comment.text);
+                    if (videos.length === 0) return null;
+                    return (
+                      <div className="mt-2 space-y-2">
+                        {videos.slice(0, 1).map((video, index) => (
+                          <VideoEmbed
+                            key={`${video.platform}-${video.videoId}-${index}`}
+                            platform={video.platform}
+                            videoId={video.videoId}
+                            embedUrl={video.embedUrl}
+                            originalUrl={video.originalUrl}
+                            className="max-w-md"
+                          />
+                        ))}
+                      </div>
+                    );
+                  })()}
                 </div>
                 
                 {/* Reply button */}

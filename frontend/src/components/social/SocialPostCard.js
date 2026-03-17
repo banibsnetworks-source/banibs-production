@@ -13,6 +13,8 @@ import { SocialPostMediaGrid } from './SocialPostMediaGrid';
 import { ReactionButton, getReactionData } from './ReactionButton';
 import ShareButton from './ShareButton';
 import QuotedPostCard from './QuotedPostCard';
+import VideoEmbed from './VideoEmbed';
+import { extractVideoUrls } from '../../utils/videoUrlParser';
 
 /**
  * SocialPostCard - Polished UI v2 + Multi-Reaction System v2.0
@@ -409,6 +411,25 @@ const SocialPostCard = ({ post, onUpdate, onDelete, onQuote, compact = false }) 
             <SocialPostMediaGrid mediaUrls={localPost.media_urls} />
           </div>
         )}
+
+        {/* Video Embeds - Detect YouTube, Vimeo, Rumble links in post text */}
+        {localPost.text && (() => {
+          const videos = extractVideoUrls(localPost.text);
+          if (videos.length === 0) return null;
+          return (
+            <div className="mt-3 space-y-3">
+              {videos.map((video, index) => (
+                <VideoEmbed
+                  key={`${video.platform}-${video.videoId}-${index}`}
+                  platform={video.platform}
+                  videoId={video.videoId}
+                  embedUrl={video.embedUrl}
+                  originalUrl={video.originalUrl}
+                />
+              ))}
+            </div>
+          );
+        })()}
 
         {/* Link Preview */}
         {localPost.link_meta && (
