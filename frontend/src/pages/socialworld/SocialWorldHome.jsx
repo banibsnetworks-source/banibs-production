@@ -53,7 +53,7 @@ const WORLDS = [
     icon: Video,
     path: '/socialworld/pulse',
     gradient: 'from-pink-500 to-red-500',
-    status: 'active',
+    status: 'coming-soon',
     image: 'https://images.pexels.com/photos/7514816/pexels-photo-7514816.jpeg'
   },
   {

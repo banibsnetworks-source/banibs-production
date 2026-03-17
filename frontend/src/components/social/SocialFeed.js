@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RefreshCw, Loader, AlertCircle, LogIn } from 'lucide-react';
+import { RefreshCw, Loader, AlertCircle, LogIn, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import SocialPostCard from './SocialPostCard';
 import { Skeleton } from '../common/Skeleton';
@@ -7,6 +7,7 @@ import { Skeleton } from '../common/Skeleton';
 /**
  * SocialFeed - Phase 8.3
  * Main feed component that displays paginated social posts
+ * With Following filter support
  */
 const SocialFeed = ({ newPost }) => {
   const navigate = useNavigate();
@@ -17,6 +18,10 @@ const SocialFeed = ({ newPost }) => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  
+  // Feed filter state
+  const [feedFilter, setFeedFilter] = useState('all'); // 'all' or 'following'
+  const [followingIds, setFollowingIds] = useState([]);
 
   // Load initial feed with small delay to ensure auth is ready
   useEffect(() => {
@@ -24,6 +29,7 @@ const SocialFeed = ({ newPost }) => {
       // Check if token exists before loading
       const token = localStorage.getItem('access_token');
       if (token) {
+        loadFollowing();
         loadFeed();
       } else {
         setIsSessionExpired(true);
@@ -33,6 +39,33 @@ const SocialFeed = ({ newPost }) => {
     }, 300); // Increased delay to ensure token is set
     return () => clearTimeout(timer);
   }, []);
+
+  // Reload feed when filter changes
+  useEffect(() => {
+    if (followingIds.length >= 0 && !loading) {
+      loadFeed(1, false);
+    }
+  }, [feedFilter]);
+
+  // Load following list for filter
+  const loadFollowing = async () => {
+    try {
+      const token = localStorage.getItem('access_token');
+      if (!token) return;
+      
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/follow/following`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        const ids = (data.following || []).map(f => f.followed_id || f.id);
+        setFollowingIds(ids);
+      }
+    } catch (err) {
+      console.error('Failed to load following:', err);
+    }
+  };
 
   // Add new post to top of feed
   useEffect(() => {
@@ -85,9 +118,16 @@ const SocialFeed = ({ newPost }) => {
       });
       
       if (append) {
-        setPosts([...posts, ...data.items]);
+        setPosts(prev => [...prev, ...data.items]);
       } else {
-        setPosts(data.items);
+        // Apply following filter client-side if active
+        let filteredItems = data.items;
+        if (feedFilter === 'following' && followingIds.length > 0) {
+          filteredItems = data.items.filter(post => 
+            followingIds.includes(post.author_id) || followingIds.includes(post.author?.id)
+          );
+        }
+        setPosts(filteredItems);
       }
       
       setPage(pageNum);
@@ -219,11 +259,35 @@ const SocialFeed = ({ newPost }) => {
 
   return (
     <div>
-      {/* Refresh Button */}
+      {/* Feed Header with Filter */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-          Community Feed
-        </h2>
+        {/* Filter Tabs */}
+        <div className="flex items-center gap-1 bg-muted/50 rounded-lg p-1">
+          <button
+            onClick={() => setFeedFilter('all')}
+            className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+              feedFilter === 'all'
+                ? 'bg-card text-card-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-card-foreground'
+            }`}
+            data-testid="feed-filter-all"
+          >
+            All
+          </button>
+          <button
+            onClick={() => setFeedFilter('following')}
+            className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors flex items-center gap-1.5 ${
+              feedFilter === 'following'
+                ? 'bg-card text-card-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-card-foreground'
+            }`}
+            data-testid="feed-filter-following"
+          >
+            <Users size={14} />
+            Following
+          </button>
+        </div>
+        
         <button
           onClick={handleRefresh}
           disabled={loading || isLoadingMore}
@@ -234,17 +298,38 @@ const SocialFeed = ({ newPost }) => {
         </button>
       </div>
 
+      {/* Following filter empty state */}
+      {feedFilter === 'following' && posts.length === 0 && !loading && (
+        <div className="bg-card rounded-xl border border-border p-8 text-center mb-4">
+          <Users size={32} className="mx-auto text-muted-foreground/50 mb-3" />
+          <p className="text-card-foreground font-medium mb-1">No posts from people you follow</p>
+          <p className="text-muted-foreground text-sm">
+            {followingIds.length === 0 
+              ? 'Follow some creators to see their posts here!'
+              : 'Check back later for new posts from your network.'}
+          </p>
+          <button
+            onClick={() => setFeedFilter('all')}
+            className="mt-4 text-sm text-amber-500 hover:text-amber-400"
+          >
+            View all posts instead
+          </button>
+        </div>
+      )}
+
       {/* Posts */}
-      <div className="space-y-4">
-        {posts.map((post) => (
-          <SocialPostCard
-            key={post.id}
-            post={post}
-            onUpdate={handlePostUpdate}
-            onDelete={handlePostDelete}
-          />
-        ))}
-      </div>
+      {(feedFilter !== 'following' || posts.length > 0) && (
+        <div className="space-y-4">
+          {posts.map((post) => (
+            <SocialPostCard
+              key={post.id}
+              post={post}
+              onUpdate={handlePostUpdate}
+              onDelete={handlePostDelete}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Load More */}
       {hasMore && (

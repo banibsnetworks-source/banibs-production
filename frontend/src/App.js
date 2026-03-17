@@ -615,6 +615,8 @@ function App() {
               
               {/* Public business profile */}
               <Route path="/portal/business/:businessId" element={<BusinessProfilePublic />} />
+              {/* Short URL for business profiles */}
+              <Route path="/b/:businessId" element={<BusinessProfilePublic />} />
               
               {/* Base business portal route */}
               <Route path="/portal/business" element={<BusinessPortal />} />
@@ -800,7 +802,8 @@ function App() {
                 <Route path="docs" element={<DevDocsPage />} />
               </Route>
               
-              {/* Phase 16.0 - Global Marketplace - RESTORED for internal mode */}
+              {/* Phase 16.0 - Global Marketplace - HIDDEN FOR LAUNCH (Not ready for public) */}
+              {/* Marketplace routes disabled until commerce is ready
               <Route path="/portal/marketplace" element={<MarketplaceHomePage />} />
               <Route path="/portal/marketplace/region/:regionId" element={<MarketplaceRegionPage />} />
               <Route path="/portal/marketplace/store/:storeId" element={<MarketplaceStorePage />} />
@@ -808,6 +811,7 @@ function App() {
               <Route path="/portal/marketplace/checkout" element={<MarketplaceCheckoutPage />} />
               <Route path="/portal/marketplace/orders" element={<MarketplaceOrdersPage />} />
               <Route path="/portal/marketplace/seller/dashboard" element={<MarketplaceSellerDashboardPage />} />
+              */}
 
               {/* Phase 11.6-11.9 - Community Life Hub - RESTORED for internal mode */}
               <Route path="/portal/community" element={<CommunityHomePage />} />

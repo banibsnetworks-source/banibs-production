@@ -8,7 +8,9 @@ import ProfileCommandCenter from '../../components/profile/ProfileCommandCenter'
 import AddToPeoplesButton from '../../components/social/AddToPeoplesButton';
 import ProfileRelationshipPanel from '../../components/profile/ProfileRelationshipPanel';
 import { peoplesApi, businessSupportApi } from '../../services/phase83Api';
-import { Settings } from 'lucide-react';
+import { Settings, Copy, Check, ExternalLink, Briefcase } from 'lucide-react';
+
+const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
 const SocialProfilePublicPage = () => {
   const { handle, userId } = useParams();
@@ -38,6 +40,15 @@ const SocialProfilePublicPage = () => {
   // Phase 8.3 - Supported Businesses Tab
   const [supportedBusinesses, setSupportedBusinesses] = useState([]);
   const [supportedBusinessesLoading, setSupportedBusinessesLoading] = useState(false);
+  
+  // User's own business (if creator has one)
+  const [ownBusiness, setOwnBusiness] = useState(null);
+  
+  // Follower count
+  const [followerCount, setFollowerCount] = useState(0);
+  
+  // Copy link state
+  const [linkCopied, setLinkCopied] = useState(false);
   
   const isOwnProfile = user && profile && user.id === profile.user_id;
 
@@ -162,6 +173,59 @@ const SocialProfilePublicPage = () => {
     } finally {
       setSupportedBusinessesLoading(false);
     }
+  };
+
+  // Load follower count and user's own business
+  useEffect(() => {
+    if (profile?.user_id) {
+      // Fetch follower count
+      const fetchFollowers = async () => {
+        try {
+          const token = localStorage.getItem('access_token');
+          const response = await fetch(`${API_URL}/api/follow/followers?user_id=${profile.user_id}`, {
+            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setFollowerCount(data.followers?.length || 0);
+          }
+        } catch (err) {
+          console.error('Failed to fetch followers:', err);
+        }
+      };
+      
+      // Fetch user's business if viewing own profile
+      const fetchOwnBusiness = async () => {
+        try {
+          const token = localStorage.getItem('access_token');
+          if (!token) return;
+          
+          const response = await fetch(`${API_URL}/api/business/me`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (response.ok) {
+            const data = await response.json();
+            if (data && data.id) {
+              setOwnBusiness(data);
+            }
+          }
+        } catch (err) {
+          // No business found - that's okay
+        }
+      };
+      
+      fetchFollowers();
+      fetchOwnBusiness();
+    }
+  }, [profile?.user_id]);
+
+  // Copy profile link handler
+  const handleCopyLink = () => {
+    const profileUrl = window.location.href;
+    navigator.clipboard.writeText(profileUrl).then(() => {
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2000);
+    });
   };
 
   const loadUserPosts = async (page) => {
@@ -362,6 +426,46 @@ const SocialProfilePublicPage = () => {
                         <span>✍️</span>
                         <span>{profile.post_count} {profile.post_count === 1 ? 'post' : 'posts'}</span>
                       </div>
+                    )}
+                    {/* Follower Count */}
+                    <div className="flex items-center gap-1">
+                      <span>👥</span>
+                      <span>{followerCount} {followerCount === 1 ? 'follower' : 'followers'}</span>
+                    </div>
+                  </div>
+                  
+                  {/* Action Buttons Row */}
+                  <div className="flex items-center gap-2 mt-3 flex-wrap">
+                    {/* Copy Profile Link Button */}
+                    <button
+                      onClick={handleCopyLink}
+                      className="flex items-center gap-2 px-3 py-1.5 text-sm bg-muted hover:bg-muted/80 text-card-foreground rounded-lg transition-colors"
+                      data-testid="copy-profile-link-btn"
+                    >
+                      {linkCopied ? (
+                        <>
+                          <Check size={14} className="text-green-500" />
+                          <span>Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy size={14} />
+                          <span>Copy Link</span>
+                        </>
+                      )}
+                    </button>
+                    
+                    {/* My Business Link (if user has one) */}
+                    {ownBusiness && (
+                      <Link
+                        to={`/b/${ownBusiness.handle}`}
+                        className="flex items-center gap-2 px-3 py-1.5 text-sm bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 rounded-lg transition-colors"
+                        data-testid="my-business-link"
+                      >
+                        <Briefcase size={14} />
+                        <span>{ownBusiness.name || 'My Business'}</span>
+                        <ExternalLink size={12} />
+                      </Link>
                     )}
                   </div>
                 </div>
