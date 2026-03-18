@@ -437,12 +437,27 @@ app.include_router(black_news_router)
 app.include_router(bcee_router)
 
 # CCRAM - CCR Anchor Module (Conversation Containment Rule Support)
-from routes.ccram import router as ccram_router
-app.include_router(ccram_router)
+try:
+    from routes.ccram import router as ccram_router
+    CCRAM_ENABLED = True
+except Exception:
+    CCRAM_ENABLED = False
+    ccram_router = None
+if ccram_router is not None:
+    app.include_router(ccram_router)
 
 # CCRAM Audio - Phase 2 (Speech-to-Text & Text-to-Speech)
-from routes.ccram_audio import router as ccram_audio_router
-app.include_router(ccram_audio_router)
+# --- CCRAM AUDIO (OPTIONAL) ---
+try:
+    from routes.ccram_audio import router as ccram_audio_router
+    CCRAM_AUDIO_ENABLED = True
+except Exception:
+    CCRAM_AUDIO_ENABLED = False
+    ccram_audio_router = None
+
+if ccram_audio_router is not None:
+    app.include_router(ccram_audio_router)
+
 
 # Founder Ops Hub - Ops Log, Tasks, Documents (super_admin only)
 from routes.founder_ops import router as founder_ops_router

@@ -12,7 +12,14 @@ from typing import List, Optional, Tuple
 from datetime import datetime
 from dotenv import load_dotenv
 
-from emergentintegrations.llm.chat import LlmChat, UserMessage
+try:
+    from emergentintegrations.llm.chat import LlmChat, UserMessage
+    EMERGENTINTEGRATIONS_AVAILABLE = True
+except Exception:
+    EMERGENTINTEGRATIONS_AVAILABLE = False
+
+class CCRAMEmergentDisabled(Exception):
+    pass
 
 from models.ccram import (
     TrapType, TopicPack, ResponseLength, InputMode,
